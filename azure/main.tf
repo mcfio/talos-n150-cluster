@@ -118,6 +118,10 @@ resource "azurerm_key_vault_key" "sops" {
     "encrypt",
     "decrypt",
   ]
+
+  depends_on = [
+    azurerm_key_vault_access_policy.pi4-cluster-keyvault
+  ]
 }
 
 resource "azurerm_key_vault_access_policy" "sops" {
@@ -129,5 +133,9 @@ resource "azurerm_key_vault_access_policy" "sops" {
   key_permissions = [
     "encrypt",
     "decrypt",
+  ]
+
+  depends_on = [
+    azurerm_key_vault_access_policy.pi4-cluster-keyvault
   ]
 }
