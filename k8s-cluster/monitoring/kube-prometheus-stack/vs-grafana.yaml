@@ -1,0 +1,21 @@
+# ---
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: grafana
+#   namespace: monitoring
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: ingress.milton.mcf.io
+# spec:
+#   hosts:
+#     - istio-grafana.milton.mcf.io
+#   gateways:
+#   - monitoring/istio-ingressgateway
+#   http:
+#     - match:
+#         - port: 443
+#       route:
+#         - destination:
+#             port:
+#               number: 80
+#             host: grafana.monitoring.svc.cluster.local

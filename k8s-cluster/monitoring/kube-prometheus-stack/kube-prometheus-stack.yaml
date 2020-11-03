@@ -1,0 +1,266 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: kube-prometheus-stack
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: 10.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community
+        namespace: gotk-system
+      interval: 1m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having the sealed secret to un-encrypted required secrets.
+  # dependsOn:
+  #   - name: sealed-secrets
+  #     namespace: kube-system
+  timeout: 20m
+  values:
+    fullnameOverride: z
+    alertmanager:
+      podDisruptionBudget:
+        enabled: true
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.middlewares: default-secured-noauth@kubernetescrd
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+        - alertmanager.milton.mcf.io
+        tls:
+        - secretName: alertmanager-tls
+          hosts:
+          - alertmanager.milton.mcf.io
+      alertmanagerSpec:
+        logFormat: json
+        replicas: 2
+        podAntiAffinity: hard
+    kubelet:
+      # enabled: false
+      serviceMonitor:
+        # cAdvisor: false
+        # probes: false
+        # resources: false
+        # interval: "30"
+        resourcePath: "/metrics/resource"
+    kubeEtcd:
+      serviceMonitor:
+        scheme: https
+        serverName: localhost
+        caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+        certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+        keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+    kubeControllerManager:
+      service:
+        port: 10257
+        targetPort: 10257
+      serviceMonitor:
+        interval: 2m
+        https: true
+        servername: localhost
+        insecureSkipVerify: true
+    kubeScheduler:
+      service:
+        port: 10259
+        targetPort: 10259
+      serviceMonitor:
+        interval: 2m
+        https: true
+        serverName: localhost
+        insecureSkipVerify: true
+    kubeProxy:
+      enabled: false
+    prometheus:
+      podDisruptionBudget:
+        enabled: false
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.middlewares: default-secured@kubernetescrd
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+        - prometheus.milton.mcf.io
+        tls:
+        - secretName: prometheus-tls
+          hosts:
+          - prometheus.milton.mcf.io
+      prometheusSpec:
+        image:
+          tag: v2.21.0
+        retention: 6h
+        logFormat: json
+        # replicas: 1
+        resources:
+          requests:
+            memory: 1024Mi
+            cpu: 125m
+          limits:
+            memory: 1536Mi
+            cpu: 500m
+        storageSpec:
+          volumeClaimTemplate:
+            metadata:
+              name: data
+            spec:
+              storageClassName: openebs-cstor-sparse
+              accessModes:
+              - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 10Gi
+        secrets:
+        - etcd-client-cert
+        # resources:
+        #   requests:
+        #     memory: 400Mi
+        # podAntiAffinity: hard
+        thanos:
+          image: raspbernetes/thanos:latest
+          version: latest
+          objectStorageConfig:
+            name: thanos-objectstore-config
+            key: object-store.yaml
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+    prometheusOperator:
+      manageCrds: true
+      createCustomResource: true
+      tls:
+        enabled: true
+      tlsProxy:
+        enabled: false
+        # image:
+        #   repository: ghostunnel/ghostunnel
+        #   tag: v1.5.3
+      image:
+        tag: v0.43.0
+      prometheusConfigReloaderImage:
+        tag: v0.43.0
+    grafana:
+      fullnameOverride: grafana
+      testFramework:
+        enabled: false
+      ingress:
+        enabled: true
+        annotations:
+          kubernetes.io/ingress.class: traefik
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          traefik.ingress.kubernetes.io/router.middlewares: default-secured-noauth@kubernetescrd
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+        - grafana.milton.mcf.io
+        tls:
+        - secretName: grafana-tls
+          hosts:
+          - grafana.milton.mcf.io
+      admin:
+        existingSecret: 'grafana-admin-creds'
+        userKey: admin-user
+        passwordKey: admin-password
+      grafana.ini:
+        server:
+          root_url: https://grafana.milton.mcf.io
+        auth.google:
+          enabled: true
+          client_id: $__file{/etc/secrets/grafana-auth-google/client_id}
+          client_secret: $__file{/etc/secrets/grafana-auth-google/client_secret}
+          scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
+          auth_url: https://accounts.google.com/o/oauth2/auth
+          token_url: https://accounts.google.com/o/oauth2/token
+          allowed_domains: mcfaul.cloud
+          allow_sign_up: true
+      extraSecretMounts:
+      - name: grafana-auth-google-mount
+        secretName: grafana-auth-google
+        defaultMode: 0440
+        mountPath: /etc/secrets/grafana-auth-google
+        readOnly: true
+      sidecar:
+        image:
+          tag: 0.1.193
+        imagePullPolicy: Always
+      plugins:
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - grafana-piechart-panel
+      - vonage-status-panel
+      - grafana-worldmap-panel
+      - grafana-clock-panel
+      - btplc-status-dot-panel
+      dashboardProviders:
+        dashboardproviders.yaml:
+          apiVersion: 1
+          providers:
+          - name: 'default'
+            orgId: 1
+            folder: ''
+            type: file
+            disableDeletion: false
+            editable: true
+            options:
+              path: /var/lib/grafana/dashboards/default
+      dashboards:
+        default:
+          cert-manager:
+            url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+            datasource: Prometheus
+          openebs:
+            url: https://grafana.com/api/dashboards/12171/revisions/1/download
+            datasource: Prometheus
+          openebs-pg-dashboard:
+            url: https://raw.githubusercontent.com/openebs/openebs/master/k8s/openebs-pg-dashboard.json
+            datasource: Prometheus
+          toolkit-cluster:
+            url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/cluster.json
+            datasource: Prometheus
+          toolkit-control-plane:
+            url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/control-plane.json
+            datasource: Prometheus
+          traefik-dashboard:
+            url: https://grafana.com/api/dashboards/12250/revisions/1/download
+            datasource: Prometheus
+          unifi-udm-insights:
+            url: https://grafana.com/api/dashboards/11313/revisions/8/download
+            datasource: Prometheus
+          unifi-usw-insights:
+            url: https://grafana.com/api/dashboards/11312/revisions/8/download
+            datasource: Prometheus
+          unifi-uap-insights:
+            url: https://grafana.com/api/dashboards/11314/revisions/9/download
+            datasource: Prometheus
+      persistence:
+        enabled: true
+        storageClassName: openebs-cstor-sparse
+        size: 2Gi
+      deploymentStrategy:
+        type: Recreate
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+    kube-state-metrics:
+      fullnameOverride: kube-state-metrics
+      image:
+        repository: raspbernetes/kube-state-metrics
+        tag: v1.9.7

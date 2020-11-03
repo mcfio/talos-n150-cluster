@@ -1,0 +1,21 @@
+# ---
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: alertmanager
+#   namespace: monitoring
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: ingress.milton.mcf.io
+# spec:
+#   hosts:
+#     - istio-alertmanager.milton.mcf.io
+#   gateways:
+#   - monitoring/istio-ingressgateway
+#   http:
+#     - match:
+#         - port: 443
+#       route:
+#         - destination:
+#             port:
+#               number: 9093
+#             host: z-alertmanager.monitoring.svc.cluster.local

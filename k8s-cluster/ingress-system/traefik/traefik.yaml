@@ -1,0 +1,124 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: traefik
+  namespace: ingress-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: traefik
+      version: 9.8.0
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: gotk-system
+      interval: 1m
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  values:
+    image:
+      tag: 2.3.2
+    deployment:
+      replicas: 2
+    logs:
+      general:
+        format: json
+    podDisruptionBudget:
+      enabled: true
+      minAvailable: 1
+    ingressClass:
+      enabled: true
+      isDefaultClass: true
+    pilot:
+      enabled: true
+      token: 9bfd8863-5322-4a34-abc4-1bc420df8b72
+    ingressRoute:
+      dashboard:
+        enabled: false
+    ports:
+      web:
+        redirectTo: websecure
+      websecure:
+        tls:
+          enabled: true
+          options: ingress-system-milton-mcf-io@kubernetescrd
+      metrics:
+        port: 8082
+        expose: false
+        protocol: TCP
+    globalArguments:
+    - --global.checknewversion=false
+    - --global.sendanonymoususage=false
+    additionalArguments:
+    - --entryPoints.metrics.address=:8082
+    - --metrics.prometheus.entryPoint=metrics
+    - --serverstransport.insecureskipverify=true
+    - --providers.kubernetesingress.ingressclass=traefik
+    - --providers.kubernetesingress.ingressendpoint.hostname=milton.mcf.io
+    tlsOptions:
+      default:
+        minVersion: VersionTLS12
+      milton-mcf-io:
+        cipherSuites:
+        - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+        - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+        - TLS_AES_256_GCM_SHA384
+        - TLS_CHACHA20_POLY1305_SHA256
+        curvePreferences:
+        - CurveP256
+        - CurveP384
+        minVersion: VersionTLS12
+        sniStrict: true
+    service:
+      spec:
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.45.100
+    # autoscaling:
+    #   enabled: true
+    #   minReplicas: 2
+    #   maxReplicas: 4
+    #   metrics:
+    #   - type: Resource
+    #     resource:
+    #       name: cpu
+    #       target:
+    #         type: Utilization
+    #         averageUtilization: 75
+    #   - type: Resource
+    #     resource:
+    #       name: memory
+    #       target:
+    #         type: Utilization
+    #         averageUtilization: 85
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        cpu: 400m
+        memory: 256Mi
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/instance
+              operator: In
+              values:
+              - traefik
+          topologyKey: kubernetes.io/hostname

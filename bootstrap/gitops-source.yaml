@@ -1,0 +1,17 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: infrastructure
+  namespace: flux-system
+spec:
+  interval: 5m
+  ref:
+    branch: master
+  url: https://gitlab.com/mcfaul.cloud/GitOps/infrastructure
+  ignore: |
+    # exclude all directories
+    /*
+    # include k8s-cluster deployments directory
+    !/k8s-cluster/
+    /k8s-cluster/**/*.md

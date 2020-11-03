@@ -1,0 +1,49 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: cloudflare-ddns
+  namespace: external-dns
+  labels:
+    app: cloudflare-ddns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cloudflare-ddns
+  template:
+    metadata:
+      labels:
+        app: cloudflare-ddns
+    spec:
+      containers:
+        - name: cloudflare-ddns
+          image: hotio/cloudflare-ddns:stable
+          env:
+            - name: CF_APITOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-mcfio-api-token
+                  key: cloudflare_api_token
+            - name: CF_ZONES
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-mcfio-api-token
+                  key: cloudflare_zones
+            - name: CF_HOSTS
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-mcfio-api-token
+                  key: cloudflare_hosts
+            - name: CF_RECORDTYPES
+              valueFrom:
+                secretKeyRef:
+                  name: cloudflare-mcfio-api-token
+                  key: cloudflare_record_types
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              cpu: 500m
+              memory: 128Mi
