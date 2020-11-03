@@ -42,3 +42,4 @@ ARM_TENANT_ID=$tenantId
 ### TODO
 
 - [ ] Refactor this to be a part of the bootstrap process
+- [ ] Narrow the RBAC scope to be least priviledged
