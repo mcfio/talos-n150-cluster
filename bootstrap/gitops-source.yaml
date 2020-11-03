@@ -8,10 +8,10 @@ spec:
   interval: 5m
   ref:
     branch: master
-  url: https://gitlab.com/mcfaul.cloud/GitOps/infrastructure
+  url: https://github.com/mcfio/GitOps
   ignore: |
     # exclude all directories
     /*
     # include k8s-cluster deployments directory
-    !/k8s-cluster/
-    /k8s-cluster/**/*.md
+    !/pi4-cluster/
+    /pi4-cluster/**/*.md

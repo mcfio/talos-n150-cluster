@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  path: './k8s-cluster/'
+  path: './pi4-cluster/'
   sourceRef:
     kind: GitRepository
     name: infrastructure
