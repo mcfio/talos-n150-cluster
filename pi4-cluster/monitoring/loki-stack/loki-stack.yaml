@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: grafana-loki
-        namespace: gotk-system
+        namespace: flux-system
       interval: 1m
   # Depends on having prometheus-operator due to service monitor resources.
   dependsOn:

@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: jetstack
-        namespace: gotk-system
+        namespace: flux-system
       interval: 1m
   # Depends on having the sealed secret cloudflare-cert-manager-token
   # un-encrypted. Also depends on prometheus-operator due to service monitor
