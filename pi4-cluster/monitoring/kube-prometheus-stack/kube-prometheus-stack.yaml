@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 10.3.2
+      version: 11.0.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -28,10 +28,6 @@ spec:
   rollback:
     timeout: 1m
     cleanupOnFail: true
-  # Depends on having the sealed secret to un-encrypted required secrets.
-  # dependsOn:
-  #   - name: sealed-secrets
-  #     namespace: kube-system
   timeout: 20m
   values:
     fullnameOverride: z
@@ -108,10 +104,10 @@ spec:
           - prometheus.milton.mcf.io
       prometheusSpec:
         image:
-          tag: v2.21.0
+          tag: v2.22.0
         retention: 6h
         logFormat: json
-        # replicas: 1
+        replicas: 1
         resources:
           requests:
             memory: 1024Mi
@@ -145,20 +141,13 @@ spec:
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
     prometheusOperator:
       manageCrds: true
       createCustomResource: true
-      tls:
-        enabled: true
-      tlsProxy:
-        enabled: false
-        # image:
-        #   repository: ghostunnel/ghostunnel
-        #   tag: v1.5.3
-      image:
-        tag: v0.43.0
-      prometheusConfigReloaderImage:
-        tag: v0.43.0
+      kubectlImage:
+        repository: raspbernetes/kubectl
+        tag: v1.18.2
     grafana:
       fullnameOverride: grafana
       testFramework:
