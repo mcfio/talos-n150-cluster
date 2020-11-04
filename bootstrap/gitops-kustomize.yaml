@@ -11,3 +11,7 @@ spec:
     kind: GitRepository
     name: infrastructure
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
