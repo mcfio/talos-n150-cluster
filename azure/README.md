@@ -17,7 +17,7 @@ clientSecret=$(az ad app credential reset --id $appId --query password -o tsv)
 Make note of the application ID and the password, the password is only shown once.
 
 ```bash
-# Microsoft Graph API 
+# Microsoft Graph API
 API_Microsoft_Graph="00000003-0000-0000-c000-000000000000"
 
 # Application.ReadWrite.OwnedBy
