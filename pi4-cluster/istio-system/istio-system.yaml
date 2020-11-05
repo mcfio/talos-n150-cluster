@@ -6,7 +6,7 @@ metadata:
   namespace: istio-system
 spec:
   hub: docker.io/querycapistio
-  tag: 1.7.3-distroless
+  tag: 1.7.4-distroless
 
   components:
     egressGateways:
