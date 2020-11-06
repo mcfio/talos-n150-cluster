@@ -7,5 +7,5 @@ metadata:
 spec:
   type: discord
   channel: notifications
-  secretRed:
+  secretRef:
     name: discord-provider
