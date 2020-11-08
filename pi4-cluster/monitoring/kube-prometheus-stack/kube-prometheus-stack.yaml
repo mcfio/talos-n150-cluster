@@ -120,7 +120,6 @@ spec:
             metadata:
               name: data
             spec:
-              storageClassName: openebs-cstor-sparse
               accessModes:
               - ReadWriteOnce
               resources:
@@ -242,7 +241,6 @@ spec:
             datasource: Prometheus
       persistence:
         enabled: true
-        storageClassName: openebs-cstor-sparse
         size: 2Gi
       deploymentStrategy:
         type: Recreate
