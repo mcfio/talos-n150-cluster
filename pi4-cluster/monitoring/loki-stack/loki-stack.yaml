@@ -26,7 +26,6 @@ spec:
           retention_deletes_enabled: true
           retention_period: 672h
       persistence:
-        storageClassName: openebs-cstor-sparse
         enabled: true
         size: 10Gi
       serviceMonitor:
