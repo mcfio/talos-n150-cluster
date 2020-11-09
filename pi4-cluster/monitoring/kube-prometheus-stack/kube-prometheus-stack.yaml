@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 11.0.0
+      version: 11.0.4
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -103,8 +103,6 @@ spec:
           hosts:
           - prometheus.milton.mcf.io
       prometheusSpec:
-        image:
-          tag: v2.22.1
         retention: 6h
         logFormat: json
         replicas: 1
@@ -114,7 +112,7 @@ spec:
             cpu: 125m
           limits:
             memory: 1536Mi
-            cpu: 750m
+            cpu: 1250m
         storageSpec:
           volumeClaimTemplate:
             metadata:
@@ -140,9 +138,6 @@ spec:
     prometheusOperator:
       manageCrds: true
       createCustomResource: true
-      kubectlImage:
-        repository: raspbernetes/kubectl
-        tag: v1.18.2
     grafana:
       fullnameOverride: grafana
       testFramework:
