@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: bitnami
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   test:
     enable: false # Enable helm test
   install:
@@ -28,10 +28,6 @@ spec:
   rollback:
     timeout: 1m
     cleanupOnFail: true
-  # Depends on kube-prometheus-stack due to service monitor resources.
-  # dependsOn:
-  #   - name: kube-prometheus-stack
-  #     namespace: monitoring
   values:
     controller:
       image:
@@ -43,7 +39,9 @@ spec:
         tag: v0.9.4
     prometheus:
       serviceMonitor:
-        enabled: true
+        enabled: false
+      prometheusRule:
+        enabled: false
     configInline:
       address-pools:
       - name: default
