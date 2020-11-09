@@ -51,14 +51,6 @@ spec:
         logFormat: json
         replicas: 2
         podAntiAffinity: hard
-    kubelet:
-      # enabled: false
-      serviceMonitor:
-        cAdvisor: false
-        # probes: false
-        resource: true
-        # interval: "30"
-        resourcePath: "/metrics/resource"
     kubeEtcd:
       serviceMonitor:
         scheme: https
