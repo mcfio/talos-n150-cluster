@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      interval: 1m
+      interval: 5m
   test:
     enable: false # Enable helm test
   install:
