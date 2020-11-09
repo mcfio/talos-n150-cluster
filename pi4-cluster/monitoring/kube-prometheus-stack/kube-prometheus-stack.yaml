@@ -54,9 +54,9 @@ spec:
     kubelet:
       # enabled: false
       serviceMonitor:
-        # cAdvisor: false
+        cAdvisor: false
         # probes: false
-        # resources: false
+        resources: true
         # interval: "30"
         resourcePath: "/metrics/resource"
     kubeEtcd:
