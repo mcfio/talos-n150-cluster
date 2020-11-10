@@ -1,0 +1,21 @@
+# ---
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: oauth2-proxy
+#   namespace: oauth2-proxy
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: ingress.milton.mcf.io
+# spec:
+#   hosts:
+#   - istio-auth.milton.mcf.io
+#   gateways:
+#   - istio-system/istio-ingressgateway
+#   http:
+#   - match:
+#     - port: 443
+#     route:
+#     - destination:
+#         host: oauth2-proxy.oauth2-proxy.svc.cluster.local
+#         port:
+#           number: 80
