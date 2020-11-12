@@ -21,7 +21,7 @@ spec:
     enabled: true
     rulesNamespace: "rook-ceph"
   placement:
-    all:
+    osd:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
