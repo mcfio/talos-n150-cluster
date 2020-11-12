@@ -8,28 +8,15 @@ spec:
   cephVersion:
     image: ceph/ceph:v15.2.4
   dataDirHostPath: /var/lib/rook
-  resources:
-    mgr:
-      limits:
-        cpu: "500m"
-        memory: "1Gi"
-      requests:
-        cpu: "500m"
-        memory: "512Mi"
-    mon:
-      limits:
-        cpu: "1"
-        memory: "1Gi"
-      requests:
-        cpu: "500m"
-        memory: "1Gi"
-    osd:
-      limits:
-        cpu: "1"
-        memory: "2048Mi"
-      requests:
-        cpu: "500m"
-        memory: "512Mi"
+  mon:
+    count: 3
+    allowMultiplePerNode: false
+  mgr:
+    modules:
+    - name: pg_autoscaler
+      enabled: true
+  dashboard:
+    enabled: true
   monitoring:
     enabled: true
     rulesNamespace: "rook-ceph"
@@ -41,16 +28,39 @@ spec:
           - matchExpressions:
             - key: node-role.kubernetes.io/storage-node
               operator: Exists
-  mon:
-    count: 3
-    allowMultiplePerNode: false
-  mgr:
-    modules:
-    - name: pg_autoscaler
-      enabled: true
-  dashboard:
-    enabled: true
+  resources:
+    mon:
+      requests:
+        cpu: 35m
+        memory: 800Mi
+      limits:
+        memory: 1024Mi
+    osd:
+      requests:
+        cpu: 35m
+        memory: 2048Mi
+      limits:
+        memory: 4096Mi
   storage:
     useAllNodes: true
     useAllDevices: false
     deviceFilter: "^sd[b-c]"
+  healthCheck:
+    daemonHealth:
+      mon:
+        disabled: false
+        interval: 45s
+      osd:
+        disabled: false
+        interval: 60s
+      status:
+        disabled: false
+        interval: 60s
+    # Change pod liveness probe, it works for all mon,mgr,osd daemons
+    livenessProbe:
+      mon:
+        disabled: false
+      mgr:
+        disabled: false
+      osd:
+        disabled: false
