@@ -28,10 +28,6 @@ spec:
   rollback:
     timeout: 1m
     cleanupOnFail: true
-  # Depends on having sealed-secret to un-encrypted required secrets: thanos-objstore-config.
-  # dependsOn:
-  #   - name: sealed-secrets
-  #     namespace: kube-system
   values:
     image:
       repository: raspbernetes/thanos
@@ -57,6 +53,8 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
+      nodeSelector:
+        disktype: ssd
     bucket:
       enabled: false
     sidecar:
