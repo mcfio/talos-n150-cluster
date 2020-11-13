@@ -138,6 +138,14 @@ spec:
         image:
           tag: 0.1.193
         imagePullPolicy: Always
+        datasources:
+          defaultDatasourceEnabled: false
+      additionalDataSources:
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://thanos-query-http.monitoring.svc.cluster.local:10902/
+        isDefault: true
       plugins:
       - natel-discrete-panel
       - pr0ps-trackmap-panel
