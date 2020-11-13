@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: rook-ceph
+  name: openebs
   labels:
-    name: rook-ceph
+    name: openebs
     istio-injection: disabled
