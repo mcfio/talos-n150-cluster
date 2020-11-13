@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 11.0.4
+      version: 11.1.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -34,20 +34,8 @@ spec:
     alertmanager:
       podDisruptionBudget:
         enabled: true
-      ingress:
-        enabled: true
-        annotations:
-          kubernetes.io/ingress.class: traefik
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          traefik.ingress.kubernetes.io/router.middlewares: default-secured-noauth@kubernetescrd
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-        hosts:
-        - alertmanager.milton.mcf.io
-        tls:
-        - secretName: alertmanager-tls
-          hosts:
-          - alertmanager.milton.mcf.io
       alertmanagerSpec:
+        portName: http-web
         logFormat: json
         replicas: 2
         podAntiAffinity: hard
@@ -63,7 +51,6 @@ spec:
         port: 10257
         targetPort: 10257
       serviceMonitor:
-        interval: 2m
         https: true
         servername: localhost
         insecureSkipVerify: true
@@ -72,7 +59,6 @@ spec:
         port: 10259
         targetPort: 10259
       serviceMonitor:
-        interval: 2m
         https: true
         serverName: localhost
         insecureSkipVerify: true
@@ -81,21 +67,9 @@ spec:
     prometheus:
       podDisruptionBudget:
         enabled: false
-      ingress:
-        enabled: true
-        annotations:
-          kubernetes.io/ingress.class: traefik
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          traefik.ingress.kubernetes.io/router.middlewares: default-secured@kubernetescrd
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-        hosts:
-        - prometheus.milton.mcf.io
-        tls:
-        - secretName: prometheus-tls
-          hosts:
-          - prometheus.milton.mcf.io
       prometheusSpec:
         retention: 6h
+        portName: http-web
         logFormat: json
         replicas: 1
         resources:
@@ -132,21 +106,12 @@ spec:
       createCustomResource: true
     grafana:
       fullnameOverride: grafana
+      enabled: true
+      image:
+        repository: grafana/grafana
+        tag: 7.3.1
       testFramework:
         enabled: false
-      ingress:
-        enabled: true
-        annotations:
-          kubernetes.io/ingress.class: traefik
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          traefik.ingress.kubernetes.io/router.middlewares: default-secured-noauth@kubernetescrd
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-        hosts:
-        - grafana.milton.mcf.io
-        tls:
-        - secretName: grafana-tls
-          hosts:
-          - grafana.milton.mcf.io
       admin:
         existingSecret: 'grafana-admin-creds'
         userKey: admin-user
@@ -222,11 +187,6 @@ spec:
           unifi-uap-insights:
             url: https://grafana.com/api/dashboards/11314/revisions/9/download
             datasource: Prometheus
-      persistence:
-        enabled: true
-        size: 2Gi
-      deploymentStrategy:
-        type: Recreate
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kube-state-metrics:
