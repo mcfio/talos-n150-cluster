@@ -1,0 +1,126 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: grafana
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: grafana
+      version: 5.8.16
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-loki
+        namespace: flux-system
+  test:
+    enable: false # Enable helm test
+  install:
+    remediation: # perform remediation when helm install fails
+      retries: 3
+  upgrade:
+    remediation: # perform remediation when helm upgrade fails
+      retries: 3
+      remediateLastFailure: true # remediate the last failure, when no retries remain
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  timeout: 20m
+  values:
+    fullnameOverride: grafana
+    image:
+      repository: grafana/grafana
+      tag: 7.3.1
+    testFramework:
+      enabled: false
+    serviceMonitor:
+      enabled: true
+    admin:
+      existingSecret: 'grafana-admin-creds'
+      userKey: admin-user
+      passwordKey: admin-password
+    grafana.ini:
+      server:
+        root_url: https://grafana.milton.mcf.io
+      auth.google:
+        enabled: true
+        client_id: $__file{/etc/secrets/grafana-auth-google/client_id}
+        client_secret: $__file{/etc/secrets/grafana-auth-google/client_secret}
+        scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
+        auth_url: https://accounts.google.com/o/oauth2/auth
+        token_url: https://accounts.google.com/o/oauth2/token
+        allowed_domains: mcfaul.cloud
+        allow_sign_up: true
+    extraSecretMounts:
+    - name: grafana-auth-google-mount
+      secretName: grafana-auth-google
+      defaultMode: 0440
+      mountPath: /etc/secrets/grafana-auth-google
+      readOnly: true
+    sidecar:
+      image:
+        tag: 1.3.0
+      dashboards:
+        enabled: true
+      datasources:
+        enabled: true
+    datasources:
+      datasources.yaml:
+        apiVersion: 1
+        datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://thanos-query-http.monitoring.svc.cluster.local:10902/
+          isDefault: true
+    plugins:
+    - natel-discrete-panel
+    - pr0ps-trackmap-panel
+    - grafana-piechart-panel
+    - vonage-status-panel
+    - grafana-worldmap-panel
+    - grafana-clock-panel
+    - btplc-status-dot-panel
+    dashboardProviders:
+      dashboardproviders.yaml:
+        apiVersion: 1
+        providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+    dashboards:
+      default:
+        cert-manager:
+          url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+          datasource: Prometheus
+        openebs:
+          url: https://grafana.com/api/dashboards/12171/revisions/1/download
+          datasource: Prometheus
+        openebs-pg-dashboard:
+          url: https://raw.githubusercontent.com/openebs/openebs/master/k8s/openebs-pg-dashboard.json
+          datasource: Prometheus
+        toolkit-cluster:
+          url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/cluster.json
+          datasource: Prometheus
+        toolkit-control-plane:
+          url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/control-plane.json
+          datasource: Prometheus
+        traefik-dashboard:
+          url: https://grafana.com/api/dashboards/12250/revisions/1/download
+          datasource: Prometheus
+        unifi-udm-insights:
+          url: https://grafana.com/api/dashboards/11313/revisions/8/download
+          datasource: Prometheus
+        unifi-usw-insights:
+          url: https://grafana.com/api/dashboards/11312/revisions/8/download
+          datasource: Prometheus
+        unifi-uap-insights:
+          url: https://grafana.com/api/dashboards/11314/revisions/9/download
+          datasource: Prometheus
