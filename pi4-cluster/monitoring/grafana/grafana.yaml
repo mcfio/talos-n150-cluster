@@ -102,6 +102,9 @@ spec:
             path: /var/lib/grafana/dashboards/default
     dashboards:
       default:
+        istio-mesh-dashboard:
+          url: https://grafana.com/api/dashboards/7639/revisions/38/download
+          datasource: Prometheus
         cert-manager:
           url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
           datasource: Prometheus
