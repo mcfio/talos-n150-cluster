@@ -12,7 +12,7 @@ spec:
       version: 5.8.16
       sourceRef:
         kind: HelmRepository
-        name: grafana-loki
+        name: grafana
         namespace: flux-system
   test:
     enable: false # Enable helm test
