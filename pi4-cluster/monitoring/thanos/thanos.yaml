@@ -39,8 +39,8 @@ spec:
     query:
       labels:
         app.kubernetes.io/workload: monitoring
-      # annotations:
-      #   sidecar.istio.io/inject: "true"
+      annotations:
+        sidecar.istio.io/inject: "true"
       replicaCount: 2
       podDisruptionBudget:
         enabled: true
