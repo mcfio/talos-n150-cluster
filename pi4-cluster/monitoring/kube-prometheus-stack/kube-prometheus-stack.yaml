@@ -47,6 +47,7 @@ spec:
         certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
         keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
     kubeControllerManager:
+      enabled: false
       service:
         port: 10257
         targetPort: 10257
@@ -55,6 +56,7 @@ spec:
         servername: localhost
         insecureSkipVerify: true
     kubeScheduler:
+      enabled: false
       service:
         port: 10259
         targetPort: 10259
@@ -74,10 +76,10 @@ spec:
         replicas: 1
         resources:
           requests:
-            memory: 1024Mi
+            memory: 1536Mi
             cpu: 125m
           limits:
-            memory: 1536Mi
+            memory: 2048Mi
             cpu: 1250m
         storageSpec:
           volumeClaimTemplate:
