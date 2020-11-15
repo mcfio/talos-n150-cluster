@@ -121,7 +121,8 @@ spec:
           url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
           datasource: Prometheus
         openebs:
-          url: https://grafana.com/api/dashboards/12171/revisions/1/download
+          gnetId: 12171
+          revision: 2
           datasource: Prometheus
         openebs-pg-dashboard:
           url: https://raw.githubusercontent.com/openebs/openebs/master/k8s/openebs-pg-dashboard.json
