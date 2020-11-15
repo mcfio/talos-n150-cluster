@@ -103,7 +103,10 @@ spec:
     dashboards:
       default:
         istio-mesh-dashboard:
-          url: https://grafana.com/api/dashboards/7639/revisions/38/download
+          url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/istio-mesh-dashboard.json
+          datasource: Prometheus
+        istio-workload-dashboard:
+          url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/istio-workload-dashboard.json
           datasource: Prometheus
         cert-manager:
           url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
