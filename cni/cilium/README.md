@@ -13,5 +13,5 @@ helm install cilium cilium/cilium \
 for the cilium operator and a patch is required to modify the image name
 
 ```bash
-hehelm upg-n kube-system patch deployments.apps cilium-operator --patch '{"spec": {"template": {"spec": {"containers": [{"name": "cilium-operator","image": "cilium/operator-dev:v1.9.0"}]}}}}
+kubectl -n kube-system patch deployments.apps cilium-operator --patch '{"spec": {"template": {"spec": {"containers": [{"name": "cilium-operator","image": "cilium/operator-dev:v1.9.0"}]}}}}
 ```
