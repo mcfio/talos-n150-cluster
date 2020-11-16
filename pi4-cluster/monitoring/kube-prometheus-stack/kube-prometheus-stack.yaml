@@ -76,11 +76,11 @@ spec:
         replicas: 1
         resources:
           requests:
-            memory: 1536Mi
-            cpu: 750m
+            memory: 2048Mi
+            cpu: 1250m
           limits:
             memory: 2048Mi
-            cpu: 750m
+            cpu: 1250m
         storageSpec:
           volumeClaimTemplate:
             metadata:
