@@ -76,11 +76,10 @@ spec:
         replicas: 1
         resources:
           requests:
-            memory: 2048Mi
+            memory: 1536Mi
             cpu: 1250m
           limits:
             memory: 2048Mi
-            cpu: 1250m
         storageSpec:
           volumeClaimTemplate:
             metadata:
@@ -99,6 +98,12 @@ spec:
           objectStorageConfig:
             name: thanos-objectstore-config
             key: object-store.yaml
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
@@ -106,6 +111,7 @@ spec:
     prometheusOperator:
       manageCrds: true
       createCustomResource: true
+      configReloaderCpu: ""
     grafana:
       enabled: false
     prometheus-node-exporter:
