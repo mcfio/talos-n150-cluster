@@ -74,6 +74,9 @@ spec:
         portName: http-web
         logFormat: json
         replicas: 1
+        # To ensure proper scheduling, set the CPU requests to 1.25 cores; Additionally remove the cpu limits - a side effect of smaller platforms is the CPU scheduler
+        # tends to aggressivly throttle prometheus, running guaranteed QoS of 1 or 2 cores results in nearly 50-100% throttling. At that point, there's not a good reason
+        # to set the CPU limits any longer.
         resources:
           requests:
             memory: 1536Mi
@@ -102,6 +105,7 @@ spec:
             requests:
               memory: 128Mi
               cpu: 100m
+            # As noted above, this deployment will not set the cpu limits for the container
             limits:
               memory: 256Mi
         ruleSelectorNilUsesHelmValues: false
@@ -111,7 +115,8 @@ spec:
     prometheusOperator:
       manageCrds: true
       createCustomResource: true
-      configReloaderCpu: 200m
+      # Prometheus Operator does not allow for disabling the CPU limits, this value is 2.5x the default
+      configReloaderCpu: 250m
     grafana:
       enabled: false
     prometheus-node-exporter:
