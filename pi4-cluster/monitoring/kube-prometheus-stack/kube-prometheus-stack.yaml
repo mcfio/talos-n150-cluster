@@ -111,7 +111,7 @@ spec:
     prometheusOperator:
       manageCrds: true
       createCustomResource: true
-      configReloaderCpu: ""
+      configReloaderCpu: 200m
     grafana:
       enabled: false
     prometheus-node-exporter:
