@@ -117,9 +117,9 @@ spec:
         istio-pilot-dashboard:
           url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/pilot-dashboard.json
           datasource: Prometheus
-        cert-manager:
-          url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
-          datasource: Prometheus
+        # cert-manager:
+        #   url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
+        #   datasource: Prometheus
         openebs:
           gnetId: 12171
           revision: 2
@@ -137,11 +137,18 @@ spec:
           url: https://grafana.com/api/dashboards/12250/revisions/1/download
           datasource: Prometheus
         unifi-udm-insights:
-          url: https://grafana.com/api/dashboards/11313/revisions/8/download
+          gnetId: 11313
+          revision: 8
           datasource: Prometheus
         unifi-usw-insights:
-          url: https://grafana.com/api/dashboards/11312/revisions/8/download
+          gnetId: 11312
+          revision: 8
           datasource: Prometheus
         unifi-uap-insights:
-          url: https://grafana.com/api/dashboards/11314/revisions/9/download
+          gnetId: 11314
+          revision: 9
+          datasource: Prometheus
+        unifi-client-insights:
+          gnetId: 11315
+          revision: 8
           datasource: Prometheus
