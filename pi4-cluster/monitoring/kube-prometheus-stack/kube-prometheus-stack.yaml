@@ -77,11 +77,10 @@ spec:
         resources:
           requests:
             memory: 1536Mi
-            cpu: 500m
-          # Removing CPU/memory limits - linux CFS quotas overly throttles prometheus
-          limits: {}
-            # memory: 2048Mi
-            # cpu: 1250m
+            cpu: 750m
+          limits:
+            memory: 2048Mi
+            cpu: 750m
         storageSpec:
           volumeClaimTemplate:
             metadata:
