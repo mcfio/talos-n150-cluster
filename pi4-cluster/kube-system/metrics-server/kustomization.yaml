@@ -4,7 +4,7 @@ kind: Kustomization
 commonLabels:
   k8s-app: metrics-server
 resources:
-  - apiservice.yaml
-  - deployment.yaml
-  - rbac.yaml
-  - service.yaml
+- apiservice.yaml
+- deployment.yaml
+- rbac.yaml
+- service.yaml
