@@ -9,25 +9,33 @@ spec:
   chart:
     spec:
       chart: cert-manager
-      version: 1.0.3
+      version: 1.0.4
       sourceRef:
         kind: HelmRepository
         name: jetstack
         namespace: flux-system
-      interval: 1m
-  # Depends on having the sealed secret cloudflare-cert-manager-token
-  # un-encrypted. Also depends on prometheus-operator due to service monitor
-  # resources.
   dependsOn:
-    # - name: sealed-secrets
-    #   namespace: kube-system
     - name: kube-prometheus-stack
       namespace: monitoring
   values:
     installCRDs: true
+    resources:
+      requests:
+        cpu: 10m
+        memory: 128Mi
     prometheus:
       enabled: true
       servicemonitor:
         enabled: true
     extraArgs:
       - "--dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53"
+    webhook:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 32Mi
+    cainjector:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
