@@ -79,6 +79,12 @@ nativeRoutingCIDR: 192.168.45.0/24
 # Tunnel mode is disabled as part of the Direct Server Return (DSR) configuration
 tunnel: disabled
 
+# sets the maglev hash seed and table size, this avoids using the built-in seed
+# tableSize value is sufficient for approx. 10 backends.
+maglev:
+  tableSize: 1021
+  hashSeed: "P9jc887+zv7eNcUr"
+
 loadBalancer:
   # BPF load balancing algorithm
   algorithm: maglev
