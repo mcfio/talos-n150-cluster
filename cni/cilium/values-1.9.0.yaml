@@ -2,6 +2,7 @@ image:
   repository: docker.io/cilium/cilium-dev
   tag: v1.9.0
 
+# Enable automatic L2 routing between nodes
 autoDirectNodeRoutes: true
 
 hubble:
@@ -12,6 +13,7 @@ hubble:
     - drop
     - tcp
     - flow
+    - port-distribution
     - icmp
     - http
   listenAddress: ":4244"
@@ -37,17 +39,21 @@ hubble:
 
 ipam:
   operator:
+    # default: "10.0.0.0/8", however, using existing podCIDR
     clusterPoolIPv4PodCIDR: 10.244.0.0/16
     clusterPoolIPv4MaskSize: 24
 
+# force features for kube-proxy replacement
 kubeProxyReplacement: strict
+# The IP address with port for kube-proxy replacement health check server to serve on
 kubeProxyReplacementHealthzBindAddr: "0.0.0.0:10256"
 
 prometheus:
   enabled: true
   port: 8090
+  # As an install task, the serviceMonitor CRD does not yet exist
   serviceMonitor:
-    enabled: true
+    enabled: false
 
 operator:
   image:
@@ -55,16 +61,28 @@ operator:
     tag: v1.9.0
   prometheus:
     enabled: true
+    # As an install task, the serviceMonitor CRD does not yet exist
     serviceMonitor:
-      enabled: true
+      enabled: false
 
+# Kubernetes exports KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT with a ClusterIP
+# of the kube-apiserver service to the pod, however there is no kube-proxy in our setup
+# that responds to that service. Therefor, Cillium agent needs to be made aware how to reach
+# the kube-apiserver
 k8sServiceHost: 192.168.45.40
 k8sServicePort: 8443
 
+# Allows to explicitly specify the CIDR for native routing. This value corresponds to the
+# configured cluster-cidr.
 nativeRoutingCIDR: 192.168.45.0/24
+
+# Tunnel mode is disabled as part of the Direct Server Return (DSR) configuration
 tunnel: disabled
+
 loadBalancer:
+  # BPF load balancing algorithm
   algorithm: maglev
+  # BPF load balancing mode
   mode: dsr
 
 disableEnvoyVersionCheck: true
