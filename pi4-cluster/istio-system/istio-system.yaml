@@ -8,6 +8,9 @@ spec:
   hub: docker.io/querycapistio
   tag: 1.8.0-distroless
 
+  meshConfig:
+    accessLogFile: /dev/stdout
+
   components:
     egressGateways:
     - name: istio-egressgateway
