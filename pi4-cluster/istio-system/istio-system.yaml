@@ -70,8 +70,6 @@ spec:
             memory: 1Gi
 
   addonComponents:
-    prometheus:
-      enabled: false
 
   values:
     gateways:
