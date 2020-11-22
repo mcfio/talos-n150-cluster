@@ -114,8 +114,9 @@ spec:
     prometheusOperator:
       manageCrds: true
       createCustomResource: true
-      # Prometheus Operator does not allow for disabling the CPU limits, this value is 2.5x the default
-      configReloaderCpu: 250m
+      # Setting this option to 0 to disable cpu limits
+      # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
+      configReloaderCpu: 0
     grafana:
       enabled: false
     prometheus-node-exporter:
