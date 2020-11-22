@@ -14,7 +14,6 @@ spec:
         kind: HelmRepository
         name: openebs
         namespace: flux-system
-      interval: 1m
   test:
     enable: false # Enable helm test
   install:
@@ -36,7 +35,7 @@ spec:
         enabled: true
     ndm:
       sparse:
-        size: "85899345920"
+        size: "42949672960"
         count: 1
       nodeSelector:
         openebs.io/nodegroup: storage-node
