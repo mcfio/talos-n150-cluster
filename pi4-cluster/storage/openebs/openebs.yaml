@@ -35,7 +35,7 @@ spec:
         enabled: true
     ndm:
       sparse:
-        size: "42949672960"
+        size: 42949672960
         count: 1
       nodeSelector:
         openebs.io/nodegroup: storage-node
