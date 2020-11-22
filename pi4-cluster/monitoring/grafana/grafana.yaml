@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: 6.1.4
+      version: 6.1.8
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -37,7 +37,7 @@ spec:
     fullnameOverride: grafana
     image:
       repository: grafana/grafana
-      tag: 7.3.1
+      tag: 7.3.3
     testFramework:
       enabled: false
     serviceMonitor:
@@ -102,14 +102,21 @@ spec:
             path: /var/lib/grafana/dashboards/default
     dashboards:
       default:
+        istio-control-plane-dashboard:
+          gnetId: 7645
+          revision: 43
+          datasource: Prometheus
         istio-mesh-dashboard:
-          url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/istio-mesh-dashboard.json
+          gnetId: 7639
+          revision: 43
           datasource: Prometheus
         istio-workload-dashboard:
-          url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/istio-workload-dashboard.json
+          gnetId: 7630
+          revision: 43
           datasource: Prometheus
         istio-service-dashboard:
-          url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/istio-service-dashboard.json
+          gnetId: 7636
+          revision: 43
           datasource: Prometheus
         istio-performance-dashboard:
           url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/istio-performance-dashboard.json
