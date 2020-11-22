@@ -26,16 +26,16 @@ hubble:
     enabled: true
     frontend:
       image:
-        repository: docker.io/mcfio/hubble-ui-dev
-        tag: v0.7.3
+        repository: docker.io/raspbernetes/hubble-ui
+        tag: v0.7.4
     backend:
       image:
-        repository: docker.io/mcfio/hubble-ui-backend-dev
-        tag: v0.7.3
+        repository: docker.io/raspbernetes/hubble-ui-backend
+        tag: v0.7.4
     proxy:
       image:
         repository: docker.io/envoyproxy/envoy
-        tag: v1.16.0
+        tag: v1.16.1
 
 ipam:
   operator:
