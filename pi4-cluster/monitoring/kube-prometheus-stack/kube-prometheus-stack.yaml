@@ -95,8 +95,7 @@ spec:
         secrets:
         - etcd-client-cert
         thanos:
-          image: raspbernetes/thanos:latest
-          version: latest
+          image: raspbernetes/thanos:v0.17.1
           objectStorageConfig:
             name: thanos-objectstore-config
             key: object-store.yaml
