@@ -1,6 +1,6 @@
 image:
   repository: docker.io/cilium/cilium-dev
-  tag: v1.9.0
+  tag: v1.9.1
 
 # Enable automatic L2 routing between nodes
 autoDirectNodeRoutes: true
@@ -21,7 +21,7 @@ hubble:
     enabled: true
     image:
       repository: docker.io/cilium/hubble-relay-dev
-      tag: v1.9.0
+      tag: v1.9.1
   ui:
     enabled: true
     frontend:
@@ -58,7 +58,7 @@ prometheus:
 operator:
   image:
     repository: cilium/operator-dev
-    tag: v1.9.0
+    tag: v1.9.1
   prometheus:
     enabled: true
     # As an install task, the serviceMonitor CRD does not yet exist
