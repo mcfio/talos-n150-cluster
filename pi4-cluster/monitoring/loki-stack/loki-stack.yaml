@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: loki-stack
-      version: 2.0.0
+      version: 2.2.0
       sourceRef:
         kind: HelmRepository
-        name: grafana-loki
+        name: grafana
         namespace: flux-system
       interval: 1m
   # Depends on having prometheus-operator due to service monitor resources.
@@ -30,6 +30,7 @@ spec:
         size: 10Gi
       serviceMonitor:
         enabled: true
+      terminationGracePeriodSeconds: 60
     promtail:
       fullnameOverride: promtail
       serviceMonitor:
