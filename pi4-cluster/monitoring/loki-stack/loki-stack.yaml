@@ -19,9 +19,36 @@ spec:
   dependsOn:
   - name: kube-prometheus-stack
     namespace: monitoring
+  valuesFrom:
+  - kind: Secret
+    name: loki-objectstore-config
   values:
     loki:
       config:
+        schema_config:
+          configs:
+          - from: 2020-10-24
+            store: boltdb-shipper
+            object_store: filesystem
+            schema: v11
+            index:
+              prefix: index_
+              period: 24h
+          - from: 2020-12-17
+            store: boltdb-shipper
+            object_store: azure
+            schema: v11
+            index:
+              prefix: index_
+              period: 168h
+        storage_config:
+          boltdb_shipper:
+            active_index_directory: /data/loki/boltdb-shipper-active
+            cache_location: /data/loki/boltdb-shipper-cache
+            cache_ttl: 24h         # Can be increased for faster performance over longer query periods, uses more disk space
+            shared_store: azure
+          filesystem:
+            directory: /data/loki/chunks
         table_manager:
           retention_deletes_enabled: true
           retention_period: 672h
