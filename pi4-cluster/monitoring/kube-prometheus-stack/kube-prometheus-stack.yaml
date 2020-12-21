@@ -8,6 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
+      # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
       version: 12.7.0
       sourceRef:
@@ -95,7 +96,7 @@ spec:
         secrets:
         - etcd-client-cert
         thanos:
-          image: raspbernetes/thanos:v0.17.1
+          image: raspbernetes/thanos:v0.17.2
           objectStorageConfig:
             name: thanos-objectstore-config
             key: object-store.yaml
