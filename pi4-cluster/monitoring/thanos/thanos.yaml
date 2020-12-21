@@ -31,7 +31,7 @@ spec:
   values:
     image:
       repository: raspbernetes/thanos
-      tag: v0.17.1
+      tag: v0.17.2
     store:
       metrics:
         serviceMonitor:
