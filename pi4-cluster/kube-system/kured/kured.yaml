@@ -45,3 +45,6 @@ spec:
       create: true
     metrics:
       create: true
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
