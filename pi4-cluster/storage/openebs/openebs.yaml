@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: openebs
-      version: 2.3.0
+      version: 2.4.2
       sourceRef:
         kind: HelmRepository
         name: openebs
@@ -30,12 +30,6 @@ spec:
   values:
     rbac:
       pspEnabled: true
-    apiserver:
-      sparse:
-        enabled: true
     ndm:
-      sparse:
-        size: 42949672960
-        count: 1
       nodeSelector:
         openebs.io/nodegroup: storage-node
