@@ -30,7 +30,7 @@ spec:
     cleanupOnFail: true
   values:
     resources:
-      limits: {}
+      limits: ~
       requests:
         cpu: 100m
         memory: 256Mi
