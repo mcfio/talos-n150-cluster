@@ -38,6 +38,9 @@ spec:
       image:
         repository: metallb/speaker
         tag: v0.9.5
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
     prometheus:
       serviceMonitor:
         enabled: false
