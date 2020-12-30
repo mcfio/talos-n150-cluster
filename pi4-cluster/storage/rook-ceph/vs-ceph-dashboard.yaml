@@ -1,0 +1,21 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: rook-ceph-mgr-dashboard
+  namespace: rook-ceph
+  annotations:
+    external-dns.alpha.kubernetes.io/target: ingress.milton.mcf.io
+spec:
+  gateways:
+  - istio-system/istio-ingressgateway
+  hosts:
+  - ceph.milton.mcf.io
+  http:
+  - match:
+    - port: 443
+    route:
+    - destination:
+        host: rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local
+        port:
+          number: 7000
