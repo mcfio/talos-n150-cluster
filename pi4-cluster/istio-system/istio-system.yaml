@@ -10,8 +10,7 @@ spec:
 
   meshConfig:
     accessLogFile: /dev/stdout
-    defaultConfig:
-      tracing: ~
+    enableTracing: false
 
   components:
     egressGateways:
