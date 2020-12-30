@@ -83,6 +83,19 @@ spec:
             cpu: 1250m
           limits:
             memory: 2048Mi
+        tolerations:
+        - key: node-role.kubernetes.io/control-plane
+          operator: Exists
+          effect: NoSchedule
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: NotIn
+                  values:
+                  - storage-node
         storageSpec:
           volumeClaimTemplate:
             metadata:
