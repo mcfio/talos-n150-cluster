@@ -12,7 +12,9 @@ spec:
     accessLogFile: /dev/stdout
     enableTracing: false
     defaultConfig:
-      tracing: ~
+      tracing:
+        zipkin:
+          address: ~
 
   components:
     egressGateways:
