@@ -10,9 +10,8 @@ spec:
 
   meshConfig:
     accessLogFile: /dev/stdout
-    tracing:
-      zipkin:
-        address: ~
+    defaultConfig:
+      tracing: ~
 
   components:
     egressGateways:
