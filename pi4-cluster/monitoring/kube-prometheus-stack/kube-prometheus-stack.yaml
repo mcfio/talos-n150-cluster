@@ -32,6 +32,15 @@ spec:
   values:
     fullnameOverride: z
     alertmanager:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+        - alertmanager.milton.mcf.io
+        tls:
+        - secretName: alertmanager-tls
+          hosts:
+          - alertmanager.milton.mcf.io
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
@@ -67,6 +76,15 @@ spec:
     kubeProxy:
       enabled: false
     prometheus:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        hosts:
+        - prometheus.milton.mcf.io
+        tls:
+        - secretName: prometheus-tls
+          hosts:
+          - prometheus.milton.mcf.io
       podDisruptionBudget:
         enabled: false
       prometheusSpec:
@@ -125,6 +143,9 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
     prometheusOperator:
+      admissionWebhooks:
+        certManager:
+          enabled: true
       manageCrds: true
       createCustomResource: true
       # Setting this option to 0 to disable cpu limits
