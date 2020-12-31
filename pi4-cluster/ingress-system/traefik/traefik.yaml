@@ -45,7 +45,7 @@ spec:
       token: 9bfd8863-5322-4a34-abc4-1bc420df8b72
     ingressRoute:
       dashboard:
-        enabled: false
+        enabled: true
     ports:
       web:
         redirectTo: websecure
