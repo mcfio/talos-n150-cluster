@@ -1,25 +1,25 @@
----
-apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
-metadata:
-  name: thanos-query
-  namespace: monitoring
-  labels:
-    app.kubernetes.io/name: thanos
-    app.kubernetes.io/instance: thanos
-    app.kubernetes.io/component: query
-  annotations:
-    external-dns.alpha.kubernetes.io/target: ingress.milton.mcf.io
-spec:
-  gateways:
-  - istio-system/istio-ingressgateway
-  hosts:
-  - thanos.milton.mcf.io
-  http:
-  - match:
-    - port: 443
-    route:
-    - destination:
-        host: thanos-query-http.monitoring.svc.cluster.local
-        port:
-          number: 10902
+# ---
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: thanos-query
+#   namespace: monitoring
+#   labels:
+#     app.kubernetes.io/name: thanos
+#     app.kubernetes.io/instance: thanos
+#     app.kubernetes.io/component: query
+#   annotations:
+#     external-dns.alpha.kubernetes.io/target: ingress.milton.mcf.io
+# spec:
+#   gateways:
+#   - istio-system/istio-ingressgateway
+#   hosts:
+#   - thanos.milton.mcf.io
+#   http:
+#   - match:
+#     - port: 443
+#     route:
+#     - destination:
+#         host: thanos-query-http.monitoring.svc.cluster.local
+#         port:
+#           number: 10902

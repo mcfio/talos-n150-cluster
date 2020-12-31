@@ -38,15 +38,25 @@ spec:
         serviceMonitor:
           enabled: true
     query:
-      labels:
-        app.kubernetes.io/workload: monitoring
-      # annotations:
-      #   sidecar.istio.io/inject: "true"
+      replicaLabels:
+      - replica
       replicaCount: 2
+      logFormat: json
       podDisruptionBudget:
         enabled: true
-      replicaLabels:
-        - replica
+      http:
+        ingress:
+          enabled: true
+          annotations:
+            kubernetes.io/ingress.class: traefik
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+          hosts:
+          - thanos.milton.mcf.io
+          tls:
+          - secretName: thanos-query-tls
+            hosts:
+            - thanos.milton.mcf.io
       metrics:
         serviceMonitor:
           enabled: true
