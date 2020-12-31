@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: traefik
-      version: 9.8.0
+      version: 9.12.2
       sourceRef:
         kind: HelmRepository
         name: traefik
@@ -29,8 +29,6 @@ spec:
     timeout: 1m
     cleanupOnFail: true
   values:
-    image:
-      tag: 2.3.2
     deployment:
       replicas: 2
     logs:
@@ -66,7 +64,6 @@ spec:
     - --entryPoints.metrics.address=:8082
     - --metrics.prometheus.entryPoint=metrics
     - --serverstransport.insecureskipverify=true
-    - --providers.kubernetesingress.ingressclass=traefik
     - --providers.kubernetesingress.ingressendpoint.hostname=milton.mcf.io
     tlsOptions:
       default:
@@ -85,6 +82,8 @@ spec:
         minVersion: VersionTLS12
         sniStrict: true
     service:
+      annotations:
+        external-dns.alpha.kubernetes.io/target: milton.mcf.io
       spec:
         externalTrafficPolicy: Local
         loadBalancerIP: 192.168.45.100
@@ -109,9 +108,6 @@ spec:
       requests:
         cpu: 100m
         memory: 128Mi
-      limits:
-        cpu: 400m
-        memory: 256Mi
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
