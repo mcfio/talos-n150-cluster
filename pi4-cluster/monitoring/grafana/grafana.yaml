@@ -43,6 +43,18 @@ spec:
       enabled: false
     serviceMonitor:
       enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: traefik
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+      hosts:
+      - grafana.milton.mcf.io
+      tls:
+      - secretName: grafana-tls
+        hosts:
+        - grafana.milton.mcf.io
     admin:
       existingSecret: 'grafana-admin-creds'
       userKey: admin-user
