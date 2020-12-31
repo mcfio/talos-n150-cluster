@@ -19,6 +19,6 @@ spec:
     - name: secured-whitelist
       namespace: default
   tls:
-    secretName: traefik-dashboard-tls
+    secretName: milton-mcf-io-wc-cert
     options:
       name: milton-mcf-io
