@@ -30,9 +30,10 @@ spec:
     cleanupOnFail: true
   values:
     resources:
-      limits: ~
+      limits:
+        memory: 512Mi
       requests:
-        cpu: 100m
+        cpu: 250m
         memory: 256Mi
     csi:
       enableCephfsDriver: false
