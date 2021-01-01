@@ -48,7 +48,6 @@ spec:
         ingress:
           enabled: true
           annotations:
-            kubernetes.io/ingress.class: traefik
             traefik.ingress.kubernetes.io/router.entrypoints: websecure
             cert-manager.io/cluster-issuer: letsencrypt-prod
           hosts:
@@ -64,6 +63,10 @@ spec:
       metrics:
         serviceMonitor:
           enabled: true
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
       nodeSelector:
         disktype: ssd
     bucket:
