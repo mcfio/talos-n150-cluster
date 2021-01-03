@@ -31,10 +31,10 @@ spec:
   values:
     resources:
       limits:
-        cpu: 500m
+        cpu: null
         memory: 512Mi
       requests:
-        cpu: 500m
+        cpu: 250m
         memory: 256Mi
     csi:
       enableCephfsDriver: false
