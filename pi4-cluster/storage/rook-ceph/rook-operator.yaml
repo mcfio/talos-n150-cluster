@@ -29,13 +29,13 @@ spec:
     timeout: 1m
     cleanupOnFail: true
   values:
-    resources:
-      limits:
-        cpu: null
-        memory: 512Mi
-      requests:
-        cpu: 250m
-        memory: 256Mi
+    resources: null
+      # limits:
+      #   cpu: null
+      #   memory: 512Mi
+      # requests:
+      #   cpu: 250m
+      #   memory: 256Mi
     csi:
       enableCephfsDriver: false
       pluginTolerations:
