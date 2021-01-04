@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: azure-backupstorage-config
+    namespace: velero
+type: Opaque
+stringData:
+    values.yaml: ENC[AES256_GCM,data:cA0PX3NZC/fcb/Fyie5aI2/2evbEui8hjjAvZg6OqeHflFBisO1q0neGLDQbGrP7GftdTBzY7odeJWBHSdF8LBKAgrwm775fG2b2p4lhwbBDs1+Bh7MI9ZOC91Ufzq+ZFpeJWQNQF5HvONTZzNgRHbVhoa0PDgn+c165YkVGXRDCawQcTcyoSiRK3qKZO4OwjmHbj+J9h4E2CAaNy7hFFrlJYlf0PFo0XoUkI7iwt5XfmSwO4MFF//Aby0a5x9nGY7talb7m5ImJGruWnxYbE/KvxoTKjbRIXqXk+w9IcS4AKl8ycGgD+HwlBFjnO72jmTergYJJtJgwatQ=,iv:TX4r6gdMzpOQ3XnzQWO787AXl4ZT6lOrmY48BsDIn80=,tag:fiyGcQ7gVh1x5+RjUqpTNQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    lastmodified: '2021-01-04T19:17:36Z'
+    mac: ENC[AES256_GCM,data:Q9x8P7dDMRGbouLdGc8gkdJ0vXTsZIfK3FmlxYF5gAJgaF/6J5NVJBVg5hC82h3BGE1i/1ZUbPxefKfG7VYRH/fwC0pTY3VEGaxcqcr9GD+ozOInpe9IzhrIGgCgj6/SK13OC58hX4vwofN+KqIJPaYzDOnaLVR0LqrjKDVpqdw=,iv:NXAPfXJuoVkbB0YDP/KxTVi6iILtkMXbcf8Grptm+FE=,tag:1rgaXJ0Ki5dRnqAJMN3cBw==,type:str]
+    pgp:
+    -   created_at: '2021-01-04T19:17:35Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAwAAAAAAAAAAAQ//ddTeKl77CPp9b7Mk0fbNKOfCx4gGBfqYm8HjdPzk0WOm
+            c/hAXz/zH8CSsehk988w8TvSAZh8NlLm0ROXP3CgSaa+JmKwb3xHBNUXaesAgKs6
+            rJMTTzGW/8ZyxdE7JvorxmqBc90lA+qnevGcibSro3jhFLqDfWtTxn0VD2T6tFSJ
+            KXJNGbiYRVAVavHLUMktsPekcqbmeH2XYBwjH16Cc5fLgQ1/u6QEDJJkqrjLhSWC
+            hLLDceMl9EEPT2EUx4pO14EbPQAB9OUx8IRoNBa2dJcUrqb5q5+5kZm/qOXsEcqh
+            8d1sfxSgL2goYiz27XLmi3atRyA9TNVkzvL8C1EmSF8AcSvXoyM7I7EhgpGSnipU
+            ANT5KleMJYV2S9CfRZDIxKMPLDSldM8SN9+76dTYr70H0BDXPH/yfxOzRMFqwJyI
+            Jd69UtstJG4S3nHXu5oJHTayemG9LNgBIhJCyw2SvIfS54n+H85eL1JM7Mjsz/9Z
+            ir39bGYCsGhXv1Wq1X9+hMNtgarux/V6P2daKfnEcaLCa3iv/yGWfFcQ2jPQJBm6
+            hd58RLFklHuhiFKwfF1GGu37P6d/21RUcXe4prQLDNzuylKK6quo8QI3/0lmclBb
+            FfQ90FnfDSBBB7oCGVT8+WyL00zlLKdoTF4/j41MCoHKrsSVr+mFa+jqV4QVq6TS
+            WAE2SLvqourLhzBZUW9naoyotnt7LqWhsICD5nsZjfZeWKt+hj18cGUN8dAzCWq/
+            6/sROexz63HYmAlJJyNQmTiiw9YMpJu3Ido9oKTAtYXsOO9ps0pwA3g=
+            =awiB
+            -----END PGP MESSAGE-----
+        fp: 14DC38072204E1AC17AB0FCA0EFB186BD4637523
+    encrypted_regex: ^(data|stringData)$
+    version: 3.6.1

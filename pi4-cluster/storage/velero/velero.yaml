@@ -1,0 +1,55 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: velero
+  namespace: backups
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: velero
+      version: 2.14.4
+      sourceRef:
+        kind: HelmRepository
+        name: vmware-tanzu
+        namespace: gotk-system
+      interval: 1m
+  test:
+    enable: true
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
+    cleanupOnFail: true
+  rollback:
+    timeout: 1m
+    cleanupOnFail: true
+  # Depends on having the sealed secret cloud-credentials un-encrypted. Also depends on prometheus-operator
+  # due to service monitor resources.
+  dependsOn:
+  - name: kube-prometheus-stack
+    namespace: monitoring
+  valuesFrom:
+  - kind: Secret
+    name: azure-backupstorage-config
+  values:
+    initContainers:
+    - name: velero-plugin-for-azure
+      image: mcfio/velero-plugin-for-microsoft-azure:v1.1.1
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+      - mountPath: /target
+        name: plugins
+    configuration:
+      backupStorageLocation:
+        name: azure
+        provider: azure
+        bucket: velero
+    credentials:
+      existingSecret: azure-credentials
+    backupsEnabled: true
+    snapshotsEnabled: false
+    deployRestic: false
