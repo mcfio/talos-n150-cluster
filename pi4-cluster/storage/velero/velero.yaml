@@ -44,6 +44,7 @@ spec:
       - mountPath: /target
         name: plugins
     configuration:
+      provider: azure
       backupStorageLocation:
         name: azure
         provider: azure
