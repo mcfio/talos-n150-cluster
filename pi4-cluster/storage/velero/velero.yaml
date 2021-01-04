@@ -37,7 +37,7 @@ spec:
     name: azure-backupstorage-config
   values:
     initContainers:
-    - name: velero-plugin-for-azure
+    - name: velero-plugin-for-microsoft-azure
       image: mcfio/velero-plugin-for-microsoft-azure:v1.1.1
       imagePullPolicy: IfNotPresent
       volumeMounts:
@@ -46,8 +46,7 @@ spec:
     configuration:
       provider: azure
       backupStorageLocation:
-        name: azure
-        provider: azure
+        name: default
         bucket: velero
     credentials:
       existingSecret: azure-credentials
