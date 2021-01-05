@@ -58,4 +58,5 @@ spec:
       existingSecret: azure-credentials
     backupsEnabled: true
     snapshotsEnabled: true
+    features: "EnableCSI"
     deployRestic: false
