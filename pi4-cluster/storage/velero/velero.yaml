@@ -43,12 +43,12 @@ spec:
       volumeMounts:
       - mountPath: /target
         name: plugins
-    - name: velero-plugin-for-csi
-      image: mcfio/velero-plugin-for-csi-arm64:v0.1.2
-      imagePullPolicy: IfNotPresent
-      volumeMounts:
-      - mountPath: /target
-        name: plugins
+    # - name: velero-plugin-for-csi
+    #   image: mcfio/velero-plugin-for-csi-arm64:v0.1.2
+    #   imagePullPolicy: IfNotPresent
+    #   volumeMounts:
+    #   - mountPath: /target
+    #     name: plugins
     configuration:
       provider: azure
       backupStorageLocation:
@@ -57,5 +57,5 @@ spec:
     credentials:
       existingSecret: azure-credentials
     backupsEnabled: true
-    snapshotsEnabled: false
+    snapshotsEnabled: true
     deployRestic: false
