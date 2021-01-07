@@ -5,7 +5,8 @@ metadata:
   name: thanos
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://kubernetes-charts.banzaicloud.com
@@ -19,6 +20,7 @@ spec:
   test:
     enable: false # Enable helm test
   install:
+    createNamespace: true
     remediation: # perform remediation when helm install fails
       retries: 3
   upgrade:
