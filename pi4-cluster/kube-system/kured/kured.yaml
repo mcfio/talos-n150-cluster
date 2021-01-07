@@ -5,7 +5,8 @@ metadata:
   name: kured
   namespace: kube-system
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://weaveworks.github.io/kured
@@ -31,8 +32,8 @@ spec:
     cleanupOnFail: true
   # Depends on kube-prometheus-stack due to service monitor resources.
   dependsOn:
-    - name: kube-prometheus-stack
-      namespace: monitoring
+  - name: kube-prometheus-stack
+    namespace: monitoring
   values:
     image:
       repository: raspbernetes/kured
@@ -46,5 +47,5 @@ spec:
     metrics:
       create: true
     tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule

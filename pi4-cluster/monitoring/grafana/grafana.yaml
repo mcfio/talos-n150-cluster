@@ -5,7 +5,8 @@ metadata:
   name: grafana
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
@@ -18,6 +19,7 @@ spec:
   test:
     enable: false # Enable helm test
   install:
+    createNamespace: true
     remediation: # perform remediation when helm install fails
       retries: 3
   upgrade:
