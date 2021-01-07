@@ -6,6 +6,7 @@ metadata:
   namespace: ingress-system
 spec:
   interval: 5m
+  maxHistory: 2
   chart:
     spec:
       chart: traefik
@@ -14,10 +15,10 @@ spec:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
-      interval: 1m
   test:
     enable: false # Enable helm test
   install:
+    createNamespace: true
     remediation: # perform remediation when helm install fails
       retries: 3
   upgrade:
