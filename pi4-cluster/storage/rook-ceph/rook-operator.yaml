@@ -5,7 +5,8 @@ metadata:
   name: rook-ceph
   namespace: rook-ceph
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       chart: rook-ceph
@@ -18,6 +19,7 @@ spec:
   test:
     enable: false # Enable helm test
   install:
+    createNamespace: true
     remediation: # perform remediation when helm install fails
       retries: 3
   upgrade:
@@ -29,13 +31,13 @@ spec:
     timeout: 1m
     cleanupOnFail: true
   values:
-    resources: null
-      # limits:
-      #   cpu: null
-      #   memory: 512Mi
-      # requests:
-      #   cpu: 250m
-      #   memory: 256Mi
+    resources:
+      limits:
+        cpu: 500m
+        memory: 256Mi
+      requests:
+        cpu: 500mm
+        memory: 256Mi
     csi:
       enableCephfsDriver: false
       pluginTolerations:
