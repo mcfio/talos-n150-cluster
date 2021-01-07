@@ -54,16 +54,11 @@ spec:
         tls:
           enabled: true
           options: ingress-system-milton-mcf-io@kubernetescrd
-      metrics:
-        port: 8082
-        expose: false
-        protocol: TCP
     globalArguments:
     - --global.checknewversion=false
     - --global.sendanonymoususage=false
     additionalArguments:
-    - --entryPoints.metrics.address=:8082
-    - --metrics.prometheus.entryPoint=metrics
+    - --metrics.prometheus=true
     - --serverstransport.insecureskipverify=true
     - --providers.kubernetesingress.ingressendpoint.hostname=milton.mcf.io
     tlsOptions:
