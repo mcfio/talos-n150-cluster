@@ -5,7 +5,8 @@ metadata:
   name: loki-stack
   namespace: monitoring
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
@@ -28,20 +29,13 @@ spec:
       config:
         schema_config:
           configs:
-          - from: 2020-10-24
-            store: boltdb-shipper
-            object_store: filesystem
-            schema: v11
-            index:
-              prefix: index_
-              period: 24h
           - from: 2020-12-17
             store: boltdb-shipper
             object_store: azure
             schema: v11
             index:
               prefix: index_
-              period: 24h
+              period: 168h
         storage_config:
           boltdb_shipper:
             active_index_directory: /data/loki/boltdb-shipper-active
