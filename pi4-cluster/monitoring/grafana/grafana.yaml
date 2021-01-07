@@ -117,38 +117,9 @@ spec:
             path: /var/lib/grafana/dashboards/default
     dashboards:
       default:
-        istio-control-plane-dashboard:
-          gnetId: 7645
-          revision: 43
-          datasource: Prometheus
-        istio-mesh-dashboard:
-          gnetId: 7639
-          revision: 43
-          datasource: Prometheus
-        istio-workload-dashboard:
-          gnetId: 7630
-          revision: 43
-          datasource: Prometheus
-        istio-service-dashboard:
-          gnetId: 7636
-          revision: 43
-          datasource: Prometheus
-        istio-performance-dashboard:
-          url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/istio-performance-dashboard.json
-          datasource: Prometheus
-        istio-pilot-dashboard:
-          url: https://raw.githubusercontent.com/istio/istio/master/manifests/addons/dashboards/pilot-dashboard.json
-          datasource: Prometheus
         # cert-manager:
         #   url: https://gitlab.com/uneeq-oss/cert-manager-mixin/-/raw/master/dashboards/cert-manager.json
         #   datasource: Prometheus
-        openebs:
-          gnetId: 12171
-          revision: 2
-          datasource: Prometheus
-        openebs-pg-dashboard:
-          url: https://raw.githubusercontent.com/openebs/openebs/master/k8s/openebs-pg-dashboard.json
-          datasource: Prometheus
         toolkit-cluster:
           url: https://raw.githubusercontent.com/fluxcd/toolkit/main/manifests/monitoring/grafana/dashboards/cluster.json
           datasource: Prometheus
