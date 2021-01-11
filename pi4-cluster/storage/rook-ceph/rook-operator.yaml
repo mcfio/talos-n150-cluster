@@ -36,7 +36,7 @@ spec:
         cpu: 500m
         memory: 256Mi
       requests:
-        cpu: 500mm
+        cpu: 500m
         memory: 256Mi
     csi:
       enableCephfsDriver: false
