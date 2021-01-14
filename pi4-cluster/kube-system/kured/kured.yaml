@@ -23,8 +23,9 @@ spec:
     configuration:
       prometheusUrl: http://z-prometheus.monitoring:9090
       alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh)$'
-      startTime: 6am
-      endTime: 8am
+      startTime: 2am
+      endTime: 4am
+      timeZone: America/Toronto
     service:
       create: true
     metrics:
