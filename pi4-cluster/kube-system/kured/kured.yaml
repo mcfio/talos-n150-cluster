@@ -11,29 +11,12 @@ spec:
     spec:
       # renovate: registryUrl=https://weaveworks.github.io/kured
       chart: kured
-      version: 2.2.4
+      version: 2.3.1
       sourceRef:
         kind: HelmRepository
         name: weaveworks-kured
         namespace: flux-system
       interval: 1m
-  test:
-    enable: false # Enable helm test
-  install:
-    remediation: # perform remediation when helm install fails
-      retries: 3
-  upgrade:
-    remediation: # perform remediation when helm upgrade fails
-      retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
-    cleanupOnFail: true
-  rollback:
-    timeout: 1m
-    cleanupOnFail: true
-  # Depends on kube-prometheus-stack due to service monitor resources.
-  dependsOn:
-  - name: kube-prometheus-stack
-    namespace: monitoring
   values:
     image:
       repository: raspbernetes/kured
@@ -45,7 +28,7 @@ spec:
     service:
       create: true
     metrics:
-      create: true
+      create: false
     tolerations:
     - key: node-role.kubernetes.io/control-plane
       effect: NoSchedule
