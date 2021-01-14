@@ -20,6 +20,7 @@ spec:
   values:
     image:
       repository: raspbernetes/kured
+    updateStrategy: RollingUpdate
     configuration:
       prometheusUrl: http://z-prometheus.monitoring:9090
       alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh)$'
@@ -27,7 +28,7 @@ spec:
       endTime: 4am
       timeZone: America/Toronto
     service:
-      create: true
+      create: false
     metrics:
       create: false
     tolerations:
