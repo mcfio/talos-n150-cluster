@@ -166,6 +166,8 @@ spec:
       configReloaderCpu: 0
     grafana:
       enabled: false
+    nodeExporter:
+      enabled: false
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kubeStateMetrics:
