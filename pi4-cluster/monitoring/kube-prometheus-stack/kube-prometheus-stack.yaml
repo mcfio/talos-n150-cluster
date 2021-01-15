@@ -168,6 +168,8 @@ spec:
       enabled: false
     prometheus-node-exporter:
       fullnameOverride: node-exporter
+    kubeStateMetrics:
+      enabled: false
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       image:
