@@ -17,6 +17,7 @@ spec:
         name: prometheus-community
         namespace: flux-system
   values:
+    fullnameOverride: node-exporter
     prometheus:
       monitor:
         enabled: true
