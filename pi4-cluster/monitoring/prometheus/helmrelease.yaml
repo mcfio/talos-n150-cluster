@@ -23,8 +23,70 @@ spec:
       enabled: false
     nodeExporter:
       enabled: false
-    server:
-      persistentVolume:
+    configmapReload:
+      prometheus:
         enabled: false
+    global:
+      external_labels:
+        prometheus_group: mcf-k8s-cluster
+        prometheus_replica: '$(HOSTNAME)'
+    server:
+      configPath: /etc/prometheus-shared/prometheus.yml
+      extraArgs:
+        storage.tsdb.min-block-duration: 2h
+        storage.tsdb.max-block-duration: 2h
+      retention: 4h
+      service:
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "9090"
+      statefulSet:
+        enabled: true
+      podAnnotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "10902"
+      persistentVolume:
+        enabled: true
+        size: 10Gi
+      extraVolumes:
+      - name: prometheus-config-shared
+        emptyDir: {}
+      extraVolumeMounts:
+      - name: prometheus-config-shared
+        mountPath: /etc/prometheus-shared/
+      sidecarContainers:
+        image: raspbernetes/thanos:v0.17.2
+        imagePullPolicy: IfNotPresent
+        args:
+        - sidecar
+        - --prometheus.url=http://127.0.0.1:9090/
+        - --objstore.config=$(OBJSTORE_CONFIG)
+        - --tsdb.path=/data
+        - --reloader.config-file=/etc/prometheus-config/prometheus.yml
+        - --reloader.config-envsubst-file=/etc/prometheus-shared/prometheus.yml
+        - --reloader.rule-dir=/etc/prometheus-config/rules
+        - --log.level=info
+        - --log.format=json
+        env:
+        - name: OBJSTORE_CONFIG
+          valueFrom:
+            secretKeyRef:
+              key: object-store.yaml
+              name: thanos-objectstore-config
+        ports:
+        - containerPort: 10902
+          name: sidecar-http
+        - containerPort: 10901
+          name: grpc
+          protocol: TCP
+        volumeMounts:
+        - name: storage-volume
+          mountPath: /data
+        - name: config-volume
+          mountPath: /etc/prometheus-config
+          readOnly: false
+        - name: prometheus-config-shared
+          mountPath: /etc/prometheus-shared/
+          readOnly: false
     pushgateway:
       enabled: false
