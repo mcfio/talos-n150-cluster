@@ -49,8 +49,6 @@ spec:
       terminationGracePeriodSeconds: 60
     promtail:
       fullnameOverride: promtail
-      serviceMonitor:
-        enabled: true
       extraScrapeConfigs:
       - job_name: journal
         journal:
