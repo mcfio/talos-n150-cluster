@@ -17,10 +17,6 @@ spec:
         name: grafana
         namespace: flux-system
       interval: 1m
-  # Depends on having prometheus-operator due to service monitor resources.
-  dependsOn:
-  - name: kube-prometheus-stack
-    namespace: monitoring
   valuesFrom:
   - kind: Secret
     name: loki-objectstore-config
@@ -50,8 +46,6 @@ spec:
       persistence:
         enabled: true
         size: 10Gi
-      serviceMonitor:
-        enabled: true
       terminationGracePeriodSeconds: 60
     promtail:
       fullnameOverride: promtail
