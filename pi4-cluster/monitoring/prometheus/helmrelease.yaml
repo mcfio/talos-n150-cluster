@@ -55,38 +55,39 @@ spec:
       - name: prometheus-config-shared
         mountPath: /etc/prometheus-shared/
       sidecarContainers:
-        image: raspbernetes/thanos:v0.17.2
-        imagePullPolicy: IfNotPresent
-        args:
-        - sidecar
-        - --prometheus.url=http://127.0.0.1:9090/
-        - --objstore.config=$(OBJSTORE_CONFIG)
-        - --tsdb.path=/data
-        - --reloader.config-file=/etc/prometheus-config/prometheus.yml
-        - --reloader.config-envsubst-file=/etc/prometheus-shared/prometheus.yml
-        - --reloader.rule-dir=/etc/prometheus-config/rules
-        - --log.level=info
-        - --log.format=json
-        env:
-        - name: OBJSTORE_CONFIG
-          valueFrom:
-            secretKeyRef:
-              key: object-store.yaml
-              name: thanos-objectstore-config
-        ports:
-        - containerPort: 10902
-          name: sidecar-http
-        - containerPort: 10901
-          name: grpc
-          protocol: TCP
-        volumeMounts:
-        - name: storage-volume
-          mountPath: /data
-        - name: config-volume
-          mountPath: /etc/prometheus-config
-          readOnly: false
-        - name: prometheus-config-shared
-          mountPath: /etc/prometheus-shared/
-          readOnly: false
+        thanos-sidecar:
+          image: raspbernetes/thanos:v0.17.2
+          imagePullPolicy: IfNotPresent
+          args:
+          - sidecar
+          - --prometheus.url=http://127.0.0.1:9090/
+          - --objstore.config=$(OBJSTORE_CONFIG)
+          - --tsdb.path=/data
+          - --reloader.config-file=/etc/prometheus-config/prometheus.yml
+          - --reloader.config-envsubst-file=/etc/prometheus-shared/prometheus.yml
+          - --reloader.rule-dir=/etc/prometheus-config/rules
+          - --log.level=info
+          - --log.format=json
+          env:
+          - name: OBJSTORE_CONFIG
+            valueFrom:
+              secretKeyRef:
+                key: object-store.yaml
+                name: thanos-objectstore-config
+          ports:
+          - containerPort: 10902
+            name: sidecar-http
+          - containerPort: 10901
+            name: grpc
+            protocol: TCP
+          volumeMounts:
+          - name: storage-volume
+            mountPath: /data
+          - name: config-volume
+            mountPath: /etc/prometheus-config
+            readOnly: false
+          - name: prometheus-config-shared
+            mountPath: /etc/prometheus-shared/
+            readOnly: false
     pushgateway:
       enabled: false
