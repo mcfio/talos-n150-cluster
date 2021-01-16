@@ -22,15 +22,17 @@ spec:
       repository: raspbernetes/kured
     updateStrategy: RollingUpdate
     configuration:
-      prometheusUrl: http://z-prometheus.monitoring:9090
+      prometheusUrl: http://prometheus-server.monitoring:80
       alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh)$'
       startTime: 2am
       endTime: 4am
       timeZone: America/Toronto
     service:
-      create: false
-    metrics:
-      create: false
+      create: true
+      annotations:
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "8080"
+        prometheus.io/scrape: "true"
     tolerations:
     - key: node-role.kubernetes.io/control-plane
       effect: NoSchedule
