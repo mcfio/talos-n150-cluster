@@ -40,6 +40,19 @@ spec:
         annotations:
           prometheus.io/scrape: "true"
           prometheus.io/port: "9090"
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+        hosts:
+        - prometheus.milton.mcf.io
+        tls:
+        - secretName: prometheus-tls
+          hosts:
+          - prometheus.milton.mcf.io
+      baseURL: "https://prometheus.milton.mcf.io"
       statefulSet:
         enabled: true
       podAnnotations:
