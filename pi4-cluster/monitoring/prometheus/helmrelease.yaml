@@ -26,11 +26,11 @@ spec:
     configmapReload:
       prometheus:
         enabled: false
-    global:
-      external_labels:
-        prometheus_group: mcf-k8s-cluster
-        prometheus_replica: '$(HOSTNAME)'
     server:
+      global:
+        external_labels:
+          prometheus_group: mcf-k8s-cluster
+          prometheus_replica: '$(HOSTNAME)'
       configPath: /etc/prometheus-shared/prometheus.yml
       extraArgs:
         storage.tsdb.min-block-duration: 2h
