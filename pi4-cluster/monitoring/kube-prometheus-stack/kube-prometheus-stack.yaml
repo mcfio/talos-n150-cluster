@@ -1,179 +1,179 @@
----
-apiVersion: helm.toolkit.fluxcd.io/v2beta1
-kind: HelmRelease
-metadata:
-  name: kube-prometheus-stack
-  namespace: monitoring
-spec:
-  interval: 6h
-  maxHistory: 2
-  chart:
-    spec:
-      # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
-      chart: kube-prometheus-stack
-      version: 12.12.1
-      sourceRef:
-        kind: HelmRepository
-        name: prometheus-community
-        namespace: flux-system
-  test:
-    enable: false # Enable helm test
-  install:
-    createNamespace: true
-    remediation: # perform remediation when helm install fails
-      retries: 3
-  upgrade:
-    remediation: # perform remediation when helm upgrade fails
-      retries: 3
-      remediateLastFailure: true # remediate the last failure, when no retries remain
-    cleanupOnFail: true
-  rollback:
-    timeout: 1m
-    cleanupOnFail: true
-  timeout: 20m
-  values:
-    defaultRules:
-      create: true
-      rules:
-        kubeApiserverSlos: false
-        kubeScheduler: false
-    fullnameOverride: z
-    alertmanager:
-      ingress:
-        enabled: true
-        ingressClassName: traefik
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-        hosts:
-        - alertmanager.milton.mcf.io
-        tls:
-        - secretName: alertmanager-tls
-          hosts:
-          - alertmanager.milton.mcf.io
-      podDisruptionBudget:
-        enabled: true
-      alertmanagerSpec:
-        portName: http-web
-        logFormat: json
-        replicas: 2
-        podAntiAffinity: hard
-    kubeEtcd:
-      serviceMonitor:
-        scheme: https
-        serverName: localhost
-        caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
-        certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
-        keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
-    kubeControllerManager:
-      enabled: false
-      service:
-        port: 10257
-        targetPort: 10257
-      serviceMonitor:
-        https: true
-        servername: localhost
-        insecureSkipVerify: true
-    kubeScheduler:
-      enabled: false
-      service:
-        port: 10259
-        targetPort: 10259
-      serviceMonitor:
-        https: true
-        serverName: localhost
-        insecureSkipVerify: true
-    kubeProxy:
-      enabled: false
-    prometheus:
-      ingress:
-        enabled: true
-        ingressClassName: traefik
-        annotations:
-          traefik.ingress.kubernetes.io/router.entrypoints: websecure
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-        hosts:
-        - prometheus.milton.mcf.io
-        tls:
-        - secretName: prometheus-tls
-          hosts:
-          - prometheus.milton.mcf.io
-      podDisruptionBudget:
-        enabled: false
-      prometheusSpec:
-        retention: 6h
-        portName: http-web
-        logFormat: json
-        replicas: 1
-        # To ensure proper scheduling, set the CPU requests to 1.25 cores; Additionally remove the cpu limits - a side effect of smaller platforms is the CPU scheduler
-        # tends to aggressivly throttle prometheus, running guaranteed QoS of 1 or 2 cores results in nearly 50-100% throttling. At that point, there's not a good reason
-        # to set the CPU limits any longer.
-        resources:
-          requests:
-            memory: 1536Mi
-            cpu: 1250m
-          limits:
-            memory: 2048Mi
-        tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          operator: Exists
-          effect: NoSchedule
-        affinity:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: role
-                  operator: NotIn
-                  values:
-                  - storage-node
-        storageSpec:
-          volumeClaimTemplate:
-            metadata:
-              name: data
-            spec:
-              accessModes:
-              - ReadWriteOnce
-              resources:
-                requests:
-                  storage: 10Gi
-        secrets:
-        - etcd-client-cert
-        thanos:
-          image: raspbernetes/thanos:v0.17.2
-          objectStorageConfig:
-            name: thanos-objectstore-config
-            key: object-store.yaml
-          resources:
-            requests:
-              memory: 128Mi
-              cpu: 100m
-            # As noted above, this deployment will not set the cpu limits for the container
-            limits:
-              memory: 256Mi
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelectorNilUsesHelmValues: false
-        probeSelectorNilUsesHelmValues: false
-    prometheusOperator:
-      admissionWebhooks:
-        certManager:
-          enabled: true
-      manageCrds: true
-      createCustomResource: true
-      # Setting this option to 0 to disable cpu limits
-      # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
-      configReloaderCpu: 0
-    grafana:
-      enabled: false
-    nodeExporter:
-      enabled: false
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
-    kubeStateMetrics:
-      enabled: false
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-      image:
-        repository: raspbernetes/kube-state-metrics
-        tag: v1.9.7
+# ---
+# apiVersion: helm.toolkit.fluxcd.io/v2beta1
+# kind: HelmRelease
+# metadata:
+#   name: kube-prometheus-stack
+#   namespace: monitoring
+# spec:
+#   interval: 6h
+#   maxHistory: 2
+#   chart:
+#     spec:
+#       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
+#       chart: kube-prometheus-stack
+#       version: 12.12.1
+#       sourceRef:
+#         kind: HelmRepository
+#         name: prometheus-community
+#         namespace: flux-system
+#   test:
+#     enable: false # Enable helm test
+#   install:
+#     createNamespace: true
+#     remediation: # perform remediation when helm install fails
+#       retries: 3
+#   upgrade:
+#     remediation: # perform remediation when helm upgrade fails
+#       retries: 3
+#       remediateLastFailure: true # remediate the last failure, when no retries remain
+#     cleanupOnFail: true
+#   rollback:
+#     timeout: 1m
+#     cleanupOnFail: true
+#   timeout: 20m
+#   values:
+#     defaultRules:
+#       create: true
+#       rules:
+#         kubeApiserverSlos: false
+#         kubeScheduler: false
+#     fullnameOverride: z
+#     alertmanager:
+#       ingress:
+#         enabled: true
+#         ingressClassName: traefik
+#         annotations:
+#           traefik.ingress.kubernetes.io/router.entrypoints: websecure
+#           cert-manager.io/cluster-issuer: letsencrypt-prod
+#         hosts:
+#         - alertmanager.milton.mcf.io
+#         tls:
+#         - secretName: alertmanager-tls
+#           hosts:
+#           - alertmanager.milton.mcf.io
+#       podDisruptionBudget:
+#         enabled: true
+#       alertmanagerSpec:
+#         portName: http-web
+#         logFormat: json
+#         replicas: 2
+#         podAntiAffinity: hard
+#     kubeEtcd:
+#       serviceMonitor:
+#         scheme: https
+#         serverName: localhost
+#         caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+#         certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+#         keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+#     kubeControllerManager:
+#       enabled: false
+#       service:
+#         port: 10257
+#         targetPort: 10257
+#       serviceMonitor:
+#         https: true
+#         servername: localhost
+#         insecureSkipVerify: true
+#     kubeScheduler:
+#       enabled: false
+#       service:
+#         port: 10259
+#         targetPort: 10259
+#       serviceMonitor:
+#         https: true
+#         serverName: localhost
+#         insecureSkipVerify: true
+#     kubeProxy:
+#       enabled: false
+#     prometheus:
+#       ingress:
+#         enabled: true
+#         ingressClassName: traefik
+#         annotations:
+#           traefik.ingress.kubernetes.io/router.entrypoints: websecure
+#           cert-manager.io/cluster-issuer: letsencrypt-prod
+#         hosts:
+#         - prometheus.milton.mcf.io
+#         tls:
+#         - secretName: prometheus-tls
+#           hosts:
+#           - prometheus.milton.mcf.io
+#       podDisruptionBudget:
+#         enabled: false
+#       prometheusSpec:
+#         retention: 6h
+#         portName: http-web
+#         logFormat: json
+#         replicas: 1
+#         # To ensure proper scheduling, set the CPU requests to 1.25 cores; Additionally remove the cpu limits - a side effect of smaller platforms is the CPU scheduler
+#         # tends to aggressivly throttle prometheus, running guaranteed QoS of 1 or 2 cores results in nearly 50-100% throttling. At that point, there's not a good reason
+#         # to set the CPU limits any longer.
+#         resources:
+#           requests:
+#             memory: 1536Mi
+#             cpu: 1250m
+#           limits:
+#             memory: 2048Mi
+#         tolerations:
+#         - key: node-role.kubernetes.io/control-plane
+#           operator: Exists
+#           effect: NoSchedule
+#         affinity:
+#           nodeAffinity:
+#             requiredDuringSchedulingIgnoredDuringExecution:
+#               nodeSelectorTerms:
+#               - matchExpressions:
+#                 - key: role
+#                   operator: NotIn
+#                   values:
+#                   - storage-node
+#         storageSpec:
+#           volumeClaimTemplate:
+#             metadata:
+#               name: data
+#             spec:
+#               accessModes:
+#               - ReadWriteOnce
+#               resources:
+#                 requests:
+#                   storage: 10Gi
+#         secrets:
+#         - etcd-client-cert
+#         thanos:
+#           image: raspbernetes/thanos:v0.17.2
+#           objectStorageConfig:
+#             name: thanos-objectstore-config
+#             key: object-store.yaml
+#           resources:
+#             requests:
+#               memory: 128Mi
+#               cpu: 100m
+#             # As noted above, this deployment will not set the cpu limits for the container
+#             limits:
+#               memory: 256Mi
+#         ruleSelectorNilUsesHelmValues: false
+#         serviceMonitorSelectorNilUsesHelmValues: false
+#         podMonitorSelectorNilUsesHelmValues: false
+#         probeSelectorNilUsesHelmValues: false
+#     prometheusOperator:
+#       admissionWebhooks:
+#         certManager:
+#           enabled: true
+#       manageCrds: true
+#       createCustomResource: true
+#       # Setting this option to 0 to disable cpu limits
+#       # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
+#       configReloaderCpu: 0
+#     grafana:
+#       enabled: false
+#     nodeExporter:
+#       enabled: false
+#     prometheus-node-exporter:
+#       fullnameOverride: node-exporter
+#     kubeStateMetrics:
+#       enabled: false
+#     kube-state-metrics:
+#       fullnameOverride: kube-state-metrics
+#       image:
+#         repository: raspbernetes/kube-state-metrics
+#         tag: v1.9.7
