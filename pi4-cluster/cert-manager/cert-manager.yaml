@@ -15,9 +15,6 @@ spec:
         kind: HelmRepository
         name: jetstack
         namespace: flux-system
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: monitoring
   values:
     installCRDs: true
     resources:
@@ -26,8 +23,6 @@ spec:
         memory: 128Mi
     prometheus:
       enabled: true
-      servicemonitor:
-        enabled: true
     extraArgs:
       - "--dns01-recursive-nameservers=1.1.1.1:53,8.8.8.8:53"
     webhook:
