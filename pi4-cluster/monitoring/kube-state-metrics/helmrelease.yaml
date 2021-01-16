@@ -19,7 +19,3 @@ spec:
   values:
     image:
       repository: raspbernetes/kube-state-metrics
-    prometheus:
-      monitor:
-        enabled: true
-        honorLabels: true

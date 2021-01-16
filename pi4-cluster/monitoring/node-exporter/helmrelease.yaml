@@ -18,9 +18,6 @@ spec:
         namespace: flux-system
   values:
     fullnameOverride: node-exporter
-    prometheus:
-      monitor:
-        enabled: true
     podLabels:
       jobLabel: node-exporter
     extraArgs:
