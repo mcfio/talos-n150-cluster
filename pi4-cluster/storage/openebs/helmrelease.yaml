@@ -38,7 +38,6 @@ spec:
         image:
           registry: k8s.gcr.io/
           repository: sig-storage/csi-provisioner
-    cstorCSIPlugin:
     csiNode:
       driverRegistrar:
         image:
