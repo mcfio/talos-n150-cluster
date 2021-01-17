@@ -25,7 +25,7 @@ spec:
       config:
         schema_config:
           configs:
-          - from: 2020-12-17
+          - from: "2020-12-17"
             store: boltdb-shipper
             object_store: azure
             schema: v11
