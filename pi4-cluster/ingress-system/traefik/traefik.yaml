@@ -21,7 +21,7 @@ spec:
       replicas: 2
       podAnnotations:
         prometheus.io/scrape: "true"
-        prometheus.io/port: "traefik"
+        prometheus.io/port: "9000"
     logs:
       general:
         format: json
