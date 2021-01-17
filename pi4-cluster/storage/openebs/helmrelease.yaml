@@ -44,3 +44,7 @@ spec:
           registry: k8s.gcr.io/
           repository: sig-storage/csi-node-driver-registrar
           tag: v2.1.0
+      tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
