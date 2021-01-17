@@ -9,7 +9,7 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      chart: openebs-cstor
+      chart: cstor
       version: 2.5.0
       sourceRef:
         kind: HelmRepository
