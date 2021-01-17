@@ -41,6 +41,7 @@ spec:
     cstorCSIPlugin:
     csiNode:
       driverRegistrar:
-        image: k8s.gcr.io/
-        registry: sig-storage/csi-node-driver-registrar
-        tag: v2.1.0
+        image:
+          registry: k8s.gcr.io/
+          repository: sig-storage/csi-node-driver-registrar
+          tag: v2.1.0
