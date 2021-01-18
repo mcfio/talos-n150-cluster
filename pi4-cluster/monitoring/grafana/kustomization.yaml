@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
 - grafana-admin-creds.enc.yaml
 - grafana-auth-google.enc.yaml
-- grafana.yaml
+- helmrelease.yaml
