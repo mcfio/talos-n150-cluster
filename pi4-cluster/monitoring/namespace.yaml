@@ -5,4 +5,3 @@ metadata:
   name: monitoring
   labels:
     name: monitoring
-    istio-injection: enabled

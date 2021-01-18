@@ -5,4 +5,3 @@ metadata:
   name: oauth2-proxy
   labels:
     name: oauth2-proxy
-    istio-injection: enabled
