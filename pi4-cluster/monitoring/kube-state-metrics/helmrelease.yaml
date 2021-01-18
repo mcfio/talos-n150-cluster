@@ -15,7 +15,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: kube-state-metrics
-        namespace: flux-system
   values:
     image:
       repository: raspbernetes/kube-state-metrics
