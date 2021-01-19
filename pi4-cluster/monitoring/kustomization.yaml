@@ -8,5 +8,6 @@ resources:
 - node-exporter
 - thanos
 - prometheus
+- kube-prometheus-stack
 - loki-stack
 - grafana
