@@ -10,4 +10,5 @@ resources:
 - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.0.2/charts/kube-prometheus-stack/crds/crd-prometheusrules.yaml
 - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.0.2/charts/kube-prometheus-stack/crds/crd-servicemonitors.yaml
 - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-13.0.2/charts/kube-prometheus-stack/crds/crd-thanosrulers.yaml
+- etcd-client-cert.enc.yaml
 #- helmrelease.yaml
