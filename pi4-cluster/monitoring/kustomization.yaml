@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - sources
-- kube-state-metrics
+# - kube-state-metrics
 # - node-exporter
 - thanos
 # - prometheus
