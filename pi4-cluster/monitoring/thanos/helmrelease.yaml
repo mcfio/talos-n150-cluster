@@ -37,7 +37,7 @@ spec:
         ingress:
           enabled: true
           apiVersion: networking.k8s.io/v1
-          defaultBackend: ""
+          defaultBackend: false
           annotations:
             kubernetes.io/ingress.class: traefik
             traefik.ingress.kubernetes.io/router.entrypoints: websecure
