@@ -10,4 +10,4 @@ resources:
 # - prometheus
 - kube-prometheus-stack
 - loki-stack
-- grafana
+  #- grafana
