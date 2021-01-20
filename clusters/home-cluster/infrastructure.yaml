@@ -8,7 +8,7 @@ spec:
   path: ./infrastructure/home-cluster
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: infrastructure
   prune: true
   decryption:
     provider: sops
