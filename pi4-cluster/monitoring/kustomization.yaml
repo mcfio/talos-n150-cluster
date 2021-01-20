@@ -5,7 +5,7 @@ resources:
 - namespace.yaml
 - sources
 - kube-state-metrics
-- node-exporter
+# - node-exporter
 - thanos
 # - prometheus
 - kube-prometheus-stack
