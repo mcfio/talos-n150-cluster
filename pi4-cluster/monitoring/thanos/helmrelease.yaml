@@ -20,12 +20,15 @@ spec:
       repository: raspbernetes/thanos
       tag: v0.17.2
     store:
+      logFormat: json
       metrics:
         annotations:
+          enabled: false
+        serviceMonitor:
           enabled: true
     query:
       replicaLabels:
-      - replica
+      - prometheus_replica
       replicaCount: 2
       logFormat: json
       podDisruptionBudget:
@@ -33,21 +36,30 @@ spec:
       http:
         ingress:
           enabled: true
+          apiVersion: networking.k8s.io/v1
           annotations:
+            kubernetes.io/ingress.class: traefik
             traefik.ingress.kubernetes.io/router.entrypoints: websecure
             cert-manager.io/cluster-issuer: letsencrypt-prod
           hosts:
           - thanos.milton.mcf.io
-          tls:
-          - secretName: thanos-query-tls
-            hosts:
-            - thanos.milton.mcf.io
       metrics:
         annotations:
+          enabled: false
+        serviceMonitor:
           enabled: true
+    queryFrontend:
+      enabled: false
     compact:
+      enabled: true
+      retentionResolutionRaw: 10d
+      retentionResolution5m: 30d
+      retentionResolution1h: 90d
+      logFormat: json
       metrics:
         annotations:
+          enabled: false
+        serviceMonitor:
           enabled: true
       tolerations:
       - key: node-role.kubernetes.io/control-plane
@@ -57,4 +69,5 @@ spec:
         disktype: ssd
     bucket:
       enabled: true
+      logFormat: json
     objstoreSecretOverride: thanos-objectstore-config
