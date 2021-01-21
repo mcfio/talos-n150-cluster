@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - sources
-- kube-prometheus-stack
 - thanos
+- kube-prometheus-stack
+- loki-stack
 - grafana
