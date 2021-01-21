@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: HelmRepository
 metadata:
   name: openebs-cstor
-  namespace: openebs-cstor
+  namespace: openebs
 spec:
   interval: 24h
   url: https://openebs.github.io/cstor-operators
