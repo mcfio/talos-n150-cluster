@@ -1,0 +1,30 @@
+apiVersion: cstor.openebs.io/v1
+kind: CStorPoolCluster
+metadata:
+  name: cspc-pool
+  namespace: openebs
+spec:
+  pools:
+  - nodeSelector:
+      kubernetes.io/hostname: mcf-k8s-node04
+    dataRaidGroups:
+    - blockDevices:
+      - blockDeviceName: blockdevice-4772f0bb3064759a803e129c0e4c7522
+    poolConfig:
+      dataRaidGroupType: stripe
+
+  - nodeSelector:
+      kubernetes.io/hostname: mcf-k8s-node05
+    dataRaidGroups:
+    - blockDevices:
+      - blockDeviceName: blockdevice-b50aefb1abea322b5dba1fe9b7068702
+    poolConfig:
+      dataRaidGroupType: stripe
+
+  - nodeSelector:
+      kubernetes.io/hostname: mcf-k8s-node06
+    dataRaidGroups:
+    - blockDevices:
+      - blockDeviceName: blockdevice-92e7b1c18c2cf4a1189106748db8329f
+    poolConfig:
+      dataRaidGroupType: stripe
