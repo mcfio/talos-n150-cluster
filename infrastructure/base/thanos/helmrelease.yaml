@@ -1,0 +1,56 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: monitoring
+spec:
+  interval: 12h
+  maxHistory: 2
+  chart:
+    spec:
+      chart: thanos
+      sourceRef:
+        kind: HelmRepository
+        name: banzaicloud-stable
+  values:
+    store:
+      logFormat: json
+      metrics:
+        annotations:
+          enabled: false
+        serviceMonitor:
+          enabled: true
+    query:
+      replicaLabels:
+      - prometheus_replica
+      replicaCount: 2
+      logFormat: json
+      podDisruptionBudget:
+        enabled: true
+      http:
+        ingress:
+          enabled: true
+          apiVersion: networking.k8s.io/v1beta1
+          annotations:
+            kubernetes.io/ingress.class: traefik
+            traefik.ingress.kubernetes.io/router.entrypoints: websecure
+            cert-manager.io/cluster-issuer: letsencrypt-prod
+      metrics:
+        annotations:
+          enabled: false
+        serviceMonitor:
+          enabled: true
+    queryFrontend:
+      enabled: false
+    compact:
+      enabled: true
+      logFormat: json
+      metrics:
+        annotations:
+          enabled: false
+        serviceMonitor:
+          enabled: true
+    bucket:
+      enabled: true
+      logFormat: json
