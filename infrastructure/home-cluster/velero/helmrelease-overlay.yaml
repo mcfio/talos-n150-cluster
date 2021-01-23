@@ -28,7 +28,7 @@ spec:
         name: plugins
     configuration:
       volumeSnapshotLocation:
-        provider: openebs.io/cstor-blockstor
+        provider: openebs.io/cstor-blockstore
         name: default
         config:
           prefix: cstor
