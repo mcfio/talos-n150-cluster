@@ -26,5 +26,15 @@ spec:
       volumeMounts:
       - mountPath: /target
         name: plugins
+    configuration:
+      volumeSnapshotLocation:
+        provider: openebs.io/cstor-blockstor
+        name: default
+        config:
+          prefix: cstor
+          bucket: velero
+          namespace: openebs
+          backupPathPrefix: home-cluster
+          provider: azure
     credentials:
       existingSecret: azure-credentials
