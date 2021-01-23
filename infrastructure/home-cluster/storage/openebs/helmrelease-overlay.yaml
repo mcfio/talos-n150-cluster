@@ -8,3 +8,6 @@ spec:
   chart:
     spec:
       version: 2.5.0
+  values:
+    cvcOperator:
+      componentName: cvc-operator-svc
