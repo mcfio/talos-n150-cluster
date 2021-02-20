@@ -22,7 +22,7 @@ spec:
       repository: raspbernetes/kured
     updateStrategy: RollingUpdate
     configuration:
-      prometheusUrl: http://prometheus-server.monitoring:80
+      prometheusUrl: http://prom-prometheus.monitoring:9090
       alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh)$'
       startTime: 2am
       endTime: 4am
