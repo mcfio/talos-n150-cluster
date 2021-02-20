@@ -7,7 +7,4 @@ metadata:
 spec:
   chart:
     spec:
-      version: 2.5.0
-  values:
-    cvcOperator:
-      componentName: cvc-operator-svc
+      version: 2.6.0

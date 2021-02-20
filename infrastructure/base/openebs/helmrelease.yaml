@@ -15,33 +15,10 @@ spec:
         name: openebs-cstor
   values:
     csiController:
-      resizer:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-resizer
-      snapshotter:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-snapshotter
       snapshotController:
         image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/snapshot-controller
           tag: v4.0.0
-      attacher:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-attacher
-      provisioner:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-provisioner
     csiNode:
-      driverRegistrar:
-        image:
-          registry: k8s.gcr.io/
-          repository: sig-storage/csi-node-driver-registrar
-          tag: v2.1.0
       tolerations:
       - key: node-role.kubernetes.io/control-plane
         operator: Exists
