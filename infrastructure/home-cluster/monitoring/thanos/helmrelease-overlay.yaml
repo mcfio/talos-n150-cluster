@@ -12,7 +12,7 @@ spec:
   values:
     image:
       repository: raspbernetes/thanos
-      tag: v0.17.2
+      tag: v0.18.0
     query:
       http:
         ingress:
