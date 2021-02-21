@@ -23,7 +23,7 @@ spec:
       prometheusSpec:
         externalUrl: https://prometheus.milton.mcf.io
         thanos:
-          image: raspbernetes/thanos:v0.18.0
+          image: raspbernetes/thanos:v0.17.2
     kube-state-metrics:
       image:
         repository: raspbernetes/kube-state-metrics
