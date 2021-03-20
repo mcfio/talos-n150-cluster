@@ -8,10 +8,10 @@ spec:
   chart:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
-      version: 6.2.0
+      version: 6.6.3
   values:
     image:
-      tag: 7.3.7
+      tag: 7.4.5
     ingress:
       hosts:
       - grafana.milton.mcf.io
