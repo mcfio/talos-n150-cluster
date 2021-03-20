@@ -12,3 +12,10 @@ spec:
   valuesFrom:
   - kind: Secret
     name: loki-objectstore-config
+  values:
+    loki:
+      image:
+        tag: 2.2.0
+    promtail:
+      image:
+        tag: 2.2.0
