@@ -39,6 +39,15 @@ spec:
     - name: istio-ingressgateway
       enabled: true
       k8s:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
         hpaSpec:
           minReplicas: 2
         replicaCount: 2
@@ -71,11 +80,6 @@ spec:
           values: ingressgateway
           topologyKey: kubernetes.io/hostname
     global:
-      arch:
-        arm64: 2
-        amd64: 2
-      defaultNodeSelector:
-        kubernetes.io/arch: arm64
       proxy:
         autoInject: disabled
         resources:
