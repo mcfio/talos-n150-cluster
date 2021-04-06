@@ -1,0 +1,35 @@
+---
+
+- name: 'handler | perform system restart'
+  reboot:
+  listen: configuration changed reboot required
+
+- name: 'handler | restart timesyncd systemd service'
+  ansible.builtin.service:
+    name: 'systemd-timesyncd.service'
+    state: 'restarted'
+  listen: systemd-timesyncd configuration changed
+
+- name: 'handler | restart unattended-upgrades systemd service'
+  ansible.builtin.service:
+    name: 'unattended-upgrades.service'
+    state: 'restarted'
+  listen: unattended-upgrades configuration changed
+
+- name: 'handler | restart journald systemd service'
+  ansible.builtin.service:
+    name: 'systemd-journald.service'
+    state: 'restarted'
+  listen: systemd-journald configuration changed
+
+- name: 'handler | restart sysctl systemd service'
+  ansible.builtin.service:
+    name: 'systemd-sysctl.service'
+    state: 'restarted'
+  listen: systemd-sysctl configuration changed
+
+- name: 'handler | restart ssh systemd service'
+  ansible.builtin.service:
+    name: 'ssh.service'
+    state: 'restarted'
+  listen: sshd configuration changed

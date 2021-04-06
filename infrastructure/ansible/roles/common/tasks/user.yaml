@@ -1,0 +1,81 @@
+---
+# File: user.yaml - these tasks configure the user defaults
+
+- name: 'user | silence the login motd message'
+  ansible.builtin.file:
+    dest: '/home/{{ item }}/.hushlogin'
+    state: 'touch'
+    owner: '{{ item }}'
+    group: '{{ item }}'
+    mode: 0644
+    modification_time: 'preserve'
+    access_time: 'preserve'
+  loop:
+  - '{{ ansible_user }}'
+
+- name: 'user | create config directory'
+  ansible.builtin.file:
+    dest: '/home/{{ item }}/.config'
+    state: 'directory'
+    owner: '{{ item }}'
+    group: '{{ item }}'
+    mode: 0755
+  loop:
+  - '{{ ansible_user }}'
+
+- name: 'user | create neofetch directory'
+  ansible.builtin.file:
+    dest: '/home/{{ item }}/.config/neofetch'
+    state: 'directory'
+    owner: '{{ item }}'
+    group: '{{ item }}'
+    mode: 0755
+  loop:
+  - '{{ ansible_user }}'
+
+- name: 'user | copy neofetch configuration'
+  ansible.builtin.copy:
+    content: |
+      print_info() {
+          prin
+          info title
+          info "OS" distro
+          info "Kernel" kernel
+          info "CPU Usage" cpu_usage
+          info "Memory Usage" memory
+          info "Disk" disk
+          info "Local IP" local_ip
+          info "Uptime" uptime
+      }
+    dest: '/home/{{ item }}/.config/neofetch/config.conf'
+    owner: '{{ item }}'
+    group: '{{ item }}'
+    mode: 0644
+  loop:
+  - '{{ ansible_user }}'
+
+- name: 'user | copy neofetch kubernetes art'
+  ansible.builtin.copy:
+    content: |
+      ${c1}
+      :::    ::: ::::::::   ::::::::
+      :+:   :+: :+:    :+: :+:    :+:
+      +:+  +:+  +:+    +:+ +:+
+      +#++:++    +#++:++#  +#++:++#++
+      +#+  +#+  +#+    +#+        +#+
+      #+#   #+# #+#    #+# #+#    #+#
+      ###    ### ########   ########
+    dest: '/home/{{ item }}/.config/neofetch/k8s.art'
+    owner: '{{ item }}'
+    group: '{{ item }}'
+    mode: 0644
+  loop:
+  - '{{ ansible_user }}'
+
+- name: 'user | display neofetch on login'
+  ansible.builtin.lineinfile:
+    line: 'neofetch --source /home/{{ item }}/.config/neofetch/k8s.art --ascii_colors 5 --colors 5 --separator " :"'
+    path: '/home/{{ item }}/.bashrc'
+    insertafter: 'EOF'
+  loop:
+  - '{{ ansible_user }}'

@@ -1,0 +1,12 @@
+---
+# File: logging.yaml - these tasks ensure logging is properly configured on every host in the cluster
+
+- name: 'journald | configure journald for sd-cards'
+  ansible.builtin.copy:
+    content: |
+      [Journal]
+      Storage=volatile
+    dest: '/etc/systemd/journald.conf'
+    mode: 0644
+  notify: systemd-journald configuration changed
+  when: ansible_architecture | regex_search('arm|aarch')

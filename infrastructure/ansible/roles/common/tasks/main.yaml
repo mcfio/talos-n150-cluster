@@ -1,0 +1,18 @@
+---
+- include: 'host.yaml'
+
+- include: 'boot.yaml'
+
+- include: 'kernel.yaml'
+
+- include: 'packages.yaml'
+
+- include: 'timesyncd.yaml'
+
+- include: 'motd.yaml'
+
+- include: 'sshd.yaml'
+
+- include: 'logging.yaml'
+
+- include: 'user.yaml'

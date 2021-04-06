@@ -1,0 +1,51 @@
+---
+# File: sshd.yaml - Hardens the configuration of SSHD
+
+- name: 'remove and regenerate host keys'
+  block:
+  - name: 'sshd | remove ssh host keys'
+    ansible.builtin.file:
+      path: '{{ item }}'
+      state: 'absent'
+    loop:
+    - /etc/ssh/ssh_host_rsa_key
+    - /etc/ssh/ssh_host_rsa_key.pub
+    - /etc/ssh/ssh_host_ecdsa_key
+    - /etc/ssh/ssh_host_ecdsa_key.pub
+    - /etc/ssh/ssh_host_ed25519_key
+    - /etc/ssh/ssh_host_ed25519_key.pub
+  - name: 'sshd | re-generate RSA and ED25519 host keys'
+    ansible.builtin.shell: |
+      ssh-keygen -t rsa -b 4096 -f /etc/ssh/ssh_host_rsa_key -N ""
+      ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -N ""
+    notify: sshd configuration changed
+  when:
+  - ssh_rotate_host_keys
+
+- name: 'sshd | check if small diffie-hellman moduli exists'
+  ansible.builtin.shell: |
+    awk '$5 < 3071' /etc/ssh/moduli
+  changed_when: false
+  register: small_moduli
+
+- name: 'sshd | remove small diffie-hellman moduli'
+  ansible.builtin.shell: |
+    awk '$5 >= 3071' /etc/ssh/moduli > /etc/ssh/moduli.safe
+    mv /etc/ssh/moduli.safe /etc/ssh/moduli
+  notify: sshd configuration changed
+  when: small_moduli.stdout | length > 0
+  ignore_errors: '{{ ansible_check_mode }}'
+
+- name: 'sshd | enable RSA and ED25519 host key directives'
+  ansible.builtin.template:
+    src: 'sshd-config_hostkeys.conf.j2'
+    dest: '/etc/ssh/sshd_config.d/hostkeys.conf'
+    validate: '/usr/sbin/sshd -T -f %s'
+  notify: sshd configuration changed
+
+- name: 'sshd | restrict supported key exchange, cipher and MAC algorithms'
+  ansible.builtin.template:
+    src: 'sshd-config_hardening.conf.j2'
+    dest: '/etc/ssh/sshd_config.d/hardening.conf'
+    validate: '/usr/sbin/sshd -T -f %s'
+  notify: sshd configuration changed

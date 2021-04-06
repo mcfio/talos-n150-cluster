@@ -1,0 +1,9 @@
+---
+
+- hosts:
+  - nodes
+  become: true
+  gather_facts: true
+  any_errors_fatal: true
+  roles:
+  - common

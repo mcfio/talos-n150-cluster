@@ -1,0 +1,14 @@
+{{ ansible_managed | comment }}
+
+# Entries in this file show the compile time defaults.
+# You can change settings by editing this file.
+# Defaults can be restored by simply deleting this file.
+#
+# See timesyncd.conf(5) for details.
+
+[Time]
+NTP={{ timesyncd_ntp_servers.primary | default("") | join(" ") }}
+FallbackNTP={{ timesyncd_ntp_servers.fallback | join(" ") }}
+#RootDistanceMaxSec=5
+#PollIntervalMinSec=32
+#PollIntervalMaxSec=2048

@@ -1,0 +1,11 @@
+---
+# File: boot.yaml - These tasks ensure the appropirate boot parameters are configured
+
+- name: 'boot | set cmdline boot options for kubernetes'
+  ansible.builtin.lineinfile:
+    path: '/boot/firmware/cmdline.txt'
+    backrefs: true
+    regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
+    line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
+  notify: configuration changed reboot required
+  when: ansible_architecture | regex_search('arm|aarch')
