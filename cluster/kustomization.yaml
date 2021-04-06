@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
 - cert-manager
 - storage
+- oauth2-proxy
 - istio
