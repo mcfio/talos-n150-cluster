@@ -27,12 +27,8 @@ spec:
       startTime: 2am
       endTime: 4am
       timeZone: America/Toronto
-    service:
+    metrics:
       create: true
-      annotations:
-        prometheus.io/path: "/metrics"
-        prometheus.io/port: "8080"
-        prometheus.io/scrape: "true"
     tolerations:
-    - key: node-role.kubernetes.io/control-plane
+    - operator: Exists
       effect: NoSchedule
