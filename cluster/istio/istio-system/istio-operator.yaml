@@ -55,17 +55,11 @@ spec:
         service:
           loadBalancerIP: 192.168.45.105
 
-    pilot:
-      k8s:
-        hpaSpec:
-          minReplicas: 2
-        replicaCount: 2
-        resources:
-          requests:
-            cpu: 500m
-            memory: 1Gi
-
   values:
+    pilot:
+      replicaCount: 2
+      autoscaleEnabled: true
+      autoscaleMin: 2
     gateways:
       istio-egressgateway:
         autoscaleEnabled: false
