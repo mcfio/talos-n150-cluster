@@ -1,0 +1,22 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: rook-ceph-mgr-dashboard
+  namespace: rook-ceph
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: ceph.milton.mcf.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: rook-ceph-mgr-dashboard
+            port:
+              number: 7000
+        path: /
+        pathType: ImplementationSpecific

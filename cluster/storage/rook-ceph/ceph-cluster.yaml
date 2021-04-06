@@ -1,0 +1,52 @@
+---
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  cephVersion:
+    image: ceph/ceph:v15.2.9
+  dataDirHostPath: /var/lib/rook
+  skipUpgradeChecks: false
+  continueUpgradeAfterChecksEvenIfNotHealthy: false
+  mon:
+    count: 1
+    allowMultiplePerNode: false
+  mgr:
+    modules:
+    - name: pg_autoscaler
+      enabled: true
+  dashboard:
+    enabled: true
+    ssl: false
+  monitoring:
+    enabled: false
+    rulesNamespace: "rook-ceph"
+  placement:
+    all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: storage-node
+              operator: In
+              values:
+              - "true"
+      tolerations:
+      - key: storage-node
+        operator: Exists
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    nodes:
+    - name: "mcf-k8s-storage01"
+      devices:
+      - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K5YN1U95"
+        config:
+          metadataDevice: "/dev/sdc"
+          databaseSizeMB: "40960"
+      - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K4UDXEKL"
+        config:
+          metadataDevice: "/dev/sdc"
+          databaseSizeMB: "40960"
