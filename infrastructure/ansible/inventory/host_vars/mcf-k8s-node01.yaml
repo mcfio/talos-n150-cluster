@@ -1,0 +1,4 @@
+---
+
+# Ansible user to ssh into servers with
+ansible_user: 'ubuntu'

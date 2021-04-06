@@ -12,6 +12,14 @@ spec:
   ignore: |
     # exclude all directories
     /*
-    # include k8s-cluster deployments directory
+    # include the cluster deployments directory
+    !/cluster
+    /cluster/**/*.md
+    # legacy deployment directories - will be removed
     !/pi4-cluster/
     /pi4-cluster/**/*.md
+    !/clusters
+    !/infrastructure
+    /infrastructure/ansible
+    /infrastructure/terraform
+    /infrastructure/**/*.md

@@ -1,0 +1,2 @@
+---
+primary_control_node: "{{ groups['control_nodes'] | first }}"
