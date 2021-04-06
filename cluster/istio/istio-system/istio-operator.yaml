@@ -48,9 +48,6 @@ spec:
                   operator: In
                   values:
                   - arm64
-        hpaSpec:
-          minReplicas: 2
-        replicaCount: 2
         resources:
           requests:
             cpu: 100m
@@ -73,7 +70,9 @@ spec:
       istio-egressgateway:
         autoscaleEnabled: false
       istio-ingressgateway:
+        replicaCount: 2
         autoscaleEnabled: true
+        autoscaleMin: 2
         podAntiAffinityLabelSelector:
         - key: istio
           operator: In
