@@ -71,9 +71,11 @@ spec:
           values: ingressgateway
           topologyKey: kubernetes.io/hostname
     global:
-      defaultNodeSelector:
+      arch:
         arm64: 2
         amd64: 2
+      defaultNodeSelector:
+        kubernetes.io/arch: arm64
       proxy:
         autoInject: disabled
         resources:
