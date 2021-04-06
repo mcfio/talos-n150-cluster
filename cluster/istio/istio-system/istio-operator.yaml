@@ -9,6 +9,14 @@ spec:
   tag: 1.9.2-distroless
 
   meshConfig:
+    extensionProviders:
+    - name: oauth2-proxy
+      envoyExtAuthzHttp:
+        service: oauth2-proxy.oauth2-proxy.svc.cluster.local
+        port: 80
+        includeHeadersInCheck: ["authorization", "cookie"]
+        headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
+        headersToDownstreamOnDeny: ["content-type", "set-cookie"]
     accessLogFile: /dev/stdout
     enableTracing: false
     defaultConfig:
