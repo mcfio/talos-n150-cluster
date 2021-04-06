@@ -4,3 +4,5 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - istio-operator.yaml
+- certificate.yaml
+- gateway.yaml
