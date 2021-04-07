@@ -1,0 +1,29 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: overseerr
+  namespace: mediaserver
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - requests.mcf.io
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - requests.mcf.io
+    tls:
+      credentialName: overseerr-cert
+      mode: SIMPLE
+      minProtocolVersion: TLSV1_2
+      maxProtocolVersion: TLSV1_3
