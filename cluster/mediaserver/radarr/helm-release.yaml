@@ -31,9 +31,6 @@ spec:
         paths:
         - path: /
           pathType: Prefix
-    securityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
     additionalVolumeMounts:
     - name: media-path
       mountPath: /data
