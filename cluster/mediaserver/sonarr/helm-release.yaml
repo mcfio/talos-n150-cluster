@@ -37,10 +37,10 @@ spec:
     securityContext:
       runAsUser: 1001
       runAsGroup: 1001
-    additionalVolumes:
+    additionalVolumeMounts:
     - name: media-path
       mountPath: /data
-    additionalVolumeMounts:
+    additionalVolumes:
     - name: media-path
       persistentVolumeClaim:
         claimName: nfs-media
