@@ -35,6 +35,8 @@ spec:
         port: 32400
     ingress:
       enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
       hosts:
       - host: plex.milton.mcf.io
         paths:
