@@ -13,7 +13,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - "*.milton.mcf.io"
     tls:
       httpsRedirect: true
   - port:
@@ -21,7 +21,7 @@ spec:
       name: https
       protocol: HTTPS
     hosts:
-    - "*"
+    - "*.milton.mcf.io"
     tls:
       credentialName: milton-mcf-io-wc-cert
       mode: SIMPLE
