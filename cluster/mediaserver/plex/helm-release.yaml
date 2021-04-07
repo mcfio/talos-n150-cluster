@@ -22,6 +22,9 @@ spec:
       tag: v1.22.1.4275-48e10484b
     env:
       TZ: "America/Toronto"
+    podSsecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
     service:
       enabled: true
       type: LoadBalancer
