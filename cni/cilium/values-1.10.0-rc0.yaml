@@ -1,6 +1,6 @@
 image:
-  repository: docker.io/cilium/cilium-dev
-  tag: v1.9.1
+  repository: docker.io/cilium/cilium
+  tag: v1.10.0-rc0
 
 # Enable automatic L2 routing between nodes
 autoDirectNodeRoutes: true
@@ -20,18 +20,18 @@ hubble:
   relay:
     enabled: true
     image:
-      repository: docker.io/cilium/hubble-relay-dev
-      tag: v1.9.1
+      repository: docker.io/cilium/hubble-relay
+      tag: v1.10.0-rc0
   ui:
     enabled: true
     frontend:
       image:
         repository: docker.io/raspbernetes/hubble-ui
-        tag: v0.7.4
+        tag: v0.7.5
     backend:
       image:
         repository: docker.io/raspbernetes/hubble-ui-backend
-        tag: v0.7.4
+        tag: v0.7.5
     proxy:
       image:
         repository: docker.io/envoyproxy/envoy
@@ -53,17 +53,17 @@ prometheus:
   port: 8090
   # As an install task, the serviceMonitor CRD does not yet exist
   serviceMonitor:
-    enabled: false
+    enabled: true
 
 operator:
   image:
-    repository: cilium/operator-dev
-    tag: v1.9.1
+    repository: cilium/operator
+    tag: v1.10.0-rc0
   prometheus:
     enabled: true
     # As an install task, the serviceMonitor CRD does not yet exist
     serviceMonitor:
-      enabled: false
+      enabled: true
 
 # Kubernetes exports KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT with a ClusterIP
 # of the kube-apiserver service to the pod, however there is no kube-proxy in our setup
@@ -91,4 +91,4 @@ loadBalancer:
   # BPF load balancing mode
   mode: dsr
 
-disableEnvoyVersionCheck: true
+# disableEnvoyVersionCheck: true
