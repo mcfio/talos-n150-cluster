@@ -60,6 +60,8 @@ spec:
           weight: 100
     env:
       TZ: "America/Toronto"
+      PUID: 1001
+      PGID: 1001
     persistence:
       config:
         enabled: true
