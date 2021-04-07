@@ -43,7 +43,7 @@ spec:
     additionalVolumeMounts:
     - name: media-path
       persistentVolumeClaim:
-        mountPropagation: nfs-media
+        claimName: nfs-media
     resources:
       requests:
         memory: 250Mi
