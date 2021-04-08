@@ -1,0 +1,15 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: home-assistant
+  namespace: home
+spec:
+  hosts:
+  - 192.168.30.5
+  ports:
+  - number: 3128
+    name: http
+    protocol: HTTP
+  resolution: DNS
+  location: MESH_EXTERNAL

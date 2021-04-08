@@ -14,4 +14,4 @@ spec:
     - destination:
         port:
           number: 3128
-        host: home-assistant.home.svc.cluster.local
+        host: 192.168.30.5
