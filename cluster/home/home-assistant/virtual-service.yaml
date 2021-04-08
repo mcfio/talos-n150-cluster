@@ -13,5 +13,5 @@ spec:
   - route:
     - destination:
         port:
-          number: 3128
-        host: home-assistant.milton.mcf.io
+          number: 8123
+        host: hassio.local

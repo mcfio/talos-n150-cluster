@@ -6,14 +6,14 @@ metadata:
   namespace: home
 spec:
   hosts:
-  - home-assistant.milton.mcf.io
+  - hassio.local
   location: MESH_EXTERNAL
   ports:
-  - number: 3128
+  - number: 8123
     name: http
     protocol: HTTP
   resolution: STATIC
   endpoints:
   - address: 192.168.30.5
     ports:
-      http: 3128
+      http: 8123
