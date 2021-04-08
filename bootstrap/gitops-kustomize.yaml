@@ -2,11 +2,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: infrastructure
+  name: home-cluster
   namespace: flux-system
 spec:
-  interval: 5m
-  path: './pi4-cluster/'
+  interval: 10m0s
+  path: ./cluster
   sourceRef:
     kind: GitRepository
     name: infrastructure
