@@ -12,3 +12,4 @@ resources:
 - https://raw.githubusercontent.com/prometheus-community/helm-charts/kube-prometheus-stack-14.5.0/charts/kube-prometheus-stack/crds/crd-thanosrulers.yaml
 - etcd-client-cert.enc.yaml
 - helm-release.yaml
+- dashboards
