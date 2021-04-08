@@ -2,16 +2,16 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: overseerr
+  name: radarr
   namespace: mediaserver
 spec:
   hosts:
-  - requests.mcf.io
+  - radarr.milton.mcf.io
   gateways:
-  - mediaserver/overseerr
+  - istio-system/istio-ingressgateway
   http:
   - route:
     - destination:
         port:
-          number: 5055
-        host: overseerr.mediaserver.svc.cluster.local
+          number: 7878
+        host: radarr.mediaserver.svc.cluster.local
