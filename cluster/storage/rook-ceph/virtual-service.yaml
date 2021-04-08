@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: rook-ceph-mgr-dashboard
+  namespace: mediaserver
+spec:
+  hosts:
+  - ceph.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 7000
+        host: rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local
