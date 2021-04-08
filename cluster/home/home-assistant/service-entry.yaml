@@ -6,10 +6,12 @@ metadata:
   namespace: home
 spec:
   hosts:
-  - 192.168.30.5
+  - home-assistant.milton.mcf.io
+  location: MESH_EXTERNAL
   ports:
   - number: 3128
     name: http
     protocol: HTTP
   resolution: STATIC
-  location: MESH_EXTERNAL
+  endpoints:
+  - 192.168.30.5
