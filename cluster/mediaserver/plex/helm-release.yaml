@@ -33,15 +33,6 @@ spec:
       externalTrafficPolicy: Local
       port:
         port: 32400
-    ingress:
-      enabled: true
-      annotations:
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      hosts:
-      - host: plex.milton.mcf.io
-        paths:
-        - path: /
-          pathType: Prefix
     persistence:
       config:
         enabled: true

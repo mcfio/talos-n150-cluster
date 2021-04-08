@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: plex
+  namespace: mediaserver
+spec:
+  hosts:
+  - plex.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 32400
+        host: plex.mediaserver.svc.cluster.local
