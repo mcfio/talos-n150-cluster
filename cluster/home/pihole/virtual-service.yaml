@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: pihole
+  namespace: home
+spec:
+  hosts:
+  - resolver.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 80
+        host: pihole.local
