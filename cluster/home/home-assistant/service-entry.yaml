@@ -14,4 +14,4 @@ spec:
     protocol: HTTP
   resolution: STATIC
   endpoints:
-  - 192.168.30.5
+  - address: 192.168.30.5
