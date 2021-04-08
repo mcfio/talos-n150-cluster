@@ -15,7 +15,7 @@
   "kubernetes": {
     "fileMatch": ["cluster/.+\\.yaml"],
     "ignorePaths": [
-      "cluster/flux-system/",
+      "cluster/flux-system/"
     ]
   },
   "helm-values": {
