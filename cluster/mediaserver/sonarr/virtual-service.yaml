@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: sonarr
+  namespace: mediaserver
+spec:
+  hosts:
+  - sonarr.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 8989
+        host: sonarr.mediaserver.svc.cluster.local

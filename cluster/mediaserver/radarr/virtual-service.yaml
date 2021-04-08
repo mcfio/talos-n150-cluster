@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: overseerr
+  namespace: mediaserver
+spec:
+  hosts:
+  - requests.mcf.io
+  gateways:
+  - mediaserver/overseerr
+  http:
+  - route:
+    - destination:
+        port:
+          number: 5055
+        host: overseerr.mediaserver.svc.cluster.local

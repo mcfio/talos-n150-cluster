@@ -21,16 +21,6 @@ spec:
       tag: nightly
     strategy:
       type: Recreate
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: traefik
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      hosts:
-      - host: radarr.milton.mcf.io
-        paths:
-        - path: /
-          pathType: Prefix
     additionalVolumeMounts:
     - name: media-path
       mountPath: /data

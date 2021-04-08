@@ -21,19 +21,6 @@ spec:
       tag: v3.0.6.1196
     strategy:
       type: Recreate
-    service:
-      port:
-        port: 8989
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: traefik
-        traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      hosts:
-      - host: sonarr.milton.mcf.io
-        paths:
-        - path: /
-          pathType: Prefix
     securityContext:
       runAsUser: 1001
       runAsGroup: 1001
