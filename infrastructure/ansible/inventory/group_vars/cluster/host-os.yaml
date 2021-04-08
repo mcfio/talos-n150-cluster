@@ -16,6 +16,7 @@ packages:
   apt_install:
   - neofetch
   - unattended-upgrades
+  - nfs-common
   apt_remove:
   - apport
   - btrfs-progs
