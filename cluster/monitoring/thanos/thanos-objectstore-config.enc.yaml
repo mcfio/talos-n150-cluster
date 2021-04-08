@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: thanos-objectstore-config
+    namespace: monitoring
+type: Opaque
+stringData:
+    object-store.yaml: ENC[AES256_GCM,data:6itNd5uvv0XY9EFePk19GWmd5OFmwMYGcSCdRmTaPQmXYVMefO8vHqybtbXyxch8Edf6bsGqzzW1A6A/vY1zUH8dnDJNqgLGiqpVolqEWQySODsFA/bILF3zM/UmQw5ImMAZHrBpoJZvmzSpNlqyFhVIRgzzLd5Pcz30FLjreILFylmc7gDfkGy5qX65mTCbeP5zvn9Ra/tMotSyac/aY5wYWTiFEV1YFowmYaxUhKXCxwKQLAz4IiLWi/mp228cFMzH1Xxv/TNl3ZY8PLGXss/9KKdfc/rNHErhecFQzJtU9mK53Amx92w=,iv:ozrKX4nw6eGinQseEnWOWUlh5W43o8l1wC6K8ohuSfE=,tag:jj4bufji06QFBJfqSXAaZA==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    lastmodified: '2020-11-04T16:12:20Z'
+    mac: ENC[AES256_GCM,data:b7Z4+AzebmONhvgjybwP0KwoTOChmXcAhYDzf/d8Te5CzAtILWWYukRhe98SiGGhtgOQfWn/8bS7vamh9WL8Gj6PKz2W4+/WJ3OzC2DjtPtGVSA0ICVlWSkrMgGhtRv3DRImSI1QMJ3GmPrqQcQzdWJDWtVZTEIrlY9StyPo3nA=,iv:3YuL7ZclBH5wEL05gFXswqPbc8kXaufVIYiW0a1zyYI=,tag:TJkRYgwClqS2tQW2yukWkw==,type:str]
+    pgp:
+    -   created_at: '2020-11-04T16:12:19Z'
+        enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAwAAAAAAAAAAARAArgTM8K3xVu/7haBODa1Cz+ZC97nObbhEerCQtBouNAyM
+            xt2zxsR4LQRRANFVJnk7H/0Fyoc+ciVTUAhVmPKgf8/0NUqvrgdhGZZj3FddDl0l
+            v4HO0kRQ440uMD4ae4RzObWyoHvdPdj2cjia/s36wzUpiFVe+x3hHkQ165n/vHXG
+            M8vWgOpSqDzljZuMF/8rpYrXFzMiFqUdrFrl6f1GSo7s6D+NdOOzpJxFom30ETNG
+            csKcgdG4gMSd2jcyedSFjajpd15v0/nA28HLTjOI2YN725jMAZsRSTYGaBNY1vjf
+            XxO4fKhmfknH1PWtKrwI2zTqMVm530hggMYftkZXzK1OK85c57aJQ8mxEoFweREm
+            RkmgQ7Hqe+8wVN/LxTKf0o9yvbYlemmpp37HLV3RyTmJCnNYJeH+2NcezXlnBfi/
+            Azup/oNfw52P7fjCCogVhX7fabjctovx1//JkmBPb5w3BchZOjNwueLBp4khcIOv
+            O+2+OZWpHIZxKiMsNadRTLYyl+lKXZ6JnQ4BLDVUD2LIFSK3EhvXlxHyFZIjgB17
+            D/F6DtMig0ldaULset8tGJvqCsQErz4ExWfKKYCKMqMvpcyTNmbptokxEEALAMkn
+            7/rHM9QtVuuyox84LMUAEoNks6LF4fg6mVckPrM8lbD5mj226KWjdzlR0x/alOTS
+            WAH/0rrRtfqQ0SnVV6gRtLNHuLNPUGRYNUVOdeHHcKlQzM/cWUW8ekG/9J7Vtz7+
+            +4TV8iXEO/KYmkxFQZqqovMQs7Fu28Y8hNWuYwS4fA5badQwf/nWfkk=
+            =aShC
+            -----END PGP MESSAGE-----
+        fp: 14DC38072204E1AC17AB0FCA0EFB186BD4637523
+    encrypted_regex: ^(data|stringData)$
+    version: 3.6.1

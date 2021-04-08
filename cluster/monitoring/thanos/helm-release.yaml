@@ -1,0 +1,62 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: thanos
+  namespace: monitoring
+spec:
+  interval: 12h
+  maxHistory: 2
+  chart:
+    spec:
+      # renovate: registryUrl=https://kubernetes-charts.banzaicloud.com
+      chart: thanos
+      version: 0.3.31
+      sourceRef:
+        kind: HelmRepository
+        name: banzaicloud-stable
+  values:
+    objstoreSecretOverride: thanos-objectstore-config
+    image:
+      repository: raspbernetes/thanos
+      tag: v0.17.2
+    store:
+      logFormat: json
+      metrics:
+        annotations:
+          enabled: false
+        serviceMonitor:
+          enabled: true
+    query:
+      replicaLabels:
+      - prometheus_replica
+      replicaCount: 2
+      logFormat: json
+      podDisruptionBudget:
+        enabled: true
+      metrics:
+        annotations:
+          enabled: false
+        serviceMonitor:
+          enabled: true
+    queryFrontend:
+      enabled: false
+    compact:
+      enabled: true
+      logFormat: json
+      metrics:
+        annotations:
+          enabled: false
+        serviceMonitor:
+          enabled: true
+      retentionResolutionRaw: 10d
+      retentionResolution5m: 30d
+      retentionResolution1h: 90d
+      tolerations:
+      - operator: Exists
+        effect: NoSchedule
+      nodeSelector:
+        disktype: ssd
+    bucket:
+      enabled: true
+      logFormat: json
