@@ -11,3 +11,4 @@ resources:
 - oauth2-proxy
 - istio
 - mediaserver
+- home
