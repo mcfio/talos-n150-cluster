@@ -9,6 +9,7 @@ spec:
   maxHistory: 2
   chart:
     spec:
+      # renovate: registryUrl=https://charts.rook.io/release
       chart: rook-ceph
       version: v1.5.9
       sourceRef:
