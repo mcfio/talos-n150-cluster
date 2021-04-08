@@ -5,15 +5,13 @@ metadata:
   name: overseerr
   namespace: mediaserver
 spec:
-  gateways:
-  - mediaserver/overseerr
   hosts:
   - requests.mcf.io
+  gateways:
+  - mediaserver/overseerr
   http:
-  - match:
-    - port: 443
-    route:
+  - route:
     - destination:
-        host: overseerr.mediaserver.svc.cluster.local
         port:
           number: 5055
+        host: overseerr.mediaserver.svc.cluster.local
