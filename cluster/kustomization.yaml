@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - cert-manager
 - storage
+- monitoring
 - oauth2-proxy
 - istio
 - mediaserver
