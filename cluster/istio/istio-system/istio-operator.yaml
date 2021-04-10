@@ -17,6 +17,13 @@ spec:
         includeHeadersInCheck: ["authorization", "cookie"]
         headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
         headersToDownstreamOnDeny: ["content-type", "set-cookie"]
+    - name: dex
+      envoyExtAuthzGrpc:
+        service: dex.dexidp.svc.cluster.local
+        port: 5557
+        includeHeadersInCheck: ["authorization", "cookie"]
+        headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
+        headersToDownstreamOnDeny: ["content-type", "set-cookie"]
     accessLogFile: /dev/stdout
     enableTracing: false
     defaultConfig:
