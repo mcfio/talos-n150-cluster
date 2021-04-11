@@ -6,3 +6,4 @@ resources:
 - istio-operator.yaml
 - certificate.yaml
 - gateway.yaml
+- service-monitor.yaml
