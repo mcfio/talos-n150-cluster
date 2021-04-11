@@ -17,19 +17,14 @@ spec:
         includeHeadersInCheck: ["authorization", "cookie"]
         headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
         headersToDownstreamOnDeny: ["content-type", "set-cookie"]
-    - name: dex
-      envoyExtAuthzGrpc:
-        service: dex.dexidp.svc.cluster.local
-        port: 5557
-        includeHeadersInCheck: ["authorization", "cookie"]
-        headersToUpstreamOnAllow: ["authorization", "path", "x-auth-request-user", "x-auth-request-email", "x-auth-request-access-token"]
-        headersToDownstreamOnDeny: ["content-type", "set-cookie"]
     accessLogFile: /dev/stdout
     enableTracing: false
     defaultConfig:
       tracing:
         zipkin:
           address: 127.0.0.1:31337
+    outboundTrafficPolicy:
+      mode: ALLOW_ANY
 
   components:
     egressGateways:
@@ -65,7 +60,10 @@ spec:
                   - arm64
         resources:
           requests:
-            cpu: 100m
+            cpu: 500m
+            memory: 128Mi
+          limits:
+            cpu: "1"
             memory: 128Mi
         service:
           loadBalancerIP: 192.168.45.105
@@ -94,11 +92,17 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
+          limits:
+            cpu: 600m
+            memory: 128Mi
       proxy_init:
         image: proxyv2
         resources:
           requests:
             cpu: 10m
             memory: 10Mi
+          limits:
+            cpu: 600m
+            memory: 128Mi
       tracer:
         zipkin: ~
