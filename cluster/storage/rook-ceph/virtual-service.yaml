@@ -3,7 +3,7 @@ apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: rook-ceph-mgr-dashboard
-  namespace: mediaserver
+  namespace: rook-ceph
 spec:
   hosts:
   - ceph.milton.mcf.io
