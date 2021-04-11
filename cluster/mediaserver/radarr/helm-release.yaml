@@ -21,6 +21,8 @@ spec:
       tag: nightly
     strategy:
       type: Recreate
+    podAnnotations:
+      sidecar.istio.io/inject: "true"
     additionalVolumeMounts:
     - name: media-path
       mountPath: /data

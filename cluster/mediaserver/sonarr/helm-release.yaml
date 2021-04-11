@@ -21,6 +21,8 @@ spec:
       tag: v3.0.6.1196
     strategy:
       type: Recreate
+    podAnnotations:
+      sidecar.istio.io/inject: "true"
     securityContext:
       runAsUser: 1001
       runAsGroup: 1001
