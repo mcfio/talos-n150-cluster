@@ -1,0 +1,56 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: primary-ups
+  namespace: home
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: network-ups-tools
+      version: 3.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/network-ups-tools
+      tag: v2.7.4-2209-g88773359
+    config:
+      mode: values
+      files:
+        ups.conf: |
+          [GTX2]
+            driver = snmp-ups
+            mibs = ietf
+            desc = "Liebert GXT2-1500RT"
+            snmp_version = v2c
+            community = milton
+            port = 192.168.30.120
+            pollfreq = 15
+    service:
+      port:
+        port: 3493
+        name: tcp-upsc
+      additionalPorts:
+        port:
+          port: 9995
+          name: http-metrics
+    resources:
+      requests:
+        memory: 64Mi
+        cpu: 25m
+      limits:
+        memory: 128Mi
+    additionalContainers:
+    - name: prometheus-nut-exporter
+      image: mcfio/prometheus-nut-exporter:1.1.1
+      env:
+      - name: HTTP_PATH
+        value: /metrics
+      ports:
+      - containerPort: 9995
+        name: http-metrics
