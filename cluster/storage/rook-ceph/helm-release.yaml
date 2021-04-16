@@ -29,12 +29,8 @@ spec:
     csi:
       enableCephfsDriver: false
       pluginTolerations:
-      - key: node-role.kubernetes.io/control-plane
+      - effect: NoSchedule
         operator: Exists
-        effect: NoSchedule
-      - key: node-role.kubernetes.io/master
-        operator: Exists
-        effect: NoSchedule
     agent:
       nodeAffinity: "storage-node=true"
     discover:
