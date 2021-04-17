@@ -42,6 +42,10 @@ spec:
         emptyDir:
           enabled: true
           medium: "Memory"
+    resources:
+      requests:
+        cpu: 500m
+        memory: 250Mi
     additionalVolumeMounts:
     - name: media-path
       mountPath: /data
