@@ -20,7 +20,7 @@ spec:
   - hard
   - noatime
   - nodiratime
-  - lookupcache=mode
+  - lookupcache=none
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
