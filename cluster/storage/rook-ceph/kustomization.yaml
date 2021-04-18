@@ -9,3 +9,4 @@ resources:
 - storage-class.yaml
 - virtual-service.yaml
 - csi-snapshot-controller
+- volume-snapshot-class.yaml
