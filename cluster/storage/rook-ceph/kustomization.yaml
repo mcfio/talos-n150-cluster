@@ -8,3 +8,4 @@ resources:
 - ceph-block-pool.yaml
 - storage-class.yaml
 - virtual-service.yaml
+- csi-snapshot-controller
