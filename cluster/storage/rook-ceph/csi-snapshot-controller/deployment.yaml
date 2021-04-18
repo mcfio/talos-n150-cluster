@@ -12,7 +12,7 @@ metadata:
   name: snapshot-controller
   namespace: rook-ceph
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: snapshot-controller
