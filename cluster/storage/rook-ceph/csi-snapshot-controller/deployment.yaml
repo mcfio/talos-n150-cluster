@@ -12,7 +12,7 @@ metadata:
   name: snapshot-controller
   namespace: rook-ceph
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: snapshot-controller
@@ -26,6 +26,6 @@ spec:
       - name: snapshot-controller
         image: k8s.gcr.io/sig-storage/snapshot-controller:v4.0.0
         args:
-        - "--v=5"
+        - "--v=4"
         - "--leader-election=true"
         imagePullPolicy: IfNotPresent
