@@ -76,6 +76,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: snapshot-controller
+  namespace: rook-ceph
 roleRef:
   kind: Role
   name: snapshot-controller-leaderelection
