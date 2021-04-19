@@ -25,6 +25,10 @@ spec:
     rulesNamespace: "rook-ceph"
   placement:
     all:
+      tolerations:
+      - key: storage-node
+        operator: Exists
+    osd:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
@@ -33,9 +37,15 @@ spec:
               operator: In
               values:
               - "true"
-      tolerations:
-      - key: storage-node
-        operator: Exists
+    cleanup:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: storage-node
+              operator: In
+              values:
+              - "true"
   storage:
     useAllNodes: false
     useAllDevices: false
@@ -50,3 +60,7 @@ spec:
         config:
           metadataDevice: "/dev/sdc"
           databaseSizeMB: "40960"
+      - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1XE80AU"
+        config:
+          metadataDevice: "/dev/sdc"
+          databaseSizeMB: "30720"
