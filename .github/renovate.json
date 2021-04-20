@@ -1,10 +1,7 @@
 {
-  "extends": [
-    "config:base",
-    ":gitSignOff"
-  ],
   "enabled": true,
   "timezone": "America/Toronto",
+  "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
   "commitBody": "Signed-off-by: Nick M <4718+rkage@users.noreply.github.com>",
@@ -24,8 +21,7 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "cluster/.+helm-release\\.yaml$",
-        "cluster/.+crd\\.yaml$"
+        "cluster/.+helm-release\\.yaml$"
       ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n",
@@ -87,7 +83,8 @@
       "matchPackageNames": [
         "ghcr.io/k8s-at-home/plex",
         "ghcr.io/k8s-at-home/radarr",
-        "ghcr.io/k8s-at-home/sonarr"
+        "ghcr.io/k8s-at-home/sonarr",
+        "ghcr.io/k8s-at-home/overseerr"
       ]
     },
     {
