@@ -27,6 +27,8 @@ spec:
       existingSecret: 'grafana-admin-creds'
       userKey: admin-user
       passwordKey: admin-password
+    plugins:
+    - grafana-piechart-panel
     grafana.ini:
       server:
         root_url: https://grafana.milton.mcf.io
