@@ -7,5 +7,6 @@ resources:
 - ceph-block-pool.yaml
 - storage-class.yaml
 - virtual-service.yaml
+- rook-direct-mount
 - csi-snapshot-controller
 - volume-snapshot-class.yaml
