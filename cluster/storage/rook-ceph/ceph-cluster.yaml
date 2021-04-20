@@ -11,7 +11,7 @@ spec:
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
   mon:
-    count: 1
+    count: 3
     allowMultiplePerNode: false
   mgr:
     modules:
@@ -26,8 +26,17 @@ spec:
   placement:
     all:
       tolerations:
-      - key: storage-node
+      - effect: NoSchedule
         operator: Exists
+    mon:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: disktype
+              operator: In
+              values:
+              - "ssd"
     osd:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -55,12 +64,12 @@ spec:
       - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K5YN1U95"
         config:
           metadataDevice: "/dev/sdc"
-          databaseSizeMB: "40960"
+          databaseSizeMB: "36864"
       - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K4UDXEKL"
         config:
           metadataDevice: "/dev/sdc"
-          databaseSizeMB: "40960"
+          databaseSizeMB: "36864"
       - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1XE80AU"
         config:
           metadataDevice: "/dev/sdc"
-          databaseSizeMB: "30720"
+          databaseSizeMB: "36864"
