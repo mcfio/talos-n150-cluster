@@ -33,7 +33,6 @@
   "packageRules": [
     {
       "matchDatasources": ["helm"],
-      "commitMessageTopic": "Helm chart {{depName}}",
       "separateMinorPatch": true
     },
     {
