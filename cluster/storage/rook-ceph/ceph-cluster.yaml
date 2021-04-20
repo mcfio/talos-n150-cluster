@@ -6,7 +6,7 @@ metadata:
   namespace: rook-ceph
 spec:
   cephVersion:
-    image: ceph/ceph:v15.2.10
+    image: ceph/ceph:v15.2.11
   dataDirHostPath: /var/lib/rook
   skipUpgradeChecks: false
   continueUpgradeAfterChecksEvenIfNotHealthy: false
@@ -23,6 +23,28 @@ spec:
   monitoring:
     enabled: true
     rulesNamespace: "rook-ceph"
+  resources:
+    mon:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: "2"
+        memory: 1024Mi
+    mgr:
+      requests:
+        cpu: 500m
+        memory: 256Mi
+      limits:
+        cpu: "2"
+        memory: 512Mi
+    osd:
+      requests:
+        cpu: 500m
+        memory: 2048Mi
+      limits:
+        cpu: "2"
+        memory: 5120Mi
   placement:
     all:
       tolerations:
