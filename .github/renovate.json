@@ -23,9 +23,13 @@
   },
   "regexManagers": [
     {
-      "fileMatch": ["cluster/.+helm-release\\.yaml$"],
+      "fileMatch": [
+        "cluster/.+helm-release\\.yaml$",
+        "cluster/.+crd\\.yaml$"
+      ],
       "matchStrings": [
-        "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
+        "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n",
+        "registryUrl=(?<registryUrl>.*?)\n *tag: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n"
       ],
       "datasourceTemplate": "helm"
     }
