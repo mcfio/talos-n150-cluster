@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: sctx/overseerr
-      tag: 1.23.1
+      tag: 1.23.2
     podAnnotations:
       sidecar.istio.io/inject: "true"
     env:
