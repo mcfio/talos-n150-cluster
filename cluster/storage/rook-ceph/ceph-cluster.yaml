@@ -23,8 +23,8 @@ spec:
   monitoring:
     enabled: true
     rulesNamespace: "rook-ceph"
-  network:
-    provider: host
+  # network:
+  #   provider: host
   resources:
     mon:
       requests:
