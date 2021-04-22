@@ -23,6 +23,8 @@ spec:
   monitoring:
     enabled: true
     rulesNamespace: "rook-ceph"
+  network:
+    provider: host
   resources:
     mon:
       requests:
@@ -30,7 +32,7 @@ spec:
         memory: 512Mi
       limits:
         cpu: "2"
-        memory: 1024Mi
+        memory: 2048Mi
     mgr:
       requests:
         cpu: 500m
