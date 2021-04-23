@@ -31,8 +31,6 @@ spec:
       pluginTolerations:
       - effect: NoSchedule
         operator: Exists
-      cephcsi:
-        image: quay.io/cephcsi/cephcsi:v3.3.1
     agent:
       nodeAffinity: "storage-node=true"
     discover:
