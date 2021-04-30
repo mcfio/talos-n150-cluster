@@ -16,10 +16,7 @@ spec:
   mountOptions:
   - nfsvers=3
   - tcp
-  - intr
   - hard
-  - noatime
-  - nodiratime
   - lookupcache=none
 ---
 apiVersion: v1
