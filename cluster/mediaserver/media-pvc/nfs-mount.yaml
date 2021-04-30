@@ -15,8 +15,9 @@ spec:
     path: /mnt/gdrive
   mountOptions:
   - nfsvers=4
-  - tcp
+  - proto=tcp
   - hard
+  - nosharecache
   - lookupcache=none
 ---
 apiVersion: v1
