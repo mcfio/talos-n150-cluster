@@ -39,9 +39,9 @@ spec:
         cpu: 500m
     affinity:
       podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - podAffinityTerm:
-            topologyKey: kubernetes.io/hostname
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          podAffinityTerm:
             labelSelector:
               matchExpressions:
               - key: app.kubernetes.io/name
@@ -49,7 +49,7 @@ spec:
                 values:
                 - radarr
                 - plex
-          weight: 100
+            topologyKey: kubernetes.io/hostname
     env:
       TZ: "America/Toronto"
     persistence:
