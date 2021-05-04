@@ -52,11 +52,18 @@ spec:
       retentionResolutionRaw: 10d
       retentionResolution5m: 30d
       retentionResolution1h: 90d
-      tolerations:
-      - operator: Exists
-        effect: NoSchedule
-      nodeSelector:
-        disktype: ssd
+      dataVolume:
+        backend:
+          persistentVolumeClaim:
+            claimName: compact-data-volume
+      persistentVolumeClaim:
+        name: compact-data-volume
+        spec:
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 100Gi
     bucket:
       enabled: true
       logFormat: json
