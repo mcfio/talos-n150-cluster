@@ -6,7 +6,7 @@ metadata:
   namespace: istio-system
 spec:
   hub: docker.io/querycapistio
-  tag: 1.9.2-distroless
+  tag: 1.9.4-distroless
 
   meshConfig:
     extensionProviders:
