@@ -19,7 +19,7 @@ spec:
       interval: 1m
   values:
     image:
-      repository: raspbernetes/kured
+      repository: registry.opensuse.org/kubic/kured
     updateStrategy: RollingUpdate
     configuration:
       prometheusUrl: http://prom-prometheus.monitoring:9090
