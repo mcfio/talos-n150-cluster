@@ -21,7 +21,7 @@
   "regexManagers": [
     {
       "fileMatch": [
-        "cluster/.+helm-release\\.yaml$"
+        "cluster/.+\\.yaml$"
       ],
       "matchStrings": [
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n",
