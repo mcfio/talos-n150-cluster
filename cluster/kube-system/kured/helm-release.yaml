@@ -27,6 +27,8 @@ spec:
       startTime: 2am
       endTime: 4am
       timeZone: America/Toronto
+      blockingPodSelector:
+      - app=rook-ceph-osd
     metrics:
       create: true
     tolerations:
