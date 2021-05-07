@@ -113,7 +113,7 @@ spec:
                 requests:
                   storage: 10Gi
         thanos:
-          image: raspbernetes/thanos:v0.17.2
+          image: mcfio/thanos:v0.20.1
           objectStorageConfig:
             name: thanos-objectstore-config
             key: object-store.yaml

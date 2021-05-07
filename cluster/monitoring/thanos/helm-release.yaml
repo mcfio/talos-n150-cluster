@@ -18,8 +18,8 @@ spec:
   values:
     objstoreSecretOverride: thanos-objectstore-config
     image:
-      repository: raspbernetes/thanos
-      tag: v0.17.2
+      repository: mcfio/thanos
+      tag: v0.20.1
     store:
       logFormat: json
       metrics:
