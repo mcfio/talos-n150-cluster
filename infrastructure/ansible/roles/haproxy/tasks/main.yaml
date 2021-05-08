@@ -1,0 +1,31 @@
+---
+
+- name: 'create haproxy configuration directory'
+  ansible.builtin.file:
+    path: '{{ haproxy_config_dir }}'
+    state: 'directory'
+    mode: 0700
+    owner: 'root'
+
+- name: 'write haproxy configuration file'
+  ansible.builtin.template:
+    src: 'haproxy.cfg.j2'
+    dest: '{{ haproxy_config_dir }}/haproxy.cfg'
+    mode: 0755
+    owner: 'root'
+    backup: true
+
+- name: 'get haproxy configuration file checksum'
+  ansible.builtin.stat:
+    path: '{{ haproxy_config_dir }}/haproxy.cfg'
+    get_attributes: false
+    get_checksum: true
+    get_mime: false
+  register: 'haproxy_cfg'
+
+- name: 'write static pod manifest'
+  ansible.builtin.template:
+    src: 'haproxy.manifest.j2'
+    dest: '{{ kube_manifest_dir }}/haproxy.yaml'
+    mode: 0644
+    owner: 'root'

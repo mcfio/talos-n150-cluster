@@ -1,0 +1,59 @@
+{{ ansible_managed | comment }}
+
+global
+  maxconn 32768
+  log     stdout format raw local0
+  user    haproxy
+  group   haproxy
+  daemon
+  stats   socket /var/run/haproxy.sock user haproxy group haproxy mode 0640 level operator
+  tune.bufsize 32768
+  tune.ssl.default-dh-param 2048
+  ssl-default-bind-ciphers ALL:!aNULL:!eNULL:!EXPORT:!DES:!3DES:!MD5:!PSK:!RC4:!ADH:!LOW@STRENGTH
+
+defaults
+  log     global
+  mode    http
+  option  dontlognull
+  option  httplog
+  option  http-server-close
+  option  redispatch
+  option  socket-stats
+  retries 5
+  timeout http-request    5m
+  timeout queue           5m
+  timeout connect         30s
+  timeout client          5m
+  timeout server          15m
+  timeout http-keep-alive 30s
+  timeout check           30s
+  maxconn 4000
+
+{% if haproxy_healthcheck_port is defined -%}
+frontend healthz
+  bind *:8081
+  mode http
+  monitor-uri /healthz
+{% endif %}
+
+listen stats
+  bind *:8404
+  stats enable
+  stats uri /
+  stats refresh 5s
+
+frontend kube-apiserver-frontend
+  bind 127.0.0.1:{{ kube_apiserver_port }}
+  mode tcp
+  option tcplog
+  default_backend kube-apiserver-backend
+
+backend kube-apiserver-backend
+  mode tcp
+  balance leastconn
+  default-server inter 15s downinter 15s rise 2 fall 2 slowstart 60s maxconn 1000 maxqueue 256 weight 100
+  option httpchk GET /healthz
+  http-check expect status 200
+  {% for host in groups['control-plane'] -%}
+  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_default_ipv4'].address }}:{{ kube_apiserver_port }} check check-ssl verify none
+  {% endfor %}
