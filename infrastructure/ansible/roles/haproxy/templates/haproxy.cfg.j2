@@ -42,6 +42,14 @@ listen stats
   stats uri /
   stats refresh 5s
 
+{% if kube_external_apiserver_address is defined and ansible_hostname in groups["control-plane"] %}
+frontend kube-apiserver-external
+  bind *:{{ kube_external_apiserver_port }}
+  mode tcp
+  option tcplog
+  default_backend kube-apiserver-backend
+
+{% endif -%}
 frontend kube-apiserver-frontend
   bind 127.0.0.1:{{ kube_apiserver_port }}
   mode tcp
@@ -54,6 +62,6 @@ backend kube-apiserver-backend
   default-server inter 15s downinter 15s rise 2 fall 2 slowstart 60s maxconn 1000 maxqueue 256 weight 100
   option httpchk GET /healthz
   http-check expect status 200
-  {% for host in groups['control-plane'] -%}
-  server {{ hostvars[host]['ansible_hostname'] }} {{ hostvars[host]['ansible_default_ipv4'].address }}:{{ kube_apiserver_port }} check check-ssl verify none
+  {% for host in groups["control-plane"] -%}
+  server {{ hostvars[host]["ansible_hostname"] }} {{ hostvars[host]["ansible_default_ipv4"].address }}:{{ kube_apiserver_port }} check check-ssl verify none
   {% endfor %}

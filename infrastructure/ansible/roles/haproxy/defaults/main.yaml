@@ -9,3 +9,12 @@ haproxy_config_dir: '/etc/kubernetes/assets/haproxy'
 
 haproxy_requests_cpu: '25m'
 haproxy_requests_memory: '32M'
+
+keepalived_image_repository: 'mcfio/keepalived'
+keepalived_image_tag: '2.2.0'
+keepalived_image: '{{ keepalived_image_repository }}:{{ keepalived_image_tag }}'
+
+keepalived_config_dir: '/etc/kubernetes/assets/keepalived'
+
+keepalived_requests_cpu: '25m'
+keepalived_requests_memory: '32M'
