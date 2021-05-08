@@ -32,8 +32,7 @@
   ],
   "packageRules": [
     {
-      "matchDatasources": ["helm"],
-      "separateMinorPatch": true
+      "matchDatasources": ["helm"]
     },
     {
       "matchDatasources": ["helm"],
@@ -55,8 +54,7 @@
       "enabled": true,
       "commitMessageTopic": "container image {{depName}}",
       "commitMessageExtra": "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
-      "matchUpdateTypes": ["major", "minor", "patch"],
-      "separateMinorPatch": true
+      "matchUpdateTypes": ["major", "minor", "patch"]
     },
     {
       "matchDatasources": ["docker"],
@@ -98,6 +96,12 @@
       "automerge": true,
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["patch"]
+    },
+    {
+      "matchDatasources": ["helm", "docker"],
+      "matchPackagePatterns": ["^rook.ceph"],
+      "groupName": "rook-ceph",
+      "additionalBranchPrefix": ""
     }
   ]
 }
