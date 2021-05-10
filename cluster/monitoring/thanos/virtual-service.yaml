@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: thanos-query
+  namespace: monitoring
+spec:
+  hosts:
+  - thanos.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 10902
+        host: thanos-query-http.monitoring.svc.cluster.local

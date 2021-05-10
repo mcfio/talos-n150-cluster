@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: prom-prometheus
+  namespace: monitoring
+spec:
+  hosts:
+  - prometheus.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 9090
+        host: prom-prometheus.monitoring.svc.cluster.local
