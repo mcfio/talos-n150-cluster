@@ -53,6 +53,9 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
         operator: Exists
+      - key: storage-node
+        effect: NoSchedule
+        operator: Exists
     mon:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
