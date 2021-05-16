@@ -23,8 +23,8 @@ spec:
     env:
       TZ: "America/Toronto"
     podSecurityContext:
-      runAsUser: 1000
-      runAsGroup: 1000
+      supplementalGroups:
+      - 1000
     service:
       enabled: true
       type: LoadBalancer
