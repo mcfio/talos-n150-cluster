@@ -23,9 +23,9 @@ spec:
       type: Recreate
     podAnnotations:
       sidecar.istio.io/inject: "true"
-    securityContext:
-      runAsUser: 1001
-      runAsGroup: 1001
+    podSecurityContext:
+      supplementalGroups:
+      - 1000
     additionalVolumeMounts:
     - name: media-path
       mountPath: /data
@@ -37,6 +37,8 @@ spec:
       requests:
         memory: 250Mi
         cpu: 500m
+      limits:
+        memory: 1500Mi
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

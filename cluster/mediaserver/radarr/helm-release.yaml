@@ -17,12 +17,15 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: linuxserver/radarr
-      tag: nightly
+      repository: ghcr.io/k8s-at-home/radarr
+      tag: v3.1.1.4954
     strategy:
       type: Recreate
     podAnnotations:
       sidecar.istio.io/inject: "true"
+    podSecurityContext:
+      supplementalGroups:
+      - 1000
     additionalVolumeMounts:
     - name: media-path
       mountPath: /data
@@ -34,6 +37,8 @@ spec:
       requests:
         memory: 250Mi
         cpu: 500m
+      limits:
+        memory: 1500Mi
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -47,8 +52,6 @@ spec:
           topologyKey: kubernetes.io/hostname
     env:
       TZ: "America/Toronto"
-      PUID: 1001
-      PGID: 1001
     persistence:
       config:
         enabled: true
