@@ -1,0 +1,35 @@
+---
+# File: host-os.yaml - Configuration variable definitions to apply at thoe host-os
+
+kernel_paramters:
+- { name: net.bridge.bridge-nf-call-iptables, value: 1 }
+- { name: net.bridge.bridge-nf-call-ip6tables, value: 1 }
+- { name: net.ipv4.ip_forward, value: 1 }
+- { name: fs.inotify.max_user_watches, value: 524288 }
+
+kernel_modules:
+- br_netfilter
+- overlay
+- iscsi_tcp
+
+packages:
+  install:
+  - neofetch
+  - unattended-upgrades
+  - nfs-common
+  remove:
+  - apport
+  - btrfs-progs
+  - byobu
+  - friendly-recovery
+  - landscape-common
+  - lxd-agent-loader
+  - multipath-tools
+  - ntfs-3g
+  - plymouth
+  - popularity-contest
+  - snapd
+  - sosreport
+  - tmux
+  - ubuntu-advantage-tools
+  - ufw

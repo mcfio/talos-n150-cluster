@@ -1,11 +1,14 @@
 ---
 # File: boot.yaml - These tasks ensure the appropirate boot parameters are configured
 
-- name: 'boot | set cmdline boot options for kubernetes'
-  ansible.builtin.lineinfile:
-    path: '/boot/firmware/cmdline.txt'
-    backrefs: true
-    regexp: '^((?!.*\bcgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory\b).*)$'
-    line: '\1 cgroup_enable=cpuset cgroup_memory=1 cgroup_enable=memory'
-  notify: configuration changed reboot required
+- name: 'boot | set PoE fan speeds adjustment for Pi4'
+  ansible.builtin.blockinfile:
+    path: '/boot/firmware/config.txt'
+    block: |
+      # PoE Hat Fan Speeds
+      dtparam=poe_fan_temp0=65000
+      dtparam=poe_fan_temp1=70000
+      dtparam=poe_fan_temp2=75000
+      dtparam=poe_fan_temp3=80000
+  notify: configuration changed schedule reboot
   when: ansible_architecture | regex_search('arm|aarch')

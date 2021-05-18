@@ -4,6 +4,12 @@
   reboot:
   listen: configuration changed reboot required
 
+- name: 'handler | create reboot sentinel to trigger out of hours reboot'
+  ansible.builtin.file:
+    path: '/run/reboot-required'
+    state: 'touch'
+  listen: configuration changed schedule reboot
+
 - name: 'handler | restart timesyncd systemd service'
   ansible.builtin.service:
     name: 'systemd-timesyncd.service'
@@ -30,6 +36,6 @@
 
 - name: 'handler | restart ssh systemd service'
   ansible.builtin.service:
-    name: 'ssh.service'
+    name: 'sshd.service'
     state: 'restarted'
   listen: sshd configuration changed

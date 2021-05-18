@@ -14,7 +14,7 @@
 
 - name: 'packages | remove unnecessary packages'
   ansible.builtin.apt:
-    name: '{{ packages.apt_remove }}'
+    name: '{{ packages.remove }}'
     state: 'absent'
     purge: true
     autoremove: true
@@ -32,7 +32,7 @@
 
 - name: 'packages | install necessary packages'
   ansible.builtin.apt:
-    name: '{{ packages.apt_install }}'
+    name: '{{ packages.install }}'
     install_recommends: false
     update_cache: true
     cache_valid_time: 3600
