@@ -2,5 +2,3 @@
 
 # Ansible user to ssh into servers with
 ansible_user: 'ubuntu'
-
-cluster_storage_node: true

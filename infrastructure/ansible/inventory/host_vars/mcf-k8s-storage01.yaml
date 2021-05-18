@@ -2,6 +2,3 @@
 
 # Ansible user to ssh into servers with
 ansible_user: 'mcfadmin'
-ansible_host: '192.168.45.51'
-
-# cluster_storage_node: true
