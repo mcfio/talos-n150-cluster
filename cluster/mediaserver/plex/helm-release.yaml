@@ -45,14 +45,19 @@ spec:
       requests:
         cpu: 500m
         memory: 250Mi
+    tolerations:
+    - key: storage-node
+      operator: Exists
+    nodeSelector:
+      storage-node: "true"
     additionalVolumeMounts:
     - name: media-path
       mountPath: /data
       readOnly: true
     additionalVolumes:
     - name: media-path
-      persistentVolumeClaim:
-        claimName: nfs-media
+      hostPath:
+        path: /mnt/gdrive
     addons:
       promtail:
         enabled: true

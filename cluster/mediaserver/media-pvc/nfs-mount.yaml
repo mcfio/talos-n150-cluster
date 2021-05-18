@@ -14,11 +14,13 @@ spec:
     server: 192.168.45.51
     path: /mnt/gdrive
   mountOptions:
-  - nfsvers=4
+  - nfsvers=3
   - proto=tcp
   - hard
-  - nosharecache
-  - lookupcache=none
+  - noatime
+  - nodiratime
+  # - nosharecache
+  # - lookupcache=none
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
