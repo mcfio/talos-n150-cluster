@@ -16,9 +16,11 @@ spec:
         name: jetstack
         namespace: flux-system
   values:
-    leaderElection:
-      renewDeadline: 40s
-      retryPeriod: 15s
+    global:
+      leaderElection:
+        leaseDuration: 60s
+        renewDeadline: 40s
+        retryPeriod: 15s
     installCRDs: true
     resources:
       requests:
