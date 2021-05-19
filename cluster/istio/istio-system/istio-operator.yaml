@@ -6,7 +6,7 @@ metadata:
   namespace: istio-system
 spec:
   hub: docker.io/querycapistio
-  tag: 1.9.4-distroless
+  tag: 1.10.0-distroless
 
   meshConfig:
     extensionProviders:
@@ -19,10 +19,6 @@ spec:
         headersToDownstreamOnDeny: ["content-type", "set-cookie"]
     accessLogFile: /dev/stdout
     enableTracing: false
-    defaultConfig:
-      tracing:
-        zipkin:
-          address: 127.0.0.1:31337
     outboundTrafficPolicy:
       mode: ALLOW_ANY
 
@@ -33,6 +29,14 @@ spec:
       k8s:
         affinity:
           nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
+              weight: 2
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
@@ -51,6 +55,14 @@ spec:
       k8s:
         affinity:
           nodeAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
+              weight: 2
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
@@ -104,5 +116,3 @@ spec:
           limits:
             cpu: 600m
             memory: 128Mi
-      tracer:
-        zipkin: ~
