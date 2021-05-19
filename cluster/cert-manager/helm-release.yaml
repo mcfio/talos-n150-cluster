@@ -16,6 +16,9 @@ spec:
         name: jetstack
         namespace: flux-system
   values:
+    leaderElection:
+      renewDeadline: 40s
+      retryPeriod: 15s
     installCRDs: true
     resources:
       requests:
@@ -23,6 +26,8 @@ spec:
         memory: 128Mi
     prometheus:
       enabled: true
+      servicemonitor:
+        enabled: true
     extraArgs:
     - "--dns01-recursive-nameservers=1.1.1.1:53"
     webhook:
