@@ -16,20 +16,12 @@ hubble:
   relay:
     enabled: true
   ui:
-    enabled: false
-    frontend:
-      image:
-        repository: docker.io/raspbernetes/hubble-ui
-        tag: v0.7.5
-    backend:
-      image:
-        repository: docker.io/raspbernetes/hubble-ui-backend
-        tag: v0.7.5
+    enabled: true
 
 ipam:
   operator:
     # default: "10.0.0.0/8", however, using existing podCIDR
-    clusterPoolIPv4PodCIDR: 10.244.0.0/16
+    clusterPoolIPv4PodCIDR: 10.244.0.0/18
     clusterPoolIPv4MaskSize: 24
 
 # force features for kube-proxy replacement
@@ -45,6 +37,10 @@ prometheus:
     enabled: true
 
 operator:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
   prometheus:
     enabled: true
     # As an install task, the serviceMonitor CRD does not yet exist
@@ -55,7 +51,7 @@ operator:
 # of the kube-apiserver service to the pod, however there is no kube-proxy in our setup
 # that responds to that service. Therefor, Cillium agent needs to be made aware how to reach
 # the kube-apiserver
-k8sServiceHost: kubernetes
+k8sServiceHost: localhost
 k8sServicePort: 6443
 
 # Allows to explicitly specify the CIDR for native routing. This value corresponds to the
