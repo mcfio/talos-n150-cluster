@@ -23,7 +23,7 @@ spec:
     updateStrategy: RollingUpdate
     configuration:
       prometheusUrl: http://prom-prometheus.monitoring:9090
-      alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh)$'
+      alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh|PersistentVolumeUsage.*)$'
       startTime: 2am
       endTime: 4am
       timeZone: America/Toronto
