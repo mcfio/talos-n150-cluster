@@ -22,10 +22,12 @@ spec:
       repository: raspbernetes/kured
     updateStrategy: RollingUpdate
     configuration:
+      lockTtl: 600
+      lockReleaseDelay: 120
       prometheusUrl: http://prom-prometheus.monitoring:9090
       alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh|PersistentVolumeUsage.*)$'
       startTime: 2am
-      endTime: 4am
+      endTime: 5am
       timeZone: America/Toronto
       blockingPodSelector:
       - app=rook-ceph-osd
