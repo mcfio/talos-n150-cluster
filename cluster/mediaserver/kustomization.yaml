@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - media-pvc/nfs-mount.yaml
+- rclone
 - plex
 - sonarr
 - radarr

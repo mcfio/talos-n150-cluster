@@ -1,0 +1,95 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: rclone
+  labels:
+    app: rclone
+    app.kubernetes.io/name: rclone
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rclone
+  labels:
+    app: rclone
+    app.kubernetes.io/name: rclone
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rclone
+  template:
+    metadata:
+      labels:
+        app: rclone
+        app.kubernetes.io/name: rclone
+    spec:
+      serviceAccountName: rclone
+      containers:
+      - name: rclone
+        image: rclone/rclone:1.55.1
+        args:
+        - "mount"
+        - "gcrypt:"
+        - "/data"
+        - "--allow-other"
+        - "--gid=1000"
+        - "--dir-cache-time=1000h"
+        - "--poll-interval=15s"
+        - "--user-agent=milton/v1"
+        - "--umask=002"
+        - "--use-mmap"
+        - "--vfs-read-chunk-size=10M"
+        - "--vfs-read-chunk-size-limit=0"
+        - "--buffer-size=0"
+        - "--rc"
+        - "--rc-addr=:5572"
+        - "--rc-no-auth"
+        - "--cache-dir=/cache"
+        - "--vfs-cache-mode=full"
+        - "--vfs-cache-max-size=760G"
+        - "--vfs-cache-max-age=192h"
+        - "--vfs-read-ahead=256M"
+        envFrom:
+        - secretRef:
+            name: rclone-secret
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true"]
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "fusermount -uz /data"]
+        resources:
+          requests:
+            cpu: 250m
+            memory: 128Mi
+          limits:
+            memory: 4Gi
+        volumeMounts:
+        - name: cache
+          mountPath: /cache
+        - name: media-path
+          mountPath: /data
+          mountPropagation: Bidirectional
+      volumes:
+      - name: cache
+        persistentVolumeClaim:
+          claimName: rclone-cache
+      - name: media-path
+        hostPath:
+          path: /mnt/gdrive
+      tolerations:
+      - key: storage-node
+        operator: Exists
+      nodeSelector:
+        storage-node: "true"
