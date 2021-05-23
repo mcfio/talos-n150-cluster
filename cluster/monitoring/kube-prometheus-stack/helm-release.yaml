@@ -55,6 +55,16 @@ spec:
         logFormat: json
         replicas: 2
         podAntiAffinity: hard
+        storage:
+          volumeClaimTemplate:
+            metadata:
+              name: data
+            spec:
+              accessModes:
+              - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 1Gi
     kukbelet:
       enabled: true
     kubeControllerManager:
