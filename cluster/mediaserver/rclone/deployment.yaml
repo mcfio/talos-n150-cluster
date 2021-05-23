@@ -54,6 +54,7 @@ spec:
         - "--vfs-cache-max-size=760G"
         - "--vfs-cache-max-age=192h"
         - "--vfs-read-ahead=256M"
+        - "-v=2"
         envFrom:
         - secretRef:
             name: rclone-secret
