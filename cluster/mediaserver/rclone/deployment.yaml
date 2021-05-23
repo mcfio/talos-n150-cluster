@@ -3,17 +3,11 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: rclone
-  labels:
-    app: rclone
-    app.kubernetes.io/name: rclone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rclone
-  labels:
-    app: rclone
-    app.kubernetes.io/name: rclone
 spec:
   replicas: 1
   revisionHistoryLimit: 2
