@@ -66,6 +66,7 @@ spec:
     coreDns:
       enabled: false
     kubeEtcd:
+      enabled: false
       serviceMonitor:
         scheme: https
         serverName: localhost
