@@ -4,7 +4,7 @@
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "commitBody": "Signed-off-by: Nick M <4718+rkage@users.noreply.github.com>",
+  "commitBody": "Signed-off-by: Nick McFaul <2142579-nick.mcfaul@users.noreply.gitlab.com>",
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
   "assignees": ["@rkage"],
