@@ -6,4 +6,3 @@ resources:
 - networkpolicy.yaml
 - metrics-server
 - kured
-- descheduler
