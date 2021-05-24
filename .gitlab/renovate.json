@@ -7,7 +7,7 @@
   "commitBody": "Signed-off-by: Nick McFaul <2142579-nick.mcfaul@users.noreply.gitlab.com>",
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
-  "assignees": ["@rkage"],
+  "assignees": ["@nick.mcfaul"],
   "reviewersFromCodeOwners": true,
   "kubernetes": {
     "fileMatch": ["cluster/.+\\.yaml"],
