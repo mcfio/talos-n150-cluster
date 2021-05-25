@@ -47,6 +47,14 @@ spec:
         prometheusOperator: false
         time: false
     alertmanager:
+      config:
+        receivers:
+        - name: gitlab
+          webhook_configs:
+          - http_config:
+              bearer_token: 58ce824359c24da289cdda3bbb364fc3
+            send_resolved: true
+            url: https://gitlab.com/mcfaul.cloud/GitOps/home-cluster/prometheus/alerts/notify.json
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
