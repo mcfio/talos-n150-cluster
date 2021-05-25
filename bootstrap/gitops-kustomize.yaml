@@ -9,7 +9,7 @@ spec:
   path: ./cluster
   sourceRef:
     kind: GitRepository
-    name: infrastructure
+    name: home-cluster
   prune: true
   decryption:
     provider: sops

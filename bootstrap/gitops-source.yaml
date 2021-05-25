@@ -2,13 +2,13 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta1
 kind: GitRepository
 metadata:
-  name: infrastructure
+  name: home-cluster
   namespace: flux-system
 spec:
   interval: 5m
   ref:
     branch: main
-  url: https://github.com/mcfio/GitOps
+  url: https://gitlab.com/mcfaul.cloud/GitOps/home-cluster
   ignore: |
     # exclude all directories
     /*
