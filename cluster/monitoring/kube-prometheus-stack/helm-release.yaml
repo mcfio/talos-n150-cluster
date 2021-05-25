@@ -55,6 +55,7 @@ spec:
               bearer_token: 58ce824359c24da289cdda3bbb364fc3
             send_resolved: true
             url: https://gitlab.com/mcfaul.cloud/GitOps/home-cluster/prometheus/alerts/notify.json
+        - name: "null"
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
