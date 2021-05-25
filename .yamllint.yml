@@ -1,7 +1,7 @@
 ignore: |
   .yamllint.yml
   *.enc.yaml
-  pi4-cluster/istio-operator/operator.yaml
+  cluster/istio/operator/deployment.yaml
 
 extends: default
 rules:
