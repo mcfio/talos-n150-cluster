@@ -5,14 +5,13 @@ flux install \
   --version=latest \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
   --network-policy=false \
-  --arch=arm64 \
-  --export > ../pi4-cluster/flux-system/toolkit-components.yaml
+  --export > ../cluster/flux-system/toolkit-components.yaml
 ```
 
 ## Apply the toolkit-components manifest
 
 ```bash
-kubectl apply -f ../pi4-cluster/flux-system/toolkit-components.yaml
+kubectl apply -f ../cluster/flux-system/toolkit-components.yaml
 ```
 
 ## Apply the repo sync configuration
