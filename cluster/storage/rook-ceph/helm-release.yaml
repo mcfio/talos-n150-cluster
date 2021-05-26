@@ -29,7 +29,8 @@ spec:
     csi:
       enableCephfsDriver: false
       pluginTolerations:
-      - effect: NoSchedule
+      - key: storage-node
+        effect: NoSchedule
         operator: Exists
     agent:
       nodeAffinity: "storage-node=true"
