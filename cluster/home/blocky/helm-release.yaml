@@ -23,6 +23,8 @@ spec:
     env:
       TZ: "America/Toronto"
     replicas: 2
+    podAnnotations:
+      configmap.reloader.stakater.com/reload: "blocky-config"
     service:
       port:
         port: 4000
