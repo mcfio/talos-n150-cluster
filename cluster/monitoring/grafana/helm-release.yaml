@@ -17,6 +17,10 @@ spec:
         name: grafana
   values:
     fullnameOverride: grafana
+    deploymentStrategy:
+      type: Recreate
+    env:
+      GF_PANELS_DISABLE_SANITIZE_HTML: true
     image:
       tag: 7.5.3
     testFramework:
@@ -56,3 +60,8 @@ spec:
         enabled: true
       notifiers:
         enabled: true
+    persistence:
+      enabled: true
+      size: 2Gi
+      accessModes:
+      - ReadWriteOnce
