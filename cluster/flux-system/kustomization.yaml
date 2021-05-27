@@ -4,5 +4,7 @@ resources:
 # - namespace.yaml
 - toolkit-components.yaml
 - toolkit-servicemonitors.yaml
+- cluster-secrets.enc.yaml
+- cluster-vars.yaml
 - helm-repositories
 - notifications
