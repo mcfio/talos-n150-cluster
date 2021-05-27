@@ -15,4 +15,4 @@ resources:
 - traefik.yaml
 - vmware-tanzu.yaml
 - weaveworks-kured.yaml
-- kubernetes-sigs-descheduler-charts.yaml
+- stakater-charts.yaml
