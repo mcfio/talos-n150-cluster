@@ -20,7 +20,9 @@ spec:
     deploymentStrategy:
       type: Recreate
     env:
+      GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
+      GF_LOG_FILTERS: rendering:debug
     image:
       tag: 7.5.3
     testFramework:
@@ -32,7 +34,12 @@ spec:
       userKey: admin-user
       passwordKey: admin-password
     plugins:
+    - natel-discrete-panel
+    - pr0ps-trackmap-panel
     - grafana-piechart-panel
+    - vonage-status-panel
+    - grafana-worldmap-panel
+    - grafana-clock-panel
     grafana.ini:
       server:
         root_url: https://grafana.milton.mcf.io
