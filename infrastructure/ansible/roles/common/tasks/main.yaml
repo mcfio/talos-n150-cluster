@@ -10,8 +10,6 @@
 
 - include: 'host.yaml'
 
-- include: 'boot.yaml'
-
 - include: 'kernel.yaml'
 
 - include: 'packages.yaml'
