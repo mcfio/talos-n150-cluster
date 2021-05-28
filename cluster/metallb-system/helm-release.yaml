@@ -5,7 +5,7 @@ metadata:
   name: metallb
   namespace: metallb-system
 spec:
-  interval: 12h
+  interval: 5m
   maxHistory: 2
   chart:
     spec:
@@ -25,14 +25,11 @@ spec:
       image:
         repository: metallb/speaker
         tag: v0.9.6
-      tolerations:
-      - operator: Exists
-        effect: NoSchedule
     prometheus:
       serviceMonitor:
-        enabled: false
+        enabled: true
       prometheusRule:
-        enabled: false
+        enabled: true
     configInline:
       address-pools:
       - name: default
