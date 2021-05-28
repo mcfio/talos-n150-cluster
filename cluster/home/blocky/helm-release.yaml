@@ -67,6 +67,9 @@ spec:
           mcf-ca01.lan: 192.168.30.10
           mcf-k8s-cluster.milton.mcf.io: 192.168.45.40
           milton-dns1.lan: 192.168.30.30
+      conditional:
+        mapping:
+          lan: tcp+udp:${upstream_client_lookup_ip}
       blocking:
         blackLists:
           ads:
