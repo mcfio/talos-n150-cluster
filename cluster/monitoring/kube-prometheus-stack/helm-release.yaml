@@ -79,6 +79,9 @@ spec:
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
+        podMetadata:
+          labels:
+            app: alertmanager
         externalUrl: https://alertmanager.milton.mcf.io
         portName: http-web
         logFormat: json
@@ -130,6 +133,9 @@ spec:
       podDisruptionBudget:
         enabled: false
       prometheusSpec:
+        podMetadata:
+          labels:
+            app: prometheus
         retention: 2h
         externalUrl: https://prometheus.milton.mcf.io
         portName: http-web
