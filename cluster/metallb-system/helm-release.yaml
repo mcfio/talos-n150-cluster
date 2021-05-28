@@ -25,6 +25,10 @@ spec:
       image:
         repository: metallb/speaker
         tag: v0.9.6
+      tolerations:
+      - name: storage-node
+        effect: NoSchedule
+        operator: Exists
     prometheus:
       serviceMonitor:
         enabled: true
