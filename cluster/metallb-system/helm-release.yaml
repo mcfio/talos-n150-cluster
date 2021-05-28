@@ -21,19 +21,22 @@ spec:
       image:
         repository: metallb/controller
         tag: v0.9.6
+      prometheus:
+        serviceMonitor:
+          enabled: true
     speaker:
       image:
         repository: metallb/speaker
         tag: v0.9.6
+      prometheus:
+        serviceMonitor:
+          enabled: true
       tolerations:
       - key: storage-node
         effect: NoSchedule
         operator: Exists
-    prometheus:
-      serviceMonitor:
-        enabled: true
-      prometheusRule:
-        enabled: true
+    prometheusRule:
+      enabled: true
     configInline:
       address-pools:
       - name: default
