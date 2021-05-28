@@ -32,7 +32,7 @@ spec:
       - enabled: true
         nameSuffix: dns
         type: LoadBalancer
-        loadBalancerIP: 192.168.45.192
+        loadBalancerIP: ${blocky_ip}
         port:
           port: 53
           name: dns-tcp
@@ -61,21 +61,12 @@ spec:
           ntp.milton.mcf.io: 192.168.30.30
           time.milton.mcf.io: 192.168.30.30
           time.mcf.io: 192.168.30.30
-          hassio.lan: 192.168.30.5
           ingress.milton.mcf.io: 192.168.45.105
           milton.mcf.io: 192.168.45.105
           kubernetes.lan: 192.168.45.40
           mcf-ca01.lan: 192.168.30.10
           mcf-k8s-cluster.milton.mcf.io: 192.168.45.40
-          mcf-k8s-node01.lan: 192.168.45.45
-          mcf-k8s-node02.lan: 192.168.45.46
-          mcf-k8s-node03.lan: 192.168.45.47
-          mcf-k8s-node04.lan: 192.168.45.48
-          mcf-k8s-node05.lan: 192.168.45.49
-          mcf-k8s-node06.lan: 192.168.45.50
-          mcf-k8s-storage01.lan: 192.168.45.51
           milton-dns1.lan: 192.168.30.30
-          milton-udm1.lan: 192.168.30.1
       blocking:
         blackLists:
           ads:
