@@ -27,7 +27,7 @@ spec:
       # fine grained rule control
       rules:
         alertmanager: false
-        etcd: false
+        etcd: true
         general: false
         k8s: false
         kubeApiserver: false
