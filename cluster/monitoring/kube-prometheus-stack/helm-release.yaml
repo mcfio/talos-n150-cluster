@@ -23,7 +23,7 @@ spec:
     fullnameOverride: prom
     defaultRules:
       # for initial deployment, disabling the creation of default rules
-      create: false
+      create: true
       # fine grained rule control
       rules:
         alertmanager: false
