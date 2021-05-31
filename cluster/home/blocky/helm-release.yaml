@@ -22,7 +22,7 @@ spec:
       tag: v0.14
     env:
       TZ: "America/Toronto"
-    replicas: 2
+    replicas: 3
     podAnnotations:
       configmap.reloader.stakater.com/reload: "blocky-config"
     service:
@@ -55,6 +55,13 @@ spec:
         prefetching: true
       customDNS:
         mapping:
+          mcf-k8s-node01.lan: 192.168.45.45
+          mcf-k8s-node02.lan: 192.168.45.46
+          mcf-k8s-node03.lan: 192.168.45.47
+          mcf-k8s-node04.lan: 192.168.45.48
+          mcf-k8s-node05.lan: 192.168.45.49
+          mcf-k8s-node06.lan: 192.168.45.50
+          mcf-k8s-storage01.lan: 192.168.45.51
           ca.milton.mcf.io: 192.168.30.10
           ca.mcf.io: 192.168.30.10
           dns.milton.mcf.io: 192.168.30.30
@@ -100,6 +107,10 @@ spec:
               values:
               - blocky
           topologyKey: "kubernetes.io/hostname"
+    tolerations:
+    - key: storage-node
+      effect: NoSchedule
+      operator: Exists
     resources:
       requests:
         memory: 100Mi
