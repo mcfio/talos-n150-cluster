@@ -97,6 +97,8 @@ spec:
     prometheus:
       serviceMonitor:
         enabled: true
+    nodeSelector:
+      node-role.kubernetes.io/control-plane: ''
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -108,8 +110,7 @@ spec:
               - blocky
           topologyKey: "kubernetes.io/hostname"
     tolerations:
-    - key: storage-node
-      effect: NoSchedule
+    - effect: NoSchedule
       operator: Exists
     resources:
       requests:
