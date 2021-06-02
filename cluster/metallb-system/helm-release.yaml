@@ -32,7 +32,11 @@ spec:
         serviceMonitor:
           enabled: true
       tolerations:
-      - effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+        operator: Exists
+      - key: storage-node=true
+        effect: NoSchedule
         operator: Exists
     prometheusRule:
       enabled: true

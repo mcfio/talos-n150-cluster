@@ -110,7 +110,8 @@ spec:
               - blocky
           topologyKey: "kubernetes.io/hostname"
     tolerations:
-    - effect: NoSchedule
+    - key: node-role.kubernetes.io/control-plane
+      effect: NoSchedule
       operator: Exists
     resources:
       requests:
