@@ -35,7 +35,7 @@ spec:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
         operator: Exists
-      - key: storage-node=true
+      - key: "storage-node=true"
         effect: NoSchedule
         operator: Exists
     prometheusRule:
