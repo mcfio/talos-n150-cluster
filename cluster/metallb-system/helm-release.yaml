@@ -32,8 +32,7 @@ spec:
         serviceMonitor:
           enabled: true
       tolerations:
-      - key: storage-node
-        effect: NoSchedule
+      - effect: NoSchedule
         operator: Exists
     prometheusRule:
       enabled: true
