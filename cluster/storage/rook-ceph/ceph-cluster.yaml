@@ -25,6 +25,8 @@ spec:
     rulesNamespace: "rook-ceph"
   # network:
   #   provider: host
+  crashColector:
+    disable: true
   resources:
     mon:
       requests:
@@ -50,9 +52,6 @@ spec:
   placement:
     all:
       tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        effect: NoSchedule
-        operator: Exists
       - key: storage-node
         effect: NoSchedule
         operator: Exists
