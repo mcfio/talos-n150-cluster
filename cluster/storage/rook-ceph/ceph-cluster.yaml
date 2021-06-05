@@ -54,7 +54,7 @@ spec:
       tolerations:
       - key: role
         operator: Equal
-        vaule: storage-node
+        value: storage-node
         effect: PreferNoSchedule
     mon:
       nodeAffinity:
