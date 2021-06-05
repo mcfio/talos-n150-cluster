@@ -83,8 +83,5 @@ spec:
       - name: media-path
         hostPath:
           path: /mnt/gdrive
-      tolerations:
-      - key: storage-node
-        operator: Exists
       nodeSelector:
-        storage-node: "true"
+        role: storage-node
