@@ -52,36 +52,41 @@ spec:
   placement:
     all:
       tolerations:
-      - key: storage-node
-        effect: NoSchedule
-        operator: Exists
+      - key: role
+        operator: Equal
+        vaule: storage-node
+        effect: PreferNoSchedule
     mon:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: disktype
+            - key: role
               operator: In
               values:
-              - "ssd"
+              - storage-node
+            - key: ceph-mon-ssd
+              operator: In
+              values:
+              - "true"
     osd:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: storage-node
+            - key: role
               operator: In
               values:
-              - "true"
+              - storage-node
     cleanup:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
           - matchExpressions:
-            - key: storage-node
+            - key: role
               operator: In
               values:
-              - "true"
+              - storage-node
   storage:
     useAllNodes: false
     useAllDevices: false
