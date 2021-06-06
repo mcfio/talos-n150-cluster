@@ -29,7 +29,7 @@ spec:
         alertmanager: false
         etcd: true
         general: false
-        k8s: false
+        k8s: true
         kubeApiserver: false
         kubeApiserverAvailability: false
         kubeApiserverError: false
@@ -46,7 +46,7 @@ spec:
         kubeScheduler: false
         kubeStateMetrics: false
         network: false
-        node: false
+        node: true
         prometheus: false
         prometheusOperator: false
         time: false
