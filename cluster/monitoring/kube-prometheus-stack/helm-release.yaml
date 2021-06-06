@@ -132,6 +132,8 @@ spec:
       prometheusSpec:
         retention: 2h
         externalUrl: https://prometheus.milton.mcf.io
+        externalLabels:
+          cluster: mcf-k8s-cluster
         portName: http-web
         logFormat: json
         replicas: 1
