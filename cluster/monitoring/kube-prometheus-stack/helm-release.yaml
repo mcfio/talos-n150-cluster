@@ -181,6 +181,11 @@ spec:
       configReloaderCpu: 0
     grafana:
       enabled: false
+      forceDeployDatasources: true
+      forceDeployDashboards: true
+      sidecar:
+        datasources:
+          url: http://thanos-query-http.monitoring:10902/
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kubeStateMetrics:
