@@ -19,7 +19,7 @@ spec:
     objstoreSecretOverride: thanos-objectstore-config
     image:
       repository: mcfio/thanos
-      tag: v0.20.1
+      tag: v0.21.1
     store:
       logFormat: json
       metrics:

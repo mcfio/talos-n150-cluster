@@ -159,7 +159,7 @@ spec:
                 requests:
                   storage: 10Gi
         thanos:
-          image: mcfio/thanos:v0.20.1
+          image: mcfio/thanos:v0.21.1
           objectStorageConfig:
             name: thanos-objectstore-config
             key: object-store.yaml
