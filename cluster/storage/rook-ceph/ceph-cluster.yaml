@@ -23,8 +23,6 @@ spec:
   monitoring:
     enabled: true
     rulesNamespace: "rook-ceph"
-  # network:
-  #   provider: host
   crashCollector:
     disable: true
   resources:
@@ -33,24 +31,29 @@ spec:
         cpu: 500m
         memory: 512Mi
       limits:
-        cpu: "2"
         memory: 2048Mi
     mgr:
       requests:
         cpu: 500m
         memory: 256Mi
       limits:
-        cpu: "2"
         memory: 512Mi
     osd:
       requests:
         cpu: 500m
         memory: 2048Mi
       limits:
-        cpu: "2"
         memory: 5120Mi
   placement:
     all:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: role
+              operator: In
+              values:
+              - storage-node
       tolerations:
       - key: role
         operator: Equal
@@ -69,24 +72,6 @@ spec:
               operator: In
               values:
               - "true"
-    osd:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: role
-              operator: In
-              values:
-              - storage-node
-    cleanup:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: role
-              operator: In
-              values:
-              - storage-node
   storage:
     useAllNodes: false
     useAllDevices: false
