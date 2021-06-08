@@ -43,6 +43,10 @@ spec:
     grafana.ini:
       server:
         root_url: https://grafana.milton.mcf.io
+      auth.anonymous:
+        enabled: true
+        org_name: Main Org.
+        org_role: Viewer
       auth.google:
         enabled: true
         client_id: $__file{/etc/secrets/grafana-auth-google/client_id}
@@ -52,6 +56,8 @@ spec:
         token_url: https://accounts.google.com/o/oauth2/token
         allowed_domains: mcfaul.cloud
         allow_sign_up: true
+      security:
+        allow_embedding: true
     extraSecretMounts:
     - name: grafana-auth-google-mount
       secretName: grafana-auth-google
