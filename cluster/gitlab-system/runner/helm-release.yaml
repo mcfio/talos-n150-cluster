@@ -29,7 +29,7 @@ spec:
             FF_GITLAB_REGISTRY_HELPER_IMAGE = true
           [runners.kubernetes]
             image = "alpine:3.13"
-            [runner.kubernetes.node_selector]
+            [runners.kubernetes.node_selector]
               "kubernetes.io/arch" = "amd64"
       tags: "aarch64,arm64,mcfaul-cloud,mcfio"
     nodeSelector:
