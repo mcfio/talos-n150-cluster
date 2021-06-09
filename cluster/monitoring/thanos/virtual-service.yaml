@@ -14,4 +14,4 @@ spec:
     - destination:
         port:
           number: 10902
-        host: thanos-query-http.monitoring.svc.cluster.local
+        host: thanos-query.monitoring.svc.cluster.local
