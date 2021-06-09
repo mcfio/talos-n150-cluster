@@ -162,8 +162,8 @@ spec:
           image: raspbernetes/thanos:v0.21.1
           version: v0.21.1
           objectStorageConfig:
-            name: thanos-objectstore-config
-            key: object-store.yaml
+            name: thanos-objstore-secret
+            key: objstore.yml
           resources:
             requests:
               memory: 128Mi
