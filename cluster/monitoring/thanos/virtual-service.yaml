@@ -12,6 +12,6 @@ spec:
   http:
   - route:
     - destination:
-        port:
-          number: 10902
         host: thanos-query.monitoring.svc.cluster.local
+        port:
+          number: 9090

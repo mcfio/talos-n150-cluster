@@ -1,6 +1,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- thanos-objectstore-config.enc.yaml
 - helm-release.yaml
-# - thanos-query-datasource.yaml
+- virtual-service.yaml
