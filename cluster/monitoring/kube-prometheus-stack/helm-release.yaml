@@ -159,7 +159,8 @@ spec:
                 requests:
                   storage: 10Gi
         thanos:
-          image: mcfio/thanos:v0.21.1
+          image: raspbernetes/thanos:v0.21.1
+          version: v0.21.1
           objectStorageConfig:
             name: thanos-objectstore-config
             key: object-store.yaml
@@ -174,6 +175,8 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
+      thanosService:
+        enabled: true
     prometheusOperator:
       admissionWebhooks:
         certManager:
