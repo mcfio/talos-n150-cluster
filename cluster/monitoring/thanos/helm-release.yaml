@@ -9,61 +9,64 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      # renovate: registryUrl=https://kubernetes-charts.banzaicloud.com
+      # renovate: registryUrl=https://charts.bitnami.com/bitnami
       chart: thanos
-      version: 0.4.3
+      version: 3.17.8
       sourceRef:
         kind: HelmRepository
-        name: banzaicloud-stable
+        name: bitnami
   values:
-    objstoreSecretOverride: thanos-objectstore-config
     image:
-      repository: mcfio/thanos
+      repository: raspbernetes/thanos
       tag: v0.21.1
-    store:
-      logFormat: json
-      metrics:
-        annotations:
-          enabled: false
-        serviceMonitor:
-          enabled: true
+    objstoreConfig: |
+      type: AZURE
+      config:
+        storage_account: ${thanos_objectstore_storage_account}
+        storage_account_key: ${thanos_objectstore_storage_account_key}
+        container: ${thanos_objectstore_container}
+        endpoint: ""
+        max_retries: 0
     query:
-      replicaLabels:
-      - prometheus_replica
-      replicaCount: 2
-      logFormat: json
-      podDisruptionBudget:
-        enabled: true
-      metrics:
-        annotations:
-          enabled: false
-        serviceMonitor:
-          enabled: true
-    queryFrontend:
-      enabled: false
-    compact:
       enabled: true
       logFormat: json
-      metrics:
-        annotations:
-          enabled: false
-        serviceMonitor:
-          enabled: true
+      replicaLabels:
+      - prometheus_replica
+      dnsDiscovery:
+        enabled: true
+        sidecarsService: prom-thanos-discovery
+        sidecarsNamespace: monitoring
+      replicaCount: 2
+      podAntiAffinityPreset: soft
+      rbac:
+        create: true
+      autoscaling:
+        enabled: false
+      pdb:
+        create: true
+        minAvailable: 1
+    queryFrontend:
+      enabled: false
+    bucketweb:
+      enabled: true
+      logFormat: json
+    compactor:
+      enabled: true
+      logFormat: json
       retentionResolutionRaw: 10d
       retentionResolution5m: 30d
       retentionResolution1h: 90d
-      dataVolume:
-        backend:
-          persistentVolumeClaim:
-            claimName: compact-data-volume
-      persistentVolumeClaim:
-        name: compact-data-volume
-        spec:
-          accessModes:
-          - ReadWriteOnce
-          resources:
-            requests:
-              storage: 100Gi
-    bucket:
+      persistence:
+        enabled: true
+        accessModes:
+        - ReadWriteOnce
+        size: 100Gi
+    storegateway:
       enabled: true
       logFormat: json
+      persistence:
+        ennabled: false
+    ruler:
+      enabled: false
+    receive:
+      enabled: false
