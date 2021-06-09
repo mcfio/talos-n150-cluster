@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - banzaicloud.yaml
 - bitnami.yaml
+- gitlab.yaml
 - grafana.yaml
 - jetstack.yaml
 - k8s-at-home.yaml

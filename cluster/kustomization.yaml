@@ -9,6 +9,7 @@ resources:
 - storage
 - monitoring
 - oauth2-proxy
+- gitlab-system
 - istio
 - mediaserver
 - home
