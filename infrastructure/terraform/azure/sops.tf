@@ -2,11 +2,11 @@
 Create necessary permissions and key for the operation of Mozilla SOPS; https://github.com/mozilla/sops
 **/
 resource "azuread_application" "sops" {
-  name = "vault${random_id.random.dec}-sops-sp"
+  display_name = "vault${random_id.random.dec}-sops-sp"
   identifier_uris = [
     format("http://%s", "vault${random_id.random.dec}-sops-sp")
   ]
-  available_to_other_tenants = false
+  sign_in_audience = "AzureADMyOrg"
 }
 
 resource "time_rotating" "sops" {
@@ -38,8 +38,8 @@ resource "azuread_service_principal_password" "sops" {
 resource "azurerm_key_vault_key" "sops" {
   name         = "sops-key"
   key_vault_id = azurerm_key_vault.gitops-clusters-keyvault.id
-  key_type = "RSA"
-  key_size = "4096"
+  key_type     = "RSA"
+  key_size     = "4096"
 
   key_opts = [
     "encrypt",
