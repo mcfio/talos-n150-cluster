@@ -22,32 +22,36 @@ spec:
       dataStorage:
         enabled: true
         size: 1Gi
-    standalone:
-      enabled: false
-    ha:
-      enabled: true
-      replicas: 3
-      raft:
+      standalone:
+        enabled: false
+      ha:
         enabled: true
-        setNodeId: true
-        config: |
-          ui = true
-          listener "tcp" {
-            tls_disable = 1
-            address = "[::]:8200"
-            cluster_address = "[::]:8201"
-          }
-          storage "raft" {
-            path = "/vault/data"
-          }
-          seal "azurekeyvault" {
-            client_id     = "${vault_client_id}"
-            client_secret = "${vault_client_secret}"
-            tenant_id     = "${vault_tenant_id}"
-            vault_name    = "${vault_name}"
-            key_name      = "milton-cluster-unseal-key"
-          }
-          service_registration "kubernetes" {}
+        replicas: 3
+        raft:
+          enabled: true
+          setNodeId: true
+          config: |
+            ui = true
+
+            listener "tcp" {
+              tls_disable = 1
+              address = "[::]:8200"
+              cluster_address = "[::]:8201"
+            }
+
+            storage "raft" {
+              path = "/vault/data"
+            }
+
+            seal "azurekeyvault" {
+              client_id     = "${vault_client_id}"
+              client_secret = "${vault_client_secret}"
+              tenant_id     = "${vault_tenant_id}"
+              vault_name    = "${vault_name}"
+              key_name      = "milton-cluster-unseal-key"
+            }
+
+            service_registration "kubernetes" {}
     ui:
       enabled: true
       serviceType: ClusterIP
