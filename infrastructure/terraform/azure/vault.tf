@@ -13,12 +13,13 @@ resource "azuread_service_principal" "vault" {
   application_id = azuread_application.vault.application_id
 }
 
-resource "azuread_service_principal_password" "vault"  {
+resource "azuread_service_principal_password" "vault" {
   service_principal_id = azuread_service_principal.vault.object_id
 }
 
 output "vault_client_secret" {
-  value = azuread_service_principal_password.vault.value
+  value     = azuread_service_principal_password.vault.value
+  sensitive = true
 }
 
 resource "azurerm_key_vault_access_policy" "vault" {
