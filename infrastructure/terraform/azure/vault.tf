@@ -46,7 +46,7 @@ resource "azurerm_key_vault_key" "milton-cluster" {
   key_size = 2048
 
   key_opts = [
-    "WrapKey",
-    "UnwrapKey",
+    "wrapKey",
+    "unwrapKey",
   ]
 }
