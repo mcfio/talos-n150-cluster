@@ -29,12 +29,24 @@ resource "azurerm_key_vault_access_policy" "vault" {
   object_id = azuread_service_principal.vault.id
 
   key_permissions = [
-    "get",
-    "wrapKey",
-    "unwrapKey",
+    "Get",
+    "WrapKey",
+    "UnwrapKey",
   ]
 
   depends_on = [
     azurerm_key_vault_access_policy.gitops-clusters-keyvault
+  ]
+}
+
+resource "azurerm_key_vault_key" "milton-cluster" {
+  name = "milton-cluster-unseal-key"
+  key_vault_id = azurerm_key_vault.gitops-clusters-keyvault.id
+  key_type = "RSA"
+  key_size = 2048
+
+  key_opts = [
+    "WrapKey",
+    "UnwrapKey",
   ]
 }
