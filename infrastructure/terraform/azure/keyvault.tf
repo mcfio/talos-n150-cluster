@@ -10,6 +10,10 @@ resource "azurerm_key_vault" "gitops-clusters-keyvault" {
   sku_name = "standard"
 }
 
+output "key_vault_name" {
+  value = azurerm_key_vault.gitops-clusters-keyvault.name
+}
+
 resource "azurerm_key_vault_access_policy" "gitops-clusters-keyvault" {
   key_vault_id = azurerm_key_vault.gitops-clusters-keyvault.id
 
