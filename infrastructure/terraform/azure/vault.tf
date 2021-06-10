@@ -43,7 +43,7 @@ resource "azurerm_key_vault_key" "milton-cluster" {
   name         = "milton-cluster-unseal-key"
   key_vault_id = azurerm_key_vault.gitops-clusters-keyvault.id
   key_type     = "RSA"
-  key_size     = 3076
+  key_size     = 3072
 
   key_opts = [
     "wrapKey",
