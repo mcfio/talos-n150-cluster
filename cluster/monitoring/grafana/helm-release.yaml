@@ -40,7 +40,6 @@ spec:
     - vonage-status-panel
     - grafana-worldmap-panel
     - grafana-clock-panel
-    - grafana-image-renderer
     grafana.ini:
       server:
         root_url: https://grafana.milton.mcf.io
