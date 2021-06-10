@@ -20,7 +20,7 @@ spec:
     controller:
       image:
         repository: metallb/controller
-        tag: v0.10.0
+        tag: v0.10.1
       prometheus:
         serviceMonitor:
           enabled: true
