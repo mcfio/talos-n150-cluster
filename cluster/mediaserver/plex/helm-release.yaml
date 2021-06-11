@@ -26,21 +26,18 @@ spec:
       supplementalGroups:
       - 1000
     service:
-      enabled: true
-      type: LoadBalancer
-      loadBalancerIP: 192.168.45.102
-      externalTrafficPolicy: Local
-      port:
-        port: 32400
+      main:
+        type: LoadBalancer
+        loadBalancerIP: 192.168.45.102
+        externalTrafficPolicy: Local
     persistence:
       config:
         enabled: true
         existingClaim: plex-data
       tmp:
         enabled: true
-        emptyDir:
-          enabled: true
-          medium: "Memory"
+        type: emptyDir
+        medium: "Memory"
     resources:
       requests:
         cpu: 500m
