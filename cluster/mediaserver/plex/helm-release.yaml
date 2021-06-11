@@ -40,6 +40,7 @@ spec:
         medium: "Memory"
       media-path:
         enabled: true
+        type: hostPath
         hostPath: /mnt/gdrive
         mountPath: /data
         readOnly: true
