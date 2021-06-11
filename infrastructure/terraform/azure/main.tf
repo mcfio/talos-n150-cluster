@@ -24,6 +24,10 @@ resource "azurerm_storage_account" "gitops-clusters" {
   enable_https_traffic_only = true
 }
 
+output "storage_account_name" {
+  value = azurerm_storage_account.gitops-clusters.name
+}
+
 resource "azurerm_storage_container" "metrics-container" {
   name                  = "metrics-object-storage"
   storage_account_name  = azurerm_storage_account.gitops-clusters.name

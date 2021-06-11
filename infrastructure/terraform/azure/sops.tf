@@ -9,20 +9,8 @@ resource "azuread_application" "sops" {
   sign_in_audience = "AzureADMyOrg"
 }
 
-resource "time_rotating" "sops" {
-  rotation_years = "2"
-
-  triggers = {
-    years = "2"
-  }
-}
-
-resource "random_password" "sops" {
-  length = 32
-
-  keepers = {
-    rfc3339 = time_rotating.sops.id
-  }
+output "sops_client_id" {
+  value = azuread_application.sops.application_id
 }
 
 resource "azuread_service_principal" "sops" {
@@ -31,8 +19,11 @@ resource "azuread_service_principal" "sops" {
 
 resource "azuread_service_principal_password" "sops" {
   service_principal_id = azuread_service_principal.sops.id
-  value                = random_password.sops.result
-  end_date             = time_rotating.sops.rotation_rfc3339
+}
+
+output "sops_client_secret" {
+  value     = azuread_service_principal_password.sops.value
+  sensitive = true
 }
 
 resource "azurerm_key_vault_key" "sops" {
@@ -45,10 +36,6 @@ resource "azurerm_key_vault_key" "sops" {
     "encrypt",
     "decrypt",
   ]
-
-  depends_on = [
-    azurerm_key_vault_access_policy.gitops-clusters-keyvault
-  ]
 }
 
 resource "azurerm_key_vault_access_policy" "sops" {
@@ -60,9 +47,5 @@ resource "azurerm_key_vault_access_policy" "sops" {
   key_permissions = [
     "encrypt",
     "decrypt",
-  ]
-
-  depends_on = [
-    azurerm_key_vault_access_policy.gitops-clusters-keyvault
   ]
 }

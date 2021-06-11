@@ -10,7 +10,7 @@ resource "azurerm_key_vault" "gitops-clusters-keyvault" {
   sku_name = "standard"
 }
 
-output "key_vault_name" {
+output "vault_name" {
   value = azurerm_key_vault.gitops-clusters-keyvault.name
 }
 
