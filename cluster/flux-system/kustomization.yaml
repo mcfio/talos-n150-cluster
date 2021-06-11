@@ -8,3 +8,5 @@ resources:
 - cluster-vars.yaml
 - helm-repositories
 - notifications
+patchesStrategicMerge:
+- sops-keyvault-decryptor.yaml
