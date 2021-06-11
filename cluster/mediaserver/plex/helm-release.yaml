@@ -38,20 +38,17 @@ spec:
         enabled: true
         type: emptyDir
         medium: "Memory"
+      media-path:
+        enabled: true
+        hostPath: /mnt/gdrive
+        mountPath: /data
+        readOnly: true
     resources:
       requests:
         cpu: 500m
         memory: 250Mi
     nodeSelector:
       role: storage-node
-    additionalVolumeMounts:
-    - name: media-path
-      mountPath: /data
-      readOnly: true
-    additionalVolumes:
-    - name: media-path
-      hostPath:
-        path: /mnt/gdrive
     addons:
       promtail:
         enabled: true
