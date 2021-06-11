@@ -19,6 +19,8 @@ spec:
     image:
       repository: ghcr.io/k8s-at-home/radarr
       tag: v3.2.2.5080
+    env:
+      TZ: "America/Toronto"
     strategy:
       type: Recreate
     podAnnotations:
@@ -26,13 +28,16 @@ spec:
     podSecurityContext:
       supplementalGroups:
       - 1000
-    additionalVolumeMounts:
-    - name: media-path
-      mountPath: /data
-    additionalVolumes:
-    - name: media-path
-      persistentVolumeClaim:
-        claimName: nfs-media
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        skipuninstall: true
+        existingClaim: radarr-config
+      media-path:
+        enabled: true
+        existingClaim: nfs-media
+        mountPath: /data
     resources:
       requests:
         memory: 250Mi
@@ -50,11 +55,3 @@ spec:
               - sonarr
               - plex
           topologyKey: kubernetes.io/hostname
-    env:
-      TZ: "America/Toronto"
-    persistence:
-      config:
-        enabled: true
-        mountPath: /config
-        skipuninstall: true
-        existingClaim: radarr-config
