@@ -76,6 +76,9 @@ spec:
             match_re:
               severity: critical|warning
             continue: true
+          - match:
+              alertname: etcdHighNumberOfFailedGRPCRequests
+            receiver: "null"
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
