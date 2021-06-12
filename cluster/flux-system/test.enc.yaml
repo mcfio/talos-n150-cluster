@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: test-cluster-secrets
+    namespace: flux-system
+type: Opaque
+stringData:
+    nextdns_id: ENC[AES256_GCM,data:X1bjBXvi,iv:V0Cp+2nkAs5NIczZZ7cUrc1BqRHjBvg2c61JlAIrGQc=,tag:+W+GFLR6Wn4fgMDnSlPAMQ==,type:str]
+    gitlab_registration_token: ENC[AES256_GCM,data:B55Xa5c1iZi6BZML2VR3V4TxDac=,iv:Vw+xZXCZ9iRBRh8p7+R8IJWHRhrnEhvhGUGnMBddcGE=,tag:A002CuDRg5MYAH6w9FKbEw==,type:str]
+    thanos_objectstore_storage_account: ENC[AES256_GCM,data:ClqL1svtOJBwKDg=,iv:HCuXlv5nMHtbK5T7eU9gCHFuG15/zX0UnNwaxDgl4F8=,tag:A5JqgVpEVTZlsQQII78Fxw==,type:str]
+    thanos_objectstore_storage_account_key: ENC[AES256_GCM,data:qmx+YEnC7HKx8tmImHqjf0BC+n8qfXXuWRWqWQqbqCxwxOoL23L97JbtdlygOgkZ1PUBjjlxV90nA37I+0cHmU2LvtDszNfgsyWNuBjS+uOyWuHol+n9sQ==,iv:leaRzCtmcVgBBmH6w4Oh7Uu5eDsETvFCM6e+Xa3azeY=,tag:7J7QA9cXmlJXr8i5rXO8XQ==,type:str]
+    thanos_objectstore_container: ENC[AES256_GCM,data:s/Eo/K8ToHlFzCWw8L3zPHpT/w==,iv:XxGEL23pJ4zjNfNOeHSSbEjTnQsCw6saBgSHJ9GcWIU=,tag:UkfqhEEH6TJuXRVu2kcg2Q==,type:str]
+    vault_tenant_id: ENC[AES256_GCM,data:sn5D1Gjv9yxrRWC3Z8Ra37qi+gimQd259Yw7qAh/5jBIeKhb,iv:FWTyrOmQO0Azjw7IO4lU5Upw1ieGAL9j23/jCr64sys=,tag:Rkk53ulzaD6CrCbpB/e1PA==,type:str]
+    vault_client_id: ENC[AES256_GCM,data:I4ytSyN2emCq1vAZ31iE4bPpu+OGK2oCaFrzIiiyD5FeeXi/,iv:9RamrEEvLr6Ve4OfnAz6U3IxAP30vgsAuqLBbyLdxmI=,tag:XUK3DwvQoKg1ayRcE+SNwg==,type:str]
+    vault_client_secret: ENC[AES256_GCM,data:RUOfvdSiHv30j6eRo/NyVER4ahqXEtLRib+ILeKVjEmywQ==,iv:Vb7xzF3wQtPnL0E35lbfOlfA93jhYjsX2sKAJJmYK+0=,tag:9g7y8jJyvbwoL28qsG77kw==,type:str]
+    vault_name: ENC[AES256_GCM,data:J7ACF+uWhe68,iv:Y5l/S5ZaBRjRUe7OcXO3FlT4hvW+0dJ6qkxKpETXZxU=,tag:eWZQtWc0pvJvMnZt7XqizQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv:
+        - vault_url: https://vault7636.vault.azure.net
+          name: sops-key
+          version: 8b354eac7f8d4ee18f47b5081b0b7877
+          created_at: "2021-06-11T18:40:13Z"
+          enc: fkFTHpcuXFRHZSSSH_PO02etC1XAC4_dlwOnbdBglbnI1mMm7IvF2AC20SfWEBq9b6RgpMe-Eo-L4wmcYUwGJRehTUk30AEXloORJy90c9Irx7db4TOIKbO9_VpCwQ0E6aZMd_uND_JCfejzNAJcjBFJV5EYd2rOIP-Y0VcC4H5pAFtbBWTJ1CbQqBWMfFLUKCHPxRk82l2-Lcyki_DYrwJxuMjvMm8OvvH7-LPG0eridpA5-3qwbaClYddyq0_THoMymKWKek05ZYAeSvRXj8DVJ9e8n1U2WuIxSXv-asbcBM_L9iC18GzYXbr5d_7-an77bClzqoNm2sZ9D1paAcL1ud9vAmYd-_uu4BIld1oaHvttUAFxmETZA3tWkYX1fv_GsgobOn9Wa7iHOaN3MI0jShXXWvEn2Z3OpD8mhENSpA6A1qy1f4bc9T_rPITbxWgKqpRxkUK114tFFuupiNCEqcD2u3gTjAL-UZGUKzRiNVhlX1TszWVeHxUyRrqVMoOo5cy1-HM9xTHagEctzcuanqjjig-hgKEPdVC3ddlzsWrx0WgFo2STFx4hg6mdLylZpkWaGRcZwm287aLQQrWUd1CKKl3bZGW1Tpe9WANcRN6EJvpoICFvlxsYLO4pndiVZBxyXleldT9diGslD5s5VwnUZ9ky8S8FDrZ653Q
+    hc_vault: []
+    age: []
+    lastmodified: "2021-06-11T18:40:14Z"
+    mac: ENC[AES256_GCM,data:6yQQnTFN8EHJM65MCqaVLh/uQ1OUzvXfqNVxiWaDEpBhYmjYRLW5sfgzwLX/Af0dnmcy/Vv8evO7FzCcAKmUSVAddp5GP08xfYJGwSpvcm2GZsXaUZE+Tx2ZWASlbqgF4/9WDmtfXV/Y0IAbMUpHALHtCYflhpB5WGUbRC0lnhA=,iv:hD2VgSSAgt+9tKjBjExvgfwQC4NHgY1S9td6el30Ay4=,tag:RbK6eMUQSsZko9AdEt0gLQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
