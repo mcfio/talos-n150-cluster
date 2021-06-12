@@ -23,8 +23,6 @@ spec:
       GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_LOG_FILTERS: rendering:debug
-    image:
-      tag: 7.5.3
     testFramework:
       enabled: false
     serviceMonitor:
