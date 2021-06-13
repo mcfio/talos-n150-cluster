@@ -39,9 +39,8 @@ spec:
             - "vendor"
             - "device"
           custom:
-          - name: "zigbee"
+          - name: "conbee-ii"
             matchOn:
             - usbId:
-                class: ["ff"]
                 vendor: ["1cf1"]
                 device: ["0030"]
