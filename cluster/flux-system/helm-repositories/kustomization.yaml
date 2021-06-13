@@ -17,5 +17,6 @@ resources:
 - rook-release.yaml
 - traefik.yaml
 - vmware-tanzu.yaml
+- vernemq-charts.yaml
 - weaveworks-kured.yaml
 - stakater-charts.yaml
