@@ -69,6 +69,7 @@ spec:
           time.milton.mcf.io: 192.168.30.30
           time.mcf.io: 192.168.30.30
           ingress.milton.mcf.io: 192.168.45.105
+          mqtt.milton.mcf.io: ${vernemq_ip}
           milton.mcf.io: 192.168.45.105
           kubernetes.lan: 192.168.45.40
           mcf-ca01.lan: 192.168.30.10
