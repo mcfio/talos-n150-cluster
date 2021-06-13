@@ -1,0 +1,47 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: node-feature-discovery
+  namespace: kube-system
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts
+      chart: node-feature-discovery
+      version: 0.8.2
+      sourceRef:
+        kind: HelmRepository
+        name: node-feature-discovery-charts
+        namespace: flux-system
+  values:
+    image:
+      repository: docker.io/raspbernetes/node-feature-discovery
+      tag: 0.8.1
+    worker:
+      annotations:
+        configmap.reloader.stakater.com/reload: "nfd-worker-conf"
+      configmapName: nfd-worker-conf
+      config: |
+        core:
+          sources:
+          - custom
+          - pci
+          - usb
+        sources:
+          usb:
+            deviceClassWhitelist:
+            - "02"
+            - "ff"
+            deviceLabelFields:
+            - "class"
+            - "vendor"
+            - "device"
+          custom:
+          - name: "zigbee"
+            matchOn:
+            - usbId:
+                class: ["ff"]
+                vendor: ["1cf1"]
+                device: ["0030"]
