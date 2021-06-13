@@ -40,7 +40,7 @@ spec:
       path: /vernemq/auth
     additionalEnv:
     - name: DOCKER_VERNEMQ_ACCEPT_EULA
-      value: yes
+      value: "yes"
     - name: DOCKER_VERNEMQ_VMQ_PASSWD__PASSWORD_FILE
       value: /vernemq/auth/vmq.passwd
     - name: DOCKER_VERNEMQ_VMQ_ACL__ACL_FILE
