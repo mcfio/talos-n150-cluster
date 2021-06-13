@@ -7,3 +7,4 @@ metadata:
 data:
   upstream_client_lookup_ip: '192.168.30.1'
   blocky_ip: '192.168.45.192'
+  vernemq_ip: '192.168.45.195'
