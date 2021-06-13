@@ -7,3 +7,4 @@ resources:
 - home-assistant
 - pihole
 - nut-server
+- vernemq
