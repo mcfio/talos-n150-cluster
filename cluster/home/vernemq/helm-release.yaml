@@ -17,8 +17,19 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    image:
+      repository: vernemq/vernemq
+      tag: 1.12.0-alpine
+      pullPolicy: IfNotPresent
     serviceMonitor:
       create: true
+    service:
+      mqtt:
+        enabled: true
+      mqtts:
+        enabled: false
+      ws:
+        enabled: true
     resources:
       requests:
         cpu: 100m
