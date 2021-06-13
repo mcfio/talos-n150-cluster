@@ -24,6 +24,8 @@ spec:
     serviceMonitor:
       create: true
     service:
+      type: LoadBalancer
+      loadBalancerIP: ${vernemq_ip}
       mqtt:
         enabled: true
       mqtts:
@@ -54,5 +56,5 @@ spec:
       value: "yes"
     - name: DOCKER_VERNEMQ_VMQ_PASSWD__PASSWORD_FILE
       value: /vernemq/auth/vmq.passwd
-    - name: DOCKER_VERNEMQ_VMQ_ACL__ACL_FILE
-      value: /vernemq/auth/vmq.acl
+    # - name: DOCKER_VERNEMQ_VMQ_ACL__ACL_FILE
+    #   value: /vernemq/auth/vmq.acl
