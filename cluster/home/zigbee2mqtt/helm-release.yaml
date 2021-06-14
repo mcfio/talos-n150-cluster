@@ -1,0 +1,77 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: zigbee2mqtt
+  namespace: home
+spec:
+  dependsOn:
+  - name: vernemq
+    namespace: home
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts/
+      chart: zigbee2mqtt
+      version: 8.0.1
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/koenkk/zigbee2mqtt
+      tag: 1.19.1
+    env:
+      TZ: America/Toronto
+      ZIGBEE2MQTT_DATA: /data
+    persistence:
+      data:
+        enabled: true
+        existingClaim: zigbee2mqtt-data
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2419832-if00
+        hostPathType: CharDevice
+    securityContext:
+      privileged: true
+    nodeSelector:
+      feature.node.kubernetes.io/custom-conbee-ii: "true"
+    config:
+      advanced:
+        channel: 25
+        baudrate: 38400
+        network_key:
+        - 82
+        - 71
+        - 132
+        - 169
+        - 247
+        - 213
+        - 66
+        - 190
+        - 68
+        - 54
+        - 13
+        - 163
+        - 232
+        - 104
+        - 86
+        - 242
+        ikea_ota_use_test_url: true
+      frontend:
+        port: 8080
+      mqtt:
+        base_topic: zigbee2mqtt
+        server: "mqtt://vernemq.home"
+        user: zigbee2mqtt
+        password: Nm131277
+      serial:
+        port: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2419832-if00
+        adapter: deconz
+      homeassistant: true
+      device_options:
+        retain: true
+      permit_join: false

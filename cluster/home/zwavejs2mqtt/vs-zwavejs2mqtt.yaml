@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: zwavejs2mqtt
+  namespace: home
+spec:
+  hosts:
+  - zwave.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        host: zwavejs2mqtt.home.svc.cluster.local
+        port:
+          number: 8091
