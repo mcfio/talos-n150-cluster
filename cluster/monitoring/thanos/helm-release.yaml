@@ -57,6 +57,7 @@ spec:
       retentionResolutionRaw: 10d
       retentionResolution5m: 30d
       retentionResolution1h: 90d
+      strategyType: Recreate
       persistence:
         enabled: true
         accessModes:
