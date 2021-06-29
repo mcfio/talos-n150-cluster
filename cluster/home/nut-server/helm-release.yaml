@@ -16,9 +16,14 @@ spec:
         name: k8s-at-home
         namespace: flux-system
   values:
-    image:
-      repository: ghcr.io/k8s-at-home/network-ups-tools
-      tag: v2.7.4-2209-g88773359
+    env:
+      TZ: America/Toronto
+    service:
+      main:
+      ports:
+        metrics:
+          enabled: true
+          port: 9995
     config:
       mode: values
       files:
@@ -31,14 +36,6 @@ spec:
             community = milton
             port = 192.168.30.120
             pollfreq = 15
-    service:
-      port:
-        port: 3493
-        name: tcp-upsc
-      additionalPorts:
-        port:
-          port: 9995
-          name: http-metrics
     resources:
       requests:
         memory: 64Mi
