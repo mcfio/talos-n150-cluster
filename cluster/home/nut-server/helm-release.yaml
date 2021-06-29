@@ -20,10 +20,10 @@ spec:
       TZ: America/Toronto
     service:
       main:
-      ports:
-        metrics:
-          enabled: true
-          port: 9995
+        ports:
+          metrics:
+            enabled: true
+            port: 9995
     config:
       mode: values
       files:
