@@ -47,10 +47,6 @@ spec:
           - name: "zwave"
             matchOn:
             - usbId:
-                class: ["02"]
-                vendor:
-                - "0658"
-                - "10c4"
-                device:
-                - "0200"
-                - "ea60"
+                class: ["ff"]
+                vendor: ["10c4"]
+                device: ["ea60"]
