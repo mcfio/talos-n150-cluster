@@ -3,7 +3,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: overseerr-cert
-  namespace: mediaserver
+  namespace: istio-system
 spec:
   secretName: overseerr-cert
   issuerRef:
