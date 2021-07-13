@@ -17,12 +17,13 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    controller:
+      replicas: 3
     image:
       repository: ghcr.io/0xerr0r/blocky
       tag: v0.14
     env:
       TZ: "America/Toronto"
-    replicas: 3
     podAnnotations:
       configmap.reloader.stakater.com/reload: "blocky-config"
     service:
