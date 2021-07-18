@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prowlarr
+  namespace: mediaserver
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://k8s-at-home.com/charts
+      chart: prowlarr
+      version: 3.3.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home
+        namespace: flux-system
+  values:
+    env:
+      TZ: "America/Toronto"
+    strategy:
+      type: Recreate
+        #    podAnnotations:
+        #      sidecar.istio.io/inject: "true"
+    podSecurityContext:
+      supplementalGroups:
+      - 1000
+    persistence:
+      config:
+        enabled: true
+        existingClaim: prowlarr-config
+      media-path:
+        enabled: true
+        existingClaim: nfs-media
+        mountPath: /data

@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: prowlarr
+  namespace: mediaserver
+spec:
+  hosts:
+  - prowlarr.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 9696
+        host: prowlarr.mediaserver.svc.cluster.local
