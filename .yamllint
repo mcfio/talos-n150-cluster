@@ -1,3 +1,5 @@
+# vi:syntax=yaml
+
 ignore: |
   .yamllint.yml
   *.enc.yaml
