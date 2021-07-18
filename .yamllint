@@ -1,4 +1,4 @@
-# vi:syntax=yaml
+# vi: set ft=yaml:
 
 ignore: |
   .yamllint.yml
