@@ -9,6 +9,7 @@ resources:
 - k8s-at-home.yaml
 - hashicorp-charts.yaml
 - kubernetes-stable.yaml
+- metallb.yaml
 - node-feature-discovery-charts.yaml
 - oauth2-proxy.yaml
 - openebs-cstor.yaml
