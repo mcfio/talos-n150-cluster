@@ -178,8 +178,8 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-      thanosService:
-        enabled: true
+      # thanosService:
+      #   enabled: true
     prometheusOperator:
       admissionWebhooks:
         certManager:
@@ -193,7 +193,7 @@ spec:
       forceDeployDashboards: true
       sidecar:
         datasources:
-          url: http://thanos-query.monitoring:9090/
+          url: http://prom-prometheus.monitoring:9090/
     prometheus-node-exporter:
       fullnameOverride: node-exporter
     kubeStateMetrics:
