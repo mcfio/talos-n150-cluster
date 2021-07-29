@@ -1,0 +1,29 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: emqx
+  namespace: home
+spec:
+  hosts:
+  - mqtt.milton.mcf.io
+  gateways:
+  - istio-system/istio-ingressgateway
+  - home/emqx
+  tcp:
+  - match:
+    - gateways:
+      - home/emqx
+    - port: 1883
+    - port: 8883
+    route:
+    - destination:
+        host: emqx.home.svc.cluster.local
+        port:
+          number: 1883
+  http:
+  - route:
+    - destination:
+        host: emqx.home.svc.cluster.local
+        port:
+          number: 18083
