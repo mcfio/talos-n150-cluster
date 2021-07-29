@@ -6,7 +6,7 @@ metadata:
   namespace: home
 spec:
   dependsOn:
-  - name: vernemq
+  - name: emqx
     namespace: home
   interval: 5m
   chart:
