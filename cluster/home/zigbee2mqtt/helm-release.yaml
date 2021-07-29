@@ -65,7 +65,7 @@ spec:
         port: 8080
       mqtt:
         base_topic: zigbee2mqtt
-        server: "mqtt://vernemq.home"
+        server: "mqtt://emqx.home"
         user: zigbee2mqtt
         password: Nm131277
       serial:
