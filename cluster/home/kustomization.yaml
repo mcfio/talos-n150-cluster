@@ -9,5 +9,6 @@ resources:
 - pihole
 - nut-server
 - vernemq
+- emqx
 - zwavejs2mqtt
 - zigbee2mqtt
