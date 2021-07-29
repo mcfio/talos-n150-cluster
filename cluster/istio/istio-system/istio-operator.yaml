@@ -85,6 +85,9 @@ spec:
           - port: 443
             targetPort: 8443
             name: https
+          - port: 1883
+            targetPort: 1883
+            name: mqtt
           - port: 8883
             targetPort: 8883
             name: mqtt-secure
