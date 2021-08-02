@@ -5,6 +5,7 @@ metadata:
   name: zwavejs2mqtt-data
   namespace: home
 spec:
+  storageClassName: rook-ceph-block
   accessModes:
   - ReadWriteOnce
   resources:
