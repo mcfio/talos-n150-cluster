@@ -4,6 +4,7 @@ apiVersion: v1
 metadata:
   name: rclone-cache
 spec:
+  storageClassName: rook-ceph-osd
   accessModes:
     - ReadWriteOnce
   resources:
