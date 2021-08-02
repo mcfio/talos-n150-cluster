@@ -19,7 +19,6 @@ spec:
   template:
     metadata:
       labels:
-        app: rclone
         app.kubernetes.io/name: rclone
     spec:
       serviceAccountName: rclone
