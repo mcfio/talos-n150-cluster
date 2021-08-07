@@ -21,7 +21,8 @@ spec:
   values:
     loki:
       image:
-        tag: 2.2.1
+        repository: grafana/loki
+        tag: 2.3.0
       config:
         schema_config:
           configs:
@@ -32,12 +33,19 @@ spec:
             index:
               prefix: index_
               period: 24h
+          - from: "2021-08-08"
+            store: boltdb-shipper
+            object_store: filesystem
+            schema: v11
+            index:
+              prefix: index_
+              preiod: 24h
         storage_config:
           boltdb_shipper:
             active_index_directory: /data/loki/boltdb-shipper-active
             cache_location: /data/loki/boltdb-shipper-cache
             cache_ttl: 24h         # Can be increased for faster performance over longer query periods, uses more disk space
-            shared_store: azure
+            shared_store: filesystem
           filesystem:
             directory: /data/loki/chunks
         table_manager:
@@ -49,7 +57,8 @@ spec:
       terminationGracePeriodSeconds: 60
     promtail:
       image:
-        tag: 2.2.1
+        repository: grafana/promtail
+        tag: 2.3.0
       fullnameOverride: promtail
       extraScrapeConfigs:
       - job_name: journal
