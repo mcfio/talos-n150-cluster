@@ -33,39 +33,58 @@
   "packageRules": [
     {
       "matchDatasources": ["helm"],
+      "semanticCommitScope": "charts",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "to {{{newValue}}}",
+      "separateMinorPatch": true,
+      "ignoreDeprecated": true
+    },
+    {
+      "matchDatasources": ["helm"],
       "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat(charts)!:",
       "labels": ["renovate/helm-release", "dependency/major"]
     },
     {
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat",
       "labels": ["renovate/helm-release", "dependency/minor"]
     },
     {
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["patch"],
+      "semanticCommitType": "fix",
       "labels": ["renovate/helm-release", "dependency/patch"]
     },
     {
       "matchDatasources": ["docker"],
       "enabled": true,
-      "commitMessageTopic": "container image {{depName}}",
-      "commitMessageExtra": "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
       "matchUpdateTypes": ["major", "minor", "patch"]
     },
     {
       "matchDatasources": ["docker"],
+      "semanticCommitScope": "images",
+      "commitMessageTopic": "{{depName}}",
+      "commitMessageExtra": "to {{{newValue}}}",
+      "separateMinorPatch": true
+    },
+    {
+      "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
+      "commitMessagePrefix": "feat(images)!:",
       "labels": ["renovate/image-release", "dependency/major"]
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor"],
+      "semanticCommitType": "feat",
       "labels": ["renovate/image-release", "dependency/minor"]
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["patch"],
+      "semanticCommitType": "fix",
       "labels": ["renovate/image-release", "dependency/patch"]
     },
     {
