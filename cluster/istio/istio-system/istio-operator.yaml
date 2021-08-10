@@ -101,6 +101,11 @@ spec:
       replicaCount: 2
       autoscaleEnabled: true
       autoscaleMin: 2
+      podAntiAffinityLabelSelector:
+      - key: istio
+        operator: In
+        values: pilot
+        topologyKey: kubernetes.io/hostname
     gateways:
       istio-egressgateway:
         autoscaleEnabled: false
