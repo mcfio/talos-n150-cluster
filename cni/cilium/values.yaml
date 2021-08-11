@@ -1,5 +1,4 @@
-# Enable automatic L2 routing between nodes
-autoDirectNodeRoutes: true
+---
 
 hubble:
   enabled: true
@@ -18,11 +17,21 @@ hubble:
   ui:
     enabled: true
 
+# Disable automatic L2 routing between nodes, normally without BGP Full mesh this is required.
+autoDirectNodeRoutes: true
+
+# Cilium leverages MetalLB's simplified BGP announcement system for service type: LoadBalancer
+bgp:
+  enabled: false
+  announce:
+    loadbalancerIP: true
+
+containerRuntime:
+  integration: containerd
+
+# Kubernetes control plane will set the IPAM for the cluster
 ipam:
-  operator:
-    # default: "10.0.0.0/8", however, using existing podCIDR
-    clusterPoolIPv4PodCIDR: 10.244.0.0/18
-    clusterPoolIPv4MaskSize: 24
+  mode: kubernetes
 
 # force features for kube-proxy replacement
 kubeProxyReplacement: strict
@@ -32,11 +41,13 @@ kubeProxyReplacementHealthzBindAddr: "0.0.0.0:10256"
 prometheus:
   enabled: true
   port: 8090
-  # As an install task, the serviceMonitor CRD does not yet exist
+  # serviceMonitor CRD may not yet exist in which this parameter needs to be
+  # adjusted
   serviceMonitor:
     enabled: true
 
 operator:
+  rollOutPods: true
   resources:
     requests:
       cpu: 100m
@@ -48,18 +59,17 @@ operator:
       enabled: true
 
 # Kubernetes exports KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT with a ClusterIP
-# of the kube-apiserver service to the pod, however there is no kube-proxy in our setup
-# that responds to that service. Therefor, Cillium agent needs to be made aware how to reach
-# the kube-apiserver
+# of the kube-apiserver service to the pod, however without kube-proxy in this setup the Cillium
+# agent needs to be made aware of how to reach the kube-apiserver
 k8sServiceHost: 192.168.45.40
 k8sServicePort: 8443
 
-# Allows to explicitly specify the CIDR for native routing. This value corresponds to the
-# configured cluster-cidr.
-nativeRoutingCIDR: 192.168.45.0/24
-
-# Tunnel mode is disabled as part of the Direct Server Return (DSR) configuration
+# Disables network encapsulation and enables packet forwarding mode.
 tunnel: disabled
+
+# Configures the CIDR used for native routing. This will disable masquerading
+# of IP destinations to this subnet.
+nativeRoutingCIDR: 192.168.45.0/24
 
 # sets the maglev hash seed and table size, this avoids using the built-in seed
 # tableSize value is sufficient for approx. 10 backends.
