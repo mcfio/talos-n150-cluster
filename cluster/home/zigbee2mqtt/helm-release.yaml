@@ -30,19 +30,11 @@ spec:
       data:
         enabled: true
         existingClaim: zigbee2mqtt-data
-      usb:
-        enabled: true
-        type: hostPath
-        hostPath: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2419832-if00
-        hostPathType: CharDevice
     securityContext:
       privileged: true
-    nodeSelector:
-      feature.node.kubernetes.io/custom-conbee-ii: "true"
     config:
       advanced:
         channel: 25
-        baudrate: 38400
         network_key:
         - 82
         - 71
@@ -69,8 +61,7 @@ spec:
         user: zigbee2mqtt
         password: Nm131277
       serial:
-        port: /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2419832-if00
-        adapter: deconz
+        port: "tcp://192.168.30.142:6638"
       homeassistant: true
       device_options:
         retain: true
