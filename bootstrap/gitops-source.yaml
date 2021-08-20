@@ -8,7 +8,7 @@ spec:
   interval: 5m
   ref:
     branch: main
-  url: https://gitlab.com/mcfaul.cloud/GitOps/home-cluster
+  url: https://github.com/mcfio/home-cluster.git
   ignore: |
     # exclude all directories
     /*
