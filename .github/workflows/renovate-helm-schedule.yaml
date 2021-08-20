@@ -11,9 +11,9 @@ jobs:
   renovate-helm-releases:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 1
 
     - name: Renovate Helm Releases
@@ -27,12 +27,12 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         branch: renovate-annotations
         delete-branch: true
-        title: "chore: update renovate annotations on helm-releases"
+        title: "chore(deps): update renovate annotations for helm-releases"
         signoff: true
         committer: "Nick M <4718+rkage@users.noreply.github.com>"
         author: "Nick M <4718+rkage@users.noreply.github.com>"
         assignees: "rkage"
-        commit-message: "chore: update renovate annotations on helm-releases"
+        commit-message: "chore(deps): update renovate annotations for helm-releases"
         body: |
           Update `helm-release.yaml` in order for renovate to pick up new versions of Helm charts
         labels: renovate/annotations
