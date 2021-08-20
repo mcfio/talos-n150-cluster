@@ -119,7 +119,7 @@ jobs:
         fi
         message="$message"$'\n'$'\n'
         if [ -z "$diff" ]; then
-          message="$message"'```'$'\n'"No changes in detected in resources"$'\n''```'
+          message="$message"'```'$'\n'"No changes detected in resources"$'\n''```'
         else
           message="$message"'```diff'$'\n'"$diff"$'\n''```'
         fi
