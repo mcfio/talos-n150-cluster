@@ -7,16 +7,18 @@
   "commitBody": "Signed-off-by: Nick M <4718+rkage@users.noreply.github.com>",
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "commitMessageSuffix": "",
   "assignees": ["@rkage"],
-  "reviewersFromCodeOwners": true,
+  "helm-values": {
+    "fileMatch": ["cluster/.+/helm-release\\.yaml$"]
+  },
   "kubernetes": {
     "fileMatch": ["cluster/.+\\.yaml"],
     "ignorePaths": [
       "cluster/flux-system/"
     ]
-  },
-  "helm-values": {
-    "fileMatch": ["cluster/.+helm-release\\.yaml$"]
   },
   "regexManagers": [
     {
@@ -34,8 +36,6 @@
     {
       "matchDatasources": ["helm"],
       "semanticCommitScope": "charts",
-      "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "to {{{newValue}}}",
       "separateMinorPatch": true,
       "ignoreDeprecated": true
     },
@@ -65,8 +65,6 @@
     {
       "matchDatasources": ["docker"],
       "semanticCommitScope": "images",
-      "commitMessageTopic": "{{depName}}",
-      "commitMessageExtra": "to {{{newValue}}}",
       "separateMinorPatch": true
     },
     {
