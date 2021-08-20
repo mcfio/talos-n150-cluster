@@ -10,7 +10,6 @@
   "commitMessageTopic": "{{depName}}",
   "commitMessageExtra": "to {{newVersion}}",
   "commitMessageSuffix": "",
-  "assignees": ["@rkage"],
   "helm-values": {
     "fileMatch": ["cluster/.+/helm-release\\.yaml$"]
   },
