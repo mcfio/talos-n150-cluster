@@ -4,10 +4,10 @@
   "semanticCommits": "enabled",
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "commitBody": "Signed-off-by: Nick McFaul <2142579-nick.mcfaul@users.noreply.gitlab.com>",
+  "commitBody": "Signed-off-by: Nick M <4718+rkage@users.noreply.github.com>",
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
-  "assignees": ["@nick.mcfaul"],
+  "assignees": ["@rkage"],
   "reviewersFromCodeOwners": true,
   "kubernetes": {
     "fileMatch": ["cluster/.+\\.yaml"],
@@ -43,19 +43,19 @@
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(charts)!:",
-      "labels": ["renovate/helm-release", "dependency/major"]
+      "labels": ["renovate/helm", "dependency/major"]
     },
     {
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["minor"],
       "semanticCommitType": "feat",
-      "labels": ["renovate/helm-release", "dependency/minor"]
+      "labels": ["renovate/helm", "dependency/minor"]
     },
     {
       "matchDatasources": ["helm"],
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": "fix",
-      "labels": ["renovate/helm-release", "dependency/patch"]
+      "labels": ["renovate/helm", "dependency/patch"]
     },
     {
       "matchDatasources": ["docker"],
@@ -73,19 +73,19 @@
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["major"],
       "commitMessagePrefix": "feat(images)!:",
-      "labels": ["renovate/image-release", "dependency/major"]
+      "labels": ["renovate/image", "dependency/major"]
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["minor"],
       "semanticCommitType": "feat",
-      "labels": ["renovate/image-release", "dependency/minor"]
+      "labels": ["renovate/image", "dependency/minor"]
     },
     {
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["patch"],
       "semanticCommitType": "fix",
-      "labels": ["renovate/image-release", "dependency/patch"]
+      "labels": ["renovate/image", "dependency/patch"]
     },
     {
       "matchDatasources": ["docker"],
