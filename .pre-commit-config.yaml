@@ -9,7 +9,7 @@ repos:
   - id: detect-private-key
   - id: mixed-line-ending
 - repo: https://github.com/adrienverge/yamllint.git
-  rev: v1.26.2
+  rev: v1.26.3
   hooks:
   - id: yamllint
 - repo: https://github.com/Lucas-C/pre-commit-hooks
