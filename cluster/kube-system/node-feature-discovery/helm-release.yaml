@@ -17,8 +17,7 @@ spec:
         namespace: flux-system
   values:
     image:
-      repository: docker.io/raspbernetes/node-feature-discovery
-      tag: v0.8.1
+      repository: raspbernetes/node-feature-discovery
     worker:
       annotations:
         configmap.reloader.stakater.com/reload: "nfd-worker-conf"
