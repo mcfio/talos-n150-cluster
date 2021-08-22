@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts
       chart: node-feature-discovery
-      version: 0.9.0
+      version: v0.9.0-minimal
       sourceRef:
         kind: HelmRepository
         name: node-feature-discovery-charts
@@ -18,7 +18,6 @@ spec:
   values:
     image:
       repository: raspbernetes/node-feature-discovery
-      tag: beec1da3b0e3827d61086b410318b8b561d613d2-minimal
     worker:
       annotations:
         configmap.reloader.stakater.com/reload: "nfd-worker-conf"
