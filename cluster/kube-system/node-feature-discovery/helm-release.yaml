@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: raspbernetes/node-feature-discovery
-      tag: 972c91fc900351fcb42b73da9e471155e16fa634-minimal
+      tag: beec1da3b0e3827d61086b410318b8b561d613d2-minimal
     worker:
       annotations:
         configmap.reloader.stakater.com/reload: "nfd-worker-conf"
