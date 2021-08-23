@@ -9,7 +9,7 @@ graph LR
   GW.->|VLAN45|NW2(Cluster Network)
 ```
 
-The `Gateway` component performs its typical role of router as well as firewall and governs perimiter access into my network and between network segments.
+The `Gateway` component performs its typical role of router as well as firewall and governs perimeter access into my network and between network segments.
 
 The following table describes the current network and CIDR allocations
 
