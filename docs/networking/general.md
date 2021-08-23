@@ -34,27 +34,8 @@ graph TD
   VIP-->CP3(Control Plane<br>Node 3)
 ```
 
-> Typical HA Control Plane Topology
+This cluster is configured as a stacked control plane and uses a software based solution to create the necessary components to provide a fault-tolerate control plane access layer. These components are `keepalived` - used to advertise the Layer2 IP address for the *VIP*, `haproxy` - the *load balancer* that proxies `API Server` traffic between the 3 control plane nodes. `keepalived` and `haproxy` are deployed as *static pods* whos manifests are deployed at cluster init. The configuration generally looks like this;
 
-This cluster is configured as a stacked control plane and uses a software based solution to create the necessary components to provide a fault-tolerate control plane access layer. These components are `keepalived` - used to advertise the Layer2 IP address for the *VIP*, `haproxy` - the *load balancer* that proxies `API Server` traffic between the 3 control plane nodes. `keepalived` and `haproxy` are deployed as *static pods* whos manifests are deployed at cluster init. The configuration generally looks like so;
-
-```mermaid
-graph TB
-  C1(Client)-->VIP1(KeepaliveD)
-  C1-.->VIP2[KeepaliveD]
-  C1-.->VIP3(KeepaliveD)
-  VIP1-->HA1(HA Proxy)
-  HA1-->K1(API Server)
-  HA1-->K2
-  HA1-->K3
-  VIP2-->HA2(HA Proxy)
-  HA2-->K2(API Server)
-  HA2-->K1
-  HA2-->K3
-  VIP3-->HA3(HA Proxy)
-  HA3-->K3(API Server)
-  HA3-->K2
-  HA3-->K1
-```
+![HA Control Plane](images/ha-control-plane.svg)
 
 > It's important to note that, as currently configured, `keepalived` only moves the VIP between nodes when it can no longer detect network connectivity. This means if the node is up, `keepalived` is available.
