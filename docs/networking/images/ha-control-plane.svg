@@ -2,9 +2,9 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xl="http://www.w3.org/1999/xlink" viewBox="237 177 574 305" width="574" height="305">
   <defs>
-    <font-face font-family="Source Code Pro" font-size="16" panose-1="2 11 5 9 3 4 3 2 2 4" units-per-em="1000" underline-position="-75" underline-thickness="50" slope="0" x-height="480" cap-height="660" ascent="983.9935" descent="-272.995" font-weight="400">
+    <font-face font-family="Helvetica" font-size="16" units-per-em="1000" underline-position="-75.68359" underline-thickness="49.316406" slope="0" x-height="522.9492" cap-height="717.28516" ascent="770.0195" descent="-229.98047" font-weight="400">
       <font-face-src>
-        <font-face-name name="SourceCodePro-Regular"/>
+        <font-face-name name="Helvetica"/>
       </font-face-src>
     </font-face>
     <filter id="Shadow" filterUnits="userSpaceOnUse" x="179.6" y="146.5">
@@ -17,9 +17,9 @@
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-    <font-face font-family="Source Code Pro" font-size="10" panose-1="2 11 5 9 3 4 3 2 2 4" units-per-em="1000" underline-position="-75" underline-thickness="50" slope="0" x-height="480" cap-height="660" ascent="983.9935" descent="-272.995" font-weight="400">
+    <font-face font-family="Helvetica" font-size="10" units-per-em="1000" underline-position="-75.68359" underline-thickness="49.316406" slope="0" x-height="522.9492" cap-height="717.28516" ascent="770.0195" descent="-229.98047" font-weight="400">
       <font-face-src>
-        <font-face-name name="SourceCodePro-Regular"/>
+        <font-face-name name="Helvetica"/>
       </font-face-src>
     </font-face>
     <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -4 8 8" markerWidth="8" markerHeight="8" color="black">
@@ -38,7 +38,7 @@
       </g>
     </marker>
   </defs>
-  <metadata> Produced by OmniGraffle 7.18.5\n2021-08-23 19:28:15 +0000</metadata>
+  <metadata> Produced by OmniGraffle 7.18.5\n2021-08-23 19:42:02 +0000</metadata>
   <g id="Canvas_1" stroke-opacity="1" fill="none" fill-opacity="1" stroke-dasharray="none" stroke="none">
     <title>Canvas 1</title>
     <g id="Canvas_1_Layer_1">
@@ -46,86 +46,86 @@
       <g id="Graphic_32">
         <path d="M 629 180 L 799 180 C 801.7614 180 804 182.23858 804 185 L 804 475 C 804 477.7614 801.7614 480 799 480 L 629 480 C 626.2386 480 624 477.7614 624 475 L 624 185 C 624 182.23858 626.2386 180 629 180 Z" fill="#3866d7"/>
         <path d="M 629 180 L 799 180 C 801.7614 180 804 182.23858 804 185 L 804 475 C 804 477.7614 801.7614 480 799 480 L 629 480 C 626.2386 480 624 477.7614 624 475 L 624 185 C 624 182.23858 626.2386 180 629 180 Z" stroke="#003776" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-        <text transform="translate(629 455)" fill="white">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="white" x="56.2" y="16">Node 3</tspan>
+        <text transform="translate(629 456)" fill="white">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="white" x="59.203125" y="15">Node 3</tspan>
         </text>
       </g>
       <g id="Graphic_30">
         <path d="M 437 180 L 607 180 C 609.7614 180 612 182.23858 612 185 L 612 475 C 612 477.7614 609.7614 480 607 480 L 437 480 C 434.2386 480 432 477.7614 432 475 L 432 185 C 432 182.23858 434.2386 180 437 180 Z" fill="#3866d7"/>
         <path d="M 437 180 L 607 180 C 609.7614 180 612 182.23858 612 185 L 612 475 C 612 477.7614 609.7614 480 607 480 L 437 480 C 434.2386 480 432 477.7614 432 475 L 432 185 C 432 182.23858 434.2386 180 437 180 Z" stroke="#003776" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-        <text transform="translate(437 455)" fill="white">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="white" x="56.2" y="16">Node 2</tspan>
+        <text transform="translate(437 456)" fill="white">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="white" x="59.203125" y="15">Node 2</tspan>
         </text>
       </g>
       <g id="Graphic_2">
         <path d="M 245 180 L 415 180 C 417.7614 180 420 182.23858 420 185 L 420 475 C 420 477.7614 417.7614 480 415 480 L 245 480 C 242.23858 480 240 477.7614 240 475 L 240 185 C 240 182.23858 242.23858 180 245 180 Z" fill="#3866d7"/>
         <path d="M 245 180 L 415 180 C 417.7614 180 420 182.23858 420 185 L 420 475 C 420 477.7614 417.7614 480 415 480 L 245 480 C 242.23858 480 240 477.7614 240 475 L 240 185 C 240 182.23858 242.23858 180 245 180 Z" stroke="#003776" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"/>
-        <text transform="translate(245 455)" fill="white">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="white" x="56.2" y="16">Node 1</tspan>
+        <text transform="translate(245 456)" fill="white">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="white" x="59.203125" y="15">Node 1</tspan>
         </text>
       </g>
       <g id="Graphic_4" filter="url(#Shadow)">
         <path d="M 257 252 L 403 252 C 405.7614 252 408 254.23858 408 257 L 408 277 C 408 279.76142 405.7614 282 403 282 L 257 282 C 254.23858 282 252 279.76142 252 277 L 252 257 C 252 254.23858 254.23858 252 257 252 Z" fill="white"/>
-        <text transform="translate(257 257)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="39.4" y="16">HAProxy</tspan>
+        <text transform="translate(257 257.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="41.4375" y="15">HAProxy</tspan>
         </text>
       </g>
       <g id="Graphic_5" filter="url(#Shadow)">
         <path d="M 257 336 L 403 336 C 405.7614 336 408 338.23858 408 341 L 408 361 C 408 363.76142 405.7614 366 403 366 L 257 366 C 254.23858 366 252 363.76142 252 361 L 252 341 C 252 338.23858 254.23858 336 257 336 Z" fill="white"/>
-        <text transform="translate(257 341)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="5.8" y="16">kube-apiserver</tspan>
+        <text transform="translate(257 341.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="20.085938" y="15">kube-apiserver</tspan>
         </text>
       </g>
       <g id="Graphic_8" filter="url(#Shadow)">
         <path d="M 255 198 L 789 198 C 793.9706 198 798 202.02944 798 207 L 798 231 C 798 235.97056 793.9706 240 789 240 L 255 240 C 250.02944 240 246 235.97056 246 231 L 246 207 C 246 202.02944 250.02944 198 255 198 Z" fill="white" fill-opacity=".70220796"/>
         <path d="M 255 198 L 789 198 C 793.9706 198 798 202.02944 798 207 L 798 231 C 798 235.97056 793.9706 240 789 240 L 255 240 C 250.02944 240 246 235.97056 246 231 L 246 207 C 246 202.02944 250.02944 198 255 198 Z" stroke="#283450" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4.0,4.0" stroke-width="1"/>
         <text transform="translate(251 185.15)" fill="white">
-          <tspan font-family="Source Code Pro" font-size="10" font-weight="400" fill="white" x="518" y="10">VRRP</tspan>
+          <tspan font-family="Helvetica" font-size="10" font-weight="400" fill="white" x="514.2168" y="10">VRRP</tspan>
         </text>
       </g>
       <g id="Graphic_3">
         <path d="M 257 204 L 403 204 C 405.7614 204 408 206.23858 408 209 L 408 229 C 408 231.76142 405.7614 234 403 234 L 257 234 C 254.23858 234 252 231.76142 252 229 L 252 209 C 252 206.23858 254.23858 204 257 204 Z" fill="white"/>
         <path d="M 257 204 L 403 204 C 405.7614 204 408 206.23858 408 209 L 408 229 C 408 231.76142 405.7614 234 403 234 L 257 234 C 254.23858 234 252 231.76142 252 229 L 252 209 C 252 206.23858 254.23858 204 257 204 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-        <text transform="translate(257 209)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="25" y="16">keepalived</tspan>
+        <text transform="translate(257 209.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="34.75" y="15">keepalived</tspan>
         </text>
       </g>
       <g id="Graphic_13" filter="url(#Shadow)">
         <path d="M 449 252 L 595 252 C 597.7614 252 600 254.23858 600 257 L 600 277 C 600 279.76142 597.7614 282 595 282 L 449 282 C 446.2386 282 444 279.76142 444 277 L 444 257 C 444 254.23858 446.2386 252 449 252 Z" fill="white"/>
-        <text transform="translate(449 257)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="39.4" y="16">HAProxy</tspan>
+        <text transform="translate(449 257.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="41.4375" y="15">HAProxy</tspan>
         </text>
       </g>
       <g id="Graphic_12" filter="url(#Shadow)">
         <path d="M 449 336 L 595 336 C 597.7614 336 600 338.23858 600 341 L 600 361 C 600 363.76142 597.7614 366 595 366 L 449 366 C 446.2386 366 444 363.76142 444 361 L 444 341 C 444 338.23858 446.2386 336 449 336 Z" fill="white"/>
-        <text transform="translate(449 341)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="5.8" y="16">kube-apiserver</tspan>
+        <text transform="translate(449 341.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="20.085938" y="15">kube-apiserver</tspan>
         </text>
       </g>
       <g id="Graphic_9">
         <path d="M 449 204 L 595 204 C 597.7614 204 600 206.23858 600 209 L 600 229 C 600 231.76142 597.7614 234 595 234 L 449 234 C 446.2386 234 444 231.76142 444 229 L 444 209 C 444 206.23858 446.2386 204 449 204 Z" fill="white"/>
         <path d="M 449 204 L 595 204 C 597.7614 204 600 206.23858 600 209 L 600 229 C 600 231.76142 597.7614 234 595 234 L 449 234 C 446.2386 234 444 231.76142 444 229 L 444 209 C 444 206.23858 446.2386 204 449 204 Z" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.0,2.0" stroke-width="1"/>
-        <text transform="translate(449 209)" fill="#666">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="#666" x="25" y="16">keepalived</tspan>
+        <text transform="translate(449 209.5)" fill="#666">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="#666" x="34.75" y="15">keepalived</tspan>
         </text>
       </g>
       <g id="Graphic_19" filter="url(#Shadow)">
         <path d="M 641 252 L 787 252 C 789.7614 252 792 254.23858 792 257 L 792 277 C 792 279.76142 789.7614 282 787 282 L 641 282 C 638.2386 282 636 279.76142 636 277 L 636 257 C 636 254.23858 638.2386 252 641 252 Z" fill="white"/>
-        <text transform="translate(641 257)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="39.4" y="16">HAProxy</tspan>
+        <text transform="translate(641 257.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="41.4375" y="15">HAProxy</tspan>
         </text>
       </g>
       <g id="Graphic_18" filter="url(#Shadow)">
         <path d="M 641 336 L 787 336 C 789.7614 336 792 338.23858 792 341 L 792 361 C 792 363.76142 789.7614 366 787 366 L 641 366 C 638.2386 366 636 363.76142 636 361 L 636 341 C 636 338.23858 638.2386 336 641 336 Z" fill="white"/>
-        <text transform="translate(641 341)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="5.8" y="16">kube-apiserver</tspan>
+        <text transform="translate(641 341.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="20.085938" y="15">kube-apiserver</tspan>
         </text>
       </g>
       <g id="Graphic_15">
         <path d="M 641 204 L 787 204 C 789.7614 204 792 206.23858 792 209 L 792 229 C 792 231.76142 789.7614 234 787 234 L 641 234 C 638.2386 234 636 231.76142 636 229 L 636 209 C 636 206.23858 638.2386 204 641 204 Z" fill="white"/>
         <path d="M 641 204 L 787 204 C 789.7614 204 792 206.23858 792 209 L 792 229 C 792 231.76142 789.7614 234 787 234 L 641 234 C 638.2386 234 636 231.76142 636 229 L 636 209 C 636 206.23858 638.2386 204 641 204 Z" stroke="gray" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2.0,2.0" stroke-width="1"/>
-        <text transform="translate(641 209)" fill="#666">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="#666" x="25" y="16">keepalived</tspan>
+        <text transform="translate(641 209.5)" fill="#666">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="#666" x="34.75" y="15">keepalived</tspan>
         </text>
       </g>
       <g id="Line_21">
@@ -162,22 +162,22 @@
       <g id="Graphic_6">
         <path d="M 257 402 L 403 402 C 405.7614 402 408 404.2386 408 407 L 408 427 C 408 429.7614 405.7614 432 403 432 L 257 432 C 254.23858 432 252 429.7614 252 427 L 252 407 C 252 404.2386 254.23858 402 257 402 Z" fill="white"/>
         <path d="M 257 402 L 403 402 C 405.7614 402 408 404.2386 408 407 L 408 427 C 408 429.7614 405.7614 432 403 432 L 257 432 C 254.23858 432 252 429.7614 252 427 L 252 407 C 252 404.2386 254.23858 402 257 402 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-        <text transform="translate(257 407)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="53.8" y="16">etcd</tspan>
+        <text transform="translate(257 407.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="57.878906" y="15">etcd</tspan>
         </text>
       </g>
       <g id="Graphic_33">
         <path d="M 449 402 L 595 402 C 597.7614 402 600 404.2386 600 407 L 600 427 C 600 429.7614 597.7614 432 595 432 L 449 432 C 446.2386 432 444 429.7614 444 427 L 444 407 C 444 404.2386 446.2386 402 449 402 Z" fill="white"/>
         <path d="M 449 402 L 595 402 C 597.7614 402 600 404.2386 600 407 L 600 427 C 600 429.7614 597.7614 432 595 432 L 449 432 C 446.2386 432 444 429.7614 444 427 L 444 407 C 444 404.2386 446.2386 402 449 402 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-        <text transform="translate(449 407)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="53.8" y="16">etcd</tspan>
+        <text transform="translate(449 407.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="57.878906" y="15">etcd</tspan>
         </text>
       </g>
       <g id="Graphic_34">
         <path d="M 641 402 L 787 402 C 789.7614 402 792 404.2386 792 407 L 792 427 C 792 429.7614 789.7614 432 787 432 L 641 432 C 638.2386 432 636 429.7614 636 427 L 636 407 C 636 404.2386 638.2386 402 641 402 Z" fill="white"/>
         <path d="M 641 402 L 787 402 C 789.7614 402 792 404.2386 792 407 L 792 427 C 792 429.7614 789.7614 432 787 432 L 641 432 C 638.2386 432 636 429.7614 636 427 L 636 407 C 636 404.2386 638.2386 402 641 402 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
-        <text transform="translate(641 407)" fill="black">
-          <tspan font-family="Source Code Pro" font-size="16" font-weight="400" fill="black" x="53.8" y="16">etcd</tspan>
+        <text transform="translate(641 407.5)" fill="black">
+          <tspan font-family="Helvetica" font-size="16" font-weight="400" fill="black" x="57.878906" y="15">etcd</tspan>
         </text>
       </g>
       <g id="Line_35">
