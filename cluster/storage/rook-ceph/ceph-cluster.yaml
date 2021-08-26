@@ -81,3 +81,15 @@ spec:
       - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K5YN1U95"
       - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K4UDXEKL"
       - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1XE80AU"
+
+  healthCheck:
+    livenessProbe:
+      mon:
+        disabled: false
+        probe:
+          timeoutSeconds: 3
+          failureThreshold: 5
+      mgr:
+        disabled: false
+      osd:
+        disabled: false
