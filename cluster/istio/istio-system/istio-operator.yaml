@@ -106,6 +106,9 @@ spec:
           loadBalancerIP: 192.168.45.105
     pilot:
       k8s:
+        hpaSpec:
+          maxReplicas: 5
+          minReplicas: 2
         affinity:
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
@@ -118,10 +121,6 @@ spec:
               topologyKey: kubernetes.io/hostname
 
   values:
-    pilot:
-      replicaCount: 2
-      autoscaleEnabled: true
-      autoscaleMin: 2
     gateways:
       istio-egressgateway:
         autoscaleEnabled: false
