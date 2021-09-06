@@ -1,0 +1,67 @@
+---
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: cluster-ingress-gateway
+  namespace: istio-system
+spec:
+  profile: empty
+
+  components:
+    ingressGateways:
+    - name: cluster-ingress-gateway
+      namespace: istio-ingress
+      enabled: true
+      label:
+        istio: cluster-ingress-gateway
+      k8s:
+        affinity:
+          # These nodeAffinity's are required to schedule on amd64 and arm64 systems
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - amd64
+                  - arm64
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - amd64
+              weight: 2
+            - preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - arm64
+              weight: 2
+          # This podAntiAffinity ensures ingress controllers are not scheduled on the same node
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: istio
+                  operator: In
+                  values:
+                  - ingressgateway
+              topologyKey: kubernetes.io/hostname
+        resources:
+          requests:
+            cpu: 500m
+            memory: 128Mi
+          limits:
+            cpu: "1"
+            memory: 128Mi
+        service:
+          loadBalancerIP: 192.168.45.105
+
+  values:
+    gateways:
+      istio-ingressgateway:
+        injectionTemplate: gateway

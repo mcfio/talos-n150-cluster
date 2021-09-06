@@ -1,0 +1,29 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: cluster-ingress-gateway
+  namespace: istio-ingress
+spec:
+  selector:
+    istio: cluster-ingress-gateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*.milton.mcf.io"
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "*.milton.mcf.io"
+    tls:
+      credentialName: milton-mcf-io-wc-cert
+      mode: SIMPLE
+      minProtocolVersion: TLSV1_2
+      maxProtocolVersion: TLSV1_3
