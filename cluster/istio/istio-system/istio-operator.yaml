@@ -53,6 +53,9 @@ spec:
     - name: istio-ingressgateway
       enabled: true
       k8s:
+        hpaSpec:
+          maxReplicas: 5
+          minReplicas: 2
         affinity:
           nodeAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
@@ -124,10 +127,6 @@ spec:
     gateways:
       istio-egressgateway:
         autoscaleEnabled: false
-      istio-ingressgateway:
-        replicaCount: 2
-        autoscaleEnabled: true
-        autoscaleMin: 2
     global:
       proxy:
         autoInject: disabled
