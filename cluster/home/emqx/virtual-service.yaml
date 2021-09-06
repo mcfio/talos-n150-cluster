@@ -8,7 +8,7 @@ spec:
   hosts:
   - mqtt.milton.mcf.io
   gateways:
-  - istio-system/istio-ingressgateway
+  # - istio-ingress/cluster-ingress-gateway
   - home/emqx
   tcp:
   - match:
@@ -21,9 +21,9 @@ spec:
         host: emqx.home.svc.cluster.local
         port:
           number: 1883
-  http:
-  - route:
-    - destination:
-        host: emqx.home.svc.cluster.local
-        port:
-          number: 18083
+  # http:
+  # - route:
+  #   - destination:
+  #       host: emqx.home.svc.cluster.local
+  #       port:
+  #         number: 18083

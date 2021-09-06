@@ -6,7 +6,7 @@ metadata:
   namespace: home
 spec:
   selector:
-    istio: ingressgateway
+    istio: emqx-ingress-gateway
   servers:
   - port:
       number: 1883
@@ -14,14 +14,14 @@ spec:
       protocol: TCP
     hosts:
     - "*"
-  - port:
-      number: 8883
-      name: mqtt-secure
-      protocol: TLS
-    hosts:
-    - "*"
-    tls:
-      credentialName: milton-mcf-io-wc-cert
-      mode: SIMPLE
-      minProtocolVersion: TLSV1_2
-      maxProtocolVersion: TLSV1_3
+  # - port:
+  #     number: 8883
+  #     name: mqtt-secure
+  #     protocol: TLS
+  #   hosts:
+  #   - "*"
+  #   tls:
+  #     credentialName: milton-mcf-io-wc-cert
+  #     mode: SIMPLE
+  #     minProtocolVersion: TLSV1_2
+  #     maxProtocolVersion: TLSV1_3
