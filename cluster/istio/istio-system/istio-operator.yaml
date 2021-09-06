@@ -100,11 +100,12 @@ spec:
         affinity:
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-              matchExpressions:
-              - key: istio
-                operator: In
-                values: pilot
+            - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: istio
+                  operator: In
+                  values: pilot
               topologyKey: kubernetes.io/hostname
 
   values:
