@@ -6,7 +6,7 @@ metadata:
   namespace: istio-system
 spec:
   hub: docker.io/querycapistio
-  tag: 1.11.0-distroless
+  tag: 1.11.2-distroless
 
   meshConfig:
     extensionProviders:
@@ -95,17 +95,23 @@ spec:
             targetPort: 15443
             name: tls
           loadBalancerIP: 192.168.45.105
+    pilot:
+      k8s:
+        affinity:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+              matchExpressions:
+              - key: istio
+                operator: In
+                values: pilot
+              topologyKey: kubernetes.io/hostname
 
   values:
     pilot:
       replicaCount: 2
       autoscaleEnabled: true
       autoscaleMin: 2
-      podAntiAffinityLabelSelector:
-      - key: istio
-        operator: In
-        values: pilot
-        topologyKey: kubernetes.io/hostname
     gateways:
       istio-egressgateway:
         autoscaleEnabled: false
