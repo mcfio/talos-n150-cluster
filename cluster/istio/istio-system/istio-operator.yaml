@@ -70,6 +70,15 @@ spec:
                   operator: In
                   values:
                   - arm64
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: istio
+                  operator: In
+                  values:
+                  - ingressgateway
+              topologyKey: kubernetes.io/hostname
         resources:
           requests:
             cpu: 500m
@@ -100,12 +109,12 @@ spec:
         affinity:
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
-            - podAffinityTerm:
-              labelSelector:
+            - labelSelector:
                 matchExpressions:
                 - key: istio
                   operator: In
-                  values: pilot
+                  values:
+                  - pilot
               topologyKey: kubernetes.io/hostname
 
   values:
@@ -120,11 +129,6 @@ spec:
         replicaCount: 2
         autoscaleEnabled: true
         autoscaleMin: 2
-        podAntiAffinityLabelSelector:
-        - key: istio
-          operator: In
-          values: ingressgateway
-          topologyKey: kubernetes.io/hostname
     global:
       proxy:
         autoInject: disabled
