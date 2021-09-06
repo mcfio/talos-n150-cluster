@@ -2,11 +2,11 @@
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
-  name: overseerr
-  namespace: mediaserver
+  name: overseerr-gateway
+  namespace: istio-ingress
 spec:
   selector:
-    istio: ingressgateway
+    istio: cluster-ingress-gateway
   servers:
   - port:
       number: 80

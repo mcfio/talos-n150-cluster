@@ -8,7 +8,7 @@ spec:
   hosts:
   - requests.mcf.io
   gateways:
-  - mediaserver/overseerr
+  - istio-ingress/overseerr-gateway
   http:
   - route:
     - destination:

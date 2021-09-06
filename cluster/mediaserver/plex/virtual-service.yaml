@@ -8,7 +8,7 @@ spec:
   hosts:
   - plex.milton.mcf.io
   gateways:
-  - istio-system/istio-ingressgateway
+  - istio-ingress/cluster-ingress-gateway
   http:
   - route:
     - destination:
