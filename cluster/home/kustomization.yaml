@@ -5,7 +5,6 @@ resources:
 - namespace.yaml
 - unifi-udmp
 - home-assistant
-- pihole
 - nut-server
 - emqx
 - zwavejs2mqtt
