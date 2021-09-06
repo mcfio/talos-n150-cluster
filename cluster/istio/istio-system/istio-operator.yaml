@@ -153,6 +153,77 @@ spec:
             targetPort: 15021
             name: status-port
           loadBalancerIP: 192.168.45.105
+    - name: istio-ingressgateway
+      namespace: home
+      enabled: true
+      k8s:
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "amd64"
+                  - "arm64"
+                  - "ppc64le"
+                  - "s390x"
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "amd64"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "arm64"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "ppc64le"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "s390x"
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                - key: istio
+                  operator: In
+                  values:
+                  - ingressgateway
+              topologyKey: kubernetes.io/hostname
+        resources:
+          requests:
+            cpu: 500m
+            memory: 128Mi
+          limits:
+            cpu: 1000m
+            memory: 128Mi
+        service:
+          ports:
+          - port: 1883
+            targetPort: 1883
+            name: mqtt
+          - port: 8883
+            targetPort: 8883
+            name: mqtt-secure
+          loadBalancerIP: 192.168.45.190
+
     pilot:
       k8s:
         affinity:
