@@ -23,6 +23,8 @@ spec:
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
       tag: 1.21.1
+    podAnnotations:
+      sidecar.istio.io/inject: "false"
     env:
       TZ: America/Toronto
       ZIGBEE2MQTT_DATA: /data

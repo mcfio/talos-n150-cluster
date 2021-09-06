@@ -16,6 +16,8 @@ spec:
         name: k8s-at-home
         namespace: flux-system
   values:
+    podAnnotations:
+      sidecar.istio.io/inject: "false"
     env:
       TZ: America/Toronto
     service:

@@ -23,6 +23,8 @@ spec:
     image:
       repository: ghcr.io/zwave-js/zwavejs2mqtt
       tag: 5.5.3
+    podAnnotations:
+      sidecar.istio.io/inject: "false"
     env:
       TZ: America/Toronto
       NETWORK_KEY: ${ZWAVEJS2MQTT_NETWORK_KEY}
