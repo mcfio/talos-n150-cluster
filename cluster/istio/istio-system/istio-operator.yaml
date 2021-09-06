@@ -25,7 +25,7 @@ spec:
   components:
     egressGateways:
     - name: istio-egressgateway
-      enabled: false
+      enabled: true
       k8s:
         affinity:
           nodeAffinity:
@@ -53,9 +53,6 @@ spec:
     - name: istio-ingressgateway
       enabled: true
       k8s:
-        hpaSpec:
-          maxReplicas: 5
-          minReplicas: 2
         affinity:
           nodeAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
@@ -109,9 +106,6 @@ spec:
           loadBalancerIP: 192.168.45.105
     pilot:
       k8s:
-        hpaSpec:
-          maxReplicas: 5
-          minReplicas: 2
         affinity:
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
@@ -124,9 +118,6 @@ spec:
               topologyKey: kubernetes.io/hostname
 
   values:
-    gateways:
-      istio-egressgateway:
-        autoscaleEnabled: false
     global:
       proxy:
         autoInject: disabled
