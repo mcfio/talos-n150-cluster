@@ -7,6 +7,7 @@ metadata:
 spec:
   hub: docker.io/querycapistio
   tag: 1.11.2-distroless
+  profile: default
 
   meshConfig:
     extensionProviders:
@@ -29,21 +30,45 @@ spec:
       k8s:
         affinity:
           nodeAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - preference:
-                matchExpressions:
-                - key: kubernetes.io/arch
-                  operator: In
-                  values:
-                  - arm64
-              weight: 2
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
                 - key: kubernetes.io/arch
                   operator: In
                   values:
-                  - arm64
+                  - "amd64"
+                  - "arm64"
+                  - "ppc64le"
+                  - "s390x"
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "amd64"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "arm64"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "ppc64le"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "s390x"
         resources:
           requests:
             cpu: 100m
@@ -55,21 +80,45 @@ spec:
       k8s:
         affinity:
           nodeAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - preference:
-                matchExpressions:
-                - key: kubernetes.io/arch
-                  operator: In
-                  values:
-                  - arm64
-              weight: 2
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
                 - key: kubernetes.io/arch
                   operator: In
                   values:
-                  - arm64
+                  - "amd64"
+                  - "arm64"
+                  - "ppc64le"
+                  - "s390x"
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "amd64"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "arm64"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "ppc64le"
+            - weight: 2
+              preference:
+                matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                  - "s390x"
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
@@ -100,9 +149,9 @@ spec:
           - port: 8883
             targetPort: 8883
             name: mqtt-secure
-          - port: 15443
-            targetPort: 15443
-            name: tls
+          - port: 15021
+            targetPort: 15021
+            name: status-port
           loadBalancerIP: 192.168.45.105
     pilot:
       k8s:
