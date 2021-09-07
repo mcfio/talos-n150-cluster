@@ -60,6 +60,12 @@ spec:
             memory: 128Mi
         service:
           ports:
+          - port: 80
+            targetPort: 8080
+            name: http2
+          - port: 443
+            targetPort: 8443
+            name: https
           - port: 1883
             targetPort: 1883
             name: mqtt
