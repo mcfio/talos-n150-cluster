@@ -9,19 +9,38 @@ spec:
     istio: emqx-ingress-gateway
   servers:
   - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "mqtt.milton.mcf.io"
+    tls:
+      httpsRedirect: true
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    hosts:
+    - "mqtt.milton.mcf.io"
+    tls:
+      credentialName: mqtt-cert
+      mode: SIMPLE
+      minProtocolVersion: TLSV1_2
+      maxProtocolVersion: TLSV1_3
+  - port:
       number: 1883
       name: mqtt
       protocol: TCP
     hosts:
-    - "*"
-  # - port:
-  #     number: 8883
-  #     name: mqtt-secure
-  #     protocol: TLS
-  #   hosts:
-  #   - "*"
-  #   tls:
-  #     credentialName: milton-mcf-io-wc-cert
-  #     mode: SIMPLE
-  #     minProtocolVersion: TLSV1_2
-  #     maxProtocolVersion: TLSV1_3
+    - "mqtt.milton.mcf.io"
+  - port:
+      number: 8883
+      name: mqtt-secure
+      protocol: TLS
+    hosts:
+    - "mqtt.milton.mcf.io"
+    tls:
+      credentialName: mqtt-cert
+      mode: SIMPLE
+      minProtocolVersion: TLSV1_2
+      maxProtocolVersion: TLSV1_3
