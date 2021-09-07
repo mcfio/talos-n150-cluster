@@ -2,8 +2,8 @@
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
-  name: cluster-ingress-gateway
-  namespace: istio-system
+  name: milton-cluster-gateways
+  namespace: istio-ingress
 spec:
   profile: empty
 
@@ -15,7 +15,7 @@ spec:
       label:
         istio: cluster-ingress-gateway
       k8s:
-        affinity:
+        affinity: &affinity
           # These nodeAffinity's are required to schedule on amd64 and arm64 systems
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
@@ -49,7 +49,7 @@ spec:
                 - key: istio
                   operator: In
                   values:
-                  - ingressgateway
+                  - cluster-ingress-gateway
               topologyKey: kubernetes.io/hostname
         resources:
           requests:
