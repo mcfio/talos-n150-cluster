@@ -19,9 +19,6 @@ spec:
   values:
     replicaCount: 3
     recreatePods: true
-    service:
-      type: LoadBalancer
-#      loadBalancerIP: ${vernemq_ip}
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_ACL_NOMATCH: "deny"
