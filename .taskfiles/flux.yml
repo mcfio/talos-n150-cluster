@@ -21,3 +21,8 @@ tasks:
     cmds:
     - kubectl apply -f ./bootstrap/gitops-source.yaml
     - kubectl apply -f ./bootstrap/gitops-kustomize.yaml
+
+  sync:
+    desc: sync flux with the git repository
+    cmds:
+    - flux reconcile source git home-cluster
