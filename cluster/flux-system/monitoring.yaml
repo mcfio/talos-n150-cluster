@@ -14,6 +14,10 @@ spec:
     name: home-cluster
   validation: client
   prune: true
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
   postBuild:
     substitute: {}
     substituteFrom:
