@@ -26,6 +26,8 @@ spec:
   components:
     pilot:
       k8s:
+        hpaSpec:
+          minReplicas: 2
         affinity:
           podAntiAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:

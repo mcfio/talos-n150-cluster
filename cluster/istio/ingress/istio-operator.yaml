@@ -15,6 +15,8 @@ spec:
       label:
         istio: cluster-ingress-gateway
       k8s:
+        hpaSpec:
+          minReplicas: 2
         affinity:
           # These nodeAffinity's are required to schedule on amd64 and arm64 systems
           nodeAffinity: &nodeaffinity

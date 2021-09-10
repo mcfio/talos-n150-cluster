@@ -15,6 +15,9 @@ spec:
       label:
         istio: emqx-ingress-gateway
       k8s:
+        # This ingress does not require HA availability
+        podDisruptionBudget:
+          minAvailable: 0
         affinity:
           # These nodeAffinity's are required to schedule on amd64 and arm64 systems
           nodeAffinity:
