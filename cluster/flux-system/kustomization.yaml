@@ -6,3 +6,4 @@ resources:
 - cluster-vars.yaml
 - helm-repositories
 - notifications
+- storage.yaml
