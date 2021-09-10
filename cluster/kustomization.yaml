@@ -5,7 +5,6 @@ resources:
 - flux-system
 - metallb-system
 - kube-system
-- cert-manager
 - storage
 - monitoring
 - oauth2-proxy
