@@ -15,9 +15,9 @@ spec:
       label:
         istio: cluster-ingress-gateway
       k8s:
-        affinity: &affinity
+        affinity:
           # These nodeAffinity's are required to schedule on amd64 and arm64 systems
-          nodeAffinity:
+          nodeAffinity: &nodeaffinity
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
               - matchExpressions:
@@ -42,7 +42,7 @@ spec:
                   - arm64
               weight: 2
           # This podAntiAffinity ensures ingress controllers are not scheduled on the same node
-          podAntiAffinity:
+          podAntiAffinity: &podantiaffinity
             requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
