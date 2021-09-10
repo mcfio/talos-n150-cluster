@@ -4,8 +4,8 @@ kind: Kustomization
 resources:
 - helm-repositories
 - notifications
-- toolkit-servicemonitors.yaml
 - cluster-secrets.yaml
 - cluster-vars.yaml
 - storage.yaml
 - monitoring.yaml
+- core.yaml
