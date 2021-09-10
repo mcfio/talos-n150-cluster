@@ -10,15 +10,9 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-cluster
+  validation: client
   prune: true
   decryption:
     provider: sops
     secretRef:
       name: sops-gpg
-  postBuild:
-    substitute: {}
-    substituteFrom:
-    - kind: ConfigMap
-      name: cluster-vars
-    - kind: Secret
-      name: cluster-secrets
