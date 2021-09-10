@@ -2,68 +2,14 @@
 version: '3'
 
 vars:
-  ANSIBLE_DIR: ./infrastructure/ansible
-  ANSIBLE_INVENTORY_DIR: '{{.ANSIBLE_DIR}}/inventory'
-  ANSIBLE_PLAYBOOK_DIR: '{{.ANSIBLE_DIR}}/playbooks'
-  ANSIBLE_GROUPS: nodes
-
-env:
-  ANSIBLE_CONFIG: '{{.ANSIBLE_DIR}}/ansible.cfg'
+  PROJECT_DIR:
+    sh: 'git rev-parse --show-toplevel'
+  CLUSTER_DIR: '{{.PROJECT_DIR}}/cluster'
 
 silent: true
 
-tasks:
-  ping:
-    desc: Ping all Kubernetes cluster nodes
-    cmds:
-    - ansible {{.ANSIBLE_GROUPS}} -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yaml --one-line -m ping
-
-  list:
-    desc: List all nodes in the cluster
-    cmds:
-    - ansible {{.ANSIBLE_GROUPS}} -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yaml --list-hosts
-
-  upgrade:
-    desc: Upgrade the cluster node operating systems
-    cmds:
-    - ansible-playbook -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yaml {{.ANSIBLE_PLAYBOOK_DIR}}/upgrade-nodes.yaml
-
-  scale-media:
-    desc: Scale down pods using PVCs
-    cmds:
-    - kubectl -n mediaserver scale deployment --replicas 0 sonarr
-    - kubectl -n mediaserver scale deployment --replicas 0 radarr
-    - kubectl -n mediaserver scale deployment --replicas 0 plex
-
-  scale-media-up:
-    desc: Scale down pods using PVCs
-    cmds:
-    - kubectl -n mediaserver scale deployment --replicas 1 sonarr
-    - kubectl -n mediaserver scale deployment --replicas 1 radarr
-    - kubectl -n mediaserver scale deployment --replicas 1 plex
-
-  scale-down:
-    desc: Scale down pods using PVCs
-    cmds:
-    - kubectl -n home scale deployment --replicas 0 homeassistant-db
-    - kubectl -n mediaserver scale deployment --replicas 0 overseerr
-    - kubectl -n mediaserver scale deployment --replicas 0 sonarr
-    - kubectl -n mediaserver scale deployment --replicas 0 radarr
-    - kubectl -n mediaserver scale deployment --replicas 0 plex
-    - kubectl -n monitoring scale deployment --replicas 0 thanos-compact
-    - kubectl -n mediaserver scale deployment --replicas 0 rclone
-      #    - kubectl -n monitoring patch prometheus prom-prometheus --patch '{"spec": {"replicas": 0}}' --type=merge
-    - kubectl -n monitoring scale statefulset --replicas 0 loki-stack
-
-  scale-up:
-    desc: Scale down pods using PVCs
-    cmds:
-    - kubectl -n home scale deployment --replicas 1 homeassistant-db
-    - kubectl -n mediaserver scale deployment --replicas 1 overseerr
-    - kubectl -n mediaserver scale deployment --replicas 1 sonarr
-    - kubectl -n mediaserver scale deployment --replicas 1 radarr
-    - kubectl -n mediaserver scale deployment --replicas 1 plex
-    - kubectl -n monitoring scale deployment --replicas 1 thanos-compact
-      #    - kubectl -n monitoring patch prometheus prom-prometheus --patch '{"spec": {"replicas": 0}}' --type=merge
-    - kubectl -n monitoring scale statefulset --replicas 1 loki-stack
-
+includes:
+  flux: .taskfiles/flux.yml
+  # ansible: .taskfiles/ansible.yml
+  # rook-ceph: .taskfiles/rook-ceph.yml
+  # scale: .taskfiles/scale.yml

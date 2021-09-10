@@ -1,0 +1,23 @@
+---
+version: '3'
+
+tasks:
+  bootstrap:
+    desc: bootstrap the cluster with flux
+    cmds:
+    - task: generate-manifests
+    - kustomize build ./bootstrap | kubeectl apply -f-
+
+  generate-manifests:
+    desc: create the flux component manifests
+    cmds:
+    - |
+      flux install --version=latest \
+      --network-policy=false \
+      --export > ./bootstrap/toolkit-components.yaml
+
+  apply:
+    desc: apply gitops manifests
+    cmds:
+    - kubectl apply -f ./bootstrap/gitops-source.yaml
+    - kubectl apply -f ./bootstrap/gitops-kustomize.yaml
