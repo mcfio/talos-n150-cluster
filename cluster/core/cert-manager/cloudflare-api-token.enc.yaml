@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: cloudflare-mcfio-api-token
+    namespace: cert-manager
+type: Opaque
+stringData:
+    api-token: ENC[AES256_GCM,data:AceuX0S2HCScEe3VhgDgUxZTe24tTgb6eMAe+McYyozzwOi99U3AEQ==,iv:hiAYA6a2aS4QQFfZzLnj+/hlWA0rXPWxQAU/SknV470=,tag:ZnnyNDrpc8TvC9fdVPYVsw==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv:
+        - vault_url: https://vault7636.vault.azure.net
+          name: sops-key
+          version: 8b354eac7f8d4ee18f47b5081b0b7877
+          created_at: "2021-09-10T20:14:48Z"
+          enc: I_dxrDS6NFVCHIM5vSwD5llA-ikZ8hWPh6oZ3ZcM22d4nyna2tQH8OfrOFbrMzvt2biJDbZOjvy2KymSmgZRUke9pde5ITgg7Fen45bYFcTfOQotcr37qWfyESGsu3EYOByQjq82dcNYnJV_lyG_EIcsUz5mh4DkgTJ1PedE0XvmSitzAfbtRpc_ZiCfnIpwUwyiHJ0coGM7t_9XFMtvaA3eyLb-AQAnnyM-_HrcPBhPQue8xyiIhedfG2znPaG40y3olC9hS_-gktmQ9YJ3UGrDYYzTMha1tKacO_PGVuL88nKQ3v9Uw6lTP4axzAcITfkl6sTGOGqbXtETNRgEHUQOFU0Lhqjgm4rpktVvoPnv8ZMSYKAljkLZlJk9fzlYNqCeNUMDzhKj0RzoFk1gvHzCLN3ggz4GF9Cv1IhV-qXCchj8eU5FAs8dUJRtgjUYkWuhYoEFjMT3_-7VRuHQQE7Yn4jYE-vTKmqJWZ1GYfiElDLu2xmUP-CyyFknKKAyzAIkANgt4h8e8C3OhtpfPfDhPTUewCAvqOyuzrcn0KIEs-uV_Svg_j6qhF4aUouRNilzL0nkNQe_04UlqCWfmiu31Za8MCO0muzP7pzXE974aRy1NvSsNkzZ4Kt34eMsNsJAVmTxJE9RIX3F356EmvhRcJkHoFA3iqY3xudEJmY
+    hc_vault: []
+    age: []
+    lastmodified: "2021-09-10T20:14:49Z"
+    mac: ENC[AES256_GCM,data:X6An7LFeEd+8jqU96Jx3CdOd8yR56Vt293Av84KhJxLQZU3AV2dbsyiygCED0H0mOagM5vDb7Idz6Hp4VGhmUSvzW6j2rUf+2s2XfFkep5FUq7SmsGfH32I6wsEOffUYvX6GRQBZvXsLcGusPrN/YFwQ0ZZh6jTMK9jUkvXkOHY=,iv:oCqOr22Ff5c04D2nXSkhWpI09dRf6pNtqSUe5jRV6HA=,tag:fLc9Z2DYGRsuE2AmYWsc2Q==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1
