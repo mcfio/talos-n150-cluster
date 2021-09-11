@@ -1,0 +1,172 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: rook-ceph-cluster
+  namespace: rook-ceph
+spec:
+  interval: 12h
+  maxHistory: 2
+  chart:
+    spec:
+      # renovate: registryUrl=https://charts.rook.io/release
+      chart: rook-ceph-cluster
+      version: v1.7.3
+      sourceRef:
+        kind: HelmRepository
+        name: rook-release
+        namespace: flux-system
+      interval: 5m
+  dependsOn:
+  - name: rook-ceph
+  values:
+    configOverride: |
+      [global]
+      mon_warn_on_pool_no_redundancy = false
+
+    toolbox:
+      enabled: false
+
+    monitoring:
+      enabled: true
+
+    cephClusterSpec:
+      mon:
+        count: 3
+        allowMultiplePerNode: true
+      crashCollector:
+        disable: true
+      placement:
+        all:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                  - storage-node
+          tolerations:
+          - key: role
+            operator: Equal
+            value: storage-node
+            effect: PreferNoSchedule
+        mon:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                  - storage-node
+                - key: ceph-mon-ssd
+                  operator: In
+                  values:
+                  - "true"
+      resources:
+        mon:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            memory: 2048Mi
+        mgr:
+          requests:
+            cpu: 500m
+            memory: 256Mi
+          limits:
+            memory: 512Mi
+        osd:
+          requests:
+            cpu: 500m
+            memory: 2048Mi
+          limits:
+            memory: 5120Mi
+      storage:
+        useAllNodes: false
+        useAllDevices: false
+        nodes:
+        - name: "mcf-k8s-storage01"
+          devices:
+          - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K5YN1U95"
+          - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K4UDXEKL"
+          - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1XE80AU"
+      healthCheck:
+        livenessProbe:
+          mon:
+            disabled: false
+            probe:
+              timeoutSeconds: 3
+              failureThreshold: 5
+          mgr:
+            disabled: false
+          osd:
+            disabled: false
+
+    cephBlockPools:
+    - name: data-pool
+      spec:
+        erasureCoded:
+          dataChunks: 2
+          codingChunks: 1
+        failureDomain: osd
+        enableRBDStats: true
+        compressionMode: aggressive
+        parameters:
+          target_size_ratio: "0.5"
+          compression_algorithm: lz4
+          compression_mode: aggressive
+      storageClass:
+        enabled: false
+
+    - name: metadata-pool
+      spec:
+        failureDomain: osd
+        replicated:
+          size: 3
+      storageClass:
+        enabled: true
+        name: rook-ceph-block
+        isDefault: true
+        relcaimPolicy: Delete
+        allowVolumeExpansion: true
+        parameters:
+          dataPool: data-pool
+          imageFormat: "2"
+          imageFeatures: layering
+          csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+          csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+          csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+          csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+          csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+          csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+          csi.storage.k8s.io/fstype: ext4
+
+    - name: single-osd
+      spec:
+        failureDomain: osd
+        replicated:
+          size: 1
+          # because this pool is replicated only once, any images created here are
+          # not protected and lack recovery options; use selectively.
+          requireSafeReplicaSize: false
+          targetSizeRatio: .1
+      storageClass:
+        enabled: true
+        name: rook-ceph-osd
+        relcaimPolicy: Delete
+        allowVolumeExpansion: true
+        parameters:
+          imageFormat: "2"
+          imageFeatures: layering
+          csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+          csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+          csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+          csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+          csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+          csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+          csi.storage.k8s.io/fstype: ext4
+
+    cephFileSystems: null
+    cephObjectStores: null
