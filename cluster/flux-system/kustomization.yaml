@@ -7,6 +7,5 @@ resources:
 - notifications
 - cluster-secrets.yaml
 - cluster-vars.yaml
-- storage.yaml
 - monitoring.yaml
 - core.yaml

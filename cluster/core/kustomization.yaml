@@ -5,3 +5,4 @@ resources:
 - flux-system
 - cert-manager
 - istio
+- rook-ceph
