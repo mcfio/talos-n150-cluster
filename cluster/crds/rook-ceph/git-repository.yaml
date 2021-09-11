@@ -1,0 +1,16 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta1
+kind: GitRepository
+metadata:
+  name: rook-ceph-source
+  namespace: flux-system
+spec:
+  interval: 30m
+  url: https://github.com/rook/rook.git
+  ref:
+    tag: v1.7.3
+  ignore: |
+    # exclude all
+    /*
+    # path to crds
+    !/cluster/examples/kubernetes/ceph/crds.yaml
