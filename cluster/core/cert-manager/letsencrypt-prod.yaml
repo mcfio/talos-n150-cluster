@@ -6,14 +6,14 @@ metadata:
   namespace: cert-manager
 spec:
   acme:
-    email: n@mcf.io
+    email: nick@mcf.io
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-prod-account-key
     solvers:
-      - dns01:
-          cloudflare:
-            email: n@mcf.io
-            apiTokenSecretRef:
-              name: cloudflare-mcfio-api-token
-              key: api-token
+    - dns01:
+        cloudflare:
+          email: nick@mcf.io
+          apiTokenSecretRef:
+            name: cloudflare-mcfio-api-token
+            key: api-token
