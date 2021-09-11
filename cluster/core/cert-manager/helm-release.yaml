@@ -22,7 +22,6 @@ spec:
         leaseDuration: 60s
         renewDeadline: 40s
         retryPeriod: 15s
-    installCRDs: true
     resources:
       requests:
         cpu: 10m
