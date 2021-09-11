@@ -8,8 +8,6 @@ spec:
   interval: 10m0s
   dependsOn:
   - name: crds
-  - name: cluster-monitoring
-  - name: cluster-storage
   path: ./cluster/core
   sourceRef:
     kind: GitRepository
