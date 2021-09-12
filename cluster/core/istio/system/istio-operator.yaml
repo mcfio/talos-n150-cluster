@@ -26,6 +26,11 @@ spec:
   components:
     pilot:
       k8s:
+        env:
+        # disable fsGroup injection on pods
+        # ref: https://github.com/istio/istio/issues/26882
+        - name: ENABLE_LEGACY_FSGROUP_INJECTION
+          value: "false"
         hpaSpec:
           minReplicas: 2
         affinity:
