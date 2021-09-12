@@ -21,6 +21,10 @@ spec:
       tag: 1.25.0
     podAnnotations:
       sidecar.istio.io/inject: "true"
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 568
+      runAsGroup: 568
     env:
       TZ: America/Toronto
       LOG_LEVEL: info
