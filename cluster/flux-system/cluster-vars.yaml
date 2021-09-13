@@ -5,6 +5,10 @@ metadata:
   namespace: flux-system
   name: cluster-vars
 data:
+  METALLB_LAYER2_RANGE: '192.168.45.100-192.168.45.195'
+  #
+  VIP_MILTON_CLUSTER: '192.168.45.105'
+
   upstream_client_lookup_ip: '192.168.30.1'
   blocky_ip: '192.168.45.192'
   vernemq_ip: '192.168.45.195'
