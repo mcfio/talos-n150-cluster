@@ -53,7 +53,7 @@ spec:
     alertmanager:
       config:
         global:
-          slack_api_url: ${DISCORD_WEBHOOK}
+          slack_api_url: ${ALERTMANAGER_DISCORD_WEBHOOK}
           resolve_timeout: 5m
         receivers:
         - name: "null"
@@ -176,25 +176,10 @@ spec:
               resources:
                 requests:
                   storage: 80Gi
-        # thanos:
-        #   image: raspbernetes/thanos:v0.22.0
-        #   version: v0.22.0
-        #   objectStorageConfig:
-        #     name: thanos-objstore-secret
-        #     key: objstore.yml
-        #   resources:
-        #     requests:
-        #       memory: 128Mi
-        #       cpu: 100m
-        #     # As noted above, this deployment will not set the cpu limits for the container
-        #     limits:
-        #       memory: 256Mi
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-      # thanosService:
-      #   enabled: true
     prometheusOperator:
       admissionWebhooks:
         certManager:
