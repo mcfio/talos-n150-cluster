@@ -2,16 +2,16 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: prom-prometheus
+  name: prom-alertmanager
   namespace: monitoring
 spec:
   hosts:
-  - prometheus.milton.mcf.io
+  - alertmanager.${ROOT_DOMAIN}
   gateways:
   - istio-ingress/cluster-ingress-gateway
   http:
   - route:
     - destination:
+        host: prom-alertmanager.monitoring.svc.cluster.local
         port:
-          number: 9090
-        host: prom-prometheus.monitoring.svc.cluster.local
+          number: 9093

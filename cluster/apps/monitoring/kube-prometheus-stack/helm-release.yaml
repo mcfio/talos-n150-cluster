@@ -52,14 +52,29 @@ spec:
         time: false
     alertmanager:
       config:
+        global:
+          slack_api_url: ${DISCORD_WEBHOOK}
+          resolve_timeout: 5m
         receivers:
-        - name: gitlab
-          webhook_configs:
-          - http_config:
-              bearer_token: 58ce824359c24da289cdda3bbb364fc3
-            send_resolved: true
-            url: https://gitlab.com/mcfaul.cloud/GitOps/home-cluster/prometheus/alerts/notify.json
         - name: "null"
+        - name: discord
+          slack_configs:
+          - channel: "#prometheus"
+            icon_url: https://avatars3.githubusercontent.com/u/3380462
+            username: "Prometheus"
+            send_resolved: true
+            title: |-
+              [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if ne .CommonAnnotations.summary ""}}{{ .CommonAnnotations.summary }}{{ else }}{{ .CommonLabels.alertname }}{{ end }}
+            text: >-
+              {{ range .Alerts -}}
+              **Alert:** {{ .Annotations.title }}{{ if .Labels.severity }} - `{{ .Labels.severity }}`{{ end }}
+
+              **Description:** {{ if ne .Annotations.description ""}}{{ .Annotations.description }}{{else}}N/A{{ end }}
+
+              **Details:**
+                {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}`
+                {{ end }}
+              {{ end }}
         route:
           group_by:
           - alertname
@@ -67,14 +82,14 @@ spec:
           group_wait: 30s
           group_interval: 5m
           repeat_interval: 6h
-          receiver: gitlab
+          receiver: discord
           routes:
-          - receiver: "null"
-            match:
+          - match:
               alertname: Watchdog
-          - receiver: gitlab
-            match_re:
+            receiver: "null"
+          - match_re:
               severity: critical|warning
+            receiver: discord
             continue: true
           - match:
               alertname: etcdHighNumberOfFailedGRPCRequests
@@ -82,7 +97,7 @@ spec:
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
-        externalUrl: https://alertmanager.milton.mcf.io
+        externalUrl: https://alertmanager.${ROOT_DOMAIN}
         portName: http-web
         logFormat: json
         replicas: 2
@@ -134,7 +149,7 @@ spec:
         enabled: false
       prometheusSpec:
         retention: 30d
-        externalUrl: https://prometheus.milton.mcf.io
+        externalUrl: https://prometheus.${ROOT_DOMAIN}
         externalLabels:
           cluster: mcf-k8s-cluster
         portName: http-web
