@@ -4,4 +4,3 @@ resources:
 - namespace.yaml
 - kube-prometheus-stack
 - loki-stack
-- grafana

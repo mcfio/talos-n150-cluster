@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: grafana-auth-google
+    namespace: monitoring
+type: Opaque
+stringData:
+    client_id: ENC[AES256_GCM,data:gR52USGyOpU6G2A/jqt7i4SbnXpQq5s2Eh+x2RaPpajYo4CQvptIEjhKCEPyODjkKFU0sBwkOmhnHHUjWOddIjMT/LW1EdC0,iv:IYNNVRy60OcKz5oTy3iNHZit+fQRC3eEbf27BGoKPGQ=,tag:gdzlSVan9GQuZ5nB4xay8w==,type:str]
+    client_secret: ENC[AES256_GCM,data:xYqjv7CF37H8rT7G75C0s/1C4fEcJDX8,iv:xfnz23PqusMEuqRX2DIBKMppdrtXtO01cWFmOLA/g+w=,tag:VA2d/8NmdgUAVg0/iFBzjA==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv:
+        - vault_url: https://vault7636.vault.azure.net
+          name: sops-key
+          version: 8b354eac7f8d4ee18f47b5081b0b7877
+          created_at: "2021-09-13T01:11:46Z"
+          enc: VKRTiHJIcdiopk-CyVHiprfg3e7AEPB_lXGzaNLTrqEn5GtTY2EgRTOAYXpIb5Y5zPhI9pZMVv-FMujxjch2BwewjJLrFc0bRDSM5Ark5t5K8D3IPq4jn795XDTSxIXP-ZQhHPfVGHNqn1QlYSvxnOe0SADL6FghXRFAID3wceY271RJTeY760Tv7LBxZBuccjYqb5Jle1tUIfzRpOK1HVeRQ6s9dw59ZX9J9PXP8i6TKNcWtRChNRSYVys04CZsYBq1xN71gQt1cPzAetZ8kjyzxdm--P0htCzTpg_BT0wT9iNBnQe68XrhZLMMb6EZnZHRSmz_I40plm_s_rZUZadz-woCgq8cMyukf6AP7KncD_xRKR9MjWmtq3Pj4AHdSJBjEbb-4_6iluTN3yMjsd-1LfxhghJf8ZGk-XAVsj47GsmZfjdS4R1ZS85XYe3RbVKkferbvO65ClXDbNCOl9lt3RRqNRXWpxtJLef7yEqESq-pX5dUc544G0Ddv_lFIheZKHQYiXFJjLzn9cN2Q-gVEtxGqw2aWJzXsHWWHoPmphLPOSUV96Y6mpx92Ph_Evz8ZU77_Q34qbJSo73IH5f3Pcr2HxF4kK9pwl8qy5Ri1PdjwjdzZf90IWhoWGFjZfuJz5hi1psmdaGloCHcey4LuSdl3jEIozSTbFfqqGo
+    hc_vault: []
+    age: []
+    lastmodified: "2021-09-13T01:11:48Z"
+    mac: ENC[AES256_GCM,data:XiwFQxQTO8zxPDG6kaxL8CORa/XUII3XLheXUlm//7fCH1JB6VNeWEcB2OG7f+EVAZYBfo5lJTtuNTqwGPuogE6JV5dbIxTWXxikaBK4SOB5qAd3x2GBnpIiXhFK8KFYX5ouE4xq6leVzzltmPUxUN87ewomZwxUPUou8CARowY=,iv:Afed/DknijSxkkvt+bUtxzrD6KLLq2eNxEf3FNreXs0=,tag:WEWs44ioIUXKArvEXYeubw==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1

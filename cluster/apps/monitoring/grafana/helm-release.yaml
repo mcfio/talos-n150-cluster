@@ -16,31 +16,20 @@ spec:
         kind: HelmRepository
         name: grafana
   values:
-    fullnameOverride: grafana
+    testFramework:
+      enabled: false
     deploymentStrategy:
       type: Recreate
     env:
       GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_LOG_FILTERS: rendering:debug
-    testFramework:
-      enabled: false
-    serviceMonitor:
-      enabled: true
-    admin:
-      existingSecret: 'grafana-admin-creds'
-      userKey: admin-user
-      passwordKey: admin-password
-    plugins:
-    - natel-discrete-panel
-    - pr0ps-trackmap-panel
-    - grafana-piechart-panel
-    - vonage-status-panel
-    - grafana-worldmap-panel
-    - grafana-clock-panel
+    adminPassword: ${GRAFANA_ADMIN_PASSWORD}
     grafana.ini:
       server:
-        root_url: https://grafana.milton.mcf.io
+        root_url: https://grafana.${ROOT_DOMAIN}
+      analytics:
+        check_for_updates: false
       auth.anonymous:
         enabled: true
         org_name: Main Org.
@@ -52,10 +41,19 @@ spec:
         scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
         auth_url: https://accounts.google.com/o/oauth2/auth
         token_url: https://accounts.google.com/o/oauth2/token
-        allowed_domains: mcfaul.cloud
+        allowed_domains: ${AUTH_DOMAIN}
         allow_sign_up: true
       security:
         allow_embedding: true
+    serviceMonitor:
+      enabled: true
+    plugins:
+    - natel-discrete-panel
+    - pr0ps-trackmap-panel
+    - grafana-piechart-panel
+    - vonage-status-panel
+    - grafana-worldmap-panel
+    - grafana-clock-panel
     extraSecretMounts:
     - name: grafana-auth-google-mount
       secretName: grafana-auth-google
