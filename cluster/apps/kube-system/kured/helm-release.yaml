@@ -26,11 +26,15 @@ spec:
       lockReleaseDelay: 120s
       prometheusUrl: http://prom-prometheus.monitoring:9090
       alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh|PersistentVolumeUsage.*)$'
+      timeZone: America/Toronto
       startTime: 2am
       endTime: 5am
-      timeZone: America/Toronto
       blockingPodSelector:
       - app=rook-ceph-osd
+      notifyUrl: ${KURED_NOTIFYURL}
+      messageTemplateDrain: "⏳ Draining node %s"
+      messageTemplateReboot: "♻️ Rebooted node %s"
+      rebootCommand: "/usr/bin/systemctl reboot"
     metrics:
       create: true
     tolerations:
