@@ -5,6 +5,5 @@ resources:
 - namespace.yaml
 - networkpolicy.yaml
 - metrics-server
-- kured
 - reloader
 - node-feature-discovery
