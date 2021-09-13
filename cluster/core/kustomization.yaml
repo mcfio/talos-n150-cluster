@@ -6,3 +6,4 @@ resources:
 - cert-manager
 - istio
 - rook-ceph
+- metallb
