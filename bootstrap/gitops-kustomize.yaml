@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: home-cluster
   validation: client
-  prune: true
+  prune: false
   decryption:
     provider: sops
     secretRef:
