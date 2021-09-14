@@ -4,6 +4,5 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - networkpolicy.yaml
-- metrics-server
 - reloader
 - node-feature-discovery
