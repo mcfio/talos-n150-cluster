@@ -18,11 +18,7 @@ spec:
       interval: 5m
   values:
     communications:
-      discord:
-        enabled: true
-        token: "${BOTKUBE_DISCORD_TOKEN}"
-        botid: "${BOTKUBE_DISCORD_BOTID}"
-        channel: "${BOTKUBE_DISCORD_CHANNEL}"
+      existingSecretName: botkube-communications-secret
     serviceMonitor:
       enabled: true
     config:
