@@ -20,9 +20,9 @@ spec:
     communications:
       discord:
         enabled: true
-        token: ${BOTKUBE_DISCORD_TOKEN}
-        botid: ${BOTKUBE_DISCORD_BOTID}
-        channel: ${BOTKUBE_DISCORD_CHANNEL}
+        token: "${BOTKUBE_DISCORD_TOKEN}"
+        botid: "${BOTKUBE_DISCORD_BOTID}"
+        channel: "${BOTKUBE_DISCORD_CHANNEL}"
     serviceMonitor:
       enabled: true
     config:
