@@ -22,3 +22,4 @@ resources:
 - vernemq-charts.yaml
 - weaveworks-kured.yaml
 - stakater-charts.yaml
+- metrics-server.yaml
