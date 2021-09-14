@@ -17,4 +17,5 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    # There are no values, intentionally left blank.
+    args:
+    - --kubelet-insecure-tls
