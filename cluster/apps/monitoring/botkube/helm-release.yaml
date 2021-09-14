@@ -1,0 +1,35 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: botkube
+  namespace: monitoring
+spec:
+  interval: 5m
+  chart:
+    spec:
+      # renovate: registryUrl=https://infracloudio.github.io/charts
+      chart: botkube
+      version: v0.12.3
+      sourceRef:
+        kind: HelmRepository
+        name: infracloudio
+        namespace: flux-system
+      interval: 5m
+  values:
+    communications:
+      discord:
+        enabled: true
+        token: ${DISCORD_TOKEN}
+        botid: ${DISCORD_APPLICATION}
+        channel: "#notifications"
+        notifytype: short
+    serviceMonitor:
+      enabled: true
+    config:
+      recommendations: false
+      settings:
+        clustername: home-cluster
+        kubectl:
+          enabled: true
+          restrictAccess: true
