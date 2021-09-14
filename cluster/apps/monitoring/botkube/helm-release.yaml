@@ -22,7 +22,7 @@ spec:
         enabled: true
         token: ${DISCORD_TOKEN}
         botid: ${DISCORD_APPLICATION}
-        channel: "#notifications"
+        channel: "534032810911072277"
         notifytype: short
     serviceMonitor:
       enabled: true
