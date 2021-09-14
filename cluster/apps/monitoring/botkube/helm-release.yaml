@@ -20,10 +20,9 @@ spec:
     communications:
       discord:
         enabled: true
-        token: ${DISCORD_TOKEN}
-        botid: ${DISCORD_APPLICATION}
-        channel: "534032810911072277"
-        notifytype: short
+        token: ${BOTKUBE_DISCORD_TOKEN}
+        botid: ${BOTKUBE_DISCORD_BOTID}
+        channel: ${BOTKUBE_DISCORD_CHANNEL}
     serviceMonitor:
       enabled: true
     config:
