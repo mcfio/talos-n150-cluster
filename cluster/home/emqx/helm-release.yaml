@@ -19,6 +19,13 @@ spec:
   values:
     replicaCount: 3
     recreatePods: true
+    resources:
+      limits:
+        cpu: 500m
+        memory: 512Mi
+      requests:
+        cpu: 500m
+        memory: 512Mi
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_ACL_NOMATCH: "deny"
