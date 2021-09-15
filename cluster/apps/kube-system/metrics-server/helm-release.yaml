@@ -19,6 +19,7 @@ spec:
   values:
     args:
     - --kubelet-insecure-tls
+    - --metric-resolution=15s
     resources:
       requests:
         cpu: 10m
