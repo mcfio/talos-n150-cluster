@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: webhook-receiver
+  namespace: flux-system
+spec:
+  hosts:
+  - flux-webhook.${ROOT_DOMAIN}
+  gateways:
+  - istio-ingress/cluster-ingress-gateway
+  http:
+  - route:
+    - destination:
+        port:
+          number: 80
+        host: webhook-receiver.flux-system.svc.cluster.local
