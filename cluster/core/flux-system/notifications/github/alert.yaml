@@ -9,7 +9,13 @@ spec:
     name: github
   eventSeverity: info
   eventSources:
-    - kind: Kustomization
-      name: "*"
-    - kind: HelmRelease
-      name: "*"
+  - kind: Kustomization
+    name: apps
+  - kind: Kustomization
+    name: core
+  - kind: Kustomization
+    name: crds
+  - kind: Kustomization
+    name: home-cluster
+  - kind: HelmRelease
+    name: "*"
