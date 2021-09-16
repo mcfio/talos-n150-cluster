@@ -6,3 +6,4 @@ resources:
 - monitoring/kustomize-controller/pod-monitor.yaml
 - monitoring/notification-controller/pod-monitor.yaml
 - monitoring/source-controller/pod-monitor.yaml
+- notifications
