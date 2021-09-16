@@ -99,12 +99,17 @@ spec:
           mon:
             disabled: false
             probe:
-              timeoutSeconds: 3
+              periodSeconds: 20
+              timeoutSeconds: 6
               failureThreshold: 5
           mgr:
             disabled: false
           osd:
             disabled: false
+            probe:
+              periodSeconds: 20
+              timeoutSeconds: 6
+              failureThreshold: 5
 
     cephBlockPools:
     - name: data-pool
