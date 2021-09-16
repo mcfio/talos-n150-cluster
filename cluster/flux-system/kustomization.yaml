@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
 - crds.yaml
 - helm-repositories
-- notifications
 - cluster-secrets.yaml
 - cluster-vars.yaml
 - monitoring.yaml
