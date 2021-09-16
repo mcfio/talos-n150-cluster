@@ -24,6 +24,8 @@ spec:
       mode: ALLOW_ANY
 
   components:
+    cni:
+      enabled: true
     pilot:
       k8s:
         env:
