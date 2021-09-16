@@ -5,7 +5,7 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
-  interval: 10m0s
+  interval: 90m0s
   path: ./cluster/flux-system
   sourceRef:
     kind: GitRepository
