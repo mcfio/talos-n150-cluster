@@ -176,4 +176,29 @@ spec:
           csi.storage.k8s.io/fstype: ext4
 
     cephFileSystems: null
-    cephObjectStores: null
+
+    cephObjectStores:
+    - name: ceph-objectstore
+      spec:
+        metadataPool:
+          failureDomain: osd
+          replicated:
+            size: 3
+        dataPool:
+          failureDomain: osd
+          erasureCoded:
+            dataChunks: 2
+            codingChunks: 1
+        preservePoolsOnDelete: true
+        gateway:
+          port: 80
+          instances: 1
+        healthCheck:
+          bucket:
+            interval: 60s
+      storageClass:
+        enabled: true
+        name: ceph-bucket
+        reclaimPolicy: Delete
+        parameters:
+          region: us-east-1
