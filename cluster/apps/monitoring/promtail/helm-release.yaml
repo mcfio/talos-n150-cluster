@@ -17,7 +17,7 @@ spec:
         name: grafana
   values:
     config:
-      lokiAddress: http://loki-stack.monitoring:3100/loki/api/v1/push
+      lokiAddress: http://loki.monitoring:3100/loki/api/v1/push
       snippets:
         extraScrapeConfigs: |
           - job_name: journal
