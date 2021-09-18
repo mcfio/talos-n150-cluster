@@ -15,6 +15,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metrics-server
+        namespace: flux-system
   values:
     args:
     - --kubelet-insecure-tls
