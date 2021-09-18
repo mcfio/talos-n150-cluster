@@ -46,17 +46,17 @@ spec:
           cache_ttl: 24h         # Can be increased for faster performance over longer query periods, uses more disk space
           resync_interval: 5s
           shared_store: s3
-      # ruler:
-      #   storage:
-      #     type: local
-      #     local:
-      #       directory: /rules
-      #   rule_path: /tmp/scratch
-      #   alertmanager_url: http://prom-alertmanager.monitoring:9093
-      #   ring:
-      #     kvstore:
-      #       store: inmemory
-      #   enable_api: true
+      ruler:
+        storage:
+          type: local
+          local:
+            directory: /rules
+        rule_path: /tmp/scratch
+        alertmanager_url: http://prom-alertmanager.monitoring:9093
+        ring:
+          kvstore:
+            store: inmemory
+        enable_api: true
   postRenderers:
   - kustomize:
       patchesStrategicMerge:
