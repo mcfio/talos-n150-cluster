@@ -5,7 +5,7 @@ metadata:
   name: kube-prometheus-stack
   namespace: monitoring
 spec:
-  interval: 6h
+  interval: 12h
   maxHistory: 2
   chart:
     spec:
