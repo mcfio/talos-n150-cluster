@@ -15,6 +15,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
+        namespace: flux-system
   install:
     crds: Create
   upgrade:
