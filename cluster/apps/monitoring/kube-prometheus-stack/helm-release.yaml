@@ -175,6 +175,8 @@ spec:
             cpu: 250m
           limits:
             memory: 3096Mi
+        nodeSelector:
+          kubernetes.io/arch: amd64
         storageSpec:
           volumeClaimTemplate:
             metadata:
