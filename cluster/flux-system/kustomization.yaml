@@ -6,6 +6,5 @@ resources:
 - helm-repositories
 - cluster-secrets.yaml
 - cluster-vars.yaml
-- monitoring.yaml
 - core.yaml
 - apps.yaml
