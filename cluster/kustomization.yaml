@@ -4,8 +4,6 @@ kind: Kustomization
 resources:
 - flux-system
 - kube-system
-- monitoring
 - oauth2-proxy
-- gitlab-system
 - mediaserver
 - home
