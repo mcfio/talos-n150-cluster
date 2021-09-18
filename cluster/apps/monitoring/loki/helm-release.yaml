@@ -7,7 +7,8 @@ metadata:
   annotations:
     kustomize.toolkit.fluxcd.io/substitute: disabled
 spec:
-  interval: 5m
+  interval: 6h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://grafana.github.io/helm-charts
@@ -16,12 +17,14 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: grafana
-      interval: 5m
   values:
+    replicas: 2
     serviceMonitor:
       enabled: true
     extraArgs:
       config.expand-env: true
+    podDisruptionBudget:
+      minAvailable: 1
     config:
       table_manager:
         retention_deletes_enabled: true
@@ -57,6 +60,19 @@ spec:
           kvstore:
             store: inmemory
         enable_api: true
+    alerting_groups:
+    - name:
+      rules:
+      - alert: DatabaseIsLocked
+        expr: |
+          sum by (app) (count_over_time({app=~".*arr"} |= "ddatabase is locked"[2m])) > 0
+        for: 10s
+        labels:
+          severity: critical
+          category: logs
+        annotations:
+          identifier: "{{ $labels.node }}"
+          description: "{{ $app }} has a locked configurations database"
   postRenderers:
   - kustomize:
       patchesStrategicMerge:
