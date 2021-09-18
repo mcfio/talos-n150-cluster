@@ -5,7 +5,8 @@ metadata:
   name: node-feature-discovery
   namespace: kube-system
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://kubernetes-sigs.github.io/node-feature-discovery/charts
@@ -14,7 +15,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: node-feature-discovery-charts
-        namespace: flux-system
   values:
     image:
       repository: raspbernetes/node-feature-discovery
@@ -39,11 +39,6 @@ spec:
             - "vendor"
             - "device"
           custom:
-          - name: "conbee-ii"
-            matchOn:
-            - usbId:
-                vendor: ["1cf1"]
-                device: ["0030"]
           - name: "zwave"
             matchOn:
             - usbId:
