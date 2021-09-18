@@ -5,3 +5,4 @@ resources:
 - kured
 - metrics-server/helm-release.yaml
 - node-feature-discovery/helm-release.yaml
+- reloader/helm-release.yaml

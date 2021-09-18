@@ -5,7 +5,8 @@ metadata:
   name: reloader
   namespace: kube-system
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://stakater.github.io/stakater-charts
