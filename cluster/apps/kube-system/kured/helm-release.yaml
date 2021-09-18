@@ -15,8 +15,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: weaveworks-kured
-        namespace: flux-system
-      interval: 1m
   values:
     image:
       repository: raspbernetes/kured
