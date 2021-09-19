@@ -5,7 +5,8 @@ metadata:
   name: primary-ups
   namespace: home
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 5
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts
