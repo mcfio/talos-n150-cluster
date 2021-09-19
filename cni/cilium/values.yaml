@@ -1,4 +1,29 @@
 ---
+# Kubernetes exports KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT with a ClusterIP
+# of the kube-apiserver service to the pod, however without kube-proxy in this setup the Cillium
+# agent needs to be made aware of how to reach the kube-apiserver
+k8sServiceHost: 192.168.45.40
+k8sServicePort: 8443
+
+# -- Roll out cilium agent pods automatically when configmap is updated.
+rollOutCiliumPods: true
+
+# -- Enable installation of PodCIDR routes between worker
+# nodes if worker nodes share a common L2 network segment.
+autoDirectNodeRoutes: true
+
+# -- Configure BGP
+bgp:
+  # -- Enable BGP support inside Cilium; embeds a new ConfigMap for BGP inside
+  # cilium-agent and cilium-operator
+  enabled: false
+  announce:
+    # -- Enable allocation and announcement of service LoadBalancer IPs
+    loadbalancerIP: true
+
+# -- Configure container runtime specific integration.
+containerRuntime:
+  integration: containerd
 
 hubble:
   enabled: true
@@ -14,30 +39,46 @@ hubble:
   listenAddress: ":4244"
   relay:
     enabled: true
+    rollOutPods: true
   ui:
     enabled: true
+    rollOutPods: true
+    backend:
+      image:
+        tag: v0.8.0
+    frontend:
+      image:
+        tag: v0.8.0
 
-# Disable automatic L2 routing between nodes, normally without BGP Full mesh this is required.
-autoDirectNodeRoutes: true
-
-# Cilium leverages MetalLB's simplified BGP announcement system for service type: LoadBalancer
-bgp:
-  enabled: false
-  announce:
-    loadbalancerIP: true
-
-containerRuntime:
-  integration: containerd
-
-# Kubernetes control plane will set the IPAM for the cluster
+# -- Configure IP Address Management mode.
+# ref: https://docs.cilium.io/en/stable/concepts/networking/ipam/
 ipam:
   mode: kubernetes
 
-# force features for kube-proxy replacement
+# -- Configure the kube-proxy replacement in Cilium BPF datapath
+# ref: https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/
 kubeProxyReplacement: strict
-# The IP address with port for kube-proxy replacement health check server to serve on
+
+# -- healthz server bind address for the kube-proxy replacement.
 kubeProxyReplacementHealthzBindAddr: "0.0.0.0:10256"
 
+# -- Configure maglev consistent hashing
+maglev:
+  tableSize: 1021
+  hashSeed: "P9jc887+zv7eNcUr"
+
+# -- Specify the CIDR for native routing (ie to avoid IP masquerade for).
+# This value corresponds to the configured cluster-cidr.
+nativeRoutingCIDR: 10.244.0.0/18
+
+# -- Configure service load balancing
+loadBalancer:
+  # -- algorithm is the name of the load balancing algorithm for backend
+  algorithm: maglev
+  # -- mode is the operation mode of load balancing for remote backends
+  mode: dsr
+
+# -- Configure prometheus metrics on the configured port at /metrics
 prometheus:
   enabled: true
   port: 8090
@@ -45,6 +86,9 @@ prometheus:
   # adjusted
   serviceMonitor:
     enabled: true
+
+# -- Configure the encapsulation configuration for communication between nodes.
+tunnel: disabled
 
 operator:
   rollOutPods: true
@@ -57,28 +101,3 @@ operator:
     # As an install task, the serviceMonitor CRD does not yet exist
     serviceMonitor:
       enabled: true
-
-# Kubernetes exports KUBERNETES_SERVICE_HOST and KUBERNETES_SERVICE_PORT with a ClusterIP
-# of the kube-apiserver service to the pod, however without kube-proxy in this setup the Cillium
-# agent needs to be made aware of how to reach the kube-apiserver
-k8sServiceHost: 192.168.45.40
-k8sServicePort: 8443
-
-# Disables network encapsulation and enables packet forwarding mode.
-tunnel: disabled
-
-# Configures the CIDR used for native routing. This will disable masquerading
-# of IP destinations to this subnet.
-nativeRoutingCIDR: 192.168.45.0/24
-
-# sets the maglev hash seed and table size, this avoids using the built-in seed
-# tableSize value is sufficient for approx. 10 backends.
-maglev:
-  tableSize: 1021
-  hashSeed: "P9jc887+zv7eNcUr"
-
-loadBalancer:
-  # BPF load balancing algorithm
-  algorithm: maglev
-  # BPF load balancing mode
-  mode: dsr
