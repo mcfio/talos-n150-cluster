@@ -35,8 +35,22 @@ spec:
             icon_url: https://avatars3.githubusercontent.com/u/3380462
             username: Alertmanager
             send_resolved: true
-            title: '{{ template "custom_title" . }}'
-            text: '{{ template "custom_slack_message" . }}'
+            color: '{{ template "slack.color" . }}'
+            title: '{{ template "slack.title" . }}'
+            text: '{{ template "slack.text" . }}'
+            actions:
+            - type: button
+              text: 'Runbook :green_book:'
+              url: '{{ (index .Alerts 0).Annotations.runbook_url }}'
+            - type: button
+              text: 'Query :mag:'
+              url: '{{ (index .Alerts 0).GeneratorURL }}'
+            - type: button
+              text: 'Dashboard :chart_with_upwards_trend:'
+              url: '{{ (index .Alerts 0).Annotations.dashboard_url }}'
+            - type: button
+              text: 'Silence :no_bell:'
+              url: '{{ template "__alert_silence_link" . }}'
         route:
           group_by:
           - alertname
@@ -55,24 +69,67 @@ spec:
             continue: true
       templateFiles:
         notifications.tmpl: |-
-          {{ define "__single_message_title" }}{{ range .Alerts.Firing }}{{ .Labels.alertname }} @ {{ .Annotations.identifier }}{{ end }}{{ range .Alerts.Resolved }}{{ .Labels.alertname }} @ {{ .Annotations.identifier }}{{ end }}{{ end }}
+          {{ define "__alert_silence_link" -}}
+              {{ .ExternalURL }}/#/silences/new?filter=%7B
+              {{- range .CommonLabels.SortedPairs -}}
+                  {{- if ne .Name "alertname" -}}
+                      {{- .Name }}%3D"{{- .Value -}}"%2C%20
+                  {{- end -}}
+              {{- end -}}
+              alertname%3D"{{- .CommonLabels.alertname -}}"%7D
+          {{- end }}
 
-          {{ define "custom_title" }}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ if or (and (eq (len .Alerts.Firing) 1) (eq (len .Alerts.Resolved) 0)) (and (eq (len .Alerts.Firing) 0) (eq (len .Alerts.Resolved) 1)) }}{{ template "__single_message_title" . }}{{ end }}{{ end }}
+          {{ define "__alert_severity" -}}
+              {{- if eq .CommonLabels.severity "critical" -}}
+              *Severity:* `Critical`
+              {{- else if eq .CommonLabels.severity "warning" -}}
+              *Severity:* `Warning`
+              {{- else if eq .CommonLabels.severity "info" -}}
+              *Severity:* `Info`
+              {{- else -}}
+              *Severity:* :question: {{ .CommonLabels.severity }}
+              {{- end }}
+          {{- end }}
 
-          {{ define "custom_slack_message" }}
-          {{ if or (and (eq (len .Alerts.Firing) 1) (eq (len .Alerts.Resolved) 0)) (and (eq (len .Alerts.Firing) 0) (eq (len .Alerts.Resolved) 1)) }}
-          {{ range .Alerts.Firing }}{{ .Annotations.description }}{{ end }}{{ range .Alerts.Resolved }}{{ .Annotations.description }}{{ end }}
-          {{ else }}
-          {{ if gt (len .Alerts.Firing) 0 }}
-          *Alerts Firing:*
-          {{ range .Alerts.Firing }}- {{ .Annotations.identifier }}: {{ .Annotations.description }}
-          {{ end }}{{ end }}
-          {{ if gt (len .Alerts.Resolved) 0 }}
-          *Alerts Resolved:*
-          {{ range .Alerts.Resolved }}- {{ .Annotations.identifier }}: {{ .Annotations.description }}
-          {{ end }}{{ end }}
-          {{ end }}
-          {{ end }}
+          {{ define "slack.title" -}}
+            [{{ .Status | toUpper -}}
+            {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
+            ] {{ .CommonLabels.alertname }}
+          {{- end }}
+
+          {{ define "slack.text" -}}
+            {{ template "__alert_severity" . }}
+            {{- if (index .Alerts 0).Annotations.summary }}
+            {{- "\n" -}}
+            *Summary:* {{ (index .Alerts 0).Annotations.summary }}
+            {{- end }}
+            {{ range .Alerts }}
+              {{- if .Annotations.description }}
+              {{- "\n" -}}
+              {{ .Annotations.description }}
+              {{- "\n" -}}
+              {{- end }}
+              {{- if .Annotations.message }}
+              {{- "\n" -}}
+              {{ .Annotations.message }}
+              {{- "\n" -}}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+
+          {{ define "slack.color" -}}
+            {{ if eq .Status "firing" -}}
+              {{ if eq .CommonLabels.severity "warning" -}}
+                  warning
+              {{- else if eq .CommonLabels.severity "critical" -}}
+                  danger
+              {{- else -}}
+                  #439FE0
+              {{- end -}}
+            {{ else -}}
+            good
+            {{- end }}
+          {{- end }}
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
