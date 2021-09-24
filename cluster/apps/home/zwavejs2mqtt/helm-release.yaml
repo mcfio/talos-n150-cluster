@@ -14,7 +14,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts
       chart: zwavejs2mqtt
-      version: 5.0.1
+      version: 5.0.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: ghcr.io/zwave-js/zwavejs2mqtt
-      tag: 5.6.0
+      tag: 5.6.1
     podAnnotations:
       sidecar.istio.io/inject: "false"
     env:
