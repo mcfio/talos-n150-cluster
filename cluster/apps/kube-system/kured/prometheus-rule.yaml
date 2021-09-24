@@ -12,16 +12,16 @@ spec:
     rules:
     - alert: RebootRequired
       annotations:
-        identifier: "{{ $labels.node }}"
-        description: Node has failed to reboot for 24 hours, requires manual reboot.
+        summary: Reboot is required.
+        message: Node {{ $labels.node }} has failed to reboot for 24 hours, requires manual reboot.
       expr: max(kured_reboot_required) != 0
       for: 24h
       labels:
         severity: warning
     - alert: RebootScheduled
       annotations:
-        identifier: "{{ $labels.node }}"
-        description: Node has been scheduled for reboot.
+        summary: Reboot has been scheduled.
+        message: Node {{ $labels.node }} has been scheduled for reboot.
       expr: kured_reboot_required > 0
       for: 5m
       labels:
