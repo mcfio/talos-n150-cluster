@@ -5,7 +5,8 @@ metadata:
   name: sonarr
   namespace: mediaserver
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts

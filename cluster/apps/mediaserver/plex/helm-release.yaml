@@ -5,7 +5,8 @@ metadata:
   name: plex
   namespace: mediaserver
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts
@@ -15,7 +16,6 @@ spec:
         kind: HelmRepository
         name: k8s-at-home
         namespace: flux-system
-      interval: 5m
   values:
     image:
       repository: ghcr.io/k8s-at-home/plex
