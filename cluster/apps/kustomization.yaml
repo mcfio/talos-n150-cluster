@@ -4,4 +4,5 @@ resources:
 - home
 - istio
 - kube-system
+- mediaserver
 - monitoring
