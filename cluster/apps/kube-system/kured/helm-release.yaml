@@ -24,7 +24,7 @@ spec:
       lockTtl: 600s
       lockReleaseDelay: 120s
       prometheusUrl: http://prom-prometheus.monitoring:9090
-      alertFilterRegexp: '^(Watchdog|CPUThrottlingHigh|PersistentVolumeUsage.*)$'
+      alertFilterRegexp: '^(Watchdog|RebootRequired|RebootScheduled|KubeAPIErrorBudgetBurn|CPUThrottlingHigh|PersistentVolumeUsage.*)$'
       timeZone: America/Toronto
       startTime: 2am
       endTime: 5am
