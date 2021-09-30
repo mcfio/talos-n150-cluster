@@ -22,7 +22,7 @@ spec:
   values:
     image:
       repository: ghcr.io/zwave-js/zwavejs2mqtt
-      tag: 5.7.1
+      tag: 5.7.2
     podAnnotations:
       sidecar.istio.io/inject: "false"
     env:
