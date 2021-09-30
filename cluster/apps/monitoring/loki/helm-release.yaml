@@ -26,6 +26,15 @@ spec:
       config.expand-env: true
     podDisruptionBudget:
       minAvailable: 1
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - loki
+        topologyKey: kubernetes.io/hostname
     config:
       table_manager:
         retention_deletes_enabled: true
