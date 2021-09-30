@@ -13,7 +13,7 @@ spec:
     - alert: RebootRequired
       annotations:
         summary: Reboot is required.
-        message: Node {{ $labels.node }} has failed to reboot for 24 hours, requires manual reboot.
+        message: Node has failed to reboot for 24 hours, manual reboot required.
       expr: max(kured_reboot_required) != 0
       for: 24h
       labels:
