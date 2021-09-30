@@ -27,7 +27,7 @@ spec:
       sidecar.istio.io/inject: "false"
     env:
       TZ: America/Toronto
-      NETWORK_KEY: ${ZWAVEJS2MQTT_NETWORK_KEY}
+      NETWORK_KEY: ${ZWAVEJS2MQTT_S0_LEGACY_KEY}
     securityContext:
       privileged: true
     persistence:
