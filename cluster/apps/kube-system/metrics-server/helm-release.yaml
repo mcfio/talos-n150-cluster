@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://kubernetes-sigs.github.io/metrics-server
       chart: metrics-server
-      version: 3.5.0
+      version: 3.6.0
       sourceRef:
         kind: HelmRepository
         name: metrics-server
@@ -19,7 +19,6 @@ spec:
   values:
     args:
     - --kubelet-insecure-tls
-    - --metric-resolution=15s
     resources:
       requests:
         cpu: 10m
