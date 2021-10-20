@@ -1,0 +1,34 @@
+#ENC[AES256_GCM,data:fIowS9jWYYAnQ/l22bXrjVfy5Iv4tPvl6Kt/JqSFVSCaDPtdF98=,iv:sivkcbf0IuU/BTuadZxZfTDe3DQIiMHkauLstRkumGE=,tag:eikZ2Kqdo9VUoYawRfyGnA==,type:comment]
+ansible_user: ENC[AES256_GCM,data:XBJrFY6cvIs=,iv:LYoocM2d1g2AyX4MAWtcFE9IiukeC9ToURkVsAipDDg=,tag:rnbsCGIT4XMt0KZsD6trbg==,type:str]
+ansible_host: ENC[AES256_GCM,data:jidvT6JsbDoLnkqQfw==,iv:BrbFt1vxb37rXfrcnCNpj1gdEtBs+AEvqiBdO/oXsHY=,tag:ugW04hHTd9hhbajyc/+Cvw==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-10-20T18:20:24Z"
+    mac: ENC[AES256_GCM,data:6Wqfp2pTEQpJMEmhqVWqRnGPOyGD76ONy1DbydNI9sVyYGTs/betPadWOmnVRkMnNwsyNl6YAS2pAfI/Nrom9Gme54/8RWaBp0KulH1lzfgcFnwPwL+nD/Il9doHk0tORdZAznVKvbd5nBqHcCS0WahMD/uCH7EIVYybQV+pF1s=,iv:AuF5vI0OA+2/Mq1H7XKfuoH6yUVNcl4xDpKV3O0MbvI=,tag:OFcsBTew/3YddUqAqeXwKw==,type:str]
+    pgp:
+        - created_at: "2021-10-20T18:20:23Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA/rJhRVViU5nAQ//U21QEqy3S9wS3zNCd+KuQ+az/CsSVx0R2HsEnkCJwu/q
+            nrhfmkG1qYXKkvgjy4w7fEinWY7/SSpC6aP92jCcRr2K9hiz/4ZkMs+kepDxj3JM
+            4lyYICbwEwQIt5CzqxnxHZfiDH2KM4v0i+AGz3atG5hNKF+AtCCha6KVkTjguOT5
+            3FB6i8JD+fOZN6kdPfdlE8BGo+DFsepPlqn64eAvrAFwZIZzCEFe+C5g/LKn3Zlc
+            48qyaOOEVjcB+yeL2qW1fzpra4o/auCm2gtwm5InXyP3N6++6IIZT+1lR7N4f6Jy
+            hFjy9ZKUhnceIPZ6oPnyU3od96eKL9vuvBpq0UoQfiNj5ZqhiR1BtAgQMJDicaah
+            Zq0Z+fwpKDvVTf6cq03uug0CAEE8BHWV6Zs5BhoJr28mHwjZLOWoTOFwCimBvyVv
+            WbK2Fb/i/YVpu/Wm9AgfKBmF8qb39faeoBDC6Ca6CO9zwoQ3quV2KU4CKKiePcIv
+            9I5jWXNJQ2V97Ggtru3Nmtb0PGg/0Vrp/vlIFCc6JeEWxejO6Brm3TA9tcd1n0MP
+            MBs/LScF+y3yxEeIxJ5YdIgr82nkKD6fRcS5NKwFqMDkgmG5cMdwr1DdpwEvDQKw
+            sgEIkdcNWG7QnaFv8wcbsanoF+NLzpeEHEZo1t/75Q3NxrehEsef2tqd/3ouISLS
+            VgFty/Im+i8WJv0PeTchQjrlTkO7Rs93j1e957g5ZW44GbVW1g4KjGhe5igKXvlO
+            N3dBdiNfVEdEwIhK+kwfkbnhAHwHTccC8bQmmcAEh/yNThDmw5dc
+            =Hx5T
+            -----END PGP MESSAGE-----
+          fp: 14DC38072204E1AC17AB0FCA0EFB186BD4637523
+    unencrypted_regex: ^(kind)$
+    version: 3.7.1
