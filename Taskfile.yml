@@ -10,6 +10,6 @@ silent: true
 
 includes:
   flux: .taskfiles/flux.yml
-  # ansible: .taskfiles/ansible.yml
+  ansible: .taskfiles/ansible.yml
   # rook-ceph: .taskfiles/rook-ceph.yml
   # scale: .taskfiles/scale.yml
