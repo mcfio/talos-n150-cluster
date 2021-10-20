@@ -1,5 +1,8 @@
 ---
 creation_rules:
-  - path_regex: .*.yaml
+  - path_regex: infrastructure/.*\.sops\.ya?ml
     pgp: 14DC38072204E1AC17AB0FCA0EFB186BD4637523
+    encrypted_regex: ^(data|stringData)$
+  - path_regex: cluster/.*\.ya?ml
+    azure_keyvault: https://vault7636.vault.azure.net/keys/sops-key/8b354eac7f8d4ee18f47b5081b0b7877
     encrypted_regex: ^(data|stringData)$
