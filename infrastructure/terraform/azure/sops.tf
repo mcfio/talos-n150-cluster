@@ -38,6 +38,12 @@ resource "azurerm_key_vault_key" "sops" {
   ]
 }
 
+resource "azurerm_role_assignment" "sops" {
+  scope = azurerm_key_vault.gitops-clusters-keyvault.id
+  principal_id = azuread_service_principal.sops.id
+  role_definition_name = "Key Vault Crypto User"
+}
+
 resource "azurerm_key_vault_access_policy" "sops" {
   key_vault_id = azurerm_key_vault.gitops-clusters-keyvault.id
 
