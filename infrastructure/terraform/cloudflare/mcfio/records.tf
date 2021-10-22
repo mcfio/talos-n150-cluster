@@ -52,3 +52,10 @@ resource "cloudflare_record" "dkim" {
   value   = "sig1.dkim.mcf.io.at.icloudmailadmin.com"
   proxied = false
 }
+
+resource "cloudflare_record" "azure_custom_domain" {
+  zone_id = data.cloudflare_zone.domain.id
+  name    = data.cloudflare_zone.domain.name
+  type    = "TXT"
+  value   = "MS=ms95064622"
+}
