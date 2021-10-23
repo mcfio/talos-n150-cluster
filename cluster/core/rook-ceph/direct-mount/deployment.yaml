@@ -20,7 +20,7 @@ spec:
         role: storage-node
       containers:
       - name: rook-direct-mount
-        image: rook/ceph:v1.7.5
+        image: rook/ceph:v1.7.6
         command: ["/tini"]
         args: ["-g", "--", "/usr/local/bin/toolbox.sh"]
         imagePullPolicy: IfNotPresent
