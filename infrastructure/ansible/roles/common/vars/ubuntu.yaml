@@ -6,21 +6,31 @@ kernel_paramters:
 - { name: net.bridge.bridge-nf-call-ip6tables, value: 1 }
 - { name: net.ipv4.ip_forward, value: 1 }
 - { name: fs.inotify.max_user_watches, value: 524288 }
+- { name: net.ipv4.conf.lxc*.rp_filter, value: 0 }
 
 kernel_modules:
 - br_netfilter
 - overlay
-- iscsi_tcp
 
 packages:
   install:
+  - apt-transport-https
   - neofetch
   - unattended-upgrades
   - nfs-common
+  - containerd
+  - socat
+  - conntrack
   remove:
+  - apparmor
   - apport
+  - bcache-tools
   - btrfs-progs
   - byobu
+  - cloud-init
+  - cloud-guest-utils
+  - cloud-initramfs-copymods
+  - cloud-initramfs-dyn-netconf
   - friendly-recovery
   - landscape-common
   - lxd-agent-loader
