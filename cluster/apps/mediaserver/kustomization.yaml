@@ -8,5 +8,6 @@ resources:
 - plex
 - prowlarr
 - radarr
+- radarr-uhd
 - rclone
 - sonarr
