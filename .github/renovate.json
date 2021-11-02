@@ -28,6 +28,24 @@
         "registryUrl=(?<registryUrl>.*?)\n *chart: (?<depName>.*?)\n *version: (?<currentValue>.*)\n"
       ],
       "datasourceTemplate": "helm"
+    },
+    {
+      "fileMatch": [
+        "cluster/crds/cert-manager/.+\\.yaml$"
+      ],
+      "matchStrings": [
+        "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/"
+      ],
+      "datasourceTemplate": "helm"
+    },
+    {
+      "fileMatch": [
+        "cluster/crds/rook-ceph/.+\\.yaml$"
+      ],
+      "matchStrings": [
+        "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n *tag: (?<currentValue>.*)\n"
+      ],
+      "datasourceTemplate": "helm"
     }
   ],
   "packageRules": [
@@ -115,7 +133,8 @@
       "matchDatasources": ["helm", "docker"],
       "matchPackagePatterns": ["^rook.ceph"],
       "groupName": "rook-ceph",
-      "additionalBranchPrefix": ""
+      "additionalBranchPrefix": "",
+      "separateMinorPatch": true
     }
   ]
 }
