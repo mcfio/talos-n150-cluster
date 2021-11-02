@@ -125,7 +125,7 @@
     {
       "matchDatasources": ["helm"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["patch"]
     },
