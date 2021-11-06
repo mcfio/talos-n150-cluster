@@ -6,5 +6,5 @@ resources:
 - istio-operator.yaml
 - gateway.yaml
 - helm-release.yaml
-- secret.yaml
+- secret.enc.yaml
 - virtual-service.yaml
