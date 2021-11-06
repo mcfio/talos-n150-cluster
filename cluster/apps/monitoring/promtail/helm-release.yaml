@@ -16,12 +16,12 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
-    install:
-      remediation:
-        retries: 3
-    upgrade:
-      remediation:
-        remediateLastFailure: true
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     config:
       lokiAddress: http://loki.monitoring:3100/loki/api/v1/push
