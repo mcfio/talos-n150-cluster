@@ -24,7 +24,7 @@ spec:
       serviceAccountName: rclone
       containers:
       - name: rclone
-        image: rclone/rclone:1.56.2
+        image: rclone/rclone:1.57.0
         args:
         - "mount"
         - "gcrypt:"
