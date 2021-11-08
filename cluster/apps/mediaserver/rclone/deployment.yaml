@@ -30,6 +30,7 @@ spec:
         - "gcrypt:"
         - "/data"
         - "--allow-other"
+        - "--allow-non-empty"
         - "--gid=1000"
         - "--dir-cache-time=1000h"
         - "--poll-interval=10s"
