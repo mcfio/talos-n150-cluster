@@ -127,9 +127,6 @@ roleRef:
   name: istio-operator
   apiGroup: rbac.authorization.k8s.io
 ---
-
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -172,7 +169,7 @@ spec:
             memory: 128Mi
         env:
         - name: WATCH_NAMESPACE
-          value:
+          value: ""
         - name: LEADER_ELECTION_NAMESPACE
           value: "istio-operator"
         - name: POD_NAME
