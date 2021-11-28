@@ -31,6 +31,8 @@ spec:
       enabled: true
 
     cephClusterSpec:
+      dashboard:
+        ssl: false
       mon:
         count: 3
         allowMultiplePerNode: true
