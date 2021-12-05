@@ -23,6 +23,7 @@ spec:
     configOverride: |
       [global]
       mon_warn_on_pool_no_redundancy = false
+      mon_max_pg_per_osd = 500
 
     toolbox:
       enabled: false
@@ -35,7 +36,7 @@ spec:
         ssl: false
       mon:
         count: 3
-        allowMultiplePerNode: true
+        allowMultiplePerNode: false
       crashCollector:
         disable: true
       placement:
@@ -53,26 +54,12 @@ spec:
             operator: Equal
             value: storage-node
             effect: PreferNoSchedule
-        mon:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-              - matchExpressions:
-                - key: role
-                  operator: In
-                  values:
-                  - storage-node
-                - key: ceph-mon-ssd
-                  operator: In
-                  values:
-                  - "true"
       resources:
         mon:
           requests:
             cpu: 500m
             memory: 2048Mi
           limits:
-            cpu: 500m
             memory: 2048Mi
         mgr:
           requests:
@@ -83,19 +70,20 @@ spec:
         osd:
           requests:
             cpu: 1000m
-            memory: 5120Mi
-          limits:
-            cpu: 1000m
-            memory: 5120Mi
+            memory: 2048Mi
       storage:
         useAllNodes: false
         useAllDevices: false
         nodes:
         - name: "mcf-k8s-storage01"
           devices:
-          - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K5YN1U95"
-          - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K4UDXEKL"
-          - name: "/dev/disk/by-id/ata-WDC_WD40EFRX-68N32N0_WD-WCC7K1XE80AU"
+          - name: "sdb"
+        - name: "mcf-k8s-storage02"
+          devices:
+          - name: "sdb"
+        - name: "mcf-k8s-storage03"
+          devices:
+          - name: "sdb"
       healthCheck:
         livenessProbe:
           mon:
@@ -119,9 +107,8 @@ spec:
         erasureCoded:
           dataChunks: 2
           codingChunks: 1
-        failureDomain: osd
+        failureDomain: host
         enableRBDStats: true
-        compressionMode: aggressive
         parameters:
           target_size_ratio: "0.5"
           compression_algorithm: lz4
@@ -131,7 +118,7 @@ spec:
 
     - name: metadata-pool
       spec:
-        failureDomain: osd
+        failureDomain: host
         replicated:
           size: 3
       storageClass:
@@ -183,11 +170,11 @@ spec:
     - name: ceph-objectstore
       spec:
         metadataPool:
-          failureDomain: osd
+          failureDomain: host
           replicated:
             size: 3
         dataPool:
-          failureDomain: osd
+          failureDomain: host
           erasureCoded:
             dataChunks: 2
             codingChunks: 1
