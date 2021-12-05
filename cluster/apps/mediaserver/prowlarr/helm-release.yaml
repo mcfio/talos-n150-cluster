@@ -33,7 +33,3 @@ spec:
       config:
         enabled: true
         existingClaim: prowlarr-config
-      media-path:
-        enabled: true
-        existingClaim: nfs-media
-        mountPath: /data
