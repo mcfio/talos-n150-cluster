@@ -35,8 +35,9 @@ spec:
         existingClaim: sonarr-config
       media-path:
         enabled: true
-        existingClaim: nfs-media
+        type: emptyDir
         mountPath: /data
+        mountPropagation: HostToContainer
     resources:
       requests:
         memory: 250Mi
@@ -54,3 +55,43 @@ spec:
               - radarr
               - plex
           topologyKey: kubernetes.io/hostname
+    additionalContainers:
+      rclone:
+        name: rclone
+        image: rclone/rclone:1.57.0
+        args:
+        - "mount"
+        - "gcrypt:"
+        - "/data"
+        - "--allow-other"
+        - "--allow-non-empty"
+        - "--gid=1000"
+        - "--dir-cache-time=1000h"
+        - "--poll-interval=10s"
+        - "--user-agent=milton-sonarr/v1"
+        - "--umask=002"
+        - "--rc"
+        - "--rc-addr=:5572"
+        - "--rc-no-auth"
+        - "--drive-pacer-min-sleep=10ms"
+        - "--drive-pacer-burst=1000"
+        - "-v=1"
+        envFrom:
+        - secretRef:
+            name: rclone-secret
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true"]
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "fusermount -uz /data"]
+        volumeMounts:
+        - name: media-path
+          mountPath: /data
+          mountPropagation: Bidirectional
