@@ -6,7 +6,7 @@ metadata:
 spec:
   storageClassName: rook-ceph-osd
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 800Gi
