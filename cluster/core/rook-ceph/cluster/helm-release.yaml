@@ -74,6 +74,8 @@ spec:
       storage:
         useAllNodes: false
         useAllDevices: false
+        config:
+          osdsPerDevice: 1
         nodes:
         - name: "mcf-k8s-storage01"
           devices:
@@ -104,10 +106,10 @@ spec:
     cephBlockPools:
     - name: data-pool
       spec:
+        failureDomain: host
         erasureCoded:
           dataChunks: 2
           codingChunks: 1
-        failureDomain: host
         enableRBDStats: true
         parameters:
           target_size_ratio: "0.5"
