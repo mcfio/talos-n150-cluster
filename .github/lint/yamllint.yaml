@@ -1,10 +1,7 @@
-# vi: set ft=yaml:
-
+---
 ignore: |
-  .yamllint.yml
-  *.enc.yaml
-  cluster/istio/operator/deployment.yaml
-
+  *.enc.*
+  flux-components.yaml
 extends: default
 rules:
   truthy:
