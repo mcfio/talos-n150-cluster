@@ -53,8 +53,6 @@ spec:
       requests:
         cpu: 500m
         memory: 250Mi
-    nodeSelector:
-      role: storage-node
     addons:
       promtail:
         enabled: true
