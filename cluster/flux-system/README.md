@@ -5,18 +5,18 @@ flux install \
   --version=latest \
   --components=source-controller,kustomize-controller,helm-controller,notification-controller \
   --network-policy=false \
-  --export > ../cluster/flux-system/toolkit-components.yaml
+  --export > ./flux-components.yaml
 ```
 
-## Apply the toolkit-components manifest
+## Apply the flux-components manifest
 
 ```bash
-kubectl apply -f ../cluster/flux-system/toolkit-components.yaml
+kubectl apply -f ./flux-components.yaml
 ```
 
 ## Apply the repo sync configuration
 
 ```bash
-kubectl apply -f ./gitops-source.yaml
-kubectl apply -f ./gitops-kustomize.yaml
+kubectl apply -f ./git-repository.yaml
+kubectl apply -f ./flux-system.yaml
 ```
