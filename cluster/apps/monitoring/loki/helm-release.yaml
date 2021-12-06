@@ -78,7 +78,7 @@ spec:
             store: inmemory
         enable_api: true
     alerting_groups:
-    - name:
+    - name: loki.rules
       rules:
       - alert: DatabaseIsLocked
         expr: |
