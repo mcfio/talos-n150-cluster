@@ -78,18 +78,18 @@ spec:
             store: inmemory
         enable_api: true
     alerting_groups:
-    - name: loki.rules
+    - name: arr
       rules:
       - alert: DatabaseIsLocked
         expr: |
-          sum by (app) (count_over_time({app=~".*arr"} |= "ddatabase is locked"[2m])) > 0
+          sum by (app) (count_over_time({app=~".*arr"} |= "database is locked"[2m])) > 0
         for: 10s
         labels:
           severity: critical
           category: logs
         annotations:
           identifier: "{{ $labels.node }}"
-          description: "{{ $app }} has a locked configurations database"
+          description: "{{ $app }} has a locked configuration database"
   postRenderers:
   - kustomize:
       patchesStrategicMerge:
