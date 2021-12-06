@@ -102,7 +102,7 @@ spec:
               periodSeconds: 20
               timeoutSeconds: 6
               failureThreshold: 5
-
+    cephFileSystems: []
     cephBlockPools:
     - name: data-pool
       spec:
@@ -140,33 +140,6 @@ spec:
           csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
           csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
           csi.storage.k8s.io/fstype: ext4
-
-    - name: single-osd
-      spec:
-        failureDomain: osd
-        replicated:
-          size: 1
-          # because this pool is replicated only once, any images created here are
-          # not protected and lack recovery options; use selectively.
-          requireSafeReplicaSize: false
-          targetSizeRatio: .1
-      storageClass:
-        enabled: true
-        name: rook-ceph-osd
-        relcaimPolicy: Delete
-        allowVolumeExpansion: true
-        parameters:
-          imageFormat: "2"
-          imageFeatures: layering
-          csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-          csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-          csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-          csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-          csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-          csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-          csi.storage.k8s.io/fstype: ext4
-
-    cephFileSystems: null
 
     cephObjectStores:
     - name: ceph-objectstore
