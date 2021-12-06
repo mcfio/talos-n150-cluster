@@ -75,7 +75,7 @@ spec:
         useAllNodes: false
         useAllDevices: false
         config:
-          osdsPerDevice: 1
+          osdsPerDevice: "1"
         nodes:
         - name: "mcf-k8s-storage01"
           devices:
