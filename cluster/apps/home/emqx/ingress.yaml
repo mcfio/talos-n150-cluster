@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://istio-release.storage.googleapis.com/charts
       chart: gateway
-      version: 1.12.0
+      version: 1.12.1
       sourceRef:
         kind: HelmRepository
         name: istio
