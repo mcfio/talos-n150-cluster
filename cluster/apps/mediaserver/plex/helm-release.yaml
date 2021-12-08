@@ -22,13 +22,14 @@ spec:
       tag: v1.25.1.5286-34f965be8
     env:
       TZ: "America/Toronto"
+      ADVERTISE_IP: "https://plex.milton.mcf.io:32400,https://${VIP_PLEX_MEDIASERVER}:32400"
     podSecurityContext:
       supplementalGroups:
       - 1000
     service:
       main:
         type: LoadBalancer
-        loadBalancerIP: 192.168.45.102
+        loadBalancerIP: ${VIP_PLEX_MEDIASERVER}
         externalTrafficPolicy: Local
     persistence:
       config:
