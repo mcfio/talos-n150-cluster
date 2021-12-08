@@ -1,0 +1,54 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: emqx-ingress
+  namespace: home
+spec:
+  interval: 5m
+  maxHistory: 2
+  chart:
+    spec:
+      # renovate: registryUrl=https://istio-release.storage.googleapis.com/charts
+      chart: gateway
+      version: 1.12.0
+      sourceRef:
+        kind: HelmRepository
+        name: istio
+        namespace: flux-system
+  values:
+    labels:
+      istio: emqx-ingress-gateway
+    service:
+      ports:
+      - port: 80
+        targetPort: 8080
+        name: http2
+      - port: 443
+        targetPort: 8443
+        name: https
+      - port: 1883
+        targetPort: 1883
+        name: mqtt
+      - port: 8883
+        targetPort: 8883
+        name: mqtt-secure
+      loadBalancerIP: 192.168.45.190
+      externalTrafficPolicy: Local
+    resources:
+      requests:
+        cpu: 500m
+        memory: 128Mi
+      limits:
+        cpu: 1000m
+        memory: 128Mi
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: istio
+              operator: In
+              values:
+              - emqx-ingress-gateway
+          topologyKey: kubernetes.io/hostname
