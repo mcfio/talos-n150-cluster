@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   hosts:
-  - grafana.milton.mcf.io
+  - grafana.${ROOT_DOMAIN}
   gateways:
   - istio-ingress/cluster-ingress-gateway
   http:

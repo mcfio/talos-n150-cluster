@@ -6,7 +6,7 @@ metadata:
   namespace: home
 spec:
   hosts:
-  - mqtt.milton.mcf.io
+  - mqtt.${ROOT_DOMAIN}
   gateways:
   - home/emqx
   tcp:

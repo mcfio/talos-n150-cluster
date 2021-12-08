@@ -13,7 +13,7 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "mqtt.milton.mcf.io"
+    - "mqtt.${ROOT_DOMAIN}"
     tls:
       httpsRedirect: true
   - port:
@@ -21,7 +21,7 @@ spec:
       name: https
       protocol: HTTPS
     hosts:
-    - "mqtt.milton.mcf.io"
+    - "mqtt.${ROOT_DOMAIN}"
     tls:
       credentialName: mqtt-cert
       mode: SIMPLE
@@ -32,13 +32,13 @@ spec:
       name: mqtt
       protocol: TCP
     hosts:
-    - "mqtt.milton.mcf.io"
+    - "mqtt.${ROOT_DOMAIN}"
   - port:
       number: 8883
       name: mqtt-secure
       protocol: TLS
     hosts:
-    - "mqtt.milton.mcf.io"
+    - "mqtt.${ROOT_DOMAIN}"
     tls:
       credentialName: mqtt-cert
       mode: SIMPLE
