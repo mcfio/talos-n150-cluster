@@ -19,7 +19,3 @@ spec:
   values:
     cni:
       hub: docker.io/querycapistio
-      tag: 1.12.0-distroless
-    global:
-      hub: docker.io/querycapistio
-      tag: 1.12.0-distroless
