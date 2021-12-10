@@ -20,7 +20,6 @@ spec:
     pilot:
       autoscaleMin: 2
       replicaCount: 2
-      hub: docker.io/querycapistio
       env:
         ENABLE_LEGACY_FSGROUP_INJECTION: false
     meshConfig:
@@ -37,6 +36,7 @@ spec:
       outboundTrafficPolicy:
         mode: ALLOW_ANY
     global:
+      hub: docker.io/querycapistio
       proxy:
         autoInject: disabled
         resources:
