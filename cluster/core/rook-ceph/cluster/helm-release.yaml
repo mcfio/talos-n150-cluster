@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://charts.rook.io/release
       chart: rook-ceph-cluster
-      version: v1.7.9
+      version: v1.8.0
       sourceRef:
         kind: HelmRepository
         name: rook-release
@@ -31,12 +31,17 @@ spec:
     monitoring:
       enabled: true
 
+    pspEnable: false
     cephClusterSpec:
-      dashboard:
-        ssl: false
       mon:
         count: 3
         allowMultiplePerNode: false
+      mgr:
+        modules:
+        - name: rook
+          enabled: true
+      dashboard:
+        ssl: false
       crashCollector:
         disable: true
       placement:
