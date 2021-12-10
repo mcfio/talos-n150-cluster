@@ -18,6 +18,9 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
+    crds:
+      # CRDs are managed separately from the helm chart; See ./cluster/crds/rook-ceph
+      enabled: false
     resources:
       requests:
         cpu: 100m
@@ -31,7 +34,5 @@ spec:
       pluginTolerations:
       - effect: PreferNoSchedule
         operator: Exists
-    agent:
-      nodeAffinity: "role=storage-node"
     discover:
       nodeAffinity: "role=storage-node"
