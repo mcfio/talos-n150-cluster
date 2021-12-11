@@ -26,8 +26,6 @@ spec:
       timeZone: America/Toronto
       startTime: 2am
       endTime: 5am
-      blockingPodSelector:
-      - app=rook-ceph-osd
       notifyUrl: ${KURED_NOTIFYURL}
       messageTemplateDrain: "⏳ Draining node %s"
       messageTemplateReboot: "♻️ Rebooted node %s"
