@@ -5,7 +5,8 @@ metadata:
   name: oauth2-proxy
   namespace: oauth2-proxy
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://oauth2-proxy.github.io/manifests
@@ -16,26 +17,23 @@ spec:
         name: oauth2-proxy
         namespace: flux-system
   values:
-    image:
-      repository: quay.io/oauth2-proxy/oauth2-proxy
-      tag: v7.2.0-arm64
     config:
       existingSecret: oauth2-proxy-secrets
       google:
-        adminEmail: "oauth2-proxy-sa@mcfaul.cloud"
+        adminEmail: "oauth2-proxy-sa@${AUTH_DOMAIN}"
         existingSecret: google-service-account
       configFile: |-
         provider = "google"
         oidc_issuer_url = "https://accounts.google.com"
         auth_logging = true
-        cookie_domains = ".milton.mcf.io"
+        cookie_domains = ".${ROOT_DOMAIN}"
         cookie_httponly = true
         cookie_name = "_mcfio_oauth"
         cookie_refresh = "1h"
         cookie_samesite = "lax"
         cookie_secure = true
         email_domains = [ "*" ]
-        google_group = "group-monitoring@mcfaul.cloud"
+        google_group = "group-monitoring@${AUTH_DOMAIN}"
         pass_access_token = true
         pass_authorization_header = true
         pass_basic_auth = false
@@ -49,4 +47,4 @@ spec:
         standard_logging = true
         ssl_insecure_skip_verify = false
         upstreams = [ "static://200" ]
-        whitelist_domains = ".milton.mcf.io"
+        whitelist_domains = ".${ROOT_DOMAIN}"
