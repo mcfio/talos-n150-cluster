@@ -6,3 +6,4 @@ resources:
 - kube-system
 - mediaserver
 - monitoring
+- oauth2-proxy
