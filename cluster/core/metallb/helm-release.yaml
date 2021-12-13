@@ -29,10 +29,17 @@ spec:
       prometheusRule:
         enabled: true
     speaker:
+      tolerateMaster: false
       tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        effect: NoSchedule
-        operator: Exists
       - key: storage-node
         effect: PreferNoSchedule
         operator: Exists
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: model
+                operator: NotIn
+                values:
+                - pi3Bplus
