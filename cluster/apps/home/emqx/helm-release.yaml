@@ -18,6 +18,10 @@ spec:
       interval: 5m
   values:
     replicaCount: 3
+    image:
+      repository: emqx/emqx:4.3.11-alpine-arm64v8
+    nodeSelector:
+      kubernetes.io/arch: arm64
     recreatePods: true
     resources:
       limits:
