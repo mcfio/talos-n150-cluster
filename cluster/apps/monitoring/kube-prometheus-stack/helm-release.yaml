@@ -60,11 +60,11 @@ spec:
           repeat_interval: 6h
           receiver: slack-notifications
           routes:
-          - match_re:
-              alertname: Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests
+          - matchers:
+            - alertname =~ Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests
             receiver: "null"
-          - match_re:
-              severity: critical|warning
+          - matchers:
+            - severity =~ critical|warning
             receiver: slack-notifications
             continue: true
       templateFiles:
