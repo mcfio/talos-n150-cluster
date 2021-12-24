@@ -146,7 +146,7 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-    kukbelet:
+    kubelet:
       enabled: true
     kubeControllerManager:
       enabled: true
