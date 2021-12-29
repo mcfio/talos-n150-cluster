@@ -5,7 +5,7 @@ metadata:
   name: istio-ingress-gateway
   namespace: istio-ingress
 spec:
-  interval: 5m
+  interval: 12h
   maxHistory: 2
   chart:
     spec:
@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: istio
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     labels:
       istio: cluster-ingress-gateway
