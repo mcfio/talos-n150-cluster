@@ -5,9 +5,6 @@ metadata:
   name: zwavejs2mqtt
   namespace: home
 spec:
-  dependsOn:
-  - name: emqx
-    namespace: home
   interval: 12h
   maxHistory: 2
   chart:
@@ -19,6 +16,12 @@ spec:
         kind: HelmRepository
         name: k8s-at-home
         namespace: flux-system
+  dependsOn:
+  - name: emqx
+    namespace: home
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     image:
       repository: ghcr.io/zwave-js/zwavejs2mqtt
@@ -27,7 +30,10 @@ spec:
       sidecar.istio.io/inject: "false"
     env:
       TZ: America/Toronto
-      NETWORK_KEY: ${ZWAVEJS2MQTT_S0_LEGACY_KEY}
+      KEY_S0_Legacy: ${ZWAVEJS2MQTT_S0_LEGACY_KEY}
+      KEY_S2_Unauthenticated: ${ZWAVEJS2MQTT_S2_UNAUTHENTICATED_KEY}
+      KEY_S2_Authenticated: ${ZWAVEJS2MQTT_S2_AUTHENTICATED_KEY}
+      KEY_S2_AccessControl: ${ZWAVEJS2MQTT_S2_ACCESS_CONTROL_KEY}
     securityContext:
       privileged: true
     persistence:
