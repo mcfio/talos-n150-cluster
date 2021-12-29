@@ -16,6 +16,12 @@ spec:
         name: k8s-at-home
         namespace: flux-system
       interval: 5m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     image:
       repository: ghcr.io/0xerr0r/blocky
