@@ -5,7 +5,8 @@ metadata:
   name: emqx
   namespace: home
 spec:
-  interval: 5m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       # renovate: registryUrl=https://repos.emqx.io/charts
@@ -15,7 +16,9 @@ spec:
         kind: HelmRepository
         name: emqx
         namespace: flux-system
-      interval: 5m
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     replicaCount: 3
     nodeSelector:

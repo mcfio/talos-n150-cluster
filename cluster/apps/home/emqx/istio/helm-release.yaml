@@ -5,7 +5,7 @@ metadata:
   name: emqx-ingress
   namespace: home
 spec:
-  interval: 5m
+  interval: 12h
   maxHistory: 2
   chart:
     spec:
@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: istio
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     labels:
       istio: emqx-ingress-gateway
@@ -33,7 +36,7 @@ spec:
       - port: 8883
         targetPort: 8883
         name: mqtt-secure
-      loadBalancerIP: 192.168.45.190
+      loadBalancerIP: ${VIP_EMQX_INGRESS}
       externalTrafficPolicy: Local
     resources:
       requests:

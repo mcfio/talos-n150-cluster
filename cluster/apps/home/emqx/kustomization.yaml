@@ -2,9 +2,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- ingress.yaml
-- certificate.yaml
-- gateway.yaml
+- istio/certificate.yaml
+- istio/gateway.yaml
+- istio/helm-release.yaml
 - helm-release.yaml
 - secret.enc.yaml
 - virtual-service.yaml
