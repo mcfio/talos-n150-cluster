@@ -145,16 +145,14 @@ spec:
       secret.reloader.stakater.com/reload: "blocky-cert"
     affinity:
       podAntiAffinity:
-        preferredDuringSchedulingIgnoredDuringExecution:
-        - podAffinityTerm:
-            labelSelector:
-              matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: In
-                values:
-                - blocky
-            topologyKey: kubernetes.io/hostname
-          weight: 100
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - blocky
+          topologyKey: "kubernetes.io/hostname"
     resources:
       requests:
         memory: 100Mi
