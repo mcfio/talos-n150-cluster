@@ -1,9 +1,8 @@
 ---
 creation_rules:
   - path_regex: .*/infrastructure/.*\.sops\.ya?ml
-    unencrypted_regex: ^(kind)$
-    pgp: >-
-      14DC38072204E1AC17AB0FCA0EFB186BD4637523
+    age: >-
+      age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
   - path_regex: .*/cluster/.*\.ya?ml
     encrypted_regex: ^(data|stringData)$
     azure_keyvault: https://vault7636.vault.azure.net/keys/sops-key/8b354eac7f8d4ee18f47b5081b0b7877
