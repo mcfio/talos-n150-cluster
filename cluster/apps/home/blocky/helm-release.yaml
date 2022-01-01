@@ -86,8 +86,9 @@ spec:
       bootstrapDns: tcp+udp:1.1.1.1
       upstream:
         default:
-        - https://dns.nextdns.io/62bfb4
         - tcp-tls:private.canadianshield.cira.ca
+        - https://private.canadianshield.cira.ca/dns-query
+        # - https://dns.nextdns.io/62bfb4
         # - tcp-tls:62bfb4.dns.nextdns.io
       caching:
         minTime: 5m
