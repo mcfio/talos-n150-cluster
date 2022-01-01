@@ -39,10 +39,10 @@ spec:
         enabled: true
         type: pvc
         existingClaim: plex-config
-      tmp:
-        enabled: true
-        type: emptyDir
-        medium: "Memory"
+      # tmp:
+      #   enabled: true
+      #   type: emptyDir
+      #   medium: "Memory"
       media-path:
         enabled: true
         type: emptyDir
