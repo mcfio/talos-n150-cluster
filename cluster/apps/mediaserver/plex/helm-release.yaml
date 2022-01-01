@@ -57,6 +57,9 @@ spec:
       requests:
         cpu: 500m
         memory: 250Mi
+      limits:
+        cpu: 2000m
+        memory: 2Gi
     addons:
       promtail:
         enabled: true
@@ -127,7 +130,7 @@ spec:
             memory: 256Mi
           limits:
             cpu: 500m
-            memory: 2Gi
+            memory: 1Gi
         volumeMounts:
         - name: cache
           mountPath: /cache
