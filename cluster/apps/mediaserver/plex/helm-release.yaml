@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: k8s-at-home
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     image:
       repository: ghcr.io/k8s-at-home/plex
@@ -118,6 +121,13 @@ spec:
           preStop:
             exec:
               command: ["/bin/sh", "-c", "fusermount -uz /data"]
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 2Gi
         volumeMounts:
         - name: cache
           mountPath: /cache
