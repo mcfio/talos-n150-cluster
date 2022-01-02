@@ -9,6 +9,7 @@ spec:
   dependsOn:
   - name: crds
   - name: core
+  - name: flux-system
   path: ./cluster/apps
   sourceRef:
     kind: GitRepository
