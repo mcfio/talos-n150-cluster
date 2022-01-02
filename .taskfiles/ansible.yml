@@ -1,22 +1,22 @@
 ---
-version: '3'
+version: "3"
 
 vars:
-  ANSIBLE_DIR: '{{.PROJECT_DIR}}/infrastructure/ansible'
-  ANSIBLE_INVENTORY_DIR: '{{.ANSIBLE_DIR}}/inventory'
-  ANSIBLE_PLAYBOOK_DIR: '{{.ANSIBLE_DIR}}/playbooks'
-  ANSIBLE_GROUPS: 'cluster'
+  ANSIBLE_DIR: "{{.PROJECT_DIR}}/infrastructure/ansible"
+  ANSIBLE_INVENTORY_DIR: "{{.ANSIBLE_DIR}}/inventory"
+  ANSIBLE_PLAYBOOK_DIR: "{{.ANSIBLE_DIR}}/playbooks"
+  ANSIBLE_GROUPS: "cluster"
 
 env:
-  ANSIBLE_CONFIG: '{{.ANSIBLE_DIR}}/ansible.cfg'
+  ANSIBLE_CONFIG: "{{.ANSIBLE_DIR}}/ansible.cfg"
 
 tasks:
   ping:
     desc: Ping all Kubernetes cluster nodes
     cmds:
-    - ansible {{.ANSIBLE_GROUPS}} -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yaml --one-line -m ping
+      - ansible {{.ANSIBLE_GROUPS}} -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yaml --one-line -m ping
 
   list:
     desc: List all nodes in the cluster
     cmds:
-    - ansible {{.ANSIBLE_GROUPS}} -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yaml --list-hosts
+      - ansible {{.ANSIBLE_GROUPS}} -i {{.ANSIBLE_INVENTORY_DIR}}/hosts.yaml --list-hosts
