@@ -9,5 +9,5 @@ resources:
 - crds.yaml
 - core.yaml
 - apps.yaml
-- cluster-secrets.yaml
+- cluster-secrets.enc.yaml
 - cluster-vars.yaml
