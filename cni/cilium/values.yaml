@@ -37,13 +37,13 @@ hubble:
   enabled: true
   metrics:
     enabled:
-    - dns:query;ignoreAAAA
-    - drop
-    - tcp
-    - flow
-    - port-distribution
-    - icmp
-    - http
+      - dns:query;ignoreAAAA
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - http
   listenAddress: ":4244"
   relay:
     enabled: true

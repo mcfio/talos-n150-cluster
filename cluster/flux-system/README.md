@@ -3,7 +3,6 @@
 ```bash
 flux install \
   --version=latest \
-  --components=source-controller,kustomize-controller,helm-controller,notification-controller \
   --network-policy=false \
   --export > ./flux-components.yaml
 ```
