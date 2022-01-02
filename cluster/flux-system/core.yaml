@@ -8,7 +8,6 @@ spec:
   interval: 90m0s
   dependsOn:
   - name: crds
-  - name: flux-system
   path: ./cluster/core
   sourceRef:
     kind: GitRepository
@@ -17,7 +16,7 @@ spec:
   decryption:
     provider: sops
     secretRef:
-      name: sops-gpg
+      name: sops-age
   postBuild:
     substitute: {}
     substituteFrom:
