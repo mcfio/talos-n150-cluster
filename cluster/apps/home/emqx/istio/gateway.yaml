@@ -8,39 +8,39 @@ spec:
   selector:
     istio: emqx-ingress-gateway
   servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "mqtt.${ROOT_DOMAIN}"
-    tls:
-      httpsRedirect: true
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    hosts:
-    - "mqtt.${ROOT_DOMAIN}"
-    tls:
-      credentialName: mqtt-cert
-      mode: SIMPLE
-      minProtocolVersion: TLSV1_2
-      maxProtocolVersion: TLSV1_3
-  - port:
-      number: 1883
-      name: mqtt
-      protocol: TCP
-    hosts:
-    - "mqtt.${ROOT_DOMAIN}"
-  - port:
-      number: 8883
-      name: mqtt-secure
-      protocol: TLS
-    hosts:
-    - "mqtt.${ROOT_DOMAIN}"
-    tls:
-      credentialName: mqtt-cert
-      mode: SIMPLE
-      minProtocolVersion: TLSV1_2
-      maxProtocolVersion: TLSV1_3
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "mqtt.${ROOT_DOMAIN}"
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "mqtt.${ROOT_DOMAIN}"
+      tls:
+        credentialName: mqtt-cert
+        mode: SIMPLE
+        minProtocolVersion: TLSV1_2
+        maxProtocolVersion: TLSV1_3
+    - port:
+        number: 1883
+        name: mqtt
+        protocol: TCP
+      hosts:
+        - "mqtt.${ROOT_DOMAIN}"
+    - port:
+        number: 8883
+        name: mqtt-secure
+        protocol: TLS
+      hosts:
+        - "mqtt.${ROOT_DOMAIN}"
+      tls:
+        credentialName: mqtt-cert
+        mode: SIMPLE
+        minProtocolVersion: TLSV1_2
+        maxProtocolVersion: TLSV1_3

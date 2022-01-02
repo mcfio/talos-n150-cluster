@@ -28,45 +28,45 @@ spec:
           slack_api_url: ${ALERTMANAGER_WEBHOOK}
           resolve_timeout: 5m
         receivers:
-        - name: "null"
-        - name: slack-notifications
-          slack_configs:
-          - channel: "#prometheus-alerts"
-            icon_url: https://avatars3.githubusercontent.com/u/3380462
-            username: Alertmanager
-            send_resolved: true
-            color: '{{ template "slack.color" . }}'
-            title: '{{ template "slack.title" . }}'
-            text: '{{ template "slack.text" . }}'
-            actions:
-            - type: button
-              text: 'Runbook :green_book:'
-              url: '{{ (index .Alerts 0).Annotations.runbook_url }}'
-            - type: button
-              text: 'Query :mag:'
-              url: '{{ (index .Alerts 0).GeneratorURL }}'
-            - type: button
-              text: 'Dashboard :chart_with_upwards_trend:'
-              url: '{{ (index .Alerts 0).Annotations.dashboard_url }}'
-            - type: button
-              text: 'Silence :no_bell:'
-              url: '{{ template "__alert_silence_link" . }}'
+          - name: "null"
+          - name: slack-notifications
+            slack_configs:
+              - channel: "#prometheus-alerts"
+                icon_url: https://avatars3.githubusercontent.com/u/3380462
+                username: Alertmanager
+                send_resolved: true
+                color: '{{ template "slack.color" . }}'
+                title: '{{ template "slack.title" . }}'
+                text: '{{ template "slack.text" . }}'
+                actions:
+                  - type: button
+                    text: "Runbook :green_book:"
+                    url: "{{ (index .Alerts 0).Annotations.runbook_url }}"
+                  - type: button
+                    text: "Query :mag:"
+                    url: "{{ (index .Alerts 0).GeneratorURL }}"
+                  - type: button
+                    text: "Dashboard :chart_with_upwards_trend:"
+                    url: "{{ (index .Alerts 0).Annotations.dashboard_url }}"
+                  - type: button
+                    text: "Silence :no_bell:"
+                    url: '{{ template "__alert_silence_link" . }}'
         route:
           group_by:
-          - alertname
-          - job
+            - alertname
+            - job
           group_wait: 30s
           group_interval: 5m
           repeat_interval: 6h
           receiver: slack-notifications
           routes:
-          - matchers:
-            - alertname =~ Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests
-            receiver: "null"
-          - matchers:
-            - severity =~ critical|warning
-            receiver: slack-notifications
-            continue: true
+            - matchers:
+                - alertname =~ Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests
+              receiver: "null"
+            - matchers:
+                - severity =~ critical|warning
+              receiver: slack-notifications
+              continue: true
       templateFiles:
         notifications.tmpl: |-
           {{ define "__alert_silence_link" -}}
@@ -142,7 +142,7 @@ spec:
               name: data
             spec:
               accessModes:
-              - ReadWriteOnce
+                - ReadWriteOnce
               resources:
                 requests:
                   storage: 1Gi
@@ -190,7 +190,7 @@ spec:
         logFormat: json
         replicas: 1
         secrets:
-        - etcd-client-cert
+          - etcd-client-cert
         # To ensure proper scheduling, set the CPU requests to 0.25 cores; Additionally remove the cpu limits - a side effect of smaller platforms is the CPU scheduler
         # tends to aggressivly throttle prometheus, running guaranteed QoS of 1 or 2 cores results in nearly 50-100% throttling. At that point, there's not a good reason
         # to set the CPU limits any longer.
@@ -208,7 +208,7 @@ spec:
               name: data
             spec:
               accessModes:
-              - ReadWriteOnce
+                - ReadWriteOnce
               resources:
                 requests:
                   storage: 80Gi

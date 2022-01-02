@@ -19,10 +19,10 @@ spec:
   values:
     configInline:
       address-pools:
-      - name: default
-        protocol: layer2
-        addresses:
-        - ${METALLB_LAYER2_RANGE}
+        - name: default
+          protocol: layer2
+          addresses:
+            - ${METALLB_LAYER2_RANGE}
     prometheus:
       podMonitor:
         enabled: true
@@ -31,15 +31,15 @@ spec:
     speaker:
       tolerateMaster: false
       tolerations:
-      - key: storage-node
-        effect: PreferNoSchedule
-        operator: Exists
+        - key: storage-node
+          effect: PreferNoSchedule
+          operator: Exists
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: model
-                operator: NotIn
-                values:
-                - pi3Bplus
+              - matchExpressions:
+                  - key: model
+                    operator: NotIn
+                    values:
+                      - pi3Bplus

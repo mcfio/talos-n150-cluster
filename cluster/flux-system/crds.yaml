@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 90m0s
   dependsOn:
-  - name: flux-system
+    - name: flux-system
   path: ./cluster/crds
   sourceRef:
     kind: GitRepository

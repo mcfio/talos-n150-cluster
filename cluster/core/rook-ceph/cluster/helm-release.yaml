@@ -18,7 +18,7 @@ spec:
         namespace: flux-system
       interval: 5m
   dependsOn:
-  - name: rook-ceph
+    - name: rook-ceph
   values:
     configOverride: |
       [global]
@@ -38,8 +38,8 @@ spec:
         allowMultiplePerNode: false
       mgr:
         modules:
-        - name: rook
-          enabled: true
+          - name: rook
+            enabled: true
       dashboard:
         ssl: false
       crashCollector:
@@ -49,16 +49,16 @@ spec:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
-              - matchExpressions:
-                - key: role
-                  operator: In
-                  values:
-                  - storage-node
+                - matchExpressions:
+                    - key: role
+                      operator: In
+                      values:
+                        - storage-node
           tolerations:
-          - key: role
-            operator: Equal
-            value: storage-node
-            effect: PreferNoSchedule
+            - key: role
+              operator: Equal
+              value: storage-node
+              effect: PreferNoSchedule
       resources:
         mon:
           requests:
@@ -82,15 +82,15 @@ spec:
         config:
           osdsPerDevice: "1"
         nodes:
-        - name: "mcf-k8s-storage01"
-          devices:
-          - name: "sdb"
-        - name: "mcf-k8s-storage02"
-          devices:
-          - name: "sdb"
-        - name: "mcf-k8s-storage03"
-          devices:
-          - name: "sdb"
+          - name: "mcf-k8s-storage01"
+            devices:
+              - name: "sdb"
+          - name: "mcf-k8s-storage02"
+            devices:
+              - name: "sdb"
+          - name: "mcf-k8s-storage03"
+            devices:
+              - name: "sdb"
       healthCheck:
         livenessProbe:
           mon:
@@ -109,65 +109,65 @@ spec:
               failureThreshold: 5
     cephFileSystems: []
     cephBlockPools:
-    - name: data-pool
-      spec:
-        failureDomain: host
-        erasureCoded:
-          dataChunks: 2
-          codingChunks: 1
-        enableRBDStats: true
-        parameters:
-          target_size_ratio: "0.5"
-          compression_algorithm: lz4
-          compression_mode: aggressive
-      storageClass:
-        enabled: false
-
-    - name: metadata-pool
-      spec:
-        failureDomain: host
-        replicated:
-          size: 3
-      storageClass:
-        enabled: true
-        name: rook-ceph-block
-        isDefault: true
-        relcaimPolicy: Delete
-        allowVolumeExpansion: true
-        parameters:
-          dataPool: data-pool
-          imageFormat: "2"
-          imageFeatures: layering
-          csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-          csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-          csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-          csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-          csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-          csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-          csi.storage.k8s.io/fstype: ext4
-
-    cephObjectStores:
-    - name: ceph-objectstore
-      spec:
-        metadataPool:
-          failureDomain: host
-          replicated:
-            size: 3
-        dataPool:
+      - name: data-pool
+        spec:
           failureDomain: host
           erasureCoded:
             dataChunks: 2
             codingChunks: 1
-        preservePoolsOnDelete: true
-        gateway:
-          port: 80
-          instances: 1
-        healthCheck:
-          bucket:
-            interval: 60s
-      storageClass:
-        enabled: true
-        name: ceph-bucket
-        reclaimPolicy: Delete
-        parameters:
-          region: us-east-1
+          enableRBDStats: true
+          parameters:
+            target_size_ratio: "0.5"
+            compression_algorithm: lz4
+            compression_mode: aggressive
+        storageClass:
+          enabled: false
+
+      - name: metadata-pool
+        spec:
+          failureDomain: host
+          replicated:
+            size: 3
+        storageClass:
+          enabled: true
+          name: rook-ceph-block
+          isDefault: true
+          relcaimPolicy: Delete
+          allowVolumeExpansion: true
+          parameters:
+            dataPool: data-pool
+            imageFormat: "2"
+            imageFeatures: layering
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4
+
+    cephObjectStores:
+      - name: ceph-objectstore
+        spec:
+          metadataPool:
+            failureDomain: host
+            replicated:
+              size: 3
+          dataPool:
+            failureDomain: host
+            erasureCoded:
+              dataChunks: 2
+              codingChunks: 1
+          preservePoolsOnDelete: true
+          gateway:
+            port: 80
+            instances: 1
+          healthCheck:
+            bucket:
+              interval: 60s
+        storageClass:
+          enabled: true
+          name: ceph-bucket
+          reclaimPolicy: Delete
+          parameters:
+            region: us-east-1

@@ -6,12 +6,12 @@ metadata:
   namespace: home
 spec:
   hosts:
-  - zigbee.milton.mcf.io
+    - zigbee.milton.mcf.io
   gateways:
-  - istio-ingress/cluster-ingress-gateway
+    - istio-ingress/cluster-ingress-gateway
   http:
-  - route:
-    - destination:
-        host: zigbee2mqtt.home.svc.cluster.local
-        port:
-          number: 8080
+    - route:
+        - destination:
+            host: zigbee2mqtt.home.svc.cluster.local
+            port:
+              number: 8080

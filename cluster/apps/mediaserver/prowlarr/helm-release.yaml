@@ -28,7 +28,7 @@ spec:
       sidecar.istio.io/inject: "true"
     podSecurityContext:
       supplementalGroups:
-      - 1000
+        - 1000
     persistence:
       config:
         enabled: true

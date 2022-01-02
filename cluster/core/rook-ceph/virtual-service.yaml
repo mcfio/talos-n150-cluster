@@ -6,12 +6,12 @@ metadata:
   namespace: rook-ceph
 spec:
   hosts:
-  - ceph.${ROOT_DOMAIN}
+    - ceph.${ROOT_DOMAIN}
   gateways:
-  - istio-ingress/cluster-ingress-gateway
+    - istio-ingress/cluster-ingress-gateway
   http:
-  - route:
-    - destination:
-        port:
-          number: 7000
-        host: rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local
+    - route:
+        - destination:
+            port:
+              number: 7000
+            host: rook-ceph-mgr-dashboard.rook-ceph.svc.cluster.local

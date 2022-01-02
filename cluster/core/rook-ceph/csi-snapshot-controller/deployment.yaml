@@ -29,9 +29,9 @@ spec:
     spec:
       serviceAccount: snapshot-controller
       containers:
-      - name: snapshot-controller
-        image: k8s.gcr.io/sig-storage/snapshot-controller:v5.0.0
-        args:
-        - "--v=3"
-        - "--leader-election=true"
-        imagePullPolicy: IfNotPresent
+        - name: snapshot-controller
+          image: k8s.gcr.io/sig-storage/snapshot-controller:v5.0.0
+          args:
+            - "--v=3"
+            - "--leader-election=true"
+          imagePullPolicy: IfNotPresent

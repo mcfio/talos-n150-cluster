@@ -17,8 +17,8 @@ spec:
         name: k8s-at-home
         namespace: flux-system
   dependsOn:
-  - name: emqx
-    namespace: home
+    - name: emqx
+      namespace: home
   upgrade:
     remediation:
       remediateLastFailure: true
@@ -41,22 +41,22 @@ spec:
       advanced:
         channel: 25
         network_key:
-        - 82
-        - 71
-        - 132
-        - 169
-        - 247
-        - 213
-        - 66
-        - 190
-        - 68
-        - 54
-        - 13
-        - 163
-        - 232
-        - 104
-        - 86
-        - 242
+          - 82
+          - 71
+          - 132
+          - 169
+          - 247
+          - 213
+          - 66
+          - 190
+          - 68
+          - 54
+          - 13
+          - 163
+          - 232
+          - 104
+          - 86
+          - 242
         ikea_ota_use_test_url: true
       frontend:
         port: 8080

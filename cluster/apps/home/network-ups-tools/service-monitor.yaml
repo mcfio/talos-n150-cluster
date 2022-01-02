@@ -10,13 +10,13 @@ spec:
       app.kubernetes.io/instance: primary-ups
       app.kubernetes.io/name: network-ups-tools
   endpoints:
-  - port: http-metrics
-    interval: 15s
-    scrapeTimeout: 10s
-    path: /metrics
-    params:
-      target:
-      - "localhost:3493"
-    relabelings:
-    - sourceLabels: [__param_target]
-      targetLabel: instance
+    - port: http-metrics
+      interval: 15s
+      scrapeTimeout: 10s
+      path: /metrics
+      params:
+        target:
+          - "localhost:3493"
+      relabelings:
+        - sourceLabels: [__param_target]
+          targetLabel: instance

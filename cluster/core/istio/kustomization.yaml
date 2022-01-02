@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- namespace.yaml
-- base/helm-release.yaml
-- istiod/helm-release.yaml
-- cni/helm-release.yaml
+  - namespace.yaml
+  - base/helm-release.yaml
+  - istiod/helm-release.yaml
+  - cni/helm-release.yaml

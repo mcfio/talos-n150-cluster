@@ -6,12 +6,12 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-  - prowlarr.milton.mcf.io
+    - prowlarr.milton.mcf.io
   gateways:
-  - istio-ingress/cluster-ingress-gateway
+    - istio-ingress/cluster-ingress-gateway
   http:
-  - route:
-    - destination:
-        port:
-          number: 9696
-        host: prowlarr.mediaserver.svc.cluster.local
+    - route:
+        - destination:
+            port:
+              number: 9696
+            host: prowlarr.mediaserver.svc.cluster.local

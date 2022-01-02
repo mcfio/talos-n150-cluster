@@ -24,18 +24,18 @@ spec:
       istio: emqx-ingress-gateway
     service:
       ports:
-      - port: 80
-        targetPort: 8080
-        name: http2
-      - port: 443
-        targetPort: 8443
-        name: https
-      - port: 1883
-        targetPort: 1883
-        name: mqtt
-      - port: 8883
-        targetPort: 8883
-        name: mqtt-secure
+        - port: 80
+          targetPort: 8080
+          name: http2
+        - port: 443
+          targetPort: 8443
+          name: https
+        - port: 1883
+          targetPort: 1883
+          name: mqtt
+        - port: 8883
+          targetPort: 8883
+          name: mqtt-secure
       loadBalancerIP: ${VIP_EMQX_INGRESS}
       externalTrafficPolicy: Local
     resources:
@@ -48,10 +48,10 @@ spec:
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: istio
-              operator: In
-              values:
-              - emqx-ingress-gateway
-          topologyKey: kubernetes.io/hostname
+          - labelSelector:
+              matchExpressions:
+                - key: istio
+                  operator: In
+                  values:
+                    - emqx-ingress-gateway
+            topologyKey: kubernetes.io/hostname

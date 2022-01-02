@@ -6,12 +6,12 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-  - requests.mcf.io
+    - requests.mcf.io
   gateways:
-  - istio-ingress/overseerr-gateway
+    - istio-ingress/overseerr-gateway
   http:
-  - route:
-    - destination:
-        port:
-          number: 5055
-        host: overseerr.mediaserver.svc.cluster.local
+    - route:
+        - destination:
+            port:
+              number: 5055
+            host: overseerr.mediaserver.svc.cluster.local

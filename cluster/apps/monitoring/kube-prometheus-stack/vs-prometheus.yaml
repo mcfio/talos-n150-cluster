@@ -6,12 +6,12 @@ metadata:
   namespace: monitoring
 spec:
   hosts:
-  - prometheus.${ROOT_DOMAIN}
+    - prometheus.${ROOT_DOMAIN}
   gateways:
-  - istio-ingress/cluster-ingress-gateway
+    - istio-ingress/cluster-ingress-gateway
   http:
-  - route:
-    - destination:
-        port:
-          number: 9090
-        host: prom-prometheus.monitoring.svc.cluster.local
+    - route:
+        - destination:
+            port:
+              number: 9090
+            host: prom-prometheus.monitoring.svc.cluster.local

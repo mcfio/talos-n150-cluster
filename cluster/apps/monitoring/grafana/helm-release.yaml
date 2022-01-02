@@ -49,18 +49,18 @@ spec:
     serviceMonitor:
       enabled: true
     plugins:
-    - natel-discrete-panel
-    - pr0ps-trackmap-panel
-    - grafana-piechart-panel
-    - vonage-status-panel
-    - grafana-worldmap-panel
-    - grafana-clock-panel
+      - natel-discrete-panel
+      - pr0ps-trackmap-panel
+      - grafana-piechart-panel
+      - vonage-status-panel
+      - grafana-worldmap-panel
+      - grafana-clock-panel
     extraSecretMounts:
-    - name: grafana-auth-google-mount
-      secretName: grafana-auth-google
-      defaultMode: 0440
-      mountPath: /etc/secrets/grafana-auth-google
-      readOnly: true
+      - name: grafana-auth-google-mount
+        secretName: grafana-auth-google
+        defaultMode: 0440
+        mountPath: /etc/secrets/grafana-auth-google
+        readOnly: true
     sidecar:
       image:
         tag: 1.3.0
@@ -74,4 +74,4 @@ spec:
       enabled: true
       size: 2Gi
       accessModes:
-      - ReadWriteOnce
+        - ReadWriteOnce

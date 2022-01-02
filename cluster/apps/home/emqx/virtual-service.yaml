@@ -6,23 +6,23 @@ metadata:
   namespace: home
 spec:
   hosts:
-  - mqtt.${ROOT_DOMAIN}
+    - mqtt.${ROOT_DOMAIN}
   gateways:
-  - home/emqx
+    - home/emqx
   tcp:
-  - match:
-    - gateways:
-      - home/emqx
-    - port: 1883
-    - port: 8883
-    route:
-    - destination:
-        host: emqx.home.svc.cluster.local
-        port:
-          number: 1883
+    - match:
+        - gateways:
+            - home/emqx
+        - port: 1883
+        - port: 8883
+      route:
+        - destination:
+            host: emqx.home.svc.cluster.local
+            port:
+              number: 1883
   http:
-  - route:
-    - destination:
-        host: emqx.home.svc.cluster.local
-        port:
-          number: 18083
+    - route:
+        - destination:
+            host: emqx.home.svc.cluster.local
+            port:
+              number: 18083

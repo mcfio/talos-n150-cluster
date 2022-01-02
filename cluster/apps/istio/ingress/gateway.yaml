@@ -8,22 +8,22 @@ spec:
   selector:
     istio: cluster-ingress-gateway
   servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*.${ROOT_DOMAIN}"
-    tls:
-      httpsRedirect: true
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    hosts:
-    - "*.${ROOT_DOMAIN}"
-    tls:
-      credentialName: milton-mcf-io-wc-cert
-      mode: SIMPLE
-      minProtocolVersion: TLSV1_2
-      maxProtocolVersion: TLSV1_3
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*.${ROOT_DOMAIN}"
+      tls:
+        httpsRedirect: true
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+        - "*.${ROOT_DOMAIN}"
+      tls:
+        credentialName: milton-mcf-io-wc-cert
+        mode: SIMPLE
+        minProtocolVersion: TLSV1_2
+        maxProtocolVersion: TLSV1_3

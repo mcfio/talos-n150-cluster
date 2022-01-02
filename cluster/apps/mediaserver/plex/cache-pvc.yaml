@@ -6,7 +6,7 @@ metadata:
   namespace: mediaserver
 spec:
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteOnce
   resources:
     requests:
       storage: 800Gi

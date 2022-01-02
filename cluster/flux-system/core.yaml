@@ -7,7 +7,7 @@ metadata:
 spec:
   interval: 90m0s
   dependsOn:
-  - name: crds
+    - name: crds
   path: ./cluster/core
   sourceRef:
     kind: GitRepository
@@ -20,7 +20,7 @@ spec:
   postBuild:
     substitute: {}
     substituteFrom:
-    - kind: ConfigMap
-      name: cluster-vars
-    - kind: Secret
-      name: cluster-secrets
+      - kind: ConfigMap
+        name: cluster-vars
+      - kind: Secret
+        name: cluster-secrets

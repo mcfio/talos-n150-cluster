@@ -32,7 +32,7 @@ spec:
     csi:
       enableCephfsDriver: false
       pluginTolerations:
-      - effect: PreferNoSchedule
-        operator: Exists
+        - effect: PreferNoSchedule
+          operator: Exists
     discover:
       nodeAffinity: "role=storage-node"

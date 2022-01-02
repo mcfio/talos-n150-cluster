@@ -28,7 +28,7 @@ spec:
       ADVERTISE_IP: "https://plex.${ROOT_DOMAIN},https://${VIP_PLEX_MEDIASERVER}:32400"
     podSecurityContext:
       supplementalGroups:
-      - 1000
+        - 1000
     service:
       main:
         type: LoadBalancer
@@ -68,14 +68,14 @@ spec:
           tag: 2.4.1
         loki: http://loki.monitoring:3100/loki/api/v1/push
         logs:
-        - name: promtail/plex
-          path: "/config/Library/Application Support/Plex Media Server/Logs/*.log"
-        - name: promtail/plex/plugins
-          path: "/config/Library/Application Support/Plex Media Server/Logs/PMS Plugin Logs/*.log"
+          - name: promtail/plex
+            path: "/config/Library/Application Support/Plex Media Server/Logs/*.log"
+          - name: promtail/plex/plugins
+            path: "/config/Library/Application Support/Plex Media Server/Logs/PMS Plugin Logs/*.log"
         volumeMounts:
-        - name: config
-          mountPath: /config
-          readOnly: true
+          - name: config
+            mountPath: /config
+            readOnly: true
         securityContext:
           runAsUser: 0
     additionalContainers:
@@ -83,44 +83,49 @@ spec:
         name: rclone
         image: rclone/rclone:1.57.0
         args:
-        - "mount"
-        - "gcrypt:"
-        - "/data"
-        - "--allow-other"
-        - "--allow-non-empty"
-        - "--gid=1000"
-        - "--dir-cache-time=1000h"
-        - "--poll-interval=10s"
-        - "--user-agent=milton-plex/v1"
-        - "--umask=002"
-        # - "--use-mmap"
-        # - "--vfs-read-chunk-size=10M"
-        # - "--vfs-read-chunk-size-limit=0"
-        # - "--buffer-size=0"
-        - "--rc"
-        - "--rc-addr=:5572"
-        - "--rc-no-auth"
-        - "--drive-pacer-min-sleep=10ms"
-        - "--drive-pacer-burst=1000"
-        - "--cache-dir=/cache"
-        - "--vfs-cache-mode=full"
-        - "--vfs-cache-max-size=750G"
-        - "--vfs-cache-max-age=192h"
-        - "--vfs-cache-poll-interval=5m"
-        - "--vfs-read-ahead=2G"
-        - "-v=1"
+          - "mount"
+          - "gcrypt:"
+          - "/data"
+          - "--allow-other"
+          - "--allow-non-empty"
+          - "--gid=1000"
+          - "--dir-cache-time=1000h"
+          - "--poll-interval=10s"
+          - "--user-agent=milton-plex/v1"
+          - "--umask=002"
+          # - "--use-mmap"
+          # - "--vfs-read-chunk-size=10M"
+          # - "--vfs-read-chunk-size-limit=0"
+          # - "--buffer-size=0"
+          - "--rc"
+          - "--rc-addr=:5572"
+          - "--rc-no-auth"
+          - "--drive-pacer-min-sleep=10ms"
+          - "--drive-pacer-burst=1000"
+          - "--cache-dir=/cache"
+          - "--vfs-cache-mode=full"
+          - "--vfs-cache-max-size=750G"
+          - "--vfs-cache-max-age=192h"
+          - "--vfs-cache-poll-interval=5m"
+          - "--vfs-read-ahead=2G"
+          - "-v=1"
         envFrom:
-        - secretRef:
-            name: rclone-secret
+          - secretRef:
+              name: rclone-secret
         securityContext:
           privileged: true
           capabilities:
             add:
-            - SYS_ADMIN
+              - SYS_ADMIN
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true"]
+              command:
+                [
+                  "/bin/sh",
+                  "-c",
+                  "rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true",
+                ]
           preStop:
             exec:
               command: ["/bin/sh", "-c", "fusermount -uz /data"]
@@ -132,8 +137,8 @@ spec:
             cpu: 500m
             memory: 1Gi
         volumeMounts:
-        - name: cache
-          mountPath: /cache
-        - name: media-path
-          mountPath: /data
-          mountPropagation: Bidirectional
+          - name: cache
+            mountPath: /cache
+          - name: media-path
+            mountPath: /data
+            mountPropagation: Bidirectional

@@ -35,13 +35,13 @@ spec:
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: app
-              operator: In
-              values:
-              - loki
-          topologyKey: kubernetes.io/hostname
+          - labelSelector:
+              matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                    - loki
+            topologyKey: kubernetes.io/hostname
     config:
       table_manager:
         retention_deletes_enabled: true
@@ -63,7 +63,7 @@ spec:
         boltdb_shipper:
           active_index_directory: /data/loki/index
           cache_location: /data/loki/index_cache
-          cache_ttl: 24h         # Can be increased for faster performance over longer query periods, uses more disk space
+          cache_ttl: 24h # Can be increased for faster performance over longer query periods, uses more disk space
           resync_interval: 5s
           shared_store: s3
       ruler:
@@ -78,33 +78,33 @@ spec:
             store: inmemory
         enable_api: true
     alerting_groups:
-    - name: arr
-      rules:
-      - alert: DatabaseIsLocked
-        expr: |
-          sum by (app) (count_over_time({app=~".*arr"} |= "database is locked"[2m])) > 0
-        for: 10s
-        labels:
-          severity: critical
-          category: logs
-        annotations:
-          identifier: "{{ $labels.node }}"
-          description: "{{ $app }} has a locked configuration database"
+      - name: arr
+        rules:
+          - alert: DatabaseIsLocked
+            expr: |
+              sum by (app) (count_over_time({app=~".*arr"} |= "database is locked"[2m])) > 0
+            for: 10s
+            labels:
+              severity: critical
+              category: logs
+            annotations:
+              identifier: "{{ $labels.node }}"
+              description: "{{ $app }} has a locked configuration database"
   postRenderers:
-  - kustomize:
-      patchesStrategicMerge:
-      - apiVersion: apps/v1
-        kind: StatefulSet
-        metadata:
-          name: loki
-          namespace: monitoring
-        spec:
-          template:
+    - kustomize:
+        patchesStrategicMerge:
+          - apiVersion: apps/v1
+            kind: StatefulSet
+            metadata:
+              name: loki
+              namespace: monitoring
             spec:
-              containers:
-              - name: loki
-                envFrom:
-                - configMapRef:
-                    name: loki-bucket
-                - secretRef:
-                    name: loki-bucket
+              template:
+                spec:
+                  containers:
+                    - name: loki
+                      envFrom:
+                        - configMapRef:
+                            name: loki-bucket
+                        - secretRef:
+                            name: loki-bucket

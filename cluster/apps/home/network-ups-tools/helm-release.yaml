@@ -48,11 +48,11 @@ spec:
       limits:
         memory: 128Mi
     additionalContainers:
-    - name: prometheus-nut-exporter
-      image: mcfio/prometheus-nut-exporter:1.1.1
-      env:
-      - name: HTTP_PATH
-        value: /metrics
-      ports:
-      - containerPort: 9995
-        name: http-metrics
+      - name: prometheus-nut-exporter
+        image: mcfio/prometheus-nut-exporter:1.1.1
+        env:
+          - name: HTTP_PATH
+            value: /metrics
+        ports:
+          - containerPort: 9995
+            name: http-metrics

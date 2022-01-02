@@ -6,12 +6,12 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-  - radarr.milton.mcf.io
+    - radarr.milton.mcf.io
   gateways:
-  - istio-ingress/cluster-ingress-gateway
+    - istio-ingress/cluster-ingress-gateway
   http:
-  - route:
-    - destination:
-        port:
-          number: 7878
-        host: radarr.mediaserver.svc.cluster.local
+    - route:
+        - destination:
+            port:
+              number: 7878
+            host: radarr.mediaserver.svc.cluster.local
