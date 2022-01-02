@@ -69,7 +69,6 @@
     }
   ],
   "packageRules": [
-    // setup datasources
     {
       "matchDatasources": [
         "helm"
@@ -82,7 +81,6 @@
       ],
       "commitMessageExtra": "to {{newVersion}}"
     },
-    // custom versioning
     {
       "matchDatasources": [
         "docker"
@@ -99,7 +97,6 @@
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["patch"]
     },
-    // grouped updates
     {
       "matchDatasources": [
         "helm",
