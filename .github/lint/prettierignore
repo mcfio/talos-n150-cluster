@@ -1,0 +1,4 @@
+.private/
+.terraform/
+*.enc.*
+flux-components.yaml

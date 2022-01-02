@@ -1,0 +1,33 @@
+---
+version: "3"
+
+tasks:
+  all:
+    - task: yaml
+    - task: md
+
+  yaml:
+    desc: Format YAML
+    cmds:
+      - >-
+        prettier
+        --ignore-path {{ .PROJECT_DIR }}/.github/lint/prettierignore
+        --config {{ .PROJECT_DIR }}/.github/lint/prettierrc.yaml
+        --list-different
+        --ignore-unknown
+        --parser=yaml
+        --write '*.y*ml' '**/*.y*ml'
+    ignore_error: true
+
+  md:
+    desc: Format Markdown
+    cmds:
+      - >-
+        prettier
+        --ignore-path {{ .PROJECT_DIR }}/.github/lint/prettierignore
+        --config {{ .PROJECT_DIR }}/.github/lint/prettierrc.yaml
+        --list-different
+        --ignore-unknown
+        --parser=markdown
+        --write '*.md' '**/*.md'
+    ignore_error: true
