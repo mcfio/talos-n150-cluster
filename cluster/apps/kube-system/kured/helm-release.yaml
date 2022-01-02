@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: weaveworks-kured
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     image:
       repository: raspbernetes/kured
@@ -32,6 +35,3 @@ spec:
       rebootCommand: "/usr/bin/systemctl reboot"
     metrics:
       create: true
-    tolerations:
-    - operator: Exists
-      effect: NoSchedule
