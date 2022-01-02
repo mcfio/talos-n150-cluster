@@ -17,6 +17,8 @@ spec:
         name: k8s-at-home
         namespace: flux-system
   values:
+    global:
+      fullnameOverride: network-ups-tools
     podAnnotations:
       sidecar.istio.io/inject: "false"
     env:

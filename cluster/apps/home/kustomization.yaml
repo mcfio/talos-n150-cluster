@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
 - namespace.yaml
 - emqx
-- nut-server
+- network-ups-tools
 - zigbee2mqtt
 - zwavejs2mqtt
