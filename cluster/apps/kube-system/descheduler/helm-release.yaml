@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: descheduler
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     kind: Deployment
     deschedulerPolicy:
@@ -28,6 +31,6 @@ spec:
             nodeAffinityType:
               - requiredDuringSchedulingIgnoredDuringExecution
         RemovePodsViolatingInterPodAntiAffinity:
-          enabled: false
+          enabled: true
         LowNodeUtilization:
           enabled: false

@@ -16,9 +16,10 @@ spec:
         kind: HelmRepository
         name: metrics-server
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
-    args:
-    - --kubelet-insecure-tls
     resources:
       requests:
         cpu: 10m

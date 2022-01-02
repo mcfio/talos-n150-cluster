@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: stakater-charts
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     nameOverride: reloader
     fullnameOverride: reloader

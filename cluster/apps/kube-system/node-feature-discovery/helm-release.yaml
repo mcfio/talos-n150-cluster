@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: node-feature-discovery-charts
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     image:
       repository: raspbernetes/node-feature-discovery
