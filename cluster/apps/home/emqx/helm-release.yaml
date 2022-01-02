@@ -34,7 +34,11 @@ spec:
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_ACL_NOMATCH: "deny"
-      EMQX_ADMIN_PASSWORD: "Nm290154"
+    emqxAclConfig: >
+      {allow, {user, "mcfadmin"}, subscribe, ["$SYS/#"]}.
+      {allow, {ipaddr, "127.0.0.1"}, pubsub, ["$SYS/#", "#"]}.
+      {deny, all, subscribe, ["$SYS/#", {eq, "#"}]}.
+      {allow, all}.
     emqxLoadedPlugins: >
       {emqx_management, true}.
       {emqx_recon, true}.
@@ -65,39 +69,3 @@ spec:
               values:
               - emqx
           topologyKey: "kubernetes.io/hostname"
-
-  postRenderers:
-  - kustomize:
-      patchesStrategicMerge:
-      - apiVersion: apps/v1
-        kind: StatefulSet
-        metadata:
-          name: emqx
-          namespace: home
-        spec:
-          template:
-            metadata:
-              annotations:
-                secret.reloader.stakater.com/reload: emqx-auth
-            spec:
-              containers:
-              - name: emqx
-                volumeMounts:
-                - name: emqx-auth
-                  mountPath: /opt/emqx/etc/plugins/emqx_auth_mnesia.conf
-                  subPath: emqx_auth_mnesia.conf
-              volumes:
-              - name: emqx-auth
-                secret:
-                  secretName: emqx-auth
-                  items:
-                  - key: emqx_auth_mnesia.conf
-                    path: emqx_auth_mnesia.conf
-              - name: emqx-acl
-                configMap:
-                  $patch: delete
-                secret:
-                  secretName: emqx-auth
-                  items:
-                  - key: acl.conf
-                    path: acl.conf
