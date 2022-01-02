@@ -1,20 +1,31 @@
 {
-  "enabled": true,
+  "extends": [
+    "enableRenovate",
+    "config:base",
+    "disableRateLimiting",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separatePatchReleases",
+    "docker:enableMajor",
+    "github>mcfio/home-cluster//.github/renovate/autoMerge",
+    "github>mcfio/home-cluster//.github/renovate/labels",
+    "github>mcfio/home-cluster//.github/renovate/semanticCommits"
+  ],
   "timezone": "America/Toronto",
-  "semanticCommits": "enabled",
-  "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "commitBody": "Signed-off-by: Nick M <4718+rkage@users.noreply.github.com>",
-  "suppressNotifications": ["prIgnoreNotification"],
+  "suppressNotifications": [
+    "prIgnoreNotification"
+  ],
   "rebaseWhen": "conflicted",
-  "commitMessageTopic": "{{depName}}",
-  "commitMessageExtra": "to {{newVersion}}",
-  "commitMessageSuffix": "",
   "helm-values": {
-    "fileMatch": ["cluster/.+/helm-release\\.yaml$"]
+    "fileMatch": [
+      "cluster/.+/helm-release\\.yaml$"
+    ]
   },
   "kubernetes": {
-    "fileMatch": ["cluster/.+\\.yaml"],
+    "fileMatch": [
+      "cluster/.+\\.yaml"
+    ],
     "ignorePaths": [
       "cluster/flux-system/"
     ]
@@ -46,80 +57,39 @@
         "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n *tag: (?<currentValue>.*)\n"
       ],
       "datasourceTemplate": "helm"
+    },
+    {
+      "fileMatch": [
+        "cluster/crds/external-snapshotter/.+\\.yaml$"
+      ],
+      "matchStrings": [
+        "datasource=(?<datasource>.*?)\n *url: https:\/\/github\\.com\/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n"
+      ],
+      "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
+    // setup datasources
     {
-      "matchDatasources": ["helm"],
-      "semanticCommitScope": "charts",
-      "separateMinorPatch": true,
+      "matchDatasources": [
+        "helm"
+      ],
       "ignoreDeprecated": true
     },
     {
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": "feat(charts)!: ",
-      "labels": ["renovate/helm", "dependency/major"]
+      "matchDatasources": [
+        "docker"
+      ],
+      "commitMessageExtra": "to {{newVersion}}"
     },
+    // custom versioning
     {
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["minor"],
-      "semanticCommitType": "feat",
-      "labels": ["renovate/helm", "dependency/minor"]
-    },
-    {
-      "matchDatasources": ["helm"],
-      "matchUpdateTypes": ["patch"],
-      "semanticCommitType": "fix",
-      "labels": ["renovate/helm", "dependency/patch"]
-    },
-    {
-      "matchDatasources": ["docker"],
-      "enabled": true,
-      "matchUpdateTypes": ["major", "minor", "patch"]
-    },
-    {
-      "matchDatasources": ["docker"],
-      "semanticCommitScope": "images",
-      "separateMinorPatch": true
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["major"],
-      "commitMessagePrefix": "feat(images)!: ",
-      "labels": ["renovate/image", "dependency/major"]
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["minor"],
-      "semanticCommitType": "feat",
-      "labels": ["renovate/image", "dependency/minor"]
-    },
-    {
-      "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["patch"],
-      "semanticCommitType": "fix",
-      "labels": ["renovate/image", "dependency/patch"]
-    },
-    {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "versioning": "loose",
       "matchPackageNames": [
         "ghcr.io/k8s-at-home/plex"
-      ]
-    },
-    {
-      "matchDatasources": ["docker"],
-      "automerge": true,
-      "automergeType": "branch",
-      "requiredStatusChecks": null,
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchPackageNames": [
-        "ghcr.io/k8s-at-home/plex",
-        "ghcr.io/k8s-at-home/radarr",
-        "ghcr.io/k8s-at-home/sonarr",
-        "ghcr.io/k8s-at-home/prowlarr",
-        "ghcr.io/k8s-at-home/overseerr"
       ]
     },
     {
@@ -129,10 +99,29 @@
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["patch"]
     },
+    // grouped updates
     {
-      "matchDatasources": ["helm", "docker"],
-      "matchPackagePatterns": ["^rook.ceph"],
+      "matchDatasources": [
+        "helm",
+        "docker"
+      ],
+      "matchPackagePatterns": [
+        "^rook.ceph"
+      ],
       "groupName": "rook-ceph",
+      "additionalBranchPrefix": "",
+      "separateMinorPatch": true
+    },
+    {
+      "matchDatasources": [
+        "github-releases",
+        "docker"
+      ],
+      "matchPackagePatterns": [
+        "external-snapshotter",
+        "snapshot-controller"
+      ],
+      "groupName": "external-snapshotter",
       "additionalBranchPrefix": "",
       "separateMinorPatch": true
     }
