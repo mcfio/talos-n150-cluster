@@ -31,6 +31,7 @@ spec:
       requests:
         cpu: 500m
         memory: 512Mi
+    envFromSecret: emqx-auth
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_ACL_NOMATCH: "deny"
