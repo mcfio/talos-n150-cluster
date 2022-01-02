@@ -1,36 +1,35 @@
 ---
-
 name: Schedule - Renovate Helm Releases
 
 on:
   workflow_dispatch:
   schedule:
-  - cron: '0 */12 * * *'
+    - cron: "0 */12 * * *"
 
 jobs:
   renovate-helm-releases:
     runs-on: ubuntu-20.04
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-    - name: Renovate Helm Releases
-      uses: k8s-at-home/renovate-helm-releases@v1
-      with:
-        cluster-path: "./cluster"
+      - name: Renovate Helm Releases
+        uses: k8s-at-home/renovate-helm-releases@v1
+        with:
+          cluster-path: "./cluster"
 
-    - name: Create pull request for renovatebot helm-release annotations
-      uses: peter-evans/create-pull-request@v3
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        branch: renovate-annotations
-        delete-branch: true
-        title: "chore(deps): update renovate annotations for helm-releases"
-        signoff: true
-        committer: "Nick M <4718+rkage@users.noreply.github.com>"
-        author: "Nick M <4718+rkage@users.noreply.github.com>"
-        assignees: "rkage"
-        commit-message: "chore(deps): update renovate annotations for helm-releases"
-        body: |
-          Update `helm-release.yaml` in order for renovate to pick up new versions of Helm charts
-        labels: renovate/annotations
+      - name: Create pull request for renovatebot helm-release annotations
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: renovate-annotations
+          delete-branch: true
+          title: "chore(deps): update renovate annotations for helm-releases"
+          signoff: true
+          committer: "Nick M <4718+rkage@users.noreply.github.com>"
+          author: "Nick M <4718+rkage@users.noreply.github.com>"
+          assignees: "rkage"
+          commit-message: "chore(deps): update renovate annotations for helm-releases"
+          body: |
+            Update `helm-release.yaml` in order for renovate to pick up new versions of Helm charts
+          labels: renovate/annotations
