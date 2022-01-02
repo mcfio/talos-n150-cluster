@@ -83,13 +83,11 @@ spec:
         type: secret
         name: blocky-cert
     config: |
-      bootstrapDns: tcp+udp:1.1.1.1
+      bootstrapDns: tcp+udp:${IP_NETWORK_GATEWAY}
       upstream:
         default:
-        - tcp-tls:private.canadianshield.cira.ca
-        - https://private.canadianshield.cira.ca/dns-query
-        # - https://dns.nextdns.io/62bfb4
-        # - tcp-tls:62bfb4.dns.nextdns.io
+        - https://dns.nextdns.io/${NEXTDNS_ID}
+        - tcp-tls:${NEXTDNS_ID}.dns.nextdns.io
       caching:
         minTime: 5m
         maxTime: 30m
