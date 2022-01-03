@@ -5,7 +5,7 @@ vars:
   ANSIBLE_DIR: "{{.PROJECT_DIR}}/infrastructure/ansible"
   ANSIBLE_INVENTORY_DIR: "{{.ANSIBLE_DIR}}/inventory"
   ANSIBLE_PLAYBOOK_DIR: "{{.ANSIBLE_DIR}}/playbooks"
-  ANSIBLE_GROUPS: "cluster"
+  ANSIBLE_GROUPS: "home-cluster"
 
 env:
   ANSIBLE_CONFIG: "{{.ANSIBLE_DIR}}/ansible.cfg"
