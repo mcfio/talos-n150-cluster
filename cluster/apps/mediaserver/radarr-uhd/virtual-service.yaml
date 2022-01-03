@@ -6,7 +6,7 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-    - radarr-uhd.milton.mcf.io
+    - radarr-uhd.${ROOT_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

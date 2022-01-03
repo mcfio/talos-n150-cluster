@@ -10,4 +10,4 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - dns.milton.mcf.io
+    - dns.${ROOT_DOMAIN}

@@ -6,7 +6,7 @@ metadata:
   namespace: home
 spec:
   hosts:
-    - zwave.milton.mcf.io
+    - zwave.${ROOT_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

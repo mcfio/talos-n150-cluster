@@ -6,7 +6,7 @@ metadata:
   namespace: home
 spec:
   hosts:
-    - zigbee.milton.mcf.io
+    - zigbee.${ROOT_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

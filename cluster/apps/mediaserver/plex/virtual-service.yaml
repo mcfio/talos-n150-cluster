@@ -6,7 +6,7 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-    - plex.milton.mcf.io
+    - plex.${ROOT_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:
