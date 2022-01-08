@@ -11,7 +11,7 @@ spec:
     spec:
       # renovate: registryUrl=https://prometheus-community.github.io/helm-charts
       chart: kube-prometheus-stack
-      version: 28.0.2
+      version: 29.0.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -148,15 +148,6 @@ spec:
                   storage: 1Gi
     kubelet:
       enabled: true
-    kubeControllerManager:
-      enabled: true
-      service:
-        port: 10257
-        targetPort: 10257
-      serviceMonitor:
-        https: true
-        servername: localhost
-        insecureSkipVerify: true
     coreDns:
       enabled: true
     kubeEtcd:
@@ -167,15 +158,6 @@ spec:
         caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
         certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
         keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
-    kubeScheduler:
-      enabled: true
-      service:
-        port: 10259
-        targetPort: 10259
-      serviceMonitor:
-        https: true
-        serverName: localhost
-        insecureSkipVerify: true
     kubeProxy:
       enabled: false
     prometheus:
