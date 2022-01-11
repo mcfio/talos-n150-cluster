@@ -212,9 +212,23 @@ spec:
       sidecar:
         datasources:
           url: http://prom-prometheus.monitoring:9090/
-    prometheus-node-exporter:
-      fullnameOverride: node-exporter
-    kubeStateMetrics:
-      enabled: true
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              sourceLabels:
+                - __meta_kubernetes_endpoint_node_name
+              targetLabel: node
+    prometheus-node-exporter:
+      fullnameOverride: node-exporter
+      prometheus:
+        monitor:
+          enabled: true
+          relabelings:
+            - action: replace
+              sourceLabels:
+                - __meta_kubernetes_endpoint_node_name
+              targetLabel: node
