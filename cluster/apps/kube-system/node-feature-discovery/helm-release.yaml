@@ -22,11 +22,10 @@ spec:
   values:
     image:
       repository: raspbernetes/node-feature-discovery
-      tag: v0.9.0-minimal
+      tag: v0.10.0-minimal
     worker:
       annotations:
-        configmap.reloader.stakater.com/reload: "nfd-worker-conf"
-      configmapName: nfd-worker-conf
+        configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
       config: |
         core:
           sources:
