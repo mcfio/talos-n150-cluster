@@ -53,6 +53,8 @@ spec:
         enabled: true
         type: pvc
         existingClaim: rclone-cache
+    nodeSelector:
+      kubernetes.io/arch: amd64
     resources:
       requests:
         cpu: 500m
