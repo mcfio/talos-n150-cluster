@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: istio
         namespace: flux-system
+  dependsOn:
+    - name: istio-base
+      namespace: istio-system
   upgrade:
     remediation:
       remediateLastFailure: true
