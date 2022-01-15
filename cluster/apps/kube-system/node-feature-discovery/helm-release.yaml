@@ -16,35 +16,40 @@ spec:
         kind: HelmRepository
         name: node-feature-discovery-charts
         namespace: flux-system
+  install:
+    crds: CreateReplace
   upgrade:
+    crds: CreateReplace
     remediation:
       remediateLastFailure: true
   values:
+    nodeFeatureRule:
+      createCRD: true
     image:
       repository: mcfio/nfd-test
       tag: 0.10.0
     worker:
       annotations:
         configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
-      config: |
+      config:
         core:
           sources:
-          - custom
-          - pci
-          - usb
+            - custom
+            - pci
+            - usb
         sources:
           usb:
             deviceClassWhitelist:
-            - "02"
-            - "ff"
+              - "02"
+              - "ff"
             deviceLabelFields:
-            - "class"
-            - "vendor"
-            - "device"
+              - "class"
+              - "vendor"
+              - "device"
           custom:
-          - name: "zwave"
-            matchOn:
-            - usbId:
-                class: ["ff"]
-                vendor: ["10c4"]
-                device: ["ea60"]
+            - name: "zwave"
+              matchOn:
+                - usbId:
+                    class: ["ff"]
+                    vendor: ["10c4"]
+                    device: ["ea60"]
