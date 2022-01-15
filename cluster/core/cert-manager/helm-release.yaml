@@ -5,7 +5,7 @@ metadata:
   name: cert-manager
   namespace: cert-manager
 spec:
-  interval: 5m
+  interval: 12h
   maxHistory: 3
   chart:
     spec:
@@ -16,12 +16,14 @@ spec:
         kind: HelmRepository
         name: jetstack
         namespace: flux-system
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
   values:
-    global:
-      leaderElection:
-        leaseDuration: 60s
-        renewDeadline: 40s
-        retryPeriod: 15s
+    installCRDs: true
     resources:
       requests:
         cpu: 10m
@@ -31,7 +33,8 @@ spec:
       servicemonitor:
         enabled: true
     extraArgs:
-      - "--dns01-recursive-nameservers=1.1.1.1:53"
+      - --dns01-recursive-nameservers=1.1.1.1:53
+      - --dns01-recursive-nameservers-only
     webhook:
       resources:
         requests:
