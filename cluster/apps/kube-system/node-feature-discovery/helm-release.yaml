@@ -21,8 +21,8 @@ spec:
       remediateLastFailure: true
   values:
     image:
-      repository: raspbernetes/node-feature-discovery
-      tag: v0.10.0-minimal
+      repository: mcfio/nfd-test
+      tag: 0.10.0
     worker:
       annotations:
         configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
