@@ -5,7 +5,7 @@ metadata:
   name: istio-cni
   namespace: istio-system
 spec:
-  interval: 5m
+  interval: 12m
   maxHistory: 2
   chart:
     spec:
@@ -16,6 +16,9 @@ spec:
         kind: HelmRepository
         name: istio
         namespace: flux-system
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     cni:
       hub: docker.io/querycapistio
