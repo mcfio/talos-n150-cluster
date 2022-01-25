@@ -35,3 +35,8 @@ spec:
       rebootCommand: "/usr/bin/systemctl reboot"
     metrics:
       create: true
+    tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
