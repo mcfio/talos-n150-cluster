@@ -25,9 +25,6 @@ spec:
   values:
     nodeFeatureRule:
       createCRD: true
-    image:
-      repository: mcfio/nfd-test
-      tag: 0.10.0
     worker:
       annotations:
         configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
