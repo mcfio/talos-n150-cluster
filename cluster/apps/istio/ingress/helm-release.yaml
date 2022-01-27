@@ -16,6 +16,8 @@ spec:
         kind: HelmRepository
         name: istio
         namespace: flux-system
+  install:
+    createNamespace: true
   upgrade:
     remediation:
       remediateLastFailure: true

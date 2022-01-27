@@ -17,10 +17,16 @@ spec:
         name: rook-release
         namespace: flux-system
       interval: 5m
+  install:
+    crds: Create
+    createNamespace: true
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      remediateLastFailure: true
   values:
     crds:
-      # CRDs are managed separately from the helm chart; See ./cluster/crds/rook-ceph
-      enabled: false
+      enabled: true
     resources:
       requests:
         cpu: 100m

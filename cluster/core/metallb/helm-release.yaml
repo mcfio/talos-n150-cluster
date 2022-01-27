@@ -16,6 +16,11 @@ spec:
         kind: HelmRepository
         name: metallb
         namespace: flux-system
+  install:
+    createNamespace: true
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     configInline:
       address-pools:
