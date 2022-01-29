@@ -14,11 +14,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rook-release
-        namespace: flux-system
       interval: 5m
   install:
-    crds: CreateReplace
-    createNamespace: true
+    crds: Create
   upgrade:
     crds: CreateReplace
     remediation:
