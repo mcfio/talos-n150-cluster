@@ -11,3 +11,4 @@ resources:
   - apps.yaml
   - cluster-secrets.enc.yaml
   - cluster-vars.yaml
+  - cluster-var-test.yaml
