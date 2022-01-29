@@ -123,7 +123,7 @@ spec:
           - https://raw.githubusercontent.com/mmotti/adguard-home-filters/master/whitelist.txt
           - |
             /^uplab.pro/
-            mp.microsoft.com
+            /mp.microsoft.com/
         clientGroupsBlock:
           default:
           - ads
