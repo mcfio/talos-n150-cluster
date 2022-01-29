@@ -9,7 +9,6 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      # renovate: registryUrl=https://kubernetes-sigs.github.io/metrics-server
       chart: metrics-server
       version: 3.7.0
       sourceRef:

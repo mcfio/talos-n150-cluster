@@ -9,7 +9,6 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      # renovate: registryUrl=https://istio-release.storage.googleapis.com/charts
       chart: base
       version: 1.12.2
       sourceRef:

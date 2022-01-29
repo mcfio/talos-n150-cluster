@@ -9,7 +9,6 @@ spec:
   maxHistory: 3
   chart:
     spec:
-      # renovate: registryUrl=https://charts.jetstack.io/
       chart: cert-manager
       version: v1.7.0
       sourceRef:

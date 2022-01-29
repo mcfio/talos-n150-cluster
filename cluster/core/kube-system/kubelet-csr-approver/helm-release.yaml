@@ -9,7 +9,6 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      # renovate: registryUrl=https://postfinance.github.io/kubelet-csr-approver
       chart: kubelet-csr-approver
       version: v0.1.2
       sourceRef:

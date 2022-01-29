@@ -9,7 +9,6 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      # renovate: registryUrl=https://infracloudio.github.io/charts
       chart: botkube
       version: v0.12.4
       sourceRef:

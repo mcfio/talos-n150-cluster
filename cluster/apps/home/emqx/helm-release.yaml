@@ -9,7 +9,6 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      # renovate: registryUrl=https://repos.emqx.io/charts
       chart: emqx
       version: 4.3.11
       sourceRef:

@@ -9,7 +9,6 @@ spec:
   maxHistory: 5
   chart:
     spec:
-      # renovate: registryUrl=https://k8s-at-home.com/charts
       chart: network-ups-tools
       version: 6.2.0
       sourceRef:
