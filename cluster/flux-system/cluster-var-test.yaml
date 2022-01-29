@@ -5,4 +5,4 @@ metadata:
   namespace: flux-system
   name: cluster-var-test
 data:
-  TEST_VAR2: 123456
+  TEST_VAR2: "123456"
