@@ -23,9 +23,9 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    # image:
-    #   repository: redis
-    #   tag: 6.2.6-alpine
+    global:
+      redis:
+        password: ${BLOCKY_REDIS_PASSWORD}
     architecture: standalone
     auth:
       enabled: true
