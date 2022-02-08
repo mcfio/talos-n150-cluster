@@ -165,7 +165,7 @@ entry() {
         comments+=( "$(printf '```diff\n%s\n```' "$(cat /tmp/diff)")" )
     else
         # shellcheck disable=SC2016
-        comments+=( "$(printf '```\nNo changes in detected in resources\n```')" )
+        comments+=( "$(printf '```\nNo changes detected in resource manifests\n```')" )
     fi
 
     # Join the array with a new line and print it
