@@ -60,12 +60,18 @@ spec:
           receiver: slack-notifications
           routes:
             - matchers:
-                - alertname =~ Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests
+                - alertname =~ Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests|InfoInhibitor
               receiver: "null"
             - matchers:
                 - severity =~ critical|warning
               receiver: slack-notifications
               continue: true
+        inhibit_rules:
+          - source_match:
+              severity: "critical"
+            target_match:
+              severity: "warning"
+            equal: ["alertname", "namespace"]
       templateFiles:
         notifications.tmpl: |-
           {{ define "__alert_silence_link" -}}
