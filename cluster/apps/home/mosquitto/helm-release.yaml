@@ -29,10 +29,22 @@ spec:
         type: LoadBalancer
         loadBalancerIP: ${VIP_EMQX_INGRESS}
         externalTrafficPolicy: Local
+        ports:
+          mqtt:
+            enabled: true
+            port: 1883
+            protocol: TCP
+            targetPort: 1883
+          mqtts:
+            enabled: true
+            port: 8883
+            protocol: TCP
+            targetPort: 8883
+
     auth:
       enabled: true
     podAnnotations:
-      secret.reloader.stakater.com/reload: mosquitto
+      secret.reloader.stakater.com/reload: "mosquitto, mqtt-cert"
     persistence:
       data:
         enabled: true
@@ -43,3 +55,8 @@ spec:
         volumeSpec:
           secret:
             secretName: mosquitto
+      mqtt-cert:
+        enabled: true
+        mountPath: /cert
+        type: secret
+        name: mqtt-cert
