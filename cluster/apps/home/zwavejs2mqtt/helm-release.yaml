@@ -16,7 +16,7 @@ spec:
         name: k8s-at-home
         namespace: flux-system
   dependsOn:
-    - name: emqx
+    - name: mosquitto
       namespace: home
   upgrade:
     remediation:
