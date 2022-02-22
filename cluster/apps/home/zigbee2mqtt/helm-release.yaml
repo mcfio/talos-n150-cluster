@@ -61,9 +61,9 @@ spec:
         port: 8080
       mqtt:
         base_topic: zigbee2mqtt
-        server: "mqtt://emqx.home"
+        server: "mqtt://mosquitto.home"
         user: zigbee2mqtt
-        password: Nm131277
+        password: ${MQTT_GENERIC_PASSWORD}
       serial:
         port: "tcp://192.168.30.35:6638"
       homeassistant: true
