@@ -24,6 +24,11 @@ spec:
       tag: v2.0.14
     env:
       TZ: America/Toronto
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: ${VIP_EMQX_INGRESS}
+        externalTrafficPolicy: Local
     auth:
       enabled: true
     podAnnotations:

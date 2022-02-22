@@ -4,7 +4,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - blocky
-  - emqx
   - network-ups-tools
   - mosquitto
   - zigbee2mqtt
