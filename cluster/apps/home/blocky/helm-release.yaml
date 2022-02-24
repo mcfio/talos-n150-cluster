@@ -128,11 +128,11 @@ spec:
           - ads
       clientLookup:
         upstream: tcp+udp:${IP_NETWORK_GATEWAY}
-      # redis:
-      #   address: blocky-redis-master.home:6372
-      #   password: ${BLOCKY_REDIS_PASSWORD}
-      #   database: 2
-      #   required: true
+      redis:
+        address: blocky-redis-master.home:6372
+        password: ${BLOCKY_REDIS_PASSWORD}
+        database: 2
+        required: true
       prometheus:
         enable: true
         path: /metrics
