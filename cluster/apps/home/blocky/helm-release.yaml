@@ -129,7 +129,7 @@ spec:
       clientLookup:
         upstream: tcp+udp:${IP_NETWORK_GATEWAY}
       redis:
-        address: blocky-redis-master.home:6372
+        address: blocky-redis-master.home:6379
         password: ${BLOCKY_REDIS_PASSWORD}
         database: 2
         required: true
