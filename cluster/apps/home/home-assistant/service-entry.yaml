@@ -6,13 +6,13 @@ metadata:
   namespace: home
 spec:
   endpoints:
-  - address: ${IP_HASSIO}
+    - address: ${IP_HASSIO}
   hosts:
-  - hassio.local
+    - hassio.local
   location: MESH_EXTERNAL
   ports:
-  - name: http
-    number: 8123
-    protocol: HTTP
-    targetPort: 8123
+    - name: http
+      number: 8123
+      protocol: HTTP
+      targetPort: 8123
   resolution: STATIC

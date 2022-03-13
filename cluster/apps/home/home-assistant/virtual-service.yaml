@@ -12,6 +12,6 @@ spec:
   http:
     - route:
         - destination:
+            host: hassio.local
             port:
-              number: 5055
-            host: overseerr.mediaserver.svc.cluster.local
+              number: 8123
