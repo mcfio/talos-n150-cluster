@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   hosts:
-    - alertmanager.${ROOT_DOMAIN}
+    - alertmanager.${INTERNAL_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

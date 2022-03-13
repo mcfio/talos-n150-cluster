@@ -10,5 +10,5 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - ${ROOT_DOMAIN}
-    - "*.${ROOT_DOMAIN}"
+    - ${INTERNAL_DOMAIN}
+    - "*.${INTERNAL_DOMAIN}"

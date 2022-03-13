@@ -6,7 +6,7 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-    - prowlarr.${ROOT_DOMAIN}
+    - prowlarr.${INTERNAL_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

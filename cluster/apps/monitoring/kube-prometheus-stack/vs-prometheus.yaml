@@ -6,7 +6,7 @@ metadata:
   namespace: monitoring
 spec:
   hosts:
-    - prometheus.${ROOT_DOMAIN}
+    - prometheus.${INTERNAL_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

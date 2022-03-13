@@ -6,7 +6,7 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-    - sonarr.${ROOT_DOMAIN}
+    - sonarr.${INTERNAL_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

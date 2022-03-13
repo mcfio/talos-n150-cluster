@@ -6,7 +6,7 @@ metadata:
   namespace: mediaserver
 spec:
   hosts:
-    - requests.mcf.io
+    - requests.${ROOT_DOMAIN}
   gateways:
     - istio-ingress/overseerr-gateway
   http:

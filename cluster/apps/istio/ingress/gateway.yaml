@@ -13,7 +13,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - "*.${ROOT_DOMAIN}"
+        - "*.${INTERNAL_DOMAIN}"
       tls:
         httpsRedirect: true
     - port:
@@ -21,7 +21,7 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        - "*.${ROOT_DOMAIN}"
+        - "*.${INTERNAL_DOMAIN}"
       tls:
         credentialName: milton-mcf-io-wc-cert
         mode: SIMPLE

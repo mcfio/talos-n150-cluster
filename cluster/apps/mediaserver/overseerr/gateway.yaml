@@ -13,7 +13,7 @@ spec:
         name: http
         protocol: HTTP
       hosts:
-        - requests.mcf.io
+        - requests.${ROOT_DOMAIN}
       tls:
         httpsRedirect: true
     - port:
@@ -21,9 +21,9 @@ spec:
         name: https
         protocol: HTTPS
       hosts:
-        - requests.mcf.io
+        - requests.${ROOT_DOMAIN}
       tls:
-        credentialName: overseerr-cert
+        credentialName: mcf-io-origin-ca-cert
         mode: SIMPLE
         minProtocolVersion: TLSV1_2
         maxProtocolVersion: TLSV1_3
