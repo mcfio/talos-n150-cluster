@@ -6,7 +6,7 @@ metadata:
   namespace: home
 spec:
   hosts:
-    - zwave.${ROOT_DOMAIN}
+    - zwave.${INTERNAL_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:

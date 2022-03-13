@@ -6,7 +6,7 @@ metadata:
   namespace: home
 spec:
   hosts:
-    - zigbee.${ROOT_DOMAIN}
+    - zigbee.${INTERNAL_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
   http:
