@@ -8,3 +8,4 @@ resources:
   - mosquitto
   - zigbee2mqtt
   - zwavejs2mqtt
+  - home-assistant
