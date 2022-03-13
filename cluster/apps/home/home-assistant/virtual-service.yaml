@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: home-assistant
+  namespace: home
+spec:
+  hosts:
+    - home-assistant.${ROOT_DOMAIN}
+  gateways:
+    - istio-ingress/home-assistant-gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 5055
+            host: overseerr.mediaserver.svc.cluster.local
