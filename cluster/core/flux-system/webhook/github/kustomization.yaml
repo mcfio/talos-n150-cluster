@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
   - receiver.yaml
   - secret.enc.yaml
+  - gateway.yaml
   - virtual-service.yaml

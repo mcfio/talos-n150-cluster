@@ -7,9 +7,8 @@ metadata:
 spec:
   hosts:
     - flux-webhook.${ROOT_DOMAIN}
-    - flux-webhook.${INTERNAL_DOMAIN}
   gateways:
-    - istio-ingress/cluster-ingress-gateway
+    - istio-ingress/flux-webhook-gateway
   http:
     - route:
         - destination:
