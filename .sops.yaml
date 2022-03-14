@@ -1,9 +1,9 @@
 ---
 creation_rules:
-  - path_regex: .*/infrastructure/.*\.sops\.ya?ml
+  - path_regex: infrastructure/.*\.sops\.ya?ml
     age: >-
       age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
-  - path_regex: .*/cluster/.*\.ya?ml
+  - path_regex: cluster/.*\.enc\.ya?ml
     encrypted_regex: ^(data|stringData)$
     age: >-
       age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
