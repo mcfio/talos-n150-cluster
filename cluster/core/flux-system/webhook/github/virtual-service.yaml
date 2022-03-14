@@ -6,6 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   hosts:
+    - flux-webhook.${ROOT_DOMAIN}
     - flux-webhook.${INTERNAL_DOMAIN}
   gateways:
     - istio-ingress/cluster-ingress-gateway
