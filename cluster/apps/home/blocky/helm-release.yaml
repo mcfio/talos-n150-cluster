@@ -93,6 +93,7 @@ spec:
         prefetching: true
       customDNS:
         mapping:
+          setup.ui.com: ${IP_NETWORK_GATEWAY}
           ca.milton.mcf.io: 192.168.30.10
           ca.mcf.io: 192.168.30.10
           ntp.milton.mcf.io: 192.168.30.30
@@ -109,6 +110,7 @@ spec:
           dns.milton.mcf.io: 192.168.45.192
       conditional:
         mapping:
+          devices.wifiman.me: tcp+udp:${IP_NETWORK_GATEWAY}
           ui.direct: tcp+udp:${IP_NETWORK_GATEWAY}
           lan: tcp+udp:${IP_NETWORK_GATEWAY}
           cluster.lan: tcp+udp:${IP_NETWORK_GATEWAY}
