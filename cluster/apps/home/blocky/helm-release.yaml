@@ -109,6 +109,7 @@ spec:
           dns.milton.mcf.io: 192.168.45.192
       conditional:
         mapping:
+          ui.direct: tcp+udp:${IP_NETWORK_GATEWAY}
           lan: tcp+udp:${IP_NETWORK_GATEWAY}
           cluster.lan: tcp+udp:${IP_NETWORK_GATEWAY}
       blocking:
