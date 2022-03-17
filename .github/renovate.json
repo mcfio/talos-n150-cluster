@@ -38,6 +38,16 @@
   "regexManagers": [
     {
       "fileMatch": [
+        "cluster/.+\\.ya?ml$"
+      ],
+      "matchStrings": [
+        "registryUrl=(?<registryUrl>.*?)\n *tag: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n",
+        "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/"
+      ],
+      "datasourceTemplate": "helm"
+    },
+    {
+      "fileMatch": [
         "cluster/crds/external-snapshotter/.+\\.yaml$"
       ],
       "matchStrings": [
