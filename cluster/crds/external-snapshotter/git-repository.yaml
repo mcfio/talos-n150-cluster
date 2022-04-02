@@ -5,7 +5,7 @@ metadata:
   name: external-snapshotter-source
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 36h
   # renovate: datasource=github-releases
   url: https://github.com/kubernetes-csi/external-snapshotter.git
   ref:
