@@ -1,11 +1,11 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta1
+apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: GitRepository
 metadata:
   name: home-cluster
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 6h
   ref:
     branch: main
   url: https://github.com/mcfio/home-cluster.git
