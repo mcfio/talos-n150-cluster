@@ -126,6 +126,8 @@ spec:
           - |
             /^uplab.pro/
             /mp.microsoft.com/
+            /mask.icloud.com/
+            /mask-h2.icloud.com/
         clientGroupsBlock:
           default:
           - ads
