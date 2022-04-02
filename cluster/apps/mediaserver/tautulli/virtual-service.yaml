@@ -1,0 +1,17 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: tautulli
+  namespace: mediaserver
+spec:
+  hosts:
+    - tautulli.${INTERNAL_DOMAIN}
+  gateways:
+    - istio-ingress/cluster-ingress-gateway
+  http:
+    - route:
+        - destination:
+            port:
+              number: 8181
+            host: tautulli.mediaserver.svc.cluster.local

@@ -10,3 +10,4 @@ resources:
   - radarr
   - radarr-uhd
   - sonarr
+  - tautulli
