@@ -3,7 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: tautulli
-  namespace: media
+  namespace: mediaserver
 spec:
   interval: 12h
   maxHistory: 2
