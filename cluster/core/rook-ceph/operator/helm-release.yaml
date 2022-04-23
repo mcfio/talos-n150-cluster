@@ -23,7 +23,7 @@ spec:
       remediateLastFailure: true
   values:
     crds:
-      enabled: true
+      enabled: false
     resources:
       requests:
         cpu: 100m
@@ -34,6 +34,7 @@ spec:
     pspEnable: false
     csi:
       enableCephfsDriver: false
+      csiRBDPluginResource: []
       pluginTolerations:
         - effect: PreferNoSchedule
           operator: Exists
