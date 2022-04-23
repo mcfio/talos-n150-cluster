@@ -7,5 +7,4 @@ resources:
   - operator/helm-release.yaml
   - cluster/helm-release.yaml
   - csi-snapshot-controller
-  - volume-snapshot-class.yaml
   - virtual-service.yaml
