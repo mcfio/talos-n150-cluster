@@ -7,4 +7,5 @@ resources:
   - kube-system
   - mediaserver
   - monitoring
+  - rook-ceph
   - oauth2-proxy
