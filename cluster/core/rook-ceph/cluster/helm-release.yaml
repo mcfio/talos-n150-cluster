@@ -30,13 +30,6 @@ spec:
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v17.2.0-20220420
-      mon:
-        count: 3
-        allowMultiplePerNode: false
-      mgr:
-        modules:
-          - name: rook
-            enabled: true
       dashboard:
         ssl: false
       crashCollector:
