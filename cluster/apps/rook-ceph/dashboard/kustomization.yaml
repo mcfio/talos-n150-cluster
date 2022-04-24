@@ -6,6 +6,9 @@ configMapGenerator:
   - name: ceph-cluster-dashboard
     files:
       - ceph-cluster-dashboard.json
+  - name: ceph-osd-dashboard
+    files:
+      - ceph-osd-dashboard.json
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
