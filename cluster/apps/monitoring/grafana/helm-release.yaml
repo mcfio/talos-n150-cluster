@@ -65,8 +65,13 @@ spec:
         tag: 1.3.0
       dashboards:
         enabled: true
+        searchNamespace: ALL
+        folderAnnotation: grafana_folder
+        provider:
+          foldersFromFilesStructure: true
       datasources:
         enabled: true
+        searchNamespace: ALL
       notifiers:
         enabled: true
     persistence:
