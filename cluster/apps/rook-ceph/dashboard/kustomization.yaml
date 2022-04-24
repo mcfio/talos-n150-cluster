@@ -9,6 +9,9 @@ configMapGenerator:
   - name: ceph-osd-dashboard
     files:
       - ceph-osd-dashboard.json
+  - name: ceph-pools-dashboard
+    files:
+      - ceph-pools-dashboard.json
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
