@@ -6,5 +6,4 @@ resources:
   - source/helm-repository.yaml
   - operator/helm-release.yaml
   - cluster/helm-release.yaml
-  - csi-snapshot-controller
   - virtual-service.yaml
