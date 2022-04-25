@@ -22,16 +22,6 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - loki
-            topologyKey: kubernetes.io/hostname
     config:
       limits_config:
         enforce_metric_name: false
@@ -75,13 +65,15 @@ spec:
           kvstore:
             store: inmemory
         enable_api: true
-    replicas: 2
     extraArgs: {}
       # log.level: debug
     serviceMonitor:
       enabled: true
-    podDisruptionBudget:
-      minAvailable: 1
+    persistence:
+      enabled: true
+      accessModes:
+        - ReadWriteOnce
+      size: 2Gi
     alerting_groups:
       - name: arr
         rules:
