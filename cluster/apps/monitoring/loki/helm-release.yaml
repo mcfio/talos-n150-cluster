@@ -4,8 +4,6 @@ kind: HelmRelease
 metadata:
   name: loki
   namespace: monitoring
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
 spec:
   interval: 12h
   maxHistory: 2
@@ -27,8 +25,6 @@ spec:
     replicas: 2
     serviceMonitor:
       enabled: true
-    extraArgs:
-      config.expand-env: true
     podDisruptionBudget:
       minAvailable: 1
     affinity:
@@ -42,29 +38,33 @@ spec:
                     - loki
             topologyKey: kubernetes.io/hostname
     config:
+      limits_config:
+        enforce_metric_name: false
+        reject_old_samples: true
+        reject_old_samples_max_age: 168h
+        ingestion_rate_mb: 16
+        ingestion_burst_size_mb: 24
       table_manager:
         retention_deletes_enabled: true
         retention_period: 672h
       storage_config:
         aws:
-          bucketnames: ${BUCKET_NAME}
-          endpoint: ${BUCKET_HOST}:${BUCKET_PORT}
           region: us-east-1
-          access_key_id: ${AWS_ACCESS_KEY_ID}
-          secret_access_key: ${AWS_SECRET_ACCESS_KEY}
           insecure: true
+          s3forcepathstyle: true
           sse_encryption: false
           http_config:
             idle_conn_timeout: 90s
             response_header_timeout: 0s
             insecure_skip_verify: false
-          s3forcepathstyle: true
         boltdb_shipper:
           active_index_directory: /data/loki/index
           cache_location: /data/loki/index_cache
           cache_ttl: 24h # Can be increased for faster performance over longer query periods, uses more disk space
           resync_interval: 5s
           shared_store: s3
+      compactor:
+        retention_enabled: true
       ruler:
         storage:
           type: local
@@ -89,21 +89,20 @@ spec:
             annotations:
               identifier: "{{ $labels.node }}"
               description: "{{ $app }} has a locked configuration database"
-  postRenderers:
-    - kustomize:
-        patchesStrategicMerge:
-          - apiVersion: apps/v1
-            kind: StatefulSet
-            metadata:
-              name: loki
-              namespace: monitoring
-            spec:
-              template:
-                spec:
-                  containers:
-                    - name: loki
-                      envFrom:
-                        - configMapRef:
-                            name: loki-bucket
-                        - secretRef:
-                            name: loki-bucket
+  valuesFrom:
+    - kind: ConfigMap
+      name: loki-bucket
+      valuesKey: BUCKET_NAME
+      targetPath: config.storage_config.aws.bucketnames
+    - kind: ConfigMap
+      name: loki-bucket
+      valuesKey: BUCKET_HOST
+      targetPath: config.storage_config.aws.endpoint
+    - kind: Secret
+      name: loki-bucket
+      valuesKey: AWS_ACCESS_KEY_ID
+      targetPath: config.storage_config.aws.access_key_id
+    - kind: Secret
+      name: loki-bucket
+      valuesKey: AWS_SECRET_ACCESS_KEY
+      targetPath: config.storage_config.aws.secret_access_key
