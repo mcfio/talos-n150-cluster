@@ -22,23 +22,6 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    replicas: 2
-    serviceMonitor:
-      enabled: true
-    # extraArgs:
-    #   log.level: debug
-    podDisruptionBudget:
-      minAvailable: 1
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app
-                  operator: In
-                  values:
-                    - loki
-            topologyKey: kubernetes.io/hostname
     config:
       limits_config:
         enforce_metric_name: false
@@ -46,6 +29,9 @@ spec:
         reject_old_samples_max_age: 168h
         ingestion_rate_mb: 16
         ingestion_burst_size_mb: 24
+      table_manager:
+        retention_deletes_enabled: true
+        retention_period: 672h
       storage_config:
         aws:
           insecure: true
@@ -53,7 +39,7 @@ spec:
         boltdb_shipper:
           active_index_directory: /data/loki/index
           cache_location: /data/loki/index_cache
-          cache_ttl: 24h # Can be increased for faster performance over longer query periods, uses more disk space
+          cache_ttl: 24h
           resync_interval: 5s
           shared_store: s3
       compactor:
@@ -69,6 +55,10 @@ spec:
           kvstore:
             store: inmemory
         enable_api: true
+    extraArgs: {}
+      # log.level: debug
+    serviceMonitor:
+      enabled: true
     alerting_groups:
       - name: arr
         rules:
