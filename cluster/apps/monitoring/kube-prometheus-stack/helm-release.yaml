@@ -137,6 +137,14 @@ spec:
           {{- end }}
       podDisruptionBudget:
         enabled: true
+      serviceMonitor:
+        relabelings:
+          - action: replace
+            regex: ^(.*)$
+            replacement: $1
+            sourceLabels:
+              - __meta_kubernetes_pod_node_name
+            targetLabel: kubernetes_node
       alertmanagerSpec:
         externalUrl: https://alertmanager.${ROOT_DOMAIN}
         replicas: 2
@@ -213,7 +221,7 @@ spec:
     grafana:
       enabled: false
       forceDeployDatasources: true
-      forceDeployDashboards: true
+      forceDeployDashboards: false
       sidecar:
         datasources:
           url: http://prom-prometheus.monitoring:9090/
