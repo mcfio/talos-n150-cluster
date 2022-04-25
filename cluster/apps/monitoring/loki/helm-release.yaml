@@ -63,6 +63,7 @@ spec:
               period: 24h
       compactor:
         retention_enabled: true
+        shared_store: aws
       ruler:
         storage:
           type: local
