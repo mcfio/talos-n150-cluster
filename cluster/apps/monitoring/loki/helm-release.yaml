@@ -25,6 +25,8 @@ spec:
     # replicas: 2
     serviceMonitor:
       enabled: true
+    extraArgs:
+      log.level: debug
     # podDisruptionBudget:
     #   minAvailable: 1
     # affinity:
