@@ -73,7 +73,7 @@ spec:
       enabled: true
       accessModes:
         - ReadWriteOnce
-      size: 10Gi
+      size: 2Gi
     alerting_groups:
       - name: arr
         rules:
