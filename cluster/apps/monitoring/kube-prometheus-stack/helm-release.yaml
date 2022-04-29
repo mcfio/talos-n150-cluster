@@ -171,6 +171,11 @@ spec:
         caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
         certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
         keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+        relabelings:
+          - action: replace
+            sourceLabels:
+              - __meta_kubernetes_pod_node_name
+            targetLabel: kubernetes_node
     kubeProxy:
       enabled: false
     prometheus:
