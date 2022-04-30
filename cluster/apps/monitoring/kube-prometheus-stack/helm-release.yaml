@@ -137,14 +137,6 @@ spec:
           {{- end }}
       podDisruptionBudget:
         enabled: true
-      serviceMonitor:
-        relabelings:
-          - action: replace
-            regex: ^(.*)$
-            replacement: $1
-            sourceLabels:
-              - __meta_kubernetes_pod_node_name
-            targetLabel: kubernetes_node
       alertmanagerSpec:
         externalUrl: https://alertmanager.${ROOT_DOMAIN}
         replicas: 2
@@ -171,11 +163,6 @@ spec:
         caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
         certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
         keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
-        relabelings:
-          - action: replace
-            sourceLabels:
-              - __meta_kubernetes_pod_node_name
-            targetLabel: kubernetes_node
     kubeProxy:
       enabled: false
     prometheus:
@@ -225,8 +212,8 @@ spec:
       configReloaderCpu: 0
     grafana:
       enabled: false
-      forceDeployDatasources: true
       forceDeployDashboards: false
+      forceDeployDatasources: true
       sidecar:
         datasources:
           url: http://prom-prometheus.monitoring:9090/
@@ -236,9 +223,9 @@ spec:
         monitor:
           enabled: true
           relabelings:
+            # node label isn't populated properly by default
             - action: replace
-              sourceLabels:
-                - __meta_kubernetes_endpoint_node_name
+              sourceLabels: [__meta_kubernetes_pod_node_name]
               targetLabel: node
     prometheus-node-exporter:
       fullnameOverride: node-exporter
@@ -246,7 +233,7 @@ spec:
         monitor:
           enabled: true
           relabelings:
+            # node label isn't populated properly by default
             - action: replace
-              sourceLabels:
-                - __meta_kubernetes_endpoint_node_name
+              sourceLabels: [__meta_kubernetes_pod_node_name]
               targetLabel: node
