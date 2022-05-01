@@ -23,6 +23,27 @@ spec:
       remediateLastFailure: true
   values:
     config:
+      distributor:
+        ring:
+          kvstore:
+            store: memberlist
+      ingester:
+        lifecycler:
+          ring:
+            kvstore:
+              store: memberlist
+            replication_factor: 1
+          final_sleep: 0s
+        chunk_idle_period: 5m
+        chunk_retain_period: 30s
+      memberlist:
+        abort_if_cluster_join_fails: false
+        bind_port: 7946
+        join_members:
+          - loki-gossip-ring.monitoring:7946
+        max_join_backoff: 1m
+        max_join_retries: 10
+        min_join_backoff: 1s
       limits_config:
         enforce_metric_name: false
         reject_old_samples: true
@@ -53,7 +74,7 @@ spec:
               period: 24h
       compactor:
         retention_enabled: true
-        shared_store: aws
+        shared_store: s3
       ruler:
         storage:
           type: local
@@ -63,7 +84,7 @@ spec:
         alertmanager_url: http://prom-alertmanager.monitoring:9093
         ring:
           kvstore:
-            store: inmemory
+            store: memberlist
         enable_api: true
     extraArgs: {}
       # log.level: debug
