@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: prowlarr
-      version: 4.4.1
+      version: 4.4.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -18,7 +18,7 @@ spec:
   values:
     image:
       repository: ghcr.io/k8s-at-home/prowlarr
-      tag: v0.3.0.1745
+      tag: v0.4.0.1765
     env:
       TZ: "America/Toronto"
     strategy:
