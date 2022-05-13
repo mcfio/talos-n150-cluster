@@ -49,3 +49,8 @@ spec:
                     class: ["ff"]
                     vendor: ["10c4"]
                     device: ["ea60"]
+            - name: intel-gpu
+              matchOn:
+                - pciId:
+                    class: ["0300"]
+                    vendor: ["8086"]
