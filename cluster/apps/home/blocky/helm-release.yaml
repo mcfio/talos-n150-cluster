@@ -34,6 +34,7 @@ spec:
       TZ: America/Toronto
     service:
       main:
+        enabled: true
         ports:
           http:
             port: 4000
