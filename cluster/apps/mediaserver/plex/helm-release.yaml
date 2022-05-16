@@ -52,15 +52,15 @@ spec:
         enabled: true
         type: pvc
         existingClaim: rclone-cache
-    nodeSelector:
-      feature.node.kubernetes.io/custom-intel-gpu: "true"
     resources:
       requests:
         cpu: 500m
         memory: 250Mi
+        gpu.intel.com/i915: 1
       limits:
         cpu: 2000m
         memory: 2Gi
+        gpu.intel.com/i915: 1
     addons:
       promtail:
         enabled: true
