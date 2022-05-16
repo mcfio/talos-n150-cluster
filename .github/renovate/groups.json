@@ -1,0 +1,20 @@
+{
+  "packageRules": [
+    {
+      "description": "rook-ceph image and helm chart",
+      "groupName": "rook-ceph",
+      "matchPackagePatterns": ["rook.ceph"],
+      "matchDatasources": ["helm", "docker"],
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "separateMinorPatch": true
+    },
+    {
+      "description": "external snapshotter releases",
+      "groupName": "external-snapshotter",
+      "matchPackagePatterns": ["external-snapshotter", "snapshot-controller"],
+      "matchDatasources": ["github-releases", "docker"],
+      "group": { "commitMessageTopic": "{{{groupName}}} group" },
+      "separateMinorPatch": true
+    }
+  ]
+}

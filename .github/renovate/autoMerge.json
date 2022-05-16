@@ -1,9 +1,11 @@
 {
   "packageRules": [
     {
+      "description": "AutoMerge minor releases of specific helm and container images",
       "matchDatasources": [
         "docker",
-        "github-releases"
+        "github-releases",
+        "helm"
       ],
       "automerge": true,
       "automergeType": "branch",
@@ -17,21 +19,16 @@
         "ghcr.io/k8s-at-home/radarr",
         "ghcr.io/k8s-at-home/sonarr",
         "ghcr.io/k8s-at-home/prowlarr",
-        "ghcr.io/k8s-at-home/overseerr"
+        "ghcr.io/k8s-at-home/overseerr",
+        "kube-prometheus-stack"
       ]
     },
     {
       "matchDatasources": ["helm"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
       "requiredStatusChecks": null,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchPackageNames": [
-        "kube-prometheus-stack"
-      ]
+      "matchUpdateTypes": ["patch"]
     }
   ]
 }
