@@ -27,6 +27,8 @@ spec:
       ADVERTISE_IP: "https://plex.${ROOT_DOMAIN},https://${VIP_PLEX_MEDIASERVER}:32400"
     podSecurityContext:
       supplementalGroups:
+        - 44
+        - 109
         - 1000
     service:
       main:
