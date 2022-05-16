@@ -6,9 +6,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 6h
+  url: ssh://git@github.com/mcfio/home-cluster
   ref:
     branch: main
-  url: https://github.com/mcfio/home-cluster.git
+  secretRef:
+    name: github-deploy-key
   ignore: |
     # exclude all directories
     /*
