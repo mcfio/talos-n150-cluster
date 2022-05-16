@@ -13,47 +13,53 @@
   ],
   "timezone": "America/Toronto",
   "dependencyDashboardTitle": "Renovate Dashboard",
-  "suppressNotifications": [
-    "prIgnoreNotification"
-  ],
+  "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
+  "commitBodyTable": true,
+  "ignoreDeps": [
+    "ghcr.io/fluxcd/helm-controller",
+    "ghcr.io/fluxcd/image-automation-controller",
+    "ghcr.io/fluxcd/image-reflector-controller",
+    "ghcr.io/fluxcd/kustomize-controller",
+    "ghcr.io/fluxcd/notification-controller",
+    "ghcr.io/fluxcd/source-controller"
+  ],
   "flux": {
-    "fileMatch": [
-      "cluster/.+\\.yaml$"
-    ]
+    "fileMatch": ["cluster/.+\\.yaml$"]
   },
   "helm-values": {
-    "fileMatch": [
-      "cluster/.+/helm-release\\.yaml$"
-    ]
+    "fileMatch": ["cluster/.+/helm-release\\.yaml$"]
   },
   "kubernetes": {
-    "fileMatch": [
-      "cluster/.+\\.yaml"
-    ],
-    "ignorePaths": [
-      "cluster/flux-system/"
-    ]
+    "fileMatch": ["cluster/.+\\.yaml"]
   },
   "regexManagers": [
     {
-      "fileMatch": [
-        "cluster/.+\\.ya?ml$"
-      ],
+      "description": "Process GitRepository type CRD dependencies - Chart and Github Release are the same version",
+      "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
       "matchStrings": [
-        "registryUrl=(?<registryUrl>.*?)\n *tag: (?<depName>[a-zA-Z-]+)-(?<currentValue>.*)\n",
-        "registryUrl=(?<registryUrl>.*?) chart=(?<depName>.*?)\n.*\\/(?<currentValue>.*?)\\/"
+        "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n"
       ],
       "datasourceTemplate": "helm"
     },
     {
+      "description": "Process Kustomization type CRD dependencies - Image and Github Release are the same version",
+      "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
+      "matchStrings": [
+        "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "description": "Process remaining CRD dependencies",
       "fileMatch": [
-        "cluster/crds/external-snapshotter/.+\\.yaml$"
+        "cluster/.+\\.ya?ml$"
       ],
       "matchStrings": [
-        "datasource=(?<datasource>.*?)\n *url: https:\/\/github\\.com\/(?<depName>.*?)\\.git\n *ref:\n *tag: (?<currentValue>.*)\n"
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
       ],
-      "datasourceTemplate": "github-releases"
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     }
   ],
   "packageRules": [
