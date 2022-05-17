@@ -5,4 +5,5 @@ resources:
   - dashboard
   - helm-release.yaml
   - loki-object-bucket.yaml
+  - config-map.yaml
   - grafana-datasource.yaml

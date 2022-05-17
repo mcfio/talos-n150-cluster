@@ -15,5 +15,5 @@ data:
     - name: Loki
       type: loki
       access: proxy
-      url: http://loki.monitoring:3100
+      url: http://loki-gateway
       version: 1

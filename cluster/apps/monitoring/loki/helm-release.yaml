@@ -9,8 +9,8 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      chart: loki
-      version: 2.11.1
+      chart: loki-simple-scalable
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -22,110 +22,117 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    config:
-      distributor:
-        ring:
-          kvstore:
-            store: memberlist
-      ingester:
-        lifecycler:
+    loki:
+      structuredConfig:
+        auth_enabled: false
+        server:
+          log_level: info
+          http_listen_port: 3100
+          grpc_listen_port: 9095
+        memberlist:
+          join_members:
+            - loki-memberlist
+        limits_config:
+          enforce_metric_name: false
+          reject_old_samples: true
+          reject_old_samples_max_age: 168h
+          max_cache_freshness_per_query: 10m
+          split_queries_by_interval: 15m
+        schema_config:
+          configs:
+            - from: "2020-10-24"
+              store: boltdb-shipper
+              object_store: s3
+              schema: v11
+              index:
+                prefix: index_
+                period: 24h
+        common:
+          path_prefix: /var/loki
+          replication_factor: 3
+          storage:
+            s3:
+              s3: null
+              insecure: true
+              s3forcepathstyle: true
           ring:
             kvstore:
               store: memberlist
-            replication_factor: 1
-          final_sleep: 0s
-        chunk_idle_period: 5m
-        chunk_retain_period: 30s
-      memberlist:
-        abort_if_cluster_join_fails: false
-        bind_port: 7946
-        join_members:
-          - loki-headless.monitoring:7946
-        max_join_backoff: 1m
-        max_join_retries: 10
-        min_join_backoff: 1s
-      limits_config:
-        enforce_metric_name: false
-        reject_old_samples: true
-        reject_old_samples_max_age: 168h
-        ingestion_rate_mb: 16
-        ingestion_burst_size_mb: 24
-      table_manager:
-        retention_deletes_enabled: true
-        retention_period: 672h
-      storage_config:
-        aws:
-          insecure: true
-          s3forcepathstyle: true
-        boltdb_shipper:
-          active_index_directory: /data/loki/index
-          cache_location: /data/loki/index_cache
-          cache_ttl: 24h
-          resync_interval: 5s
+        ruler:
+          enable_api: true
+          enable_alertmanager_v2: true
+          alertmanager_url: http://prom-alertmanager.monitoring:9093
+          storage:
+            type: local
+            local:
+              directory: /rules
+          rule_path: /tmp/scratch
+          ring:
+            kvstore:
+              store: memberlist
+        distributor:
+          ring:
+            kvstore:
+              store: memberlist
+        compactor:
+          working_directory: /var/loki/boltdb-shipper-compactor
+          retention_enabled: true
           shared_store: s3
-      schema_config:
-        configs:
-          - from: "2020-10-24"
-            store: boltdb-shipper
-            object_store: aws
-            schema: v11
-            index:
-              prefix: index_
-              period: 24h
-      compactor:
-        retention_enabled: true
-        shared_store: s3
-      ruler:
-        storage:
-          type: local
-          local:
-            directory: /rules
-        rule_path: /tmp/scratch
-        alertmanager_url: http://prom-alertmanager.monitoring:9093
-        ring:
-          kvstore:
-            store: memberlist
-        enable_api: true
-    extraArgs: {}
-      # log.level: debug
-    extraPorts:
-      - name: http-memberlist
-        port: 7946
-        targetPort: 7946
+        ingester:
+          max_chunk_age: 1h
+          lifecycler:
+            ring:
+              kvstore:
+                store: memberlist
+        table_manager:
+          retention_deletes_enabled: true
+          retention_period: 672h
+        analytics:
+          reporting_enabled: false
+    write:
+      replicas: 3
+      persistence:
+        size: 10Gi
+        storageClass: rook-ceph-block
+    read:
+      replicas: 2
+      extraVolumeMounts:
+        - name: loki-rules
+          mountPath: /rules/fake
+        - name: loki-rules-tmp
+          mountPath: /tmp/scratch
+        - name: loki-tmp
+          mountPath: /tmp/loki-tmp
+      extraVolumes:
+        - name: loki-rules
+          configMap:
+            name: loki-alerting-rules
+        - name: loki-rules-tmp
+          emptyDir: {}
+        - name: loki-tmp
+          emptyDir: {}
+      persistence:
+        size: 10Gi
+        storageClass: rook-ceph-block
+    gateway:
+      enabled: true
+      replicas: 3
     serviceMonitor:
       enabled: true
-    persistence:
-      enabled: true
-      accessModes:
-        - ReadWriteOnce
-      size: 2Gi
-    alerting_groups:
-      - name: arr
-        rules:
-          - alert: DatabaseIsLocked
-            expr: |
-              sum by (app) (count_over_time({app=~".*arr"} |= "database is locked"[2m])) > 0
-            for: 10s
-            labels:
-              severity: critical
-              category: logs
-            annotations:
-              identifier: "{{ $labels.node }}"
-              description: "{{ $labels.app }} has a locked configuration database"
   valuesFrom:
-    - kind: ConfigMap
+    - targetPath: loki.structuredConfig.common.storage.s3.bucketnames
+      kind: ConfigMap
       name: loki-bucket
       valuesKey: BUCKET_NAME
-      targetPath: config.storage_config.aws.bucketnames
-    - kind: ConfigMap
+    - targetPath: loki.structuredConfig.common.storage.s3.endpoint
+      kind: ConfigMap
       name: loki-bucket
       valuesKey: BUCKET_HOST
-      targetPath: config.storage_config.aws.endpoint
-    - kind: Secret
+    - targetPath: loki.structuredConfig.common.storage.s3.access_key_id
+      kind: Secret
       name: loki-bucket
       valuesKey: AWS_ACCESS_KEY_ID
-      targetPath: config.storage_config.aws.access_key_id
-    - kind: Secret
+    - targetPath: loki.structuredConfig.common.storage.s3.secret_access_key
+      kind: Secret
       name: loki-bucket
       valuesKey: AWS_SECRET_ACCESS_KEY
-      targetPath: config.storage_config.aws.secret_access_key
