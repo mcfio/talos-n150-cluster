@@ -5,3 +5,4 @@ resources:
   - helm-release.yaml
   - pvc.yaml
   - vs-zwavejs2mqtt.yaml
+  - node-feature-rule.yaml
