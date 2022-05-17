@@ -23,7 +23,7 @@ spec:
       remediateLastFailure: true
   values:
     config:
-      lokiAddress: http://loki.monitoring:3100/loki/api/v1/push
+      lokiAddress: http://loki-gateway/loki/api/v1/push
       snippets:
         extraScrapeConfigs: |
           - job_name: journal
@@ -49,6 +49,11 @@ spec:
         readOnly: true
     serviceMonitor:
       enabled: true
+      # relabelings:
+      #   - action: replace
+      #     source_labels: [__meta_kubernetes_namespace, __service__]
+      #     separator: "/"
+      #     target_label: job
     tolerations:
       - operator: Exists
         effect: NoSchedule
