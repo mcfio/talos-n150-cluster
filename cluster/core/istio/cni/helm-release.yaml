@@ -23,4 +23,4 @@ spec:
       remediateLastFailure: true
   values:
     cni:
-      hub: docker.io/querycapistio
+      hub: ghcr.io/resf/istio

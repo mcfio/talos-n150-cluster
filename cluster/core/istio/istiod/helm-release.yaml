@@ -48,7 +48,7 @@ spec:
       outboundTrafficPolicy:
         mode: ALLOW_ANY
     global:
-      hub: docker.io/querycapistio
+      hub: ghcr.io/resf/istio
       proxy:
         autoInject: disabled
         resources:
