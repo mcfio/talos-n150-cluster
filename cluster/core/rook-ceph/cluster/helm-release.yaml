@@ -23,10 +23,6 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
-    configOverride: |
-      [global]
-      mon_warn_on_pool_no_redundancy = false
-      mon_max_pg_per_osd = 500
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v17.2.0-20220420
@@ -40,58 +36,34 @@ spec:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
                 - matchExpressions:
-                    - key: role
+                    - key: node-role.kubernetes.io/storage
                       operator: In
                       values:
-                        - storage-node
+                        - ""
           tolerations:
-            - key: role
-              operator: Equal
-              value: storage-node
-              effect: PreferNoSchedule
+            - key: node-role.kubernetes.io/storage
+              operator: Exists
       storage:
         useAllNodes: false
         useAllDevices: false
-        config:
-          osdsPerDevice: "1"
         nodes:
-          - name: "mcf-k8s-storage01"
+          - name: "mcf-k8s-node08"
             devices:
-              - name: "sdb"
-          - name: "mcf-k8s-storage02"
-            devices:
-              - name: "sdb"
-          - name: "mcf-k8s-storage03"
-            devices:
-              - name: "sdb"
-    cephFileSystems: []
+              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V804453"
     cephBlockPools:
-      - name: data-pool
-        spec:
-          failureDomain: host
-          erasureCoded:
-            dataChunks: 2
-            codingChunks: 1
-          enableRBDStats: true
-          parameters:
-            target_size_ratio: "0.5"
-            compression_algorithm: lz4
-            compression_mode: aggressive
-        storageClass:
-          enabled: false
-      - name: metadata-pool
+      - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
             size: 3
+          deviceClass: nvme
         storageClass:
           enabled: true
-          name: rook-ceph-block
+          name: ceph-block
           isDefault: true
           relcaimPolicy: Delete
           allowVolumeExpansion: true
           parameters:
-            dataPool: data-pool
             imageFormat: "2"
             imageFeatures: layering
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
@@ -106,6 +78,8 @@ spec:
       name: ceph-block
       isDefault: true
       deletionPolicy: Delete
+    cephFileSystems: []
+    cephFileSystemVolumeSnapshotClass: []
     cephObjectStores:
       - name: ceph-objectstore
         spec:
@@ -121,7 +95,15 @@ spec:
           preservePoolsOnDelete: true
           gateway:
             port: 80
+            resources:
+              limits:
+                cpu: "2000m"
+                memory: "2Gi"
+              requests:
+                cpu: "1000m"
+                memory: "1Gi"
             instances: 1
+            priorityClassName: system-cluster-critical
           healthCheck:
             bucket:
               interval: 60s
