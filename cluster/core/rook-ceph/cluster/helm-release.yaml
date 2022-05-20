@@ -18,15 +18,15 @@ spec:
   dependsOn:
     - name: rook-ceph
   values:
+    configOverride: |
+      [global]
+      mon_warn_on_pool_no_redundancy = false
+      mon_max_pg_per_osd = 500
     toolbox:
       enabled: false
     monitoring:
       enabled: true
       createPrometheusRules: true
-    configOverride: |
-      [global]
-      mon_warn_on_pool_no_redundancy = false
-      mon_max_pg_per_osd = 500
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v17.2.0-20220420
@@ -121,7 +121,15 @@ spec:
           preservePoolsOnDelete: true
           gateway:
             port: 80
+            resources:
+              limits:
+                cpu: "2000m"
+                memory: "2Gi"
+              requests:
+                cpu: "1000m"
+                memory: "1Gi"
             instances: 1
+            priorityClassName: system-cluster-critical
           healthCheck:
             bucket:
               interval: 60s
