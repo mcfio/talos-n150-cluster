@@ -4,7 +4,7 @@
       "description": "rook-ceph image and helm chart",
       "groupName": "rook-ceph",
       "matchPackagePatterns": ["rook.ceph"],
-      "matchDatasources": ["helm", "docker"],
+      "matchDatasources": ["docker", "helm"],
       "group": { "commitMessageTopic": "{{{groupName}}} group" },
       "separateMinorPatch": true
     },
@@ -12,7 +12,7 @@
       "description": "external snapshotter CRDs and releases",
       "groupName": "external-snapshotter",
       "matchPackagePatterns": ["external-snapshotter", "snapshot-controller"],
-      "matchDatasources": ["github-releases", "docker"],
+      "matchDatasources": ["docker", "github-tags"],
       "group": { "commitMessageTopic": "{{{groupName}}} group" },
       "separateMinorPatch": true
     }
