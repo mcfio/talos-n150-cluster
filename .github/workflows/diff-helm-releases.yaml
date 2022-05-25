@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "cluster/**/helm-release.yaml"
+      - "cluster/**.yaml"
 
 env:
   DEFAULT_BRANCH: main
@@ -61,7 +61,7 @@ jobs:
         id: find-comment
         with:
           issue-number: "${{ github.event.pull_request.number }}"
-          body-includes: helm-release.yaml
+          body-includes: "${{ matrix.file }}"
       - name: Create or update comment
         uses: peter-evans/create-or-update-comment@v2
         with:
