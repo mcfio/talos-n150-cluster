@@ -152,10 +152,11 @@ spec:
       secret.reloader.stakater.com/reload: blocky-cert
     topologySpreadConstraints:
       - maxSkew: 1
-        topologyKey: host
+        topologyKey: node
         whenUnsatisfiable: DoNotSchedule
         labelSelector:
-          app.kubernetes.io/name: blocky
+          matchLabels:
+            app.kubernetes.io/name: blocky
     resources:
       requests:
         memory: 100Mi
