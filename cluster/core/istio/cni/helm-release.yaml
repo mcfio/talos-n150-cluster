@@ -24,3 +24,23 @@ spec:
   values:
     cni:
       hub: ghcr.io/resf/istio
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - apiVersion: apps/v1
+            kind: DaemonSet
+            metadata:
+              name: istio-cni-node
+              namespace: istio-system
+            spec:
+              template:
+                spec:
+                  affinity:
+                    nodeAffinity:
+                      requiredDuringSchedulingIgnoredDuringExecution:
+                        nodeSelectorTerms:
+                          - matchExpressions:
+                              - key: model
+                                operator: NotIn
+                                values:
+                                  - pi3Bplus
