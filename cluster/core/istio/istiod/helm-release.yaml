@@ -67,3 +67,21 @@ spec:
           limits:
             cpu: 600m
             memory: 128Mi
+  postRenderers:
+    - kustomize:
+        patchesStrategicMerge:
+          - apiVersion: apps/v1
+            kind: Deployment
+            metadata:
+              name: istiod
+              namespace: istio-system
+            spec:
+              template:
+                spec:
+                  topologySpreadConstraints:
+                    - maxSkew: 1
+                      topologyKey: kubernetes.io/hostname
+                      whenUnsatisfiable: DoNotSchedule
+                      labelSelector:
+                        matchLabels:
+                          app: istiod
