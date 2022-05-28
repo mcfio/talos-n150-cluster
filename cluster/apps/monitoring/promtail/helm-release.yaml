@@ -39,6 +39,15 @@ spec:
             - source_labels:
               - '__journal__hostname'
               target_label: 'hostname'
+    readinessProbe:
+      failureThreshold: 5
+      httpGet:
+        path: /ready
+        port: http-metrics
+      initialDelaySeconds: 10
+      periodSeconds: 30
+      successThreshold: 1
+      timeoutSeconds: 3
     extraVolumes:
       - name: journal
         hostPath:
