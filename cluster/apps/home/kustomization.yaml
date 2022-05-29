@@ -6,7 +6,6 @@ resources:
   - emqx
   - blocky
   - network-ups-tools
-  - mosquitto
   - zigbee2mqtt
   - zwavejs2mqtt
   - home-assistant
