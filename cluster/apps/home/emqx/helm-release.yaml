@@ -37,6 +37,9 @@ spec:
       accessMode: ReadWriteOnce
     nodeSelector:
       kubernetes.io/arch: arm64
+    service:
+      type: LoadBalancer
+      loadBalancerIP: ${VIP_EMQX_INGRESS}
     extraEnvFrom:
       - secretRef:
           name: emqx-auth
