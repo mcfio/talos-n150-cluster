@@ -26,6 +26,7 @@ spec:
       TZ: America/Toronto
     service:
       main:
+        enabled: false
         type: LoadBalancer
         loadBalancerIP: ${VIP_EMQX_INGRESS}
         externalTrafficPolicy: Local
