@@ -52,10 +52,10 @@ spec:
               - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V804453"
           - name: "mcf-k8s-node09"
             devices:
-              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_"
+              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V801912"
           - name: "mcf-k8s-node10"
             devices:
-              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_"
+              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686"
     cephBlockPools:
       - name: ceph-blockpool
         spec:
