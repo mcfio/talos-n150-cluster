@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: rook-ceph
+  name: rook-ceph-operator
   namespace: rook-ceph
 spec:
   interval: 12h
@@ -14,29 +14,17 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rook-release
-      interval: 5m
-  install:
-    crds: Create
+        namespace: flux-system
   upgrade:
-    crds: CreateReplace
     remediation:
       remediateLastFailure: true
   values:
     crds:
       enabled: false
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 1000m
-        memory: 256Mi
-    pspEnable: false
+    monitoring:
+      enabled: true
     csi:
-      enableCephfsDriver: false
       csiRBDPluginResource: []
       pluginTolerations:
         - effect: PreferNoSchedule
           operator: Exists
-    discover:
-      nodeAffinity: "role=storage-node"
