@@ -16,7 +16,7 @@ spec:
         name: rook-release
       interval: 5m
   dependsOn:
-    - name: rook-ceph
+    - name: rook-ceph-operator
   values:
     configOverride: |
       [global]
@@ -40,58 +40,41 @@ spec:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
                 - matchExpressions:
-                    - key: role
+                    - key: node-role.kubernetes.io/storage
                       operator: In
                       values:
-                        - storage-node
+                        - ""
           tolerations:
-            - key: role
-              operator: Equal
-              value: storage-node
-              effect: PreferNoSchedule
+            - key: node-role.kubernetes.io/storage
+              operator: Exists
       storage:
         useAllNodes: false
         useAllDevices: false
-        config:
-          osdsPerDevice: "1"
         nodes:
-          - name: "mcf-k8s-storage01"
+          - name: "mcf-k8s-node08"
             devices:
-              - name: "sdb"
-          - name: "mcf-k8s-storage02"
+              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V804453"
+          - name: "mcf-k8s-node09"
             devices:
-              - name: "sdb"
-          - name: "mcf-k8s-storage03"
+              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V801912"
+          - name: "mcf-k8s-node10"
             devices:
-              - name: "sdb"
-    cephFileSystems: []
+              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686"
     cephBlockPools:
-      - name: data-pool
-        spec:
-          failureDomain: host
-          erasureCoded:
-            dataChunks: 2
-            codingChunks: 1
-          enableRBDStats: true
-          parameters:
-            target_size_ratio: "0.5"
-            compression_algorithm: lz4
-            compression_mode: aggressive
-        storageClass:
-          enabled: false
-      - name: metadata-pool
+      - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
             size: 3
+          deviceClass: nvme
         storageClass:
           enabled: true
-          name: rook-ceph-block
+          name: ceph-block
           isDefault: true
           relcaimPolicy: Delete
           allowVolumeExpansion: true
+          mountOptions: []
           parameters:
-            dataPool: data-pool
             imageFormat: "2"
             imageFeatures: layering
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
@@ -106,6 +89,55 @@ spec:
       name: ceph-block
       isDefault: true
       deletionPolicy: Delete
+      annotations: {}
+      labels: {}
+      parameters: {}
+    cephFileSystems:
+      - name: ceph-filesystem
+        spec:
+          metadataPool:
+            replicated:
+              size: 3
+          dataPools:
+            - failureDomain: host
+              replicated:
+                size: 3
+              name: data0
+          metadataServer:
+            activeCount: 1
+            activeStandby: true
+            resources:
+              limits:
+                cpu: "2000m"
+                memory: "4Gi"
+              requests:
+                cpu: "1000m"
+                memory: "4Gi"
+            priorityClassName: system-cluster-critical
+        storageClass:
+          enabled: true
+          isDefault: false
+          name: ceph-filesystem
+          pool: data0
+          reclaimPolicy: Delete
+          allowVolumeExpansion: true
+          mountOptions: []
+          parameters:
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+            csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
+            csi.storage.k8s.io/fstype: ext4
+    cephFileSystemVolumeSnapshotClass:
+      enabled: true
+      name: ceph-filesystem
+      isDefault: false
+      deletionPolicy: Delete
+      annotations: {}
+      labels: {}
+      parameters: {}
     cephObjectStores:
       - name: ceph-objectstore
         spec:
