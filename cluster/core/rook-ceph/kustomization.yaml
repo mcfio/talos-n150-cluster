@@ -5,4 +5,4 @@ resources:
   - namespace.yaml
   - operator/helm-release.yaml
   - cluster/helm-release.yaml
-  # - virtual-service.yaml
+  - virtual-service.yaml
