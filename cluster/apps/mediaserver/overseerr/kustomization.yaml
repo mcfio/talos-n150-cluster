@@ -5,5 +5,4 @@ resources:
   - certificate.yaml
   - gateway.yaml
   - virtual-service.yaml
-  - config-pvc.yaml
   - helm-release.yaml

@@ -53,7 +53,8 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: radarr-config
+        existingClaim: mediaserver-shared-pvc
+        subPath: radarr
       media-path:
         enabled: true
         type: emptyDir

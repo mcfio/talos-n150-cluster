@@ -38,8 +38,8 @@ spec:
     persistence:
       config:
         enabled: true
-        type: pvc
-        existingClaim: plex-config
+        existingClaim: mediaserver-shared-pvc
+        subPath: plex
       # tmp:
       #   enabled: true
       #   type: emptyDir
@@ -86,32 +86,32 @@ spec:
         name: rclone
         image: rclone/rclone:1.58.1
         args:
-          - "mount"
-          - "gcrypt:"
-          - "/data"
-          - "--allow-other"
-          - "--allow-non-empty"
-          - "--gid=1000"
-          - "--dir-cache-time=1000h"
-          - "--poll-interval=10s"
-          - "--user-agent=milton-plex/v1"
-          - "--umask=002"
-          # - "--use-mmap"
-          # - "--vfs-read-chunk-size=10M"
-          # - "--vfs-read-chunk-size-limit=0"
-          # - "--buffer-size=0"
-          - "--rc"
-          - "--rc-addr=:5572"
-          - "--rc-no-auth"
-          - "--drive-pacer-min-sleep=10ms"
-          - "--drive-pacer-burst=1000"
-          - "--cache-dir=/cache"
-          - "--vfs-cache-mode=full"
-          - "--vfs-cache-max-size=750G"
-          - "--vfs-cache-max-age=192h"
-          - "--vfs-cache-poll-interval=5m"
-          - "--vfs-read-ahead=2G"
-          - "-v=1"
+          - mount
+          - 'gcrypt:'
+          - /data
+          - --allow-other
+          - --allow-non-empty
+          - --gid=1000
+          - --dir-cache-time=1000h
+          - --poll-interval=10s
+          - --user-agent=milton-plex/v1
+          - --umask=002
+          # - --use-mmap
+          # - --vfs-read-chunk-size=10M
+          # - --vfs-read-chunk-size-limit=0
+          # - --buffer-size=0
+          - --rc
+          - --rc-addr=:5572
+          - --rc-no-auth
+          - --drive-pacer-min-sleep=10ms
+          - --drive-pacer-burst=1000
+          - --cache-dir=/cache
+          - --vfs-cache-mode=full
+          - --vfs-cache-max-size=225G
+          - --vfs-cache-max-age=192h
+          - --vfs-cache-poll-interval=5m
+          - --vfs-read-ahead=2G
+          - -v=1
         envFrom:
           - secretRef:
               name: rclone-secret
@@ -124,14 +124,15 @@ spec:
           postStart:
             exec:
               command:
-                [
-                  "/bin/sh",
-                  "-c",
-                  "rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true",
-                ]
+                - /bin/sh
+                - -c
+                - rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true
           preStop:
             exec:
-              command: ["/bin/sh", "-c", "fusermount -uz /data"]
+              command:
+                - /bin/sh
+                - -c
+                - fusermount -uz /data
         resources:
           requests:
             cpu: 200m

@@ -29,7 +29,8 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: tautulli-config
+        existingClaim: mediaserver-shared-pvc
+        subPath: tautulli
     resources:
       requests:
         memory: 250Mi

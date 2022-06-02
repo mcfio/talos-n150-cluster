@@ -1,12 +1,12 @@
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: overseerr-config
+  name: mediaserver-shared-pvc
   namespace: mediaserver
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 30Gi
+  storageClassName: ceph-filesystem

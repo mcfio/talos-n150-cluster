@@ -31,7 +31,8 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: overseerr-config
+        existingClaim: mediaserver-shared-pvc
+        subPath: overseerr
         mountPath: /app/config
     resources:
       requests:
