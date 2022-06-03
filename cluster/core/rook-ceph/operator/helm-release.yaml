@@ -25,6 +25,7 @@ spec:
       enabled: true
     csi:
       csiRBDPluginResource: []
+      csiCephFSPluginResource: []
       pluginTolerations:
         - effect: PreferNoSchedule
           operator: Exists
