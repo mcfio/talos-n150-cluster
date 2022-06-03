@@ -1,13 +1,12 @@
----
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: zwavejs2mqtt-data
+  name: home-shared-pvc
   namespace: home
 spec:
-  storageClassName: rook-ceph-block
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 512Mi
+      storage: 30Gi
+  storageClassName: ceph-filesystem

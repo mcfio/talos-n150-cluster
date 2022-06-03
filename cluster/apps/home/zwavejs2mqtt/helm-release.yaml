@@ -38,7 +38,8 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: zwavejs2mqtt-data
+        existingClaim: mediaserver-shared-pvc
+        subPath: zwavejs2mqtt
         mountPath: /usr/src/app/store
       usb:
         enabled: true
