@@ -14,9 +14,12 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rook-release
-      interval: 5m
+        namespace: flux-system
   dependsOn:
     - name: rook-ceph-operator
+  upgrade:
+    remediation:
+      remediateLastFailure: true
   values:
     toolbox:
       enabled: false
@@ -26,11 +29,6 @@ spec:
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v17.2.0-20220420
-      network:
-        provider: host
-        connections:
-          compression:
-            enabled: true
       dashboard:
         ssl: false
       crashCollector:
