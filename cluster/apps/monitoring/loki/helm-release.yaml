@@ -93,7 +93,7 @@ spec:
       replicas: 3
       persistence:
         size: 10Gi
-        storageClass: rook-ceph-block
+        storageClass: rook-block
     read:
       replicas: 2
       extraVolumeMounts:
@@ -113,7 +113,7 @@ spec:
           emptyDir: {}
       persistence:
         size: 10Gi
-        storageClass: rook-ceph-block
+        storageClass: rook-block
     gateway:
       enabled: true
       replicas: 3
