@@ -33,7 +33,7 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
+        existingClaim: home-shared-pvc
         subPath: zigbee2mqtt
     securityContext:
       privileged: true
