@@ -3,9 +3,9 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: overseerr-cert
-  namespace: istio-ingress
+  namespace: mediaserver
 spec:
-  secretName: overseerr-cert
+  secretName: overseerr-cert-tls
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer

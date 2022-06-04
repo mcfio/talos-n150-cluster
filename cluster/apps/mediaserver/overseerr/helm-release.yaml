@@ -41,7 +41,7 @@ spec:
         tls:
           - hosts:
               - *host
-            secretName: overseerr-cert
+            secretName: overseerr-cert-tls
     securityContext:
       runAsNonRoot: true
       runAsUser: 568
