@@ -7,7 +7,7 @@ resources:
   - secret.enc.yaml
   - overseerr
   - plex
-  - prowlarr
+  - prowlarr/helm-release.yaml
   - radarr/helm-release.yaml
   - radarr-uhd/helm-release.yaml
   - sonarr/helm-release.yaml

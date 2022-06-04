@@ -2,34 +2,52 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: prowlarr
+  name: &app prowlarr
   namespace: mediaserver
 spec:
   interval: 12h
   maxHistory: 2
   chart:
     spec:
-      chart: prowlarr
-      version: 4.4.2
+      chart: kah-common-chart
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
         namespace: flux-system
   values:
+    global:
+      nameOverride: *app
     image:
       repository: ghcr.io/k8s-at-home/prowlarr
       tag: v0.4.0.1801
     env:
-      TZ: "America/Toronto"
-    strategy:
-      type: Recreate
-    podAnnotations:
-      sidecar.istio.io/inject: "true"
-    podSecurityContext:
-      supplementalGroups:
-        - 1000
+      TZ: Canada/Eastern
+    service:
+      main:
+        ports:
+          http:
+            port: 9696
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
     persistence:
       config:
         enabled: true
         existingClaim: mediaserver-shared-pvc
         subPath: prowlarr
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 500Mi
