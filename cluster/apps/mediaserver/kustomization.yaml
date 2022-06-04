@@ -11,4 +11,4 @@ resources:
   - radarr/helm-release.yaml
   - radarr-uhd/helm-release.yaml
   - sonarr/helm-release.yaml
-  - tautulli
+  - tautulli/helm-release.yaml
