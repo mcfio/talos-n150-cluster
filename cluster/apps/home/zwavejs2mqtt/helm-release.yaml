@@ -2,15 +2,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: zwavejs2mqtt
+  name: &app zwavejs2mqtt
   namespace: home
 spec:
   interval: 12h
   maxHistory: 2
   chart:
     spec:
-      chart: zwavejs2mqtt
-      version: 5.3.2
+      chart: kah-common-chart
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -22,26 +22,39 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    global:
+      nameOverride: *app
     image:
       repository: ghcr.io/zwave-js/zwavejs2mqtt
       tag: 6.11.0
-    podAnnotations:
-      sidecar.istio.io/inject: "false"
     env:
-      TZ: America/Toronto
+      TZ: Canada/Eastern
       KEY_S0_Legacy: ${ZWAVEJS2MQTT_S0_LEGACY_KEY}
       KEY_S2_Unauthenticated: ${ZWAVEJS2MQTT_S2_UNAUTHENTICATED_KEY}
       KEY_S2_Authenticated: ${ZWAVEJS2MQTT_S2_AUTHENTICATED_KEY}
       KEY_S2_AccessControl: ${ZWAVEJS2MQTT_S2_ACCESS_CONTROL_KEY}
+    service:
+      main:
+        ports:
+          http:
+            port: 8091
+          websocket:
+            enabled: true
+            port: 3000
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "{{ .Release.Name }}.${SECRET_PUBLIC_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
     securityContext:
       privileged: true
-    resources:
-      requests:
-        cpu: 50m
-        memory: 128Mi
-      limits:
-        cpu: 500m
-        memory: 256Mi
     persistence:
       data:
         enabled: true
@@ -52,5 +65,12 @@ spec:
         enabled: true
         type: hostPath
         hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
+        hostPathType: CharDevice
     nodeSelector:
       aeotec.feature.node.kubernetes.io/zwave: "true"
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
