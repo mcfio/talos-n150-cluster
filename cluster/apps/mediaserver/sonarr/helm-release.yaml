@@ -28,6 +28,18 @@ spec:
         ports:
           http:
             port: 8989
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
     probes:
       liveness:
         enabled: true
@@ -35,11 +47,11 @@ spec:
         spec:
           exec:
             command:
-            - /usr/bin/env
-            - bash
-            - -c
-            - curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\> && while
-              read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
+              - /usr/bin/env
+              - bash
+              - -c
+              - curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\> && while
+                read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
           failureThreshold: 5
           initialDelaySeconds: 60
           periodSeconds: 10
@@ -49,7 +61,7 @@ spec:
       sidecar.istio.io/inject: "true"
     podSecurityContext:
       supplementalGroups:
-      - 1000
+        - 1000
     persistence:
       config:
         enabled: true
@@ -69,57 +81,57 @@ spec:
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-              - radarr
-              - plex
-          topologyKey: kubernetes.io/hostname
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - radarr
+                    - plex
+            topologyKey: kubernetes.io/hostname
     additionalContainers:
       rclone:
         name: rclone
         image: rclone/rclone:1.58.1
         args:
-        - mount
-        - 'gcrypt:'
-        - /data
-        - --allow-other
-        - --allow-non-empty
-        - --gid=1000
-        - --dir-cache-time=1000h
-        - --poll-interval=10s
-        - --user-agent=milton-sonarr/v1
-        - --umask=002
-        - --rc
-        - --rc-addr=:5572
-        - --rc-no-auth
-        - --drive-pacer-min-sleep=10ms
-        - --drive-pacer-burst=1000
-        - -v=1
+          - mount
+          - 'gcrypt:'
+          - /data
+          - --allow-other
+          - --allow-non-empty
+          - --gid=1000
+          - --dir-cache-time=1000h
+          - --poll-interval=10s
+          - --user-agent=milton-sonarr/v1
+          - --umask=002
+          - --rc
+          - --rc-addr=:5572
+          - --rc-no-auth
+          - --drive-pacer-min-sleep=10ms
+          - --drive-pacer-burst=1000
+          - -v=1
         envFrom:
-        - secretRef:
-            name: rclone-secret
+          - secretRef:
+              name: rclone-secret
         securityContext:
           privileged: true
           capabilities:
             add:
-            - SYS_ADMIN
+              - SYS_ADMIN
         lifecycle:
           postStart:
             exec:
               command:
-              - /bin/sh
-              - -c
-              - rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true
+                - /bin/sh
+                - -c
+                - rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true
           preStop:
             exec:
               command:
-              - /bin/sh
-              - -c
-              - fusermount -uz /data
+                - /bin/sh
+                - -c
+                - fusermount -uz /data
         volumeMounts:
-        - name: media-path
-          mountPath: /data
-          mountPropagation: Bidirectional
+          - name: media-path
+            mountPath: /data
+            mountPropagation: Bidirectional
