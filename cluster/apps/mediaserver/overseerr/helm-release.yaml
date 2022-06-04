@@ -34,7 +34,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-          - host: &host "{{ .Release.Name }}.${ROOT_DOMAIN}"
+          - host: &host "requests.${ROOT_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
