@@ -8,7 +8,7 @@ resources:
   - overseerr
   - plex
   - prowlarr
-  - radarr
+  - radarr/helm-release.yaml
   - radarr-uhd
   - sonarr/helm-release.yaml
   - tautulli

@@ -28,6 +28,18 @@ spec:
         ports:
           http:
             port: 7878
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
     probes:
       liveness:
         enabled: true
@@ -45,8 +57,6 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 10
-    podAnnotations:
-      sidecar.istio.io/inject: "true"
     podSecurityContext:
       supplementalGroups:
         - 1000
