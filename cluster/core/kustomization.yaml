@@ -5,6 +5,5 @@ resources:
   - flux-system
   - kube-system
   - cert-manager
-  - istio
   - rook-ceph
   - metallb
