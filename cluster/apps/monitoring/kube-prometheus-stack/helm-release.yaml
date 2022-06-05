@@ -72,6 +72,15 @@ spec:
             target_match:
               severity: "warning"
             equal: ["alertname", "namespace"]
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - &host alertmanager.${INTERNAL_DOMAIN}
+        tls:
+          - hosts:
+              - *host
       templateFiles:
         notifications.tmpl: |-
           {{ define "__alert_silence_link" -}}
@@ -138,7 +147,7 @@ spec:
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
-        externalUrl: https://alertmanager.${ROOT_DOMAIN}
+        externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
         replicas: 2
         podAntiAffinity: hard
         storage:
@@ -166,11 +175,20 @@ spec:
     kubeProxy:
       enabled: false
     prometheus:
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - &host prometheus.${INTERNAL_DOMAIN}
+        tls:
+          - hosts:
+              - *host
       podDisruptionBudget:
         enabled: false
       prometheusSpec:
         retention: 30d
-        externalUrl: https://prometheus.${ROOT_DOMAIN}
+        externalUrl: https://prometheus.${INTERNAL_DOMAIN}
         externalLabels:
           cluster: mcf-k8s-cluster
         portName: http-web
