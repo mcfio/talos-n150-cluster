@@ -2,15 +2,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: plex
+  name: &app plex
   namespace: mediaserver
 spec:
   interval: 12h
   maxHistory: 2
   chart:
     spec:
-      chart: plex
-      version: 6.3.3
+      chart: kah-common-chart
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -19,31 +19,46 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    global:
+      nameOverride: *app
     image:
       repository: ghcr.io/k8s-at-home/plex
       tag: v1.26.2.5797-5bd057d2b
     env:
-      TZ: America/Toronto
-      ADVERTISE_IP: "https://plex.${ROOT_DOMAIN},https://${VIP_PLEX_MEDIASERVER}:32400"
+      TZ: Canada/Eastern
+      ADVERTISE_IP: "https://plex.${INTERNAL_DOMAIN},https://${VIP_PLEX_SERVICE}:32400"
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: ${VIP_PLEX_SERVICE}
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 32400
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts:
+          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
     podSecurityContext:
       supplementalGroups:
         - 44
         - 109
         - 1000
-    service:
-      main:
-        type: LoadBalancer
-        loadBalancerIP: ${VIP_PLEX_MEDIASERVER}
-        externalTrafficPolicy: Local
     persistence:
       config:
         enabled: true
         existingClaim: mediaserver-shared-pvc
         subPath: plex
-      # tmp:
-      #   enabled: true
-      #   type: emptyDir
-      #   medium: "Memory"
       media-path:
         enabled: true
         type: emptyDir
@@ -54,6 +69,9 @@ spec:
         enabled: true
         type: pvc
         existingClaim: rclone-cache
+      transcode:
+        enabled: true
+        type: emptyDir
     resources:
       requests:
         cpu: 500m
@@ -63,24 +81,6 @@ spec:
         cpu: 2000m
         memory: 2Gi
         gpu.intel.com/i915: 1
-    addons:
-      promtail:
-        enabled: true
-        image:
-          repository: grafana/promtail
-          tag: 2.5.0
-        loki: http://loki-gateway.monitoring/loki/api/v1/push
-        logs:
-          - name: promtail/plex
-            path: "/config/Library/Application Support/Plex Media Server/Logs/*.log"
-          - name: promtail/plex/plugins
-            path: "/config/Library/Application Support/Plex Media Server/Logs/PMS Plugin Logs/*.log"
-        volumeMounts:
-          - name: config
-            mountPath: /config
-            readOnly: true
-        securityContext:
-          runAsUser: 0
     additionalContainers:
       rclone:
         name: rclone

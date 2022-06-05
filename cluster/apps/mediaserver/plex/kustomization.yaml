@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - cache-pvc.yaml
   - helm-release.yaml
-  - virtual-service.yaml
