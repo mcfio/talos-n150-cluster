@@ -2,15 +2,15 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: zigbee2mqtt
+  name: &app zigbee2mqtt
   namespace: home
 spec:
   interval: 12h
   maxHistory: 2
   chart:
     spec:
-      chart: zigbee2mqtt
-      version: 9.3.2
+      chart: kah-common-chart
+      version: 1.1.2
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -22,52 +22,39 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    global:
+      nameOverride: *app
     image:
       repository: ghcr.io/koenkk/zigbee2mqtt
       tag: 1.25.1
-    podAnnotations:
-      sidecar.istio.io/inject: "false"
     env:
-      TZ: America/Toronto
+      TZ: Canada/Eastern
       ZIGBEE2MQTT_DATA: /data
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "zigbee.${SECRET_PUBLIC_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
     persistence:
       data:
         enabled: true
         existingClaim: home-shared-pvc
         subPath: zigbee2mqtt
-    securityContext:
-      privileged: true
-    config:
-      advanced:
-        channel: 25
-        network_key:
-          - 82
-          - 71
-          - 132
-          - 169
-          - 247
-          - 213
-          - 66
-          - 190
-          - 68
-          - 54
-          - 13
-          - 163
-          - 232
-          - 104
-          - 86
-          - 242
-        ikea_ota_use_test_url: true
-      frontend:
-        port: 8080
-      mqtt:
-        base_topic: zigbee2mqtt
-        server: "mqtt://mosquitto.home"
-        user: zigbee2mqtt
-        password: ${MQTT_GENERIC_PASSWORD}
-      serial:
-        port: "tcp://192.168.30.35:6638"
-      homeassistant: true
-      device_options:
-        retain: true
-      permit_join: false
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 500Mi
