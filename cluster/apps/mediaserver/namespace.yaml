@@ -5,4 +5,3 @@ metadata:
   name: mediaserver
   labels:
     name: mediaserver
-    istio-injection: enabled
