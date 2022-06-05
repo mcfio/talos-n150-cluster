@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - grafana-auth-google.enc.yaml
   - helm-release.yaml
-  - virtual-service.yaml

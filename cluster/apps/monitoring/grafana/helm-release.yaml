@@ -25,9 +25,17 @@ spec:
       GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_LOG_FILTERS: rendering:debug
     adminPassword: ${GRAFANA_ADMIN_PASSWORD}
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hosts:
+        - &host grafana.${INTERNAL_DOMAIN}
+      tls:
+        - hosts:
+            - *host
     grafana.ini:
       server:
-        root_url: https://grafana.${ROOT_DOMAIN}
+        root_url: https://grafana.${INTERNAL_DOMAIN}
       paths:
         data: /var/lib/grafana/
         logs: /var/log/grafana
