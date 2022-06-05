@@ -26,6 +26,15 @@ spec:
     monitoring:
       enabled: true
       createPrometheusRules: true
+    ingress:
+      dashboard:
+        ingressClassName: "nginx"
+        host:
+          name: &host "ceph.${INTERNAL_DOMAIN}"
+          path: "/"
+        tls:
+          - hosts:
+              - *host
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v17.2.0-20220420
