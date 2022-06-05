@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webhook-receiver
+  namespace: flux-system
+  labels:
+    app.kubernetes.io/instance: home-assistant
+    app.kubernetes.io/name: home-assistant
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host flux-webhook.${ROOT_DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: webhook-receiver
+                port:
+                  number: 80
+            path: /hook/
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
