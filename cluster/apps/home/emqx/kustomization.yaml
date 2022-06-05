@@ -5,4 +5,3 @@ resources:
   - secret.enc.yaml
   - certificate.yaml
   - helm-release.yaml
-  - virtual-service.yaml
