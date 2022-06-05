@@ -41,17 +41,6 @@ spec:
       type: LoadBalancer
       loadBalancerIP: ${VIP_EMQX_INGRESS}
       externalTrafficPolicy: Local
-    ingress:
-      dashboard:
-        enabled: true
-        ingressClassName: nginx
-        path: /
-        pathType: Prefix
-        hosts:
-          - &host "emqx.${INTERNAL_DOMAIN}"
-        tls:
-          - hosts:
-              - *host
     extraEnvFrom:
       - secretRef:
           name: emqx-auth

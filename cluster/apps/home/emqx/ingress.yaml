@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zwavejs2mqtt
+  namespace: home
+  labels:
+    app.kubernetes.io/instance: zwavejs2mqtt
+    app.kubernetes.io/name: zwavejs2mqtt
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: &host zwave.${INTERNAL_DOMAIN}
+      http:
+        paths:
+          - backend:
+              service:
+                name: zwavejs2mqtt
+                port:
+                  number: 8091
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - *host
