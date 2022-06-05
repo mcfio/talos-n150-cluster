@@ -41,7 +41,7 @@ spec:
       dns:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: ${VIP_BLOCKY_SERVICE}
+        loadBalancerIP: ${VIP_DNS_SERVICE}
         externalTrafficPolicy: Local
         ports:
           dns-https:
@@ -94,21 +94,21 @@ spec:
         prefetching: true
       customDNS:
         mapping:
-          setup.ui.com: ${IP_NETWORK_GATEWAY}
-          ca.milton.mcf.io: 192.168.30.10
           ca.mcf.io: 192.168.30.10
-          ntp.milton.mcf.io: 192.168.30.30
-          time.milton.mcf.io: 192.168.30.30
-          time.mcf.io: 192.168.30.30
-          ingress.milton.mcf.io: 192.168.45.100
-          mqtt.milton.mcf.io: 192.168.45.190
-          milton.mcf.io: 192.168.45.100
-          kubernetes.lan: 192.168.45.40
+          ca.milton.mcf.io: 192.168.30.10
+          dns.milton.mcf.io: ${VIP_DNS_SERVICE}
+          ingress.milton.mcf.io: ${VIP_CLUSTER_INGRESS}
+          kubernetes.lan: ${VIP_CLUSTER_APISERVER}
           mcf-ca01.lan: 192.168.30.10
-          mcf-k8s-cluster.milton.mcf.io: 192.168.45.40
+          mcf-k8s-cluster.milton.mcf.io: ${VIP_CLUSTER_APISERVER}
           mcf-pve01.milton.mcf.io: 192.168.40.15
           milton-dns1.lan: 192.168.30.30
-          dns.milton.mcf.io: 192.168.45.192
+          milton.mcf.io: ${VIP_CLUSTER_INGRESS}
+          mqtt.milton.mcf.io: ${VIP_MQTT_SERVICE}
+          ntp.milton.mcf.io: 192.168.30.30
+          setup.ui.com: ${IP_NETWORK_GATEWAY}
+          time.mcf.io: 192.168.30.30
+          time.milton.mcf.io: 192.168.30.30
       conditional:
         mapping:
           devices.wifiman.me: tcp+udp:${IP_NETWORK_GATEWAY}
@@ -159,7 +159,7 @@ spec:
             app.kubernetes.io/name: blocky
     resources:
       requests:
-        memory: 100Mi
         cpu: 100m
+        memory: 100Mi
       limits:
         memory: 750Mi

@@ -39,7 +39,7 @@ spec:
       kubernetes.io/arch: arm64
     service:
       type: LoadBalancer
-      loadBalancerIP: ${VIP_EMQX_INGRESS}
+      loadBalancerIP: ${VIP_MQTT_SERVICE}
       externalTrafficPolicy: Local
     extraEnvFrom:
       - secretRef:
