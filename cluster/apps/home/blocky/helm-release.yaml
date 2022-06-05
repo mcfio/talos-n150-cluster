@@ -100,9 +100,9 @@ spec:
           ntp.milton.mcf.io: 192.168.30.30
           time.milton.mcf.io: 192.168.30.30
           time.mcf.io: 192.168.30.30
-          ingress.milton.mcf.io: 192.168.45.105
+          ingress.milton.mcf.io: 192.168.45.100
           mqtt.milton.mcf.io: 192.168.45.190
-          milton.mcf.io: 192.168.45.105
+          milton.mcf.io: 192.168.45.100
           kubernetes.lan: 192.168.45.40
           mcf-ca01.lan: 192.168.30.10
           mcf-k8s-cluster.milton.mcf.io: 192.168.45.40
