@@ -1,17 +1,16 @@
 ---
 apiVersion: v1
-kind: Service
+kind: Endpoints
 metadata:
   name: home-assistant
   namespace: home
   labels:
     app.kubernetes.io/instance: home-assistant
     app.kubernetes.io/name: home-assistant
-spec:
-  type: ClusterIP
-  clusterIP: None
-  ports:
-    - name: http
-      protocol: TCP
-      port: 8123
-      targetPort: 8123
+subsets:
+  - addresses:
+      - ip: ${IP_HASSIO}
+    ports:
+      - name: http
+        port: 8123
+        protocol: TCP
