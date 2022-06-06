@@ -141,7 +141,7 @@ spec:
                 size: 3
               name: data0
           metadataServer:
-            activeCount: 1
+            activeCount: 2
             activeStandby: true
             resources:
               limits:
@@ -151,6 +151,24 @@ spec:
                 cpu: "1000m"
                 memory: "4Gi"
             priorityClassName: system-cluster-critical
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: node-role.kubernetes.io/storage
+                        operator: In
+                        values:
+                          - ""
+            topologySpreadConstraints:
+              - maxSkew: 1
+                topologyKey: kubernetes.io/hostname
+                whenUnsatisfiable: DoNotSchedule
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: ceph-mds
+            tolerations:
+              - key: node-role.kubernetes.io/storage
+                operator: Exists
         storageClass:
           enabled: true
           isDefault: false
