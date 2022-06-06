@@ -141,8 +141,8 @@ spec:
                 size: 3
               name: data0
           metadataServer:
-            activeCount: 2
-            activeStandby: false
+            activeCount: 1
+            activeStandby: true
             resources:
               limits:
                 cpu: 2000m
