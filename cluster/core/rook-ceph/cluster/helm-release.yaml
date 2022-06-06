@@ -146,10 +146,10 @@ spec:
             resources:
               limits:
                 cpu: 2000m
-                memory: 4Gi
+                memory: 2560Mi
               requests:
                 cpu: 500m
-                memory: 4Gi
+                memory: 2560Mi
             priorityClassName: system-cluster-critical
             placement:
               nodeAffinity:
@@ -211,13 +211,32 @@ spec:
             port: 80
             resources:
               limits:
-                cpu: "2000m"
-                memory: "2Gi"
+                cpu: 2000m
+                memory: 2048Mi
               requests:
-                cpu: "1000m"
-                memory: "1Gi"
-            instances: 1
+                cpu: 500m
+                memory: 1024Mi
+            instances: 2
             priorityClassName: system-cluster-critical
+            placement:
+              nodeAffinity:
+                requiredDuringSchedulingIgnoredDuringExecution:
+                  nodeSelectorTerms:
+                    - matchExpressions:
+                        - key: node-role.kubernetes.io/storage
+                          operator: In
+                          values:
+                            - ""
+              topologySpreadConstraints:
+                - maxSkew: 1
+                  topologyKey: kubernetes.io/hostname
+                  whenUnsatisfiable: DoNotSchedule
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/name: ceph-rgw
+              tolerations:
+                - key: node-role.kubernetes.io/storage
+                  operator: Exists
           healthCheck:
             bucket:
               interval: 60s
