@@ -28,10 +28,10 @@ spec:
       createPrometheusRules: true
     ingress:
       dashboard:
-        ingressClassName: "nginx"
+        ingressClassName: nginx
         host:
-          name: &host "ceph.${INTERNAL_DOMAIN}"
-          path: "/"
+          name: &host ceph.${INTERNAL_DOMAIN}
+          path: /
         tls:
           - hosts:
               - *host
@@ -59,44 +59,44 @@ spec:
         useAllNodes: false
         useAllDevices: false
         nodes:
-          - name: "mcf-k8s-node08"
+          - name: mcf-k8s-node08
             devices:
-              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V804453"
-          - name: "mcf-k8s-node09"
+              - name: /dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V804453
+          - name: mcf-k8s-node09
             devices:
-              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V801912"
-          - name: "mcf-k8s-node10"
+              - name: /dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424V801912
+          - name: mcf-k8s-node10
             devices:
-              - name: "/dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686"
+              - name: /dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686
       resources:
         mon:
           limits:
-            cpu: "2000m"
-            memory: "2Gi"
+            cpu: 2000m
+            memory: 2Gi
           requests:
-            cpu: "10m"
-            memory: "1Gi"
+            cpu: 10m
+            memory: 1Gi
         osd:
           limits:
-            cpu: "2000m"
-            memory: "4Gi"
+            cpu: 2000m
+            memory: 4Gi
           requests:
-            cpu: "10m"
-            memory: "4Gi"
+            cpu: 10m
+            memory: 4Gi
         prepareosd:
           limits:
-            cpu: "500m"
-            memory: "2Gi"
+            cpu: 500m
+            memory: 2Gi
           requests:
-            cpu: "50m"
-            memory: "50Mi"
+            cpu: 50m
+            memory: 50Mi
         mgr-sidecar:
           limits:
-            cpu: "500m"
-            memory: "100Mi"
+            cpu: 500m
+            memory: 100Mi
           requests:
-            cpu: "10m"
-            memory: "40Mi"
+            cpu: 10m
+            memory: 40Mi
     cephBlockPools:
       - name: ceph-blockpool
         spec:
@@ -146,10 +146,10 @@ spec:
             resources:
               limits:
                 cpu: 2000m
-                memory: 2560Mi
+                memory: 4Gi
               requests:
                 cpu: 500m
-                memory: 2560Mi
+                memory: 4Gi
             priorityClassName: system-cluster-critical
             placement:
               nodeAffinity:
@@ -212,10 +212,10 @@ spec:
             resources:
               limits:
                 cpu: 2000m
-                memory: 2048Mi
+                memory: 2Gi
               requests:
                 cpu: 500m
-                memory: 1024Mi
+                memory: 1Gi
             instances: 2
             priorityClassName: system-cluster-critical
             placement:
