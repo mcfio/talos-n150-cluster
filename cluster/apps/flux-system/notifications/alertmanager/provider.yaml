@@ -2,11 +2,8 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta1
 kind: Provider
 metadata:
-  name: slack
+  name: alert-manager
   namespace: flux-system
 spec:
-  type: slack
-  username: Flux
-  channel: flux
-  secretRef:
-    name: slack-webhook-url
+  type: alertmanager
+  address: http://prom-alertmanager.monitoring:9093/api/v2/alerts/

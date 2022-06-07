@@ -10,10 +10,4 @@ spec:
   eventSeverity: info
   eventSources:
     - kind: Kustomization
-      name: apps
-    - kind: Kustomization
-      name: core
-    - kind: Kustomization
-      name: crds
-    - kind: Kustomization
-      name: flux-system
+      name: "*"
