@@ -44,6 +44,10 @@ spec:
         disable: true
       placement:
         all:
+          tolerations:
+            - key: node-role.kubernetes.io/storage
+              operator: Exists
+        mon:
           nodeAffinity:
             requiredDuringSchedulingIgnoredDuringExecution:
               nodeSelectorTerms:
@@ -52,9 +56,15 @@ spec:
                       operator: In
                       values:
                         - ""
-          tolerations:
-            - key: node-role.kubernetes.io/storage
-              operator: Exists
+        osd:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/storage
+                      operator: In
+                      values:
+                        - ""
       storage:
         useAllNodes: false
         useAllDevices: false
@@ -70,19 +80,19 @@ spec:
               - name: /dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686
       resources:
         mgr:
+          limits:
+            cpu: 1000m
+            memory: 1Gi
           requests:
             cpu: 500m
             memory: 512Mi
-          limits:
-            cpu: ""
-            memory: 1Gi
         mgr-sidecar:
+          limits:
+            cpu: 500m
+            memory: 100Mi
           requests:
             cpu: 100m
             memory: 40Mi
-          limits:
-            cpu: ""
-            memory: 100Mi
         mon:
           limits:
             cpu: 2000m
