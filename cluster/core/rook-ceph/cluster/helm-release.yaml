@@ -90,13 +90,6 @@ spec:
           requests:
             cpu: 50m
             memory: 50Mi
-        mgr-sidecar:
-          limits:
-            cpu: 500m
-            memory: 100Mi
-          requests:
-            cpu: 10m
-            memory: 40Mi
     cephBlockPools:
       - name: ceph-blockpool
         spec:
