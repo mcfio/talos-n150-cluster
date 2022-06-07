@@ -3,6 +3,8 @@ kind: PersistentVolumeClaim
 metadata:
   name: home-shared-pvc
   namespace: home
+  labels:
+    excluded_from_alerts: "true"
 spec:
   accessModes:
     - ReadWriteMany

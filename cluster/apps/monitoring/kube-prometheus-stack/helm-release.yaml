@@ -237,6 +237,8 @@ spec:
           url: http://prom-prometheus.monitoring:9090/
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
+      metricLabelsAllowlist:
+        - persistentvolumeclaims=[*]
       prometheus:
         monitor:
           enabled: true
