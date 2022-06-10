@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: kured
-      version: 2.14.2
+      version: 2.15.0
       sourceRef:
         kind: HelmRepository
         name: weaveworks-kured
@@ -20,7 +20,8 @@ spec:
       remediateLastFailure: true
   values:
     image:
-      repository: raspbernetes/kured
+      repository: ghcr.io/weaveworks/kured
+      tag: 1.10.0
     updateStrategy: RollingUpdate
     configuration:
       lockTtl: 600s
