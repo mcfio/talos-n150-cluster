@@ -79,34 +79,6 @@ spec:
             devices:
               - name: /dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686
       resources:
-        mgr:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 500m
-            memory: 512Mi
-        mgr-sidecar:
-          limits:
-            cpu: 500m
-            memory: 100Mi
-          requests:
-            cpu: 100m
-            memory: 40Mi
-        mon:
-          limits:
-            cpu: 2000m
-            memory: 2Gi
-          requests:
-            cpu: 10m
-            memory: 1Gi
-        osd:
-          limits:
-            cpu: 2000m
-            memory: 4Gi
-          requests:
-            cpu: 10m
-            memory: 4Gi
         prepareosd:
           limits:
             cpu: 500m
