@@ -26,6 +26,42 @@ spec:
         global:
           slack_api_url: ${ALERTMANAGER_WEBHOOK}
           resolve_timeout: 5m
+        inhibit_rules:
+          - source_match:
+              - severity = critical
+            target_match:
+              - severity =~ warning|info
+            equal:
+              - namespace
+              - alertname
+          - source_match:
+              - severity = warning
+            target_match:
+              - severity = info
+            equal:
+              - namespace
+              - alertname
+          - source_match:
+              - alertname = InfoInhibitor
+            target_match:
+              - severity = info
+            equal:
+              - namespace
+        route:
+          group_by:
+            - namespace
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 12h
+          receiver: "null"
+          routes:
+            - receiver: "null"
+              matchers:
+                - alertname =~ InfoInhibitor|Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests
+            - receiver: slack-notifications
+              matchers:
+                - severity =~ critical|warning
+              continue: true
         receivers:
           - name: "null"
           - name: slack-notifications
@@ -50,37 +86,8 @@ spec:
                   - type: button
                     text: "Silence :no_bell:"
                     url: '{{ template "__alert_silence_link" . }}'
-        route:
-          group_by:
-            - alertname
-            - job
-          group_wait: 30s
-          group_interval: 5m
-          repeat_interval: 6h
-          receiver: slack-notifications
-          routes:
-            - matchers:
-                - alertname =~ Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests|InfoInhibitor
-              receiver: "null"
-            - matchers:
-                - severity =~ critical|warning
-              receiver: slack-notifications
-              continue: true
-        inhibit_rules:
-          - source_match:
-              severity: "critical"
-            target_match:
-              severity: "warning"
-            equal: ["alertname", "namespace"]
-      ingress:
-        enabled: true
-        pathType: Prefix
-        ingressClassName: nginx
-        hosts:
-          - &host alertmanager.${INTERNAL_DOMAIN}
-        tls:
-          - hosts:
-              - *host
+        templates:
+          - /etc/alertmanager/config/*.tmpl
       templateFiles:
         notifications.tmpl: |-
           {{ define "__alert_silence_link" -}}
@@ -144,6 +151,15 @@ spec:
             good
             {{- end }}
           {{- end }}
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - &host alertmanager.${INTERNAL_DOMAIN}
+        tls:
+          - hosts:
+              - *host
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
