@@ -92,7 +92,6 @@ spec:
           failureDomain: host
           replicated:
             size: 3
-          deviceClass: nvme
         storageClass:
           enabled: true
           name: ceph-block
