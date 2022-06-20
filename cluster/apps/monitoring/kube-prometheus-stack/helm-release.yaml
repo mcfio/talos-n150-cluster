@@ -212,14 +212,12 @@ spec:
         replicas: 1
         secrets:
           - etcd-client-cert
-        # To ensure proper scheduling, set the CPU requests to 0.25 cores; Additionally remove the cpu limits - a side effect of smaller platforms is the CPU scheduler
-        # tends to aggressivly throttle prometheus, running guaranteed QoS of 1 or 2 cores results in nearly 50-100% throttling. At that point, there's not a good reason
-        # to set the CPU limits any longer.
         resources:
           requests:
-            memory: 512Mi
             cpu: 250m
+            memory: 512Mi
           limits:
+            cpu: 2500m
             memory: 3096Mi
         nodeSelector:
           kubernetes.io/arch: amd64
@@ -241,13 +239,6 @@ spec:
       admissionWebhooks:
         certManager:
           enabled: true
-      prometheusConfigReloader:
-        resources:
-          requests:
-            cpu: 200m
-            memory: 50Mi
-          limits:
-            memory: 50Mi
     grafana:
       enabled: false
       forceDeployDashboards: false
