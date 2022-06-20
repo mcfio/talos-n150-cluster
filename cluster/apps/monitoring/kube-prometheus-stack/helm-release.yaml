@@ -241,9 +241,13 @@ spec:
       admissionWebhooks:
         certManager:
           enabled: true
-      # Setting this option to 0 to disable cpu limits
-      # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
-      configReloaderCpu: 0
+      prometheusConfigReloader:
+        resources:
+          requests:
+            cpu: 200m
+            memory: 50Mi
+          limits:
+            memory: 50Mi
     grafana:
       enabled: false
       forceDeployDashboards: false
