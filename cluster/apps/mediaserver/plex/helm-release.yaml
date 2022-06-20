@@ -75,10 +75,10 @@ spec:
     resources:
       requests:
         cpu: 500m
-        memory: 250Mi
+        memory: 1Gi
         gpu.intel.com/i915: 1
       limits:
-        cpu: 2000m
+        cpu: 1000m
         memory: 2Gi
         gpu.intel.com/i915: 1
     additionalContainers:
@@ -138,7 +138,7 @@ spec:
             cpu: 200m
             memory: 256Mi
           limits:
-            cpu: 500m
+            cpu: 1000m
             memory: 1Gi
         volumeMounts:
           - name: cache
