@@ -37,7 +37,7 @@ spec:
               - *host
     cephClusterSpec:
       cephVersion:
-        image: quay.io/ceph/ceph:v17.2.0-20220420
+        image: quay.io/ceph/ceph:v17.2.1
       dashboard:
         ssl: false
       crashCollector:
@@ -78,14 +78,6 @@ spec:
           - name: mcf-k8s-node10
             devices:
               - name: /dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686
-      resources:
-        prepareosd:
-          limits:
-            cpu: 500m
-            memory: 2Gi
-          requests:
-            cpu: 50m
-            memory: 50Mi
     cephBlockPools:
       - name: ceph-blockpool
         spec:
