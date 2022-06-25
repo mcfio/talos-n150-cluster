@@ -44,27 +44,17 @@ spec:
         disable: true
       placement:
         all:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/storage
+                      operator: In
+                      values:
+                        - ""
           tolerations:
             - key: node-role.kubernetes.io/storage
               operator: Exists
-        mon:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/storage
-                      operator: In
-                      values:
-                        - ""
-        osd:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/storage
-                      operator: In
-                      values:
-                        - ""
       storage:
         useAllNodes: false
         useAllDevices: false
