@@ -113,7 +113,6 @@ spec:
           - --vfs-cache-max-age=192h
           - --vfs-cache-poll-interval=5m
           - --vfs-read-ahead=1G
-          - -v=2
         envFrom:
           - secretRef:
               name: rclone-secret
