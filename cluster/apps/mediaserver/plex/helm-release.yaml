@@ -107,10 +107,10 @@ spec:
           - --drive-pacer-burst=1000
           - --cache-dir=/cache
           - --vfs-cache-mode=full
-          - --vfs-cache-max-size=225G
+          - --vfs-cache-max-size=460G
           - --vfs-cache-max-age=192h
           - --vfs-cache-poll-interval=5m
-          - --vfs-read-ahead=2G
+          - --vfs-read-ahead=1G
           - -v=1
         envFrom:
           - secretRef:
