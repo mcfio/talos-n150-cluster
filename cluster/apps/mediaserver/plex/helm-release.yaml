@@ -96,6 +96,8 @@ spec:
           - --poll-interval=10s
           - --user-agent=milton-plex/v1
           - --umask=002
+          - --no-modtime
+          - --log-level=INFO
           # - --use-mmap
           # - --vfs-read-chunk-size=10M
           # - --vfs-read-chunk-size-limit=0
@@ -111,7 +113,7 @@ spec:
           - --vfs-cache-max-age=192h
           - --vfs-cache-poll-interval=5m
           - --vfs-read-ahead=1G
-          - -v=1
+          - -v=2
         envFrom:
           - secretRef:
               name: rclone-secret
