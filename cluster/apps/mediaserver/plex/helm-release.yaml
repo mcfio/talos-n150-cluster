@@ -94,9 +94,8 @@ spec:
           - --gid=1000
           - --dir-cache-time=1000h
           - --poll-interval=10s
-          - --user-agent=milton-plex/v1
+          - --user-agent=milton-plex/v2
           - --umask=002
-          - --no-modtime
           - --log-level=INFO
           - --rc
           - --rc-addr=:5572
