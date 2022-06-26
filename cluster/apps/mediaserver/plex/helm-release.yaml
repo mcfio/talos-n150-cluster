@@ -98,21 +98,18 @@ spec:
           - --umask=002
           - --no-modtime
           - --log-level=INFO
-          # - --use-mmap
-          # - --vfs-read-chunk-size=10M
-          # - --vfs-read-chunk-size-limit=0
-          # - --buffer-size=0
           - --rc
           - --rc-addr=:5572
           - --rc-no-auth
           - --drive-pacer-min-sleep=10ms
-          - --drive-pacer-burst=1000
+          - --drive-pacer-burst=200
           - --cache-dir=/cache
           - --vfs-cache-mode=full
-          - --vfs-cache-max-size=460G
-          - --vfs-cache-max-age=192h
+          - --vfs-cache-max-size=240G
+          - --vfs-cache-max-age=320h
           - --vfs-cache-poll-interval=5m
-          - --vfs-read-ahead=1G
+          - --vfs-read-ahead=2G
+          - --bwlimit-file=32M
         envFrom:
           - secretRef:
               name: rclone-secret
