@@ -33,11 +33,11 @@ spec:
         kubernetes.io/arch: amd64
       persistence:
         enabled: true
-        size: 256Mi
+        size: 512Mi
     replica:
       replicaCount: 1
       nodeSelector:
         kubernetes.io/arch: amd64
       persistence:
         enabled: true
-        size: 256Mi
+        size: 512Mi
