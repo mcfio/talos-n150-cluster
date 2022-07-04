@@ -19,7 +19,7 @@ spec:
     global:
       nameOverride: *app
     image:
-      repository: ghcr.io/k8s-at-home/prowlarr
+      repository: ghcr.io/k8s-at-home/prowlarr-develop
       tag: v0.4.0.1802
     env:
       TZ: Canada/Eastern
