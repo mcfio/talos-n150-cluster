@@ -89,6 +89,11 @@ spec:
           retention_period: 672h
         analytics:
           reporting_enabled: false
+    monitoring:
+      selfMonitoring:
+        enabled: false
+      grafanaAgent:
+        installOperator: false
     write:
       replicas: 3
       persistence:
