@@ -88,69 +88,6 @@ spec:
                     url: '{{ template "__alert_silence_link" . }}'
         templates:
           - /etc/alertmanager/config/*.tmpl
-      templateFiles:
-        notifications.tmpl: |-
-          {{ define "__alert_silence_link" -}}
-              {{ .ExternalURL }}/#/silences/new?filter=%7B
-              {{- range .CommonLabels.SortedPairs -}}
-                  {{- if ne .Name "alertname" -}}
-                      {{- .Name }}%3D"{{- .Value -}}"%2C%20
-                  {{- end -}}
-              {{- end -}}
-              alertname%3D"{{- .CommonLabels.alertname -}}"%7D
-          {{- end }}
-
-          {{ define "__alert_severity" -}}
-              {{- if eq .CommonLabels.severity "critical" -}}
-              *Severity:* `Critical`
-              {{- else if eq .CommonLabels.severity "warning" -}}
-              *Severity:* `Warning`
-              {{- else if eq .CommonLabels.severity "info" -}}
-              *Severity:* `Info`
-              {{- else -}}
-              *Severity:* :question: {{ .CommonLabels.severity }}
-              {{- end }}
-          {{- end }}
-
-          {{ define "slack.title" -}}
-            [{{ .Status | toUpper -}}
-            {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
-            ] {{ .CommonLabels.alertname }}
-          {{- end }}
-
-          {{ define "slack.text" -}}
-            {{ template "__alert_severity" . }}
-            {{- if (index .Alerts 0).Annotations.summary }}
-            {{- "\n" -}}
-            *Summary:* {{ (index .Alerts 0).Annotations.summary }}
-            {{- end }}
-            {{ range .Alerts }}
-              {{- if .Annotations.description }}
-              {{- "\n" -}}
-              {{ .Annotations.description }}
-              {{- "\n" -}}
-              {{- end }}
-              {{- if .Annotations.message }}
-              {{- "\n" -}}
-              {{ .Annotations.message }}
-              {{- "\n" -}}
-              {{- end }}
-            {{- end }}
-          {{- end }}
-
-          {{ define "slack.color" -}}
-            {{ if eq .Status "firing" -}}
-              {{ if eq .CommonLabels.severity "warning" -}}
-                  warning
-              {{- else if eq .CommonLabels.severity "critical" -}}
-                  danger
-              {{- else -}}
-                  #439FE0
-              {{- end -}}
-            {{ else -}}
-            good
-            {{- end }}
-          {{- end }}
       ingress:
         enabled: true
         pathType: Prefix
@@ -163,6 +100,8 @@ spec:
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
+        configMaps:
+          - slack-notification-template
         externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
         replicas: 2
         podAntiAffinity: hard
