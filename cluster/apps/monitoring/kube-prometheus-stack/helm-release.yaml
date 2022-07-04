@@ -24,7 +24,6 @@ spec:
     alertmanager:
       config:
         global:
-          slack_api_url: ${ALERTMANAGER_WEBHOOK}
           resolve_timeout: 5m
         inhibit_rules:
           - source_match:
@@ -58,36 +57,8 @@ spec:
             - receiver: "null"
               matchers:
                 - alertname =~ InfoInhibitor|Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests
-            - receiver: slack-notifications
-              matchers:
-                - severity =~ critical|warning
-              continue: true
         receivers:
           - name: "null"
-          - name: slack-notifications
-            slack_configs:
-              - channel: "#prometheus-alerts"
-                icon_url: https://avatars3.githubusercontent.com/u/3380462
-                username: Alertmanager
-                send_resolved: true
-                color: '{{ template "slack.color" . }}'
-                title: '{{ template "slack.title" . }}'
-                text: '{{ template "slack.text" . }}'
-                actions:
-                  - type: button
-                    text: "Runbook :green_book:"
-                    url: "{{ (index .Alerts 0).Annotations.runbook_url }}"
-                  - type: button
-                    text: "Query :mag:"
-                    url: "{{ (index .Alerts 0).GeneratorURL }}"
-                  - type: button
-                    text: "Dashboard :chart_with_upwards_trend:"
-                    url: "{{ (index .Alerts 0).Annotations.dashboard_url }}"
-                  - type: button
-                    text: "Silence :no_bell:"
-                    url: '{{ template "__alert_silence_link" . }}'
-        templates:
-          - /etc/alertmanager/config/*.tmpl
       ingress:
         enabled: true
         pathType: Prefix
@@ -100,8 +71,6 @@ spec:
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
-        configMaps:
-          - slack-notification-template
         externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
         replicas: 2
         podAntiAffinity: hard
