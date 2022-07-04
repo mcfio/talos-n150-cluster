@@ -26,23 +26,23 @@ spec:
         global:
           resolve_timeout: 5m
         inhibit_rules:
-          - source_match:
+          - source_matchers:
               - severity = critical
-            target_match:
+            target_matchers:
               - severity =~ warning|info
             equal:
               - namespace
               - alertname
-          - source_match:
+          - source_matchers:
               - severity = warning
-            target_match:
+            target_matchers:
               - severity = info
             equal:
               - namespace
               - alertname
-          - source_match:
+          - source_matchers:
               - alertname = InfoInhibitor
-            target_match:
+            target_matchers:
               - severity = info
             equal:
               - namespace
@@ -71,8 +71,10 @@ spec:
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
-        externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
+        configMaps:
+          - slack-notification-template
         replicas: 2
+        externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
         podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
