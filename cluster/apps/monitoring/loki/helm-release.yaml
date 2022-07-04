@@ -92,8 +92,8 @@ spec:
     monitoring:
       selfMonitoring:
         enabled: false
-      grafanaAgent:
-        installOperator: false
+        grafanaAgent:
+          installOperator: false
     write:
       replicas: 3
       persistence:
