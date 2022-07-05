@@ -129,6 +129,7 @@ spec:
             /mp.microsoft.com/
             /mask.icloud.com/
             /mask-h2.icloud.com/
+            /ext.azure.com/
         clientGroupsBlock:
           default:
           - ads
