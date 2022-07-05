@@ -130,6 +130,7 @@ spec:
             /mask.icloud.com/
             /mask-h2.icloud.com/
             /ext.azure.com/
+            /ad.azure.com/
         clientGroupsBlock:
           default:
           - ads
