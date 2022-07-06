@@ -1,0 +1,9 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: milton-cluster-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - ${METALLB_LAYER2_RANGE}

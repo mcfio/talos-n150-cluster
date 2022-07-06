@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: 0.12.1
+      version: 0.13.2
       sourceRef:
         kind: HelmRepository
         name: metallb
@@ -21,12 +21,6 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
-    configInline:
-      address-pools:
-        - name: default
-          protocol: layer2
-          addresses:
-            - ${METALLB_LAYER2_RANGE}
     prometheus:
       serviceAccount: prom-prometheus
       namespace: monitoring
@@ -37,15 +31,6 @@ spec:
     speaker:
       tolerateMaster: false
       tolerations:
-        - key: storage-node
+        - key: node-role.kubernetes.io/storage
           effect: PreferNoSchedule
           operator: Exists
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: model
-                    operator: NotIn
-                    values:
-                      - pi3Bplus
