@@ -25,7 +25,7 @@ spec:
       config:
         templates:
           - /etc/alertmanager/config/*.tmpl
-          - /etc/alertmanager/configmaps/slack-notification-template/*.tmpl
+          - /etc/alertmanager/configmaps/**/*.tmpl
       ingress:
         enabled: true
         pathType: Prefix
@@ -38,8 +38,10 @@ spec:
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
+        # for now we need to add the templates to the stack spec until it's
+        # supported in alertmanagerConfig
         configMaps:
-          - slack-notification-template
+          - slack-templates
         replicas: 2
         externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
         podAntiAffinity: hard
