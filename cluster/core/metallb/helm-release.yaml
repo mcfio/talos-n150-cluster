@@ -28,7 +28,15 @@ spec:
         enabled: true
       prometheusRule:
         enabled: true
+    controller:
+      enabled: true
+      image:
+        repository: quay.io/metallb/controller
+        tag: main
     speaker:
+      image:
+        repository: quay.io/metallb/speaker
+        tag: main
       tolerateMaster: false
       tolerations:
         - key: node-role.kubernetes.io/storage
