@@ -37,7 +37,7 @@ spec:
     speaker:
       tolerateMaster: false
       tolerations:
-        - key: storage-node
+        - key: node-role.kubernetes.io/storage
           effect: PreferNoSchedule
           operator: Exists
       affinity:
@@ -45,7 +45,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: model
+                  - key: low-mem
                     operator: NotIn
                     values:
-                      - pi3Bplus
+                      - "true"
