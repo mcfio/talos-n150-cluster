@@ -24,14 +24,14 @@ spec:
       repository: public.ecr.aws/emqx/emqx
     recreatePods: false
     envFromSecret: emqx-auth
-    extraVolumes:
-      - name: mqtt-cert
-        secret:
-          defaultMode: 420
-          secretName: mqtt-cert
-    extraVolumeMounts:
-      - mountPath: /etc/cert
-        name: mqtt-cert
+    # extraVolumes:
+    #   - name: mqtt-cert
+    #     secret:
+    #       defaultMode: 420
+    #       secretName: mqtt-cert
+    # extraVolumeMounts:
+    #   - mountPath: /etc/cert
+    #     name: mqtt-cert
     persistence:
       enabled: true
       size: 100Mi
@@ -44,8 +44,8 @@ spec:
       externalTrafficPolicy: Local
     emqxConfig:
       EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
-      EMQX_LISTENER__SSL__EXTERNAL__CERTFILE: /etc/cert/tls.crt
-      EMQX_LISTENER__SSL__EXTERNAL__KEYFILE: /etc/cert/tls.key
+      # EMQX_LISTENER__SSL__EXTERNAL__CERTFILE: /etc/cert/tls.crt
+      # EMQX_LISTENER__SSL__EXTERNAL__KEYFILE: /etc/cert/tls.key
     resources:
       requests:
         cpu: 100m
