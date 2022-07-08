@@ -42,6 +42,17 @@ spec:
       type: LoadBalancer
       loadBalancerIP: ${VIP_MQTT_SERVICE}
       externalTrafficPolicy: Local
+    ingress:
+      dashboard:
+        enabled: true
+        ingressClassName: nginx
+        path: /
+        pathType: Prefix
+        hosts:
+          - &host emqx.${INTERNAL_DOMAIN}
+        tls:
+          - hosts:
+              - *host
     emqxConfig:
       EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
       # EMQX_LISTENER__SSL__EXTERNAL__CERTFILE: /etc/cert/tls.crt
