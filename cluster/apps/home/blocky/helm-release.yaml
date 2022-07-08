@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: blocky
-      version: 10.3.0
+      version: 10.4.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home
@@ -83,7 +83,11 @@ spec:
         type: secret
         name: blocky-cert
     config: |
-      bootstrapDns: tcp+udp:${IP_NETWORK_GATEWAY}
+      bootstrapDns:
+        upstream: tcp-tls:${NEXTDNS_ID}.dns.nextdns.io
+        ips:
+        - 45.90.28.0
+        - 45.90.30.0
       upstream:
         default:
         - https://dns.nextdns.io/${NEXTDNS_ID}
@@ -129,6 +133,8 @@ spec:
             /mp.microsoft.com/
             /mask.icloud.com/
             /mask-h2.icloud.com/
+            /ext.azure.com/
+            /ad.azure.com/
         clientGroupsBlock:
           default:
           - ads

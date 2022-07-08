@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
   - etcd-client-cert.enc.yaml
   - helm-release.yaml
+  - alertmanager-config.yaml
+  - slack-templates-configmap.yaml
 #  - dashboards

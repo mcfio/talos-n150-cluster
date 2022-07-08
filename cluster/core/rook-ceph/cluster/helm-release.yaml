@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph-cluster
-      version: v1.9.5
+      version: v1.9.7
       sourceRef:
         kind: HelmRepository
         name: rook-release
@@ -37,34 +37,24 @@ spec:
               - *host
     cephClusterSpec:
       cephVersion:
-        image: quay.io/ceph/ceph:v17.2.0-20220420
+        image: quay.io/ceph/ceph:v17.2.1
       dashboard:
         ssl: false
       crashCollector:
         disable: true
       placement:
         all:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                    - key: node-role.kubernetes.io/storage
+                      operator: In
+                      values:
+                        - ""
           tolerations:
             - key: node-role.kubernetes.io/storage
               operator: Exists
-        mon:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/storage
-                      operator: In
-                      values:
-                        - ""
-        osd:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: node-role.kubernetes.io/storage
-                      operator: In
-                      values:
-                        - ""
       storage:
         useAllNodes: false
         useAllDevices: false
@@ -78,49 +68,12 @@ spec:
           - name: mcf-k8s-node10
             devices:
               - name: /dev/disk/by-id/nvme-WD_Blue_SN570_1TB_21424L802686
-      resources:
-        mgr:
-          limits:
-            cpu: 1000m
-            memory: 1Gi
-          requests:
-            cpu: 500m
-            memory: 512Mi
-        mgr-sidecar:
-          limits:
-            cpu: 500m
-            memory: 100Mi
-          requests:
-            cpu: 100m
-            memory: 40Mi
-        mon:
-          limits:
-            cpu: 2000m
-            memory: 2Gi
-          requests:
-            cpu: 10m
-            memory: 1Gi
-        osd:
-          limits:
-            cpu: 2000m
-            memory: 4Gi
-          requests:
-            cpu: 10m
-            memory: 4Gi
-        prepareosd:
-          limits:
-            cpu: 500m
-            memory: 2Gi
-          requests:
-            cpu: 50m
-            memory: 50Mi
     cephBlockPools:
       - name: ceph-blockpool
         spec:
           failureDomain: host
           replicated:
             size: 3
-          deviceClass: nvme
         storageClass:
           enabled: true
           name: ceph-block

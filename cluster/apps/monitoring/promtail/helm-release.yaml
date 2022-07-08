@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: promtail
-      version: 5.1.0
+      version: 6.2.0
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -33,12 +33,15 @@ spec:
               labels:
                 job: systemd-journal
             relabel_configs:
-            - source_labels:
-              - '__journal__systemd_unit'
-              target_label: 'unit'
-            - source_labels:
-              - '__journal__hostname'
-              target_label: 'hostname'
+              - source_labels:
+                  - __journal__hostname
+                target_label: hostname
+              - source_labels:
+                  - __journal__systemd_unit
+                target_label: unit
+              - source_labels:
+                  - __journal_priority_keyword
+                target_label: level
     readinessProbe:
       failureThreshold: 5
       httpGet:
@@ -52,9 +55,15 @@ spec:
       - name: journal
         hostPath:
           path: /var/log/journal
+      - name: machine-id
+        hostPath:
+          path: /etc/machine-id
     extraVolumeMounts:
       - name: journal
         mountPath: /var/log/journal
+        readOnly: true
+      - name: machine-id
+        mountPath: /etc/machine-id
         readOnly: true
     serviceMonitor:
       enabled: true

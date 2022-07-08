@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 35.6.2
+      version: 36.6.1
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -23,55 +23,9 @@ spec:
     fullnameOverride: prom
     alertmanager:
       config:
-        global:
-          slack_api_url: ${ALERTMANAGER_WEBHOOK}
-          resolve_timeout: 5m
-        receivers:
-          - name: "null"
-          - name: slack-notifications
-            slack_configs:
-              - channel: "#prometheus-alerts"
-                icon_url: https://avatars3.githubusercontent.com/u/3380462
-                username: Alertmanager
-                send_resolved: true
-                color: '{{ template "slack.color" . }}'
-                title: '{{ template "slack.title" . }}'
-                text: '{{ template "slack.text" . }}'
-                actions:
-                  - type: button
-                    text: "Runbook :green_book:"
-                    url: "{{ (index .Alerts 0).Annotations.runbook_url }}"
-                  - type: button
-                    text: "Query :mag:"
-                    url: "{{ (index .Alerts 0).GeneratorURL }}"
-                  - type: button
-                    text: "Dashboard :chart_with_upwards_trend:"
-                    url: "{{ (index .Alerts 0).Annotations.dashboard_url }}"
-                  - type: button
-                    text: "Silence :no_bell:"
-                    url: '{{ template "__alert_silence_link" . }}'
-        route:
-          group_by:
-            - alertname
-            - job
-          group_wait: 30s
-          group_interval: 5m
-          repeat_interval: 6h
-          receiver: slack-notifications
-          routes:
-            - matchers:
-                - alertname =~ Watchdog|KubeAPILatencyHigh|CPUThrottlingHigh|AggregatedAPIErrors|AggregatedAPIDown|KubeAPIErrorBudgetBurn|etcdHighNumberOfFailedGRPCRequests|InfoInhibitor
-              receiver: "null"
-            - matchers:
-                - severity =~ critical|warning
-              receiver: slack-notifications
-              continue: true
-        inhibit_rules:
-          - source_match:
-              severity: "critical"
-            target_match:
-              severity: "warning"
-            equal: ["alertname", "namespace"]
+        templates:
+          - /etc/alertmanager/config/*.tmpl
+          - /etc/alertmanager/configmaps/**/*.tmpl
       ingress:
         enabled: true
         pathType: Prefix
@@ -81,74 +35,15 @@ spec:
         tls:
           - hosts:
               - *host
-      templateFiles:
-        notifications.tmpl: |-
-          {{ define "__alert_silence_link" -}}
-              {{ .ExternalURL }}/#/silences/new?filter=%7B
-              {{- range .CommonLabels.SortedPairs -}}
-                  {{- if ne .Name "alertname" -}}
-                      {{- .Name }}%3D"{{- .Value -}}"%2C%20
-                  {{- end -}}
-              {{- end -}}
-              alertname%3D"{{- .CommonLabels.alertname -}}"%7D
-          {{- end }}
-
-          {{ define "__alert_severity" -}}
-              {{- if eq .CommonLabels.severity "critical" -}}
-              *Severity:* `Critical`
-              {{- else if eq .CommonLabels.severity "warning" -}}
-              *Severity:* `Warning`
-              {{- else if eq .CommonLabels.severity "info" -}}
-              *Severity:* `Info`
-              {{- else -}}
-              *Severity:* :question: {{ .CommonLabels.severity }}
-              {{- end }}
-          {{- end }}
-
-          {{ define "slack.title" -}}
-            [{{ .Status | toUpper -}}
-            {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
-            ] {{ .CommonLabels.alertname }}
-          {{- end }}
-
-          {{ define "slack.text" -}}
-            {{ template "__alert_severity" . }}
-            {{- if (index .Alerts 0).Annotations.summary }}
-            {{- "\n" -}}
-            *Summary:* {{ (index .Alerts 0).Annotations.summary }}
-            {{- end }}
-            {{ range .Alerts }}
-              {{- if .Annotations.description }}
-              {{- "\n" -}}
-              {{ .Annotations.description }}
-              {{- "\n" -}}
-              {{- end }}
-              {{- if .Annotations.message }}
-              {{- "\n" -}}
-              {{ .Annotations.message }}
-              {{- "\n" -}}
-              {{- end }}
-            {{- end }}
-          {{- end }}
-
-          {{ define "slack.color" -}}
-            {{ if eq .Status "firing" -}}
-              {{ if eq .CommonLabels.severity "warning" -}}
-                  warning
-              {{- else if eq .CommonLabels.severity "critical" -}}
-                  danger
-              {{- else -}}
-                  #439FE0
-              {{- end -}}
-            {{ else -}}
-            good
-            {{- end }}
-          {{- end }}
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
-        externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
+        # for now we need to add the templates to the stack spec until it's
+        # supported in alertmanagerConfig
+        configMaps:
+          - slack-templates
         replicas: 2
+        externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
         podAntiAffinity: hard
         storage:
           volumeClaimTemplate:
@@ -196,14 +91,12 @@ spec:
         replicas: 1
         secrets:
           - etcd-client-cert
-        # To ensure proper scheduling, set the CPU requests to 0.25 cores; Additionally remove the cpu limits - a side effect of smaller platforms is the CPU scheduler
-        # tends to aggressivly throttle prometheus, running guaranteed QoS of 1 or 2 cores results in nearly 50-100% throttling. At that point, there's not a good reason
-        # to set the CPU limits any longer.
         resources:
           requests:
-            memory: 512Mi
             cpu: 250m
+            memory: 1024Mi
           limits:
+            cpu: 2500m
             memory: 3096Mi
         nodeSelector:
           kubernetes.io/arch: amd64
@@ -225,9 +118,6 @@ spec:
       admissionWebhooks:
         certManager:
           enabled: true
-      # Setting this option to 0 to disable cpu limits
-      # see https://github.com/prometheus-operator/prometheus-operator/blob/master/cmd/operator/main.go#L175
-      configReloaderCpu: 0
     grafana:
       enabled: false
       forceDeployDashboards: false

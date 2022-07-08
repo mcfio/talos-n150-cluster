@@ -4,13 +4,13 @@
 flux install \
   --version=latest \
   --network-policy=false \
-  --export > ./flux-components.yaml
+  --export > ./gotk-components.yaml
 ```
 
 ## Apply the flux-components manifest
 
 ```bash
-kubectl apply -f ./flux-components.yaml
+kubectl apply -f ./gotk-components.yaml
 ```
 
 ## Apply the repo sync configuration

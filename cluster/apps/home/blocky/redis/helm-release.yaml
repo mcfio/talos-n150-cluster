@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: redis
-      version: 16.12.2
+      version: 16.13.2
       sourceRef:
         kind: HelmRepository
         name: bitnami
@@ -33,11 +33,11 @@ spec:
         kubernetes.io/arch: amd64
       persistence:
         enabled: true
-        size: 256Mi
+        size: 512Mi
     replica:
       replicaCount: 1
       nodeSelector:
         kubernetes.io/arch: amd64
       persistence:
         enabled: true
-        size: 256Mi
+        size: 512Mi

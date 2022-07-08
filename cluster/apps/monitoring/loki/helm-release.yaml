@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: loki-simple-scalable
-      version: 1.4.1
+      version: 1.7.0
       sourceRef:
         kind: HelmRepository
         name: grafana
@@ -89,6 +89,11 @@ spec:
           retention_period: 672h
         analytics:
           reporting_enabled: false
+    monitoring:
+      selfMonitoring:
+        enabled: false
+        grafanaAgent:
+          installOperator: false
     write:
       replicas: 3
       persistence:

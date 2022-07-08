@@ -23,7 +23,7 @@ spec:
       nameOverride: *app
     image:
       repository: ghcr.io/k8s-at-home/plex
-      tag: v1.27.0.5897-3940636f2
+      tag: v1.27.2.5929-a806c5905
     env:
       TZ: Canada/Eastern
       ADVERTISE_IP: "https://plex.${INTERNAL_DOMAIN},https://${VIP_PLEX_SERVICE}:32400"
@@ -74,12 +74,8 @@ spec:
         type: emptyDir
     resources:
       requests:
-        cpu: 500m
-        memory: 250Mi
         gpu.intel.com/i915: 1
       limits:
-        cpu: 2000m
-        memory: 2Gi
         gpu.intel.com/i915: 1
     additionalContainers:
       rclone:
@@ -94,24 +90,21 @@ spec:
           - --gid=1000
           - --dir-cache-time=1000h
           - --poll-interval=10s
-          - --user-agent=milton-plex/v1
+          - --user-agent=milton-plex/v2
           - --umask=002
-          # - --use-mmap
-          # - --vfs-read-chunk-size=10M
-          # - --vfs-read-chunk-size-limit=0
-          # - --buffer-size=0
+          - --log-level=INFO
           - --rc
           - --rc-addr=:5572
           - --rc-no-auth
           - --drive-pacer-min-sleep=10ms
-          - --drive-pacer-burst=1000
+          - --drive-pacer-burst=200
           - --cache-dir=/cache
           - --vfs-cache-mode=full
-          - --vfs-cache-max-size=225G
-          - --vfs-cache-max-age=192h
+          - --vfs-cache-max-size=240G
+          - --vfs-cache-max-age=320h
           - --vfs-cache-poll-interval=5m
           - --vfs-read-ahead=2G
-          - -v=1
+          - --bwlimit-file=32M
         envFrom:
           - secretRef:
               name: rclone-secret
@@ -133,13 +126,6 @@ spec:
                 - /bin/sh
                 - -c
                 - fusermount -uz /data
-        resources:
-          requests:
-            cpu: 200m
-            memory: 256Mi
-          limits:
-            cpu: 500m
-            memory: 1Gi
         volumeMounts:
           - name: cache
             mountPath: /cache

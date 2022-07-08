@@ -10,6 +10,5 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - ingress.milton.mcf.io
     - milton.mcf.io
     - "*.milton.mcf.io"
