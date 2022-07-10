@@ -82,6 +82,11 @@ spec:
         mountPath: /cert
         type: secret
         name: blocky-cert
+      hosts:
+        enabled: true
+        mountPath: /etc
+        type: secret
+        name: blocky-internal-hosts
     config: |
       bootstrapDns:
         upstream: tcp-tls:${NEXTDNS_ID}.dns.nextdns.io
@@ -96,6 +101,10 @@ spec:
         minTime: 5m
         maxTime: 30m
         prefetching: true
+      hostsFile:
+        filePath: /etc/hosts
+        hostsTTL: 5m
+        refreshPeriod: 1h
       customDNS:
         mapping:
           ca.mcf.io: 192.168.30.10
