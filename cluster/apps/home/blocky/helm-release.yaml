@@ -84,7 +84,7 @@ spec:
         name: blocky-cert
       hosts:
         enabled: true
-        mountPath: /etc
+        mountPath: /internal
         type: secret
         name: blocky-internal-hosts
     config: |
@@ -102,7 +102,7 @@ spec:
         maxTime: 30m
         prefetching: true
       hostsFile:
-        filePath: /etc/hosts
+        filePath: /internal/hosts
         hostsTTL: 5m
         refreshPeriod: 1h
       customDNS:
