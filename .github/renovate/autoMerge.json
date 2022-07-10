@@ -1,14 +1,24 @@
 {
   "packageRules": [
     {
-      "description": "AutoMerge minor releases of specific helm and container images",
-      "matchDatasources": [
-        "docker",
-        "github-releases",
-        "helm"
-      ],
+      "description": "Auto-merge specific GitHub Action releases",
+      "matchDatasources": ["github-tags"],
       "automerge": true,
-      "automergeType": "branch",
+      "automergeType": "pr",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": [
+        "renovatebot/github-action"
+      ]
+    },
+    {
+      "description": "Auto-merge minor and patch specific container images",
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "pr",
       "requiredStatusChecks": null,
       "matchUpdateTypes": [
         "minor",
@@ -19,16 +29,31 @@
         "ghcr.io/k8s-at-home/radarr",
         "ghcr.io/k8s-at-home/sonarr",
         "ghcr.io/k8s-at-home/prowlarr",
-        "ghcr.io/k8s-at-home/overseerr",
-        "kube-prometheus-stack"
+        "ghcr.io/k8s-at-home/prowlarr-develop",
+        "ghcr.io/k8s-at-home/overseerr"
       ]
     },
     {
+      "description": "Auto-merge minor helm releases",
       "matchDatasources": ["helm"],
       "automerge": true,
       "automergeType": "pr",
       "requiredStatusChecks": null,
       "matchUpdateTypes": ["patch"]
+    },
+    {
+      "description": "Auto-merge problematic and frequent helm releases",
+      "matchDatasources": ["helm"],
+      "automerge": true,
+      "automergeType": "pr",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": [
+        "kube-prometheus-stack"
+      ]
     }
   ]
 }

@@ -8,6 +8,7 @@
     ":separatePatchReleases",
     "docker:enableMajor",
     "github>mcfio/home-cluster//.github/renovate/autoMerge",
+    "github>mcfio/home-cluster//.github/renovate/commitMessage",
     "github>mcfio/home-cluster//.github/renovate/groups",
     "github>mcfio/home-cluster//.github/renovate/labels",
     "github>mcfio/home-cluster//.github/renovate/semanticCommits"
@@ -36,20 +37,13 @@
   },
   "regexManagers": [
     {
-      "description": "Process GitRepository type CRD dependencies - Chart and Github Release are the same version",
+      "description": "Process CRD dependencies",
       "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
       "matchStrings": [
-        "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n"
-      ],
-      "datasourceTemplate": "helm"
-    },
-    {
-      "description": "Process Kustomization type CRD dependencies - Image and Github Release are the same version",
-      "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
-      "matchStrings": [
+        "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",
         "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n"
       ],
-      "datasourceTemplate": "docker"
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}helm{{/if}}"
     },
     {
       "description": "Process non-categorized dependencies",
