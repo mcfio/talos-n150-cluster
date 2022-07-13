@@ -26,6 +26,9 @@
     "ghcr.io/fluxcd/notification-controller",
     "ghcr.io/fluxcd/source-controller"
   ],
+  "ignorePaths": [
+    "**/archived/**"
+  ],
   "flux": {
     "fileMatch": ["cluster/.+\\.yaml$"]
   },
