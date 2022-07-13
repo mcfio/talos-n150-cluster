@@ -22,7 +22,7 @@ metadata:
   name: rook-ceph-crds
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 12h
   prune: false
   wait: true
   sourceRef:
