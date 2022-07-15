@@ -27,7 +27,10 @@ spec:
     adminPassword: ${GRAFANA_ADMIN_PASSWORD}
     ingress:
       enabled: true
-      ingressClassName: nginx
+      ingressClassName: pomerium
+      annotations:
+        ingress.pomerium.io/policy: '[{"allow":{"and":[{"domain":{"is":"${AUTH_DOMAIN}"}}]}}]'
+        ingress.pomerium.io/pass_identity_headers: "true"
       hosts:
         - &host grafana.${INTERNAL_DOMAIN}
       tls:
@@ -45,19 +48,18 @@ spec:
         check_for_updates: false
       log:
         mode: console
+      auth:
+        signout_redirect_url: https://grafana.${INTERNAL_DOMAIN}/.pomerium/sign_out
       auth.anonymous:
         enabled: true
         org_name: Main Org.
         org_role: Viewer
-      auth.google:
+      auth.jwt:
         enabled: true
-        client_id: $__file{/etc/secrets/grafana-auth-google/client_id}
-        client_secret: $__file{/etc/secrets/grafana-auth-google/client_secret}
-        scopes: https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email
-        auth_url: https://accounts.google.com/o/oauth2/auth
-        token_url: https://accounts.google.com/o/oauth2/token
-        allowed_domains: ${AUTH_DOMAIN}
-        allow_sign_up: true
+        header_name: X-Pomerium-Jwt-Assertion
+        email_claim: email
+        jwk_set_url: https://auth.${INTERNAL_DOMAIN}/.well-known/pomerium/jwks.json
+        cache_ttl: 60m
       security:
         allow_embedding: true
     serviceMonitor:
