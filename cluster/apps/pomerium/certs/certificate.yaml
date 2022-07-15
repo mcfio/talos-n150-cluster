@@ -1,0 +1,16 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: mcfio-authenticate-cert
+  namespace: pomerium
+spec:
+  secretName: mcfio-authenticate-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - auth.mcf.io
+    - auth.milton.mcf.io
+    - authenticate.mcf.io
+    - authenticate.milton.mcf.io

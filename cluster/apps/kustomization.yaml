@@ -5,6 +5,7 @@ resources:
   - cert-manager
   # - metallb-system
   - flux-system
+  - pomerium
   - ingress-system
   - home
   - kube-system
