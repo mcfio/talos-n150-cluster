@@ -71,12 +71,6 @@ spec:
       - vonage-status-panel
       - grafana-worldmap-panel
       - grafana-clock-panel
-    extraSecretMounts:
-      - name: grafana-auth-google-mount
-        secretName: grafana-auth-google
-        defaultMode: 0440
-        mountPath: /etc/secrets/grafana-auth-google
-        readOnly: true
     sidecar:
       dashboards:
         enabled: true
