@@ -22,12 +22,14 @@ spec:
       remediateLastFailure: true
   values:
     toolbox:
-      enabled: false
+      enabled: true
     monitoring:
       enabled: true
       createPrometheusRules: true
     ingress:
       dashboard:
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
         ingressClassName: nginx
         host:
           name: &host ceph.${INTERNAL_DOMAIN}
@@ -38,8 +40,17 @@ spec:
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v17.2.1
-      dashboard:
-        ssl: false
+      mgr:
+        modules:
+          - name: pg_autoscaler
+            enabled: true
+          - name: telemetry
+            enabled: false
+      network:
+        connections:
+          compression:
+            enabled: true
+        provider: host
       crashCollector:
         disable: true
       placement:
