@@ -22,7 +22,7 @@ spec:
       remediateLastFailure: true
   values:
     toolbox:
-      enabled: true
+      enabled: false
     monitoring:
       enabled: true
       createPrometheusRules: true
@@ -44,12 +44,10 @@ spec:
         modules:
           - name: pg_autoscaler
             enabled: true
-          - name: telemetry
-            enabled: false
       network:
-        connections:
-          compression:
-            enabled: true
+        # connections:
+        #   compression:
+        #     enabled: true
         provider: host
       crashCollector:
         disable: true
