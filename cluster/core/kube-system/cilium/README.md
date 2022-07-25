@@ -15,7 +15,7 @@ Deploy Cilium release via helm:
 
 ```bash
 helm install cilium cilium/cilium \
-  --version 1.10.0 \
+  --version $VERSION \
   --namespace kube-system \
-  -f ./values.yaml
+  -f ./helm-values.yaml
 ```
