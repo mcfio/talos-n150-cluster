@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - descheduler/helm-release.yaml
   - external-snapshotter
-  - kured
+  # - kured
   - metrics-server/helm-release.yaml
   - node-feature-discovery/helm-release.yaml
   - intel-gpu-plugin
