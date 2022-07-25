@@ -34,3 +34,10 @@ spec:
         - key: node-role.kubernetes.io/storage
           effect: PreferNoSchedule
           operator: Exists
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: low-mem
+                    operator: DoesNotExist
