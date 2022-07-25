@@ -22,7 +22,6 @@ spec:
     image:
       repository: ghcr.io/weaveworks/kured
       tag: 1.10.1
-    updateStrategy: RollingUpdate
     configuration:
       lockTtl: 600s
       lockReleaseDelay: 120s
@@ -32,11 +31,10 @@ spec:
       notifyUrl: ${KURED_NOTIFYURL}
       messageTemplateDrain: "⏳ Draining node %s"
       messageTemplateReboot: "♻️ Rebooted node %s"
+      rebootSentinelCommand: "/usr/bin/needs-restarting -r"
       rebootCommand: "/usr/bin/systemctl reboot"
     metrics:
       create: true
     tolerations:
-      - key: node-role.kubernetes.io/master
-        effect: NoSchedule
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
