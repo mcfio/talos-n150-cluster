@@ -38,8 +38,6 @@ spec:
           - hosts:
               - *host
     cephClusterSpec:
-      cephVersion:
-        image: quay.io/ceph/ceph:v17.2.1
       mgr:
         modules:
           - name: pg_autoscaler
@@ -180,6 +178,7 @@ spec:
             failureDomain: host
             replicated:
               size: 3
+            compressionMode: passive
           dataPool:
             failureDomain: host
             erasureCoded:
