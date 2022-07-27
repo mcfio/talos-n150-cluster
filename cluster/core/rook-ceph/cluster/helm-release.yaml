@@ -178,7 +178,8 @@ spec:
             failureDomain: host
             replicated:
               size: 3
-            compressionMode: passive
+            parameters:
+              compression_mode: passive
           dataPool:
             failureDomain: host
             erasureCoded:
