@@ -57,8 +57,10 @@ spec:
       auth.jwt:
         enabled: true
         header_name: X-Pomerium-Jwt-Assertion
+        username_claim: sub
         email_claim: email
         jwk_set_url: https://auth.${INTERNAL_DOMAIN}/.well-known/pomerium/jwks.json
+        auto_sign_up: true
         cache_ttl: 60m
       security:
         allow_embedding: true
