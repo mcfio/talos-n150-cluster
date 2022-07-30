@@ -31,7 +31,7 @@ spec:
       existingTLSSecret: pomerium-internal-tls
       ingress:
         tls:
-          secretName: mcfio-authenticate-cert
+          secretName: mcfio-authenticate-tls
       proxied: false
     ingressController:
       enabled: true
