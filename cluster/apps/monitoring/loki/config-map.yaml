@@ -9,10 +9,10 @@ data:
     groups:
       - name: arr
         rules:
-          - alert: DatabaseIsLocked
+          - alert: ArrDatabaseIsLocked
             expr: |
-              sum by (app) (count_over_time({app=~".*arr"} |= "database is locked"[2m])) > 0
-            for: 10s
+              sum by (app) (count_over_time({app=~".*arr"} |~ "(?i)database is locked"[2m])) > 0
+            for: 2m
             labels:
               severity: critical
               category: logs
