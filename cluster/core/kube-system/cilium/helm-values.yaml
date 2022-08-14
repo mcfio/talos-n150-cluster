@@ -52,8 +52,8 @@ operator:
     serviceMonitor:
       enabled: true
   extraArgs:
-    --leader-election-lease-duration=50s
-    --leader-election-renew-deadline=40s
+    leader-election-lease-duration: 50s
+    leader-election-renew-deadline: 40s
 
 prometheus:
   enabled: true
