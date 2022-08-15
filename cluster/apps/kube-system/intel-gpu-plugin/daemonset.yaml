@@ -32,6 +32,9 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: spec.nodeName
+            # Override the available memory to the GPU
+            - name: GPU_MEMORY_OVERRIDE
+              value: 1073741824
           image: intel/intel-gpu-plugin:0.24.0
           imagePullPolicy: IfNotPresent
           securityContext:
