@@ -33,12 +33,14 @@ spec:
           join_members:
             - loki-memberlist
         limits_config:
+          retention_period: 14d
           enforce_metric_name: false
           reject_old_samples: true
           reject_old_samples_max_age: 168h
           max_cache_freshness_per_query: 10m
-          max_global_streams_per_user: 0
           split_queries_by_interval: 15m
+          ingestion_rate_mb: 8
+          ingestion_burst_size_mb: 16
         schema_config:
           configs:
             - from: "2020-10-24"
@@ -77,17 +79,17 @@ spec:
               store: memberlist
         compactor:
           working_directory: /var/loki/boltdb-shipper-compactor
-          retention_enabled: true
           shared_store: s3
+          compaction_interval: 10m
+          retention_enabled: true
+          retention_delete_delay: 2h
+          retention_delete_worker_count: 150
         ingester:
           max_chunk_age: 1h
           lifecycler:
             ring:
               kvstore:
                 store: memberlist
-        table_manager:
-          retention_deletes_enabled: true
-          retention_period: 672h
         analytics:
           reporting_enabled: false
     monitoring:
@@ -101,7 +103,7 @@ spec:
         size: 10Gi
         storageClass: ceph-block
     read:
-      replicas: 2
+      replicas: 3
       extraVolumeMounts:
         - name: loki-rules
           mountPath: /rules/fake
@@ -152,8 +154,6 @@ spec:
           location ~ /scheduler/.* {
             proxy_pass       http://loki-read.monitoring.svc.cluster.local:3100$request_uri;
           }
-    serviceMonitor:
-      enabled: true
   valuesFrom:
     - targetPath: loki.structuredConfig.common.storage.s3.bucketnames
       kind: ConfigMap
