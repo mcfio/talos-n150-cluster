@@ -6,10 +6,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 90m0s
-  dependsOn:
-    - name: flux-system
+  prune: false
   path: ./cluster/crds
   sourceRef:
     kind: GitRepository
     name: home-cluster
-  prune: false
