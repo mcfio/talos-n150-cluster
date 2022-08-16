@@ -6,19 +6,18 @@ metadata:
   namespace: flux-system
 spec:
   interval: 90m0s
+  prune: true
   dependsOn:
     - name: core
   path: ./cluster/apps
   sourceRef:
     kind: GitRepository
     name: home-cluster
-  prune: true
   decryption:
     provider: sops
     secretRef:
       name: sops-age
   postBuild:
-    substitute: {}
     substituteFrom:
       - kind: ConfigMap
         name: cluster-vars
