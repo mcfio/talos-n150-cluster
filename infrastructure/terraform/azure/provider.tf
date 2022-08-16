@@ -3,7 +3,7 @@ terraform {
     azurerm = "~>3.0"
     azuread = "~>2.0"
     random  = "~>3.0"
-    time    = "~>0.7"
+    time    = "~>0.8"
   }
 }
 provider "azurerm" {
