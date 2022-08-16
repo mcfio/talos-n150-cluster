@@ -1,0 +1,15 @@
+---
+version: "3"
+
+tasks:
+
+  hr-restart:
+    desc: restarts all failed helm releases managed by flux
+    cmds:
+      - flux get helmreleases --status-selector "ready=False" --all-namespaces --no-header | awk '{print $1, $2}' | xargs -l bash -c 'flux suspend helmrelease $1 --namespace $0'
+      - flux get helmreleases --status-selector "ready=False" --all-namespaces --no-header | awk '{print $1, $2}' | xargs -l bash -c 'flux resume helmrelease $1 --namespace $0'
+
+  hr-reconcile:
+    desc: reconciles all failed helm releases with source managed by flux
+    cmds:
+      - flux get helmreleases --status-selector "ready=False" --all-namespaces --no-header | awk '{print $1, $2}' | xargs -l bash -c 'flux reconcile helmrelease $1 --namespace $0 --with-source'
