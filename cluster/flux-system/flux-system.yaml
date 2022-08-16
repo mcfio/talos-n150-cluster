@@ -1,4 +1,17 @@
 ---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: home-cluster
+  namespace: flux-system
+spec:
+  interval: 6h
+  url: ssh://git@github.com/mcfio/home-cluster
+  ref:
+    branch: main
+  secretRef:
+    name: github-deploy-key
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
@@ -10,7 +23,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: home-cluster
-  prune: false
+  prune: true
+  wait: false
   decryption:
     provider: sops
     secretRef:

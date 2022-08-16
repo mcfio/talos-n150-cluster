@@ -1,0 +1,9 @@
+# Excluding Files from Flux Source Repositories
+# https://toolkit.fluxcd.io/components/source/gitrepositories/#excluding-files
+
+# exclude all directories
+/*
+
+# include the cluster deployments directory
+!/cluster
+/cluster/**/*.md
