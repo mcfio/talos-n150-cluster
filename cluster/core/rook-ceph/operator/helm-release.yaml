@@ -23,13 +23,6 @@ spec:
       kubernetes.io/arch: amd64
     crds:
       enabled: false
-    resources:
-      limits:
-        cpu: 500m
-        memory: 512Mi
-      requests:
-        cpu: 500m
-        memory: 128Mi
     monitoring:
       enabled: true
     csi:
