@@ -20,6 +20,8 @@ spec:
       enabled: false
     deploymentStrategy:
       type: Recreate
+    rbac:
+      pspEnabled: false
     env:
       GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
