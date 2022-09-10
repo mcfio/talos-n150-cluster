@@ -31,7 +31,6 @@ spec:
       notifyUrl: ${KURED_NOTIFYURL}
       messageTemplateDrain: "⏳ Draining node %s"
       messageTemplateReboot: "♻️ Rebooted node %s"
-      rebootSentinelCommand: sh -c "! needs-restarting --reboothint"
       rebootCommand: /usr/bin/systemctl reboot
     metrics:
       create: true
