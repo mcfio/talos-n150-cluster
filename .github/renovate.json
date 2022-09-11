@@ -27,7 +27,7 @@
     "fileMatch": ["cluster/.+\\.yaml$"]
   },
   "helm-values": {
-    "fileMatch": ["cluster/.+/helm-release\\.yaml$"]
+    "fileMatch": ["cluster/.+\\.yaml$"]
   },
   "kubernetes": {
     "fileMatch": ["cluster/.+\\.yaml"]
