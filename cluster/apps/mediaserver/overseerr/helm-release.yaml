@@ -20,7 +20,7 @@ spec:
       nameOverride: *app
     image:
       repository: sctx/overseerr
-      tag: 1.29.1
+      tag: 1.30.0
     env:
       TZ: Canada/Eastern
       LOG_LEVEL: info
