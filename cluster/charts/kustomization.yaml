@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - cilium-charts.yaml
   - bitnami.yaml
+  - bjw-s.yaml
   - descheduler.yaml
   - emqx.yaml
   - grafana.yaml
