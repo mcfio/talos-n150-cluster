@@ -8,6 +8,7 @@ resources:
   - emqx.yaml
   - grafana.yaml
   - jetstack.yaml
+  - kubereboot.yaml
   - k8s-at-home.yaml
   - metallb.yaml
   - node-feature-discovery-charts.yaml
@@ -15,7 +16,6 @@ resources:
   - pomerium.yaml
   - prometheus-community.yaml
   - rook-release.yaml
-  - weaveworks-kured.yaml
   - stakater-charts.yaml
   - metrics-server.yaml
   - infracloudio.yaml
