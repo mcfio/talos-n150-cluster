@@ -9,18 +9,18 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      chart: kah-common-chart
-      version: 1.2.2
+      chart: app-template
+      version: 0.2.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
   values:
     global:
       nameOverride: *app
     image:
-      repository: ghcr.io/k8s-at-home/sonarr
-      tag: v3.0.9.1549
+      repository: ghcr.io/onedr0p/sonarr
+      tag: 3.0.9.1549
     env:
       TZ: Canada/Eastern
     service:
