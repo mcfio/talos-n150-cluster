@@ -30,5 +30,6 @@ spec:
       csiRBDPluginResource: []
       csiCephFSPluginResource: []
       pluginTolerations:
-        - effect: PreferNoSchedule
+        - key: low-mem
           operator: Exists
+          effect: NoSchedule
