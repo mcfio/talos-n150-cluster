@@ -34,3 +34,6 @@ spec:
     tolerations:
       - key: node-role.kubernetes.io/control-plane
         effect: NoSchedule
+      - key: low-mem
+        operator: Exists
+        effect: NoSchedule
