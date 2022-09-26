@@ -24,13 +24,9 @@
         "minor",
         "patch"
       ],
-      "matchPackageNames": [
-        "ghcr.io/k8s-at-home/plex",
-        "ghcr.io/k8s-at-home/radarr",
-        "ghcr.io/k8s-at-home/sonarr",
-        "ghcr.io/k8s-at-home/prowlarr",
-        "ghcr.io/k8s-at-home/prowlarr-develop",
-        "ghcr.io/k8s-at-home/overseerr"
+      "matchPackagePattern": [
+        "ghcr.io/k8s-at-home",
+        "ghcr.io/onedr0p"
       ]
     },
     {
