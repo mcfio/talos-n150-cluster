@@ -11,6 +11,7 @@ resources:
   - ingress-nginx.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
+  - kubelet-csr-approver.yaml
   - kubereboot.yaml
   - metallb.yaml
   - metrics-server.yaml
