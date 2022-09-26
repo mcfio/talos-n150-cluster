@@ -1,7 +1,6 @@
 # General
 .DS_Store
 
-*/**/charts
 */**/Chart.lock
 .gitignore
 
@@ -42,3 +41,6 @@ terraform.rc
 
 # Ignore terraform LCK files
 .terraform.lock.hcl
+
+# temporarily ignore infrastructure
+infrastructure/*
