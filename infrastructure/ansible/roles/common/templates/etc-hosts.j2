@@ -1,9 +1,0 @@
-{{ ansible_managed | comment }}
-
-127.0.0.1 localhost
-127.0.1.1 {{ inventory_hostname }}
-
-# kubernetes nodes
-{% for host in groups['cluster'] %}
-{{ hostvars[host].ansible_default_ipv4.address }}  {{ host }}
-{% endfor %}

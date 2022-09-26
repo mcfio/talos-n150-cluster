@@ -1,5 +1,0 @@
-{{ ansible_managed | comment }}
-
-{% for key in ssh_host_keys %}
-HostKey {{ key }}
-{% endfor %}

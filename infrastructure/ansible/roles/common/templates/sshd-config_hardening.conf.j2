@@ -1,6 +1,0 @@
-{{ ansible_managed | comment }}
-
-HostKeyAlgorithms {{ ssh_host_key_algorithms | join(',') }}
-Ciphers {{ ssh_ciphers | join(',') }}
-KexAlgorithms {{ ssh_kex_algorithms | join(',') }}
-MACs {{ ssh_macs | join(',') }}

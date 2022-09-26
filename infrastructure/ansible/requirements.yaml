@@ -1,5 +1,0 @@
----
-
-collections:
-- name: community.sops
-  version: 1.4.1

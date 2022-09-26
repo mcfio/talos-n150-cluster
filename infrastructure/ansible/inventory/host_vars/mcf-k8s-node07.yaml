@@ -1,3 +1,0 @@
----
-# This node requires swap, thus we need to disable kubelet failing when swap is configured
-kubelet_fail_swap_on: false
