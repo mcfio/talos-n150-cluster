@@ -20,7 +20,7 @@ spec:
       nameOverride: *app
     image:
       repository: ghcr.io/onedr0p/radarr
-      tag: 4.1.0.6175
+      tag: 4.2.4.6635
     env:
       TZ: Canada/Eastern
     service:
