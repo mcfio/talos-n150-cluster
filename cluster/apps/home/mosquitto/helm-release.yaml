@@ -9,19 +9,19 @@ spec:
   maxHistory: 2
   chart:
     spec:
-      chart: mosquitto
-      version: 4.3.2
+      chart: app-template
+      version: 0.2.1
       sourceRef:
         kind: HelmRepository
-        name: k8s-at-home
+        name: bjw-s
         namespace: flux-system
   upgrade:
     remediation:
       remediateLastFailure: true
   values:
     image:
-      repository: ghcr.io/k8s-at-home/eclipse-mosquitto
-      tag: v2.0.14
+      repository: eclipse-mosquitto
+      tag: 2.0.15
     env:
       TZ: America/Toronto
     service:
@@ -41,21 +41,33 @@ spec:
             port: 8883
             protocol: TCP
             targetPort: 8883
-
-    auth:
-      enabled: true
+    configmap:
+      config:
+        enabled: true
+        data:
+          mosquitto.conf: |
+            per_listener_settings false
+            listener 1883
+            allow_anonymous true
+            persistence true
+            persistence_location /mosquitto/data
+            autosave_interval 1800
+            include_dir /mosquitto/configinc
     podAnnotations:
       secret.reloader.stakater.com/reload: "mosquitto, mqtt-cert"
     persistence:
       data:
         enabled: true
-        existingClaim: mosquitto-config
+        existingClaim: home-shared-pvc
+        subPath: mosquitto
+        mountPath: /mosquitto/data
       configinc:
         enabled: true
         type: custom
         volumeSpec:
           secret:
             secretName: mosquitto
+            mountPath: /mosquitto/configinc
       mqtt-cert:
         enabled: true
         mountPath: /cert

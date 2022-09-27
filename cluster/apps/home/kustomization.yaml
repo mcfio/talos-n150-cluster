@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - cephfs-pvc/ceph-filesystem.yaml
-  - emqx
+  - mosquitto
   - zigbee2mqtt
   - zwavejs2mqtt
   - home-assistant
