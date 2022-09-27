@@ -31,6 +31,8 @@ spec:
         loadBalancerIP: ${VIP_EMQX_INGRESS}
         externalTrafficPolicy: Local
         ports:
+          http:
+            enabled: false
           mqtt:
             enabled: true
             port: 1883
