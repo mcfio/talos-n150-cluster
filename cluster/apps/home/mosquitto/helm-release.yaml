@@ -28,7 +28,7 @@ spec:
       main:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: ${VIP_EMQX_INGRESS}
+        loadBalancerIP: ${VIP_MQTT_SERVICE}
         externalTrafficPolicy: Local
         ports:
           http:
