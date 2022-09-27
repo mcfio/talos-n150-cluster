@@ -63,6 +63,14 @@ spec:
         existingClaim: home-shared-pvc
         subPath: mosquitto
         mountPath: /mosquitto/data
+      config:
+        enabled: true
+        mountPath: /mosquitto/config/mosquitto.conf
+        subPath: mosquitto.conf
+        type: custom
+        volumeSpec:
+          configMap:
+            name: mosquitto-config
       configinc:
         enabled: true
         type: custom
