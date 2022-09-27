@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: rook-ceph
+  name: metallb-system
   labels:
-    name: rook-ceph
+    name: metallb-system
     kustomize.toolkit.fluxcd.io/prune: disabled
