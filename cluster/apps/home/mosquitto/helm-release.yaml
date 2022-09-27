@@ -73,11 +73,11 @@ spec:
             name: mosquitto-config
       configinc:
         enabled: true
+        mountPath: /mosquitto/configinc
         type: custom
         volumeSpec:
           secret:
             secretName: mosquitto
-            mountPath: /mosquitto/configinc
       mqtt-cert:
         enabled: true
         mountPath: /cert
