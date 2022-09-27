@@ -42,3 +42,7 @@ spec:
               - "class"
               - "vendor"
               - "device"
+      tolerations:
+        - key: low-mem
+          operator: Exists
+          effect: NoSchedule
