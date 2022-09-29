@@ -15,19 +15,27 @@ spec:
         kind: HelmRepository
         name: bjw-s
         namespace: flux-system
+  upgrade:
+    remediation:
+      retries: 5
   values:
-    global:
-      nameOverride: *app
     image:
       repository: ghcr.io/onedr0p/sonarr
       tag: 3.0.9.1549
     env:
-      TZ: Canada/Eastern
+      TZ: "${TIMEZONE}"
+      SONARR__INSTANCE_NAME: Sonarr
+      SONARR__PORT: &port 80
+      SONARR__APPLICATION_URL: &host "https://{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+      SONARR__LOG_LEVEL: info
+    envFrom:
+      - secretRef:
+        name: *app
     service:
       main:
         ports:
           http:
-            port: 8989
+            port: *port
     ingress:
       main:
         enabled: true
@@ -38,13 +46,20 @@ spec:
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${INTERNAL_DOMAIN}/css/base/sonarr/nord.css"></head>';
             sub_filter_once on;
         hosts:
-          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+          - host: *host
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
               - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+      supplementalGroups:
+        - 1000
     probes:
       liveness:
         enabled: true
@@ -62,9 +77,6 @@ spec:
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 10
-    podSecurityContext:
-      supplementalGroups:
-        - 1000
     persistence:
       config:
         enabled: true
@@ -75,10 +87,12 @@ spec:
         type: emptyDir
         mountPath: /data
         mountPropagation: HostToContainer
+    podAnnotations:
+      secret.reloader.stakater.com/reload: *app
     resources:
       requests:
+        cpu: 10m
         memory: 250Mi
-        cpu: 50m
       limits:
         memory: 1500Mi
     affinity:
