@@ -26,11 +26,11 @@ spec:
       TZ: "${TIMEZONE}"
       SONARR__INSTANCE_NAME: Sonarr
       SONARR__PORT: &port 80
-      SONARR__APPLICATION_URL: &host "https://{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+      SONARR__APPLICATION_URL: "https://{{ .Release.Name }}.${INTERNAL_DOMAIN}"
       SONARR__LOG_LEVEL: info
     envFrom:
       - secretRef:
-        name: *app
+          name: *app
     service:
       main:
         ports:
@@ -46,7 +46,7 @@ spec:
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${INTERNAL_DOMAIN}/css/base/sonarr/nord.css"></head>';
             sub_filter_once on;
         hosts:
-          - host: *host
+          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
             paths:
               - path: /
                 pathType: Prefix
