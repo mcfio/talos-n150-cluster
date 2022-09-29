@@ -7,10 +7,9 @@ resources:
   - flux-system.yaml
   - crds.yaml
   - charts.yaml
+  - config.yaml
   - core.yaml
   - apps.yaml
-  - cluster-secrets.enc.yaml
-  - cluster-vars.yaml
 configMapGenerator:
   - name: flux-cluster-dashboard
     files:

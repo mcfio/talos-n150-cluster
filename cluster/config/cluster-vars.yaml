@@ -2,9 +2,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  namespace: flux-system
   name: cluster-vars
+  namespace: flux-system
 data:
+  TIMEZONE: "Canada/Eastern"
   METALLB_LAYER2_RANGE: "192.168.45.100-192.168.45.195"
   # type: LoadBalancer IPs
   VIP_CLUSTER_APISERVER: 192.168.45.40
