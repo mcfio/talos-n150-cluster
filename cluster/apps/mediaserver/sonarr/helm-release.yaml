@@ -70,8 +70,7 @@ spec:
               - /usr/bin/env
               - bash
               - -c
-              - curl --fail localhost:8989/api/v3/system/status?apiKey=`IFS=\> && while
-                read -d \< E C; do if [[ $E = "ApiKey" ]]; then echo $C; fi; done < /config/config.xml`
+              - curl --fail localhost:${SONARR__PORT}/api/v3/system/status?apiKey=${SONARR__API_KEY}
           failureThreshold: 5
           initialDelaySeconds: 60
           periodSeconds: 10
