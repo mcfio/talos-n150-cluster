@@ -25,7 +25,7 @@ spec:
     env:
       TZ: "${TIMEZONE}"
       SONARR__INSTANCE_NAME: Sonarr
-      SONARR__PORT: &port 80
+      SONARR__PORT: &port 8989
       SONARR__APPLICATION_URL: "https://{{ .Release.Name }}.${INTERNAL_DOMAIN}"
       SONARR__LOG_LEVEL: info
     envFrom:
