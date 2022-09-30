@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - botkube
   - grafana
+  - goldilocks/helm-release.yaml
   - kube-prometheus-stack
   - loki
   - promtail
