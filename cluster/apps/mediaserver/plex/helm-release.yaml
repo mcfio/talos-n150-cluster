@@ -74,8 +74,11 @@ spec:
         type: emptyDir
     resources:
       requests:
+        cpu: 50m
+        memory: 512Mi
         gpu.intel.com/i915: 1
       limits:
+        memory: 2Gi
         gpu.intel.com/i915: 1
     additionalContainers:
       rclone:
@@ -126,6 +129,10 @@ spec:
                 - /bin/sh
                 - -c
                 - fusermount -uz /data
+        resources:
+          requests:
+            cpu: 50m
+            memory: 128Mi
         volumeMounts:
           - name: cache
             mountPath: /cache
