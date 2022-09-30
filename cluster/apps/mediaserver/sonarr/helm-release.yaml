@@ -53,11 +53,12 @@ spec:
         tls:
           - hosts:
               - *host
-    podSecurityContext:
-      # runAsUser: 568
-      # runAsGroup: 568
-      # fsGroup: 568
-      # fsGroupChangePolicy: OnRootMismatch
+    securityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+    podSsecurityContext:
       supplementalGroups:
         - 1000
     persistence:
