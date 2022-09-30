@@ -70,7 +70,7 @@ spec:
               - /usr/bin/env
               - bash
               - -c
-              - curl --fail localhost:${SONARR__PORT}/api/v3/system/status?apiKey=${SONARR__API_KEY}
+              - "curl --fail localhost:${SONARR__PORT}/api/v3/system/status?apiKey=${SONARR__API_KEY}"
           failureThreshold: 5
           initialDelaySeconds: 60
           periodSeconds: 10
