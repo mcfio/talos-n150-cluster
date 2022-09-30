@@ -1,0 +1,30 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vpa
+  namespace: default
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: vpa
+      version: 1.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: fairwinds-stable
+        namespace: flux-system
+  upgrade:
+    remediation:
+      retries: 2
+  values:
+    recommender:
+      enabled: true
+      extraArgs:
+        storage: prometheus
+        prometheus-address: |-
+          http://prom-prometheus.monitoring.svc.cluster.local:9090
+    updater:
+      enabled: false
+    admissionController:
+      enabled: false
