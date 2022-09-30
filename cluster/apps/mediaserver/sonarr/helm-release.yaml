@@ -60,22 +60,6 @@ spec:
       # fsGroupChangePolicy: OnRootMismatch
       supplementalGroups:
         - 1000
-    probes:
-      liveness:
-        enabled: true
-        custom: true
-        spec:
-          exec:
-            command:
-              - /usr/bin/env
-              - bash
-              - -c
-              - "curl --fail localhost:${SONARR__PORT}/api/v3/system/status?apiKey=${SONARR__API_KEY}"
-          failureThreshold: 5
-          initialDelaySeconds: 60
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 10
     persistence:
       config:
         enabled: true
