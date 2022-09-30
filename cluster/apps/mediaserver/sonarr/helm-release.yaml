@@ -17,7 +17,7 @@ spec:
         namespace: flux-system
   upgrade:
     remediation:
-      retries: 5
+      retries: 2
   values:
     image:
       repository: ghcr.io/onedr0p/sonarr
@@ -58,7 +58,7 @@ spec:
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
-    podSsecurityContext:
+    podSecurityContext:
       supplementalGroups:
         - 1000
     persistence:
