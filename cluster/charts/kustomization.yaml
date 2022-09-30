@@ -6,7 +6,7 @@ resources:
   - cilium-charts.yaml
   - descheduler.yaml
   - emqx.yaml
-  - fairwinds-charts.yaml
+  - fairwinds-stable.yaml
   - grafana.yaml
   - infracloudio.yaml
   - ingress-nginx.yaml
