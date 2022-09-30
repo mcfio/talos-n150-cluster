@@ -5,3 +5,4 @@ metadata:
   name: mediaserver
   labels:
     name: mediaserver
+    goldilocks.fairwinds.com/enabled: "true"
