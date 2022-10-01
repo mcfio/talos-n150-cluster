@@ -5,9 +5,9 @@ metadata:
   name: charts
   namespace: flux-system
 spec:
-  interval: 90m0s
-  prune: true
+  interval: 90m
   path: ./cluster/charts
+  prune: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
