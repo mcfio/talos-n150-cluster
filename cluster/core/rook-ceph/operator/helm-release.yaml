@@ -27,6 +27,56 @@ spec:
     monitoring:
       enabled: true
     csi:
+      csiRBDProvisionerResource: |
+        - name : csi-provisioner
+          resource:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+        - name : csi-resizer
+          resource:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+        - name : csi-attacher
+          resource:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+        - name : csi-snapshotter
+          resource:
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+        - name : csi-rbdplugin
+          resource:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 1Gi
+        - name : csi-omap-generator
+          resource:
+            requests:
+              memory: 512Mi
+              cpu: 250m
+            limits:
+              memory: 1Gi
+        - name : liveness-prometheus
+          resource:
+            requests:
+              memory: 128Mi
+              cpu: 50m
+            limits:
+              memory: 256Mi
       csiRBDPluginResource: []
       csiCephFSPluginResource: []
       pluginTolerations:
