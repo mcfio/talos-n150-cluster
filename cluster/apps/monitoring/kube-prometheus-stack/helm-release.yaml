@@ -135,6 +135,7 @@ spec:
             cpu: 10m
             memory: 60M
           limits:
+            cpu: 0
             memory: 80M
     grafana:
       enabled: false
