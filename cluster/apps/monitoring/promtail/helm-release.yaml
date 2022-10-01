@@ -51,6 +51,12 @@ spec:
       periodSeconds: 30
       successThreshold: 1
       timeoutSeconds: 3
+    resources:
+      requests:
+        cpu: 90m
+        memory: 200M
+      limits:
+        memory: 200M
     extraVolumes:
       - name: journal
         hostPath:
