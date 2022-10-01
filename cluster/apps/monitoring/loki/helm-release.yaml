@@ -97,6 +97,8 @@ spec:
         enabled: false
         grafanaAgent:
           installOperator: false
+        lokiCanary:
+          enabled: false
     write:
       replicas: 3
       resources:
