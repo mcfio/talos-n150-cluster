@@ -87,6 +87,18 @@ spec:
         searchNamespace: ALL
       notifiers:
         enabled: true
+      resources:
+        limits:
+          memory: 512M
+        requests:
+          cpu: 10m
+          memory: 80M
+    resources:
+      limits:
+        memory: 512M
+      requests:
+        cpu: 15m
+        memory: 128M
     persistence:
       enabled: true
       size: 2Gi
