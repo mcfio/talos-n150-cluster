@@ -77,10 +77,10 @@ spec:
         mountPropagation: HostToContainer
     resources:
       requests:
-        memory: 250Mi
-        cpu: 50m
+        cpu: 15m
+        memory: 300M
       limits:
-        memory: 1500Mi
+        memory: 2G
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
@@ -134,6 +134,12 @@ spec:
                 - /bin/sh
                 - -c
                 - fusermount -uz /data
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128M
+          limits:
+            memory: 800M
         volumeMounts:
           - name: media-path
             mountPath: /data

@@ -52,7 +52,7 @@ spec:
         subPath: tautulli
     resources:
       requests:
-        cpu: 100m
-        memory: 250Mi
+        cpu: 15m
+        memory: 128M
       limits:
-        memory: 500Mi
+        memory: 800M

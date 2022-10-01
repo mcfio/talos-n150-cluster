@@ -52,7 +52,7 @@ spec:
         subPath: prowlarr
     resources:
       requests:
-        cpu: 100m
-        memory: 100Mi
+        cpu: 15m
+        memory: 150M
       limits:
-        memory: 500Mi
+        memory: 1G
