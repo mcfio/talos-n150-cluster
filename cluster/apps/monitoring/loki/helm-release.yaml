@@ -99,6 +99,12 @@ spec:
           installOperator: false
     write:
       replicas: 3
+      resources:
+        limits:
+          memory: 800M
+        requests:
+          cpu: 60m
+          memory: 150M
       persistence:
         size: 10Gi
         storageClass: ceph-block
@@ -119,41 +125,24 @@ spec:
           emptyDir: {}
         - name: loki-tmp
           emptyDir: {}
+      resources:
+        limits:
+          memory: 800M
+        requests:
+          cpu: 60m
+          memory: 150M
       persistence:
         size: 10Gi
         storageClass: ceph-block
     gateway:
       enabled: true
       replicas: 3
-      nginxConfig:
-        serverSnippet: |
-          location ~ /prometheus/api/v1/alerts.* {
-            proxy_pass       http://loki-read.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /prometheus/api/v1/rules.* {
-            proxy_pass       http://loki-read.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /admin/api/.* {
-            proxy_pass       http://loki-write.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /compactor/.* {
-            proxy_pass       http://loki-read.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /distributor/.* {
-            proxy_pass       http://loki-write.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /ring {
-            proxy_pass       http://loki-write.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /ingester/.* {
-            proxy_pass       http://loki-write.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /ruler/.* {
-            proxy_pass       http://loki-read.monitoring.svc.cluster.local:3100$request_uri;
-          }
-          location ~ /scheduler/.* {
-            proxy_pass       http://loki-read.monitoring.svc.cluster.local:3100$request_uri;
-          }
+      resources:
+        limits:
+          memory: 125M
+        requests:
+          cpu: 15m
+          memory: 100M
   valuesFrom:
     - targetPath: loki.structuredConfig.common.storage.s3.bucketnames
       kind: ConfigMap
