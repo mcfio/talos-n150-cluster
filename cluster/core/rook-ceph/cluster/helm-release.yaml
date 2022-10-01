@@ -63,6 +63,63 @@ spec:
           tolerations:
             - key: node-role.kubernetes.io/storage
               operator: Exists
+      resources:
+        mgr:
+          limits:
+            cpu: ~
+            memory: 1G
+          requests:
+            cpu: 50m
+            memory: 512M
+        mon:
+          limits:
+            cpu: ~
+            memory: 2G
+          requests:
+            cpu: 50m
+            memory: 1G
+        osd:
+          limits:
+            cpu: ~
+            memory: 4G
+          requests:
+            cpu: 50m
+            memory: 4G
+        prepareosd:
+          limits:
+            cpu: ~
+            memory: 400M
+          requests:
+            cpu: 50m
+            memory: 50M
+        mgr-sidecar:
+          limits:
+            cpu: ~
+            memory: 100M
+          requests:
+            cpu: 10m
+            memory: 50M
+        crashcollector:
+          limits:
+            cpu: ~
+            memory: 60M
+          requests:
+            cpu: 10m
+            memory: 60M
+        logcollector:
+          limits:
+            cpu: ~
+            memory: 1G
+          requests:
+            cpu: 10m
+            memory: 100M
+        cleanup:
+          limits:
+            cpu: ~
+            memory: 1G
+          requests:
+            cpu: 50m
+            memory: 100M
       storage:
         useAllNodes: false
         useAllDevices: false
@@ -123,11 +180,11 @@ spec:
             activeStandby: true
             resources:
               limits:
-                cpu: 2000m
-                memory: 4Gi
+                cpu: ~
+                memory: 4G
               requests:
-                cpu: 500m
-                memory: 4Gi
+                cpu: 50m
+                memory: 4G
             priorityClassName: system-cluster-critical
             placement:
               nodeAffinity:
@@ -191,11 +248,11 @@ spec:
             port: 80
             resources:
               limits:
-                cpu: 2000m
-                memory: 2Gi
+                cpu: ~
+                memory: 2G
               requests:
-                cpu: 500m
-                memory: 1Gi
+                cpu: 50m
+                memory: 1G
             instances: 2
             priorityClassName: system-cluster-critical
             placement:
