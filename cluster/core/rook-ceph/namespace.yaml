@@ -6,3 +6,4 @@ metadata:
   labels:
     name: rook-ceph
     kustomize.toolkit.fluxcd.io/prune: disabled
+    goldilocks.fairwinds.com/enabled: "true"
