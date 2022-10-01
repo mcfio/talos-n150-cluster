@@ -45,6 +45,12 @@ spec:
         replicas: 2
         externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
         podAntiAffinity: hard
+        resources:
+          requests:
+            cpu: 10m
+            memory: 60M
+          limits:
+            memory: 300M
         storage:
           volumeClaimTemplate:
             metadata:
@@ -94,10 +100,9 @@ spec:
         resources:
           requests:
             cpu: 250m
-            memory: 1024Mi
+            memory: 2G
           limits:
-            cpu: 2500m
-            memory: 3096Mi
+            memory: 4G
         nodeSelector:
           kubernetes.io/arch: amd64
         storageSpec:
@@ -118,6 +123,19 @@ spec:
       admissionWebhooks:
         certManager:
           enabled: true
+      resources:
+        requests:
+          cpu: 15m
+          memory: 128M
+        limits:
+          memory: 800M
+      prometheusConfigReloader:
+        resources:
+          requests:
+            cpu: 10m
+            memory: 60M
+          limits:
+            memory: 80M
     grafana:
       enabled: false
       forceDeployDashboards: false
@@ -127,6 +145,12 @@ spec:
           url: http://prom-prometheus.monitoring:9090/
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
+      resources:
+        requests:
+          cpu: 15m
+          memory: 128M
+        limits:
+          memory: 400M
       metricLabelsAllowlist:
         - persistentvolumeclaims=[*]
       prometheus:
@@ -139,6 +163,12 @@ spec:
               targetLabel: node
     prometheus-node-exporter:
       fullnameOverride: node-exporter
+      resources:
+        requests:
+          cpu: 15m
+          memory: 100M
+        limits:
+          memory: 150M
       prometheus:
         monitor:
           enabled: true
