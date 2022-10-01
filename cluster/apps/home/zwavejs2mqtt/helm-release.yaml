@@ -73,9 +73,8 @@ spec:
         operator: Exists
         effect: NoSchedule
     resources:
-      requests:
-        cpu: 1000m
-        memory: 128Mi
       limits:
-        cpu: 1000m
-        memory: 128Mi
+        memory: 350M
+      requests:
+        cpu: 15m
+        memory: 128M
