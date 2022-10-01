@@ -24,6 +24,13 @@ spec:
   values:
     nodeFeatureRule:
       createCRD: true
+    master:
+      resources:
+        limits:
+          memory: 200M
+        requests:
+          cpu: 20m
+          memory: 100M
     worker:
       annotations:
         configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
@@ -42,6 +49,12 @@ spec:
               - "class"
               - "vendor"
               - "device"
+      resources:
+        limits:
+          memory: 200M
+        requests:
+          cpu: 15m
+          memory: 150M
       tolerations:
         - key: low-mem
           operator: Exists
