@@ -2,8 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: cert-manager
+  name: flux-system
   labels:
-    name: cert-manager
-    kustomize.toolkit.fluxcd.io/prune: disabled
+    name: flux-system
     goldilocks.fairwinds.com/enabled: "true"
