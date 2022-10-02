@@ -4,9 +4,6 @@ kind: Ingress
 metadata:
   name: webhook-receiver
   namespace: flux-system
-  labels:
-    app.kubernetes.io/instance: home-assistant
-    app.kubernetes.io/name: home-assistant
 spec:
   ingressClassName: nginx
   rules:
