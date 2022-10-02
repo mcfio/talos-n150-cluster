@@ -24,20 +24,18 @@
     "**/archived/**"
   ],
   "flux": {
-    "fileMatch": ["cluster/.+\\.yaml$"]
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
   "helm-values": {
-    "fileMatch": ["cluster/.+\\.yaml$"]
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
   "kubernetes": {
-    "fileMatch": ["cluster/.+\\.yaml"]
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
   "regexManagers": [
     {
       "description": "Process CRD dependencies",
-      "fileMatch": [
-        "cluster/crds/.+\\.ya?ml$"
-      ],
+      "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
       "matchStrings": [
         "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",
         "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n"
@@ -46,9 +44,7 @@
     },
     {
       "description": "Process non-categorized dependencies",
-      "fileMatch": [
-        "cluster/.+\\.ya?ml$"
-      ],
+      "fileMatch": ["cluster/.+\\.ya?ml$"],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
       ],
@@ -57,9 +53,7 @@
     },
     {
       "description": "Process GitHub content URLs",
-      "fileMatch": [
-        "cluster/.+\\.ya?ml$"
-      ],
+      "fileMatch": ["cluster/.+\\.ya?ml$"],
       "matchStrings": [
         "https:\\/\\/raw.githubusercontent.com\\/(?<depName>[\\w\\d\\-_]+\\/[\\w\\d\\-_]+)\\/(?<currentValue>[\\w\\d\\.\\-_]+)\\/.*"
       ],
@@ -73,7 +67,7 @@
       "matchDatasources": ["docker", "github-releases"],
       "versioning": "loose",
       "matchPackageNames": [
-        "ghcr.io/k8s-at-home/plex"
+        "ghcr.io/onedr0p/plex"
       ]
     }
   ]
