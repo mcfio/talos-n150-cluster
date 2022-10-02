@@ -67,12 +67,12 @@ spec:
       enabled: true
     kubeEtcd:
       enabled: true
-      serviceMonitor:
-        scheme: https
-        serverName: localhost
-        caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
-        certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
-        keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
+      # serviceMonitor:
+      #   scheme: https
+      #   serverName: localhost
+      #   caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
+      #   certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
+      #   keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
     kubeProxy:
       enabled: false
     prometheus:
