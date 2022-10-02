@@ -61,18 +61,6 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-    kubelet:
-      enabled: true
-    coreDns:
-      enabled: true
-    kubeEtcd:
-      enabled: true
-      # serviceMonitor:
-      #   scheme: https
-      #   serverName: localhost
-      #   caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
-      #   certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
-      #   keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
     kubeProxy:
       enabled: false
     prometheus:
@@ -95,8 +83,6 @@ spec:
         portName: http-web
         logFormat: json
         replicas: 1
-        secrets:
-          - etcd-client-cert
         resources:
           requests:
             cpu: 250m
