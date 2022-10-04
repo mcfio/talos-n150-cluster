@@ -40,3 +40,31 @@ spec:
         kind: NetworkPolicy
         metadata:
           name: not-used
+    - target:
+        version: v1
+        kind: Deployment
+        name: source-controller
+      patch: |-
+        - op: remove
+          path: /spec/template/spec/containers/0/resources/limits/cpu
+    - target:
+        version: v1
+        kind: Deployment
+        name: helm-controller
+      patch: |-
+        - op: remove
+          path: /spec/template/spec/containers/0/resources/limits/cpu
+    - target:
+        version: v1
+        kind: Deployment
+        name: kustomize-controller
+      patch: |-
+        - op: remove
+          path: /spec/template/spec/containers/0/resources/limits/cpu
+    - target:
+        version: v1
+        kind: Deployment
+        name: notification-controller
+      patch: |-
+        - op: remove
+          path: /spec/template/spec/containers/0/resources/limits/cpu
