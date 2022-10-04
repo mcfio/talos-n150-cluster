@@ -5,7 +5,7 @@ metadata:
   name: flux-installation
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 24h
   ref:
     # renovate: datasource=github-releases depName=fluxcd/flux2
     tag: "v0.35.0"
@@ -22,7 +22,7 @@ metadata:
   name: flux-installation
   namespace: flux-system
 spec:
-  interval: 10m
+  interval: 24h
   path: ./manifests/install
   prune: true
   wait: true
@@ -65,6 +65,20 @@ spec:
         version: v1
         kind: Deployment
         name: notification-controller
+      patch: |-
+        - op: remove
+          path: /spec/template/spec/containers/0/resources/limits/cpu
+    - target:
+        version: v1
+        kind: Deployment
+        name: image-automation-controller
+      patch: |-
+        - op: remove
+          path: /spec/template/spec/containers/0/resources/limits/cpu
+    - target:
+        version: v1
+        kind: Deployment
+        name: image-reflection-controller
       patch: |-
         - op: remove
           path: /spec/template/spec/containers/0/resources/limits/cpu
