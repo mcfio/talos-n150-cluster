@@ -5,3 +5,4 @@ metadata:
   name: ingress-system
   labels:
     name: ingress-system
+    goldilocks.fairwinds.com/enabled: "true"
