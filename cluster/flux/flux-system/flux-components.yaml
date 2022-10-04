@@ -78,7 +78,7 @@ spec:
     - target:
         version: v1
         kind: Deployment
-        name: image-reflection-controller
+        name: image-reflector-controller
       patch: |-
         - op: remove
           path: /spec/template/spec/containers/0/resources/limits/cpu
