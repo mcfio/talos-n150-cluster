@@ -181,10 +181,10 @@ spec:
             resources:
               limits:
                 cpu: ~
-                memory: 4G
+                memory: 2G
               requests:
                 cpu: 50m
-                memory: 4G
+                memory: 275M
             priorityClassName: system-cluster-critical
             placement:
               nodeAffinity:
@@ -249,10 +249,10 @@ spec:
             resources:
               limits:
                 cpu: ~
-                memory: 2G
+                memory: 400M
               requests:
                 cpu: 50m
-                memory: 1G
+                memory: 250M
             instances: 2
             priorityClassName: system-cluster-critical
             placement:
