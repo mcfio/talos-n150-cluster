@@ -24,6 +24,13 @@ spec:
         storage: prometheus
         prometheus-address: |-
           http://prom-prometheus.monitoring.svc.cluster.local:9090
+      resources:
+        limits:
+          cpu: ~
+          memory: 350M
+        requests:
+          cpu: 15m
+          memory: 105M
     updater:
       enabled: false
     admissionController:
