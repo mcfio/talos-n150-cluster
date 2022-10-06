@@ -53,7 +53,7 @@ spec:
           inputs:
             - host_metrics
             - internal_metrics
-          address: prom-prometheus:9090
+          address: 0.0.0.0:9598
         loki_journal_sink:
           type: vector
           inputs:
@@ -68,5 +68,7 @@ spec:
           version: "2"
     service:
       enabled: false
+    podMonitor:
+      enabled: true
     securityContext:
       privileged: true
