@@ -32,6 +32,10 @@ spec:
       api:
         enabled: false
       sources:
+        host_merics:
+          type: host_metrics
+        internal_metrics:
+          type: internal_metrics
         journal_logs:
           type: journald
           journal_directory: /var/log/journal
@@ -44,6 +48,12 @@ spec:
             pod_labels: pod_labels
             pod_name: pod_name
       sinks:
+        prometheus_sink:
+          type: prometheus_exporter
+          inputs:
+            - host_metrics
+            - internal_metrics
+          address: prom-prometheus:9090
         loki_journal_sink:
           type: vector
           inputs:
