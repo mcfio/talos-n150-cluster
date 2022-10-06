@@ -9,4 +9,5 @@ resources:
   - loki
   - promtail
   - alertmanager
+  - vector
   - vpa/helm-release.yaml
