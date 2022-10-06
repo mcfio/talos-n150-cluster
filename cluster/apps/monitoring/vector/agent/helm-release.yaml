@@ -34,6 +34,13 @@ spec:
       sources:
         host_metrics:
           type: host_metrics
+          filesystem:
+            devices:
+              excludes: ["binfmt_misc"]
+            filesystems:
+              excludes: ["binfmt_misc"]
+            mountpoints:
+              excludes: ["*/proc/sys/fs/binfmt_misc"]
         internal_metrics:
           type: internal_metrics
         journal_logs:
@@ -48,7 +55,7 @@ spec:
             pod_labels: pod_labels
             pod_name: pod_name
       sinks:
-        prometheus_sink:
+        prom-exporter:
           type: prometheus_exporter
           inputs:
             - host_metrics
