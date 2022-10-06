@@ -32,7 +32,7 @@ spec:
       api:
         enabled: false
       sources:
-        host_merics:
+        host_metrics:
           type: host_metrics
         internal_metrics:
           type: internal_metrics
