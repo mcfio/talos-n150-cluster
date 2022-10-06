@@ -22,3 +22,4 @@ resources:
   - prometheus-community.yaml
   - rook-release.yaml
   - stakater-charts.yaml
+  - vector-charts.yaml
