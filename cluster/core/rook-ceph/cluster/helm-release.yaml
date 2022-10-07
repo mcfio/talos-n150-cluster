@@ -86,9 +86,6 @@ spec:
             cpu: 50m
             memory: 4G
         prepareosd:
-          limits:
-            cpu: ~
-            memory: 400M
           requests:
             cpu: 50m
             memory: 50M
