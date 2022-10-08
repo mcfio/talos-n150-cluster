@@ -11,6 +11,7 @@
     ":automergeBranchPush",
     "github>mcfio/home-cluster//.github/renovate/autoMerge",
     "github>mcfio/home-cluster//.github/renovate/commitMessage",
+    "github>mcfio/home-cluster//.github/renovate/disabledDatasources",
     "github>mcfio/home-cluster//.github/renovate/groups",
     "github>mcfio/home-cluster//.github/renovate/labels",
     "github>mcfio/home-cluster//.github/renovate/semanticCommits"
