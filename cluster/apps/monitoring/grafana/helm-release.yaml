@@ -29,10 +29,7 @@ spec:
     adminPassword: ${GRAFANA_ADMIN_PASSWORD}
     ingress:
       enabled: true
-      ingressClassName: pomerium
-      annotations:
-        ingress.pomerium.io/policy: '[{"allow":{"and":[{"domain":{"is":"${AUTH_DOMAIN}"}}]}}]'
-        ingress.pomerium.io/pass_identity_headers: "true"
+      ingressClassName: nginx
       hosts:
         - &host grafana.${INTERNAL_DOMAIN}
       tls:
@@ -40,32 +37,9 @@ spec:
             - *host
     grafana.ini:
       server:
-        root_url: https://grafana.${INTERNAL_DOMAIN}
-      paths:
-        data: /var/lib/grafana/
-        logs: /var/log/grafana
-        plugins: /var/lib/grafana/plugins
-        provisioning: /etc/grafana/provisioning
+        root_url: "https://{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
       analytics:
         check_for_updates: false
-      log:
-        mode: console
-      auth:
-        signout_redirect_url: https://grafana.${INTERNAL_DOMAIN}/.pomerium/sign_out
-      auth.anonymous:
-        enabled: true
-        org_name: Main Org.
-        org_role: Viewer
-      auth.jwt:
-        enabled: true
-        header_name: X-Pomerium-Jwt-Assertion
-        username_claim: sub
-        email_claim: email
-        jwk_set_url: https://auth.${INTERNAL_DOMAIN}/.well-known/pomerium/jwks.json
-        auto_sign_up: true
-        cache_ttl: 60m
-      security:
-        allow_embedding: true
     serviceMonitor:
       enabled: true
     plugins:
