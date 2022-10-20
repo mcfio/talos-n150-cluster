@@ -23,7 +23,7 @@ spec:
       nameOverride: *app
     image:
       repository: ghcr.io/onedr0p/plex
-      tag: 1.29.0.6244-819d3678c
+      tag: 1.29.1.6316-f4cdfea9c
     env:
       TZ: Canada/Eastern
       ADVERTISE_IP: "https://plex.${INTERNAL_DOMAIN},https://${VIP_PLEX_SERVICE}:32400"
