@@ -24,6 +24,7 @@ spec:
     crds:
       enabled: false
     pspEnable: false
+    disableAdmissionController: true
     monitoring:
       enabled: true
     resources:
