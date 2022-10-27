@@ -22,6 +22,8 @@ spec:
     remediation:
       remediateLastFailure: true
   values:
+    test:
+      enabled: false
     loki:
       structuredConfig:
         auth_enabled: false
