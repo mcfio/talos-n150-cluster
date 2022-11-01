@@ -96,6 +96,7 @@ spec:
           reporting_enabled: false
     monitoring:
       serviceMonitor:
+        enabled: false
         metricsInstance:
           enabled: false
       selfMonitoring:
