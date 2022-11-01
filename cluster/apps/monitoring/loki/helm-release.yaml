@@ -95,6 +95,9 @@ spec:
         analytics:
           reporting_enabled: false
     monitoring:
+      serviceMonitor:
+        metricsInstance:
+          enabled: false
       selfMonitoring:
         enabled: false
         grafanaAgent:
