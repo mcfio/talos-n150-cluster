@@ -21,6 +21,9 @@ spec:
     controller:
       replicas: 1
       strategy: RollingUpdate
+    image:
+      repository: gilbn/theme.park
+      tag: 1.13.1
     service:
       main:
         ports:
