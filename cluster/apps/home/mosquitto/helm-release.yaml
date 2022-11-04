@@ -43,7 +43,7 @@ spec:
             port: 8883
             protocol: TCP
             targetPort: 8883
-    configmap:
+    configMaps:
       config:
         enabled: true
         data:
