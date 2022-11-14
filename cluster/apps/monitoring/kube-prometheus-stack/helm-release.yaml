@@ -31,10 +31,10 @@ spec:
         pathType: Prefix
         ingressClassName: nginx
         hosts:
-          - &host alertmanager.${INTERNAL_DOMAIN}
+          - alertmanager.${INTERNAL_DOMAIN}
         tls:
           - hosts:
-              - *host
+              - alertmanager.${INTERNAL_DOMAIN}
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
@@ -69,10 +69,10 @@ spec:
         pathType: Prefix
         ingressClassName: nginx
         hosts:
-          - &host prometheus.${INTERNAL_DOMAIN}
+          - prometheus.${INTERNAL_DOMAIN}
         tls:
           - hosts:
-              - *host
+              - prometheus.${INTERNAL_DOMAIN}
       podDisruptionBudget:
         enabled: false
       prometheusSpec:
