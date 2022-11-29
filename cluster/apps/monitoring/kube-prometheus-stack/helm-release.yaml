@@ -152,7 +152,7 @@ spec:
       fullnameOverride: node-exporter
       image:
         repository: quay.io/prometheus/node-exporter
-        tag: v1.4.0
+        tag: v1.4.1
       resources:
         requests:
           cpu: 15m
