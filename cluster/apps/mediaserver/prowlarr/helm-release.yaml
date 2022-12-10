@@ -20,7 +20,7 @@ spec:
       nameOverride: *app
     image:
       repository: ghcr.io/onedr0p/prowlarr-develop
-      tag: 0.4.9.2083
+      tag: 0.4.10.2111
     env:
       TZ: Canada/Eastern
     service:
