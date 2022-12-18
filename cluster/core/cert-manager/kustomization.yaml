@@ -5,7 +5,7 @@ namespace: cert-manager
 resources:
   - namespace.yaml
   - helm-release.yaml
-  - secret.enc.yaml
+  - external-secret.yaml
   - issuers/letsencrypt-prod.yaml
   - issuers/letsencrypt-staging.yaml
 configMapGenerator:
