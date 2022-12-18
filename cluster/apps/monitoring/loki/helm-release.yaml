@@ -103,8 +103,8 @@ spec:
         enabled: false
         grafanaAgent:
           installOperator: false
-        lokiCanary:
-          enabled: false
+      lokiCanary:
+        enabled: false
     write:
       replicas: 3
       resources:
@@ -145,6 +145,9 @@ spec:
     gateway:
       enabled: true
       replicas: 3
+      deploymentStrategy:
+        type: RollingUpdate
+        maxUnavailable: 1
       resources:
         limits:
           memory: 125M
