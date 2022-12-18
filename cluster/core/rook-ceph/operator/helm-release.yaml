@@ -22,7 +22,7 @@ spec:
     nodeSelector:
       kubernetes.io/arch: amd64
     crds:
-      enabled: false
+      enabled: true
     pspEnable: false
     disableAdmissionController: true
     monitoring:
