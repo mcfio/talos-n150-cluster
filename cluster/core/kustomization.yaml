@@ -6,5 +6,5 @@ resources:
   - metallb-system
   - kube-system
   - cert-manager
-  - external-secrets/external-secrets.yaml
+  - external-secrets
   - rook-ceph
