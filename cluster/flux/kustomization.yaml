@@ -4,11 +4,12 @@ kind: Kustomization
 resources:
   - ./deploy
   - ./config
+  - ./repositories
   - ./vars
   # - flux-system
   # - git-repository.yaml
   - apps.yaml
-  - charts.yaml
+  # - charts.yaml
   - crds.yaml
   # - config.yaml
   - core.yaml
