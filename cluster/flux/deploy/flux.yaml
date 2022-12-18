@@ -1,21 +1,4 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
-kind: GitRepository
-metadata:
-  name: flux-installation
-  namespace: flux-system
-spec:
-  interval: 24h
-  ref:
-    # renovate: datasource=github-releases depName=fluxcd/flux2
-    tag: "v0.37.0"
-  url: https://github.com/fluxcd/flux2
-  ignore: |
-    # exclude all
-    /*
-    # path to manifests
-    !/manifests
----
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
@@ -23,12 +6,12 @@ metadata:
   namespace: flux-system
 spec:
   interval: 24h
-  path: ./manifests/install
+  path: ./
   prune: true
   wait: true
   sourceRef:
-    kind: GitRepository
-    name: flux-installation
+    kind: OCIRepository
+    name: flux-manifests
   patches:
     - target:
         group: networking.k8s.io
@@ -43,42 +26,41 @@ spec:
     - target:
         version: v1
         kind: Deployment
-        name: source-controller
+        name: "(source-controller|helm-controller|kustomize-controller|notification-controller|image-reflector-controller|image-automation-controller)"
       patch: |-
         - op: remove
           path: /spec/template/spec/containers/0/resources/limits/cpu
     - target:
-        version: v1
         kind: Deployment
-        name: helm-controller
-      patch: |-
-        - op: remove
-          path: /spec/template/spec/containers/0/resources/limits/cpu
+        name: "(kustomize-controller|helm-controller|source-controller)"
+      patch: |
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --concurrent=20
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --requeue-dependency=5s
     - target:
-        version: v1
-        kind: Deployment
-        name: kustomize-controller
-      patch: |-
-        - op: remove
-          path: /spec/template/spec/containers/0/resources/limits/cpu
+        kind: CustomResourceDefinition
+        name: alerts.notification.toolkit.fluxcd.io
+      patch: |
+        - op: add
+          path: /spec/versions/0/schema/openAPIV3Schema/properties/spec/properties/eventSources/items/properties/kind/enum/-
+          value: Terraform
     - target:
-        version: v1
-        kind: Deployment
-        name: notification-controller
-      patch: |-
-        - op: remove
-          path: /spec/template/spec/containers/0/resources/limits/cpu
+        kind: CustomResourceDefinition
+        name: receivers.notification.toolkit.fluxcd.io
+      patch: |
+        - op: add
+          path: /spec/versions/0/schema/openAPIV3Schema/properties/spec/properties/resources/items/properties/kind/enum/-
+          value: Terraform
     - target:
-        version: v1
-        kind: Deployment
-        name: image-automation-controller
-      patch: |-
-        - op: remove
-          path: /spec/template/spec/containers/0/resources/limits/cpu
-    - target:
-        version: v1
-        kind: Deployment
-        name: image-reflector-controller
-      patch: |-
-        - op: remove
-          path: /spec/template/spec/containers/0/resources/limits/cpu
+        kind: ClusterRole
+        name: crd-controller-flux-system
+      patch: |
+        - op: add
+          path: /rules/-
+          value:
+            apiGroups: ["infra.contrib.fluxcd.io"]
+            resources: ["*"]
+            verbs: ["*"]
