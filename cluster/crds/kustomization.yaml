@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - github.com/kubernetes-csi/external-snapshotter//client/config/crd?ref=v6.1.0
   - rook-ceph
-  - kube-prometheus-stack
+  # - kube-prometheus-stack
