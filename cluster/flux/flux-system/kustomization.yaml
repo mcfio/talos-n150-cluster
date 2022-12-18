@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - flux-components.yaml
-  - github-deploy-key.enc.yaml
