@@ -16,3 +16,11 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-vars
+        optional: false
+      - kind: Secret
+        name: cluster-secrets
+        optional: false
