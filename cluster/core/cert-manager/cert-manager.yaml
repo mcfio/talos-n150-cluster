@@ -7,8 +7,6 @@ metadata:
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
-  dependsOn:
-    - name: onepassword-connect
   path: ./cluster/core/cert-manager/deploy
   prune: true
   sourceRef:
