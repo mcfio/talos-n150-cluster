@@ -6,6 +6,7 @@ resources:
   # - pomerium
   - ingress-system
   - home
+  - external-secrets
   - kube-system
   - mediaserver
   - monitoring
