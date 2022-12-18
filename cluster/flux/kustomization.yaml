@@ -13,4 +13,4 @@ resources:
   - crds.yaml
   # - config.yaml
   - core.yaml
-  - flux.yaml
+  # - flux.yaml
