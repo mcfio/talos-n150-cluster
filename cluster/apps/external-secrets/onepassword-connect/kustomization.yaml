@@ -4,5 +4,6 @@ kind: Kustomization
 resources:
   - ./secret.enc.yaml
   - ./helm-release.yaml
+  - ./cluster-secret-store.yaml
 patchesStrategicMerge:
   - ./patches/sync.yaml
