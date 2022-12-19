@@ -19,6 +19,7 @@ resources:
   - metrics-server.yaml
   - node-feature-discovery-charts.yaml
   - oauth2-proxy.yaml
+  - ./piraeus.yaml
   - pomerium.yaml
   - prometheus-community.yaml
   - rook-release.yaml
