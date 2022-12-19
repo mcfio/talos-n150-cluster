@@ -6,7 +6,7 @@ resources:
   - ./snapshot-controller.yaml
   - ./metrics-server.yaml
   - ./reloader.yaml
+  - ./kured.yaml
   - descheduler/helm-release.yaml
-  - kured
   - node-feature-discovery/helm-release.yaml
   - intel-gpu-plugin

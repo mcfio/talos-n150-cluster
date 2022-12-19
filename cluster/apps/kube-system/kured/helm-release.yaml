@@ -15,9 +15,12 @@ spec:
         kind: HelmRepository
         name: kubereboot
         namespace: flux-system
+  install:
+    remediation:
+      retries: 3
   upgrade:
     remediation:
-      remediateLastFailure: true
+      retries: 3
   values:
     configuration:
       lockTtl: 600s
