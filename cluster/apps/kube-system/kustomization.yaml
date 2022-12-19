@@ -4,10 +4,9 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   - ./snapshot-controller.yaml
+  - ./metrics-server.yaml
   - descheduler/helm-release.yaml
-  # - external-snapshotter
   - kured
-  - metrics-server/helm-release.yaml
   - node-feature-discovery/helm-release.yaml
   - intel-gpu-plugin
   - reloader/helm-release.yaml

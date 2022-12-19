@@ -15,10 +15,17 @@ spec:
         kind: HelmRepository
         name: metrics-server
         namespace: flux-system
+  install:
+    remediation:
+      retries: 3
   upgrade:
     remediation:
-      remediateLastFailure: true
+      retries: 3
   values:
+    metrics:
+      enabled: true
+    serviceMonitor:
+      enabled: true
     resources:
       requests:
         cpu: 30m
