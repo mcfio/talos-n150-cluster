@@ -83,7 +83,7 @@ spec:
     additionalContainers:
       rclone:
         name: rclone
-        image: rclone/rclone:1.60.1
+        image: rclone/rclone:1.61.0
         args:
           - mount
           - 'gcrypt:'
