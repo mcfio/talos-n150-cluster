@@ -105,7 +105,7 @@ spec:
           - --gid=1000
           - --dir-cache-time=1000h
           - --poll-interval=10s
-          - --user-agent=milton-sonarr/v1
+          - --user-agent=milton-radarr/v1
           - --umask=002
           - --rc
           - --rc-addr=:5572
@@ -127,7 +127,7 @@ spec:
               command:
                 - /bin/sh
                 - -c
-                - rclone rc vfs/refresh recursive=true --rc-addr 127.0.0.1:5572 _async=true
+                - rclone rc vfs/refresh recursive=true _async=true
           preStop:
             exec:
               command:
