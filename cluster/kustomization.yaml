@@ -6,3 +6,4 @@ resources:
   - ./metallb-system
   - ./external-secrets
   - ./kube-system
+  - ./rook-ceph

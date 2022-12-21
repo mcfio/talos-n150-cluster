@@ -15,11 +15,13 @@ spec:
         kind: HelmRepository
         name: rook-release
         namespace: flux-system
-  dependsOn:
-    - name: rook-ceph-operator
+  timeout: 10m
+  install:
+    remediation:
+      retries: 3
   upgrade:
     remediation:
-      remediateLastFailure: true
+      retries: 3
   values:
     toolbox:
       enabled: false
