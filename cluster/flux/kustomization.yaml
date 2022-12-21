@@ -6,6 +6,7 @@ resources:
   - ./config
   - ./repositories
   - ./vars
+  - ./cluster.yaml
   - apps.yaml
   - crds.yaml
   - core.yaml
