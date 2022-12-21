@@ -9,3 +9,4 @@ resources:
   - ./metrics-server.yaml
   - ./reloader.yaml
   - ./kubelet-csr-approver.yaml
+  - ./intel-gpu-plugin
