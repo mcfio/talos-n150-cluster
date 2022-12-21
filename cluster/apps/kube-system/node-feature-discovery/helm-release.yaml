@@ -17,13 +17,13 @@ spec:
         namespace: flux-system
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
     crds: CreateReplace
     remediation:
-      remediateLastFailure: true
+      retries: 3
   values:
-    nodeFeatureRule:
-      createCRD: true
     master:
       resources:
         limits:
