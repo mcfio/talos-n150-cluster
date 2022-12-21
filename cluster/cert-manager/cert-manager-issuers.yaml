@@ -10,7 +10,7 @@ spec:
   dependsOn:
     - name: cert-manager
     - name: onepassword-connect
-  path: ./cluster/core/cert-manager/issuers
+  path: ./cluster/cert-manager/issuers
   prune: true
   sourceRef:
     kind: GitRepository
@@ -20,6 +20,6 @@ spec:
       kind: HelmRelease
       name: cert-manager
       namespace: cert-manager
-  interval: 30m
+  interval: 2h
   retryInterval: 2m
   timeout: 1m

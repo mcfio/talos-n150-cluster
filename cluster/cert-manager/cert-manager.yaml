@@ -7,7 +7,7 @@ metadata:
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
-  path: ./cluster/core/cert-manager/deploy
+  path: ./cluster/cert-manager/deploy
   prune: true
   sourceRef:
     kind: GitRepository
@@ -18,6 +18,6 @@ spec:
       kind: HelmRelease
       name: cert-manager
       namespace: cert-manager
-  interval: 30m
+  interval: 2h
   retryInterval: 2m
   timeout: 1m
