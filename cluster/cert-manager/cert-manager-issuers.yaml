@@ -9,7 +9,7 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager
-    - name: onepassword-connect
+    - name: external-secrets-onepassword-connect
   path: ./cluster/cert-manager/issuers
   prune: true
   sourceRef:
