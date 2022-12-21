@@ -2,12 +2,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: apps-reloader
+  name: kube-systes-reloader
   namespace: flux-system
   labels:
     substitution.flux.home.arpa/enabled: "true"
 spec:
-  path: ./cluster/apps/kube-system/reloader
+  path: ./cluster/kube-system/reloader
   prune: true
   sourceRef:
     kind: GitRepository
@@ -17,6 +17,6 @@ spec:
       kind: HelmRelease
       name: reloader
       namespace: kube-system
-  interval: 30m
+  interval: 2h
   retryInterval: 2m
   timeout: 1m
