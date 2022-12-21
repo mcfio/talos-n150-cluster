@@ -4,6 +4,5 @@ kind: Kustomization
 resources:
   - flux-system
   - metallb-system
-  - cert-manager
   - external-secrets
   - rook-ceph
