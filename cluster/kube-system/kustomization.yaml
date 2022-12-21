@@ -8,3 +8,4 @@ resources:
   - ./snapshot-controller.yaml
   - ./metrics-server.yaml
   - ./reloader.yaml
+  - ./kubelet-csr-approver.yaml
