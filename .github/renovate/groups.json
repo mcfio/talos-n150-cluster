@@ -7,7 +7,7 @@
       "matchDatasources": ["docker"],
       "group": { "commitMessageTopic": "{{{groupName}}} group" },
       "separateMinorPatch": true
-    }
+    },
     {
       "description": "rook-ceph image and helm chart",
       "groupName": "Rook-Ceph",
