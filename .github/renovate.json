@@ -8,7 +8,7 @@
     ":semanticCommits",
     ":enablePreCommit",
     ":automergeDigest",
-    ":automergeBranchPush",
+    ":automergeBranch",
     "github>mcfio/home-cluster//.github/renovate/autoMerge",
     "github>mcfio/home-cluster//.github/renovate/commitMessage",
     "github>mcfio/home-cluster//.github/renovate/disabledDatasources",
@@ -16,6 +16,7 @@
     "github>mcfio/home-cluster//.github/renovate/labels",
     "github>mcfio/home-cluster//.github/renovate/semanticCommits"
   ],
+  "platform": "github",
   "timezone": "America/Toronto",
   "dependencyDashboardTitle": "Renovate Dashboard",
   "suppressNotifications": ["prIgnoreNotification"],
@@ -35,31 +36,15 @@
   },
   "regexManagers": [
     {
-      "description": "Process CRD dependencies",
-      "fileMatch": ["cluster/crds/.+\\.ya?ml$"],
-      "matchStrings": [
-        "registryUrl=(?<registryUrl>\\S+) chart=(?<depName>\\S+)\n.*?(?<currentValue>[^-\\s]*)\n",
-        "datasource=(?<datasource>\\S+) image=(?<depName>\\S+)\n.*?-\\s(.*?)\/(?<currentValue>[^/]+)\/[^/]+\n"
+      "description": "Process custom dependencies",
+      "fileMatch": [
+        "cluster/.+\\.ya?ml$"
       ],
-      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}helm{{/if}}"
-    },
-    {
-      "description": "Process non-categorized dependencies",
-      "fileMatch": ["cluster/.+\\.ya?ml$"],
       "matchStrings": [
         "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
       ],
       "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
-    },
-    {
-      "description": "Process GitHub content URLs",
-      "fileMatch": ["cluster/.+\\.ya?ml$"],
-      "matchStrings": [
-        "https:\\/\\/raw.githubusercontent.com\\/(?<depName>[\\w\\d\\-_]+\\/[\\w\\d\\-_]+)\\/(?<currentValue>[\\w\\d\\.\\-_]+)\\/.*"
-      ],
-      "datasourceTemplate": "github-releases",
-      "versioningTemplate": "semver"
     }
   ],
   "packageRules": [
