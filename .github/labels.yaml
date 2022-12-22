@@ -1,0 +1,37 @@
+---
+- name: ansible
+  color: "72ccf3"
+  description: >-
+    Changes made in the infrastructure/ansible directory
+- name: github
+  color: "72ccf3"
+  description: >-
+    Changes made in the .github directory
+- name: kubernetes
+  color: "72ccf3"
+  description: >-
+    Changes made in the cluster directory
+- name: kubernetes
+  color: "72ccf3"
+  description: >-
+    Changes made in the infrastructure/terraform directory
+- name: renovate/ansible
+  color: "a21f4d"
+# Renovate Labels
+- name: renovate/container
+  color: "a21f4d"
+- name: renovate/github-action
+  color: "a21f4d"
+- name: renovate/github-release
+  color: "a21f4d"
+- name: renovate/helm
+  color: "a21f4d"
+- name: renovate/terraform
+  color: "a21f4d"
+# Semantic Version Labels
+- name: type/major
+  color: "201ffb"
+- name: type/minor
+  color: "465df0"
+- name: type/patch
+  color: "1d76db"
