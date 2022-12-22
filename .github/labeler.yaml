@@ -1,0 +1,9 @@
+---
+ansible:
+  - "infrastructure/ansible/**/*"
+github:
+  - ".github/**/*"
+kubernetes:
+  - "cluster/**/*"
+terraform:
+  - "infrastructure/terraform/**/*"
