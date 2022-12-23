@@ -25,6 +25,7 @@ spec:
     adminUser:
       create: true
       username: admin
+      passwordHash: $2a$10$hlddkJLiGsyctJAuOf2l6eOuQSw7MAT6IlsK4AtWIeM.XLmj71K9G
     # oidcSecret:
     #   create: true
     #   clientID: weave-gitops
