@@ -25,4 +25,5 @@ resources:
   - prometheus-community.yaml
   - rook-release.yaml
   - stakater-charts.yaml
+  - ./weave-gitops.yaml
   - vector-charts.yaml
