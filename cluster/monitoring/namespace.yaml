@@ -5,4 +5,5 @@ metadata:
   name: monitoring
   labels:
     name: monitoring
+    kustomize.toolkit.fluxcd.io/prune: disabled
     goldilocks.fairwinds.com/enabled: "true"
