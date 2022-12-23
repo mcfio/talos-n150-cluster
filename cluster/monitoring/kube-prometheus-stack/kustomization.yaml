@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./helm-release.yaml
   - ./alertmanager-config.yaml
-  - ./slack-templates-configmap.yaml
+  - ./slack-notifications

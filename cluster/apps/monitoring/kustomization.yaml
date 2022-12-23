@@ -5,5 +5,4 @@ resources:
   - goldilocks/helm-release.yaml
   - loki
   - promtail
-  - alertmanager
   - vpa/helm-release.yaml
