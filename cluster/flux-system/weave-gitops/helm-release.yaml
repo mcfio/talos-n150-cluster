@@ -5,7 +5,8 @@ metadata:
   name: weave-gitops
   namespace: flux-system
 spec:
-  interval: 15m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       chart: weave-gitops
@@ -15,7 +16,6 @@ spec:
         name: weave-gitops
         namespace: flux-system
   install:
-    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -33,10 +33,8 @@ spec:
     ingress:
       enabled: true
       className: nginx
-      annotations:
-        hajimari.io/icon: mdi:sawtooth-wave
       hosts:
-        - host: &host gitops.devbu.io
+        - host: &host gitops.${INTERNAL_DOMAIN}
           paths:
             - path: /
               pathType: Prefix
@@ -56,7 +54,7 @@ spec:
           verbs: ["get", "list", "patch"]
     podAnnotations:
       secret.reloader.stakater.com/reload: weave-gitops-secret
-  valuesFrom:
+  # valuesFrom:
     # - kind: Secret
     #   name: weave-gitops-secret
     #   valuesKey: adminPassword
