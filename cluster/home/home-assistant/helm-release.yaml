@@ -1,0 +1,91 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helmrelease_v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: home-assistant
+spec:
+  interval: 12h
+  maxHistory: 4
+  chart:
+    spec:
+      chart: app-template
+      version: 1.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: home-assistant
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  dependsOn:
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
+  values:
+    controller:
+      type: statefulset
+      annotations:
+        reloader.stakater.com/auto: "true"
+    image:
+      repository: ghcr.io/onedr0p/home-assistant
+      tag: 2022.12.8
+    env:
+      TZ: Canada/Eastern
+      POSTGRES_HOST: postgres-rw.default.svc.cluster.local
+      POSTGRES_DB: home_assistant
+    envFrom:
+      - secretRef:
+          name: home-assistant-secret
+    service:
+      main:
+        type: LoadBalancer
+        externalIPs: ["${SVC_HOME_ASSISTANT_ADDR}"]
+        externalTrafficPolicy: Local
+        ports:
+          http:
+            port: 8123
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          external-dns.home.arpa/enabled: "true"
+          hajimari.io/icon: mdi:home-assistant
+        hosts:
+          - host: &host hass.devbu.io
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    probes:
+      liveness:
+        enabled: false
+      readiness:
+        enabled: false
+      startup:
+        enabled: false
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: "OnRootMismatch"
+      supplementalGroups:
+        - 100
+    volumeClaimTemplates:
+      - name: config
+        mountPath: /config
+        accessMode: ReadWriteOnce
+        size: 5Gi
+        storageClass: ceph-block
+        labels:
+          snapshot.home.arpa/enabled: "true"
+    resources:
+      requests:
+        cpu: 10m
+        memory: 100Mi
+      limits:
+        memory: 750Mi
