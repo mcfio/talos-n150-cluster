@@ -8,6 +8,7 @@ resources:
   - ./kured.yaml
   - ./snapshot-controller.yaml
   - ./metrics-server.yaml
+  - ./node-feature-discovery.yaml
   - ./reloader.yaml
   - ./kubelet-csr-approver.yaml
   - ./intel-gpu-plugin
