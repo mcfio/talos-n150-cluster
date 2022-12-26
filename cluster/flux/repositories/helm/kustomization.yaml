@@ -12,7 +12,6 @@ resources:
   - infracloudio.yaml
   - ingress-nginx.yaml
   - ./intel.yaml
-  - jetstack.yaml
   - k8s-at-home.yaml
   - kubelet-csr-approver.yaml
   - kubereboot.yaml
