@@ -17,6 +17,4 @@ resources:
   - oauth2-proxy.yaml
   - ./piraeus.yaml
   - pomerium.yaml
-  - stakater-charts.yaml
   - ./weave-gitops.yaml
-  - vector-charts.yaml
