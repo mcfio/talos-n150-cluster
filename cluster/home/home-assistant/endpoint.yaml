@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/name: home-assistant
 subsets:
   - addresses:
-      - ip: ${IP_HASSIO}
+      - ip: 192.168.30.5
     ports:
       - name: http
         port: 8123
