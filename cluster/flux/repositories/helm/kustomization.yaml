@@ -12,7 +12,6 @@ resources:
   - ./intel.yaml
   - k8s-at-home.yaml
   - kubelet-csr-approver.yaml
-  - metrics-server.yaml
   - node-feature-discovery-charts.yaml
   - oauth2-proxy.yaml
   - ./piraeus.yaml
