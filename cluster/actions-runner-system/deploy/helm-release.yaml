@@ -1,5 +1,4 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -47,7 +46,7 @@ spec:
           hajimari.io/enable: "false"
         ingressClassName: nginx
         hosts:
-          - host: &host arc-webhook.devbu.io
+          - host: &host arc-webhook.mcf.io
             paths:
               - path: /
                 pathType: Prefix
