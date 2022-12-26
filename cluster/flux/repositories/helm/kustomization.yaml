@@ -9,7 +9,6 @@ resources:
   - grafana.yaml
   - infracloudio.yaml
   - ingress-nginx.yaml
-  - ./intel.yaml
   - k8s-at-home.yaml
   - kubelet-csr-approver.yaml
   - node-feature-discovery-charts.yaml
