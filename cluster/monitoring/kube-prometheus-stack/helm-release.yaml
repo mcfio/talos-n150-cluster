@@ -69,15 +69,15 @@ spec:
         pathType: Prefix
         ingressClassName: nginx
         hosts:
-          - prometheus.${INTERNAL_DOMAIN}
+          - prometheus.milton.mcf.io
         tls:
           - hosts:
-              - prometheus.${INTERNAL_DOMAIN}
+              - prometheus.milton.mcf.io
       podDisruptionBudget:
         enabled: false
       prometheusSpec:
         retention: 30d
-        externalUrl: https://prometheus.${INTERNAL_DOMAIN}
+        externalUrl: https://prometheus.milton.mcf.io
         externalLabels:
           cluster: mcf-k8s-cluster
         portName: http-web
