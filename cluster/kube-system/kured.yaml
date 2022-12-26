@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
-  name: kube-system-kured
+  name: kured
 spec:
   path: ./cluster/kube-system/kured
   prune: true
