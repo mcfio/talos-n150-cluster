@@ -3,7 +3,6 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: kured.rules
-  namespace: kube-system
   labels:
     app: kured
 spec:
