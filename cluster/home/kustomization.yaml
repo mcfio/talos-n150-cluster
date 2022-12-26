@@ -4,4 +4,5 @@ kind: Kustomization
 namespace: home
 resources:
   - ./namespace.yaml
+  - ./persistent-volume-claim.yaml
   - ./home-assistant.yaml
