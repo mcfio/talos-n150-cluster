@@ -43,7 +43,6 @@ spec:
         configMaps:
           - slack-templates
         replicas: 2
-        externalUrl: https://alertmanager.milton.mcf.io
         podAntiAffinity: hard
         resources:
           requests:
@@ -77,7 +76,6 @@ spec:
         enabled: false
       prometheusSpec:
         retention: 30d
-        externalUrl: https://prometheus.milton.mcf.io
         externalLabels:
           cluster: mcf-k8s-cluster
         portName: http-web
