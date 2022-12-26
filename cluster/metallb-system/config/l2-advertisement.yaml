@@ -3,7 +3,6 @@ apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
 metadata:
   name: milton-cluster
-  namespace: metallb-system
 spec:
   ipAddressPools:
-  - milton-cluster-pool
+    - milton-cluster-pool

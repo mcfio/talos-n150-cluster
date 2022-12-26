@@ -3,8 +3,6 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: metallb
-  namespace: flux-system
 spec:
   interval: 24h
   url: https://metallb.github.io/metallb
-  timeout: 3m
