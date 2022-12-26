@@ -5,6 +5,7 @@ resources:
   - ./cert-manager
   - ./metallb-system
   - ./external-secrets
+  - ./actions-runner-system
   - ./flux-system
   - ./monitoring
   - ./kube-system
