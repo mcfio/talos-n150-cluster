@@ -6,6 +6,8 @@ metadata:
 spec:
   dependsOn:
     - name: actions-runner-controller
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   path: ./cluster/actions-runner-system/runner
   prune: true
   sourceRef:
