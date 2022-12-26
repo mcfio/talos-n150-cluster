@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./alertmanager-config.yaml
   - ./configmap.yaml
-  - ./secret.enc.yaml
+  - ./external-secret.yaml

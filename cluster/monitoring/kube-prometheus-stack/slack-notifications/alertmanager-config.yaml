@@ -24,7 +24,7 @@ spec:
     - name: slack
       slackConfigs:
         - apiURL:
-            name: slack-notifications
+            name: slack-notifications-secret
             key: apiUrl
           channel: "#prometheus-alerts"
           iconURL: https://avatars3.githubusercontent.com/u/3380462
