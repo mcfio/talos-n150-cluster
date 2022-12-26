@@ -31,10 +31,10 @@ spec:
         pathType: Prefix
         ingressClassName: nginx
         hosts:
-          - alertmanager.${INTERNAL_DOMAIN}
+          - alertmanager.milton.mcf.io
         tls:
           - hosts:
-              - alertmanager.${INTERNAL_DOMAIN}
+              - alertmanager.milton.mcf.io
       podDisruptionBudget:
         enabled: true
       alertmanagerSpec:
@@ -43,7 +43,7 @@ spec:
         configMaps:
           - slack-templates
         replicas: 2
-        externalUrl: https://alertmanager.${INTERNAL_DOMAIN}
+        externalUrl: https://alertmanager.milton.mcf.io
         podAntiAffinity: hard
         resources:
           requests:
