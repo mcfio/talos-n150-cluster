@@ -8,9 +8,9 @@ metadata:
 spec:
   dependsOn:
     - name: external-secrets-onepassword-connect
-      namespace: actions-runner-system
+      namespace: flux-system
     - name: rook-ceph-cluster
-      namespace: actions-runner-system
+      namespace: flux-system
   path: ./cluster/actions-runner-system/deploy
   prune: true
   sourceRef:
