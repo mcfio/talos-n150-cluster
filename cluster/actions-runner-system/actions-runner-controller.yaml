@@ -9,7 +9,7 @@ spec:
       namespace: flux-system
     - name: rook-ceph-cluster
       namespace: flux-system
-  path: ./cluster/actions-runner-system/deploy
+  path: ./cluster/actions-runner-system/controller
   prune: true
   sourceRef:
     kind: GitRepository

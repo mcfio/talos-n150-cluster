@@ -4,7 +4,6 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
   name: home-cluster
-  namespace: actions-runner-system
 spec:
   template:
     spec:

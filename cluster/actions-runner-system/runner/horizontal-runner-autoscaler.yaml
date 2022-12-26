@@ -3,7 +3,6 @@ apiVersion: actions.summerwind.dev/v1alpha1
 kind: HorizontalRunnerAutoscaler
 metadata:
   name: home-cluster
-  namespace: actions-runner-system
 spec:
   scaleTargetRef:
     name: home-cluster
