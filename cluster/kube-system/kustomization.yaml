@@ -5,6 +5,7 @@ namespace: kube-system
 resources:
   - ./namespace.yaml
   - ./cilium.yaml
+  - ./descheduler.yaml
   - ./kured.yaml
   - ./snapshot-controller.yaml
   - ./metrics-server.yaml

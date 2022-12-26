@@ -5,6 +5,5 @@ resources:
   # - pomerium
   - ingress-system
   - home
-  - kube-system
   - mediaserver
   - monitoring
