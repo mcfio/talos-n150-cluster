@@ -7,7 +7,6 @@ resources:
   - fairwinds-stable.yaml
   - grafana.yaml
   - infracloudio.yaml
-  - ingress-nginx.yaml
   - k8s-at-home.yaml
   - oauth2-proxy.yaml
   - pomerium.yaml
