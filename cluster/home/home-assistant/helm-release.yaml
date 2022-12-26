@@ -20,6 +20,8 @@ spec:
     remediation:
       retries: 3
   values:
+    global:
+      fullnameOverride: home-assistant-temp
     controller:
       type: statefulset
       annotations:
@@ -34,7 +36,6 @@ spec:
           name: home-assistant-secret
     ingress:
       main:
-        nameOverride: temp
         enabled: true
         ingressClassName: nginx
         hosts:
