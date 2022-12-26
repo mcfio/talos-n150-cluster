@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ./cert-manager
   - ./ingress-system
+  - ./home
   - ./metallb-system
   - ./external-secrets
   - ./actions-runner-system
