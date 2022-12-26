@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: promtail
-  namespace: monitoring
 spec:
   interval: 12h
   maxHistory: 2
@@ -14,13 +13,12 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: grafana
-        namespace: flux-system
   install:
     remediation:
       retries: 3
   upgrade:
     remediation:
-      remediateLastFailure: true
+      retries: 3
   values:
     config:
       lokiAddress: http://loki-gateway/loki/api/v1/push

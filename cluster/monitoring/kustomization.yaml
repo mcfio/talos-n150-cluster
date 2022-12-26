@@ -6,4 +6,5 @@ resources:
   - ./namespace.yaml
   - ./kube-prometheus-stack.yaml
   - ./loki.yaml
+  - ./promtail.yaml
   - ./grafana.yaml
