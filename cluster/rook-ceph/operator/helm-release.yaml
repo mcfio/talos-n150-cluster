@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: rook-ceph-operator
-  namespace: rook-ceph
 spec:
   interval: 12h
   maxHistory: 2
@@ -14,11 +13,12 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rook-release
-        namespace: flux-system
   install:
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 3
   values:

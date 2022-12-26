@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: rook-ceph-cluster
-  namespace: rook-ceph
 spec:
   interval: 12h
   maxHistory: 2
@@ -14,7 +13,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rook-release
-        namespace: flux-system
   timeout: 10m
   install:
     remediation:
@@ -37,7 +35,7 @@ spec:
           nginx.ingress.kubernetes.io/backend-protocol: HTTPS
         ingressClassName: nginx
         host:
-          name: &host ceph.${INTERNAL_DOMAIN}
+          name: &host ceph.milton.mcf.io
           path: /
         tls:
           - hosts:
