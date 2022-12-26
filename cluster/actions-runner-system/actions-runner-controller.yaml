@@ -1,10 +1,8 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/kustomization_v1beta2.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: actions-runner-controller
-  namespace: actions-runner-system
 spec:
   dependsOn:
     - name: external-secrets-onepassword-connect
@@ -21,7 +19,6 @@ spec:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
       kind: HelmRelease
       name: actions-runner-controller
-      namespace: actions-runner-system
   interval: 2h
   retryInterval: 1m
   timeout: 3m

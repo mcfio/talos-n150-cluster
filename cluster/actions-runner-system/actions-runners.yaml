@@ -1,14 +1,11 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/kustomization_v1beta2.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: actions-runner-controller-runners
-  namespace: actions-runner-system
 spec:
   dependsOn:
     - name: actions-runner-controller
-      namespace: actions-runner-system
   path: ./cluster/actions-runner-system/runner
   prune: true
   sourceRef:
