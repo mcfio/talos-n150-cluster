@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: &host home-assistant.${ROOT_DOMAIN}
+    - host: &host home-assistant.mcf.io
       http:
         paths:
           - backend:
