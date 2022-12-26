@@ -3,7 +3,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: grafana
-  namespace: monitoring
 spec:
   interval: 12h
   maxHistory: 2
@@ -15,6 +14,12 @@ spec:
         kind: HelmRepository
         name: grafana
         namespace: flux-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
   values:
     testFramework:
       enabled: false
@@ -26,15 +31,18 @@ spec:
       GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_LOG_FILTERS: rendering:debug
-    adminPassword: ${GRAFANA_ADMIN_PASSWORD}
     ingress:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - &host grafana.${INTERNAL_DOMAIN}
+        - &host grafana.milton.mcf.io
       tls:
         - hosts:
             - *host
+    admin:
+      existingSecret: grafana-admin-secret
+      userKey: admin-user
+      passwordKey: admin-password
     grafana.ini:
       server:
         root_url: "https://{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ .Values.ingress.hosts | first }}{{ else }}''{{ end }}"
