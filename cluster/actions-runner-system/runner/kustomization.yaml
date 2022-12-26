@@ -4,4 +4,4 @@ kind: Kustomization
 resources:
   - ./pvc.yaml
   - ./runner-deployment.yaml
-  # - ./horizontal-runner-autoscaler.yaml
+  - ./horizontal-runner-autoscaler.yaml
