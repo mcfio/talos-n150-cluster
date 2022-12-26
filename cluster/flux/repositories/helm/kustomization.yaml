@@ -12,6 +12,5 @@ resources:
   - k8s-at-home.yaml
   - kubelet-csr-approver.yaml
   - oauth2-proxy.yaml
-  - ./piraeus.yaml
   - pomerium.yaml
   - ./weave-gitops.yaml
