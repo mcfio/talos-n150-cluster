@@ -7,7 +7,7 @@ spec:
   dependsOn:
     - name: onepassword-connect
       namespace: external-secrets
-  path: ./kubernetes/home/home-assistant
+  path: ./cluster/home/home-assistant
   prune: true
   sourceRef:
     kind: GitRepository
