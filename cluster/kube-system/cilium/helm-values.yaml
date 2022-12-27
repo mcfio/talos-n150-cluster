@@ -34,8 +34,12 @@ maglev:
 
 # Configure loadBalancer
 loadBalancer:
+  serviceTopology: true
   algorithm: maglev
   mode: dsr
+
+# Enable Local Redirect feature
+localRedirectPolicy: true
 
 # Enable native eBPF masquerading
 bpf:
