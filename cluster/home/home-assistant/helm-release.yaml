@@ -49,9 +49,14 @@ spec:
               - *host
     service:
       main:
+        type: LoadBalancer
+        loadBalancerIP: 192.168.45.185
+        externalTrafficPolicy: Local
         ports:
           http:
             port: 8123
+          homekit:
+            port: 21064
     probes:
       liveness:
         enabled: false
