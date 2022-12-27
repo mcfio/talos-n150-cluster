@@ -13,7 +13,11 @@ spec:
       "ipam": {
         "type": "static",
         "addresses": [{
-          "address": "192.168.45.5/24"
-        }]
+          "address": "192.168.45.5/24",
+          "gateway": "192.168.45.1"
+        }],
+        "routes": [
+          { "dst": "0.0.0.0/0" }
+        ]
       }
     }'
