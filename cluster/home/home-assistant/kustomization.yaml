@@ -4,6 +4,7 @@ kind: Kustomization
 namespace: home
 resources:
   - ./external-secret.yaml
+  - ./net-attachment-definition.yaml
   - ./helm-release.yaml
   - ./service.yaml
   - ./endpoint.yaml

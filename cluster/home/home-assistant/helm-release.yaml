@@ -25,6 +25,7 @@ spec:
     controller:
       type: statefulset
       annotations:
+        k8s.v1.cni.cncf.io/networks: hass-static-ip
         reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/onedr0p/home-assistant
@@ -47,7 +48,6 @@ spec:
         tls:
           - hosts:
               - *host
-    hostNetwork: true
     service:
       main:
         ports:
