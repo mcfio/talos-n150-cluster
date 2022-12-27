@@ -50,10 +50,14 @@ spec:
     hostNetwork: true
     service:
       main:
-        enabled: true
         ports:
           http:
             port: 8123
+          homekit:
+            enabled: true
+            port: 21064
+            protocol: TCP
+            targetPort: 21064
     probes:
       liveness:
         enabled: false
