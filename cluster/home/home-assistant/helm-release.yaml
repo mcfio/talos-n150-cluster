@@ -25,7 +25,6 @@ spec:
     controller:
       type: statefulset
       annotations:
-        k8s.v1.cni.cncf.io/networks: hass-static-ip
         reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/onedr0p/home-assistant
@@ -70,6 +69,8 @@ spec:
         enabled: true
         existingClaim: home-shared-pvc
         subPath: home-assisant
+    podAnnotations:
+      k8s.v1.cni.cncf.io/networks: hass-static-ip
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
