@@ -3,9 +3,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: home
 resources:
-  - ./external-secret.yaml
-  - ./net-attachment-definition.yaml
-  - ./helm-release.yaml
+  # - ./external-secret.yaml
+  # - ./net-attachment-definition.yaml
+  # - ./helm-release.yaml
   - ./service.yaml
   - ./endpoint.yaml
   - ./ingress.yaml
