@@ -6,4 +6,3 @@ resources:
   - ./namespace.yaml
   - ./helm-repository.yaml
   - ./shared-pvc.yaml
-  - ./home-assistant.yaml
