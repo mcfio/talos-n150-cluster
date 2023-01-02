@@ -4,4 +4,3 @@ kind: Kustomization
 resources:
   - mosquitto
   - zigbee2mqtt
-  - zwavejs2mqtt
