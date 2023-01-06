@@ -14,7 +14,8 @@
     "github>mcfio/home-cluster//.github/renovate/commitMessage",
     "github>mcfio/home-cluster//.github/renovate/groups",
     "github>mcfio/home-cluster//.github/renovate/labels",
-    "github>mcfio/home-cluster//.github/renovate/semanticCommits"
+    "github>mcfio/home-cluster//.github/renovate/semanticCommits",
+    "helpers:pinGitHubActionDigests"
   ],
   "platform": "github",
   "timezone": "America/Toronto",
