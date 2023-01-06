@@ -19,11 +19,11 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
       - name: Find changed files
         id: changed-files
-        uses: tj-actions/changed-files@ea251d4d2f03a9c18841ae1b752f58b82dfb4d5e # v35.3.0
+        uses: tj-actions/changed-files@9a6dabf8d15381f97f1c770257a1a0db59c28a47 # v35.4.0
         with:
           json: true
           files: |
@@ -41,10 +41,10 @@ jobs:
       matrix: ${{ fromJSON(needs.changed-files.outputs.matrix) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
 
       - name: Checkout default branch
-        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
         with:
           ref: ${{ github.event.repository.default_branch }}
           path: default
