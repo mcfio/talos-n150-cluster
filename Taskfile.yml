@@ -1,13 +1,19 @@
 ---
-version: "3"
-
-vars:
-  PROJECT_DIR:
-    sh: "git rev-parse --show-toplevel"
-  CLUSTER_DIR: "{{.PROJECT_DIR}}/cluster"
+version: '3'
 
 includes:
   ansible: .taskfiles/ansible.yml
   flux: .taskfiles/flux.yml
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
+  externalsecret: .taskfiles/externalsecret.yml
+
+vars:
+  PROJECT_DIR:
+    sh: 'git rev-parse --show-toplevel'
+  CLUSTER_DIR: '{{.PROJECT_DIR}}/cluster'
+
+tasks:
+  default:
+    silent: true
+    cmds: ["go-task -l"]
