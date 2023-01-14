@@ -4,7 +4,7 @@ kind: Kustomization
 namespace: rook-ceph
 resources:
   - ./namespace.yaml
-  - ./helm-release.yaml
+  - ./helm-repository.yaml
   - ./dashboard
   - ./rook-ceph-operator.yaml
   - ./rook-ceph-cluster.yaml
