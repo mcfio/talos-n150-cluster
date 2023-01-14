@@ -146,6 +146,7 @@ spec:
       replicas: 3
       deploymentStrategy:
         type: RollingUpdate
+        maxSurge: 0
         maxUnavailable: 1
       resources:
         limits:
