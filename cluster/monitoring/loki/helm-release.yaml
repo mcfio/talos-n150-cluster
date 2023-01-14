@@ -146,8 +146,9 @@ spec:
       replicas: 3
       deploymentStrategy:
         type: RollingUpdate
-        maxSurge: 0
-        maxUnavailable: 1
+        rollingUpdate:
+          maxSurge: 0
+          maxUnavailable: 1
       resources:
         limits:
           memory: 125M
