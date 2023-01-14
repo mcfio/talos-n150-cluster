@@ -13,6 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: jetstack
+        namespace: cert-manager
   install:
     crds: CreateReplace
     remediation:
