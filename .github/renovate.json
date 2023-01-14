@@ -28,8 +28,9 @@
   "rebaseWhen": "conflicted",
   "commitBodyTable": true,
   "flux": {
-    "fileMatch": [
-      "cluster/.+\\.ya?ml$"
-    ]
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
+  },
+  "helm-values": {
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
   }
 }
