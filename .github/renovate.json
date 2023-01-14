@@ -1,7 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    ":enableRenovate",
     "config:base",
     "docker:enableMajor",
     ":disableRateLimiting",
@@ -19,6 +18,11 @@
   ],
   "platform": "github",
   "timezone": "America/Toronto",
+  "repositories": [
+    "mcfio/home-cluster"
+  ],
+  "onboarding": false,
+  "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard",
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
