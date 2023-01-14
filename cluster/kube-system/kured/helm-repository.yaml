@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: kubereboot
-  namespace: flux-system
+  namespace: kube-system
 spec:
   interval: 24h
   url: https://kubereboot.github.io/charts

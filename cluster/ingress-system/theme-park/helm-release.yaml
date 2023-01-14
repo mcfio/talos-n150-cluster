@@ -13,6 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: theme-park
+        namespace: ingress-system
   install:
     remediation:
       retries: 3
