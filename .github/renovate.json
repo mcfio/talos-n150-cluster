@@ -18,15 +18,16 @@
   ],
   "platform": "github",
   "timezone": "America/Toronto",
-  "repositories": [
-    "mcfio/home-cluster"
-  ],
+  "repositories": ["mcfio/home-cluster"],
   "onboarding": false,
   "requireConfig": "optional",
   "dependencyDashboardTitle": "Renovate Dashboard",
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
   "commitBodyTable": true,
+  "ignorePaths": [
+    "**/archived/**"
+  ],
   "flux": {
     "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
