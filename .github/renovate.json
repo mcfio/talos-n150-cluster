@@ -25,13 +25,35 @@
   "suppressNotifications": ["prIgnoreNotification"],
   "rebaseWhen": "conflicted",
   "commitBodyTable": true,
-  "ignorePaths": [
-    "**/archived/**"
-  ],
+  "ignorePaths": ["**/archived/**"],
   "flux": {
     "fileMatch": ["cluster/.+\\.ya?ml$"]
   },
   "helm-values": {
     "fileMatch": ["cluster/.+\\.ya?ml$"]
-  }
+  },
+  "kubernetes": {
+    "fileMatch": ["cluster/.+\\.ya?ml$"]
+  },
+  "regexManagers": [
+    {
+      "description": "Process custom dependencies",
+      "fileMatch": ["cluster/.+\\.ya?ml$"],
+      "matchStrings": [
+        "datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)( versioning=(?<versioning>\\S+))?\n.*?\"(?<currentValue>.*)\"\n"
+      ],
+      "datasourceTemplate": "{{#if datasource}}{{{datasource}}}{{else}}github-releases{{/if}}",
+      "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Use loose versioning for specific dependencies",
+      "matchDatasources": ["docker"],
+      "versioning": "loose",
+      "matchPackagePatterns": [
+        "plex"
+      ]
+    }
+  ]
 }
