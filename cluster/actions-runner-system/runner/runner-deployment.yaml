@@ -6,8 +6,7 @@ metadata:
 spec:
   template:
     spec:
-      image: ghcr.io/actions-runner-controller/actions-runner-controller/actions-runner-dind:ubuntu-22.04
-      imagePullPolicy: Always
+      image: ghcr.io/actions/actions-runner-controller/actions-runner-dind:v2.299.1-ubuntu-20.04
       dockerdWithinRunnerContainer: true
       ephemeral: true
       repository: mcfio/home-cluster
