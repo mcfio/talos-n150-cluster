@@ -8,7 +8,7 @@ spec:
     additionalContainers:
       sync:
         name: sync
-        image: docker.io/1password/connect-sync:1.5.8
+        image: docker.io/1password/connect-sync:1.5.8@sha256:e7e2b0a5de112677be95f6fc9bd2222f0f363631a61b639620296e85ee8cd516
         env:
           - name: OP_SESSION
             valueFrom:
