@@ -18,6 +18,8 @@
   ],
   "platform": "github",
   "timezone": "America/Toronto",
+  "username": "the-pass-butter[bot]"
+  "gitAuthor": "butter bot <122760773+the-pass-butter[bot]@users.noreply.github.com>"
   "repositories": ["mcfio/home-cluster"],
   "onboarding": false,
   "requireConfig": "optional",
