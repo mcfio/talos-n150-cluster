@@ -7,8 +7,8 @@
     "github>mcfio/home-cluster//.github/renovate/groups"
   ],
   "platform": "github",
-  "username": "i-pass-butter[bot]",
-  "gitAuthor": "i-pass-butter <122760773+i-pass-butter[bot]@users.noreply.github.com>",
+  "username": "purpose-robot[bot]",
+  "gitAuthor": "purpose-robot <122760773+purpose-robot[bot]@users.noreply.github.com>",
   "repositories": ["mcfio/home-cluster"],
   "ignorePaths": ["**/archived/**"],
   "flux": {
