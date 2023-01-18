@@ -25,7 +25,7 @@
       "description": "GitHub RAW URL Regex Manager",
       "fileMatch": ["cluster/.+\\.ya?ml$"],
       "matchStrings": [
-        "https:\\/\\/raw.githubusercontent.com\\/(?<depName>[\\w\\d\\-_]+\\/[\\w\\d\\-_]+)\\/(?<currentValue>[\\w\\d\\.\\-_]+)\\/.*",
+        "https:\\/\\/raw.githubusercontent.com\\/(?<depName>[\\w\\d\\-_]+\\/[\\w\\d\\-_]+)\\/(?<currentValue>[\\w\\d\\.\\-_]+)\\/.*"
       ],
       "datasourceTemplate": "github-releases",
       "versioningTemplate": "semver"
