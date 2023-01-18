@@ -1,3 +1,12 @@
+resource "cloudflare_record" "domain_root" {
+  zone_id = data.cloudflare_zone.domain.id
+  name    = data.cloudflare_zone.domain.name
+  value   = "ipv4.mcf.io"
+  type    = "CNAME"
+  proxied = true
+  ttl     = 1
+}
+
 resource "cloudflare_record" "issuewild_caa" {
   zone_id = data.cloudflare_zone.domain.id
   name    = data.cloudflare_zone.domain.name

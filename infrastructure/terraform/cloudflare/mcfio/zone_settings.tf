@@ -3,6 +3,7 @@ resource "cloudflare_zone_settings_override" "cloudflare_settings" {
   settings {
     # /ssl-tls
     ssl = "strict"
+
     # /ssl-tls/edge-certificates
     always_use_https         = "on"
     min_tls_version          = "1.2"
