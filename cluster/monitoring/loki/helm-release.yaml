@@ -118,19 +118,14 @@ spec:
     read:
       replicas: 3
       extraVolumeMounts:
-        - name: loki-rules
-          mountPath: /rules/fake
-        - name: loki-rules-tmp
+        - name: rules
+          mountPath: /rules
+        - name: scratch
           mountPath: /tmp/scratch
-        - name: loki-tmp
-          mountPath: /tmp/loki-tmp
       extraVolumes:
-        - name: loki-rules
-          configMap:
-            name: loki-alerting-rules
-        - name: loki-rules-tmp
+        - name: rules
           emptyDir: {}
-        - name: loki-tmp
+        - name: scratch
           emptyDir: {}
       resources:
         limits:
@@ -138,9 +133,6 @@ spec:
         requests:
           cpu: 60m
           memory: 150M
-      persistence:
-        size: 10Gi
-        storageClass: ceph-block
     gateway:
       enabled: true
       replicas: 3
