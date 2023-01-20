@@ -116,7 +116,13 @@ spec:
         size: 10Gi
         storageClass: ceph-block
     read:
-      replicas: 3
+      resources:
+        limits:
+          memory: 800M
+        requests:
+          cpu: 60m
+          memory: 150M
+    backend:
       extraVolumeMounts:
         - name: rules
           mountPath: /rules
