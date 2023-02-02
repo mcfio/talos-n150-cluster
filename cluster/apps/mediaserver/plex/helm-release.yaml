@@ -65,6 +65,13 @@ spec:
         mountPath: /data
         readOnly: true
         mountPropagation: HostToContainer
+      nfs-media:
+        enabled: true
+        type: nfs
+        server: 192.168.45.25
+        path: /mnt/storage/media
+        mountPath: /nfs-data
+        readOnly: true
       cache:
         enabled: true
         type: pvc
