@@ -41,7 +41,7 @@ spec:
         sabnzbd.default.svc,
         sabnzbd.default.svc.cluster,
         sabnzbd.default.svc.cluster.local,
-        sabnzbd.mil.mcf.io
+        sabnzbd.mil.mcf.io,
         sabnzbd.milton.mcf.io
     # envFrom:
     #   - secretRef:
