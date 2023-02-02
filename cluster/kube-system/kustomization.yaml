@@ -13,3 +13,4 @@ resources:
   - ./reloader.yaml
   - ./kubelet-csr-approver.yaml
   - ./intel-gpu-plugin
+  - ./csi-driver-nfs.yaml
