@@ -12,3 +12,4 @@ resources:
   - ./radarr-uhd
   - ./sonarr
   - ./tautulli
+  - ./sabnzbd
