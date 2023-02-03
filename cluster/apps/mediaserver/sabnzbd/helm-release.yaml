@@ -87,6 +87,9 @@ spec:
         server: 192.168.45.25
         path: /mnt/storage/media
         mountPath: /media
+      incomplete:
+        enabled: true
+        type: emptyDir
     resources:
       requests:
         cpu: 10m
