@@ -96,3 +96,14 @@ spec:
         memory: 250Mi
       limits:
         memory: 8000Mi
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - prometheus
+                    - plex
+            topologyKey: kubernetes.io/hostname
