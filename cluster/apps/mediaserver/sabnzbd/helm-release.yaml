@@ -79,7 +79,7 @@ spec:
       config:
         enabled: true
         existingClaim: mediaserver-shared-pvc
-        subPath: sonarr
+        subPath: sabnzbd
       media:
         enabled: true
         type: nfs
