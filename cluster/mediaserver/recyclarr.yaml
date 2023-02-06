@@ -1,0 +1,18 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: recyclarr
+spec:
+  dependsOn:
+    - name: sonarr
+  path: ./cluster/mediaserver/recyclarr
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+    namespace: flux-system
+  wait: true
+  interval: 2h
+  retryInterval: 2m
+  timeout: 1m
