@@ -5,6 +5,7 @@ metadata:
   namespace: mediaserver
   labels:
     excluded_from_alerts: "true"
+    kustomize.toolkit.fluxcd.io/prune: disabled
 spec:
   accessModes:
     - ReadWriteMany
