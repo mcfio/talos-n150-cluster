@@ -4,6 +4,8 @@ kind: Kustomization
 metadata:
   name: sonarr
 spec:
+  dependsOn:
+  - name: mediaserver-shared-pvc
   path: ./cluster/mediaserver/sonarr
   prune: true
   sourceRef:
