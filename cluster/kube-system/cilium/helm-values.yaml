@@ -17,11 +17,9 @@ autoDirectNodeRoutes: true
 ingressController:
   enabled: false
 
-# Configure BGP - not yet enabled on the network
-bgp:
-  enabled: false
-  announce:
-    loadbalancerIP: true
+# Configure BGP - listen for peering CRDs
+bgpControlPlane:
+  enabled: true
 
 # Configure IPAM from kubernetes configuration
 ipam:
