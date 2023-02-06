@@ -6,6 +6,7 @@ resources:
   - ./ingress-system
   - ./home
   - ./metallb-system
+  - ./mediaserver
   - ./external-secrets
   - ./actions-runner-system
   - ./flux-system
