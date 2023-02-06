@@ -2,7 +2,7 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
 sonarr:
   standard:
-    base_url: http://sonarr.mediaserver.svc.cluster.local
+    base_url: http://sonarr.mediaserver.svc.cluster.local:8989
     api_key: !env_var SONARR__API_KEY
     delete_old_custom_formats: true
     quality_definition:
@@ -54,9 +54,9 @@ sonarr:
       - 06d66ab109d4d2eddb2794d21526d140 # Retags
       - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
       quality_profiles:
-      - name: Any
+      - name: HD-1080p
         reset_unmatched_scores: true
-      - name: HD
+      - name: WEB-1080p
         reset_unmatched_scores: true
-      - name: SD
+      - name: Ultra-HD
         reset_unmatched_scores: true
