@@ -64,12 +64,19 @@ spec:
           timeoutSeconds: 10
     podSecurityContext:
       supplementalGroups:
+        - 100
         - 1000
     persistence:
       config:
         enabled: true
         existingClaim: mediaserver-shared-pvc
         subPath: radarr-uhd
+      media:
+        enabled: true
+        type: nfs
+        server: 192.168.45.25
+        path: /mnt/storage/media
+        mountPath: /media
       media-path:
         enabled: true
         type: emptyDir
