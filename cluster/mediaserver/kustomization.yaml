@@ -7,4 +7,5 @@ resources:
 - ./shared-pvc.yaml
 - ./helm-repository.yaml
 - ./sonarr.yaml
+- ./radarr.yaml
 - ./recyclarr.yaml
