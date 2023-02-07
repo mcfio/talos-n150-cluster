@@ -36,8 +36,8 @@ spec:
     command: ["/app/recyclarr/recyclarr"]
     args: ["sync"]
     envFrom:
-    # - secretRef:
-    #     name: radarr-secret
+    - secretRef:
+        name: radarr
     - secretRef:
         name: sonarr
     service:
