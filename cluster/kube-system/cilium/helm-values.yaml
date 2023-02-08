@@ -26,15 +26,15 @@ ipam:
   mode: kubernetes
 
 # Configure the maglev table size and hashseed
-maglev:
-  tableSize: 1021
-  hashSeed: "P9jc887+zv7eNcUr"
+# maglev:
+#   tableSize: 1021
+#   hashSeed: "P9jc887+zv7eNcUr"
 
 # Configure loadBalancer
-loadBalancer:
-  serviceTopology: true
-  algorithm: maglev
-  mode: dsr
+# loadBalancer:
+#   serviceTopology: true
+#   algorithm: maglev
+#   mode: dsr
 
 # Enable Local Redirect feature
 localRedirectPolicy: true
@@ -54,8 +54,8 @@ operator:
     serviceMonitor:
       enabled: true
   extraArgs:
-    - --leader-election-lease-duration=50s
-    - --leader-election-renew-deadline=40s
+  - --leader-election-lease-duration=50s
+  - --leader-election-renew-deadline=40s
 
 prometheus:
   enabled: true
@@ -66,13 +66,13 @@ hubble:
   enabled: true
   metrics:
     enabled:
-      - dns:query;ignoreAAAA
-      - drop
-      - tcp
-      - flow
-      - port-distribution
-      - icmp
-      - http
+    - dns:query;ignoreAAAA
+    - drop
+    - tcp
+    - flow
+    - port-distribution
+    - icmp
+    - http
     serviceMonitor:
       enabled: true
   relay:
@@ -85,7 +85,7 @@ hubble:
       enabled: true
       ingressClassName: nginx
       hosts:
-        - &host hubble.milton.mcf.io
+      - &host hubble.milton.mcf.io
       tls:
-        - hosts:
-            - *host
+      - hosts:
+        - *host
