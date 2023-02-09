@@ -8,6 +8,10 @@ kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 k8sServiceHost: 192.168.45.40
 k8sServicePort: 8443
 
+# Instruct Cilium to wait for PodCIDR from kubernetes
+k8s:
+  requireIPv4PodCIDR: true
+
 # Configure Native-Routing
 tunnel: disabled
 ipv4NativeRoutingCIDR: 10.244.0.0/18
