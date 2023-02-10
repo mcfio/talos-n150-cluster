@@ -27,7 +27,11 @@ spec:
         - name: TZ
           value: Canada/Eastern
       service:
-        loadBalancerIP: 192.168.45.100
+        enabled: true
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.50.100
+        labels:
+          provider: cilium
         externalTrafficPolicy: Local
       publishService:
         enabled: true

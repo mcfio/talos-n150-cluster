@@ -3,11 +3,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
 resources:
-  - ./helm-repository.yaml
-  - ./helm-release.yaml
+- ./helm-repository.yaml
+- ./helm-release.yaml
+- ./cilium-bgp-peering-policy.yaml
+- ./cilium-load-balancer-ip-pool.yaml
 configMapGenerator:
-  - name: cilium-values
-    files:
-      - values.yaml=helm-values.yaml
+- name: cilium-values
+  files:
+  - values.yaml=helm-values.yaml
 configurations:
-  - ./name-reference.yaml
+- ./name-reference.yaml

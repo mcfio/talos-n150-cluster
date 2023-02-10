@@ -1,0 +1,22 @@
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: milton-udm-bgp-peering
+spec:
+  nodeSelector:
+    matchExpressions:
+    - key: kubernetes.io/hostname
+      operator: In
+      values:
+      - mcf-k8s-node08
+      - mcf-k8s-node09
+      - mcf-k8s-node10
+  virtualRouters:
+  - localASN: 64515
+    neighbors:
+    - peerASN: 64512
+      peerAddress: 192.168.45.1/32
+    serviceSelector:
+      matchLabels:
+        provider: cilium

@@ -22,5 +22,5 @@ spec:
     remediation:
       retries: 3
   valuesFrom:
-    - kind: ConfigMap
-      name: cilium-values
+  - kind: ConfigMap
+    name: cilium-values

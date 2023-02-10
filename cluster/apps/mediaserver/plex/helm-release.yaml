@@ -26,11 +26,15 @@ spec:
       tag: 1.30.2.6563-3d4dc0cce
     env:
       TZ: Canada/Eastern
-      ADVERTISE_IP: "https://plex.${INTERNAL_DOMAIN},https://${VIP_PLEX_SERVICE}:32400"
+      ADVERTISE_IP: "https://plex.milton.mcf.io,https://192.168.50.195:32400"
     service:
       main:
+        enabled: true
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.50.195
+        labels:
+          provider: cilium
         type: LoadBalancer
-        loadBalancerIP: ${VIP_PLEX_SERVICE}
         externalTrafficPolicy: Local
         ports:
           http:
@@ -42,7 +46,7 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
-          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.milton.mcf.io"
             paths:
               - path: /
                 pathType: Prefix
