@@ -5,7 +5,7 @@ rollOutCiliumPods: true
 # Configure kube-proxy replacement features
 kubeProxyReplacement: strict
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-k8sServiceHost: mcf-k8s-cluster.milton.mcf.io
+k8sServiceHost: 10.88.0.50
 k8sServicePort: 8443
 
 # Instruct Cilium to wait for PodCIDR from kubernetes
