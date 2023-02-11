@@ -32,7 +32,6 @@ spec:
         labels:
           provider: cilium
         type: LoadBalancer
-        externalTrafficPolicy: Local
         ports:
           http:
             enabled: false
