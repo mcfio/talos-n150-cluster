@@ -116,16 +116,26 @@ spec:
         size: 10Gi
         storageClass: ceph-block
     read:
+      replicas: 3
       resources:
         limits:
           memory: 800M
         requests:
           cpu: 60m
           memory: 150M
-    backend:
+      persistence:
+        size: 10Gi
+        storageClass: ceph-block
       extraVolumeMounts:
         - name: rules
           mountPath: /rules
+      extraVolumes:
+        - name: rules
+          emptyDir: {}
+    backend:
+      extraVolumeMounts:
+        - name: rules
+          mountPath: /rules/fake
         - name: scratch
           mountPath: /tmp/scratch
       extraVolumes:
