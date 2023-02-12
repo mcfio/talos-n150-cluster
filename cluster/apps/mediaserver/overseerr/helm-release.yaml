@@ -32,9 +32,11 @@ spec:
     ingress:
       main:
         enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         ingressClassName: nginx
         hosts:
-          - host: &host "requests.${ROOT_DOMAIN}"
+          - host: &host requests.mcf.io
             paths:
               - path: /
                 pathType: Prefix
