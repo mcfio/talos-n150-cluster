@@ -5,7 +5,7 @@ resources:
   - ./namespace.yaml
   # - ./cephfs-pvc/ceph-filesystem.yaml
   - ./secret.enc.yaml
-  - ./overseerr
+  # - ./overseerr
   - ./plex
   - ./prowlarr
   - ./radarr
