@@ -9,3 +9,4 @@ resources:
 - ./sonarr.yaml
 - ./radarr.yaml
 - ./recyclarr.yaml
+- ./overseerr.yaml
