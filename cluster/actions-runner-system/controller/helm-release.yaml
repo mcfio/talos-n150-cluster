@@ -41,8 +41,7 @@ spec:
       ingress:
         enabled: true
         annotations:
-          external-dns.home.arpa/enabled: "true"
-          hajimari.io/enable: "false"
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         ingressClassName: nginx
         hosts:
           - host: &host arc-webhook.mcf.io
