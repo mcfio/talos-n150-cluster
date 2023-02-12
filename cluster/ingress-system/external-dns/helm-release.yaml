@@ -27,7 +27,7 @@ spec:
     interval: 2m
     provider: cloudflare
     envFrom:
-      secretKeyRef:
+    - secretRef:
         name: external-dns-secret
     extraArgs:
     - --cloudflare-proxied
