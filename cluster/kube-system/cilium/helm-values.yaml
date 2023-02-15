@@ -19,7 +19,7 @@ autoDirectNodeRoutes: true
 
 # Configure cilium ingressController, not yet available for DSR networks
 ingressController:
-  enabled: false
+  enabled: true
 
 # Configure BGP - listen for peering CRDs
 bgpControlPlane:
