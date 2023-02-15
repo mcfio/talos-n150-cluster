@@ -21,6 +21,10 @@ autoDirectNodeRoutes: true
 ingressController:
   enabled: true
   service:
+    labels:
+      provider: cilium
+    # annotations:
+    #   io.cilium/lb-ipam-ips: 192.168.50.100
     loadBalancerClass: io.cilium/bgp-control-plane
 
 # Configure BGP - listen for peering CRDs
