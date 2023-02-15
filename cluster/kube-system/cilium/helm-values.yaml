@@ -20,6 +20,8 @@ autoDirectNodeRoutes: true
 # Configure cilium ingressController, not yet available for DSR networks
 ingressController:
   enabled: true
+  secretsNamespace:
+    sync: false
   service:
     labels:
       provider: cilium
