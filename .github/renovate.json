@@ -4,7 +4,8 @@
     "github>mcfio/renovate-config",
     "github>mcfio/renovate-config:auto-merge",
     "github>mcfio/home-cluster//.github/renovate/autoMerge",
-    "github>mcfio/home-cluster//.github/renovate/groups"
+    "github>mcfio/home-cluster//.github/renovate/groups",
+    "helpers:pinGitHubActionDigests"
   ],
   "platform": "github",
   "username": "purpose-robot[bot]",
