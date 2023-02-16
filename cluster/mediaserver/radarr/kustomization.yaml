@@ -4,3 +4,4 @@ kind: Kustomization
 namespace: mediaserver
 resources:
 - ./external-secret.yaml
+- ./helm-release.yaml
