@@ -17,4 +17,4 @@ spec:
     namespace: ingress-system
   interval: 2h
   retryInterval: 2m
-  timeout: 5m
+  timeout: 1m

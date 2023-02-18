@@ -34,8 +34,12 @@ spec:
     txtOwnerId: default
     domainFilters:
     - milton.mcf.io
-    secretConfiguration:
-      enabled: true
+    extraVolumes:
+    - name: secrets
+      secret:
+        secretName: *app
+    extraVolumeMounts:
+    - name: secrets
       mountPath: /etc/kubernetes
     serviceMonitor:
       enabled: true
