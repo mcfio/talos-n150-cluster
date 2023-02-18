@@ -39,11 +39,10 @@ spec:
         sabnzbd.default.svc,
         sabnzbd.default.svc.cluster,
         sabnzbd.default.svc.cluster.local,
-        sabnzbd.mil.mcf.io,
         sabnzbd.milton.mcf.io
-    # envFrom:
-    #   - secretRef:
-    #       name: sabnzbd-secret
+    envFrom:
+    - secretRef:
+        name: *app
     service:
       main:
         ports:
