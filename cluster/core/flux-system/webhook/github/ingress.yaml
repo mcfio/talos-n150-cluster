@@ -5,20 +5,22 @@ metadata:
   name: webhook-receiver
   namespace: flux-system
   annotations:
+    cert-manager.io/cluster-issuer: letencrypt-prod
     external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
 spec:
   ingressClassName: nginx
   rules:
-    - host: &host flux-webhook.${ROOT_DOMAIN}
-      http:
-        paths:
-          - backend:
-              service:
-                name: webhook-receiver
-                port:
-                  number: 80
-            path: /hook/
-            pathType: Prefix
+  - host: &host flux-webhook.mcf.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: webhook-receiver
+            port:
+              number: 80
+        path: /hook/
+        pathType: Prefix
   tls:
-    - hosts:
-        - *host
+  - hosts:
+    - *host
+    secretName: webhook-receiver-tls
