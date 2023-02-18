@@ -1,0 +1,9 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: internal-dns
+  namespace: ingress-system
+spec:
+  interval: 24h
+  url: https://kubernetes-sigs.github.io/external-dns
