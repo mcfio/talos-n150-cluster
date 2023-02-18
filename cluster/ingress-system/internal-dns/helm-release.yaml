@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: internal-dns
+  name: &app internal-dns
 spec:
   interval: 12h
   maxHistory: 3
@@ -24,6 +24,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    fullnameOverride: *app
     interval: 2m
     provider: azure
     policy: sync
