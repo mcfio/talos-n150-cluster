@@ -8,3 +8,4 @@ resources:
 - ./ingress-nginx.yaml
 - ./theme-park.yaml
 - ./external-dns.yaml
+- ./internal-dns.yaml
