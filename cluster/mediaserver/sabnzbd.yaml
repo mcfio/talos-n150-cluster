@@ -1,0 +1,26 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
+kind: Kustomization
+metadata:
+  name: sabnzbd
+spec:
+  dependsOn:
+  - name: mediaserver-shared-pvc
+  path: ./cluster/mediaserver/sabnzbd
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: home-cluster
+    namespace: flux-system
+  healthChecks:
+  - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+    kind: HelmRelease
+    name: sabnzbd
+    namespace: mediaserver
+  - apiVersion: apps/v1
+    kind: Deployment
+    name: sabnzbd
+    namespace: mediaserver
+  interval: 2h
+  retryInterval: 2m
+  timeout: 1m
