@@ -6,6 +6,7 @@ resources:
 - ./namespace.yaml
 - ./shared-pvc.yaml
 - ./helm-repository.yaml
+- ./plex.yaml
 - ./sonarr.yaml
 - ./radarr.yaml
 - ./recyclarr.yaml
