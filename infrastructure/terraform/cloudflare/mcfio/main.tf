@@ -31,3 +31,14 @@ provider "cloudflare" {
 data "cloudflare_zone" "domain" {
   zone_id = "73816e78e046d700ba68abfa82efd565"
 }
+
+resource "cloudflare_page_rule" "page_rules_for_plex" {
+  zone_id  = data.cloudflare_zone.domain.id
+  target   = "plex.mcf.io/*"
+  status   = "active"
+  priority = 1
+
+  actions {
+    cache_level = "bypass"
+  }
+}
