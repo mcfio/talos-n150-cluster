@@ -43,10 +43,10 @@ ipam:
 #   hashSeed: "P9jc887+zv7eNcUr"
 
 # Configure loadBalancer
-# loadBalancer:
+loadBalancer:
 #   serviceTopology: true
 #   algorithm: maglev
-#   mode: dsr
+  mode: dsr
 
 # Enable Local Redirect feature
 localRedirectPolicy: true
