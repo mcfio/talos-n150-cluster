@@ -30,6 +30,9 @@ spec:
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
+      EMQX_TELEMETRY__ENABLE: "false"
+      EMQX_LISTENERS__SSL__DEFAULT__SSL_OPTIONS__CERTFILE: /tmp/ssl/tls.crt
+      EMQX_LISTENERS__SSL__DEFAULT__SSL_OPTIONS__KEYFILE: /tmp/ssl/tls.key
     # service:
     #   annotations:
     #     io.cilium/lb-ipam-ips: 192.168.50.190
