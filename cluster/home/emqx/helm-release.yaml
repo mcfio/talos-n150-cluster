@@ -30,21 +30,21 @@ spec:
     emqxConfig:
       EMQX_ALLOW_ANONYMOUS: "false"
       EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
-      # EMQX_LISTENER__SSL__EXTERNAL__CERTFILE: /etc/cert/tls.crt
-      # EMQX_LISTENER__SSL__EXTERNAL__KEYFILE: /etc/cert/tls.key
+      EMQX_LISTENER__SSL__EXTERNAL__CERTFILE: /etc/cert/tls.crt
+      EMQX_LISTENER__SSL__EXTERNAL__KEYFILE: /etc/cert/tls.key
     envFromSecret: emqx-auth
-    # extraVolumes:
-    #   - name: mqtt-cert
-    #     secret:
-    #       defaultMode: 420
-    #       secretName: mqtt-cert
-    # extraVolumeMounts:
-    #   - mountPath: /etc/cert
-    #     name: mqtt-cert
+    extraVolumes:
+      - name: mqtt-cert
+        secret:
+          defaultMode: 420
+          secretName: mqtt-cert
+    extraVolumeMounts:
+      - mountPath: /etc/cert
+        name: mqtt-cert
     service:
-      annotations:
-        io.cilium/lb-ipam-ips: 192.168.50.190
-      type: LoadBalancer
+      # annotations:
+      #   io.cilium/lb-ipam-ips: 192.168.50.190
+      # type: LoadBalancer
     ingress:
       dashboard:
         enabled: true
@@ -58,8 +58,8 @@ spec:
               - *host
     persistence:
       enabled: true
+      storageClass: local-path
       size: 100Mi
-      accessMode: ReadWriteOnce
     resources:
       requests:
         cpu: 100m

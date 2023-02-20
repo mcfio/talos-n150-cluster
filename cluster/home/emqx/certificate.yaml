@@ -10,5 +10,5 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - mqtt.${ROOT_DOMAIN}
-    - "*.mqtt.${ROOT_DOMAIN}"
+  - mqtt.milton.mcf.io
+  - "*.mqtt.milton.mcf.io"
