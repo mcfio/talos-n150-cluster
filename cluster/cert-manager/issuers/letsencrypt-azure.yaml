@@ -1,0 +1,23 @@
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-azure
+  namespace: cert-manager
+spec:
+  acme:
+    email: nick@mcf.io
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+    - dns01:
+        azureDNS:
+          clientID: 2d7885d8-c2d4-43f5-97e2-ab7c7b011bc5 #gitleaks:allow
+          clientSecretSecretRef:
+            name: cert-manager-secrets
+            key: azuredns-client-secret
+          subscriptionID: 01af2e66-55e8-4b59-ada2-c4709e081f43
+          tenantID: 8e564805-1396-42f7-8838-ac7f3962e1d0
+          resourceGroupName: mcf-infrastructure
+          hostedZoneName: milton.mcf.io

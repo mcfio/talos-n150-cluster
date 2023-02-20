@@ -11,9 +11,9 @@ spec:
     privateKeySecretRef:
       name: letsencrypt-prod-account-key
     solvers:
-      - dns01:
-          cloudflare:
-            email: nick@mcf.io
-            apiTokenSecretRef:
-              name: cloudflare-mcfio-api-token
-              key: api-token
+    - dns01:
+        cloudflare:
+          email: nick@mcf.io
+          apiTokenSecretRef:
+            name: cert-manager-secret
+            key: cloudflare-api-token
