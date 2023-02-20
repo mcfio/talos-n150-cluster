@@ -32,7 +32,6 @@ spec:
       EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
       EMQX_LISTENER__SSL__EXTERNAL__CERTFILE: /etc/cert/tls.crt
       EMQX_LISTENER__SSL__EXTERNAL__KEYFILE: /etc/cert/tls.key
-    envFromSecret: emqx-auth
     extraVolumes:
       - name: mqtt-cert
         secret:
@@ -41,10 +40,10 @@ spec:
     extraVolumeMounts:
       - mountPath: /etc/cert
         name: mqtt-cert
-    service:
-      # annotations:
-      #   io.cilium/lb-ipam-ips: 192.168.50.190
-      # type: LoadBalancer
+    # service:
+    #   annotations:
+    #     io.cilium/lb-ipam-ips: 192.168.50.190
+    #   type: LoadBalancer
     ingress:
       dashboard:
         enabled: true
@@ -66,6 +65,19 @@ spec:
         memory: 512Mi
       limits:
         memory: 512Mi
+  valuesFrom:
+    - targetPath: emqxConfig.EMQX_DASHBOARD__DEFAULT_PASSWORD
+      kind: Secret
+      name: emqx-auth
+      valuesKey: EMQX_DASHBOARD__DEFAULT_PASSWORD
+    - targetPath: emqxConfig.EMQX_AUTH__USER__1__USERNAME
+      kind: Secret
+      name: emqx-auth
+      valuesKey: EMQX_AUTH__USER__1__USERNAME
+    - targetPath: emqxConfig.EMQX_AUTH__USER__1__PASSWORD
+      kind: Secret
+      name: emqx-auth
+      valuesKey: EMQX_AUTH__USER__1__PASSWORD
   postRenderers:
     - kustomize:
         patchesStrategicMerge:
