@@ -15,10 +15,10 @@ spec:
     kind: HelmRelease
     name: emqx
     namespace: home
-  # - apiVersion: apps/v1
-  #   kind: Deployment
-  #   name: sonarr
-  #   namespace: mediaserver
+  - apiVersion: apps/v1
+    kind: StatefulSet
+    name: emqx
+    namespace: home
   interval: 2h
   retryInterval: 2m
-  timeout: 1m
+  timeout: 5m
