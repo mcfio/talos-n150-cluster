@@ -11,9 +11,10 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = ">= 3.0.0"
+      version = ">= 3.34.0"
     }
   }
+  required_version = ">= 1.3.0"
 }
 
 variable "cloudflare_email" {
