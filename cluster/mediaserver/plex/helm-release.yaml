@@ -31,7 +31,7 @@ spec:
       tag: 1.31.0.6654-02189b09f@sha256:e008f8822f31a5648ea5b28289ca82388e9111db4418a2662d7fb52ab9e61712
     env:
       TZ: Canada/Eastern
-      ADVERTISE_IP: "https://plex.mcf.io:58443,https://plex.milton.mcf.io:32400,https://192.168.50.195:32400"
+      # ADVERTISE_IP: "https://plex.mcf.io,https://plex.milton.mcf.io:32400,https://192.168.50.195:32400"
     service:
       main:
         enabled: true
