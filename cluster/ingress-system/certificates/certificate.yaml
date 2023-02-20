@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: milton-mcf-io-wc-cert-tls
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-azure
     kind: ClusterIssuer
   dnsNames:
     - milton.mcf.io
