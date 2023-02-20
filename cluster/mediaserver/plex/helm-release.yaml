@@ -40,41 +40,42 @@ spec:
         labels:
           provider: cilium
         type: LoadBalancer
+        externalTrafficPolicy: Local
         ports:
           http:
             port: 32400
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-azure
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        hosts:
-        - host: &host "{{ .Release.Name }}.milton.mcf.io"
-          paths:
-          - path: /
-            pathType: Prefix
-        tls:
-        - hosts:
-          - *host
-          secretName: plex-cert
-      external:
-        enabled: true
-        ingressClassName: nginx
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        hosts:
-        - host: "{{ .Release.Name }}.mcf.io"
-          paths:
-          - path: /
-            pathType: Prefix
-        tls:
-        - hosts:
-          - "{{ .Release.Name }}.mcf.io"
-          secretName: plex-external-cert
+    # ingress:
+    #   main:
+    #     enabled: true
+    #     ingressClassName: nginx
+    #     annotations:
+    #       cert-manager.io/cluster-issuer: letsencrypt-azure
+    #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    #     hosts:
+    #     - host: &host "{{ .Release.Name }}.milton.mcf.io"
+    #       paths:
+    #       - path: /
+    #         pathType: Prefix
+    #     tls:
+    #     - hosts:
+    #       - *host
+    #       secretName: plex-cert
+    #   external:
+    #     enabled: true
+    #     ingressClassName: nginx
+    #     annotations:
+    #       external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
+    #       cert-manager.io/cluster-issuer: letsencrypt-prod
+    #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    #     hosts:
+    #     - host: "{{ .Release.Name }}.mcf.io"
+    #       paths:
+    #       - path: /
+    #         pathType: Prefix
+    #     tls:
+    #     - hosts:
+    #       - "{{ .Release.Name }}.mcf.io"
+    #       secretName: plex-external-cert
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
