@@ -31,7 +31,6 @@ spec:
       tag: 1.31.0.6654-02189b09f@sha256:e008f8822f31a5648ea5b28289ca82388e9111db4418a2662d7fb52ab9e61712
     env:
       TZ: Canada/Eastern
-      # ADVERTISE_IP: "https://plex.mcf.io,https://plex.milton.mcf.io:32400,https://192.168.50.195:32400"
     service:
       main:
         enabled: true
@@ -44,38 +43,6 @@ spec:
         ports:
           http:
             port: 32400
-    # ingress:
-    #   main:
-    #     enabled: true
-    #     ingressClassName: nginx
-    #     annotations:
-    #       cert-manager.io/cluster-issuer: letsencrypt-azure
-    #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    #     hosts:
-    #     - host: &host "{{ .Release.Name }}.milton.mcf.io"
-    #       paths:
-    #       - path: /
-    #         pathType: Prefix
-    #     tls:
-    #     - hosts:
-    #       - *host
-    #       secretName: plex-cert
-    #   external:
-    #     enabled: true
-    #     ingressClassName: nginx
-    #     annotations:
-    #       external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
-    #       cert-manager.io/cluster-issuer: letsencrypt-prod
-    #       nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-    #     hosts:
-    #     - host: "{{ .Release.Name }}.mcf.io"
-    #       paths:
-    #       - path: /
-    #         pathType: Prefix
-    #     tls:
-    #     - hosts:
-    #       - "{{ .Release.Name }}.mcf.io"
-    #       secretName: plex-external-cert
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
