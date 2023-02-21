@@ -12,6 +12,12 @@ variable "name" {
   type        = string
 }
 
+variable "ttl" {
+  description = "The TTL of the record. See: https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record#ttl"
+  type        = number
+  default     = 1 # Auto
+}
+
 variable "delegated_nameservers" {
   description = "List of name servers to configure as zone delegation"
   type        = list(string)
