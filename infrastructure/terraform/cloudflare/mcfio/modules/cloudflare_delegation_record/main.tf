@@ -17,5 +17,5 @@ resource "cloudflare_record" "milton_delegated_zone" {
   name    = var.name
   type    = "NS"
   ttl     = var.ttl
-  value   = element(var.delegated_nameservers, count.index)
+  value   = var.delegated_nameservers[count.index]
 }
