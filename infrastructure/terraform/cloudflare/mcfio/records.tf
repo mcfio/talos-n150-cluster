@@ -74,7 +74,7 @@ module "milton_delegated_zone" {
 
   zone_id = data.cloudflare_zone.domain.id
   name    = "milton.mcf.io"
-  ttl     = 600
+  ttl     = 3600
   delegated_nameservers = [
     "ns1-09.azure-dns.com",
     "ns2-09.azure-dns.net",
