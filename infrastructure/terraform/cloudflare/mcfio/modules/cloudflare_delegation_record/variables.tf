@@ -15,7 +15,7 @@ variable "name" {
 variable "ttl" {
   description = "The TTL of the record. See: https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs/resources/record#ttl"
   type        = number
-  default     = 1 # Auto
+  default     = 3600 # Sets default to 1hr, 1 == Auto
 }
 
 variable "delegated_nameservers" {
