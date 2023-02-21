@@ -65,7 +65,7 @@ spec:
       ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD:
         valueFrom:
           secretKeyRef:
-            name: emqx-secret
+            name: emqx-auth
             key: EMQX_AUTH__USER__2__PASSWORD
     envFrom:
     - secretRef:
