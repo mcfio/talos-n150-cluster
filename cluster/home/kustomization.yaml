@@ -7,3 +7,4 @@ resources:
 - ./shared-pvc.yaml
 - ./helm-repository.yaml
 - ./emqx.yaml
+- ./zigbee2mqtt.yaml
