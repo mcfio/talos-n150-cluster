@@ -69,6 +69,19 @@ resource "cloudflare_record" "azure_custom_domain" {
   value   = "MS=ms95064622"
 }
 
+module "azure_delegated_zone" {
+  source = "./modules/cloudflare_delegation_record"
+
+  zone_id = data.cloudflare_zone.domain.id
+  name    = "azure.mcf.io"
+  delegated_nameservers = [
+    "ns1-09.azure-dns.com",
+    "ns2-09.azure-dns.net",
+    "ns3-09.azure-dns.org",
+    "ns4-09.azure-dns.info"
+  ]
+}
+
 module "milton_delegated_zone" {
   source = "./modules/cloudflare_delegation_record"
 
