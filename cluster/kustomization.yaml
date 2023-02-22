@@ -12,3 +12,4 @@ resources:
   - ./monitoring
   - ./kube-system
   - ./rook-ceph
+  - ./vsphere-csi
