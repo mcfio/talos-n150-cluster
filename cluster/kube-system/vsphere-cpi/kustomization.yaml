@@ -5,4 +5,4 @@ namespace: kube-system
 resources:
 - ./external-secret.yaml
 - ./helm-repository.yaml
-- ./helm-release.yaml
+# - ./helm-release.yaml
