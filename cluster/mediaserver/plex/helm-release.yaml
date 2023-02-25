@@ -39,7 +39,6 @@ spec:
         labels:
           provider: cilium
         type: LoadBalancer
-        externalTrafficPolicy: Local
         ports:
           http:
             port: 32400
