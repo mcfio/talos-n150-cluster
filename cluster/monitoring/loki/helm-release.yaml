@@ -113,8 +113,7 @@ spec:
           cpu: 60m
           memory: 150M
       persistence:
-        size: 10Gi
-        storageClass: ceph-block
+        storageClass: local-path
     read:
       replicas: 3
       resources:
@@ -124,8 +123,7 @@ spec:
           cpu: 60m
           memory: 150M
       persistence:
-        size: 10Gi
-        storageClass: ceph-block
+        storageClass: local-path
       extraVolumeMounts:
         - name: rules
           mountPath: /rules
