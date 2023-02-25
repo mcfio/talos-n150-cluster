@@ -7,7 +7,6 @@ resources:
 - ./cilium.yaml
 - ./descheduler.yaml
 - ./kured.yaml
-- ./local-path-provisioner.yaml
 - ./snapshot-controller.yaml
 - ./metrics-server.yaml
 - ./node-feature-discovery.yaml
