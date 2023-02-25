@@ -50,7 +50,7 @@ spec:
           - *host
     persistence:
       enabled: true
-      storageClass: local-path
+      storageClassName: local-path
       size: 100Mi
     resources:
       requests:
