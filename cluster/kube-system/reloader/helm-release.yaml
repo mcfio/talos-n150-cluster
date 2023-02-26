@@ -21,6 +21,7 @@ spec:
     remediation:
       retries: 3
   values:
+    fullnameOverride: reloader
     reloader:
       enableHA: true
       deployment:
