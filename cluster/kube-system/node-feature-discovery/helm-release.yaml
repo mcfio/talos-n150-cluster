@@ -54,7 +54,3 @@ spec:
         requests:
           cpu: 15m
           memory: 150M
-      tolerations:
-        - key: low-mem
-          operator: Exists
-          effect: NoSchedule
