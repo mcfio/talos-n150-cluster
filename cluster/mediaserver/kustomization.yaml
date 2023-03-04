@@ -9,6 +9,7 @@ resources:
 - ./plex.yaml
 - ./sonarr.yaml
 - ./radarr.yaml
+- ./prowlarr.yaml
 - ./recyclarr.yaml
 - ./sabnzbd.yaml
 - ./overseerr.yaml
