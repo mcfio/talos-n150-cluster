@@ -9,7 +9,7 @@ resources:
   # - ./plex
   # - ./prowlarr
   # - ./radarr
-  - ./radarr-uhd
+  # - ./radarr-uhd
   # - ./sonarr
   - ./tautulli
   # - ./sabnzbd

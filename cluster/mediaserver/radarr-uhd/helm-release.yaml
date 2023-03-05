@@ -1,0 +1,96 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app radarr-uhd
+  namespace: mediaserver
+spec:
+  interval: 12h
+  maxHistory: 2
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: mediaserver-charts
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    image:
+      repository: ghcr.io/onedr0p/radarr
+      tag: 4.3.2.6857
+    env:
+      TZ: Canada/Eastern
+      RADARR__INSTANCE_NAME: Radarr-UHD
+      RADARR__PORT: &port 7878
+      RADARR__APPLICATION_URL: https://{{ .Release.Name }}.milton.mcf.io
+      RADARR__lOG_LEVEL: info
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            proxy_set_header Accept-Encoding "";
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/base/radarr/nord.css"> <link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/addons/radarr/radarr-4k-logo/radarr-4k-logo.css"></head>';
+            sub_filter_once on;
+        hosts:
+        - host: &host "{{ .Release.Name }}.milton.mcf.io"
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+      supplementalGroups:
+      - 100
+      - 1000
+    persistence:
+      config:
+        enabled: true
+        existingClaim: mediaserver-shared-pvc
+        subPath: radarr-uhd
+      media:
+        enabled: true
+        type: nfs
+        server: 192.168.45.25
+        path: /mnt/storage/media
+        mountPath: /media
+    resources:
+      requests:
+        cpu: 15m
+        memory: 300M
+      limits:
+        memory: 2G
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app.kubernetes.io/name
+              operator: In
+              values:
+              - sonarr
+              - plex
+          topologyKey: kubernetes.io/hostname
