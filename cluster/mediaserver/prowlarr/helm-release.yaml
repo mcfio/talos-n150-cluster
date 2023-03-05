@@ -54,7 +54,7 @@ spec:
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/base/prowlarr/nord.css"></head>';
             sub_filter_once on;
         hosts:
-        - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+        - host: &host "{{ .Release.Name }}.milton.mcf.io"
           paths:
           - path: /
             pathType: Prefix
