@@ -36,6 +36,9 @@ spec:
       RADARR__PORT: &port 7878
       RADARR__APPLICATION_URL: https://{{ .Release.Name }}.milton.mcf.io
       RADARR__lOG_LEVEL: info
+    envFrom:
+    - secretRef:
+        name: radarr-uhd-secret
     service:
       main:
         ports:
