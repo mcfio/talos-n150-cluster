@@ -5,3 +5,4 @@ resources:
 - ./namespace.yaml
 - ./git-repository.yaml
 - ./node-feature-rule.yaml
+- ./vsphere-csi.yaml
