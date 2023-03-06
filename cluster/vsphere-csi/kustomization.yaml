@@ -4,4 +4,6 @@ kind: Kustomization
 resources:
 - ./namespace.yaml
 - ./helm-repository.yaml
+- ./external-secret.yaml
 - ./node-feature-rule.yaml
+- ./helm-release.yaml
