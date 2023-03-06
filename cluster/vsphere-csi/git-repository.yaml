@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.devbu.io/gitrepository_v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: GitRepository
+metadata:
+  name: vsphere-csi-driver
+  namespace: vmware-system-csi
+spec:
+  interval: 30m
+  url: https://github.com/kubernetes-sigs/vsphere-csi-driver
+  ref:
+    tag: v2.7.0
+  ignore: |
+    # exclude all
+    /*
+    # include kubernetes directory
+    !/manifests/vanilla/
