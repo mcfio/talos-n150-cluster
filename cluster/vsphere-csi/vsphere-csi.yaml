@@ -12,6 +12,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: vsphere-csi-driver
+    namespace: vmware-system-csi
   patches:
   - patch: |
       $patch: delete
