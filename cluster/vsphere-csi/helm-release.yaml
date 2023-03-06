@@ -26,8 +26,9 @@ spec:
     keepHistory: false
   values:
     global:
-      cluster-id: 8c519df1-9d7b-4e26-8b84-349563444889
       config:
+        global:
+          cluster-id: 8c519df1-9d7b-4e26-8b84-349563444889
         storageclass:
           enabled: true
           storagepolicyname: "vSAN Direct Storage Policy"
