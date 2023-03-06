@@ -25,12 +25,25 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    global:
+      config:
+        storageclass:
+          enabled: true
+          storagepolicyname: "vSAN Direct Storage Policy"
+          expansion: true
     controller:
       global:
         extraEnvVarsSecret: vsphere-csi-secret
   postRenderers:
   - kustomize:
       patchesStrategicMerge:
+      - apiVersion: storage.k8s.io/v1
+        kind: StorageClass
+        metadata:
+          name: vsphere-csi
+          namespace: vmware-system-csi
+        parameters:
+          csi.storage.k8s.io/fstype: "ext4"
       - apiVersion: apps/v1
         kind: DaemonSet
         metadata:
