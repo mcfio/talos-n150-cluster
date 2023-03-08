@@ -73,7 +73,7 @@ spec:
           mosquitto.conf: |
             per_listener_settings false
             listener 1883
-            allow_anonymous true
+            allow_anonymous false
             persistence true
             persistence_location /mosquitto/data
             connection_messages false
