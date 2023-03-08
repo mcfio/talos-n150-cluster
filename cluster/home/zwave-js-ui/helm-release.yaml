@@ -1,0 +1,92 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: zwave-js-ui
+  namespace: home
+spec:
+  interval: 12h
+  maxHistory: 2
+  chart:
+    spec:
+      chart: app-template
+      version: 1.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: home-charts
+        namespace: home
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: ghcr.io/zwave-js/zwave-js-ui
+      tag: 8.10.0
+    env:
+      TZ: Canada/Eastern
+    service:
+      main:
+        ports:
+          http:
+            port: &port 8091
+          websocket:
+            enabled: true
+            port: 3000
+    serviceMonitor:
+      main:
+        enabled: true
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /health
+            port: *port
+          initialDelaySeconds: 0
+          periodSecond: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+        - host: &host "zwave.${INTERNAL_DOMAIN}"
+          paths:
+          - path: /
+            pathType: Prefix
+        tls:
+        - hosts:
+          - *host
+    securityContext:
+      privileged: true
+    persistence:
+      data:
+        enabled: true
+        existingClaim: home-shared-pvc
+        subPath: zwave-js-ui
+        mountPath: /usr/src/app/store
+      # usb:
+      #   enabled: true
+      #   type: hostPath
+      #   hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
+      #   hostPathType: CharDevice
+    nodeSelector:
+      aeotec.feature.node.kubernetes.io/zwave: "true"
+    priorityClassName: high-priority
+    resources:
+      limits:
+        memory: 350M
+      requests:
+        cpu: 15m
+        memory: 128M

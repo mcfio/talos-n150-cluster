@@ -8,3 +8,4 @@ resources:
 - ./helm-repository.yaml
 - ./mosquitto.yaml
 - ./zigbee2mqtt.yaml
+- ./zwave-js-ui.yaml
