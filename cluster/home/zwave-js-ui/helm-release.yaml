@@ -81,8 +81,8 @@ spec:
       #   type: hostPath
       #   hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
       #   hostPathType: CharDevice
-    nodeSelector:
-      aeotec.feature.node.kubernetes.io/zwave: "true"
+    # nodeSelector:
+    #   aeotec.feature.node.kubernetes.io/zwave: "true"
     resources:
       limits:
         memory: 350M
