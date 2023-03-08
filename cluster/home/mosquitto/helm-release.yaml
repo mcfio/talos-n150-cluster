@@ -31,12 +31,12 @@ spec:
         tag: 2.0.15
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"]
-        args: ["cp /mosquitto/secret/* /mosquitto/config/ && mosquitto_passwd -U /mosquitto/config/mosquitto_pwd"]
+        args: ["cp /mosquitto/secret/* /mosquitto/configinc/ && mosquitto_passwd -U /mosquitto/configinc/mosquitto_pwd"]
         volumeMounts:
         - name: password-file
           mountPath: /mosquitto/secret
-        - name: config
-          mountPath: /mosquitto/config
+        - name: config-include
+          mountPath: /mosquitto/configinc
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
@@ -77,7 +77,7 @@ spec:
             persistence true
             persistence_location /mosquitto/data
             connection_messages false
-            password_file /mosquitto/config/mosquitto_pwd
+            password_file /mosquitto/configinc/mosquitto_pwd
             autosave_interval 60
             # TLS listener
             listener 8883
@@ -101,6 +101,10 @@ spec:
         name: mosquitto-config
         mountPath: /mosquitto/config/mosquitto.conf
         subPath: mosquitto.conf
+      config-include:
+        enabled: true
+        type: emptyDir
+        mountPath: /mosquitto/configinc
       password-file:
         enabled: true
         type: secret
