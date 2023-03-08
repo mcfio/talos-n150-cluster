@@ -47,11 +47,11 @@ spec:
     service:
       main:
         enabled: true
-        # annotations:
-        #   io.cilium/lb-ipam-ips: 192.168.50.190
-        # labels:
-        #   provider: cilium
-        # type: LoadBalancer
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.50.190
+        labels:
+          provider: cilium
+        type: LoadBalancer
         ports:
           http:
             enabled: false

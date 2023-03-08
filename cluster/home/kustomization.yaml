@@ -6,6 +6,6 @@ resources:
 - ./namespace.yaml
 - ./shared-pvc.yaml
 - ./helm-repository.yaml
-- ./emqx.yaml
+# - ./emqx.yaml
 - ./mosquitto.yaml
 - ./zigbee2mqtt.yaml
