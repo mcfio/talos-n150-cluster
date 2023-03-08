@@ -5,7 +5,7 @@ metadata:
   name: zigbee2mqtt
 spec:
   dependsOn:
-  - name: emqx
+  - name: mosquitto
     namespace: home
   - name: rook-ceph-cluster
     namespace: rook-ceph
