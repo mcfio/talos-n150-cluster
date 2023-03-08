@@ -83,7 +83,6 @@ spec:
       #   hostPathType: CharDevice
     nodeSelector:
       aeotec.feature.node.kubernetes.io/zwave: "true"
-    priorityClassName: high-priority
     resources:
       limits:
         memory: 350M
