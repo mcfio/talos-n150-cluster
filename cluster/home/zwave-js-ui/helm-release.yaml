@@ -61,7 +61,7 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-        - host: &host "zwave.${INTERNAL_DOMAIN}"
+        - host: &host zwave.milton.mcf.io
           paths:
           - path: /
             pathType: Prefix
