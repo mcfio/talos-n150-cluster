@@ -5,21 +5,18 @@ metadata:
   name: mosquitto
   namespace: home
 spec:
+  dependsOn:
+  - name: home-shared-pvc
+    namespace: home
+  - name: onepassword-connect
+    namespace: external-secrets
   path: ./cluster/home/mosquitto
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
     namespace: flux-system
-  # healthChecks:
-  # - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-  #   kind: HelmRelease
-  #   name: emqx
-  #   namespace: home
-  # - apiVersion: apps/v1
-  #   kind: StatefulSet
-  #   name: emqx
-  #   namespace: home
+  wait: true
   interval: 2h
   retryInterval: 2m
   timeout: 5m
