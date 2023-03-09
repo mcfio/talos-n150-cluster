@@ -3,21 +3,18 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: mediaserver-shared-pvc
+  namespace: mediaserver
 spec:
   dependsOn:
-  - name: rook-ceph-cluster
-    namespace: rook-ceph
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   path: ./cluster/mediaserver/cephfs-pvc
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
     namespace: flux-system
-  healthChecks:
-  - apiVersion: v1
-    kind: PersistentVolumeClaim
-    name: mediaserver-shared-pvc
-    namespace: mediaserver
+  wait: true
   interval: 2h
   retryInterval: 1m
-  timeout: 3m
+  timeout: 1m

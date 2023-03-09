@@ -3,24 +3,17 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: plex
+  namespace: mediaserver
 spec:
   dependsOn:
-  - name: mediaserver-shared-pvc
+    - name: mediaserver-shared-pvc
   path: ./cluster/mediaserver/plex
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
     namespace: flux-system
-  healthChecks:
-  - apiVersion: helm.toolkit.fluxcd.io/v2beta1
-    kind: HelmRelease
-    name: plex
-    namespace: mediaserver
-  - apiVersion: apps/v1
-    kind: Deployment
-    name: plex
-    namespace: mediaserver
+  wait: true
   interval: 2h
   retryInterval: 2m
   timeout: 1m
