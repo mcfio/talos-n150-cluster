@@ -26,6 +26,7 @@ spec:
     keepHistory: false
   values:
     global:
+      imageRegistry: registry.k8s.io
       config:
         global:
           cluster-id: 8c519df1-9d7b-4e26-8b84-349563444889
