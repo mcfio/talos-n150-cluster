@@ -26,7 +26,6 @@ spec:
     keepHistory: false
   values:
     global:
-      imageRegistry: registry.k8s.io
       config:
         global:
           cluster-id: 8c519df1-9d7b-4e26-8b84-349563444889
@@ -37,6 +36,31 @@ spec:
     controller:
       global:
         extraEnvVarsSecret: vsphere-csi-secret
+      resizer:
+        image:
+          registry: registry.k8s.io
+      attacher:
+        image:
+          registry: registry.k8s.io
+      livenessprobe:
+        image:
+          registry: registry.k8s.io
+      provisioner:
+        image:
+          registry: registry.k8s.io
+      snapshotter:
+        image:
+          registry: registry.k8s.io
+    snapshotwebhook:
+      image:
+        registry: registry.k8s.io
+    node:
+      registrar:
+        image:
+          registry: registry.k8s.io
+      livenessprobe:
+        image:
+          registry: registry.k8s.io
   postRenderers:
   - kustomize:
       patchesStrategicMerge:
