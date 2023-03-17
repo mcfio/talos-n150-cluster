@@ -5,7 +5,8 @@ metadata:
   name: goldilocks
   namespace: monitoring
 spec:
-  interval: 6h
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       chart: goldilocks
@@ -13,10 +14,16 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: fairwinds-stable
-        namespace: flux-system
-  upgrade:
+        namespace: monitoring
+  install:
     remediation:
-      retries: 2
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     controller:
       resources:
@@ -32,7 +39,7 @@ spec:
         enabled: true
         ingressClassName: "nginx"
         hosts:
-          - host: &host "goldilocks.${INTERNAL_DOMAIN}"
+          - host: &host goldilocks.milton.mcf.io
             paths:
               - path: /
                 type: Prefix

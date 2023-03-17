@@ -5,7 +5,8 @@ metadata:
   name: vpa
   namespace: monitoring
 spec:
-  interval: 15m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       chart: vpa
@@ -13,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: fairwinds-stable
-        namespace: flux-system
+        namespace: monitoring
   upgrade:
     remediation:
       retries: 2

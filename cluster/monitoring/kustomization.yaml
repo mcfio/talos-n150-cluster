@@ -8,3 +8,4 @@ resources:
   - ./loki.yaml
   # - ./promtail.yaml
   - ./grafana.yaml
+  - ./goldilocks.yaml
