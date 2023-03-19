@@ -9,4 +9,3 @@ resources:
   - ./mosquitto.yaml
   - ./zigbee2mqtt.yaml
   - ./zwave-js-ui.yaml
-  - ./home-assistant.yaml
