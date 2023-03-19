@@ -13,3 +13,4 @@ resources:
   - ./recyclarr.yaml
   - ./sabnzbd.yaml
   - ./overseerr.yaml
+  - ./tautulli.yaml

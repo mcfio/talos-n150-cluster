@@ -13,8 +13,17 @@ spec:
       version: 1.3.2
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
-        namespace: flux-system
+        name: mediaserver-charts
+        namespace: mediaserver
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
     global:
       nameOverride: *app
@@ -35,10 +44,10 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             proxy_set_header Accept-Encoding "";
-            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.${INTERNAL_DOMAIN}/css/base/tautulli/nord.css"></head>';
+            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/base/tautulli/nord.css"></head>';
             sub_filter_once on;
         hosts:
-          - host: &host "{{ .Release.Name }}.${INTERNAL_DOMAIN}"
+          - host: &host "{{ .Release.Name }}.milton.mcf.io"
             paths:
               - path: /
                 pathType: Prefix
