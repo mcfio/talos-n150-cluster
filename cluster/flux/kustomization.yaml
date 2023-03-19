@@ -6,5 +6,4 @@ resources:
   - ./repositories
   - ./vars
   - ./cluster.yaml
-  - apps.yaml
   - core.yaml
