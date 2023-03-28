@@ -4,6 +4,6 @@ kind: Namespace
 metadata:
   name: vmware-system-csi
   labels:
-    name: vmware-system-csi
     kustomize.toolkit.fluxcd.io/prune: disabled
     goldilocks.fairwinds.com/enabled: "true"
+    pod-security.kubernetes.io/enforce: privileged
