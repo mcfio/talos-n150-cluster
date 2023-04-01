@@ -35,32 +35,19 @@ spec:
           expansion: true
     controller:
       global:
+        imageRegistry: registry.k8s.io
         extraEnvVarsSecret: vsphere-csi-secret
-      resizer:
-        image:
-          registry: registry.k8s.io
-      attacher:
-        image:
-          registry: registry.k8s.io
-      livenessprobe:
-        image:
-          registry: registry.k8s.io
-      provisioner:
-        image:
-          registry: registry.k8s.io
-      snapshotter:
-        image:
-          registry: registry.k8s.io
-    snapshotwebhook:
-      image:
-        registry: registry.k8s.io
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: In
+                values:
+                - vsphere-csi-controller
+            topologyKey: kubernetes.io/hostname
     node:
-      registrar:
-        image:
-          registry: registry.k8s.io
-      livenessprobe:
-        image:
-          registry: registry.k8s.io
       livenessProbe:
         enabled: true
         httpGet:
@@ -70,31 +57,5 @@ spec:
         periodSeconds: 5
         timeoutSeconds: 5
         failureThreshold: 3
-  postRenderers:
-  - kustomize:
-      patchesStrategicMerge:
-      - apiVersion: apps/v1
-        kind: Deployment
-        metadata:
-          name: vsphere-csi-controller
-          namespace: vmware-system-csi
-        spec:
-          template:
-            spec:
-              topologySpreadConstraints:
-              - labelSelector:
-                  matchLabels:
-                    app.kubernetes.io/component: vsphere-csi-controller
-                maxSkew: 1
-                topologyKey: kubernetes.io/hostname
-                whenUnsatisfiable: DoNotSchedule
-      - apiVersion: apps/v1
-        kind: DaemonSet
-        metadata:
-          name: vsphere-csi
-          namespace: vmware-system-csi
-        spec:
-          template:
-            spec:
-              nodeSelector:
-                feature.node.kubernetes.io/hypervisor: "true"
+      nodeSelector:
+        feature.node.kubernetes.io/hypervisor: "true"
