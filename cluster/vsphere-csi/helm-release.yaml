@@ -61,6 +61,15 @@ spec:
       livenessprobe:
         image:
           registry: registry.k8s.io
+      livenessProbe:
+        enabled: true
+        httpGet:
+          path: /healthz
+          port: 9808
+        initialDelaySeconds: 10
+        periodSeconds: 5
+        timeoutSeconds: 5
+        failureThreshold: 3
   postRenderers:
   - kustomize:
       patchesStrategicMerge:
