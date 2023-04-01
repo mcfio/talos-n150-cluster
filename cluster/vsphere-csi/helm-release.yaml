@@ -73,13 +73,21 @@ spec:
   postRenderers:
   - kustomize:
       patchesStrategicMerge:
-      - apiVersion: storage.k8s.io/v1
-        kind: StorageClass
+      - apiVersion: apps/v1
+        kind: Deployment
         metadata:
-          name: vsphere-csi
+          name: vsphere-csi-controller
           namespace: vmware-system-csi
-        parameters:
-          csi.storage.k8s.io/fstype: "ext4"
+        spec:
+          template:
+            spec:
+              topologySpreadConstraints:
+              - labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: vsphere-csi-controller
+                maxSkew: 1
+                topologyKey: kubernetes.io/hostname
+                whenUnsatisfiable: DoNotSchedule
       - apiVersion: apps/v1
         kind: DaemonSet
         metadata:
