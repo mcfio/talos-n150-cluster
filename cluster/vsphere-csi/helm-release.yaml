@@ -57,5 +57,17 @@ spec:
         periodSeconds: 5
         timeoutSeconds: 5
         failureThreshold: 3
-      nodeSelector:
-        feature.node.kubernetes.io/hypervisor: "true"
+  # Because there's a bug in node selector
+  postRenderers:
+  - kustomize:
+      patchesStrategicMerge:
+      - apiVersion: apps/v1
+        kind: DaemonSet
+        metadata:
+          name: vsphere-csi
+          namespace: vmware-system-csi
+        spec:
+          template:
+            spec:
+              nodeSelector:
+                feature.node.kubernetes.io/hypervisor: "true"
