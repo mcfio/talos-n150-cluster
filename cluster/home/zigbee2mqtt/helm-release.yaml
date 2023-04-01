@@ -41,8 +41,10 @@ spec:
       ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
       ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
       ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
-      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: debug
+      ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug to be see everything, it's noisy
       ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
+      ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 25
+      ZIGBEE2MQTT_CONFIG_ADVANCED_TRANSMIT_POWER: 15
       ZIGBEE2MQTT_CONFIG_DEVICES: devices.yaml
       ZIGBEE2MQTT_CONFIG_GROUPS: groups.yaml
       ZIGBEE2MQTT_CONFIG_SERIAL_PORT: tcp://192.168.30.35:6638
@@ -96,7 +98,7 @@ spec:
       data:
         enabled: true
         existingClaim: home-shared-pvc
-        subPath: zigbee2mqtt
+        subPath: *app
     resources:
       limits:
         memory: 350M
