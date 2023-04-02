@@ -58,6 +58,7 @@ spec:
             metadata:
               name: data
             spec:
+              storageClassName: vsphere-csi
               accessModes:
                 - ReadWriteOnce
               resources:
@@ -97,6 +98,7 @@ spec:
             metadata:
               name: data
             spec:
+              storageClassName: vsphere-csi
               accessModes:
                 - ReadWriteOnce
               resources:
