@@ -31,7 +31,7 @@ spec:
           cluster-id: 8c519df1-9d7b-4e26-8b84-349563444889
         storageclass:
           enabled: true
-          storagepolicyname: "vSAN Direct Storage Policy"
+          storagepolicyname: "Kubernetes PVC"
           expansion: true
     controller:
       global:
