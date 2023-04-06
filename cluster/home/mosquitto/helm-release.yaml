@@ -71,7 +71,7 @@ spec:
         data:
           mosquitto.conf: |
             per_listener_settings false
-            listener 1883
+            port 1883
             allow_anonymous false
             persistence true
             persistence_location /mosquitto/data
