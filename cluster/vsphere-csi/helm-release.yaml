@@ -37,6 +37,9 @@ spec:
       global:
         imageRegistry: registry.k8s.io
         extraEnvVarsSecret: vsphere-csi-secret
+      updateStrategy:
+        type: RollingUpdate
+        maxUnavailable: 1
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
