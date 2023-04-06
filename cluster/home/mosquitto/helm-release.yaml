@@ -71,11 +71,11 @@ spec:
         data:
           mosquitto.conf: |
             per_listener_settings false
-            port 1883
+            listener 1883
             allow_anonymous false
             persistence true
             persistence_location /mosquitto/data
-            connection_messages false
+            connection_messages true
             password_file /mosquitto/configinc/mosquitto_pwd
             autosave_interval 60
             # TLS listener
