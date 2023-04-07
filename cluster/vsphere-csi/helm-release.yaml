@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: vsphere-csi
-      version: 3.0.1
+      version: 3.0.2
       sourceRef:
         kind: HelmRepository
         name: vsphere-tmm
@@ -50,16 +50,6 @@ spec:
                 values:
                 - vsphere-csi-controller
             topologyKey: kubernetes.io/hostname
-    node:
-      livenessProbe:
-        enabled: true
-        httpGet:
-          path: /healthz
-          port: 9808
-        initialDelaySeconds: 10
-        periodSeconds: 5
-        timeoutSeconds: 5
-        failureThreshold: 3
   # Because there's a bug in node selector
   postRenderers:
   - kustomize:
