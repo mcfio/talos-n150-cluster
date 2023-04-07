@@ -50,16 +50,6 @@ spec:
                 values:
                 - vsphere-csi-controller
             topologyKey: kubernetes.io/hostname
-    node:
-      livenessProbe:
-        enabled: true
-        httpGet:
-          path: /healthz
-          port: 9808
-        initialDelaySeconds: 10
-        periodSeconds: 5
-        timeoutSeconds: 5
-        failureThreshold: 3
   # Because there's a bug in node selector
   postRenderers:
   - kustomize:
