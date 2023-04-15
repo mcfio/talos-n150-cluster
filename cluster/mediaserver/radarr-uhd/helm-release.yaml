@@ -29,7 +29,7 @@ spec:
         reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/onedr0p/radarr
-      tag: 4.3.2.6857
+      tag: 4.4.4.7068
     env:
       TZ: Canada/Eastern
       RADARR__INSTANCE_NAME: Radarr-UHD
