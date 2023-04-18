@@ -73,8 +73,8 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: home-shared-pvc
-        subPath: zwave-js-ui
+        retain: true
+        size: 500Mi
         mountPath: /usr/src/app/store
       usb:
         enabled: true

@@ -4,7 +4,6 @@ kind: Kustomization
 namespace: home
 resources:
   - ./namespace.yaml
-  - ./shared-pvc.yaml
   - ./helm-repository.yaml
   - ./mosquitto.yaml
   - ./zigbee2mqtt.yaml
