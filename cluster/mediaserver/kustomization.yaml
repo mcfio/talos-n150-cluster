@@ -6,7 +6,7 @@ resources:
   # - ./shared-pvc.yaml
   - ./helm-repository.yaml
   # - ./plex.yaml
-  # - ./sonarr.yaml
+  - ./sonarr.yaml
   # - ./radarr.yaml
   # - ./radarr-uhd.yaml
   - ./prowlarr.yaml
