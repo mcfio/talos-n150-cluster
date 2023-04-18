@@ -5,8 +5,6 @@ metadata:
   name: prowlarr
   namespace: mediaserver
 spec:
-  dependsOn:
-    - name: mediaserver-shared-pvc
   path: ./cluster/mediaserver/prowlarr
   prune: true
   sourceRef:

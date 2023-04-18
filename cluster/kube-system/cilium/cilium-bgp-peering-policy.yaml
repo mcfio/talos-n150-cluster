@@ -9,9 +9,9 @@ spec:
     - key: kubernetes.io/hostname
       operator: In
       values:
-      - mcf-k8s-node04
-      - mcf-k8s-node05
-      - mcf-k8s-node06
+      - talos-0fc-7eu
+      - talos-7mu-bii
+      - talos-jog-isg
   virtualRouters:
   - localASN: 64515
     neighbors:

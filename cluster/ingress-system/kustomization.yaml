@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: ingress-system
 resources:
 - ./namespace.yaml
-- ./certificates.yaml
+# - ./certificates.yaml
 - ./ingress-nginx.yaml
-- ./theme-park.yaml
-- ./external-dns.yaml
-- ./internal-dns.yaml
+# - ./theme-park.yaml
+# - ./external-dns.yaml
+# - ./internal-dns.yaml
