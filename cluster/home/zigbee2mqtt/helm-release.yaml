@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app zigbee2mqtt
+  name: zigbee2mqtt
 spec:
   interval: 12h
   maxHistory: 2
@@ -97,8 +97,8 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: home-shared-pvc
-        subPath: *app
+        retain: true
+        size: 500Mi
     resources:
       limits:
         memory: 350M

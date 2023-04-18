@@ -91,8 +91,8 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: home-shared-pvc
-        subPath: mosquitto
+        retain: true
+        size: 500Mi
         mountPath: /mosquitto/data
       config:
         enabled: true
