@@ -54,8 +54,8 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
-        subPath: plex
+        retain: true
+        size: 20Gi
       media:
         enabled: true
         type: nfs
@@ -70,7 +70,5 @@ spec:
       requests:
         cpu: 10m
         memory: 192M
-        gpu.intel.com/i915: 1
       limits:
         memory: 1G
-        gpu.intel.com/i915: 1
