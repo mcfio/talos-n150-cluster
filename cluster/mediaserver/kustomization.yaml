@@ -7,10 +7,10 @@ resources:
   - ./helm-repository.yaml
   # - ./plex.yaml
   - ./sonarr.yaml
-  # - ./radarr.yaml
-  # - ./radarr-uhd.yaml
+  - ./radarr.yaml
+  - ./radarr-uhd.yaml
   - ./prowlarr.yaml
-  # - ./recyclarr.yaml
-  # - ./sabnzbd.yaml
+  - ./recyclarr.yaml
+  - ./sabnzbd.yaml
   # - ./overseerr.yaml
-  # - ./tautulli.yaml
+  - ./tautulli.yaml

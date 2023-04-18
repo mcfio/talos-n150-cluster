@@ -76,8 +76,8 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
-        subPath: sabnzbd
+        retain: true
+        size: 500Mi
       media:
         enabled: true
         type: nfs

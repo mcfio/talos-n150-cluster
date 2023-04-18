@@ -72,7 +72,7 @@ spec:
       config:
         enabled: true
         retain: true
-        size: 5Gi
+        size: 2Gi
       media:
         enabled: true
         type: nfs

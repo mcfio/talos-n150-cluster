@@ -71,12 +71,12 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
-        subPath: radarr
+        retain: true
+        size: 2Gi
       media:
         enabled: true
         type: nfs
-        server: 192.168.45.25
+        server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
         mountPath: /media
     resources:
