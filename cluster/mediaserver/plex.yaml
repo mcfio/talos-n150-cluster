@@ -5,8 +5,6 @@ metadata:
   name: plex
   namespace: mediaserver
 spec:
-  dependsOn:
-    - name: mediaserver-shared-pvc
   path: ./cluster/mediaserver/plex
   prune: true
   sourceRef:
