@@ -91,9 +91,11 @@ spec:
     persistence:
       data:
         enabled: true
+        type: pvc
+        mountPath: /mosquitto/data
+        accessMode: ReadWriteOnce
         retain: true
         size: 500Mi
-        mountPath: /mosquitto/data
       config:
         enabled: true
         type: configMap
