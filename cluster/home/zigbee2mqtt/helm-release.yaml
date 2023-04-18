@@ -97,6 +97,8 @@ spec:
     persistence:
       data:
         enabled: true
+        type: pvc
+        accessMode: ReadWriteOnce
         retain: true
         size: 500Mi
     resources:
