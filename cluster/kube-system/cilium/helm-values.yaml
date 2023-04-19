@@ -57,7 +57,7 @@ maglev:
 
 # -- configure loadBalancer
 loadBalancer:
-  algorithm: maglev
+  # algorithm: maglev
   mode: dsr
 
 # -- enable Local Redirect feature
