@@ -3,14 +3,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
 resources:
-- ./namespace.yaml
-- ./cilium.yaml
-- ./descheduler.yaml
-- ./kured.yaml
-- ./snapshot-controller.yaml
-- ./metrics-server.yaml
-- ./node-feature-discovery.yaml
-- ./reloader.yaml
-- ./kubelet-csr-approver.yaml
-- ./intel-gpu-plugin
-- ./vsphere-cpi.yaml
+  - ./namespace.yaml
+  - ./cilium.yaml
+  - ./descheduler.yaml
+  - ./metrics-server.yaml
+  - ./node-feature-discovery.yaml
+  - ./reloader.yaml
+  - ./kubelet-csr-approver.yaml
