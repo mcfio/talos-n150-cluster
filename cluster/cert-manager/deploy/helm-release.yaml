@@ -3,9 +3,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: cert-manager
+  namespace: cert-manager
 spec:
   interval: 12h
-  maxHistory: 3
+  maxHistory: 2
   chart:
     spec:
       chart: cert-manager
@@ -16,12 +17,11 @@ spec:
         namespace: cert-manager
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     installCRDs: true
     replicaCount: 3
@@ -29,10 +29,6 @@ spec:
       requests:
         cpu: 10m
         memory: 128Mi
-    # prometheus:
-    #   enabled: true
-    #   servicemonitor:
-    #     enabled: true
     extraArgs:
       - --dns01-recursive-nameservers=1.1.1.1:53
       - --dns01-recursive-nameservers-only
