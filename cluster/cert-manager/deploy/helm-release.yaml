@@ -29,10 +29,10 @@ spec:
       requests:
         cpu: 10m
         memory: 128Mi
-    prometheus:
-      enabled: true
-      servicemonitor:
-        enabled: true
+    # prometheus:
+    #   enabled: true
+    #   servicemonitor:
+    #     enabled: true
     extraArgs:
       - --dns01-recursive-nameservers=1.1.1.1:53
       - --dns01-recursive-nameservers-only
