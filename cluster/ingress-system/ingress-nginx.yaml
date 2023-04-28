@@ -5,9 +5,6 @@ metadata:
   name: ingress-nginx
   namespace: ingress-system
 spec:
-  dependsOn:
-    - name: cert-manager-issuers
-      namespace: cert-manager
   path: ./cluster/ingress-system/nginx
   prune: true
   sourceRef:
