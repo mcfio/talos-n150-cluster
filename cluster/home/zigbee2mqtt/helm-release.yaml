@@ -14,16 +14,12 @@ spec:
         kind: HelmRepository
         name: home-charts
         namespace: home
-  install:
-    remediation:
-      retries: 3
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
+    replicas: 0
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
@@ -95,7 +91,7 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
     persistence:
-      data:
+      config:
         enabled: true
         type: pvc
         accessMode: ReadWriteOnce

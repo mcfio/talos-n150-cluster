@@ -4,6 +4,4 @@ kind: Namespace
 metadata:
   name: home
   labels:
-    name: home
-    kustomize.toolkit.fluxcd.io/prune: disabled
     goldilocks.fairwinds.com/enabled: "true"
