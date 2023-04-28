@@ -4,6 +4,4 @@ kind: Namespace
 metadata:
   name: mediaserver
   labels:
-    name: mediaserver
-    kustomize.toolkit.fluxcd.io/prune: disabled
     goldilocks.fairwinds.com/enabled: "true"
