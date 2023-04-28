@@ -5,3 +5,4 @@ resources:
   - namespace.yaml
   - helm-repository.yaml
   - istio-base.yaml
+  - istio-istiod.yaml
