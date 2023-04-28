@@ -96,7 +96,7 @@ hubble:
     rollOutPods: true
     ingress:
       enabled: true
-      ingressClassName: nginx
+      className: nginx
       hosts:
         - &host hubble.milton.mcf.io
       tls:
