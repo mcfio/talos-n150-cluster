@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: ingress-nginx
+  namespace: ingress-system
 spec:
   interval: 12h
   maxHistory: 2
@@ -14,12 +15,10 @@ spec:
         kind: HelmRepository
         name: ingress-nginx
         namespace: ingress-system
-  install:
-    remediation:
-      retries: 3
   upgrade:
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     controller:
       replicaCount: 3
@@ -29,7 +28,7 @@ spec:
       service:
         enabled: true
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.50.90
+          io.cilium/lb-ipam-ips: 192.168.50.100
         labels:
           provider: cilium
       publishService:
@@ -50,13 +49,6 @@ spec:
         # proxy-body-size: "100M"
         ssl-protocols: "TLSv1.3 TLSv1.2"
         # use-forwarded-headers: "true"
-      metrics:
-        enabled: true
-        serviceMonitor:
-          enabled: true
-          namespace: ingress-system
-          namespaceSelector:
-            any: true
       extraArgs:
         default-ssl-certificate: ingress-system/milton-mcf-io-wc-cert-tls
       topologySpreadConstraints:
