@@ -50,17 +50,3 @@ spec:
                 values:
                 - vsphere-csi-controller
             topologyKey: kubernetes.io/hostname
-  # Because there's a bug in node selector
-  postRenderers:
-  - kustomize:
-      patchesStrategicMerge:
-      - apiVersion: apps/v1
-        kind: DaemonSet
-        metadata:
-          name: vsphere-csi
-          namespace: vmware-system-csi
-        spec:
-          template:
-            spec:
-              nodeSelector:
-                feature.node.kubernetes.io/hypervisor: "true"
