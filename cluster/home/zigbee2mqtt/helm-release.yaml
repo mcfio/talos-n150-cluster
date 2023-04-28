@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: zigbee2mqtt
+  namespace: home
 spec:
   interval: 12h
   maxHistory: 2
@@ -90,7 +91,7 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
     persistence:
-      config:
+      data:
         enabled: true
         type: pvc
         accessMode: ReadWriteOnce
