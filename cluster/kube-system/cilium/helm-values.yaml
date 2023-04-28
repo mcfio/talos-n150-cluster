@@ -5,7 +5,7 @@ rollOutCiliumPods: true
 # -- configure the kube-proxy replacement in Cilium BPF datapath
 kubeProxyReplacement: strict
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-k8sServiceHost: 192.168.45.210
+k8sServiceHost: mcf-k8s-cluster.milton.mcf.io
 k8sServicePort: 6443
 
 # -- requireIPv4PodCIDR enables waiting for Kubernetes to provide the PodCIDR
@@ -57,7 +57,7 @@ maglev:
 
 # -- configure loadBalancer
 loadBalancer:
-  # algorithm: maglev
+  algorithm: maglev
   mode: dsr
 
 # -- enable Local Redirect feature
@@ -88,8 +88,6 @@ hubble:
       - port-distribution
       - icmp
       - http
-    serviceMonitor:
-      enabled: true
   relay:
     enabled: true
     rollOutPods: true

@@ -14,12 +14,10 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: stakater
-  install:
-    remediation:
-      retries: 3
   upgrade:
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     fullnameOverride: reloader
     reloader:
@@ -28,5 +26,3 @@ spec:
         replicas: 3
       reloadStrategy: annotations
       reloadOnCreate: false
-      podMonitor:
-        enabled: true

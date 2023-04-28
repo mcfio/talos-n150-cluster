@@ -14,17 +14,12 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metrics-server
-  install:
-    remediation:
-      retries: 3
+        namespace: kube-system
   upgrade:
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
-    metrics:
-      enabled: true
-    serviceMonitor:
-      enabled: true
     resources:
       requests:
         cpu: 30m

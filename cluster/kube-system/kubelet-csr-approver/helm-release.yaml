@@ -14,11 +14,11 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: kubelet-csr-approver
-  install:
-    remediation:
-      retries: 3
+        namespace: kube-system
   upgrade:
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
-    providerRegex: ^mcf-k8s-\w*$
+    providerRegex: ^talos-\w*$
+    bypassDnsResolution: true
