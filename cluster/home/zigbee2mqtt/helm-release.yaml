@@ -19,7 +19,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    replicas: 0
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
