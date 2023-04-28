@@ -6,8 +6,8 @@ metadata:
   namespace: home
 spec:
   dependsOn:
-    # - name: mosquitto
-    #   namespace: home
+    - name: mosquitto
+      namespace: home
     - name: onepassword-connect
       namespace: external-secrets
   path: ./cluster/home/zigbee2mqtt

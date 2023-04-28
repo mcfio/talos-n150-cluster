@@ -10,5 +10,5 @@ spec:
     name: letsencrypt-azure
     kind: ClusterIssuer
   dnsNames:
-  - mqtt.milton.mcf.io
-  - "*.mqtt.milton.mcf.io"
+    - mqtt.milton.mcf.io
+    - "*.mqtt.milton.mcf.io"
