@@ -6,6 +6,6 @@ resources:
   - namespace.yaml
   - certificates.yaml
   - ingress-nginx.yaml
-  # - ./theme-park.yaml
-  # - ./external-dns.yaml
+  - theme-park.yaml
+  - external-dns.yaml
   - internal-dns.yaml

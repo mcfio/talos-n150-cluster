@@ -3,6 +3,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: &app theme-park
+  namespace: ingress-system
 spec:
   interval: 12h
   maxHistory: 2
@@ -14,12 +15,10 @@ spec:
         kind: HelmRepository
         name: theme-park
         namespace: ingress-system
-  install:
-    remediation:
-      retries: 3
   upgrade:
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     global:
       nameOverride: *app
