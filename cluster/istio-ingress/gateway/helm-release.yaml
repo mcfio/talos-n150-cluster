@@ -20,8 +20,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    labels:
-      provider: cilium
     resources:
       requests:
         cpu: 200m
