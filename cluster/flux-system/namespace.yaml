@@ -4,6 +4,4 @@ kind: Namespace
 metadata:
   name: flux-system
   labels:
-    name: flux-system
-    kustomize.toolkit.fluxcd.io/prune: disabled
     goldilocks.fairwinds.com/enabled: "true"
