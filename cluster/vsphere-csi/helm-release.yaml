@@ -35,6 +35,7 @@ spec:
         extraEnvVarsSecret: vsphere-csi-secret
       updateStrategy:
         type: RollingUpdate
+        maxSurge: 0
         maxUnavailable: 1
       affinity:
         podAntiAffinity:
