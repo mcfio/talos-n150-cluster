@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 45.10.1
+      version: 45.19.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
@@ -79,7 +79,7 @@ spec:
       podDisruptionBudget:
         enabled: false
       prometheusSpec:
-        retention: 30d
+        externalUrl: https://prometheus.milton.mcf.io
         externalLabels:
           cluster: mcf-k8s-cluster
         portName: http-web
