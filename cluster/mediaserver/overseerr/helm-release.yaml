@@ -14,13 +14,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
-  install:
-    remediation:
-      retries: 3
+        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -44,14 +40,14 @@ spec:
           external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         ingressClassName: nginx
         hosts:
-        - host: &host requests.mcf.io
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: &host requests.mcf.io
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - *host
-          secretName: overseerr-cert-tls
+          - hosts:
+              - *host
+            secretName: overseerr-cert-tls
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
@@ -59,8 +55,8 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
-        subPath: overseerr
+        retain: true
+        size: 1Gi
         mountPath: /app/config
     resources:
       requests:

@@ -14,13 +14,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
-  install:
-    remediation:
-      retries: 3
+        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -36,8 +32,6 @@ spec:
         enabled: true
         annotations:
           io.cilium/lb-ipam-ips: 192.168.50.195
-        labels:
-          provider: cilium
         type: LoadBalancer
         ports:
           http:
@@ -48,14 +42,14 @@ spec:
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
       supplementalGroups:
-      - 44
-      - 109
-      - 1000
+        - 44
+        - 109
+        - 1000
     persistence:
       config:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
-        subPath: plex
+        retain: true
+        size: 20Gi
       media:
         enabled: true
         type: nfs
@@ -70,7 +64,5 @@ spec:
       requests:
         cpu: 10m
         memory: 192M
-        gpu.intel.com/i915: 1
       limits:
         memory: 1G
-        gpu.intel.com/i915: 1

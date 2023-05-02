@@ -4,6 +4,4 @@ kind: Namespace
 metadata:
   name: cert-manager
   labels:
-    name: cert-manager
-    kustomize.toolkit.fluxcd.io/prune: disabled
     goldilocks.fairwinds.com/enabled: "true"

@@ -3,8 +3,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: external-secrets
+  namespace: external-secrets
 spec:
-  interval: 15m
+  interval: 12h
+  maxHistory: 2
   chart:
     spec:
       chart: external-secrets
@@ -13,12 +15,10 @@ spec:
         kind: HelmRepository
         name: external-secrets
         namespace: external-secrets
-  install:
-    remediation:
-      retries: 3
   upgrade:
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     installCRDs: true
     replicaCount: 3

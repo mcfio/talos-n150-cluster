@@ -15,13 +15,8 @@ spec:
         kind: HelmRepository
         name: home-charts
         namespace: home
-  install:
-    remediation:
-      retries: 3
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -32,10 +27,10 @@ spec:
         command: ["/bin/sh", "-c"]
         args: ["cp /mosquitto/secret/* /mosquitto/configinc/ && mosquitto_passwd -U /mosquitto/configinc/mosquitto_pwd"]
         volumeMounts:
-        - name: password-file
-          mountPath: /mosquitto/secret
-        - name: config-include
-          mountPath: /mosquitto/configinc
+          - name: password-file
+            mountPath: /mosquitto/secret
+          - name: config-include
+            mountPath: /mosquitto/configinc
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
@@ -49,8 +44,6 @@ spec:
         enabled: true
         annotations:
           io.cilium/lb-ipam-ips: 192.168.50.190
-        labels:
-          provider: cilium
         type: LoadBalancer
         ports:
           http:
@@ -91,9 +84,11 @@ spec:
     persistence:
       data:
         enabled: true
-        existingClaim: home-shared-pvc
-        subPath: mosquitto
+        type: pvc
         mountPath: /mosquitto/data
+        accessMode: ReadWriteOnce
+        retain: true
+        size: 500Mi
       config:
         enabled: true
         type: configMap

@@ -3,6 +3,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: kube-prometheus-stack
+  namespace: monitoring
 spec:
   path: ./cluster/monitoring/kube-prometheus-stack
   prune: true

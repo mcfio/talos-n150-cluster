@@ -2,14 +2,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./cert-manager
-  - ./ingress-system
-  - ./home
-  - ./mediaserver
-  - ./external-secrets
-  - ./actions-runner-system
-  - ./flux-system
-  - ./monitoring
-  - ./kube-system
-  - ./rook-ceph
-  - ./vsphere-csi
+  # - actions-runner-system
+  - cert-manager
+  - ingress-system
+  - istio-ingress
+  - istio-system
+  - home
+  - mediaserver
+  - external-secrets
+  - flux-system
+  # - monitoring
+  - kube-system
+  - vsphere-csi

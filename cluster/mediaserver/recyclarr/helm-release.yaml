@@ -14,13 +14,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
-  install:
-    remediation:
-      retries: 3
+        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -34,14 +30,14 @@ spec:
       repository: ghcr.io/recyclarr/recyclarr
       tag: edge@sha256:6b93336eb087c265374a2c0ea317a1da5c62d01703d800c0b7abd710fd0b4e35
     command:
-    - /app/recyclarr/recyclarr
+      - /app/recyclarr/recyclarr
     args:
-    - sync
+      - sync
     envFrom:
-    - secretRef:
-        name: radarr
-    - secretRef:
-        name: sonarr
+      - secretRef:
+          name: radarr
+      - secretRef:
+          name: sonarr
     service:
       main:
         enabled: false

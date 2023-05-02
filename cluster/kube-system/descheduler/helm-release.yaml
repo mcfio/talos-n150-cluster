@@ -14,12 +14,11 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: descheduler
-  install:
-    remediation:
-      retries: 3
+        namespace: kube-system
   upgrade:
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     kind: Deployment
     deschedulerPolicy:

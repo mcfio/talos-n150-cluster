@@ -6,8 +6,6 @@ metadata:
   namespace: home
 spec:
   dependsOn:
-  - name: home-shared-pvc
-    namespace: home
   - name: onepassword-connect
     namespace: external-secrets
   path: ./cluster/home/mosquitto

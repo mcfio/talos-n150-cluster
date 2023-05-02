@@ -5,8 +5,6 @@ metadata:
   name: radarr
   namespace: mediaserver
 spec:
-  dependsOn:
-    - name: mediaserver-shared-pvc
   path: ./cluster/mediaserver/radarr
   prune: true
   sourceRef:

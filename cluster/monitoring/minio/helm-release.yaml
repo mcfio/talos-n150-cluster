@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio
+  namespace: monitoring
+spec:
+  interval: 12h
+  maxHistory: 2
+  chart:
+    spec:
+      chart: tenant
+      version: 5.0.3
+      sourceRef:
+        kind: HelmRepository
+        name: minio-operator
+        namespace: minio-operator
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    # for testing
+    secrets:
+      accessKey: minio
+      secretKey: minio123
+    tenant:
+      name: loki-minio
+      pools:
+        - name: logs
+          servers: 1
+          volumesPerServer: 2
+          size: 10Gi
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            fsGroup: 1000
+            runAsNonRoot: true
+      certificate:
+        requestAutoCert: false
+      buckets:
+        - name: chunks
+        - name: ruler
+        - name: admin

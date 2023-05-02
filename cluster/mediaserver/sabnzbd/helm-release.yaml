@@ -6,6 +6,7 @@ metadata:
   namespace: mediaserver
 spec:
   interval: 12h
+  maxHistory: 2
   chart:
     spec:
       chart: app-template
@@ -13,14 +14,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
-  maxHistory: 3
-  install:
-    remediation:
-      retries: 3
+        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -41,8 +37,8 @@ spec:
         sabnzbd.default.svc.cluster.local,
         sabnzbd.milton.mcf.io
     envFrom:
-    - secretRef:
-        name: *app
+      - secretRef:
+          name: *app
     service:
       main:
         ports:
@@ -58,26 +54,26 @@ spec:
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/base/sabnzbd/nord.css"></head>';
             sub_filter_once on;
         hosts:
-        - host: &host "{{ .Release.Name }}.milton.mcf.io"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: &host "{{ .Release.Name }}.milton.mcf.io"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - *host
+          - hosts:
+              - *host
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
       supplementalGroups:
-      - 1000
-      - 100
+        - 1000
+        - 100
     persistence:
       config:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
-        subPath: sabnzbd
+        retain: true
+        size: 500Mi
       media:
         enabled: true
         type: nfs
@@ -94,22 +90,16 @@ spec:
       limits:
         memory: 8000Mi
     affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-          - matchExpressions:
-            - key: feature.node.kubernetes.io/hypervisor
-              operator: DoesNotExist
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-              - prometheus
-              - plex
-          namespaces:
-          - mediaserver
-          - monitoring
-          topologyKey: kubernetes.io/hostname
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - prometheus
+                    - plex
+            namespaces:
+              - mediaserver
+              - monitoring
+            topologyKey: kubernetes.io/hostname

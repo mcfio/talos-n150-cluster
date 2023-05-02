@@ -16,12 +16,11 @@ spec:
         name: node-feature-discovery
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     master:
       resources:

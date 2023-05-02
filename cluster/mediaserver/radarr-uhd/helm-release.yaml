@@ -14,13 +14,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
-  install:
-    remediation:
-      retries: 3
+        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -37,8 +33,8 @@ spec:
       RADARR__APPLICATION_URL: https://{{ .Release.Name }}.milton.mcf.io
       RADARR__lOG_LEVEL: info
     envFrom:
-    - secretRef:
-        name: radarr-uhd-secret
+      - secretRef:
+          name: radarr-uhd-secret
     service:
       main:
         ports:
@@ -54,30 +50,30 @@ spec:
             sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/base/radarr/nord.css"> <link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/addons/radarr/radarr-4k-logo/radarr-4k-logo.css"></head>';
             sub_filter_once on;
         hosts:
-        - host: &host "{{ .Release.Name }}.milton.mcf.io"
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: &host "{{ .Release.Name }}.milton.mcf.io"
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - *host
+          - hosts:
+              - *host
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
       supplementalGroups:
-      - 100
-      - 1000
+        - 100
+        - 1000
     persistence:
       config:
         enabled: true
-        existingClaim: mediaserver-shared-pvc
-        subPath: radarr-uhd
+        retain: true
+        size: 2Gi
       media:
         enabled: true
         type: nfs
-        server: 192.168.45.25
+        server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
         mountPath: /media
     resources:
@@ -89,11 +85,11 @@ spec:
     affinity:
       podAntiAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
-            matchExpressions:
-            - key: app.kubernetes.io/name
-              operator: In
-              values:
-              - sonarr
-              - plex
-          topologyKey: kubernetes.io/hostname
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - sonarr
+                    - plex
+            topologyKey: kubernetes.io/hostname
