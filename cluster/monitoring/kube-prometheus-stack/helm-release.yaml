@@ -43,8 +43,8 @@ spec:
       alertmanagerSpec:
         # for now we need to add the templates to the stack spec until it's
         # supported in alertmanagerConfig
-        configMaps:
-          - slack-templates
+        # configMaps:
+        #   - slack-templates
         podAntiAffinity: hard
         replicas: 2
         resources:
