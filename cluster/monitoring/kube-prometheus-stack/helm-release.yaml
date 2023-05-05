@@ -45,14 +45,14 @@ spec:
         # supported in alertmanagerConfig
         configMaps:
           - slack-templates
-        replicas: 2
         podAntiAffinity: hard
+        replicas: 2
         resources:
+          limits:
+            memory: 300M
           requests:
             cpu: 10m
             memory: 60M
-          limits:
-            memory: 300M
         storage:
           volumeClaimTemplate:
             metadata:
@@ -86,11 +86,11 @@ spec:
         logFormat: json
         replicas: 1
         resources:
+          limits:
+            memory: 4G
           requests:
             cpu: 250m
             memory: 2G
-          limits:
-            memory: 4G
         nodeSelector:
           kubernetes.io/arch: amd64
         storageSpec:

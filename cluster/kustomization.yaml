@@ -11,6 +11,6 @@ resources:
   - mediaserver
   - external-secrets
   - flux-system
-  # - monitoring
+  - monitoring
   - kube-system
   - vsphere-csi
