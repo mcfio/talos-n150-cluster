@@ -5,5 +5,5 @@ namespace: monitoring
 resources:
   - ./helm-repository.yaml
   - ./helm-release.yaml
-  - ./alertmanager-config.yaml
-  - ./slack-notifications
+  # - ./alertmanager-config.yaml
+  # - ./slack-notifications
