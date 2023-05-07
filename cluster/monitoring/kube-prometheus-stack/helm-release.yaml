@@ -16,12 +16,11 @@ spec:
         namespace: monitoring
   install:
     crds: CreateReplace
-    remediation:
-      retries: 3
   upgrade:
     crds: CreateReplace
-    remediation:
-      retries: 3
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
   values:
     fullnameOverride: prom
     alertmanager:
@@ -64,7 +63,13 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
+    kubeControllerManager:
+      enabled: false
+    kubeScheduler:
+      enabled: false
     kubeProxy:
+      enabled: false
+    kubeEtcd:
       enabled: false
     prometheus:
       ingress:
