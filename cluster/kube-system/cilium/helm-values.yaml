@@ -114,4 +114,4 @@ hubble:
       tls:
         - hosts:
             - *host
-          secretName: hubble-ui-tls
+          secretName: hubble-ui-cert
