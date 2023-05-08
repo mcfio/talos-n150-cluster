@@ -106,6 +106,8 @@ hubble:
     rollOutPods: true
     ingress:
       enabled: true
+      annotations:
+        cert-manager.io/issuer: letsencrypt-prod
       className: cilium
       hosts:
         - &host hubble.milton.mcf.io
