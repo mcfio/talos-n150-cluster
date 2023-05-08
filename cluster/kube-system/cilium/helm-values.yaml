@@ -107,7 +107,7 @@ hubble:
     ingress:
       enabled: true
       annotations:
-        cert-manager.io/issuer: letsencrypt-prod
+        cert-manager.io/issuer: letsencrypt-azure
       className: cilium
       hosts:
         - &host hubble.milton.mcf.io
