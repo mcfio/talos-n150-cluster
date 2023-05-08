@@ -106,9 +106,10 @@ hubble:
     rollOutPods: true
     ingress:
       enabled: true
-      className: nginx
+      className: cilium
       hosts:
         - &host hubble.milton.mcf.io
       tls:
         - hosts:
             - *host
+          secretName: hubble-ui-tls
