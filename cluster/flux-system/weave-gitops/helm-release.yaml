@@ -22,6 +22,8 @@ spec:
   values:
     envVars:
       - name: WEAVE_GITOPS_FEATURE_TENANCY
+        value: "true"
+      - name: WEAVE_GITOPS_FEATURE_CLUSTER
         value: "false"
     adminUser:
       create: true
@@ -41,14 +43,7 @@ spec:
     networkPolicy:
       create: false
     metrics:
-      enabled: true
-    rbac:
-      create: true
-      impersonationResourceNames: ["admin"]
-      additionalRules:
-        - apiGroups: ["infra.contrib.fluxcd.io"]
-          resources: ["terraforms"]
-          verbs: ["get", "list", "patch"]
+      enabled: false
     podAnnotations:
       secret.reloader.stakater.com/reload: weave-gitops-secret
   # valuesFrom:
