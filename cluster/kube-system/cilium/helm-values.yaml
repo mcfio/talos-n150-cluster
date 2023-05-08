@@ -56,11 +56,11 @@ maglev:
   hashSeed: "P9jc887+zv7eNcUr"
 
 # -- configure loadBalancer
-loadBalancer:
-  algorithm: maglev
-  mode: dsr
-  l7:
-    backend: envoy
+# loadBalancer:
+#   algorithm: maglev
+#   mode: dsr
+#   l7:
+#     backend: envoy
 
 # -- configure ingress controller
 ingressController:
