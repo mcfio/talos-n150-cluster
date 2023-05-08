@@ -6,4 +6,4 @@ resources:
   - deploy
   - flux-webhook.yaml
   - notifications/github-notifications.yaml
-  # - weave-gitops.yaml
+  - weave-gitops.yaml

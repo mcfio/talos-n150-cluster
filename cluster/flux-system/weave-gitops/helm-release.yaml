@@ -22,20 +22,18 @@ spec:
     remediation:
       retries: 3
   values:
+    envVars:
+      - name: WEAVE_GITOPS_FEATURE_TENANCY
+        value: "false"
     adminUser:
       create: true
       username: admin
       passwordHash: $2a$10$hlddkJLiGsyctJAuOf2l6eOuQSw7MAT6IlsK4AtWIeM.XLmj71K9G
-    # oidcSecret:
-    #   create: true
-    #   clientID: weave-gitops
-    #   issuerURL: https://auth.devbu.io
-    #   redirectURL: https://gitops.devbu.io/oauth2/callback
     ingress:
       enabled: true
       className: nginx
       hosts:
-        - host: &host gitops.${INTERNAL_DOMAIN}
+        - host: &host gitops.milton.mcf.io
           paths:
             - path: /
               pathType: Prefix
