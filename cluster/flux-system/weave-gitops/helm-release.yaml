@@ -24,7 +24,7 @@ spec:
       - name: WEAVE_GITOPS_FEATURE_TENANCY
         value: "false"
       - name: WEAVE_GITOPS_FEATURE_CLUSTER
-        value: "true"
+        value: "false"
       - name: WEAVE_GITOPS_FEATURE_TELEMETRY
         value: "false"
     adminUser:
