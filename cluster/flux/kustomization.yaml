@@ -6,4 +6,3 @@ resources:
   # - repositories
   # - vars
   - cluster.yaml
-  - core.yaml
