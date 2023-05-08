@@ -41,7 +41,7 @@ spec:
         - hosts:
             - *host
     networkPolicy:
-      create: false
+      create: true
     metrics:
       enabled: false
     podAnnotations:
