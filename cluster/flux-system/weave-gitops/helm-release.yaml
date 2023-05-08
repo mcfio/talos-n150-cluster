@@ -22,8 +22,10 @@ spec:
   values:
     envVars:
       - name: WEAVE_GITOPS_FEATURE_TENANCY
-        value: "true"
+        value: "false"
       - name: WEAVE_GITOPS_FEATURE_CLUSTER
+        value: "true"
+      - name: WEAVE_GITOPS_FEATURE_TELEMETRY
         value: "false"
     adminUser:
       create: true
@@ -40,18 +42,5 @@ spec:
       tls:
         - hosts:
             - *host
-    networkPolicy:
-      create: true
     metrics:
       enabled: false
-    podAnnotations:
-      secret.reloader.stakater.com/reload: weave-gitops-secret
-  # valuesFrom:
-    # - kind: Secret
-    #   name: weave-gitops-secret
-    #   valuesKey: adminPassword
-    #   targetPath: adminUser.passwordHash
-    # - kind: Secret
-    #   name: weave-gitops-secret
-    #   valuesKey: WEAVEGITOPS_OAUTH_CLIENT_SECRET
-    #   targetPath: oidcSecret.clientSecret
