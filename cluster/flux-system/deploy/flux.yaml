@@ -56,7 +56,7 @@ spec:
     - target:
         kind: Deployment
         name: helm-controller
-      patch:
+      patch: |
         - op: add
           path: /spec/template/spec/containers/0/args/-
           value: --feature-gates=DetectDrift=true,CorrectDrift=false
