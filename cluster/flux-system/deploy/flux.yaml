@@ -1,11 +1,22 @@
 ---
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: flux-manifests
+  namespace: flux-system
+spec:
+  interval: 10m
+  url: oci://ghcr.io/fluxcd/flux-manifests
+  ref:
+    tag: v0.41.2
+---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: flux-installation
   namespace: flux-system
 spec:
-  interval: 24h
+  interval: 10m
   path: ./
   prune: true
   wait: true
@@ -13,16 +24,7 @@ spec:
     kind: OCIRepository
     name: flux-manifests
   patches:
-    - target:
-        group: networking.k8s.io
-        version: v1
-        kind: NetworkPolicy
-      patch: |
-        $patch: delete
-        apiVersion: networking.k8s.io/v1
-        kind: NetworkPolicy
-        metadata:
-          name: not-used
+    # Remove CPU limits, not necessary on flux components
     - target:
         version: v1
         kind: Deployment
@@ -30,16 +32,26 @@ spec:
       patch: |
         - op: remove
           path: /spec/template/spec/containers/0/resources/limits/cpu
+    # Adjust some parameters to address concurrency
     - target:
         kind: Deployment
         name: "(kustomize-controller|helm-controller|source-controller)"
       patch: |
         - op: add
           path: /spec/template/spec/containers/0/args/-
-          value: --concurrent=20
+          value: --concurrent=8
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --kube-api-qps=500
+        - op: add
+          path: /spec/template/spec/containers/0/args/-
+          value: --kube-api-burst=1000
         - op: add
           path: /spec/template/spec/containers/0/args/-
           value: --requeue-dependency=5s
+        - op: replace
+          path: /spec/template/spec/containers/0/resources/limits/memory
+          value: 2Gi
     - target:
         kind: CustomResourceDefinition
         name: alerts.notification.toolkit.fluxcd.io
