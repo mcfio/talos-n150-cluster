@@ -1,5 +1,5 @@
 ---
-apiVersion: notification.toolkit.fluxcd.io/v1beta2
+apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Receiver
 metadata:
   name: home-cluster
@@ -12,6 +12,6 @@ spec:
   secretRef:
     name: github-webhook-token
   resources:
-    - apiVersion: source.toolkit.fluxcd.io/v1beta2
+    - apiVersion: source.toolkit.fluxcd.io/v1
       kind: GitRepository
       name: home-cluster
