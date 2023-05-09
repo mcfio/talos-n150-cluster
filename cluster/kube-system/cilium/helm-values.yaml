@@ -1,6 +1,6 @@
 ---
 debug:
-  enabled: true
+  enabled: false
   verbose:
     - envoy
 
