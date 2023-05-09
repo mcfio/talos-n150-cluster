@@ -63,7 +63,7 @@ maglev:
 # -- configure loadBalancer
 loadBalancer:
   algorithm: maglev
-  mode: dsr
+  # mode: dsr
 
 # -- configure ingress controller
 ingressController:
