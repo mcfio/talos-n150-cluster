@@ -5,9 +5,9 @@
       "description": "Auto merge trusted container digests",
       "matchDatasources": ["docker"],
       "automerge": true,
-      "automergeType": "pr",
+      "automergeType": "branch",
       "matchUpdateTypes": ["digest"],
-      "matchPackagePattern": ["ghcr.io/onedr0p"],
+      "matchPackagePatterns": ["ghcr.io/onedr0p"],
       "ignoreTests": true
     }
   ]
