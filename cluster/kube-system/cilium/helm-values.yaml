@@ -79,6 +79,7 @@ localRedirectPolicy: true
 # -- enable native eBPF masquerading
 bpf:
   masquerade: true
+  tproxy: true
 
 operator:
   rollOutPods: true
