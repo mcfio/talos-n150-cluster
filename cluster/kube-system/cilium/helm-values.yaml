@@ -81,6 +81,9 @@ bpf:
   masquerade: true
   tproxy: true
 
+# --- disable fallback compatibility for xt_socket
+enableXTSocketFallback: false
+
 operator:
   rollOutPods: true
   resources:
