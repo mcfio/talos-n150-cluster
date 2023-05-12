@@ -1,6 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
+    ":automergeDigest",
+    ":automergeBranch",
     "github>mcfio/renovate-config",
     "github>mcfio/renovate-config:auto-merge",
     "github>mcfio/home-cluster//.github/renovate/autoMerge",
