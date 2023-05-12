@@ -2,13 +2,21 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Auto merge trusted container digests",
+      "description": "Auto Merge trusted container digests",
       "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "branch",
       "matchUpdateTypes": ["digest"],
       "matchPackagePatterns": ["ghcr.io/onedr0p"],
       "ignoreTests": true
+    },
+    {
+      "description": "Auto Merge Helm Releases",
+      "matchDatasources": ["helm"],
+      "automerge": true,
+      "automergeType": "branch",
+      "requiredStatusChecks": null,
+      "matchUPdateTypes": ["patch"],
     }
   ]
 }
