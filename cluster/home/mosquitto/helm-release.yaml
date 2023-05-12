@@ -22,7 +22,7 @@ spec:
   values:
     initContainers:
       init-config:
-        image: public.ecr.aws/docker/library/eclipse-mosquitto:2.0.15@sha256:0e0886befecf2bf77e2e613f926f6ee0b77b93f76e49847471177143a8b3863c
+        image: public.ecr.aws/docker/library/eclipse-mosquitto:2.0.15@sha256:00fefa7b08cd368d5ee1a894ccb98c269f3837d83207a026483a37cc67a0db1c
         imagePullPolicy: IfNotPresent
         command: ["/bin/sh", "-c"]
         args: ["cp /mosquitto/secret/* /mosquitto/configinc/ && mosquitto_passwd -U /mosquitto/configinc/mosquitto_pwd"]
