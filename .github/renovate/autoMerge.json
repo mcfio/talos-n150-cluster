@@ -6,7 +6,7 @@
       "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "branch",
-      "matchUpdateTypes": ["digest"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
       "matchPackagePatterns": ["ghcr.io/onedr0p"],
       "ignoreTests": true
     },
