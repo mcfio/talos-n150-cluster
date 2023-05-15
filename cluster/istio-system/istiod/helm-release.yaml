@@ -21,6 +21,7 @@ spec:
     keepHistory: false
   values:
     pilot:
+      autoscaleEnabled: false
       replicaCount: 2
       resources:
         requests:
