@@ -21,12 +21,12 @@ spec:
     keepHistory: false
   values:
     pilot:
+      replicaCount: 2
       resources:
         requests:
           cpu: 100m
           memory: 2048Mi
     global:
-      replicaCount: 2
       logAsJson: true
       meshID: mcfio
       multiCluster:
