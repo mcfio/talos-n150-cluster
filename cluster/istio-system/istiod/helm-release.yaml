@@ -26,6 +26,7 @@ spec:
           cpu: 100m
           memory: 2048Mi
     global:
+      replicaCount: 2
       logAsJson: true
       meshID: mcfio
       multiCluster:
