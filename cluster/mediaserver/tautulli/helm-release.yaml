@@ -24,7 +24,7 @@ spec:
       nameOverride: *app
     image:
       repository: ghcr.io/onedr0p/tautulli
-      tag: 2.12.3
+      tag: 2.12.4
     env:
       TZ: Canada/Eastern
     service:
