@@ -16,7 +16,7 @@
       "automerge": true,
       "automergeType": "branch",
       "requiredStatusChecks": null,
-      "matchUPdateTypes": ["patch"],
+      "matchUpdateTypes": ["patch"]
     }
   ]
 }
