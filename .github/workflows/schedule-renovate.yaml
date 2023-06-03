@@ -19,8 +19,9 @@ on:
     branches:
       - main
     paths:
-      - .github/renovate.json
+      - .github/renovate.json5
       - .github/renovate/**.json
+      - .github/renovate/**.json5
       - .github/workflows/schedule-renovate.yaml
 
 jobs:
@@ -28,7 +29,7 @@ jobs:
     name: Renovate
     uses: mcfio/workflows/.github/workflows/renovate.yaml@main
     with:
-      configurationFile: .github/renovate.json
+      configurationFile: .github/renovate.json5
       dryRun: ${{ inputs.dryRun || 'false' }}
       LogLevel: ${{ inputs.logLevel || 'debug' }}
     secrets:
