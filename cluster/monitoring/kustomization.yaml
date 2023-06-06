@@ -4,8 +4,8 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - namespace.yaml
-  # - helm-repository.yaml
-  - ./kube-prometheus-stack.yaml
+  - helm-repository.yaml
+  - kube-prometheus-stack.yaml
   # - ./loki.yaml
   # - ./promtail.yaml
   # - ./grafana.yaml
