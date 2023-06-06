@@ -2,19 +2,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: actions-runner-controller-runners
+  name: actions-runner-controller
+  namespace: actions-runner-system
 spec:
   dependsOn:
-    - name: actions-runner-controller
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-  path: ./cluster/actions-runner-system/runner
+    - name: onepassword-connect
+      namespace: external-secrets
+  path: ./cluster/actions-runner-system/controller
   prune: true
   sourceRef:
     kind: GitRepository
     name: home-cluster
     namespace: flux-system
-  wait: true
   interval: 2h
   retryInterval: 1m
   timeout: 3m
