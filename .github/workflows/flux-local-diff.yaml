@@ -1,5 +1,5 @@
 ---
-name: flux-local diff
+name: Diff Flux Manifests
 
 on:
   pull_request:
@@ -30,7 +30,7 @@ jobs:
           private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Diff Resources
-        uses: allenporter/flux-local/action/diff@2.0.0
+        uses: allenporter/flux-local/action/diff@main
         id: diff
         with:
           path: ${{ matrix.cluster_path }}
