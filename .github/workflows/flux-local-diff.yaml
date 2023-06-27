@@ -30,7 +30,7 @@ jobs:
           private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Diff Resources
-        uses: allenporter/flux-local-action/diff@645babaa82554b39b6be837d487c8f1e80f63679 # v2
+        uses: allenporter/flux-local/action/diff@v2
         id: diff
         with:
           path: ${{ matrix.cluster_path }}
