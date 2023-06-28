@@ -1,8 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: istio-system
-  labels:
-    topology.istio.io/network: milton.mcf.io
-    goldilocks.fairwinds.com/enabled: "true"
