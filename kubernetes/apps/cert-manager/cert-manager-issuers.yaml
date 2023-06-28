@@ -3,18 +3,16 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: cert-manager-issuers
-  namespace: cert-manager
+  namespace: flux-system
 spec:
   dependsOn:
     - name: cert-manager
-      namespace: cert-manager
     - name: onepassword-connect
-      namespace: external-secrets
-  path: ./cluster/cert-manager/issuers
+  path: ./kubernetes/apps/cert-manager/issuers
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
     namespace: flux-system
   wait: true
   interval: 2h
