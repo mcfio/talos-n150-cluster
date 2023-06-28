@@ -7,7 +7,6 @@ metadata:
 spec:
   dependsOn:
     - name: istio-istiod
-      namespace: istio-system
   path: ./kubernetes/apps/istio-ingress/gateway
   prune: true
   sourceRef:
