@@ -5,7 +5,7 @@ metadata:
   name: istio-base
   namespace: flux-system
 spec:
-  path: ./kubernetes/istio-system/base
+  path: ./kubernetes/apps/istio-system/base
   prune: true
   sourceRef:
     kind: GitRepository
