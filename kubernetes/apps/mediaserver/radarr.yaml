@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: sabnzbd
-  namespace: mediaserver
+  name: radarr
+  namespace: flux-system
 spec:
-  path: ./cluster/mediaserver/sabnzbd
+  path: ./kubernetes/apps/mediaserver/radarr
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
     namespace: flux-system
   wait: true
   interval: 2h

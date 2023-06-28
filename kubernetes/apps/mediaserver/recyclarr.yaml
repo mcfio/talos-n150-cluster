@@ -2,14 +2,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: plex
-  namespace: mediaserver
+  name: recyclarr
+  namespace: flux-system
 spec:
-  path: ./cluster/mediaserver/plex
+  dependsOn:
+    - name: sonarr
+    - name: radarr
+  path: ./kubernetes/apps/mediaserver/recyclarr
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
     namespace: flux-system
   wait: true
   interval: 2h
