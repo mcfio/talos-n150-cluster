@@ -7,7 +7,7 @@ metadata:
 spec:
   dependsOn:
     - name: istio-base
-  path: ./cluster/istio-system/istiod
+  path: ./kubernetes/istio-system/istiod
   prune: true
   sourceRef:
     kind: GitRepository
