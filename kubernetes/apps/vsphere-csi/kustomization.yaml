@@ -5,3 +5,4 @@ namespace: vmware-system-csi
 resources:
   - namespace.yaml
   - helm-repository.yaml
+  - vsphere-csi.yaml
