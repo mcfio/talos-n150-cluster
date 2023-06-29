@@ -2,18 +2,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: actions-runner-controller
-  namespace: actions-runner-system
+  name: actions-runner-controller-runners
+  namespace: flux-system
 spec:
   dependsOn:
-    - name: onepassword-connect
-      namespace: external-secrets
-  path: ./cluster/actions-runner-system/controller
+    - name: actions-runner-controller
+  path: ./kubernetes/apps/actions-runner-system/runner
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
     namespace: flux-system
+  wait: true
   interval: 2h
   retryInterval: 1m
   timeout: 3m
