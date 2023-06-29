@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: theme-park
-  namespace: ingress-system
+  name: ingress-nginx
+  namespace: flux-system
 spec:
-  path: ./cluster/ingress-system/theme-park
+  path: ./kubernetes/apps/ingress-system/nginx
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
     namespace: flux-system
   wait: true
   interval: 2h
