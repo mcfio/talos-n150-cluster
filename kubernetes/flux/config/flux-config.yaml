@@ -2,15 +2,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster
+  name: home-cluster-flux-config
   namespace: flux-system
 spec:
   interval: 90m
-  path: ./cluster
+  path: ./kubernetes/flux
   prune: false
+  wait: false
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
   decryption:
     provider: sops
     secretRef:

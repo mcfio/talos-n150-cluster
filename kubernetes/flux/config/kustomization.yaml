@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - flux.yaml
   - git-repository.yaml
+  - flux-config.yaml
