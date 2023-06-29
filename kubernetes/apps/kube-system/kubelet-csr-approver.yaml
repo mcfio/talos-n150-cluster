@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: descheduler
-  namespace: kube-system
+  name: kubelet-csr-approver
+  namespace: flux-system
 spec:
-  path: ./cluster/kube-system/descheduler
+  path: ./kubernetes/apps/kube-system/kubelet-csr-approver
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
     namespace: flux-system
   wait: true
   interval: 2h
