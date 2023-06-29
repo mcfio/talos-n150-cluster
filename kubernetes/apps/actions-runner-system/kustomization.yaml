@@ -5,3 +5,4 @@ resources:
   - namespace.yaml
   - helm-repository.yaml
   - actions-runner-controller.yaml
+  - actions-runners.yaml
