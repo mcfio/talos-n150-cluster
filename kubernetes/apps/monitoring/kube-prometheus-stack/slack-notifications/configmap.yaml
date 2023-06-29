@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: slack-templates
+  namespace: monitoring
 data:
   slack-templates.tmpl: |-
     {{ define "__alert_silence_link" -}}
