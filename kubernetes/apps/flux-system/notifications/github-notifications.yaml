@@ -2,14 +2,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: flux-webhook
+  name: github-notifications
   namespace: flux-system
 spec:
-  path: ./cluster/flux-system/webhook
+  path: ./kubernetes/apps/flux-system/notifications/github
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-cluster
+    name: home-cluster-kubernetes
   wait: true
   interval: 2h
   retryInterval: 1m
