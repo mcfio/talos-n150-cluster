@@ -14,13 +14,13 @@
   repositories: ["mcfio/home-cluster"],
   ignorePaths: ["**/archived/**"],
   flux: {
-    fileMatch: ["cluster/.+\\.ya?ml$"]
+    fileMatch: ["kubernetes/.+\\.ya?ml$"]
   },
   "helm-values": {
-    fileMatch: ["cluster/.+\\.ya?ml$"]
+    fileMatch: ["kubernetes/.+\\.ya?ml$"]
   },
   kubernetes: {
-    fileMatch: ["cluster/.+\\.ya?ml$"]
+    fileMatch: ["kubernetes/.+\\.ya?ml$"]
   },
   packageRules: [
     {
