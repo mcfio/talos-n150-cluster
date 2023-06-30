@@ -26,6 +26,11 @@ spec:
     maxRunners: 3
     containerMode:
       type: dind
+    template:
+      spec:
+        containers:
+          - name: runner
+            image: ghcr.io/onedr0p/github-actions-runner:rolling@sha256:37c95b4609cc47ddc181a6e6f345967568249b62b49ea9a6d9db320d189d61c1
   valuesFrom:
     - kind: Secret
       name: arc-secret
