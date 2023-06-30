@@ -3,7 +3,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: actions-runner-controller
-  namespace: actions-runner-system
+  namespace: arc-system
 spec:
   type: oci
   interval: 24h
