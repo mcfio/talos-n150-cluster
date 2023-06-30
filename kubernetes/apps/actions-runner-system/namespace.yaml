@@ -6,3 +6,4 @@ metadata:
   labels:
     name: actions-runner-system
     kustomize.toolkit.fluxcd.io/prune: disabled
+    pod-security.kubernetes.io/enforce: privileged
