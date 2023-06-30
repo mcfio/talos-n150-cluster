@@ -52,3 +52,20 @@ jobs:
         run: |
           unzip -j $GITHUB_WORKSPACE/crd-extractor.zip -d $GITHUB_WORKSPACE
           bash $GITHUB_WORKSPACE/crd-extractor.sh
+
+      - name: Generate tag
+        id: generate-tag
+        shell: bash
+        run: echo "tag=ghcr.io/${{ github.repository_owner }}/manifests/kubernetes-schemas:$(git rev-parse --short HEAD)" >> "${GITHUB_OUTPUT}"
+
+      - name: Publish manifests
+        shell: bash
+        run: |
+          flux push artifact oci://${{ steps.generate-tag.outputs.tag }} \
+            --path="/home/runner/.datree/crdSchemas" \
+            --source="${{ github.repositoryUrl }}" \
+            --revision="${{ github.ref_name }}@sha1:$(git rev-parse HEAD)"
+
+      - name: Tag manifests
+        shell: bash
+        run: flux tag artifact oci://${{ steps.generate-tag.outputs.tag }} --tag main
