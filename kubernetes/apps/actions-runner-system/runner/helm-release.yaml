@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: arc-runners
+  name: arc-runner-set
   namespace: actions-runner-system
 spec:
   interval: 12h
@@ -28,14 +28,14 @@ spec:
       type: dind
   valuesFrom:
     - kind: Secret
-      name: actions-runner-controller-secret
+      name: arc-secret
       valuesKey: github_app_id
       targetPath: githubConfigSecret.github_app_id
     - kind: Secret
-      name: actions-runner-controller-secret
+      name: arc-secret
       valuesKey: github_app_installation_id
       targetPath: githubConfigSecret.github_app_installation_id
     - kind: Secret
-      name: actions-runner-controller-secret
+      name: arc-secret
       valuesKey: github_app_private_key
       targetPath: githubConfigSecret.github_app_private_key
