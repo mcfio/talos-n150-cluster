@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: arc-runner-set
+  name: arc-runner
   namespace: arc-runners
 spec:
   interval: 12h
