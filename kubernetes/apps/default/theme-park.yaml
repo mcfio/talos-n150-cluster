@@ -1,11 +1,12 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: theme-park
-  namespace: flux-system
+  namespace: default
 spec:
-  path: ./kubernetes/apps/ingress-system/theme-park
+  path: ./kubernetes/apps/default/theme-park
   prune: true
   sourceRef:
     kind: GitRepository
