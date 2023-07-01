@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: default-charts
-        namespace: default
+        namespace:
   upgrade:
     cleanupOnFail: true
   uninstall:
@@ -25,7 +25,7 @@ spec:
       strategy: RollingUpdate
     image:
       repository: ghcr.io/mcfio/kubernetes-schemas
-      tag: latest@sha256:cb84a46a632ea1e6d0e83d9b031acadc9cd83c41dd1cae5562d5d51c6e0e1ba2
+      tag: latest@sha256:d62cdc0e8cb0201c78e89fbb01ab83c05d11d1205be2becef1cdbb520d417a09
     service:
       main:
         ports:
