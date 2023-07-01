@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: default-charts
-        namespace:
+        namespace: default
   upgrade:
     cleanupOnFail: true
   uninstall:
