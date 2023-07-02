@@ -1,7 +1,7 @@
 terraform {
-  backend "remote" {
-    hostname     = "app.terraform.io"
+  cloud {
     organization = "mcfaul-cloud"
+    hostname     = "app.terraform.io"
 
     workspaces {
       name = "cloudflare-mcfio"
@@ -11,10 +11,10 @@ terraform {
   required_providers {
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = ">= 3.34.0"
+      version = "~> 4.0"
     }
   }
-  required_version = ">= 1.3.0"
+  required_version = "~> 1.3"
 }
 
 provider "cloudflare" {
