@@ -38,21 +38,20 @@ jobs:
           username: "${{ github.actor }}"
           password: "${{ secrets.GITHUB_TOKEN }}"
 
-      # Disable the 1password secret automation until it supports self-hosted runners
-      # - name: Load secret
-      #   id: op-load-secret
-      #   uses: 1password/load-secrets-action@v1
-      #   with:
-      #     export-env: true
-      #   env:
-      #     OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-      #     KUBECONFIG_BASE64: "op://McFaul Cloud Vault/mcfio-github-actions-read/credential"
+      - name: Load secret
+        id: op-load-secret
+        uses: 1password/load-secrets-action@main
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          KUBECONFIG_BASE64: "op://McFaul Cloud Vault/mcfio-github-actions-read/credential"
 
       - name: Write kubeconfig
         id: kubeconfig
         uses: timheuer/base64-to-file@ca9e30baf83f7f26708fb0059af9a0973fe5f27e # v1.2
         with:
-          encodedString: ${{ secrets.KUBECONFIG_BASE64 }}
+          encodedString: ${{ steps.op-load-secret.outputs.KUBECONFIG_BASE64 }}
           fileName: kubeconfig
 
       - name: Setup crd-extractor
