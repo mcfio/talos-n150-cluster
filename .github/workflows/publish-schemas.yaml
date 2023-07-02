@@ -42,7 +42,7 @@ jobs:
         id: op-load-secret
         uses: 1password/load-secrets-action@main
         with:
-          export-env: true
+          export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
           KUBECONFIG_BASE64: "op://McFaul Cloud Vault/mcfio-github-actions-read/credential"
