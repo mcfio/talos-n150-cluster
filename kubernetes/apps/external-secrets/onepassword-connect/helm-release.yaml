@@ -25,7 +25,7 @@ spec:
         reloader.stakater.com/auto: "true"
     image:
       repository: docker.io/1password/connect-api
-      tag: 1.7.1
+      tag: 1.7.1@sha256:a4eb5764b6ad85cb3f2067e5c4eb903a41843302b0f39662f5da4762adaf9d1f
     env:
       OP_BUS_PORT: "11220"
       OP_BUS_PEERS: "localhost:11221"
