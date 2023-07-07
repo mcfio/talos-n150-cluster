@@ -26,7 +26,7 @@ spec:
       strategy: RollingUpdate
     image:
       repository: ghcr.io/mcfio/home-cluster/kubernetes-schemas
-      tag: latest@sha256:a1a88f6b0799a27e9fa398876a0acd44d16218a78ffa4d50f8b0ec963a6b6fc0
+      tag: latest@sha256:e2ea3458aa4c09ebe75990bcbe115b888164df36a4bb459666035c4f40c2ad42
     service:
       main:
         ports:
