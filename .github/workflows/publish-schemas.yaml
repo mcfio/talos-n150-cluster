@@ -46,7 +46,7 @@ jobs:
           export-env: false
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          KUBECONFIG_BASE64: "op://McFaul Cloud Vault/mcfio-github-actions-read/credential"
+          KUBECONFIG_BASE64: "op://${{ secrets.OP_VAULT_NAME }}/mcfio-github-actions-read/credential"
 
       - name: Write kubeconfig
         id: kubeconfig
