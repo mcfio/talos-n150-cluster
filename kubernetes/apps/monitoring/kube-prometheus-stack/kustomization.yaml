@@ -1,8 +1,10 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - helm-repository.yaml
-  - helm-release.yaml
+  - crds/helm-release.yaml
+  - deploy/helm-release.yaml
   # - ./alertmanager-config.yaml
   # - ./slack-notifications
