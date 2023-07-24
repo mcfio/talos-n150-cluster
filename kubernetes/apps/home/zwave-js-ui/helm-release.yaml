@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: ghcr.io/zwave-js/zwave-js-ui
-      tag: 8.21.0@sha256:0fa932d81219d82e761f5c1e2aa3d68fd0735110882bc5665af24a54ea0b3850
+      tag: 8.21.1@sha256:31e393797f42ec16791abaa723de8789bb9ab9e7425850864e7655064d809077
     env:
       TZ: Canada/Eastern
     service:
