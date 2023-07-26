@@ -9,14 +9,6 @@
       matchUpdateTypes: ["minor", "patch", "digest"],
       matchPackagePatterns: ["ghcr.io/onedr0p"],
       ignoreTests: true
-    },
-    {
-      description: "Auto Merge Helm Releases",
-      matchDatasources: ["helm"],
-      automerge: true,
-      automergeType: "pr",
-      requiredStatusChecks: null,
-      matchUpdateTypes: ["patch"]
     }
   ]
 }
