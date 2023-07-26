@@ -32,7 +32,7 @@ spec:
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/hostname: plex.milton.mcf.io
-          io.cilium/lb-ipam-ips: 192.168.45.195
+          io.cilium/lb-ipam-ips: 192.168.45.230
         type: LoadBalancer
         ports:
           http:
