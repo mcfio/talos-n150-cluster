@@ -1,8 +1,14 @@
 ---
+# -- enable debug logging
 debug:
   enabled: false
   verbose:
     - envoy
+
+# -- cluster mesh configuration
+cluster:
+  name: home-cluster
+  id: 100
 
 # -- roll out cilium agent pods automatically when configmap is updated.
 rollOutCiliumPods: true
@@ -50,6 +56,13 @@ cgroup:
 # -- configure BGP control plane - listen for peering CRDs
 bgpControlPlane:
   enabled: true
+
+# -- configure L2 announcements - listen for CRD configurations
+l2announcements:
+  enabled: true
+  leaseDuration: 120s
+  leaseRenewDeadline: 60s
+  leaseRetryPeriod: 1s
 
 # -- configure IPAM from kubernetes configuration
 ipam:
