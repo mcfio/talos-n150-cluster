@@ -78,6 +78,10 @@ loadBalancer:
   algorithm: maglev
   # mode: dsr
 
+# -- Enable ExternalIPs service support.
+externalIPs:
+  enabled: true
+
 # -- configure ingress controller
 ingressController:
   enabled: true
