@@ -5,8 +5,8 @@ namespace: kube-system
 resources:
   - helm-repository.yaml
   - helm-release.yaml
-  - cilium-bgp-peering-policy.yaml
   - cilium-load-balancer-ip-pool.yaml
+  - cilium-l2-announcements-policy.yaml
 configMapGenerator:
   - name: cilium-values
     files:
