@@ -25,6 +25,7 @@ spec:
     provider: azure
     policy: sync
     sources:
+      - service
       - ingress
     txtPrefix: k8s.
     txtOwnerId: default
