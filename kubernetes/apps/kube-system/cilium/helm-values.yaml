@@ -76,12 +76,12 @@ maglev:
 # -- configure loadBalancer
 loadBalancer:
   algorithm: maglev
-  # mode: dsr
+  mode: dsr
 
 # -- configure ingress controller
-ingressController:
-  enabled: true
-  loadbalancerMode: shared
+# ingressController:
+#   enabled: true
+#   loadbalancerMode: shared
 
 # -- enable Local Redirect feature
 localRedirectPolicy: false
