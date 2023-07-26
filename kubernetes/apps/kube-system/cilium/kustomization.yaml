@@ -6,7 +6,7 @@ resources:
   - helm-repository.yaml
   - helm-release.yaml
   - cilium-load-balancer-ip-pool.yaml
-  - cilium-l2-announcements-policy.yaml
+  - cilium-l2-announcement-policy.yaml
 configMapGenerator:
   - name: cilium-values
     files:
