@@ -30,8 +30,6 @@ spec:
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: ScheduleAnyway
     service:
-      annotations:
-        io.cilium/lb-ipam-ips: 192.168.50.105
       externalTrafficPolicy: Cluster
       type: LoadBalancer
       ports:

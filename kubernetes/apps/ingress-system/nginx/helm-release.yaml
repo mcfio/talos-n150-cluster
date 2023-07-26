@@ -27,8 +27,6 @@ spec:
           value: Canada/Eastern
       service:
         enabled: true
-        annotations:
-          io.cilium/lb-ipam-ips: 192.168.50.100
       publishService:
         enabled: true
       ingressClassResource:
