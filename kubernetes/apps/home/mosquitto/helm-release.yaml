@@ -43,9 +43,9 @@ spec:
       main:
         enabled: true
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: "mqtt.milton.mcf.io."
-        externalIPs:
-          - 192.168.45.190
+          external-dns.alpha.kubernetes.io/hostname: mqtt.milton.mcf.io
+          io.cilium/lb-ipam-ips: 192.168.45.190
+        type: LoadBalancer
         ports:
           http:
             enabled: false
