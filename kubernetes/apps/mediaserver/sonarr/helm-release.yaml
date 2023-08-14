@@ -73,7 +73,7 @@ spec:
         enabled: true
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /mnt/storage/media
+        path: /mnt/media-pool
         mountPath: /media
     resources:
       requests:
