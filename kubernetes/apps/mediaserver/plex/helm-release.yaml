@@ -58,6 +58,13 @@ spec:
         path: /mnt/storage/media
         mountPath: /nfs-data
         readOnly: true
+      media-tv:
+        enabled: true
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/media-pool/tv
+        mountPath: /media/tv
+        readOnly: true
       transcode:
         enabled: true
         type: emptyDir
