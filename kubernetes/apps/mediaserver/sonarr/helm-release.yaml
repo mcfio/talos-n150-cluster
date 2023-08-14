@@ -74,7 +74,7 @@ spec:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /mnt/media-pool
-        mountPath: /media
+        mountPath: /media-pool
     resources:
       requests:
         cpu: 10m
