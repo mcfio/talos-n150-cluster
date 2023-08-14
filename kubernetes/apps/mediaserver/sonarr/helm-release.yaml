@@ -69,12 +69,18 @@ spec:
         enabled: true
         retain: true
         size: 2Gi
+      downloads:
+        enabled: true
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/media-pool/downloads
+        mountPath: /downloads
       media:
         enabled: true
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool
-        mountPath: /media
+        path: /mnt/media-pool/tv
+        mountPath: /media/tv
     resources:
       requests:
         cpu: 10m
