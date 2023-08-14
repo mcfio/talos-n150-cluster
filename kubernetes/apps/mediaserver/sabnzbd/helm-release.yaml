@@ -80,12 +80,18 @@ spec:
         server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
         mountPath: /media
-      media-pool:
+      downloads:
         enabled: true
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool
-        mountPath: /media-pool
+        path: /mnt/media-pool/downloads
+        mountPath: /downloads
+      media-tv:
+        enabled: true
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/media-pool/tv
+        mountPath: /media-tv
       incomplete:
         enabled: true
         type: emptyDir
