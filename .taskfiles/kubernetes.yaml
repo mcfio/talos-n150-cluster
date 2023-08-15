@@ -30,8 +30,8 @@ tasks:
                       "mountPath": "/data/config"
                     },
                     {
-                      "name": "backup",
-                      "mountPath": "/data/backup",
+                      "name": "backups",
+                      "mountPath": "/data/backups",
                       "subPath": "backups"
                     }
                   ]
@@ -45,7 +45,7 @@ tasks:
                   }
                 },
                 {
-                  "name": "backup",
+                  "name": "backups",
                   "nfs": {
                     "path": "/mnt/storage/media",
                     "server": "nfs.cluster.milton.mcf.io"
