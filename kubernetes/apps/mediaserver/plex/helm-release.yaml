@@ -68,8 +68,7 @@ spec:
       transcode:
         enabled: true
         type: emptyDir
-        emptyDir:
-          medium: memory
+        medium: memory
     resources:
       requests:
         cpu: 10m
