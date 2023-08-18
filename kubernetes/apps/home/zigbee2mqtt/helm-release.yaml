@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -53,18 +54,18 @@ spec:
       ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
       ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
       ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
-      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: http://mosquitto.home
+      ZIGBEE2MQTT_CONFIG_MQTT_SERVER: http://emqx.home
       ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
       ZIGBEE2MQTT_CONFIG_MQTT_USER:
         valueFrom:
           secretKeyRef:
-            name: mosquitto-secret
-            key: username
+            name: emqx-auth
+            key: EMQX_AUTH__USER__2__USERNAME
       ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD:
         valueFrom:
           secretKeyRef:
-            name: mosquitto-secret
-            key: password
+            name: emqx-auth
+            key: EMQX_AUTH__USER__2__PASSWORD
     envFrom:
     - secretRef:
         name: zigbee2mqtt-secret
