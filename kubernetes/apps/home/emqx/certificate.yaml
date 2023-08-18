@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cert-manager.io/certificate_v1.json
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -10,5 +11,5 @@ spec:
     name: letsencrypt-azure
     kind: ClusterIssuer
   dnsNames:
-  - mqtt.milton.mcf.io
-  - "*.mqtt.milton.mcf.io"
+    - mqtt.milton.mcf.io
+    - "*.mqtt.milton.mcf.io"

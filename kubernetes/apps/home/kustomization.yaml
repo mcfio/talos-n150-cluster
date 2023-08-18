@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helm-repository.yaml
-  - mosquitto.yaml
+  # - mosquitto.yaml
+  - emqx.yaml
   - zigbee2mqtt.yaml
   # - zwave-js-ui.yaml
