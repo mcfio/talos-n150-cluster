@@ -69,9 +69,10 @@ spec:
         enabled: true
         type: emptyDir
         medium: Memory
+        sizeLimit: 2G
     resources:
       requests:
         cpu: 10m
         memory: 192M
       limits:
-        memory: 1G
+        memory: 4G
