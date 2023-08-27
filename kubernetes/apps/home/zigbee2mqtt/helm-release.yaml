@@ -67,8 +67,8 @@ spec:
             name: emqx-auth
             key: EMQX_AUTH__USER__2__PASSWORD
     envFrom:
-    - secretRef:
-        name: zigbee2mqtt-secret
+      - secretRef:
+          name: zigbee2mqtt-secret
     service:
       main:
         ports:
@@ -79,13 +79,13 @@ spec:
         enabled: true
         ingressClassName: nginx
         hosts:
-        - host: &host zigbee.milton.mcf.io
-          paths:
-          - path: /
-            pathType: Prefix
+          - host: &host zigbee.milton.mcf.io
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
-        - hosts:
-          - *host
+          - hosts:
+              - *host
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
