@@ -8,8 +8,6 @@ metadata:
 spec:
   interval: 12h
   maxHistory: 2
-  dependsOn:
-    - name: prometheus-operator-crds
   chart:
     spec:
       chart: kube-prometheus-stack
