@@ -16,13 +16,8 @@ spec:
         kind: HelmRepository
         name: minio-tenant
         namespace: monitoring
-  install:
-    remediation:
-      retries: 3
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
   uninstall:
     keepHistory: false
   values:
@@ -31,12 +26,12 @@ spec:
       accessKey: minio
       secretKey: minio123
     tenant:
-      name: loki-minio
+      name: loki
       pools:
         - name: logs
           servers: 3
           volumesPerServer: 2
-          size: 5Gi
+          size: 10Gi
           storageClassName: vsphere-csi
           securityContext:
             runAsUser: 1000
