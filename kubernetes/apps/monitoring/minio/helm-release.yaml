@@ -35,7 +35,7 @@ spec:
       pools:
         - name: logs
           servers: 1
-          volumesPerServer: 2
+          volumesPerServer: 1
           size: 10Gi
           storageClassName: vsphere-csi
           securityContext:
