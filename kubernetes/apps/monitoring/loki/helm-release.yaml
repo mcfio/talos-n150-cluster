@@ -46,7 +46,7 @@ spec:
       storage:
         type: s3
         s3:
-          endpoint: minio.monitoring
+          endpoint: http://minio.monitoring:80/
           accessKeyId: minio
           secretAccessKey: minio123
           s3ForcePathStyle: true
