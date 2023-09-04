@@ -47,8 +47,9 @@ spec:
         type: s3
         s3:
           endpoint: minio.monitoring
-          access_key_id: minio
-          secret_access_key: minio123
+          accessKeyId: minio
+          secretAccessKey: minio123
+          s3ForcePathStyle: true
     singleBinary:
       replicas: 1
     #   rulerConfig:
