@@ -34,7 +34,7 @@ spec:
       name: loki-minio
       pools:
         - name: logs
-          servers: 1
+          servers: 3
           volumesPerServer: 1
           size: 10Gi
           storageClassName: vsphere-csi
