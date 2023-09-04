@@ -33,11 +33,11 @@ spec:
           volumesPerServer: 2
           size: 10Gi
           storageClassName: vsphere-csi
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            runAsNonRoot: true
+          # securityContext:
+          #   runAsUser: 1000
+          #   runAsGroup: 1000
+          #   fsGroup: 1000
+          #   runAsNonRoot: true
       certificate:
         requestAutoCert: false
       buckets:
