@@ -49,3 +49,4 @@ spec:
         - name: chunks
         - name: ruler
         - name: admin
+      prometheusOperator: true
