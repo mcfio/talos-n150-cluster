@@ -27,6 +27,10 @@ spec:
       secretKey: minio123
     tenant:
       name: loki
+      env:
+        MINIO_PROMETHEUS_JOB_ID: "minio"
+        MINIO_PROMETHEUS_URL: "http://kube-prometheus-stack-prometheus.monitoring:9090"
+        # MINIO_SERVER_URL: "https://s3.${SECRET_DOMAIN}"
       buckets:
         - name: chunks
         - name: ruler
