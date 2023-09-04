@@ -42,7 +42,7 @@ spec:
         shard_streams:
           enabled: true
       commonConfig:
-        replication_factor: 1
+        replication_factor: 3
       storage:
         type: s3
         s3:
@@ -50,8 +50,9 @@ spec:
           accessKeyId: minio
           secretAccessKey: minio123
           s3ForcePathStyle: true
+          insecure: true
     singleBinary:
-      replicas: 1
+      replicas: 3
     #   rulerConfig:
     #     enable_api: true
     #     enable_alertmanager_v2: true
