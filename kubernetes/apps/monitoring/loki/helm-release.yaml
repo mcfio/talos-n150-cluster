@@ -67,17 +67,17 @@ spec:
     #     reporting_enabled: false
     #   ingester:
     #     max_chunk_age: 1h
-    # monitoring:
-    #   serviceMonitor:
-    #     enabled: false
-    #     metricsInstance:
-    #       enabled: false
-    #   selfMonitoring:
-    #     enabled: false
-    #     grafanaAgent:
-    #       installOperator: false
-    #   lokiCanary:
-    #     enabled: false
+    monitoring:
+      serviceMonitor:
+        enabled: false
+        metricsInstance:
+          enabled: false
+      selfMonitoring:
+        enabled: false
+        grafanaAgent:
+          installOperator: false
+      lokiCanary:
+        enabled: false
     # write:
     #   replicas: 1
     #   persistence:
