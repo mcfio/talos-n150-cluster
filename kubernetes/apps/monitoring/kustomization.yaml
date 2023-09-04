@@ -6,7 +6,6 @@ resources:
   - namespace.yaml
   - helm-repository.yaml
   - kube-prometheus-stack.yaml
-  - minio.yaml
   - loki.yaml
   # - ./promtail.yaml
   # - ./grafana.yaml

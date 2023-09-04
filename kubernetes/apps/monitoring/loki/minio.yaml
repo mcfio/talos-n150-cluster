@@ -3,10 +3,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: minio
+  name: loki-minio
   namespace: monitoring
 spec:
-  path: ./kubernetes/apps/monitoring/minio
+  path: ./kubernetes/apps/monitoring/loki/minio
   prune: true
   sourceRef:
     kind: GitRepository
