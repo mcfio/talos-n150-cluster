@@ -27,6 +27,10 @@ spec:
       secretKey: minio123
     tenant:
       name: loki
+      buckets:
+        - name: chunks
+        - name: ruler
+        - name: admin
       pools:
         - name: logs
           servers: 3
@@ -38,12 +42,13 @@ spec:
             runAsGroup: 1000
             fsGroup: 1000
             runAsNonRoot: true
+            allowPrivilegeEscalation: false
             seccompProfile:
               type: RuntimeDefault
+            capabilities:
+              drop:
+                - ALL
       certificate:
         requestAutoCert: false
-      buckets:
-        - name: chunks
-        - name: ruler
-        - name: admin
-      prometheusOperator: true
+      metrics:
+        enabled: true
