@@ -44,7 +44,11 @@ spec:
       commonConfig:
         replication_factor: 1
       storage:
-        type: filesystem
+        type: s3
+        s3:
+          endpoint: minio.monitoring
+          access_key_id: minio
+          secret_access_key: minio123
     singleBinary:
       replicas: 1
     #   rulerConfig:
