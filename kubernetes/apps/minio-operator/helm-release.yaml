@@ -21,6 +21,12 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    operator:
+      env:
+        - name: PROMETHEUS_NAMESPACE
+          value: "monitoring"
+        - name: MINIO_PROMETHEUS_URL
+          value: "http://kube-prometheus-stack-prometheus.monitoring:9090"
     console:
       ingress:
         enabled: true
