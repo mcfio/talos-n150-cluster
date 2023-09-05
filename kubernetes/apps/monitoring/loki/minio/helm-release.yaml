@@ -32,6 +32,8 @@ spec:
           value: "minio"
         - name: MINIO_PROMETHEUS_URL
           value: "http://kube-prometheus-stack-prometheus.monitoring:9090"
+        - name: PROMETHEUS_NAMESPACE
+          value: "monitoring"
         # MINIO_SERVER_URL: "https://s3.${SECRET_DOMAIN}"
       buckets:
         - name: chunks
@@ -61,5 +63,6 @@ spec:
                 - ALL
       certificate:
         requestAutoCert: false
+      prometheusOperator: true
       metrics:
         enabled: true
