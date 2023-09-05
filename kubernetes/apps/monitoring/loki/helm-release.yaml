@@ -46,11 +46,10 @@ spec:
       storage:
         type: s3
         s3:
-          endpoint: http://minio.monitoring:80/
+          endpoint: minio.monitoring
           accessKeyId: minio
           secretAccessKey: minio123
           s3ForcePathStyle: true
-          insecure: true
     singleBinary:
       replicas: 3
     #   rulerConfig:
