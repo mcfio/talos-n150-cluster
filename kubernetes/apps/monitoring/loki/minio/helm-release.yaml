@@ -58,7 +58,7 @@ spec:
               drop:
                 - ALL
       certificate:
-        requestAutoCert: true
+        requestAutoCert: false
       prometheusOperator: true
       metrics:
         enabled: true
