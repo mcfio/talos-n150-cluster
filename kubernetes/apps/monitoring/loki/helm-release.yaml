@@ -26,6 +26,8 @@ spec:
       enabled: false
     loki:
       auth_enabled: false
+      analytics:
+        reporting_enabled: false
       server:
         log_level: info
       limits_config:
