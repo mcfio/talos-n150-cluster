@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "**.yaml"
+      - "kubernetes/**.yaml"
 
 jobs:
   flux-local-diff:
@@ -29,7 +29,8 @@ jobs:
           app_id: ${{ secrets.BOT_APP_ID }}
           private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      - uses: allenporter/flux-local/action/diff@main
+      - name: Diff resources
+        uses: allenporter/flux-local/action/diff@efbe055c6dc2a63d1102db582632d2aa03696664 # 3.1.1
         id: diff
         with:
           path: ${{ matrix.cluster_path }}
