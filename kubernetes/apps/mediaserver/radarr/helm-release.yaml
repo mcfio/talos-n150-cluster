@@ -88,7 +88,7 @@ spec:
         existingClaim: media-downloads
       media:
         enabled: true
-        existingClaim: media-tv
+        existingClaim: media
     resources:
       requests:
         cpu: 15m
