@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -28,9 +29,12 @@ spec:
       tag: 5.0.1.7993@sha256:10a6c584b77dbd447df5f6c3f9fd55466c67b1734ded718b89a38e92bfbae197
     env:
       TZ: Canada/Eastern
+      RADARR__AUTHENTICATION_METHOD: External
+      RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
       RADARR__INSTANCE_NAME: Radarr
       RADARR__PORT: &port 7878
       RADARR__lOG_LEVEL: info
+      RADARR__THEME: dark
     envFrom:
       - secretRef:
           name: *app
@@ -39,15 +43,25 @@ spec:
         ports:
           http:
             port: *port
+    probes:
+      liveness: &probes
+        enabled: true
+        custom: true
+        spec:
+          httpGet:
+            path: /ping
+            port: *port
+          initialDelaySeconds: 0
+          periodSeconds: 10
+          timeoutSeconds: 1
+          failureThreshold: 3
+      readiness: *probes
+      startup:
+        enabled: false
     ingress:
       main:
         enabled: true
         ingressClassName: nginx
-        annotations:
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_set_header Accept-Encoding "";
-            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/base/radarr/nord.css"></head>';
-            sub_filter_once on;
         hosts:
           - host: &host "{{ .Release.Name }}.milton.mcf.io"
             paths:
@@ -71,16 +85,10 @@ spec:
         size: 2Gi
       downloads:
         enabled: true
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool/downloads
-        mountPath: /downloads
+        existingClaim: media-downloads
       media:
         enabled: true
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/storage/media
-        mountPath: /media
+        existingClaim: media-tv
     resources:
       requests:
         cpu: 15m
