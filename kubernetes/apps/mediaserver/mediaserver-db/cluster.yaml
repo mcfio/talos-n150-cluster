@@ -13,7 +13,7 @@ spec:
     size: 20Gi
     storageClass: vsphere-csi
   superuserSecret:
-    name: mediasearver-cnpg-secret
+    name: mediaserver-cnpg-secret
   postgresql:
     parameters:
       max_connections: "600"
