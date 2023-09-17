@@ -27,7 +27,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: s3://mediaserver-cnpg/
-      endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com/mediaserver-cnpg
+      endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
       serverName: postgres-v1
       s3Credentials:
         accessKeyId:
