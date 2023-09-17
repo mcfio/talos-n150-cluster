@@ -14,9 +14,6 @@ spec:
     storageClass: vsphere-csi
   superuserSecret:
     name: mediaserver-cnpg-secret
-  bootstrap:
-    recovery:
-      source: &previousCluster postgres-v3
   postgresql:
     parameters:
       max_connections: "600"
@@ -31,7 +28,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://mediaserver-cnpg/
       endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com/mediaserver-cnpg
-      serverName: &currentCluster postgres-v4
+      serverName: postgres-v1
       s3Credentials:
         accessKeyId:
           name: mediaserver-cnpg-secret
@@ -39,19 +36,3 @@ spec:
         secretAccessKey:
           name: mediaserver-cnpg-secret
           key: aws-secret-access-key
-  # External Clusters are needed when recovering from an existing cnpg cluster
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        wal:
-          compression: bzip2
-          maxParallel: 8
-        destinationPath: s3://mediaserver-cnpg/
-        endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com/mediaserver-cnpg
-        s3Credentials:
-          accessKeyId:
-            name: mediaserver-cnpg-secret
-            key: aws-access-key-id
-          secretAccessKey:
-            name: mediaserver-cnpg-secret
-            key: aws-secret-access-key
