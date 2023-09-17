@@ -21,6 +21,13 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    initContainers:
+      01-init-db:
+        image: ghcr.io/onedr0p/postgres-init:14.9
+        imagePullPolicy: IfNotPresent
+        envFrom: &envFrom
+          - secretRef:
+              name: *app
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
@@ -35,9 +42,7 @@ spec:
       RADARR__PORT: &port 7878
       RADARR__lOG_LEVEL: info
       RADARR__THEME: dark
-    envFrom:
-      - secretRef:
-          name: *app
+    envFrom: *envFrom
     service:
       main:
         ports:
