@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
 sonarr:
-  standard:
+  sonarr:
     base_url: http://sonarr.mediaserver.svc:8989
     api_key: !env_var SONARR__API_KEY
     delete_old_custom_formats: true
@@ -93,7 +93,7 @@ sonarr:
           - name: WEB-DL (2160p)
 
 radarr:
-  standard:
+  radarr:
     base_url: http://radarr.mediaserver.svc:7878
     api_key: !env_var RADARR__API_KEY
     delete_old_custom_formats: true
