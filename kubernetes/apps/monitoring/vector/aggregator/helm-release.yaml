@@ -39,35 +39,38 @@ spec:
         address: 127.0.0.1:8686
         playground: false
       sources:
-        talos_source:
+        talos_kernel_logs:
           address: 0.0.0.0:6050
           type: socket
           mode: udp
           decoding:
             codec: json
           host_key: __host
-        kubernetes_source:
-          address: 0.0.0.0:6000
-          type: vector
-          version: "2"
-      transforms:
-        talos_source_xform:
-          type: remap
-          inputs:
-            - talos_source
-          source: |
-            .timestamp = del(."talos-time")
-        kubernetes_source_xform:
-          type: remap
-          inputs:
-            - kubernetes_source
-          source: |
-            .custom_app_name = .pod_labels."app.kubernetes.io/name"
+        talos_service_logs:
+          address: 0.0.0.0:6051
+          type: socket
+          mode: udp
+          decoding:
+            codec: json
+          host_key: __host
+      # transforms:
+      #   talos_source_xform:
+      #     type: remap
+      #     inputs:
+      #       - talos_source
+      #     source: |
+      #       .timestamp = del(."talos-time")
+      #   kubernetes_source_xform:
+      #     type: remap
+      #     inputs:
+      #       - kubernetes_source
+      #     source: |
+      #       .custom_app_name = .pod_labels."app.kubernetes.io/name"
       sinks:
-        loki_talos:
+        talos_kernel:
           type: loki
           inputs:
-            - talos_source_xform
+            - talos_kernel_logs
           endpoint: http://loki-gateway
           encoding:
             codec: json
