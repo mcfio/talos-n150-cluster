@@ -78,6 +78,10 @@ loadBalancer:
   algorithm: maglev
   mode: dsr
 
+# -- disable CNI exclusive mode
+cni:
+  exclusive: false
+
 # -- configure ingress controller
 # ingressController:
 #   enabled: true
