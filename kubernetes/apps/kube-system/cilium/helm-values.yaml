@@ -82,6 +82,13 @@ loadBalancer:
 cni:
   exclusive: false
 
+# -- Configure socket LB
+socketLB:
+  # -- Enable socket LB
+  enabled: true
+  # -- Disable socket lb for non-root ns. This is used to enable Istio routing rules.
+  hostNamespaceOnly: true
+
 # -- configure ingress controller
 # ingressController:
 #   enabled: true
