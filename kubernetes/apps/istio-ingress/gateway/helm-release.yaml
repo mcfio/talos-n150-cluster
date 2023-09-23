@@ -31,7 +31,8 @@ spec:
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: ScheduleAnyway
         lableSelector:
-          istio: ingressgateway
+          matchLabels:
+            istio: ingressgateway
     service:
       externalTrafficPolicy: Cluster
       type: LoadBalancer
