@@ -38,10 +38,9 @@ jobs:
           username: "${{ github.actor }}"
           password: "${{ secrets.GITHUB_TOKEN }}"
 
-      # Using @main until [PR#28](https://github.com/1Password/load-secrets-action/pull/28) has been added to a release
       - name: Load secret
         id: op-load-secret
-        uses: 1password/load-secrets-action@main
+        uses: 1password/load-secrets-action@v1
         with:
           export-env: false
         env:
