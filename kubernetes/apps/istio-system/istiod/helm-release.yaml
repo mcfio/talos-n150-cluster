@@ -22,11 +22,15 @@ spec:
   values:
     pilot:
       autoscaleEnabled: false
-      replicaCount: 2
+      autoscaleMin: 1
+      autoscaleMax: 3
+      replicaCount: 1
+      rollingMaxSurge: 100%
+      rollingMaxUnavailable: 25%
       resources:
         requests:
           cpu: 100m
-          memory: 2048Mi
+          memory: 512Mi
       env:
         ENABLE_NATIVE_SIDECARS: true
     global:
