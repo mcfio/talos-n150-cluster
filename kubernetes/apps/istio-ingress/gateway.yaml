@@ -26,7 +26,7 @@ spec:
         - milton.mcf.io
         - '*.milton.mcf.io'
       tls:
-        credentialName: milton-mcf-io-cert
+        credentialName: milton-mcf-io-cert-tls
         mode: SIMPLE
         minProtocolVersion: TLSV1_2
         maxProtocolVersion: TLSV1_3
