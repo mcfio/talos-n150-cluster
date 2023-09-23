@@ -30,7 +30,7 @@ spec:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: ScheduleAnyway
-        lableSelector:
+        labelSelector:
           matchLabels:
             istio: ingressgateway
     service:
