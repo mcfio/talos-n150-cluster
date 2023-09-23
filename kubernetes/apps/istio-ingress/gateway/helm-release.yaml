@@ -29,7 +29,6 @@ spec:
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: ScheduleAnyway
     service:
       externalTrafficPolicy: Cluster
       type: LoadBalancer
