@@ -38,6 +38,8 @@ spec:
       tracer:
         zipkin:
           address: localhost:9411
+    istio_cni:
+      enabled: true
     meshConfig:
       accessLogFile: "/dev/stdout"
       accessLogEncoding: "JSON"
