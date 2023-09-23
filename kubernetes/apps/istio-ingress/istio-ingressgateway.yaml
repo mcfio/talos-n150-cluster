@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: istio-istiod
       namespace: istio-system
-  path: ./kubernetes/apps/istio-ingress/gateway
+  path: ./kubernetes/apps/istio-ingress/deploy
   prune: true
   sourceRef:
     kind: GitRepository
