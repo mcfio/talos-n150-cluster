@@ -26,6 +26,9 @@ spec:
         cpu: 200m
     autoscaling:
       minReplicas: 2
+    service:
+      annotations:
+        io.cilium/lb-ipam-ips: 192.168.45.225
     topologySpreadConstraints:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
@@ -33,15 +36,3 @@ spec:
         labelSelector:
           matchLabels:
             istio: ingressgateway
-    service:
-      externalTrafficPolicy: Cluster
-      type: LoadBalancer
-      ports:
-        - name: http2
-          port: 80
-          protocol: TCP
-          targetPort: 80
-        - name: https
-          port: 443
-          protocol: TCP
-          targetPort: 443
