@@ -89,6 +89,11 @@ socketLB:
   # -- Disable socket lb for non-root ns. This is used to enable Istio routing rules.
   hostNamespaceOnly: true
 
+# -- Configure N-S k8s service loadbalancing
+nodePort:
+  # -- Enable the Cilium NodePort service implementation.
+  enabled: true
+
 # -- configure ingress controller
 # ingressController:
 #   enabled: true
