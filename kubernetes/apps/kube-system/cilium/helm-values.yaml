@@ -15,13 +15,16 @@ rollOutCiliumPods: true
 
 # -- configure the kube-proxy replacement in Cilium BPF datapath
 kubeProxyReplacement: true
-# kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 k8sServiceHost: localhost
 k8sServicePort: 7445
 
 # -- requireIPv4PodCIDR enables waiting for Kubernetes to provide the PodCIDR
 # k8s:
 #   requireIPv4PodCIDR: true
+
+# -- Enable native-routing mode or tunneling mode.
+routingMode: native
 
 # -- configure Native-Routing
 # tunnel: disabled
@@ -72,14 +75,14 @@ ipam:
   mode: kubernetes
 
 # -- configure the maglev table size and hashseed
-# maglev:
-#   tableSize: 1021
-#   hashSeed: "P9jc887+zv7eNcUr"
+maglev:
+  tableSize: 1021
+  hashSeed: "P9jc887+zv7eNcUr"
 
 # -- configure loadBalancer
-# loadBalancer:
-#   algorithm: maglev
-#   mode: dsr
+loadBalancer:
+  algorithm: maglev
+  mode: hybrid
 
 # -- disable CNI exclusive mode
 cni:
