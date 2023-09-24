@@ -27,7 +27,7 @@ k8sServicePort: 7445
 # disabled due to https://github.com/cilium/cilium/issues/27325
 # routingMode: native
 tunnel: disabled
-# ipv4NativeRoutingCIDR: 10.244.0.0/18
+ipv4NativeRoutingCIDR: 10.0.0.0/8
 # autoDirectNodeRoutes: true
 
 # -- configure security context that is compatible with talos
