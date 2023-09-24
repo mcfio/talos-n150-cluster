@@ -81,7 +81,7 @@ maglev:
 # -- configure loadBalancer
 loadBalancer:
   algorithm: maglev
-  mode: hybrid
+  # mode: hybrid
 
 # -- disable CNI exclusive mode
 cni:
