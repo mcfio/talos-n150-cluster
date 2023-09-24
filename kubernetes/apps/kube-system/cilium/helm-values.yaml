@@ -1,10 +1,4 @@
 ---
-# -- enable debug logging
-debug:
-  enabled: false
-  verbose:
-    - envoy
-
 # -- cluster mesh configuration
 cluster:
   name: home-cluster
@@ -58,10 +52,6 @@ cgroup:
 # -- Annotate k8s node upon initialization with Cilium's metadata.
 annotateK8sNode: true
 
-# -- configure BGP control plane - listen for peering CRDs
-# bgpControlPlane:
-#   enabled: true
-
 # -- configure L2 announcements - listen for CRD configurations
 l2announcements:
   enabled: true
@@ -81,8 +71,6 @@ maglev:
 # -- configure loadBalancer
 loadBalancer:
   algorithm: maglev
-  mode: dsr
-  dsrDispatch: opt
 
 # -- disable CNI exclusive mode
 cni:
@@ -93,26 +81,12 @@ socketLB:
   # -- Disable socket lb for non-root ns. This is used to enable Istio routing rules.
   hostNamespaceOnly: true
 
-# -- configure ingress controller
-# ingressController:
-#   enabled: true
-#   loadbalancerMode: shared
-
-# -- enable Local Redirect feature
-# localRedirectPolicy: false
-
-# --- disable fallback compatibility for xt_socket
-# enableXTSocketFallback: false
-
 operator:
   rollOutPods: true
   resources:
     requests:
       cpu: 100m
       memory: 128Mi
-  extraArgs:
-    - --leader-election-lease-duration=50s
-    - --leader-election-renew-deadline=40s
 
 hubble:
   enabled: true
