@@ -19,6 +19,10 @@ kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 k8sServiceHost: localhost
 k8sServicePort: 7445
 
+# -- enable native eBPF masquerading
+bpf:
+  masquerade: true
+
 # -- Enable native-routing mode or tunneling mode.
 # disabled due to https://github.com/cilium/cilium/issues/27325
 # routingMode: native
@@ -88,11 +92,6 @@ socketLB:
   # -- Disable socket lb for non-root ns. This is used to enable Istio routing rules.
   hostNamespaceOnly: true
 
-# -- Configure N-S k8s service loadbalancing
-# nodePort:
-#   # -- Enable the Cilium NodePort service implementation.
-#   enabled: true
-
 # -- configure ingress controller
 # ingressController:
 #   enabled: true
@@ -100,10 +99,6 @@ socketLB:
 
 # -- enable Local Redirect feature
 # localRedirectPolicy: false
-
-# -- enable native eBPF masquerading
-# bpf:
-#   masquerade: true
 
 # --- disable fallback compatibility for xt_socket
 # enableXTSocketFallback: false
