@@ -27,6 +27,7 @@ spec:
     sources:
       - service
       - ingress
+      - istio-virtualservice
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters:
