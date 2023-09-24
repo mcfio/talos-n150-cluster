@@ -75,14 +75,14 @@ ipam:
   mode: kubernetes
 
 # -- configure the maglev table size and hashseed
-maglev:
-  tableSize: 1021
-  hashSeed: "P9jc887+zv7eNcUr"
+# maglev:
+#   tableSize: 1021
+#   hashSeed: "P9jc887+zv7eNcUr"
 
 # -- configure loadBalancer
-loadBalancer:
-  algorithm: maglev
-  mode: hybrid
+# loadBalancer:
+#   algorithm: maglev
+#   mode: hybrid
 
 # -- disable CNI exclusive mode
 cni:
