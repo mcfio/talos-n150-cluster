@@ -25,7 +25,8 @@ k8s:
 
 # -- configure Native-Routing
 tunnel: disabled
-ipv4NativeRoutingCIDR: 10.244.0.0/18
+#ipv4NativeRoutingCIDR: 10.244.0.0/18
+ipv4NativeRoutingCIDR: 192.168.45.0/24
 autoDirectNodeRoutes: true
 
 # -- configure security context that is compatible with talos
