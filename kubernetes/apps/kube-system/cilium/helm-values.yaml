@@ -131,14 +131,3 @@ hubble:
   ui:
     enabled: true
     rollOutPods: true
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-azure
-      className: cilium
-      hosts:
-        - &host hubble.milton.mcf.io
-      tls:
-        - hosts:
-            - *host
-          secretName: hubble-ui-cert
