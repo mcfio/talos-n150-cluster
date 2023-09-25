@@ -31,6 +31,7 @@ spec:
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
+        sidecar.istio.io/inject: "true"
     image:
       repository: ghcr.io/onedr0p/radarr-develop
       tag: 5.0.2.8103@sha256:45d478025148777fd370e28c7915b5412295ab0794005aa5e283d5510d5cab7d
@@ -66,7 +67,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: nginx
+        ingressClassName: istio
         hosts:
           - host: &host "{{ .Release.Name }}.milton.mcf.io"
             paths:
