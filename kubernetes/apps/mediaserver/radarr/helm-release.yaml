@@ -25,6 +25,11 @@ spec:
       01-init-db:
         image: ghcr.io/onedr0p/postgres-init:14.9
         imagePullPolicy: IfNotPresent
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
         envFrom: &envFrom
           - secretRef:
               name: *app
@@ -76,7 +81,13 @@ spec:
         tls:
           - hosts:
               - *host
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop:
+          - ALL
     podSecurityContext:
+      runAsNonRoot: true
       runAsUser: 568
       runAsGroup: 568
       fsGroup: 568
@@ -84,6 +95,8 @@ spec:
       supplementalGroups:
         - 100
         - 1000
+      seccompProfile:
+        type: RuntimeDefault
     persistence:
       config:
         enabled: true
