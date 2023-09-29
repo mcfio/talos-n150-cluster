@@ -14,8 +14,8 @@ permissions:
   id-token: write
 
 env:
-  GHCR_REPO: "ghcr.io/${{ github.event.respository.name }}/manifests/kubernetes-manifests"
-  OCI_REPO: "oci://${{ env.GHCR_REPO }}"
+  GHCR_REPO: "ghcr.io/${{ github.respository }}/manifests/kubernetes-manifests"
+  OCI_REPO: "oci://ghcr.io/${{ github.respository }}/manifests/kubernetes-manifests"
 
 jobs:
   publish-manifests:
