@@ -23,7 +23,7 @@ spec:
       enabled: true
       image:
         repository: registry.k8s.io/autoscaling/vpa-recommender
-        tag: 0.14.0
+        tag: 1.0.0@sha256:bc0bd96faf0e4845afe653a2692cfcb34c47b7a9ec5d0ab330fec5160c21e963
       extraArgs:
         storage: prometheus
         prometheus-address: |-
