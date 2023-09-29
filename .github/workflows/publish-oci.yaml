@@ -1,0 +1,57 @@
+name: Publish OCI artifcate of cluster repository
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/publish-oci.yaml
+      - kubernetes/**
+
+permissions:
+  packages: write
+  id-token: write
+
+env:
+  GHCR_REPO: "ghcr.io/${{ github.event.respository.name }}/manifests/kubernetes-manifests"
+  OCI_REPO: "oci://${{ env.GHCR_REPO }}"
+
+jobs:
+  publish-manifests:
+    runs-on: ubuntu-latest
+    env:
+      COSIGN_EXPERIMENTAL: "true"
+      COSIGN_YES: "true"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3
+
+      - name: Setup Flux
+        uses: fluxcd/flux2/action@026ab61ba7e3755d7be7dc7d2b6024c3b3992291 # v2.1.1
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.1.1
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          registry: ghcr.io
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Create OCI Artifact
+        id: create
+        run: |
+          digest_url=$(flux push artifact \
+            $OCI_REPO:$(git rev-parse --short HEAD) \
+            --path="./kubernetes" \
+            --source="$(git config --get remote.origin.url)" \
+            --revision="$(git branch --show-current)@sha1:$(get rev-parse HEAD)" \
+            --output=json | \
+            jq -r '. | .repository + "@" + .digest')
+          echo "DIGEST_URL=$digest_url" >> $GITHUB_OUTPUT
+
+      - name: Sign OCI Artifact
+        run: |
+          cosign sign --yes ${{ steps.create.outpus.DIGEST_URL }}
