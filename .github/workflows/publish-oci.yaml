@@ -1,4 +1,4 @@
-name: Publish OCI artifcate of cluster repository
+name: Publish OCI Artifact of Cluster Repository
 
 on:
   workflow_dispatch: {}
