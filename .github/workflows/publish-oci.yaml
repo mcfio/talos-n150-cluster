@@ -14,8 +14,8 @@ permissions:
   id-token: write
 
 env:
-  GHCR_REPO: "ghcr.io/${{ github.respository }}/manifests/kubernetes-manifests"
-  OCI_REPO: "oci://ghcr.io/${{ github.respository }}/manifests/kubernetes-manifests"
+  GHCR_REPO: "ghcr.io/${{ github.event.respository.name }}/manifests/kubernetes-manifests"
+  OCI_REPO: "oci://ghcr.io/${{ github.event.respository.name }}/manifests/kubernetes-manifests"
 
 jobs:
   publish-manifests:
@@ -54,4 +54,4 @@ jobs:
 
       - name: Sign OCI Artifact
         run: |
-          cosign sign --yes ${{ steps.create.outpus.DIGEST_URL }}
+          cosign sign --yes ${{ steps.create.outputs.DIGEST_URL }}
