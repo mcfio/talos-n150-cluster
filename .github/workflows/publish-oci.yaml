@@ -51,6 +51,10 @@ jobs:
             jq -r '. | .repository + "@" + .digest')
           echo "DIGEST_URL=$digest_url" >> $GITHUB_OUTPUT
 
+      - name: Tag OCI Artifact
+        run: |
+          flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
+
       - name: Sign OCI Artifact
         run: |
           cosign sign --yes ${{ steps.create.outputs.DIGEST_URL }}
