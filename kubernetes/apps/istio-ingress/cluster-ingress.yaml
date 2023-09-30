@@ -8,7 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager-issuers
-      namespace: flux-system
+      namespace: cert-manager
     - name: istio-ingressgateway
       namespace: istio-ingress
   interval: 2h
