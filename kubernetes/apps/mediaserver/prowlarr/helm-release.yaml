@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -44,11 +45,6 @@ spec:
       main:
         enabled: true
         ingressClassName: nginx
-        annotations:
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            proxy_set_header Accept-Encoding "";
-            sub_filter '</head>' '<link rel="stylesheet" type="text/css" href="https://theme-park.milton.mcf.io/css/base/prowlarr/nord.css"></head>';
-            sub_filter_once on;
         hosts:
           - host: &host "{{ .Release.Name }}.milton.mcf.io"
             paths:

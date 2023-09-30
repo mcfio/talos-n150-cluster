@@ -15,4 +15,3 @@ resources:
   - sabnzbd.yaml
   - overseerr.yaml
   - tautulli.yaml
-  - theme-park.yaml
