@@ -23,6 +23,7 @@ jobs:
     name: Publish Kubernetes Schemas
     runs-on:
       - self-hosted
+      - arc-home-cluster-runner
 
     steps:
       - name: Setup Flux
@@ -97,7 +98,7 @@ jobs:
 
       - name: Sign OCI Artifact
         run: |
-          cosign sign --yes ${{ steps.create.outputs.DIGEST_URL }}
+          cosign sign --yes ${{ steps.create-oci-artifact.outputs.DIGEST_URL }}
 
   build-kubernetes-schemas-container:
     name: Build Kubernetes Schemas Container
