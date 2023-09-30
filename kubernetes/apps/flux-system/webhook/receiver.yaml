@@ -16,6 +16,6 @@ spec:
     - apiVersion: source.toolkit.fluxcd.io/v1
       kind: GitRepository
       name: home-cluster-kubernetes
-    - apiVersion: source.toolkit.fluxcd.io/v1
+    - apiVersion: source.toolkit.fluxcd.io/v1beta2
       kind: OCIRepository
       name: home-cluster
