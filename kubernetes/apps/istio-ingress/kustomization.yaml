@@ -5,6 +5,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - istio-ingressgateway.yaml
-  - ingress-class.yaml
-  - certificates.yaml
-  - gateway.yaml
+  - cluster-ingress.yaml

@@ -3,14 +3,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: istio-ingressgateway
+  name: cluster-ingress
   namespace: istio-ingress
 spec:
   dependsOn:
-    - name: istio-istiod
-      namespace: istio-system
+    - name: cert-manager-issuers
+      namespace: flux-system
+    - name: istio-ingressgateway
+      namespace: istio-ingress
   interval: 2h
-  path: ./apps/istio-ingress/deploy
+  path: ./apps/istio-ingress/config
   prune: true
   retryInterval: 1m
   sourceRef:
