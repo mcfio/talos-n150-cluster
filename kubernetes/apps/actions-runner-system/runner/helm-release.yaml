@@ -21,7 +21,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    runnerScaleSetName: arc-runner-set-home-cluster
+    runnerScaleSetName: arc-home-cluster-runner
     githubConfigUrl: https://github.com/mcfio/home-cluster
     minRunners: 1
     maxRunners: 3
