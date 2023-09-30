@@ -7,4 +7,4 @@ metadata:
   namespace: external-secrets
 spec:
   interval: 24h
-  url: https://bjw-s.github.io/helm-charts/
+  url: https://1password.github.io/connect-helm-charts
