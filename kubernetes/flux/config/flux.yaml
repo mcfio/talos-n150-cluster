@@ -59,13 +59,10 @@ spec:
       patch: |
         - op: add
           path: /spec/template/spec/containers/0/args/-
-          value: --feature-gates=DetectDrift=true,CorrectDrift=false
+          value: --feature-gates=DetectDrift=true,CorrectDrift=false,OOMWatch=true
         - op: add
           path: /spec/template/spec/containers/0/args/-
           value: --log-level=debug
-        - op: add
-          path: /spec/template/spec/containers/0/args/-
-          value: --feature-gates=OOMWatch=true
         - op: add
           path: /spec/template/spec/containers/0/args/-
           value: --oom-watch-memory-threshold=95
