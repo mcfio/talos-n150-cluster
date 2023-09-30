@@ -1,4 +1,5 @@
-name: Publish OCI Artifact of Cluster Repository
+---
+name: Publish Kubernetes Manifests
 
 on:
   workflow_dispatch: {}
@@ -6,7 +7,7 @@ on:
     branches:
       - main
     paths:
-      - .github/workflows/publish-oci.yaml
+      - .github/workflows/publish-manifests.yaml
       - kubernetes/**
 
 permissions:
@@ -14,7 +15,7 @@ permissions:
   id-token: write
 
 env:
-  OCI_REPO: "oci://ghcr.io/${{ github.repository }}/kubernetes-manifests"
+  OCI_REPO: "oci://ghcr.io/${{ github.repository_owner }}/kubernetes-manifests/${{ github.event.repository.name }}"
 
 jobs:
   publish-manifests:
