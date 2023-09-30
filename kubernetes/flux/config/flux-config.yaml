@@ -1,11 +1,12 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: home-cluster-flux-config
   namespace: flux-system
 spec:
-  interval: 90m
+  interval: 12h
   path: ./kubernetes/flux
   prune: false
   wait: false
