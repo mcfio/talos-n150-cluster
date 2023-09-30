@@ -6,13 +6,13 @@ metadata:
   name: istio-base
   namespace: istio-system
 spec:
+  interval: 2h
   path: ./kubernetes/apps/istio-system/base
   prune: true
+  retryInterval: 1m
   sourceRef:
-    kind: GitRepository
-    name: home-cluster-kubernetes
+    kind: OCIRepository
+    name: home-cluster
     namespace: flux-system
+  timeout: 3m
   wait: true
-  interval: 2h
-  retryInterval: 2m
-  timeout: 1m
