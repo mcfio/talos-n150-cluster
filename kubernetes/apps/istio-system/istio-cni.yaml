@@ -8,13 +8,13 @@ metadata:
 spec:
   dependsOn:
     - name: istio-base
-  path: ./kubernetes/apps/istio-system/cni
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: home-cluster-kubernetes
-    namespace: flux-system
-  wait: true
   interval: 2h
-  retryInterval: 2m
-  timeout: 1m
+  path: ./apps/istio-system/cni
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  timeout: 3m
+  wait: true
