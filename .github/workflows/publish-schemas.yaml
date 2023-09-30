@@ -22,7 +22,6 @@ jobs:
   publish-kubernetes-schemas:
     name: Publish Kubernetes Schemas
     runs-on:
-      - self-hosted
       - arc-home-cluster-runner
 
     steps:
