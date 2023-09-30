@@ -45,8 +45,8 @@ jobs:
           digest_url=$(flux push artifact \
             $OCI_REPO:$(git rev-parse --short HEAD) \
             --path="./kubernetes" \
-            --source="$(git config --get remote.origin.url)" \
-            --revision="$(git branch --show-current)@sha1:$(git rev-parse HEAD)" \
+            --source="${{ github.repositoryUrl }}" \
+            --revision="${{ github.ref_name }}@sha1:$(git rev-parse HEAD)" \
             --output=json | \
             jq -r '. | .repository + "@" + .digest')
           echo "DIGEST_URL=$digest_url" >> $GITHUB_OUTPUT
