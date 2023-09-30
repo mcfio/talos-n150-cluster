@@ -1,5 +1,5 @@
 ---
-name: Publish Kubernetes Manifests
+name: Publish Manifests
 
 on:
   workflow_dispatch: {}
@@ -19,10 +19,9 @@ env:
 
 jobs:
   publish-manifests:
+    name: Publish Manifests
     runs-on: ubuntu-latest
-    env:
-      COSIGN_EXPERIMENTAL: "true"
-      COSIGN_YES: "true"
+
     steps:
       - name: Checkout
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
