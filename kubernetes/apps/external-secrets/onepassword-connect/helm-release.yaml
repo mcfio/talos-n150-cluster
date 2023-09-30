@@ -42,14 +42,3 @@ spec:
             memory: 10Mi
           limits:
             memory: 100Mi
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - host: &host "{{ .Release.Name }}.milton.mcf.io"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
