@@ -9,9 +9,13 @@ spec:
   events:
     - ping
     - push
+    - workflow_run
   secretRef:
     name: github-webhook-token
   resources:
     - apiVersion: source.toolkit.fluxcd.io/v1
       kind: GitRepository
       name: home-cluster-kubernetes
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
+      name: home-cluster
