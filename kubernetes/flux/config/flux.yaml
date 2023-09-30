@@ -60,8 +60,8 @@ spec:
         - op: add
           path: /spec/template/spec/containers/0/args/-
           value: --feature-gates=DetectDrift=true,CorrectDrift=false,OOMWatch=true
-        - op: add
-          path: /spec/template/spec/containers/0/args/-
+        - op: replace
+          path: /spec/template/spec/containers/0/args/2
           value: --log-level=debug
         - op: add
           path: /spec/template/spec/containers/0/args/-
