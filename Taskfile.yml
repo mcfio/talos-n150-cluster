@@ -17,4 +17,4 @@ vars:
 tasks:
   default:
     silent: true
-    cmds: ["go-task -l"]
+    cmds: ["task -l"]
