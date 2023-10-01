@@ -139,9 +139,6 @@ spec:
       enabled: false
       forceDeployDashboards: false
       forceDeployDatasources: true
-      sidecar:
-        datasources:
-          url: http://prom-prometheus.monitoring:9090/
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       resources:
