@@ -3,9 +3,9 @@ creation_rules:
   - path_regex: \.enc\.ya?ml
     encrypted_regex: ^(data|stringData)$
     key_groups:
-      age:
-        - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
+      - age:
+          - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
   - path_regex: \.sops\.ya?ml
     key_groups:
-      age:
-        - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
+      - age:
+          - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
