@@ -4,7 +4,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   # - cilium.yaml
-  - descheduler.yaml
+  # - descheduler.yaml
   # - metrics-server.yaml
   # - node-feature-discovery.yaml
   # - reloader.yaml
