@@ -1,9 +1,9 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: cilium
-  namespace: kube-system
 spec:
   interval: 12h
   maxHistory: 3
@@ -13,13 +13,18 @@ spec:
       version: 1.14.2
       sourceRef:
         kind: HelmRepository
-        name: cilium
-        namespace: kube-system
+        name: cilium-charts
   timeout: 15m
+  install:
+    createNamespace: true
+    crds: Create
+    replace: true
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
   uninstall:
     keepHistory: false
   valuesFrom:
   - kind: ConfigMap
-    name: cilium-values
+    name: cilium-config
+    valuesKey: cilium-config.yaml
