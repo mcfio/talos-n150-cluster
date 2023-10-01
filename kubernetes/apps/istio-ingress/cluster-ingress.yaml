@@ -7,10 +7,8 @@ metadata:
   namespace: istio-ingress
 spec:
   dependsOn:
-    - name: cert-manager-issuers
-      namespace: cert-manager
-    - name: istio-ingressgateway
-      namespace: istio-ingress
+    - name: infrastructure-controllers
+      namespace: flux-system
   interval: 2h
   path: ./apps/istio-ingress/config
   prune: true
