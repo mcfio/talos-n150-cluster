@@ -4,7 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: emqx
-  namespace: home
 spec:
   interval: 12h
   maxHistory: 3
@@ -14,11 +13,10 @@ spec:
       version: 5.3.0
       sourceRef:
         kind: HelmRepository
-        name: emqx
-        namespace: home
+        name: emqx-charts
   install:
     createNamespace: true
-    crds: CreateReplace
+    crds: Create
     replace: true
   upgrade:
     cleanupOnFail: true

@@ -3,9 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: home-charts
-  namespace: home
+  name: emqx-charts
 spec:
-  type: oci
-  interval: 12h
-  url: oci://ghcr.io/bjw-s/helm
+  interval: 24h
+  url: https://repos.emqx.io/charts

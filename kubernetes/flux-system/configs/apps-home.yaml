@@ -3,16 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: zigbee2mqtt
-  namespace: home
+  name: apps-home
+  namespace: flux-system
 spec:
-  dependsOn:
-    - name: emqx
-      namespace: home
-    - name: external-secrets
-      namespace: external-secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   interval: 2h
-  path: ./apps/home/zigbee2mqtt
+  path: ./apps/home
   prune: true
   retryInterval: 1m
   sourceRef:

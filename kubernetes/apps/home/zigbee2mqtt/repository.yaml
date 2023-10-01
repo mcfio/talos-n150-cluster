@@ -3,8 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: emqx
-  namespace: home
+  name: zigbee2mqtt-charts
 spec:
-  interval: 24h
-  url: https://repos.emqx.io/charts
+  interval: 12h
+  type: oci
+  url: oci://ghcr.io/bjw-s/helm
