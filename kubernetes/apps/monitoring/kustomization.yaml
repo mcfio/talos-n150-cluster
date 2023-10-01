@@ -6,7 +6,7 @@ resources:
   # - namespace.yaml
   - helm-repository.yaml
   # - kube-prometheus-stack.yaml
-  - loki.yaml
+  # - loki.yaml
   # - ./promtail.yaml
   - grafana.yaml
   # - ./goldilocks.yaml
