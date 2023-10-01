@@ -4,7 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: onepassword-connect
-  namespace: external-secrets
 spec:
   interval: 12h
   maxHistory: 3
@@ -15,7 +14,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: onepassword-connect-charts
-        namespace: external-secrets
   install:
     createNamespace: true
     crds: CreateReplace
