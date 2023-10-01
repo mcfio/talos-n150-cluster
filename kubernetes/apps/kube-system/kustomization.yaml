@@ -5,7 +5,7 @@ resources:
   - namespace.yaml
   # - cilium.yaml
   - descheduler.yaml
-  - metrics-server.yaml
+  # - metrics-server.yaml
   - node-feature-discovery.yaml
   - reloader.yaml
   # - kubelet-csr-approver.yaml
