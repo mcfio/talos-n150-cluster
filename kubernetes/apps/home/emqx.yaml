@@ -7,15 +7,15 @@ metadata:
   namespace: home
 spec:
   dependsOn:
-    - name: onepassword-connect
-      namespace: flux-system
-  path: ./kubernetes/apps/home/emqx
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: home-cluster-kubernetes
-    namespace: flux-system
-  wait: true
+    - name: external-secrets
+      namespace: external-secrets
   interval: 2h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./apps/home/emqx
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  timeout: 3m
+  wait: true
