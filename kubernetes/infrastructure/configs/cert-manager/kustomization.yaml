@@ -8,3 +8,16 @@ resources:
   - letsencrypt-prod.yaml
   - letsencrypt-staging.yaml
   - letsencrypt-azure.yaml
+configMapGenerator:
+  - name: cert-manager-dashboard
+    files:
+      - cert-manager-dashboard.json=https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
+    options:
+      disableNameSuffixHash: true
+      annotations:
+        kustomize.toolkit.fluxcd.io/substitute: disabled
+        grafana_folder: Certificates
+      labels:
+        grafana_dashboard: "1"
+        app.kubernetes.io/part-of: flux
+        app.kubernetes.io/component: monitoring
