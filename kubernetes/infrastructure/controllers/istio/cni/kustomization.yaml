@@ -2,9 +2,6 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: istio-system
 resources:
-  - namespace.yaml
-  - helm-repository.yaml
-  - istio-base.yaml
-  - istio-istiod.yaml
-  - istio-cni.yaml
+  - release.yaml

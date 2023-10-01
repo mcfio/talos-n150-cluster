@@ -4,10 +4,11 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: istio-cni
-  namespace: istio-system
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
+  dependsOn:
+    - name: istio-base
   chart:
     spec:
       chart: cni
@@ -15,9 +16,13 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: istio-charts
-        namespace: istio-system
+  install:
+    createNamespace: true
+    crds: Create
+    replace: true
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
   uninstall:
     keepHistory: false
   values:

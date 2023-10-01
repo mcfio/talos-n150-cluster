@@ -4,10 +4,12 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: istio-ingressgateway
-  namespace: istio-ingress
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
+  dependsOn:
+    - name: istio-istiod
+      namespace: istio-system
   chart:
     spec:
       chart: gateway
@@ -16,8 +18,13 @@ spec:
         kind: HelmRepository
         name: istio-charts
         namespace: istio-system
+  install:
+    createNamespace: true
+    crds: Create
+    replace: true
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
   uninstall:
     keepHistory: false
   values:
