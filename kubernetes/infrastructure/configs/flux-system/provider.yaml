@@ -1,9 +1,9 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/provider-notification-v1beta2.json
 apiVersion: notification.toolkit.fluxcd.io/v1beta2
 kind: Provider
 metadata:
-  name: github
-  namespace: flux-system
+  name: github-provider
 spec:
   type: github
   address: https://github.com/mcfio/home-cluster

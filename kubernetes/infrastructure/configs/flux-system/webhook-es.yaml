@@ -1,9 +1,9 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/external-secrets.io/externalsecret_v1beta1.json
 apiVersion: external-secrets.io/v1beta1
 kind: ExternalSecret
 metadata:
-  name: github-notification-token
-  namespace: flux-system
+  name: github-webhook-token
 spec:
   secretStoreRef:
     kind: ClusterSecretStore
@@ -12,5 +12,5 @@ spec:
     creationPolicy: Owner
   dataFrom:
     - extract:
-        key: github-notification-token
+        key: github-webhook-token
         property: token

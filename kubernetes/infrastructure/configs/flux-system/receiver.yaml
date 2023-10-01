@@ -1,9 +1,9 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/receiver-notification-v1beta2.json
 apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Receiver
 metadata:
-  name: home-cluster
-  namespace: flux-system
+  name: github-receiver
 spec:
   type: github
   events:
