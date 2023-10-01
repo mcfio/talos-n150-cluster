@@ -4,7 +4,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: cnpg
-  namespace: cnpg-system
 spec:
   interval: 12h
   maxHistory: 3
@@ -15,10 +14,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cnpg
-        namespace: cnpg-system
   install:
     createNamespace: true
-    crds: CreateReplace
+    crds: Create
     replace: true
   upgrade:
     cleanupOnFail: true
