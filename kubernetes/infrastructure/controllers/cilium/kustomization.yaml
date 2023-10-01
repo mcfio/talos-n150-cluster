@@ -7,8 +7,8 @@ resources:
   - repository.yaml
   - release.yaml
 configMapGenerator:
-  - name: cilium-config
+  - name: cilium-values
     files:
-      - cilium-config.yaml
+      - cilium-values.yaml
 configurations:
   - name-reference.yaml

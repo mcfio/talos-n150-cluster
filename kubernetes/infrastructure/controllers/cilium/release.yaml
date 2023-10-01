@@ -26,5 +26,5 @@ spec:
     keepHistory: false
   valuesFrom:
   - kind: ConfigMap
-    name: cilium-config
-    valuesKey: cilium-config.yaml
+    name: cilium-values
+    valuesKey: cilium-values.yaml
