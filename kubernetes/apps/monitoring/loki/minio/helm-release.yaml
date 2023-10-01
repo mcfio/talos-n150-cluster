@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -7,7 +7,7 @@ metadata:
   namespace: monitoring
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
   chart:
     spec:
       chart: tenant
@@ -16,8 +16,13 @@ spec:
         kind: HelmRepository
         name: minio-tenant
         namespace: monitoring
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    replace: true
   upgrade:
     cleanupOnFail: true
+    crds: CreateReplace
   uninstall:
     keepHistory: false
   values:
