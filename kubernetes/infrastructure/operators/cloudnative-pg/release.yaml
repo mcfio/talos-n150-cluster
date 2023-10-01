@@ -13,7 +13,7 @@ spec:
       version: 0.18.2
       sourceRef:
         kind: HelmRepository
-        name: cnpg
+        name: cnpg-charts
   install:
     createNamespace: true
     crds: Create
