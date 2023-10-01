@@ -9,13 +9,13 @@ spec:
   dependsOn:
     - name: cnpg
       namespace: cnpg-system
-  path: ./kubernetes/apps/mediaserver/mediaserver-db
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: home-cluster-kubernetes
-    namespace: flux-system
-  wait: true
   interval: 2h
-  retryInterval: 2m
-  timeout: 1m
+  path: ./apps/mediaserver/mediaserver-db
+  prune: true
+  retryInterval: 1m
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  timeout: 3m
+  wait: true
