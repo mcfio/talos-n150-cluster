@@ -8,5 +8,5 @@ resources:
   - kube-prometheus-stack.yaml
   - loki.yaml
   # - ./promtail.yaml
-  # - ./grafana.yaml
+  - grafana.yaml
   # - ./goldilocks.yaml
