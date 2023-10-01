@@ -8,4 +8,4 @@ resources:
   - metrics-server.yaml
   - node-feature-discovery.yaml
   - reloader.yaml
-  - kubelet-csr-approver.yaml
+  # - kubelet-csr-approver.yaml
