@@ -7,5 +7,5 @@ resources:
   - descheduler.yaml
   # - metrics-server.yaml
   # - node-feature-discovery.yaml
-  - reloader.yaml
+  # - reloader.yaml
   # - kubelet-csr-approver.yaml
