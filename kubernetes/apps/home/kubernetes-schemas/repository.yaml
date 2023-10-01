@@ -3,9 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
-  name: default-charts
-  namespace: default
+  name: kubernetes-schemas-charts
 spec:
-  type: oci
   interval: 12h
+  type: oci
   url: oci://ghcr.io/bjw-s/helm
