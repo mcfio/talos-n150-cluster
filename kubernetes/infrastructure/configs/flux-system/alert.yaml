@@ -6,7 +6,7 @@ metadata:
   name: github-alert
 spec:
   providerRef:
-    name: github
+    name: github-provider
   eventSeverity: info
   eventSources:
     - kind: Kustomization
