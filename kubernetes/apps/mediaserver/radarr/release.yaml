@@ -1,10 +1,9 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: &app radarr
-  namespace: mediaserver
 spec:
   interval: 12h
   maxHistory: 2
@@ -15,7 +14,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
-        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
   uninstall:

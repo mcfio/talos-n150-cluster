@@ -1,13 +1,12 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2beta1.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app tautulli
-  namespace: mediaserver
+  name: &app overseerr
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
   chart:
     spec:
       chart: app-template
@@ -15,7 +14,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
-        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
   uninstall:
@@ -24,40 +22,44 @@ spec:
     global:
       nameOverride: *app
     image:
-      repository: ghcr.io/onedr0p/tautulli
-      tag: 2.13.1@sha256:0a995c25a9c56b609c80dedfd9432c006b0d4835bd4fa2ba911ed112b50c5034
+      repository: sctx/overseerr
+      tag: 1.33.2@sha256:714ea6db2bc007a2262d112bef7eec74972eb33d9c72bddb9cbd98b8742de950
     env:
       TZ: Canada/Eastern
+      LOG_LEVEL: info
     service:
       main:
         ports:
           http:
-            port: 8181
+            port: 5055
     ingress:
       main:
         enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         ingressClassName: nginx
         hosts:
-          - host: &host "{{ .Release.Name }}.milton.mcf.io"
+          - host: &host requests.mcf.io
             paths:
               - path: /
                 pathType: Prefix
         tls:
           - hosts:
               - *host
+            secretName: overseerr-cert-tls
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 568
-      fsGroup: 568
       fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
         enabled: true
         retain: true
-        size: 2Gi
+        size: 1Gi
+        mountPath: /app/config
     resources:
       requests:
         cpu: 15m
-        memory: 128M
+        memory: 384M
       limits:
-        memory: 800M
+        memory: 2560M
