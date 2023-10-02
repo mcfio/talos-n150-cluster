@@ -90,10 +90,22 @@ spec:
         size: 2Gi
       downloads:
         enabled: true
-        existingClaim: downloads
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/media-pool/downloads
+        mountPath: /downloads
       media:
         enabled: true
-        existingClaim: movies
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/storage/media
+        mountPath: /media
+      # downloads:
+      #   enabled: true
+      #   existingClaim: downloads
+      # media:
+      #   enabled: true
+      #   existingClaim: movies
     resources:
       requests:
         cpu: 15m
