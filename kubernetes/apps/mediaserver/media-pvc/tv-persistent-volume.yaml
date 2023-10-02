@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: media-tv
+  name: tv
 spec:
   storageClassName: media
   capacity:

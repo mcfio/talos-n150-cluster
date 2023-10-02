@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: movies
+  name: media
   namespace: mediaserver
 spec:
   accessModes: ["ReadWriteMany"]

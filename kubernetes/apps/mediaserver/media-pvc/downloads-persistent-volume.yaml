@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: media-downloads
+  name: downloads
 spec:
   storageClassName: media
   capacity:
