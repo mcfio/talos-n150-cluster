@@ -19,7 +19,7 @@ env:
 
 jobs:
   publish-manifests:
-    name: Publish Manifests
+    name: OCI Artifact
     runs-on: ubuntu-latest
 
     steps:
