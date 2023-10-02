@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: media-downloads
+  name: downloads
   namespace: mediaserver
 spec:
   accessModes: ["ReadWriteMany"]

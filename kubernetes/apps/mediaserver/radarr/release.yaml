@@ -90,10 +90,10 @@ spec:
         size: 2Gi
       downloads:
         enabled: true
-        existingClaim: media-downloads
+        existingClaim: downloads
       media:
         enabled: true
-        existingClaim: media
+        existingClaim: movies
     resources:
       requests:
         cpu: 15m
