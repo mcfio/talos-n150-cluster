@@ -21,7 +21,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 2h
-  path: ./flux-system
+  path: ./flux-system/configs
   prune: true
   retryInterval: 1m
   sourceRef:
