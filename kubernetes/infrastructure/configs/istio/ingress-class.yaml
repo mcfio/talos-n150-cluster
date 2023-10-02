@@ -4,6 +4,6 @@ kind: IngressClass
 metadata:
   name: istio
   annotations:
-    ingressclass.kubernetes.io/is-default-class: "true"
+    ingressclass.kubernetes.io/is-default-class: "false"
 spec:
   controller: istio.io/ingress-controller
