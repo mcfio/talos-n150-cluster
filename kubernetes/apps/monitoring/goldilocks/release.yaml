@@ -29,9 +29,6 @@ spec:
   values:
     controller:
       resources:
-        limits:
-          cpu: ~
-          memory: 250M
         requests:
           cpu: 10m
           memory: 64M
@@ -49,9 +46,6 @@ spec:
           - hosts:
               - *host
       resources:
-        limits:
-          cpu: ~
-          memory: 150Mi
         requests:
           cpu: 10m
           memory: 50Mi
