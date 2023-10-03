@@ -4,5 +4,4 @@ kind: Namespace
 metadata:
   name: mediaserver
   labels:
-    istio-injection: disabled
     goldilocks.fairwinds.com/enabled: "true"
