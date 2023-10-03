@@ -17,7 +17,9 @@ jobs:
     strategy:
       matrix:
         cluster_path:
-          - kubernetes
+          - kubernetes/flux-system/configs
+        sources:
+          - home-cluster=./kubernetes/
         resources:
           - helmrelease
           - kustomization
@@ -34,6 +36,7 @@ jobs:
         id: diff
         with:
           path: ${{ matrix.cluster_path }}
+          sources: ${{ matrix.sources }}
           resource: ${{ matrix.resources }}
 
       - if: ${{ steps.diff.outputs.diff != '' }}
