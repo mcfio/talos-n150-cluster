@@ -34,6 +34,7 @@ spec:
     controller:
       annotations:
         reloader.stakater.com/auto: "true"
+      labels:
         sidecar.istio.io/inject: "true"
     image:
       repository: ghcr.io/onedr0p/radarr-develop
