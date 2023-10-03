@@ -2,7 +2,6 @@
 version: '3'
 
 includes:
-  ansible: .taskfiles/ansible.yml
   flux: .taskfiles/flux.yml
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
