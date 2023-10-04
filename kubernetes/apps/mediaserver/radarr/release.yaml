@@ -49,19 +49,19 @@ spec:
                           - plex
                   topologyKey: kubernetes.io/hostname
         initContainers:
-          # 01-init-db:
-          #   image:
-          #     repository: ghcr.io/onedr0p/postgres-init
-          #     tag: 14.9@sha256:e54cfa670bfaad70a3286d3792a98091125e50e176c56e07492cf5d9849cae57
-          #     pullPolicy: IfNotPresent
-          #   envFrom: &envFrom
-          #     - secretRef:
-          #         name: *app
-          #   securityContext:
-          #     allowPrivilegeEscalation: false
-          #     capabilities:
-          #       drop:
-          #         - ALL
+          init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9@sha256:e54cfa670bfaad70a3286d3792a98091125e50e176c56e07492cf5d9849cae57
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: *app
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
         containers:
           main:
             image:
@@ -75,10 +75,7 @@ spec:
               RADARR__PORT: &port 7878
               RADARR__lOG_LEVEL: info
               RADARR__THEME: dark
-            envFrom: &envFrom
-              - secretRef:
-                  name: *app
-            # envFrom: *envFrom
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
