@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.1
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
@@ -19,76 +19,100 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    controller:
-      annotations:
-        reloader.stakater.com/auto: "true"
-    image:
-      repository: ghcr.io/onedr0p/sonarr-develop
-      tag: 4.0.0.688@sha256:651261e5fdcc5399edda1bff312a50cad131a36d6a8f8dc39e43a352f4f2e0c3
-    env:
-      TZ: Canada/Eastern
-      SONARR__INSTANCE_NAME: Sonarr
-      SONARR__PORT: &port 8989
-      SONARR__LOG_LEVEL: info
-    envFrom:
-      - secretRef:
-          name: *app
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        pod:
+          labels:
+            sidecar.istio.io/inject: "true"
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 100
+              - 1000
+            seccompProfile:
+              type: RuntimeDefault
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values:
+                          - radarr
+                          - plex
+                  topologyKey: kubernetes.io/hostname
+        initContainers:
+          01-init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9@sha256:e54cfa670bfaad70a3286d3792a98091125e50e176c56e07492cf5d9849cae57
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: *app
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/sonarr-develop
+              tag: 4.0.0.688@sha256:651261e5fdcc5399edda1bff312a50cad131a36d6a8f8dc39e43a352f4f2e0c3
+            env:
+              TZ: Canada/Eastern
+              SONARR__AUTHENTICATION_METHOD: External
+              SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
+              SONARR__INSTANCE_NAME: Sonarr
+              SONARR__PORT: &port 8989
+              SONARR__LOG_LEVEL: info
+              SONARR__THEME: dark
+            envFrom: *envFrom
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 10
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 15m
+                memory: 300M
+              limits:
+                memory: 2G
+            securityContext: *securityContext
     service:
       main:
         ports:
           http:
             port: *port
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: nginx
-        hosts:
-          - host: &host "{{ .Release.Name }}.milton.mcf.io"
-            paths:
-              - path: /
-                pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups:
-        - 100
-        - 1000
     persistence:
       config:
         enabled: true
         retain: true
         size: 2Gi
       downloads:
-        enabled: true
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool/downloads
-        mountPath: /downloads
+        existingClaim: downloads
+        globalMounts:
+          - path: /downloads
       media:
-        enabled: true
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool/tv
-        mountPath: /media/tv
-    resources:
-      requests:
-        cpu: 10m
-        memory: 128M
-      limits:
-        memory: 2G
-    affinity:
-      podAntiAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                    - radarr
-                    - plex
-            topologyKey: kubernetes.io/hostname
+        existingClaim: tv
+        globalMounts:
+          - path: /media/tv

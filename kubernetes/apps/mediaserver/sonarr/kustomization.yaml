@@ -6,3 +6,4 @@ namespace: mediaserver
 resources:
   - external-secret.yaml
   - release.yaml
+  - virtual-service.yaml
