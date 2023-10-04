@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app sonarr
+  name: &app sonarr-new
 spec:
   interval: 12h
   maxHistory: 2
@@ -49,19 +49,19 @@ spec:
                           - plex
                   topologyKey: kubernetes.io/hostname
         initContainers:
-          # 01-init-db:
-          #   image:
-          #     repository: ghcr.io/onedr0p/postgres-init
-          #     tag: 14.9@sha256:e54cfa670bfaad70a3286d3792a98091125e50e176c56e07492cf5d9849cae57
-          #     pullPolicy: IfNotPresent
-          #   envFrom: &envFrom
-          #     - secretRef:
-          #         name: *app
-          #   securityContext: &securityContext
-          #     allowPrivilegeEscalation: false
-          #     capabilities:
-          #       drop:
-          #         - ALL
+          01-init-db:
+            image:
+              repository: ghcr.io/onedr0p/postgres-init
+              tag: 14.9@sha256:e54cfa670bfaad70a3286d3792a98091125e50e176c56e07492cf5d9849cae57
+              pullPolicy: IfNotPresent
+            envFrom: &envFrom
+              - secretRef:
+                  name: *app
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
         containers:
           main:
             image:
@@ -75,10 +75,7 @@ spec:
               SONARR__PORT: &port 8989
               SONARR__LOG_LEVEL: info
               SONARR__THEME: dark
-            envFrom: &envFrom
-              - secretRef:
-                  name: *app
-            # envFrom: *envFrom
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
@@ -100,12 +97,7 @@ spec:
                 memory: 300M
               limits:
                 memory: 2G
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - ALL
-            # securityContext: *securityContext
+            securityContext: *securityContext
     service:
       main:
         ports:

@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/networking.istio.io/virtualservice_v1alpha3.json
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: sonarr-new
+spec:
+  hosts:
+    - sonarr-new.milton.mcf.io
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 8989
+            host: sonarr-new.mediaserver.svc.cluster.local
