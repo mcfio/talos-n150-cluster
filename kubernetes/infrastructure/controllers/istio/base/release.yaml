@@ -4,6 +4,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
   name: istio-base
+  namespace: istio-system
 spec:
   interval: 12h
   maxHistory: 3
@@ -14,7 +15,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: istio-charts
-        namespace: istio-system
   install:
     createNamespace: true
     crds: Create
