@@ -39,11 +39,11 @@
     {
       description: "Istio Service Mesh",
       groupName: "istio",
-      matchPackagePatterns: [
+      matchPackageNames: [
         "base",
         "cni",
         "istiod",
-        "base"
+        "gateway"
       ],
       matchDatasources: ["helm", "docker"],
       group: {
