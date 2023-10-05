@@ -39,7 +39,12 @@
     {
       description: "Istio Service Mesh",
       groupName: "istio",
-      matchPackagePatterns: ["istio"],
+      matchPackagePatterns: [
+        "base",
+        "cni",
+        "istiod",
+        "base"
+      ],
       matchDatasources: ["helm", "docker"],
       group: {
         commitMessageTopic: "{{{groupName}}} group"
