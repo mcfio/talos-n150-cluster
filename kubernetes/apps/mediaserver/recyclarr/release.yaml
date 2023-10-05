@@ -34,6 +34,8 @@ spec:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 6.0.1
+            env:
+              TZ: Canada/Eastern
             envFrom:
               - secretRef:
                   name: recyclarr-secret
