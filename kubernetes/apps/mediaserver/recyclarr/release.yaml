@@ -25,10 +25,28 @@ spec:
           reloader.stakaer.com/auto: "true"
         pod:
           securityContext:
+            runAsNonRoot: true
             runAsUser: 568
             runAsGroup: 568
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+        initContainers:
+          init-config:
+            image:
+              repository: public.ecr.aws/docker/library/busybox
+              tag: latest@sha256:3fbc632167424a6d997e74f52b878d7cc478225cffac6bc977eedfe51c7f4e79
+              pullPolicy: IfNotPresent
+            command:
+              - "/bin/sh"
+              - "-c"
+              - "cp /tmp/config/recyclarr.yml /config/recyclarr.yml"
+            securityContext: &securityContext
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
         containers:
           main:
             image:
@@ -45,16 +63,21 @@ spec:
                 memory: 32M
               limits:
                 memory: 128M
+            securityContext: *securityContext
     service:
       main:
         enabled: false
     persistence:
       config:
         enabled: true
+        retain: true
+        size: 500M
+      config-file:
+        enabled: true
         type: configMap
         name: recyclarr-configmap
-        globalMounts:
-          - path: /config/recyclarr.yml
-            subPath: recyclarr.yml
-            defaultMode: 0775
-            readOnly: true
+        advancedMounts:
+          main:
+            init-config:
+              - path: /tmp/config
+                readOnly: true
