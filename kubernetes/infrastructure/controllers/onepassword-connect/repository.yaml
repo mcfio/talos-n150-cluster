@@ -4,6 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: onepassword-connect-charts
+  namespace: external-secrets
 spec:
   interval: 24h
   url: https://1password.github.io/connect-helm-charts
