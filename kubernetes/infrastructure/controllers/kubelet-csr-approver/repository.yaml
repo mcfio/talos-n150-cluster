@@ -4,6 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: kubelet-csr-approver-charts
+  namespace: kube-system
 spec:
   interval: 24h
   url: https://postfinance.github.io/kubelet-csr-approver

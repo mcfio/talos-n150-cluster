@@ -4,6 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: metrics-server-charts
+  namespace: kube-system
 spec:
   interval: 24h
   url: https://kubernetes-sigs.github.io/metrics-server
