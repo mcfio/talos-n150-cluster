@@ -3,14 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: arc-runner
-  namespace: arc-system
+  name: apps-self-hosted
+  namespace: flux-system
 spec:
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   interval: 2h
-  dependsOn:
-    - name: actions-runner-controller
-      namespace: arc-system
-  path: ./apps/actions-runner-system/runner
+  path: ./apps/self-hosted
   prune: true
   retryInterval: 1m
   sourceRef:
