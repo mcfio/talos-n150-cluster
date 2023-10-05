@@ -37,6 +37,16 @@
       separateMinorPatch: true
     },
     {
+      description: "Istio Service Mesh",
+      groupName: "istio",
+      matchPackagePatterns: ["istio"],
+      matchDatasources: ["helm", "docker"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group"
+      },
+      separateMinorPatch: true
+    },
+    {
       description: "external snapshotter CRDs and releases",
       groupName: "External Snapshotter",
       matchPackagePatterns: ["snapshot-controller", "snapshot-validation-webhook"],
