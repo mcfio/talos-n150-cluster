@@ -30,7 +30,7 @@ spec:
             fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
         containers:
-          recyclarr:
+          main:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 6.0.1
