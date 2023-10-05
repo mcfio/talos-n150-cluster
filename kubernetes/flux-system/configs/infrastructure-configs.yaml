@@ -10,6 +10,9 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
+  dependsOn:
+    - name: infrastructure-controllers
+    - name: infrastructure-operators
   interval: 2h
   path: ./infrastructure/configs
   prune: true
