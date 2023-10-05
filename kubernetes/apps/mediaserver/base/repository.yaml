@@ -4,6 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1beta2
 kind: HelmRepository
 metadata:
   name: mediaserver-charts
+  namespace: mediaserver
 spec:
   interval: 24h
   type: oci

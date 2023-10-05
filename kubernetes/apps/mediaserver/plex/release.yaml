@@ -14,6 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
+        namespace: mediaserver
   upgrade:
     cleanupOnFail: true
   uninstall:

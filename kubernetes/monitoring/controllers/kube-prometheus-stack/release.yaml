@@ -13,6 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
+        namespace: monitoring
   install:
     createNamespace: true
     crds: Create

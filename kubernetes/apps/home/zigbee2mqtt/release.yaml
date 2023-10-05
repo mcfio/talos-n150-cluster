@@ -14,6 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: zigbee2mqtt-charts
+        namespace: home
   install:
     createNamespace: true
     crds: Create
