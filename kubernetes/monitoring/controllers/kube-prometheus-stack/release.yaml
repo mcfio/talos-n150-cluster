@@ -77,15 +77,15 @@ spec:
     kubeEtcd:
       enabled: false
     prometheus:
-      # ingress:
-      #   enabled: true
-      #   pathType: Prefix
-      #   ingressClassName: nginx
-      #   hosts:
-      #     - prometheus.milton.mcf.io
-      #   tls:
-      #     - hosts:
-      #         - prometheus.milton.mcf.io
+      ingress:
+        enabled: true
+        pathType: Prefix
+        ingressClassName: nginx
+        hosts:
+          - prometheus.milton.mcf.io
+        tls:
+          - hosts:
+              - prometheus.milton.mcf.io
       podDisruptionBudget:
         enabled: false
       prometheusSpec:
