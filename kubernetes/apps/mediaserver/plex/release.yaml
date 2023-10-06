@@ -72,7 +72,7 @@ spec:
         sizeLimit: 2G
     resources:
       requests:
-        cpu: 4
-        memory: 3.2Gi
+        cpu: 3
+        memory: 3087Mi
       limits:
-        memory: 3.2Gi
+        memory: 3087Mi
