@@ -94,10 +94,10 @@ spec:
                 enabled: false
             resources:
               requests:
-                cpu: 15m
-                memory: 300M
+                cpu: 500m
+                memory: 450Mi
               limits:
-                memory: 2G
+                memory: 2048Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
