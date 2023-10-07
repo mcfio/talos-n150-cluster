@@ -22,15 +22,6 @@ spec:
   values:
     controllers:
       main:
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            seccompProfile:
-              type: RuntimeDefault
         containers:
           main:
             image:
@@ -45,6 +36,15 @@ spec:
                 memory: 384M
               limits:
                 memory: 2560M
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
     service:
       main:
         ports:
@@ -60,7 +60,9 @@ spec:
           - host: &host requests.mcf.io
             paths:
               - path: /
-                pathType: Prefix
+                service:
+                  name: main
+                  port: http
         tls:
           - hosts:
               - *host
