@@ -36,15 +36,15 @@ spec:
             image:
               repository: sctx/overseerr
               tag: 1.33.2@sha256:714ea6db2bc007a2262d112bef7eec74972eb33d9c72bddb9cbd98b8742de950
-          env:
-            TZ: Canada/Eastern
-            LOG_LEVEL: info
-          resources:
-            requests:
-              cpu: 15m
-              memory: 384M
-            limits:
-              memory: 2560M
+            env:
+              TZ: Canada/Eastern
+              LOG_LEVEL: info
+            resources:
+              requests:
+                cpu: 15m
+                memory: 384M
+              limits:
+                memory: 2560M
     service:
       main:
         ports:
