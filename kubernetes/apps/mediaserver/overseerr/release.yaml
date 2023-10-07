@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.2
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
@@ -20,14 +20,31 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    global:
-      nameOverride: *app
-    image:
-      repository: sctx/overseerr
-      tag: 1.33.2@sha256:714ea6db2bc007a2262d112bef7eec74972eb33d9c72bddb9cbd98b8742de950
-    env:
-      TZ: Canada/Eastern
-      LOG_LEVEL: info
+    controllers:
+      main:
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
+        containers:
+          main:
+            image:
+              repository: sctx/overseerr
+              tag: 1.33.2@sha256:714ea6db2bc007a2262d112bef7eec74972eb33d9c72bddb9cbd98b8742de950
+          env:
+            TZ: Canada/Eastern
+            LOG_LEVEL: info
+          resources:
+            requests:
+              cpu: 15m
+              memory: 384M
+            limits:
+              memory: 2560M
     service:
       main:
         ports:
@@ -48,20 +65,10 @@ spec:
           - hosts:
               - *host
             secretName: overseerr-cert-tls
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
     persistence:
       config:
         enabled: true
         retain: true
         size: 1Gi
-        mountPath: /app/config
-    resources:
-      requests:
-        cpu: 15m
-        memory: 384M
-      limits:
-        memory: 2560M
+        globalMounts:
+          - path: /app/config
