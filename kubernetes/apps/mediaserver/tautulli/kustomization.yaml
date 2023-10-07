@@ -5,3 +5,4 @@ kind: Kustomization
 namespace: mediaserver
 resources:
   - release.yaml
+  - virtual-service.yaml
