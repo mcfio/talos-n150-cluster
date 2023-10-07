@@ -3,14 +3,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
-  name: &app plex
+  name: plex
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
   chart:
     spec:
       chart: app-template
-      version: 1.5.1
+      version: 2.0.2
       sourceRef:
         kind: HelmRepository
         name: mediaserver-charts
@@ -20,13 +20,39 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    global:
-      nameOverride: *app
-    image:
-      repository: ghcr.io/onedr0p/plex
-      tag: 1.32.6.7557-1cf77d501@sha256:0d5a12bddc5ab41e0f055254335cbe09374972d04c147209321060e59f2cd506
-    env:
-      TZ: Canada/Eastern
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.6.7557-1cf77d501@sha256:0d5a12bddc5ab41e0f055254335cbe09374972d04c147209321060e59f2cd506
+            env:
+              TZ: Canada/Eastern
+            resources:
+              requests:
+                cpu: "3.25"
+                memory: 3087Mi
+              limits:
+                memory: 3087Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 44
+              - 109
+              - 1000
+            seccompProfile:
+              type: RuntimeDefault
     service:
       main:
         enabled: true
@@ -37,42 +63,23 @@ spec:
         ports:
           http:
             port: 32400
-    podSecurityContext:
-      runAsUser: 568
-      runAsGroup: 568
-      fsGroup: 568
-      fsGroupChangePolicy: OnRootMismatch
-      supplementalGroups:
-        - 44
-        - 109
-        - 1000
     persistence:
       config:
         enabled: true
         retain: true
         size: 20Gi
       media:
-        enabled: true
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/storage/media
-        mountPath: /nfs-data
-        readOnly: true
+        existingClaim: media
+        globalMounts:
+          - path: /nfs-data
+            readOnly: true
       media-tv:
-        enabled: true
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool/tv
-        mountPath: /media/tv
-        readOnly: true
+        existingClaim: tv
+        globalMounts:
+          - path: /media/tv
+            readOnly: true
       transcode:
         enabled: true
         type: emptyDir
         medium: Memory
         sizeLimit: 2G
-    resources:
-      requests:
-        cpu: 3
-        memory: 3087Mi
-      limits:
-        memory: 3087Mi
