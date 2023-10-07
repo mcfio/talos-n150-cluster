@@ -52,10 +52,10 @@ spec:
             port: 5055
     ingress:
       main:
-        enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
-        ingressClassName: nginx
+        enabled: true
+        className: nginx
         hosts:
           - host: &host requests.mcf.io
             paths:
