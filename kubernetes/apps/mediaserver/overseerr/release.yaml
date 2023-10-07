@@ -36,6 +36,11 @@ spec:
                 memory: 384M
               limits:
                 memory: 2560M
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
         pod:
           securityContext:
             runAsNonRoot: true
