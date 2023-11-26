@@ -35,7 +35,7 @@ spec:
           main:
             image:
               repository: ghcr.io/mcfio/home-cluster/kubernetes-schemas
-              tag: latest@sha256:396b3a6ed949cf2f36f901c90a700ac8c9cc06afbba85f5cf86839cc7d164938
+              tag: latest@sha256:183cfffadac290657286599329d517d205c57919a4970538384e45944b47ac0e
             resources:
               requests:
                 cpu: 10m
