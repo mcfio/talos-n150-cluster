@@ -59,6 +59,7 @@ spec:
         csi-internal-generated-cluster-id: true
         listview-tasks: false
         improved-volume-topology: false
+        use-csinode-id: true
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
