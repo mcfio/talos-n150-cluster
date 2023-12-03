@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: vsphere-csi
-      version: 3.2.4
+      version: 3.3.2
       sourceRef:
         kind: HelmRepository
         name: vsphere-tmm
@@ -42,6 +42,23 @@ spec:
           maxSurge: 0
           maxUnavailable: 1
         type: RollingUpdate
+      config:
+        csi-migration: true
+        csi-auth-check: true
+        online-volume-extend: true
+        trigger-csi-fullsync: false
+        async-query-volume: true
+        block-volume-snapshot: true
+        csi-windows-support: true
+        list-volumes: true
+        pv-to-backingdiskobjectid-mapping: false
+        cnsmgr-suspend-create-volume: true
+        topology-preferential-datastores: true
+        max-pvscsi-targets-per-vm: true
+        multi-vcenter-csi-topology: true
+        csi-internal-generated-cluster-id: true
+        listview-tasks: false
+        improved-volume-topology: false
       affinity:
         podAntiAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
