@@ -36,7 +36,6 @@ spec:
           expansion: true
     controller:
       global:
-        imageRegistry: registry.k8s.io
         extraEnvVarsSecret: vsphere-csi-secret
       updateStrategy:
         rollingUpdate:
