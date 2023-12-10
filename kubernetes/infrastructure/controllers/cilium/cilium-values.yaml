@@ -1,0 +1,107 @@
+---
+# -- cluster mesh configuration
+cluster:
+  name: home-cluster
+  id: 100
+
+# -- roll out cilium agent pods automatically when configmap is updated.
+rollOutCiliumPods: true
+
+# -- configure the kube-proxy replacement in Cilium BPF datapath
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+k8sServiceHost: localhost
+k8sServicePort: 7445
+
+# -- enable native eBPF masquerading
+bpf:
+  masquerade: true
+
+# -- Enable native-routing mode or tunneling mode.
+# using legacy due to https://github.com/cilium/cilium/issues/27325
+# routingMode: native
+tunnel: disabled
+ipv4NativeRoutingCIDR: 10.244.0.0/18
+autoDirectNodeRoutes: true
+
+# -- configure security context that is compatible with talos
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
+
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+# -- Annotate k8s node upon initialization with Cilium's metadata.
+annotateK8sNode: true
+
+# -- configure L2 announcements - listen for CRD configurations
+l2announcements:
+  enabled: true
+  leaseDuration: 120s
+  leaseRenewDeadline: 60s
+  leaseRetryPeriod: 1s
+
+# -- configure IPAM from kubernetes configuration
+ipam:
+  mode: kubernetes
+
+# -- configure the maglev table size and hashseed
+maglev:
+  tableSize: 1021
+  hashSeed: "P9jc887+zv7eNcUr"
+
+# -- configure loadBalancer
+loadBalancer:
+  algorithm: maglev
+
+# -- disable CNI exclusive mode
+cni:
+  exclusive: false
+
+# -- Configure socket LB
+socketLB:
+  # -- Disable socket lb for non-root ns. This is used to enable Istio routing rules.
+  hostNamespaceOnly: true
+
+operator:
+  rollOutPods: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query;ignoreAAAA
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - http
+  relay:
+    enabled: true
+    rollOutPods: true
+  ui:
+    enabled: true
+    rollOutPods: true

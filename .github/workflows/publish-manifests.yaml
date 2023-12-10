@@ -1,0 +1,60 @@
+---
+name: Publish Manifests
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/publish-manifests.yaml
+      - kubernetes/**
+
+permissions:
+  packages: write
+  id-token: write
+
+env:
+  OCI_REPO: "oci://ghcr.io/${{ github.repository_owner }}/kubernetes-manifests/${{ github.event.repository.name }}"
+
+jobs:
+  publish-manifests:
+    name: OCI Artifact
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+
+      - name: Setup Flux
+        uses: fluxcd/flux2/action@a18d4f345021182d6516bf3e8e00210567f46ab5 # v2.1.2
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@1fc5bd396d372bee37d608f955b336615edf79c8 # v3.2.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          registry: ghcr.io
+          username: "${{ github.actor }}"
+          password: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Create OCI Artifact
+        id: create
+        run: |
+          digest_url=$(flux push artifact \
+            $OCI_REPO:$(git rev-parse --short HEAD) \
+            --path="./kubernetes" \
+            --source="${{ github.repositoryUrl }}" \
+            --revision="${{ github.ref_name }}@sha1:$(git rev-parse HEAD)" \
+            --output=json | \
+            jq -r '. | .repository + "@" + .digest')
+          echo "DIGEST_URL=$digest_url" >> $GITHUB_OUTPUT
+
+      - name: Tag OCI Artifact
+        run: |
+          flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
+
+      - name: Sign OCI Artifact
+        run: |
+          cosign sign --yes ${{ steps.create.outputs.DIGEST_URL }}

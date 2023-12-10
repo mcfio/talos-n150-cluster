@@ -1,0 +1,58 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: node-feature-discovery
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: node-feature-discovery
+      version: 0.14.3
+      sourceRef:
+        kind: HelmRepository
+        name: node-feature-discovery-charts
+        namespace: kube-system
+  install:
+    createNamespace: true
+    crds: Create
+    replace: true
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    master:
+      resources:
+        limits:
+          memory: 200M
+        requests:
+          cpu: 20m
+          memory: 100M
+    worker:
+      annotations:
+        configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
+      config:
+        core:
+          sources:
+            - custom
+            - pci
+            - usb
+        sources:
+          usb:
+            deviceClassWhitelist:
+              - "02"
+              - "ff"
+            deviceLabelFields:
+              - "class"
+              - "vendor"
+              - "device"
+      resources:
+        limits:
+          memory: 200M
+        requests:
+          cpu: 15m
+          memory: 150M

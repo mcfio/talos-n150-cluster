@@ -1,0 +1,43 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: minio-operator
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: operator
+      version: 5.0.11
+      sourceRef:
+        kind: HelmRepository
+        name: minio-operator-charts
+        namespace: minio-operator
+  install:
+    createNamespace: true
+    crds: Create
+    replace: true
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    operator:
+      env:
+        - name: PROMETHEUS_NAMESPACE
+          value: "monitoring"
+        - name: MINIO_PROMETHEUS_URL
+          value: "http://kube-prometheus-stack-prometheus.monitoring:9090"
+    console:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        host: minio.milton.mcf.io
+        path: /
+        pathType: Prefix
+        tls:
+          - hosts:
+              - minio.milton.mcf.io

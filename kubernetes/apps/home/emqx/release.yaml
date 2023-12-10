@@ -1,0 +1,88 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: emqx
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: emqx
+      version: 5.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: emqx-charts
+        namespace: home
+  install:
+    createNamespace: true
+    crds: Create
+    replace: true
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: public.ecr.aws/emqx/emqx
+    replicaCount: 3
+    recreatePods: true
+    emqxConfig:
+      EMQX_ALLOW_ANONYMOUS: "false"
+      EMQX_AUTH__MNESIA__PASSWORD_HASH: plain
+      EMQX_TELEMETRY__ENABLE: "false"
+      EMQX_LISTENERS__SSL__DEFAULT__SSL_OPTIONS__CERTFILE: /tmp/ssl/tls.crt
+      EMQX_LISTENERS__SSL__DEFAULT__SSL_OPTIONS__KEYFILE: /tmp/ssl/tls.key
+    service:
+      annotations:
+        external-dns.alpha.kubernetes.io/hostname: mqtt.milton.mcf.io
+        io.cilium/lb-ipam-ips: 192.168.45.235
+      type: LoadBalancer
+    ingress:
+      dashboard:
+        enabled: true
+        ingressClassName: nginx
+        path: /
+        pathType: Prefix
+        hosts:
+          - &host emqx.milton.mcf.io
+        tls:
+          - hosts:
+              - *host
+    persistence:
+      enabled: true
+      size: 100Mi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 512Mi
+    ssl:
+      enabled: true
+      useExisting: true
+      existingName: mqtt-cert
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app.kubernetes.io/name: emqx
+  valuesFrom:
+    - targetPath: emqxConfig.EMQX_DASHBOARD__DEFAULT_PASSWORD
+      kind: Secret
+      name: emqx-auth
+      valuesKey: EMQX_DASHBOARD__DEFAULT_PASSWORD
+    - targetPath: emqxConfig.EMQX_AUTH__USER__1__USERNAME
+      kind: Secret
+      name: emqx-auth
+      valuesKey: EMQX_AUTH__USER__1__USERNAME
+    - targetPath: emqxConfig.EMQX_AUTH__USER__1__PASSWORD
+      kind: Secret
+      name: emqx-auth
+      valuesKey: EMQX_AUTH__USER__1__PASSWORD

@@ -30,6 +30,11 @@
       matchPackagePatterns: [
         "plex"
       ]
+    },
+    {
+      description: "disable package pinning for cluster manifests",
+      pinDigests: false,
+      matchPackagePatterns: ["ghcr.io/mcfio/kubernetes-manifests/home-cluster"]
     }
   ]
 }

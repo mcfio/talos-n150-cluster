@@ -1,0 +1,65 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: istio-istiod
+spec:
+  interval: 12h
+  maxHistory: 3
+  dependsOn:
+    - name: istio-base
+  chart:
+    spec:
+      chart: istiod
+      version: 1.20.0
+      sourceRef:
+        kind: HelmRepository
+        name: istio-charts
+        namespace: istio-system
+  install:
+    createNamespace: true
+    crds: Create
+    replace: true
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    pilot:
+      autoscaleEnabled: false
+      autoscaleMin: 1
+      autoscaleMax: 3
+      replicaCount: 1
+      rollingMaxSurge: 100%
+      rollingMaxUnavailable: 25%
+      resources:
+        requests:
+          cpu: 100m
+          memory: 512Mi
+      env:
+        ENABLE_NATIVE_SIDECARS: true
+    global:
+      logAsJson: true
+      meshID: mcfio
+      multiCluster:
+        clusterName: mcf-k8s-cluster
+      network: milton.mcf.io
+      tracer:
+        zipkin:
+          address: localhost:9411
+    istio_cni:
+      enabled: true
+    meshConfig:
+      accessLogFile: "/dev/stdout"
+      accessLogEncoding: "JSON"
+      enableTracing: false
+      defaultConfig:
+        # proxyMetadata:
+        #   ISTIO_META_DNS_CAPTURE: "true"
+        #   ISTIO_META_DNS_AUTO_ALLOCATE: "true"
+        #   ISTIO_META_PROXY_XDS_VIA_AGENT: "true"
+        # interceptionMode: TPROXY
+        tracing:
+          sampling: 20
+      enablePrometheusMerge: true

@@ -1,0 +1,37 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: mediaserver-db
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:14.9-3
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 5Gi
+    storageClass: vsphere-csi
+  superuserSecret:
+    name: mediaserver-cnpg-secret
+  postgresql:
+    parameters:
+      max_connections: "600"
+      shared_buffers: 512MB
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore:
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://mediaserver-cnpg/
+      endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
+      serverName: postgres-v1
+      s3Credentials:
+        accessKeyId:
+          name: mediaserver-cnpg-secret
+          key: aws-access-key-id
+        secretAccessKey:
+          name: mediaserver-cnpg-secret
+          key: aws-secret-access-key

@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/networking.istio.io/virtualservice_v1alpha3.json
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: prowlarr
+spec:
+  hosts:
+    - prowlarr.milton.mcf.io
+  gateways:
+    - istio-ingress/istio-ingressgateway
+  http:
+    - match:
+        - port: 443
+      route:
+        - destination:
+            port:
+              number: 9696
+            host: prowlarr.mediaserver.svc.cluster.local

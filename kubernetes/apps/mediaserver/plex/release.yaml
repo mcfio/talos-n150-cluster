@@ -1,0 +1,85 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: plex
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: mediaserver-charts
+        namespace: mediaserver
+  upgrade:
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/plex
+              tag: 1.32.8.7639-fb6452ebf@sha256:637fe10cef736f249d96cb004c12f81646c81ca17ddce22374ea8782aa6646c2
+            env:
+              TZ: Canada/Eastern
+            resources:
+              requests:
+                cpu: "3.25"
+                memory: 3087Mi
+              limits:
+                memory: 3087Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+        pod:
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 44
+              - 109
+              - 1000
+            seccompProfile:
+              type: RuntimeDefault
+    service:
+      main:
+        enabled: true
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: plex.milton.mcf.io
+          io.cilium/lb-ipam-ips: 192.168.45.230
+        type: LoadBalancer
+        ports:
+          http:
+            port: 32400
+    persistence:
+      config:
+        enabled: true
+        retain: true
+        size: 20Gi
+      media:
+        existingClaim: media
+        globalMounts:
+          - path: /nfs-data
+            readOnly: true
+      media-tv:
+        existingClaim: tv
+        globalMounts:
+          - path: /media/tv
+            readOnly: true
+      transcode:
+        enabled: true
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 2G

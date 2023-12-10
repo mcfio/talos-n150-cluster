@@ -1,0 +1,106 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app sabnzbd
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: app-template
+      version: 2.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: mediaserver-charts
+        namespace: mediaserver
+  upgrade:
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    controllers:
+      main:
+        annotations:
+          reloader.stakater.com/auto: "true"
+        containers:
+          main:
+            image:
+              repository: ghcr.io/onedr0p/sabnzbd
+              tag: 4.1.0@sha256:1c1650511f96108e81d677abe8a2e491507caa023fdc5c2bfc99df087634c9f3
+            env:
+              TZ: Canada/Eastern
+              SABNZBD__PORT: &port 8080
+              SABNZBD__HOST_WHITELIST_ENTRIES: >-
+                sabnzbd,
+                sabnzbd.default,
+                sabnzbd.default.svc,
+                sabnzbd.default.svc.cluster,
+                sabnzbd.default.svc.cluster.local,
+                sabnzbd.milton.mcf.io
+            envFrom:
+              - secretRef:
+                  name: *app
+            resources:
+              requests:
+                cpu: 10m
+                memory: 250Mi
+              limits:
+                memory: 8000Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+        pod:
+          affinity:
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values:
+                          - prometheus
+                          - plex
+                  namespaces:
+                    - mediaserver
+                    - monitoring
+                  topologyKey: kubernetes.io/hostname
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
+            fsGroupChangePolicy: OnRootMismatch
+            supplementalGroups:
+              - 100
+              - 1000
+            seccompProfile:
+              type: RuntimeDefault
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+    persistence:
+      config:
+        enabled: true
+        retain: true
+        size: 500Mi
+      downloads:
+        existingClaim: downloads
+        globalMounts:
+          - path: /downloads
+      media-tv:
+        existingClaim: tv
+        globalMounts:
+          - path: /media-tv
+      media-movies:
+        existingClaim: media
+        globalMounts:
+          - path: /media
+      incomplete:
+        enabled: true
+        type: emptyDir

@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "**.yaml"
+      - "kubernetes/**.yaml"
 
 jobs:
   flux-local-diff:
@@ -17,22 +17,33 @@ jobs:
     strategy:
       matrix:
         cluster_path:
-          - kubernetes
+          - kubernetes/flux-system/configs
+        sources:
+          - home-cluster=./kubernetes/
         resources:
           - helmrelease
           - kustomization
     steps:
       - name: Generate Token
-        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8.0
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
         id: generate-token
         with:
           app_id: ${{ secrets.BOT_APP_ID }}
           private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      - uses: allenporter/flux-local/action/diff@main
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.BOT_APP_ID }}
+          password: ${{ steps.generate-token.outputs.token }}
+
+      - name: Diff resources
+        uses: allenporter/flux-local/action/diff@19bfc6920e8964a479363bc230e6c329120ead02 # 3.2.0
         id: diff
         with:
           path: ${{ matrix.cluster_path }}
+          sources: ${{ matrix.sources }}
           resource: ${{ matrix.resources }}
 
       - if: ${{ steps.diff.outputs.diff != '' }}

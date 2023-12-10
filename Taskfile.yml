@@ -3,7 +3,6 @@
 version: '3'
 
 includes:
-  ansible: .taskfiles/ansible.yml
   flux: .taskfiles/flux.yml
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
@@ -18,4 +17,4 @@ vars:
 tasks:
   default:
     silent: true
-    cmds: ["go-task -l"]
+    cmds: ["task -l"]

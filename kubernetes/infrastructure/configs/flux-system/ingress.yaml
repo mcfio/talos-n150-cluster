@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webhook-receiver
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: &host flux-webhook.mcf.io
+    http:
+      paths:
+      - backend:
+          service:
+            name: webhook-receiver
+            port:
+              number: 80
+        path: /hook/
+        pathType: Prefix
+  tls:
+  - hosts:
+    - *host
+    secretName: webhook-receiver-tls

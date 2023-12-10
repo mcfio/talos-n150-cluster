@@ -1,0 +1,152 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: loki
+spec:
+  interval: 12h
+  maxHistory: 3
+  dependsOn:
+    - name: kube-prometheus-stack
+  chart:
+    spec:
+      chart: loki
+      version: 5.40.1
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-charts
+        namespace: monitoring
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    replace: true
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    test:
+      enabled: false
+    loki:
+      auth_enabled: false
+      analytics:
+        reporting_enabled: false
+      server:
+        log_level: info
+      limits_config:
+        retention_period: 14d
+        enforce_metric_name: false
+        reject_old_samples: true
+        reject_old_samples_max_age: 168h
+        max_cache_freshness_per_query: 10m
+        split_queries_by_interval: 15m
+        per_stream_rate_limit: 64M
+        per_stream_rate_limit_burst: 128M
+        ingestion_rate_mb: 64
+        ingestion_burst_size_mb: 128
+        shard_streams:
+          enabled: true
+      commonConfig:
+        replication_factor: 3
+      # storage:
+      #   type: s3
+      #   s3:
+      #     endpoint: minio.monitoring
+      #     accessKeyId: minio
+      #     secretAccessKey: minio123
+      #     s3ForcePathStyle: true
+      #     insecure: true
+    singleBinary:
+      replicas: 3
+    #   rulerConfig:
+    #     enable_api: true
+    #     enable_alertmanager_v2: true
+    #     alertmanager_url: http://prom-alertmanager.monitoring:9093
+    #     storage:
+    #       type: local
+    #       local:
+    #         directory: /rules
+    #     rule_path: /rules
+    #   compactor:
+    #     working_directory: /var/loki/boltdb-shipper-compactor
+    #     shared_store: s3
+    #     compaction_interval: 10m
+    #     retention_enabled: true
+    #     retention_delete_delay: 2h
+    #     retention_delete_worker_count: 150
+    #   analytics:
+    #     reporting_enabled: false
+    #   ingester:
+    #     max_chunk_age: 1h
+    monitoring:
+      serviceMonitor:
+        enabled: true
+        metricsInstance:
+          enabled: false
+        additionalLabels:
+          app.kubernetes.io/part-of: kube-prometheus-stack
+      selfMonitoring:
+        enabled: false
+        grafanaAgent:
+          installOperator: false
+      lokiCanary:
+        enabled: false
+    # write:
+    #   replicas: 1
+    #   persistence:
+    #     size: 20Gi
+    #   resources:
+    #     limits:
+    #       memory: 800M
+    #     requests:
+    #       cpu: 60m
+    #       memory: 150M
+    # read:
+    #   replicas: 1
+    #   extraVolumeMounts:
+    #     - name: rules
+    #       mountPath: /rules
+    #   extraVolumes:
+    #     - name: rules
+    #       emptyDir: {}
+    #   resources:
+    #     limits:
+    #       memory: 800M
+    #     requests:
+    #       cpu: 60m
+    #       memory: 150M
+    # backend:
+    #   replicas: 1
+    #   extraVolumeMounts:
+    #     - name: rules
+    #       mountPath: /rules
+    #   extraVolumes:
+    #     - name: rules
+    #       emptyDir: {}
+    #   resources:
+    #     limits:
+    #       memory: 800M
+    #     requests:
+    #       cpu: 60m
+    #       memory: 150M
+    # gateway:
+    #   enabled: true
+    #   replicas: 3
+    #   image:
+    #     registry: ghcr.io
+    #     repository: nginxinc/nginx-unprivileged
+    #     tag: 1.25-alpine
+    #   deploymentStrategy:
+    #     type: RollingUpdate
+    #     # Scale down nodes before deploying new one
+    #     rollingUpdate:
+    #       maxSurge: 0
+    #       maxUnavailable: 1
+    #   resources:
+    #     limits:
+    #       memory: 125M
+    #     requests:
+    #       cpu: 15m
+    #       memory: 100M

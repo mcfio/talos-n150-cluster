@@ -1,0 +1,96 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta1.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: &app radarr-uhd
+spec:
+  interval: 12h
+  maxHistory: 2
+  chart:
+    spec:
+      chart: app-template
+      version: 1.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: mediaserver-charts
+        namespace: mediaserver
+  upgrade:
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    controller:
+      annotations:
+        reloader.stakater.com/auto: "true"
+    image:
+      repository: ghcr.io/onedr0p/radarr
+      tag: 4.7.5.7809@sha256:47bd13f1d29e6ac57540f0cd95bda79dfb1492765e6209f80dd0b04d00046bf3
+    env:
+      TZ: Canada/Eastern
+      RADARR__INSTANCE_NAME: Radarr-UHD
+      RADARR__PORT: &port 7878
+      RADARR__APPLICATION_URL: https://{{ .Release.Name }}.milton.mcf.io
+      RADARR__lOG_LEVEL: info
+    envFrom:
+      - secretRef:
+          name: radarr-uhd-secret
+    service:
+      main:
+        ports:
+          http:
+            port: *port
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - host: &host "{{ .Release.Name }}.milton.mcf.io"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - *host
+    podSecurityContext:
+      runAsUser: 568
+      runAsGroup: 568
+      fsGroup: 568
+      fsGroupChangePolicy: OnRootMismatch
+      supplementalGroups:
+        - 100
+        - 1000
+    persistence:
+      config:
+        enabled: true
+        retain: true
+        size: 2Gi
+      downloads:
+        enabled: true
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/media-pool/downloads
+        mountPath: /downloads
+      media:
+        enabled: true
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/storage/media
+        mountPath: /media
+    resources:
+      requests:
+        cpu: 15m
+        memory: 300M
+      limits:
+        memory: 2G
+    affinity:
+      podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - sonarr
+                    - plex
+            topologyKey: kubernetes.io/hostname
