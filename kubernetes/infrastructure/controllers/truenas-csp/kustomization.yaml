@@ -7,7 +7,7 @@ resources:
   - namespace.yaml
   # - external-secret.yaml
   - repository.yaml
-  # - release.yaml
+  - release.yaml
 labels:
   - pairs:
       kustomize.toolkit.fluxcd.io/prune: disabled
