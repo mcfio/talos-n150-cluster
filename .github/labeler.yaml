@@ -1,9 +1,13 @@
 ---
 ansible:
-  - "infrastructure/ansible/**/*"
+  - changed-files:
+      - any-glob-to-any-file: "infrastructure/ansible/**/*"
 github:
-  - ".github/**/*"
+  - changed-files:
+      - any-glob-to-any-file: ".github/**/*"
 kubernetes:
-  - "cluster/**/*"
+  - changed-files:
+      - any-glob-to-any-file: "kubernetes/**/*"
 terraform:
-  - "infrastructure/terraform/**/*"
+  - changed-files:
+      - any-glob-to-any-file: "infrastructure/terraform/**/*"
