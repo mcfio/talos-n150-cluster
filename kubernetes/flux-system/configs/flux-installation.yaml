@@ -9,7 +9,7 @@ spec:
   interval: 6h
   url: oci://ghcr.io/fluxcd/flux-manifests
   ref:
-    tag: v2.2.1@sha256:36ffc08ae9eea887331b4c5a8da2b67c369405022530e9079040f530591dbf44
+    tag: v2.2.1
   verify:
     provider: cosign
 ---
@@ -56,14 +56,14 @@ spec:
         - op: replace
           path: /spec/template/spec/containers/0/resources/limits/memory
           value: 2Gi
-    # Enable Drift Detection, oomwatch
+    # Enable oomwatch
     - target:
         kind: Deployment
         name: helm-controller
       patch: |
         - op: add
           path: /spec/template/spec/containers/0/args/-
-          value: --feature-gates=DetectDrift=true,CorrectDrift=false,OOMWatch=true
+          value: --feature-gates=OOMWatch=true
         - op: replace
           path: /spec/template/spec/containers/0/args/2
           value: --log-level=debug
