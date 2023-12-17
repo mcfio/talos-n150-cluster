@@ -25,22 +25,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    config:
-      enabled: true
-  valuesFrom:
-    - kind: Secret
-      name: vsphere-cpi-secret
-      valuesKey: VSPHERE_VCENTER
-      targetPath: config.vcentre
-    - kind: Secret
-      name: vsphere-cpi-secret
-      valuesKey: VSPHERE_USER
-      targetPath: config.username
-    - kind: Secret
-      name: vsphere-cpi-secret
-      valuesKey: VSPHERE_PASSWORD
-      targetPath: config.password
-    - kind: Secret
-      name: vsphere-cpi-secret
-      valuesKey: VSPHERE_DATACENTER
-      targetPath: config.datacenter
+    global:
+      config:
+        existingConfig:
+          enabled: true
+          type: Secret
+          name: vsphere-cpi-secret
