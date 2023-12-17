@@ -15,7 +15,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: vsphere-tmm
-        namespace: kube-system
+        namespace: vmware-system-csi
   install:
     crds: Create
     replace: true
