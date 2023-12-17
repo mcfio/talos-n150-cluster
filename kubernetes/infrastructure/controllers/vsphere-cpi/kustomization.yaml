@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - external-secret.yaml
-  # - release.yaml
+  - release.yaml
 labels:
   - pairs:
       kustomize.toolkit.fluxcd.io/prune: disabled

@@ -1,0 +1,46 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: vsphere-cpi
+  namespace: kube-system
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: vsphere-cpi
+      version: 1.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: vsphere-tmm
+        namespace: kube-system
+  install:
+    crds: Create
+    replace: true
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+  uninstall:
+    keepHistory: false
+  values:
+    config:
+      enabled: true
+  valuesFrom:
+    - kind: Secret
+      name: vsphere-cpi-secret
+      valuesKey: VSPHERE_VCENTER
+      targetPath: config.vcentre
+    - kind: Secret
+      name: vsphere-cpi-secret
+      valuesKey: VSPHERE_USER
+      targetPath: config.username
+    - kind: Secret
+      name: vsphere-cpi-secret
+      valuesKey: VSPHERE_PASSWORD
+      targetPath: config.password
+    - kind: Secret
+      name: vsphere-cpi-secret
+      valuesKey: VSPHERE_DATACENTER
+      targetPath: config.datacenter
