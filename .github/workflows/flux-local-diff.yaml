@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: Flux Diff
 
 on:
@@ -7,6 +8,10 @@ on:
       - main
     paths:
       - "kubernetes/**.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   flux-local-diff:
@@ -23,13 +28,15 @@ jobs:
         resources:
           - helmrelease
           - kustomization
+        max-parallel: 4
+        fail-fast: false
     steps:
       - name: Generate Token
-        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # v2.1.0
-        id: generate-token
+        uses: actions/create-github-app-token@v1
+        id: app-token
         with:
-          app_id: ${{ secrets.BOT_APP_ID }}
-          private_key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@343f7c4344506bcbf9b4de18042ae17996df046d # v3.0.0
@@ -57,3 +64,13 @@ jobs:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
+  flux-local-diff-success:
+    if: ${{ always() }}
+    needs:
+      - flux-diff
+    name: Flux diff successful
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check matrix status
+        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+        run: exit 1
