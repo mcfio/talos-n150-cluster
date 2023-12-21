@@ -28,4 +28,4 @@ spec:
     fullnameOverride: gha-runner-scale-set-controller
     image:
       repository: ghcr.io/actions/gha-runner-scale-set-controller
-      tag: 0.8.0@sha256:2437c69b2c51ecdb8752e326a13a4375a1b0d696914912a82bf6e9b02876232d
+      tag: 0.8.1@sha256:14f6df6f6300f34c4377b05e72378b05d813160556e3fd3415e56049d7b30ac2
