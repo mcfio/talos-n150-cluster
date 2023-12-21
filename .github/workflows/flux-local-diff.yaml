@@ -64,10 +64,11 @@ jobs:
             ```diff
             ${{ steps.diff.outputs.diff }}
             ```
+
   flux-local-diff-success:
     if: ${{ always() }}
     needs:
-      - flux-diff
+      - flux-localdiff
     name: Flux diff successful
     runs-on: ubuntu-latest
     steps:
