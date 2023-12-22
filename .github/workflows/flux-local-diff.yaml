@@ -68,7 +68,7 @@ jobs:
   flux-local-diff-success:
     if: ${{ always() }}
     needs:
-      - flux-localdiff
+      - flux-local-diff
     name: Flux diff successful
     runs-on: ubuntu-latest
     steps:
