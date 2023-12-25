@@ -44,3 +44,7 @@ terraform.rc
 
 # temporarily ignore infrastructure
 infrastructure/*
+
+# direnv and nix flake
+.env
+result
