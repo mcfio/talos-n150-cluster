@@ -2,6 +2,7 @@
   description = "manage home-cluster environment with nix";
 
   inputs = {
+    # nixpkgs - set the url to master, want the latest, always
     nixpkgs.url = "github:NixOS/nixpkgs/master";
     flake-utils.url = "github:numtide/flake-utils";
   };

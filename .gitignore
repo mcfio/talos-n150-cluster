@@ -45,6 +45,11 @@ terraform.rc
 # temporarily ignore infrastructure
 infrastructure/*
 
-# direnv and nix flake
+# prevent secrets files from entering repository
+.secrets/*
+
+# direnv and nix flake, ignoring the lock file don't need it
+.direnv
 .env
 result
+flake.lock
