@@ -3,6 +3,31 @@
 version: "3"
 
 tasks:
+  genconfig:
+    desc: Generate KUBECONFIG from 1Password Secret
+    summary: |
+      Args:
+        vault: 1Password vault to retrieve secret from (required)
+        secret: 1Password secret holding credentials (required)
+    vars:
+      KUBECONFIG_FILE: "{{ .PROJECT_DIR }}/.secrets/kubeconfig"
+      TEMPLATE_FILE: "{{ .PROJECT_DIR }}/kubeconfig.tpl"
+      vault: "{{ .vault }}"
+      secret: "{{ .secret }}"
+    requires:
+      vars:
+        - vault
+        - secret
+    cmds:
+      - op inject -i {{ .TEMPLATE_FILE }} -o {{ .KUBECONFIG_FILE }} --force
+    preconditions:
+      - sh: op
+        msg: "1Password CLI is missing."
+      - sh: op vault get {{ .vault }}
+        msg: "Vault not found."
+      - sh: op item get {{ .secret }} --vault {{ .vault }}
+        msg: "Secret not found."
+
   mount:
     desc: Mount a PersistantVolumeClaim to a pod temporarily
     interactive: true
