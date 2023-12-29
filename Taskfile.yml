@@ -7,7 +7,7 @@ includes:
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
   externalsecret: .taskfiles/externalsecret.yml
-  k8s: .taskfiles/kubernetes.yaml
+  k8s: .taskfiles/kubernetes.yml
 
 vars:
   PROJECT_DIR:
