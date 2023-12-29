@@ -22,21 +22,57 @@ tasks:
       - op inject -i {{ .TEMPLATE_FILE }} -o {{ .KUBECONFIG_FILE }} --force
     preconditions:
       - sh: op
-        msg: "1Password CLI is missing."
+        msg: 1Password CLI is missing.
       - sh: op vault get {{ .vault }}
-        msg: "Vault not found."
+        msg: Vault not found.
       - sh: op item get {{ .secret }} --vault {{ .vault }}
-        msg: "Secret not found."
+        msg: Secret not found.
+
+  delete-failed-pods:
+    desc: Delete pods with Failed status
+    summary: |
+      Args:
+        context: cluster context to operate against (required)
+    vars:
+      context: "{{ .context }}"
+    requires:
+      vars:
+        - context
+    cmds:
+      - kubectl --context {{ .context }} delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
+
+  delete-succeeded-pods:
+    desc: Delete pods with Succeeded status
+    summary: |
+      Args:
+        context: cluster context to operate against (required)
+    vars:
+      context: "{{ .context }}"
+    requires:
+      vars:
+        - context
+    cmds:
+      - kubectl --context {{ .context }} delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
 
   mount:
     desc: Mount a PersistantVolumeClaim to a pod temporarily
+    summary: |
+      Args:
+        context: Cluster 'context' to operate against (required)
+        namespace: Namespace the PVC is in (default: default)
+        claim: PVC to mount (required)
     interactive: true
     vars:
-      claim: '{{ or .claim (fail "PersistentVolumeClaim `claim` is required") }}'
-      namespace: '{{.namespace | default "default"}}'
+      context: "{{ .context }}"
+      claim: "{{ .claim }}"
+      namespace: '{{ .namespace | default "default" }}'
+    requires:
+      vars:
+        - context
+        - claim
     cmds:
       - |
-        kubectl run -n {{.namespace}} debug-{{.claim}} -i --tty --rm --image=null --privileged --overrides='
+        kubectl --context {{ .context }} run -n {{ .namespace }} debug-{{ .claim }} -i --tty --rm --image=null --privileged --overrides='
           {
             "apiVersion": "v1",
             "spec": {
@@ -52,29 +88,17 @@ tasks:
                   "tty": true,
                   "volumeMounts": [
                     {
-                      "name": "config",
-                      "mountPath": "/data/config"
-                    },
-                    {
-                      "name": "backups",
-                      "mountPath": "/data/backups",
-                      "subPath": "backups"
+                      "name": "claim",
+                      "mountPath": "/mnt/claim"
                     }
                   ]
                 }
               ],
               "volumes": [
                 {
-                  "name": "config",
+                  "name": "claim",
                   "persistentVolumeClaim": {
-                    "claimName": "{{.claim}}"
-                  }
-                },
-                {
-                  "name": "backups",
-                  "nfs": {
-                    "path": "/mnt/storage/media",
-                    "server": "nfs.cluster.milton.mcf.io"
+                    "claimName": "{{ .claim }}"
                   }
                 }
               ],
@@ -82,9 +106,5 @@ tasks:
             }
           }'
     preconditions:
-      - kubectl -n {{.namespace}} get pvc {{.claim}}
-
-  delete-failed-pods:
-    desc: Deletes failed pods
-    cmds:
-      - kubectl delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
+      - sh: kubectl --context {{ .context }} --namespace {{ .namespace }} get pvc {{ .claim }}
+        msg: PVC not found.
