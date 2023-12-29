@@ -52,4 +52,3 @@ infrastructure/*
 .direnv
 .env
 result
-flake.lock
