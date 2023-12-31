@@ -15,7 +15,9 @@ includes:
   es:
     taskfile: .taskfiles/externalsecret/Taskfile.yml
     dir: .taskfiles/externalsecret
-  flux: .taskfiles/flux.yml
+  flux:
+    taskfile: ./taskfiles/flux/Taskfile.yml
+    dir: ./taskfiles/flux
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
 
