@@ -22,7 +22,7 @@ tasks:
     desc: Upgrade all Talos Linux nodes
     vars:
       NODES:
-        sh: kubectl get nodes -o json | jq '.items[].status.addresses[] | select(.type=="InternalIP") | .address'
+        sh: talosctl get members -o json | jq .spec.hostname | sort | uniq
     cmds:
       - for: { var: NODES, split: '' }
         vars: { NODE: "{{.ITEM}}" }
@@ -39,6 +39,8 @@ tasks:
   upgrade-node:
     desc: Internal task to upgrade a single Talos Linux OS
     internal: true
+    requires:
+      vars: [NODE]
     cmds:
       - talosctl upgrade --nodes {{.NODE}} --image ghcr.io/siderolabs/installer:{{.TALOS_VERSION}}
     status:
