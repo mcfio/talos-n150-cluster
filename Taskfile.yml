@@ -3,6 +3,12 @@
 version: '3'
 
 includes:
+  op:
+    taskfile: .taskfiles/1password/Taskfile.yml
+    dir: .taskfiles/1password
+  talos:
+    taskfile: .taskfiles/talos/Taskfile.yml
+    dir: .taskfiles/talos
   flux: .taskfiles/flux.yml
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
@@ -10,6 +16,8 @@ includes:
   k8s: .taskfiles/kubernetes.yml
 
 vars:
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+  TERRAFORM_DIR: "{{.ROOT_DIR}}/infrastructure/terraform"
   PROJECT_DIR:
     sh: 'git rev-parse --show-toplevel'
   CLUSTER_DIR: '{{.PROJECT_DIR}}/kubernetes'
@@ -17,5 +25,4 @@ vars:
 tasks:
   default:
     silent: true
-    cmds:
-      - task -l
+    cmds: [task -l]

@@ -1,0 +1,47 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  TALOS_VERSION: v1.6.1
+  KUBERNETES_VERSION: v1.28.5
+  KUBECONFIG_FILE: "{{.PROJECT_DIR}}/.secrets/kubeconfig"
+
+tasks:
+  generate:kubeconfig:
+    desc: Generate KUBECONFIG directly from Talos API
+    vars:
+      NODES:
+        sh: talosctl get members -o json | jq 'select(.spec.machineType=="controlplane") | .spec.hostname' | sort | uniq
+    status:
+      - test -f {{.KUBECONFIG_FILE}}
+    cmds:
+      - talosctl kubeconfig --nodes {{.NODES | splitLines | first}} {{.KUBECONFIG_FILE}}
+
+  upgrade:nodes:
+    desc: Upgrade all Talos Linux nodes
+    vars:
+      NODES:
+        sh: kubectl get nodes -o json | jq '.items[].status.addresses[] | select(.type=="InternalIP") | .address' | tr -d '\"' | tr '\n' ' '
+    cmds:
+      - for: { var: NODES }
+        vars: { NODE: "{{.ITEM}}" }
+        task: upgrade-node
+
+  upgrade:k8s:
+    desc: Upgrade a Talos Linux Kubernetes cluster
+    cmds:
+      - talosctl upgrade-k8s --nodes {{.NODES | splitLines | first}} --to {{.KUBERNETES_VERSION}}
+
+  upgrade-node:
+    desc: Internal task to upgrade a single Talos Linux OS
+    internal: true
+    cmds:
+      - talosctl upgrade --nodes {{.NODE}} --image ghcr.io/siderolabs/installer:{{.TALOS_VERSION}}
+    status:
+      - talosctl version --nodes {{.NODE}} --short | grep 'Tag.*{{.TALOS_VERSION}}'
+
+  # Maintain a clean execution
+  default:
+    silent: true
+    cmds: [task -l]

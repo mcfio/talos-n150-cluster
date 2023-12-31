@@ -1,0 +1,49 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  generate:kubeconfig:
+    desc: Generate KUBECONFIG from 1Password Item
+    status:
+      - test -f "{{.PROJECT_DIR}}/.secrets/kubeconfig"
+    cmds:
+      - op inject -i ./kubeconfig.tpl -o {{.PROJECT_DIR}}/.secrets/kubeconfig
+    preconditions:
+      - sh: op
+        msg: 1Password CLI is missing.
+
+  generate:talosconfig:
+    desc: Generate TALOSCONFIG from 1Password Item
+    deps:
+      - generate:kubeconfig
+    cmds:
+      - op inject -i ./talosconfig.tpl -o {{.PROJECT_DIR}}/.secrets/talosconfig
+      - task: talosconfig-add-endpoints
+      - task: talosconfig-add-nodes
+    preconditions:
+      - sh: op
+        msg: 1Password CLI is missing.
+
+  talosconfig-add-endpoints:
+    internal: true
+    silent: true
+    vars:
+      ENDPOINTS:
+        sh: kubectl get nodes -l node-role.kubernetes.io/control-plane -o json | jq '.items[].status.addresses[] | select(.type=="InternalIP") | .address' | tr -d '\"' | tr '\n' ' '
+    cmds:
+      - talosctl config endpoints {{.ENDPOINTS}}
+
+  talosconfig-add-nodes:
+    internal: true
+    silent: true
+    vars:
+      NODES:
+        sh: kubectl get nodes -o json | jq '.items[].status.addresses[] | select(.type=="InternalIP") | .address' | tr -d '\"' | tr '\n' ' '
+    cmds:
+      - talosctl config nodes {{.NODES}}
+
+  # Maintain a clean execution
+  default:
+    silent: true
+    cmds: [task -l]
