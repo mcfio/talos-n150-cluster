@@ -9,11 +9,13 @@ includes:
   talos:
     taskfile: .taskfiles/talos/Taskfile.yml
     dir: .taskfiles/talos
+  k8s:
+    taskfile: .taskfiles/k8s/Taskfile.yml
+    dir: .taskfiles/k8s
   flux: .taskfiles/flux.yml
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
   externalsecret: .taskfiles/externalsecret.yml
-  k8s: .taskfiles/kubernetes.yml
 
 vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
