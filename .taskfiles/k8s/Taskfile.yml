@@ -4,7 +4,7 @@ version: "3"
 
 tasks:
   cleanup:failed:
-    desc: Clean-up pods with `Failed` status
+    desc: Clean-up pods with 'Failed' status
     summary: |
       Args:
         context: cluster context to operate against (required)
@@ -17,7 +17,7 @@ tasks:
       - kubectl --context {{.CONTEXT}} delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
 
   cleanup:succeeded:
-    desc: Clean-up pods with `Succeeded` status
+    desc: Clean-up pods with 'Succeeded' status
     summary: |
       Args:
         context: cluster context to operate against (required)
