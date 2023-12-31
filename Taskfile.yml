@@ -12,10 +12,12 @@ includes:
   k8s:
     taskfile: .taskfiles/k8s/Taskfile.yml
     dir: .taskfiles/k8s
+  es:
+    taskfile: .taskfiles/externalsecret/Taskfile.yml
+    dir: .taskfiles/externalsecret
   flux: .taskfiles/flux.yml
   format: .taskfiles/format.yml
   lint: .taskfiles/lint.yml
-  externalsecret: .taskfiles/externalsecret.yml
 
 vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
