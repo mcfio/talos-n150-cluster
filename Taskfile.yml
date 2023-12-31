@@ -18,8 +18,6 @@ includes:
   flux:
     taskfile: .taskfiles/flux/Taskfile.yml
     dir: .taskfiles/flux
-  format: .taskfiles/format.yml
-  lint: .taskfiles/lint.yml
 
 vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
