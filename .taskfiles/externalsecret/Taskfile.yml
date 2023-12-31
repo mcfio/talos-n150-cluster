@@ -7,22 +7,37 @@ tasks:
     desc: Sync ExternalSecret Resources
     summary: |
       Args:
-        context: Cluster 'context' to operate against (required)
-        namespace: Namespace the PVC is in (default: default)
-        secret: ExternalSecret to sync (required)
-    vars:
-      CONTEXT: "{{.context}}"
-      NAMESPACE: '{{.namespace | default "default"}}'
-      SECRET: "{{.secret}}"
+        CONTEXT: Cluster 'context' to operate against (required)
+        NAMESPACE: Namespace the ExternalSecret is in (default: default)
+        SECRET: ExternalSecret to sync (required)
     requires:
       vars:
-        - context
-        - secret
+        - CONTEXT
+        - SECRET
     cmds:
       - kubectl --context {{.CONTEXT}} --namespace {{.NAMESPACE}} annotate externalsecret.external-secrets.io {{.SECRET}} force-sync=$(date +%s) --overwrite
     preconditions:
       - sh: kubectl --context {{.CONTEXT}} --namespace {{.NAMESPACE}} get externalsecret.external-secrets.io {{.SECRET}}
         msg: ExternalSecret not found.
+
+  sync:all:
+    desc: Sync all ExternalSecrets for a cluster
+    summary: |
+      Args:
+        CONTEXT: Cluster 'context' to operate against (required)
+    vars:
+      SECRETS:
+        sh: kubectl --context {{.CONTEXT}} get externalsecret --all-namespaces --no-headers -A | awk '{print $1 "|" $2}'
+    requires:
+      vars:
+        - CONTEXT
+    cmds:
+      - for: { var: SECRETS, split: '' }
+        task: sync
+        vars:
+          CONTEXT: '{{.CONTEXT}}'
+          NAMESPACE: '{{$a := split "|" .ITEM}}{{$a._0}}'
+          SECRET: '{{$a := split "|" .ITEM}}{{$a._1}}'
 
   # Maintain a clean execution
   default:
