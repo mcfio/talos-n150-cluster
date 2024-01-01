@@ -68,9 +68,7 @@ spec:
             targetPort: 51986
             protocol: TCP
     persistence:
-      config:
+      homebridge:
         enabled: true
         retain: true
         size: 1Gi
-        globalMounts:
-          - path: /var/lib/homebridge
