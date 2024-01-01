@@ -16,4 +16,4 @@ spec:
         - destination:
             port:
               number: 8080
-            host: zigbee.home.svc.cluster.local
+            host: zigbee2mqtt.home.svc.cluster.local
