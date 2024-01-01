@@ -71,4 +71,6 @@ spec:
       homebridge:
         enabled: true
         retain: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
         size: 1Gi
