@@ -72,3 +72,5 @@ spec:
         enabled: true
         retain: true
         size: 1Gi
+        globalMounts:
+          - path: /var/lib/homebridge
