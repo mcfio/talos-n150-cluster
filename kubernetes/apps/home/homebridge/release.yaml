@@ -53,6 +53,8 @@ spec:
     hostNework: true
     service:
       main:
+        annotations:
+          io.cilium/lb-ipam-ips: 192.168.45.230
         ports:
           http:
             port: 8581
