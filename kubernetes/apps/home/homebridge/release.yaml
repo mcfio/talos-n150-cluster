@@ -60,7 +60,7 @@ spec:
         controller: main
         type: LoadBalancer
         annotations:
-          io.cilium/lb-ipam-ips: 192.168.45.230
+          io.cilium/lb-ipam-ips: 192.168.45.240
         ports:
           bridge:
             enabled: true
