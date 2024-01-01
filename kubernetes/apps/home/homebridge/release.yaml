@@ -65,6 +65,7 @@ spec:
           bridge:
             enabled: true
             port: 51986
+            targetPort: 51986
             protocol: TCP
     persistence:
       config:
