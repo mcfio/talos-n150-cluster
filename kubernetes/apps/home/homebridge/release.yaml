@@ -56,9 +56,11 @@ spec:
           http:
             port: 8581
       bridge:
+        enabled: true
+        controller: main
+        type: LoadBalancer
         annotations:
           io.cilium/lb-ipam-ips: 192.168.45.230
-        type: LoadBalancer
         ports:
           bridge:
             enabled: true
