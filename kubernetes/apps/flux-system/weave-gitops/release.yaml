@@ -36,16 +36,5 @@ spec:
       create: true
       username: admin
       passwordHash: $2a$10$hlddkJLiGsyctJAuOf2l6eOuQSw7MAT6IlsK4AtWIeM.XLmj71K9G
-    ingress:
-      enabled: true
-      className: nginx
-      hosts:
-        - host: &host gitops.milton.mcf.io
-          paths:
-            - path: /
-              pathType: Prefix
-      tls:
-        - hosts:
-            - *host
     metrics:
       enabled: false
