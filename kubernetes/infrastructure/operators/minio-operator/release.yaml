@@ -31,13 +31,3 @@ spec:
           value: "monitoring"
         - name: MINIO_PROMETHEUS_URL
           value: "http://kube-prometheus-stack-prometheus.monitoring:9090"
-    console:
-      ingress:
-        enabled: true
-        ingressClassName: nginx
-        host: minio.milton.mcf.io
-        path: /
-        pathType: Prefix
-        tls:
-          - hosts:
-              - minio.milton.mcf.io
