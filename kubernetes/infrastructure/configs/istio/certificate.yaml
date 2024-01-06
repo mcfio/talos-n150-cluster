@@ -38,7 +38,7 @@ spec:
     - server auth
     - client auth
   issuerRef:
-    name: letsencrypt-azure
+    name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
     - mcf.io
