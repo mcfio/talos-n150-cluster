@@ -7,3 +7,4 @@ resources:
   - namespace.yaml
   - repository.yaml
   - release.yaml
+  - http-route.yaml
