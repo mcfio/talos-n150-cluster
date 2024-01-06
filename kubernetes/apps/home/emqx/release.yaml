@@ -40,17 +40,6 @@ spec:
         external-dns.alpha.kubernetes.io/hostname: mqtt.milton.mcf.io
         io.cilium/lb-ipam-ips: 192.168.45.235
       type: LoadBalancer
-    ingress:
-      dashboard:
-        enabled: true
-        ingressClassName: nginx
-        path: /
-        pathType: Prefix
-        hosts:
-          - &host emqx.milton.mcf.io
-        tls:
-          - hosts:
-              - *host
     persistence:
       enabled: true
       size: 100Mi
