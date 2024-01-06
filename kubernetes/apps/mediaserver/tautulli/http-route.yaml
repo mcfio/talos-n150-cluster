@@ -2,18 +2,18 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: sonarr
+  name: tautulli
 spec:
   parentRefs:
     - name: istio-ingressgateway
       namespace: istio-ingress
   hostnames:
-    - sonarr.milton.mcf.io
+    - tautulli.milton.mcf.io
   rules:
     - matches:
         - path:
             type: PathPrefix
             value: /
       backendRefs:
-        - name: sonarr
+        - name: tautulli
           port: 8181
