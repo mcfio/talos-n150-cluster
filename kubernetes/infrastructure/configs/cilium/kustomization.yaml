@@ -6,4 +6,4 @@ namespace: kube-system
 resources:
   - cilium-l2-announcement-policy.yaml
   - cilium-load-balancer-ip-pool.yaml
-  - virtual-service.yaml
+  - http-route.yaml
