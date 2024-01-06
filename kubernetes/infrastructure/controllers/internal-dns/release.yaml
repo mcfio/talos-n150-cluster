@@ -36,6 +36,7 @@ spec:
       - service
       - ingress
       - istio-virtualservice
+      - gateway-httproute
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters:
