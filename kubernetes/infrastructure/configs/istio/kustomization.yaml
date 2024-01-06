@@ -5,6 +5,6 @@ kind: Kustomization
 namespace: istio-ingress
 resources:
   - namespace.yaml
-  # - ingress-class.yaml
   - certificate.yaml
-  # - gateway.yaml
+  - gateway.yaml
+  - http-route.yaml

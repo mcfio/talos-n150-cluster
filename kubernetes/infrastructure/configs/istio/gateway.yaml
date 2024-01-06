@@ -1,31 +1,25 @@
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/gateways.networking.k8s.io/gateway_v1.json
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/networking.istio.io/gateway_v1alpha3.json
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: istio-ingressgateway
+  annotations:
+    io.cilium/lb-ipam-ips: 192.168.45.225
 spec:
-  selector:
-    istio: ingressgateway
-  servers:
-    - port:
-        number: 80
-        name: http2
-        protocol: HTTP
-      hosts:
-        - milton.mcf.io
-        - '*.milton.mcf.io'
+  gatewayClassName: istio
+  listeners:
+    - name: http
+      port: 80
+      protocol: HTTP
+    - name: https
+      hostname: '*.milton.mcf.io'
+      port: 443
+      protocol: HTTPS
       tls:
-        httpsRedirect: true
-    - port:
-        number: 443
-        name: https
-        protocol: HTTPS
-      hosts:
-        - milton.mcf.io
-        - '*.milton.mcf.io'
-      tls:
-        credentialName: milton-mcf-io-cert-tls
-        mode: SIMPLE
-        minProtocolVersion: TLSV1_2
-        maxProtocolVersion: TLSV1_3
+        mode: Terminate
+        certificateRefs:
+          - name: milton-mcf-io-cert-tls
+      allowedRoutes:
+        namespaces:
+          from: All
