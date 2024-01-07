@@ -9,4 +9,4 @@ resources:
   - alert.yaml
   - provider.yaml
   - receiver.yaml
-  - ingress.yaml
+  - http-route.yaml
