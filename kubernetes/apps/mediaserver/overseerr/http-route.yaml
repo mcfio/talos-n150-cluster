@@ -6,8 +6,9 @@ metadata:
   name: overseerr
 spec:
   parentRefs:
-    - name: external-gateway
+    - name: istio-ingressgateway
       namespace: istio-ingress
+      sectionName: https-external
   hostnames:
     - requests.mcf.io
   rules:

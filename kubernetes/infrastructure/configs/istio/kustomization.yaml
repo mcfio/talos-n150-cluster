@@ -6,6 +6,5 @@ namespace: istio-ingress
 resources:
   - namespace.yaml
   - certificate.yaml
-  - internal-gateway.yaml
-  - external-gateway.yaml
+  - gateway.yaml
   - http-route.yaml

@@ -6,8 +6,9 @@ metadata:
   name: kubernetes-schemas
 spec:
   parentRefs:
-    - name: external-gateway
+    - name: istio-ingressgateway
       namespace: istio-ingress
+      sectionName: https-external
   hostnames:
     - kubernetes-schemas.mcf.io
   rules:

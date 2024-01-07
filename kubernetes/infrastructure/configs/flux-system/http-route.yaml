@@ -6,8 +6,9 @@ metadata:
   name: webhook-receiver
 spec:
   parentRefs:
-    - name: external-gateway
+    - name: istio-ingressgateway
       namespace: istio-ingress
+      sectionName: https-external
   hostnames:
     - flux-webhook.mcf.io
   rules:
