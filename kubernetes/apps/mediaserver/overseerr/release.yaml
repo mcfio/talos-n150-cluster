@@ -55,23 +55,6 @@ spec:
         ports:
           http:
             port: 5055
-    ingress:
-      main:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
-        enabled: true
-        className: nginx
-        hosts:
-          - host: &host requests.mcf.io
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: overseerr-cert-tls
     persistence:
       config:
         enabled: true
