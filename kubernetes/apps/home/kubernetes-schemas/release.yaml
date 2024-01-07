@@ -68,21 +68,3 @@ spec:
         ports:
           http:
             port: 8080
-    ingress:
-      main:
-        enabled: true
-        className: nginx
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
-        hosts:
-          - host: &host "{{ .Release.Name }}.mcf.io"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
-            secretName: kubernetes-schemas-tls

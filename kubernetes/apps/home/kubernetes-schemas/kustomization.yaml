@@ -6,3 +6,4 @@ namespace: home
 resources:
   - repository.yaml
   - release.yaml
+  - http-route.yaml
