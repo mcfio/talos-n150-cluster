@@ -39,6 +39,7 @@ spec:
     policy: sync
     sources:
       - ingress
+      - gateway-httproute
     txtPrefix: k8s.
     txtOwnerId: default
     domainFilters:
