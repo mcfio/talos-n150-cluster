@@ -7,4 +7,4 @@ resources:
   - namespace.yaml
   - external-secret.yaml
   - repository.yaml
-  - release.yaml
+  # - release.yaml
