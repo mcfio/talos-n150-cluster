@@ -1,13 +1,13 @@
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/gateways.networking.k8s.io/gateway_v1.json
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/gateways.networking.k8s.io/gateway_v1.json
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: istio-ingressgateway
+  name: internal-gateway
   annotations:
     io.cilium/lb-ipam-ips: 192.168.45.225
 spec:
-  gatewayClassName: istio
+  gatewayClassName: internal
   listeners:
     - name: http
       port: 80
@@ -20,17 +20,6 @@ spec:
         mode: Terminate
         certificateRefs:
           - name: milton-mcf-io-cert-tls
-      allowedRoutes:
-        namespaces:
-          from: All
-    - name: https-external
-      hostname: '*.mcf.io'
-      port: 443
-      protocol: HTTPS
-      tls:
-        mode: Terminate
-        certificateRefs:
-          - name: mcf-io-cert-tls
       allowedRoutes:
         namespaces:
           from: All
