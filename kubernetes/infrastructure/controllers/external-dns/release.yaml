@@ -29,6 +29,7 @@ spec:
     provider: azure
     policy: sync
     sources:
+      - service
       - gateway-httproute
     txtPrefix: k8s.
     txtOwnerId: default
