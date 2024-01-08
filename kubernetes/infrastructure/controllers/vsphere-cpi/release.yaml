@@ -40,5 +40,5 @@ spec:
         - --cloud-provider=vsphere
         - --v=2
         - --cloud-config=/etc/cloud/vsphere.conf
-      # deploymentMode: deployment
-      # replicaCound: 3
+      deploymentMode: deployment
+      replicaCound: 3
