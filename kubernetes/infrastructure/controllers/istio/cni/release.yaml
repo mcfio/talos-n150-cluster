@@ -27,3 +27,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    defaults:
+      cni:
+        seccompProfile:
+          type: RuntimeDefault
