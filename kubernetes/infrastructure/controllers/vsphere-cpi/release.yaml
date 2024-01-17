@@ -35,7 +35,7 @@ spec:
       image:
         registry: gcr.io
         repository: cloud-provider-vsphere/cpi/release/manager
-        tag: v1.28.0
+        tag: v1.29.0
       args:
         - --cloud-provider=vsphere
         - --v=2
