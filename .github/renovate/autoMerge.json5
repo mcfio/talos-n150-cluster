@@ -9,6 +9,17 @@
       matchUpdateTypes: ["minor", "patch", "digest"],
       matchPackagePatterns: ["ghcr.io/onedr0p"],
       ignoreTests: true
+    },
+    {
+      description: "Auto Merge specific helm chart patches",
+      matchDatasources: ["helm"],
+      automerge: true,
+      automergeType: "pr",
+      matchUpdateTypes: ["patch"],
+      matchPackagePatterns: [
+        "kube-prometheus-stack"
+      ],
+      ignoreTests: true
     }
   ]
 }
