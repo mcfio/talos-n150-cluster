@@ -39,6 +39,8 @@ spec:
           memory: 512Mi
       env:
         ENABLE_NATIVE_SIDECARS: true
+      seccompProfile:
+        type: RuntimeDefault
     global:
       logAsJson: true
       meshID: mcfio
