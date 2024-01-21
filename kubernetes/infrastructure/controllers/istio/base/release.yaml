@@ -10,7 +10,8 @@ spec:
   chart:
     spec:
       chart: base
-      version: 1.20.2
+      # operate 1.19.5 until https://github.com/istio/istio/issues/48746 is fixed.
+      version: 1.19.5
       sourceRef:
         kind: HelmRepository
         name: istio-charts
