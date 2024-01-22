@@ -11,15 +11,15 @@
       ignoreTests: true
     },
     {
-      description: "Auto Merge specific helm chart patches",
+      description: "Auto Merge Specific Helm Releases",
       matchDatasources: ["helm"],
       automerge: true,
       automergeType: "pr",
+      requiredStatusChecks: null,
       matchUpdateTypes: ["patch"],
-      matchPackagePatterns: [
+      matchPackageNames: [
         "kube-prometheus-stack"
-      ],
-      ignoreTests: true
+      ]
     }
   ]
 }
