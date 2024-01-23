@@ -19,7 +19,8 @@
       matchUpdateTypes: ["patch"],
       matchDepNames: [
         "ghcr.io/prometheus-community/charts/kube-prometheus-stack"
-      ]
+      ],
+      ignoreTests: true
     }
   ]
 }
