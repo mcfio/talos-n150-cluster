@@ -17,8 +17,8 @@
       automergeType: "pr",
       requiredStatusChecks: null,
       matchUpdateTypes: ["patch"],
-      matchPackageNames: [
-        "kube-prometheus-stack"
+      matchDepNames: [
+        "ghcr.io/prometheus-community/charts/kube-prometheus-stack"
       ]
     }
   ]
