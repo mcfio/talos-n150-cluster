@@ -8,10 +8,6 @@
     ":automergeBranch",
     "helpers:pinGitHubActionDigests"
   ],
-  platform: "github",
-  username: "purpose-robot[bot]",
-  gitAuthor: "purpose-robot <122760773+purpose-robot[bot]@users.noreply.github.com>",
-  repositories: ["mcfio/home-cluster"],
   ignorePaths: ["**/.archive/**"],
   flux: {
     fileMatch: ["kubernetes/.+\\.ya?ml$"]
