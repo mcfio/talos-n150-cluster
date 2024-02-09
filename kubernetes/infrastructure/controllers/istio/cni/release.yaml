@@ -13,7 +13,7 @@ spec:
     spec:
       chart: cni
       # operate 1.19.5 until https://github.com/istio/istio/issues/48746 is fixed.
-      version: 1.19.5
+      version: 1.20.3
       sourceRef:
         kind: HelmRepository
         name: istio-charts
