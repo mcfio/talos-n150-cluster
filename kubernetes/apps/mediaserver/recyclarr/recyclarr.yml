@@ -9,9 +9,6 @@ sonarr:
     quality_definition:
       type: series
     quality_profiles:
-      - name: Any
-        reset_unmatched_scores:
-          enabled: true
       - name: WEB-DL (1080p)
         reset_unmatched_scores:
           enabled: true
@@ -31,9 +28,6 @@ sonarr:
             qualities:
               - WEBDL-720p
               - WEBRip-720p
-      - name: WEB-DL (2160p)
-        reset_unmatched_scores:
-          enabled: true
     custom_formats:
       - trash_ids:
           # Streaming Services
@@ -88,9 +82,7 @@ sonarr:
           - 06d66ab109d4d2eddb2794d21526d140 # Retags
           - 47435ece6b99a0b477caf360e79ba0bb # x265 (HD)
         quality_profiles:
-          - name: Any
           - name: WEB-DL (1080p)
-          - name: WEB-DL (2160p)
 
 radarr:
   radarr:
