@@ -6,7 +6,7 @@ metadata:
   name: mediaserver-db-pool
 spec:
   cluster:
-    name: postgres16
+    name: mediaserver-db
   instances: 3
   type: rw
   pgbouncer:
