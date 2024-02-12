@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: postgres16
+  name: mediaserver-db
 spec:
   instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:16.1-19
@@ -13,6 +13,7 @@ spec:
     storageClass: vsphere-csi
   superuserSecret:
     name: mediaserver-cnpg-secret
+  enableSuperuserAccess: true
   postgresql:
     parameters:
       max_connections: "600"

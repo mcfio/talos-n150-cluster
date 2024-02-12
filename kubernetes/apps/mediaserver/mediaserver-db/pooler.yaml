@@ -3,7 +3,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: mediaserver-db
+  name: mediaserver-db-pool
 spec:
   cluster:
     name: postgres16
