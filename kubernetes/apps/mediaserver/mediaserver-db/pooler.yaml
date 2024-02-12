@@ -14,3 +14,16 @@ spec:
     parameters:
       max_client_conn: "1000"
       default_pool_size: "10"
+  template:
+    spec:
+      containers: []
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: cnpg.io/poolerName
+                    operator: In
+                    values:
+                      - mediaserver-db-pool
+              topologyKey: kubernetes.io/hostname
