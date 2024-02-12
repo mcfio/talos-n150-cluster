@@ -3,10 +3,10 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Pooler
 metadata:
-  name: mediaserver-db-pool
+  name: mediaserver-db
 spec:
   cluster:
-    name: mediaserver-db
+    name: postgres16
   instances: 3
   type: rw
   pgbouncer:

@@ -3,10 +3,10 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: mediaserver-db
+  name: postgres16
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:14.10-18
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.1-19
   primaryUpdateStrategy: unsupervised
   storage:
     size: 5Gi
@@ -19,15 +19,25 @@ spec:
       shared_buffers: 512MB
   monitoring:
     enablePodMonitor: true
+    # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
+    podMonitorMetricRelabelings:
+      - sourceLabels:
+          - cluster
+        targetLabel: cnpg_cluster
+        action: replace
+      - regex: cluster
+        action: labeldrop
   backup:
     retentionPolicy: 30d
-    barmanObjectStore:
+    barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://mediaserver-cnpg/
+      destinationPath: s3://mediaserver-db/
       endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
-      serverName: postgres-v1
+      serverName: &currentCluster postgres-v1
       s3Credentials:
         accessKeyId:
           name: mediaserver-cnpg-secret
@@ -35,3 +45,11 @@ spec:
         secretAccessKey:
           name: mediaserver-cnpg-secret
           key: aws-secret-access-key
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster postgres-v1
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
