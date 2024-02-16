@@ -43,7 +43,7 @@ spec:
       type: LoadBalancer
     persistence:
       enabled: true
-      size: 1Gi
+      size: 100Mi
     resources:
       requests:
         cpu: 100m
