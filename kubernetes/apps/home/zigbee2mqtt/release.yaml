@@ -104,5 +104,6 @@ spec:
       data:
         enabled: true
         accessMode: ReadWriteOnce
+        storageClass: zfs-nvmeof-csi
         retain: true
         size: 500Mi

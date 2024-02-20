@@ -43,7 +43,8 @@ spec:
       type: LoadBalancer
     persistence:
       enabled: true
-      size: 100Mi
+      size: 1Gi
+      storageClassName: zfs-nvmeof-csi
     resources:
       requests:
         cpu: 100m
