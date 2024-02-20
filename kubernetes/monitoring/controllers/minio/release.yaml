@@ -47,7 +47,6 @@ spec:
           servers: 1
           volumesPerServer: 4
           size: 10Gi
-          storageClassName: vsphere-csi
           securityContext:
             runAsUser: 1000
             runAsGroup: 1000
