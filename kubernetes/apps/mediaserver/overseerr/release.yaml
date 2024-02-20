@@ -77,5 +77,6 @@ spec:
         enabled: true
         retain: true
         size: 1Gi
+        storageClass: zfs-nvmeof-csi
         globalMounts:
           - path: /app/config

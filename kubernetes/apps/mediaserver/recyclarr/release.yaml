@@ -72,7 +72,8 @@ spec:
       config:
         enabled: true
         retain: true
-        size: 500M
+        size: 500Mi
+        storageClass: zfs-nvmeof-csi
       config-file:
         enabled: true
         type: configMap

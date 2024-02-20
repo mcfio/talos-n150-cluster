@@ -109,6 +109,7 @@ spec:
         enabled: true
         retain: true
         size: 2Gi
+        storageClass: zfs-nvmeof-csi
       downloads:
         existingClaim: downloads
         globalMounts:

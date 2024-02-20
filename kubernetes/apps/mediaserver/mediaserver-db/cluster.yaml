@@ -10,7 +10,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     size: 5Gi
-    storageClass: vsphere-csi
+    storageClass: zfs-nvmeof-csi
   superuserSecret:
     name: mediaserver-cnpg-secret
   enableSuperuserAccess: true

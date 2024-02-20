@@ -11,7 +11,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: nfs.cluster.milton.mcf.io
-    path: /mnt/media-pool/tv
+    path: /media-pool/tv
   mountOptions:
     - nfsvers=4.2
     - nconnect=8

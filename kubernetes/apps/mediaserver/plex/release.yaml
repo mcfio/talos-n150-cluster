@@ -68,6 +68,7 @@ spec:
         enabled: true
         retain: true
         size: 20Gi
+        storageClass: zfs-nvmeof-csi
       media:
         existingClaim: media
         globalMounts:

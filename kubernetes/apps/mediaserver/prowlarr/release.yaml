@@ -86,3 +86,4 @@ spec:
         enabled: true
         retain: true
         size: 500Mi
+        storageClass: zfs-nvmeof-csi
