@@ -50,7 +50,7 @@ jobs:
 
       - name: Retrieve Secret from 1Password Vault
         id: op-load-secret
-        uses: 1password/load-secrets-action@d1a4e73495bde3551cf63f6c048588b8f734e21d # v1
+        uses: 1password/load-secrets-action@971116bbffed9bfe57bd55447317d56fbc7a6a81 # v1
         with:
           export-env: false
         env:
