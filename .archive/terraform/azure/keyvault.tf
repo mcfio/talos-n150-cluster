@@ -21,24 +21,24 @@ resource "azurerm_key_vault_access_policy" "gitops-clusters-keyvault" {
   object_id = data.azurerm_client_config.current.object_id
 
   key_permissions = [
-    "get",
-    "list",
-    "update",
-    "create",
-    "import",
-    "delete",
-    "recover",
-    "backup",
-    "restore",
+    "Get",
+    "List",
+    "Update",
+    "Create",
+    "Import",
+    "Delete",
+    "Recover",
+    "Backup",
+    "Restore",
   ]
 
   secret_permissions = [
-    "get",
-    "list",
-    "set",
-    "delete",
-    "recover",
-    "backup",
-    "restore",
+    "Get",
+    "List",
+    "Set",
+    "Delete",
+    "Recover",
+    "Backup",
+    "Restore",
   ]
 }
