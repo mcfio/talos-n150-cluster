@@ -11,13 +11,20 @@
   ],
   ignorePaths: ["**/.archive/**"],
   flux: {
-    fileMatch: ["kubernetes/.+\\.ya?ml$"]
+    fileMatch: [
+      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+    ]
   },
   "helm-values": {
-    fileMatch: ["kubernetes/.+\\.ya?ml$"]
+    fileMatch: [
+      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+    ]
   },
   kubernetes: {
-    fileMatch: ["kubernetes/.+\\.ya?ml$"]
+    fileMatch: [
+      "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
+      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
+    ]
   },
   packageRules: [
     {
