@@ -31,6 +31,8 @@ spec:
       type: Recreate
     rbac:
       pspEnabled: false
+    serviceAccount:
+      autoMount: true
     env:
       GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
