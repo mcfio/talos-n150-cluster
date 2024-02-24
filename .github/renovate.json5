@@ -6,9 +6,11 @@
     "github>mcfio/home-cluster//.github/renovate/autoMerge.json5",
     "github>mcfio/home-cluster//.github/renovate/customManagers.json5",
     "github>mcfio/home-cluster//.github/renovate/groups.json5",
+    "github>mcfio/home-cluster//.github/renovate/packageRules.json5",
     ":automergeBranch",
     "helpers:pinGitHubActionDigests"
   ],
+  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
   ignorePaths: ["**/.archive/**"],
   flux: {
     fileMatch: [
@@ -25,20 +27,5 @@
       "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
       "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
     ]
-  },
-  packageRules: [
-    {
-      description: "Use loose versioning for specific dependencies",
-      matchDatasources: ["docker"],
-      versioning: "loose",
-      matchPackagePatterns: [
-        "plex"
-      ]
-    },
-    {
-      description: "disable package pinning for cluster manifests",
-      pinDigests: false,
-      matchPackagePatterns: ["ghcr.io/mcfio/kubernetes-manifests/home-cluster"]
-    }
-  ]
+  }
 }
