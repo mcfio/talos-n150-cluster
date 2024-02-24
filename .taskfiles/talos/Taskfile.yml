@@ -3,8 +3,12 @@
 version: "3"
 
 vars:
-  TALOS_VERSION: v1.6.1
-  KUBERNETES_VERSION: v1.28.5
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+  TALOS_VERSION: v1.6.5
+  TALOS_SCHEMATIC_ID: ce4c980550dd2ab1b17bbf2b08801c7eb59418eafe8f279833297925d67c7515
+  TALOSCONFIG_FILE: "{{.PROJECT_DIR}}/.secrets/talosconfig"
+  # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+  KUBERNETES_VERSION: v1.29.2
   KUBECONFIG_FILE: "{{.PROJECT_DIR}}/.secrets/kubeconfig"
 
 tasks:
@@ -12,7 +16,7 @@ tasks:
     desc: Generate KUBECONFIG directly from Talos API
     vars:
       NODES:
-        sh: talosctl get members -o json | jq 'select(.spec.machineType=="controlplane") | .spec.hostname' | sort | uniq
+        sh: talosctl get members -o json | jq -r 'select(.spec.machineType == "controlplane") | .spec.hostname' | sort | uniq
     status:
       - test -f {{.KUBECONFIG_FILE}}
     cmds:
@@ -22,19 +26,18 @@ tasks:
     desc: Upgrade all Talos Linux nodes
     vars:
       NODES:
-        sh: talosctl get members -o json | jq .spec.hostname | sort | uniq
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
     cmds:
-      - for: { var: NODES, split: '' }
+      - flux suspend kustomization --all
+      - kubectl cnpg maintenance set --reusePVC --all-namespaces
+      - for: { var: NODES }
         vars: { NODE: "{{.ITEM}}" }
         task: upgrade-node
-
-  upgrade:k8s:
-    desc: Upgrade a Talos Linux Kubernetes cluster
-    vars:
-      NODES:
-        sh: talosctl get members -o json | jq 'select(.spec.machineType=="controlplane") | .spec.hostname' | sort | uniq
-    cmds:
-      - talosctl upgrade-k8s --nodes {{.NODES | splitLines | first}} --to {{.KUBERNETES_VERSION}}
+      - kubectl cnpg maintenance unset --reusePVC --all-namespaces
+      - flux resume kustomization --all
+    preconditions:
+      - test -f {{.TALOSCONFIG_FILE}}
+      - talosctl config info >/dev/null 2>&1
 
   upgrade-node:
     desc: Internal task to upgrade a single Talos Linux OS
@@ -42,9 +45,23 @@ tasks:
     requires:
       vars: [NODE]
     cmds:
-      - talosctl upgrade --nodes {{.NODE}} --image ghcr.io/siderolabs/installer:{{.TALOS_VERSION}}
-    status:
-      - talosctl version --nodes {{.NODE}} --short | grep 'Tag.*{{.TALOS_VERSION}}'
+      - talosctl upgrade --nodes {{.NODE}} --image factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}} --wait=true --timeout=10m --preserve=true
+    preconditions:
+      - test -f {{.TALOSCONFIG_FILE}}
+      - talosctl config info >/dev/null 2>&1
+      - talosctl --nodes {{.NODE}} get machineconfig >/dev/null 2>&1
+
+  upgrade:k8s:
+    desc: Upgrade a Talos Linux Kubernetes cluster
+    vars:
+      NODES:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
+    cmds:
+      - talosctl upgrade-k8s --nodes {{.NODES}} --to {{.KUBERNETES_VERSION}}
+    preconditions:
+      - test -f {{.TALOSCONFIG_FILE}}
+      - talosctl config info >/dev/null 2>&1
+      - talosctl --nodes {{.NODE}} get machineconfig >/dev/null 2>&1
 
   # Maintain a clean execution
   default:
