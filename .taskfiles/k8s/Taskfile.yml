@@ -5,50 +5,61 @@ version: "3"
 tasks:
   cleanup:failed:
     desc: Clean-up pods with 'Failed' status
-    summary: |
-      Args:
-        context: cluster context to operate against (required)
-    vars:
-      CONTEXT: "{{.context}}"
-    requires:
-      vars:
-        - context
     cmds:
-      - kubectl --context {{.CONTEXT}} delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
+      - kubectl delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
 
   cleanup:succeeded:
     desc: Clean-up pods with 'Succeeded' status
-    summary: |
-      Args:
-        context: cluster context to operate against (required)
-    vars:
-      CONTEXT: "{{.context}}"
-    requires:
-      vars:
-        - context
     cmds:
-      - kubectl --context {{.CONTEXT}} delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
+      - kubectl delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
 
   mount:
     desc: Mount a PersistantVolumeClaim to a pod temporarily
     summary: |
       Args:
-        context: Cluster 'context' to operate against (required)
         namespace: Namespace the PVC is in (default: default)
         claim: PVC to mount (required)
     interactive: true
     vars:
-      CONTEXT: "{{.context}}"
-      CLAIM: "{{.claim}}"
       NAMESPACE: '{{.namespace | default "default"}}'
+      CLAIM: "{{.claim}}"
     requires:
       vars:
-        - context
         - claim
-    cmds:
-      - kubectl --context {{.CONTEXT}} run -n {{.NAMESPACE}} debug-{{.CLAIM}} -i --tty --rm --image=null --privileged --overrides=./mount-pvc.json
+    cmd: |
+      kubectl run -n {{.NAMESPACE}} debug-{{.CLAIM}} -i --tty --rm --image=null --privileged --overrides='
+        {
+          "apiVersion": "v1",
+          "spec": {
+            "containers": [
+              {
+                "name": "debug",
+                "image": "ghcr.io/onedr0p/alpine:rolling",
+                "command": ["/bin/bash"],
+                "stdin": true,
+                "stdinOnce": true,
+                "tty": true,
+                "volumeMounts": [
+                  {
+                    "name": "config",
+                    "mountPath": "/config"
+                  }
+                ]
+              }
+            ],
+            "volumes": [
+              {
+                "name": "config",
+                "persistentVolumeClaim": {
+                  "claimName": "{{.CLAIM}}"
+                }
+              }
+            ],
+            "restartPolicy": "Never"
+          }
+        }'
     preconditions:
-      - sh: kubectl --context {{.CONTEXT}} --namespace {{.NAMESPACE}} get pvc {{.CLAIM}}
+      - sh: kubectl --namespace {{.NAMESPACE}} get pvc {{.CLAIM}}
         msg: PVC not found.
 
   # Maintain a clean execution
