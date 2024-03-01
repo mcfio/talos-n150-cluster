@@ -8,3 +8,4 @@ resources:
   - downloads-persistent-volume.yaml
   - movies-persistent-volume.yaml
   - tv-persistent-volume.yaml
+  - storage-tv.yaml
