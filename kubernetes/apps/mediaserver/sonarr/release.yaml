@@ -119,6 +119,6 @@ spec:
         globalMounts:
           - path: /media/tv
       storage-tv:
-        existingClaim: storage-tv
+        existingClaim: media
         globalMounts:
-          - path: /storage/tv
+          - path: /storage
