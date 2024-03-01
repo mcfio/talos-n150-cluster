@@ -79,6 +79,11 @@ spec:
         globalMounts:
           - path: /media/tv
             readOnly: true
+      storage-tv:
+        existingClaim: storage-tv
+        globalMounts:
+          - path: /storage/tv
+            readOnly: true
       transcode:
         enabled: true
         type: emptyDir
