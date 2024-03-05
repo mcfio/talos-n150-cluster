@@ -6,4 +6,4 @@ resources:
   - repository.yaml
   - release.yaml
   - node-feature-rule.yaml
-  - host-route.yaml
+  - http-route.yaml
