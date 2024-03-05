@@ -35,6 +35,9 @@ spec:
               tag: 9.9.1
             env:
               TZ: Canada/Eastern
+            envFrom:
+              - secretRef:
+                  name: zwave-js-ui-secret
             probes:
               liveness: &probes
                 enabled: true
