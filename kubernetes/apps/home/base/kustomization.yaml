@@ -5,3 +5,4 @@ kind: Kustomization
 namespace: home
 resources:
   - namespace.yaml
+  - repository.yaml
