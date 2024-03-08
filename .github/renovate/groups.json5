@@ -1,65 +1,85 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  packageRules: [
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
     {
-      description: "Flux Group",
-      groupName: "Flux",
-      matchPackagePatterns: ["flux"],
-      matchDatasources: ["docker", "github-tags"],
-      versioning: "semver",
-      group: {
-        commitMessageTopic: "{{{groupName}}} group"
+      "description": "Flux Group",
+      "groupName": "Flux",
+      "matchPackagePatterns": [
+        "flux"
+      ],
+      "matchDatasources": [
+        "docker",
+        "github-tags"
+      ],
+      "versioning": "semver",
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
       },
-      separateMinorPatch: true
+      "separateMinorPatch": true
     },
     {
-      description: "Cilium image and chart",
-      groupName: "Cilium",
-      matchPackageNames: [
+      "description": "Cilium image and chart",
+      "groupName": "Cilium",
+      "matchPackageNames": [
         "quay.io/cilium/cilium",
         "quay.io/cilium/operator-generic",
         "cilium"
       ],
-      matchDatasources: ["helm", "docker"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group"
+      "matchDatasources": [
+        "helm",
+        "docker"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
       },
-      separateMinorPatch: true
+      "separateMinorPatch": true
     },
     {
-      description: "1Password Connect and Sync",
-      groupName: "1password-connect",
-      matchPackagePatterns: ["1password"],
-      matchDatasources: ["docker"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group"
+      "description": "1Password Connect and Sync",
+      "groupName": "1password-connect",
+      "matchPackagePatterns": [
+        "1password"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
       },
-      separateMinorPatch: true
+      "separateMinorPatch": true
     },
     {
-      description: "Istio Service Mesh",
-      groupName: "istio",
-      matchPackageNames: [
+      "description": "Istio Service Mesh",
+      "groupName": "istio",
+      "matchPackageNames": [
         "base",
         "cni",
         "istiod",
         "gateway"
       ],
-      matchDatasources: ["helm", "docker"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group"
+      "matchDatasources": [
+        "helm",
+        "docker"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
       },
-      separateMinorPatch: true
+      "separateMinorPatch": true
     },
     {
-      description: "external snapshotter CRDs and releases",
-      groupName: "External Snapshotter",
-      matchPackagePatterns: ["snapshot-controller", "snapshot-validation-webhook"],
-      matchDatasources: ["helm"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group"
+      "description": "external snapshotter CRDs and releases",
+      "groupName": "External Snapshotter",
+      "matchPackagePatterns": [
+        "snapshot-controller",
+        "snapshot-validation-webhook"
+      ],
+      "matchDatasources": [
+        "helm"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
       },
-      separateMinorPatch: true
+      "separateMinorPatch": true
     }
   ]
 }

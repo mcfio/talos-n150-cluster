@@ -2,15 +2,23 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": ["Loose versioning for non-semver packages"],
-      "matchDatasources": ["docker"],
+      "description": [
+        "Loose versioning for non-semver packages"
+      ],
+      "matchDatasources": [
+        "docker"
+      ],
       "versioning": "loose",
-      "matchPackagePatterns": ["plex"]
+      "matchPackagePatterns": [
+        "plex"
+      ]
     },
     {
-      description: "disable package pinning for cluster manifests",
-      pinDigests: false,
-      matchPackagePatterns: ["ghcr.io/mcfio/kubernetes-manifests/home-cluster"]
+      "description": "disable package pinning for cluster manifests",
+      "pinDigests": false,
+      "matchPackagePatterns": [
+        "ghcr.io/mcfio/kubernetes-manifests/home-cluster"
+      ]
     }
   ]
 }

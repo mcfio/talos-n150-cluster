@@ -1,26 +1,38 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  packageRules: [
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
     {
-      description: "Auto Merge trusted container digests",
-      matchDatasources: ["docker"],
-      automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch", "digest"],
-      matchPackagePatterns: ["ghcr.io/onedr0p"],
-      ignoreTests: true
+      "description": "Auto Merge trusted container digests",
+      "matchDatasources": [
+        "docker"
+      ],
+      "automerge": true,
+      "automergeType": "branch",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "digest"
+      ],
+      "matchPackagePatterns": [
+        "ghcr.io/onedr0p"
+      ],
+      "ignoreTests": true
     },
     {
-      description: "Auto Merge Specific Helm Releases",
-      matchDatasources: ["helm"],
-      automerge: true,
-      automergeType: "pr",
-      requiredStatusChecks: null,
-      matchUpdateTypes: ["patch"],
-      matchDepNames: [
+      "description": "Auto Merge Specific Helm Releases",
+      "matchDatasources": [
+        "helm"
+      ],
+      "automerge": true,
+      "automergeType": "pr",
+      "requiredStatusChecks": null,
+      "matchUpdateTypes": [
+        "patch"
+      ],
+      "matchDepNames": [
         "ghcr.io/prometheus-community/charts/kube-prometheus-stack"
       ],
-      ignoreTests: true
+      "ignoreTests": true
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
-  $schema: "https://docs.renovatebot.com/renovate-schema.json",
-  extends: [
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
     "github>mcfio/renovate-config",
     "github>mcfio/renovate-config:automerge-github-actions",
     "github>mcfio/home-cluster//.github/renovate/autoMerge.json5",
@@ -10,20 +10,25 @@
     ":automergeBranch",
     "helpers:pinGitHubActionDigests"
   ],
-  "suppressNotifications": ["prEditedNotification", "prIgnoreNotification"],
-  ignorePaths: ["**/.archive/**"],
-  flux: {
-    fileMatch: [
+  "suppressNotifications": [
+    "prEditedNotification",
+    "prIgnoreNotification"
+  ],
+  "ignorePaths": [
+    "**/.archive/**"
+  ],
+  "flux": {
+    "fileMatch": [
       "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
     ]
   },
   "helm-values": {
-    fileMatch: [
+    "fileMatch": [
       "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
     ]
   },
-  kubernetes: {
-    fileMatch: [
+  "kubernetes": {
+    "fileMatch": [
       "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
       "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
     ]
