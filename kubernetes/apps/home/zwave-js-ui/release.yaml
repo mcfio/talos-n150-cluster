@@ -37,7 +37,7 @@ spec:
               TZ: Canada/Eastern
             envFrom:
               - secretRef:
-                  name: zwave-js-ui-secret
+                  name: *app
             probes:
               liveness: &probes
                 enabled: true
@@ -60,9 +60,9 @@ spec:
                 memory: 512Mi
             securityContext:
               privileged: true
-        pod:
-          nodeSelector:
-            aeotec.feature.node.kubernetes.io/zwave: "true"
+        # pod:
+        #   nodeSelector:
+        #     aeotec.feature.node.kubernetes.io/zwave: "true"
     service:
       main:
         ports:
@@ -81,10 +81,10 @@ spec:
         size: 500Mi
         globalMounts:
           - path: /usr/src/app/store
-      usb:
-        enabled: true
-        type: hostPath
-        hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
-        hostPathType: CharDevice
-        globalMounts:
-          - path: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
+      # usb:
+      #   enabled: true
+      #   type: hostPath
+      #   hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
+      #   hostPathType: CharDevice
+      #   globalMounts:
+      #     - path: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
