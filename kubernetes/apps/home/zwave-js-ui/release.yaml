@@ -26,7 +26,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      zwave-js-ui:
+      main:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -66,17 +66,17 @@ spec:
         #     aeotec.feature.node.kubernetes.io/zwave: "true"
     service:
       main:
-        controller: *app
+        controller: main
         ports:
           http:
             port: *port
           websocket:
             enabled: true
             port: 3000
-    serviceMonitor:
-      main:
-        serviceName: *app
-        enabled: true
+    # serviceMonitor:
+    #   main:
+    #     serviceName: *app
+    #     enabled: true
     persistence:
       config:
         enabled: true

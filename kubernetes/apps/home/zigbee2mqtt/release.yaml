@@ -25,7 +25,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      zigbee2mqtt:
+      main:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -97,7 +97,7 @@ spec:
               type: RuntimeDefault
     service:
       main:
-        controller: zigbee2mqtt
+        controller: main
         ports:
           http:
             port: 8080
