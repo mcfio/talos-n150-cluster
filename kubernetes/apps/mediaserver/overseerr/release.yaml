@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.1/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -21,7 +21,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      overseerr:
         pod:
           labels:
             sidecar.istio.io/inject: "true"
@@ -69,6 +69,7 @@ spec:
                   - ALL
     service:
       main:
+        controller: *app
         ports:
           http:
             port: *port
@@ -78,5 +79,6 @@ spec:
         retain: true
         size: 1Gi
         storageClass: zfs-nvmeof-csi
+        accessMode: ReadWriteOnce
         globalMounts:
           - path: /app/config
