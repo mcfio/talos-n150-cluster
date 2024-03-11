@@ -21,7 +21,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      tautulli:
+      main:
         pod:
           securityContext:
             runAsNonRoot: true
@@ -51,7 +51,7 @@ spec:
                   - ALL
     service:
       main:
-        controller: *app
+        controller: main
         ports:
           http:
             port: 8181

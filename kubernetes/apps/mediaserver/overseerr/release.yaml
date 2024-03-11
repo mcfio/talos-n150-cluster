@@ -21,7 +21,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      overseerr:
+      main:
         pod:
           labels:
             sidecar.istio.io/inject: "true"
@@ -69,7 +69,7 @@ spec:
                   - ALL
     service:
       main:
-        controller: *app
+        controller: main
         ports:
           http:
             port: *port

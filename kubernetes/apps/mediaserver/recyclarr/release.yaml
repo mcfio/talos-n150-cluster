@@ -21,7 +21,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      recyclarr:
+      main:
         annotations:
           reloader.stakaer.com/auto: "true"
         pod:
@@ -67,7 +67,7 @@ spec:
             securityContext: *securityContext
     service:
       main:
-        controller: *app
+        controller: main
         enabled: false
     persistence:
       config:
@@ -81,7 +81,7 @@ spec:
         type: configMap
         name: recyclarr-configmap
         advancedMounts:
-          recyclarr:
+          main:
             init-config:
               - path: /tmp/config
                 readOnly: true

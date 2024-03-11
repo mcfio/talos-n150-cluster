@@ -21,7 +21,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      radarr:
+      main:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
@@ -101,7 +101,7 @@ spec:
             securityContext: *securityContext
     service:
       main:
-        controller: *app
+        controller: main
         ports:
           http:
             port: *port

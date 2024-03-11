@@ -21,7 +21,7 @@ spec:
     keepHistory: false
   values:
     controllers:
-      plex:
+      main:
         containers:
           main:
             image:
@@ -55,7 +55,7 @@ spec:
               type: RuntimeDefault
     service:
       main:
-        controller: *app
+        controller: main
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/hostname: plex.milton.mcf.io
