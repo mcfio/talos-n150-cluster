@@ -6,19 +6,14 @@ metadata:
   name: apps-mediaserver
   namespace: flux-system
 spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  dependsOn:
-    - name: infrastructure-configs
+  targetNamespace: mediaserver
   interval: 2h
   path: ./apps/mediaserver
   prune: true
-  retryInterval: 1m
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
-  timeout: 3m
-  wait: true
+  wait: false
+  dependsOn:
+    - name: infrastructure-configs
