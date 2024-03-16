@@ -95,8 +95,8 @@ spec:
             port: 8080
     persistence:
       data:
-        enabled: true
-        accessMode: ReadWriteOnce
-        storageClass: zfs-nvmeof-csi
-        retain: true
-        size: 500Mi
+        existingClaim: zigbee2mqtt-data
+        advancedMounts:
+          zigbee2mqtt:
+            app:
+              - path: /data
