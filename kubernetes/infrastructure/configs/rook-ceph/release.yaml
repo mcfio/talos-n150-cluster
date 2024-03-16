@@ -103,7 +103,6 @@ spec:
           erasureCoded:
             dataChunks: 2
             codingChunks: 1
-          deviceClass: ssd
     cephECStorageClass:
       name: ceph-block
       parameters:
