@@ -44,7 +44,7 @@ spec:
     persistence:
       enabled: true
       size: 1Gi
-      storageClassName: zfs-nvmeof-csi
+      storageClassName: ceph-block
     resources:
       requests:
         cpu: 100m
