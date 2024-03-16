@@ -8,5 +8,5 @@ resources:
   - repository.yaml
   - emqx/
   - kubernetes-schemas/
-  - zwave-js-ui/
+  - zwave-js-ui.yaml
   - zigbee2mqtt.yaml
