@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/home/zigbee2mqtt/resources
+  path: ./apps/home/zigbee2mqtt
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -20,6 +20,7 @@ spec:
   wait: false
   dependsOn:
     - name: infrastructure-configs
+      namespace: flux-system
   postBuild:
     substitute:
       APP: *appname
