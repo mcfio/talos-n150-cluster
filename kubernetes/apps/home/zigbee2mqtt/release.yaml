@@ -15,14 +15,6 @@ spec:
         kind: HelmRepository
         name: home-charts
         namespace: home
-  install:
-    crds: Create
-    replace: true
-  upgrade:
-    cleanupOnFail: true
-    crds: CreateReplace
-  uninstall:
-    keepHistory: false
   values:
     controllers:
       main:

@@ -6,3 +6,7 @@ namespace: home
 resources:
   - namespace.yaml
   - repository.yaml
+  - emqx/
+  - kubernetes-schemas/
+  - zwave-js-ui/
+  - zigbee2mqtt.yaml
