@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: angelnu-charts
-        namespace: flux-system
+        namespace: kube-system
   values:
     image:
       repository: ghcr.io/k8snetworkplumbingwg/multus-cni
