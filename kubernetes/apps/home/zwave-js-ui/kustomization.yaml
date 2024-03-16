@@ -6,8 +6,7 @@ resources:
   - release.yaml
   - node-feature-rule.yaml
   - http-route.yaml
-  # - ../../templates/pve.yaml
-  - ../../templates/volsync/external-secret.yaml
+  - ../../templates
 labels:
   - pairs:
       kustomize.toolkit.fluxcd.io/prune: disabled

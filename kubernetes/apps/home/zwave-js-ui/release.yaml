@@ -16,21 +16,13 @@ spec:
         kind: HelmRepository
         name: home-charts
         namespace: home
-  install:
-    crds: Create
-    replace: true
-  upgrade:
-    cleanupOnFail: true
-    crds: CreateReplace
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      zwave-js-ui:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/zwave-js/zwave-js-ui
               tag: 9.9.1
@@ -65,8 +57,8 @@ spec:
         #   nodeSelector:
         #     aeotec.feature.node.kubernetes.io/zwave: "true"
     service:
-      main:
-        controller: main
+      app:
+        controller: zwave-js-ui
         ports:
           http:
             port: *port
@@ -79,12 +71,11 @@ spec:
     #     enabled: true
     persistence:
       config:
-        enabled: true
-        retain: true
-        accessMode: ReadWriteOnce
-        size: 500Mi
-        globalMounts:
-          - path: /usr/src/app/store
+        existingClaim: zwave-js-ui-data
+        advancedMounts:
+          zwave-js-ui:
+            app:
+              - path: /usr/src/app/store
       # usb:
       #   enabled: true
       #   type: hostPath
