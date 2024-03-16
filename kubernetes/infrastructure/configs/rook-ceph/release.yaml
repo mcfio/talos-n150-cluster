@@ -114,7 +114,9 @@ spec:
         imageFeatures: layering
       allowVolumeExpansion: true
       reclaimPolicy: Delete
-    cephBlockPoolsVolumeSnapshotClass: []
+    cephBlockPoolsVolumeSnapshotClass:
+      enabled: false
     cephFileSystems: []
-    cephFileSystemVolumeSnapshotClass: []
+    cephFileSystemVolumeSnapshotClass:
+      enabled: false
     cephObjectStores: []
