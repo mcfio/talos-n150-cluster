@@ -7,7 +7,8 @@ resources:
   - external-secret.yaml
   - release.yaml
   - http-route.yaml
-  - ../../templates
+  - ../../templates/pvc.yaml
+  - ../../templates/volsync/
 labels:
   - pairs:
       kustomize.toolkit.fluxcd.io/prune: disabled
