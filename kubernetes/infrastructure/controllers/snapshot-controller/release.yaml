@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: snapshot-controller
+spec:
+  interval: 12h
+  chart:
+    spec:
+      chart: snapshot-controller
+      version: 2.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: piraeus-charts
+        namespace: kube-system
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+  values:
+    controller:
+      serviceMonitor:
+        create: true
+    webhook:
+      enabled: true
+      tls:
+        certManagerIssuerRef:
+          name: snapshot-controller-webhook-ca
+          kind: Issuer
