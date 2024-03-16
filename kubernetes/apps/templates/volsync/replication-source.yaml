@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: ${APP}-r2
+spec:
+  sourcePVC: ${VOLUME_CLAIM:-${APP}-data}
+  trigger:
+    schedule: "0 0 * * *"
+  restic:
+    copyMethod: Snapshot
+    repository: ${APP}-backup-r2
+    storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
+    volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-ceph-block}
+    moverSecurityContext:
+      runAsUser: ${APP_UID:-568}
+      runAsGroup: ${APP_GID:-568}
+      fsGroup: ${APP_GID:-568}
+    pruneIntervalDays: 7
+    retain:
+      daily: 7

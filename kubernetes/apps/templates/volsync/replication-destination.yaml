@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/volsync.backube/replicationdestination_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: ${APP}-restore-once
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    copyMethod: Snapshot
+    repository: ${APP}-backup-r2
+    storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
+    volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-ceph-block}
+    moverSecurityContext:
+      runAsUser: ${APP_UID:-568}
+      runAsGroup: ${APP_GID:-568}
+      fsGroup: ${APP_GID:-568}
+    accessModes:
+      - ${VOLUME_ACCESSMODES:-ReadWriteOnce}
+    capacity: ${VOLUME_CAPACITY:-1Gi}
