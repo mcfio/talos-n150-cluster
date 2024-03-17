@@ -105,7 +105,7 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: radarr-data
+        existingClaim: radarr-config
       downloads:
         existingClaim: downloads
         advancedMounts:
