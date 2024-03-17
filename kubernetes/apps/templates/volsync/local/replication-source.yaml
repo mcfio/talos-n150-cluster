@@ -10,7 +10,7 @@ spec:
     schedule: "0 * * * *"
   restic:
     copyMethod: Snapshot
-    repository: ${APP}-volsync-local
+    repository: ${APP}-backup-local
     cacheStorageClassName: ${VOLSYNC_CACHE_SNAPSHOTCLASS:-ceph-block}
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}
