@@ -6,5 +6,4 @@ resources:
   - external-secret.yaml
   - release.yaml
   - http-route.yaml
-  - ../../templates/pvc.yaml
-  - ../../templates/volsync/external-secret.yaml
+  - ../../templates
