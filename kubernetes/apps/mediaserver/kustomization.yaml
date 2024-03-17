@@ -11,10 +11,10 @@ resources:
   - radarr.yaml
   - overseerr.yaml
   - sabnzbd.yaml
+  - recyclarr.yaml
   # Old Configurations
   - media-pvc/
   - mediaserver-db/
   - plex/
   - prowlarr/
-  - recyclarr/
   - tautulli/
