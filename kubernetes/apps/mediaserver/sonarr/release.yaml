@@ -106,10 +106,6 @@ spec:
     persistence:
       config:
         existingClaim: sonarr-data
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /data
       downloads:
         existingClaim: downloads
         advancedMounts:
