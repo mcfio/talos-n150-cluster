@@ -3,12 +3,15 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  # Setup Base Resources
   - namespace.yaml
   - repository.yaml
+  # Flux Kustomizations
   - sonarr.yaml
+  - overseerr.yaml
+  # Old Configurations
   - media-pvc/
   - mediaserver-db/
-  - overseerr/
   - plex/
   - prowlarr/
   - radarr/
