@@ -24,3 +24,4 @@ spec:
   postBuild:
     substitute:
       APP: *appname
+      VOLUME_CLAIM: zigbee2mqtt-data
