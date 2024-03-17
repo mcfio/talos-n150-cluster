@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - release.yaml
   - http-route.yaml
+  - ../../templates/volsync/external-secret.yaml
