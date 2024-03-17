@@ -3,14 +3,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: ${APP}-r2
+  name: ${APP}
 spec:
-  sourcePVC: ${VOLUME_CLAIM:-${APP}-data}
+  sourcePVC: ${VOLUME_CLAIM:-${APP}}
   trigger:
-    schedule: "0 0 * * *"
+    schedule: "0 * * * *"
   restic:
     copyMethod: Snapshot
-    repository: ${APP}-backup-r2
+    repository: ${APP}-volsync-local
     cacheStorageClassName: ${VOLSYNC_CACHE_SNAPSHOTCLASS:-ceph-block}
     cacheAccessModes:
       - ${VOLSYNC_CACHE_ACCESSMODES:-ReadWriteOnce}
@@ -23,4 +23,6 @@ spec:
       fsGroup: ${APP_GID:-568}
     pruneIntervalDays: 7
     retain:
+      hourly: 24
       daily: 7
+      weekly: 5
