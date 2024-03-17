@@ -17,21 +17,19 @@ spec:
         namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      sonarr:
         annotations:
           reloader.stakater.com/auto: "true"
         pod:
           labels:
             sidecar.istio.io/inject: "true"
           securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
             runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
               - 100
@@ -64,7 +62,7 @@ spec:
                 drop:
                   - ALL
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/sonarr
               tag: 4.0.2.1183@sha256:bbfcda0754272515ce12972924652699934074b46b11d27bc515c8ea5fb870f5
@@ -100,27 +98,33 @@ spec:
                 memory: 2048Mi
             securityContext: *securityContext
     service:
-      main:
-        controller: main
+      app:
+        controller: sonarr
         ports:
           http:
             port: *port
     persistence:
       config:
-        enabled: true
-        retain: true
-        size: 2Gi
-        storageClass: zfs-nvmeof-csi
-        accessMode: ReadWriteOnce
+        existingClaim: zigbee2mqtt-data
+        advancedMounts:
+          sonarr:
+            app:
+              - path: /data
       downloads:
         existingClaim: downloads
-        globalMounts:
-          - path: /downloads
+        advancedMounts:
+          sonarr:
+            app:
+              - path: /downloads
       media:
         existingClaim: tv
-        globalMounts:
-          - path: /media/tv
+        advancedMounts:
+          sonarr:
+            app:
+              - path: /media/tv
       storage-tv:
         existingClaim: media
-        globalMounts:
-          - path: /storage
+        advancedMounts:
+          sonarr:
+            app:
+              - path: /storage
