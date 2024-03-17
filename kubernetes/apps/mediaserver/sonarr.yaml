@@ -20,6 +20,7 @@ spec:
   wait: false
   dependsOn:
     - name: infrastructure-configs
+      namespace: flux-system
   postBuild:
     substitute:
       APP: *appname
