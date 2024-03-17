@@ -12,9 +12,9 @@ resources:
   - overseerr.yaml
   - sabnzbd.yaml
   - recyclarr.yaml
+  - prowlarr.yaml
   # Old Configurations
   - media-pvc/
   - mediaserver-db/
   - plex/
-  - prowlarr/
   - tautulli/
