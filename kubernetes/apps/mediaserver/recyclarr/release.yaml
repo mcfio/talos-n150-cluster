@@ -1,9 +1,9 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.1/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app recyclarr
+  name: recyclarr
 spec:
   interval: 12h
   maxHistory: 2
@@ -17,39 +17,23 @@ spec:
         namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
-        annotations:
-          reloader.stakaer.com/auto: "true"
+      recyclarr:
+        type: cronjob
+        cronjob:
+          schedule: "@daily"
         pod:
           securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
             runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile:
               type: RuntimeDefault
-        initContainers:
-          init-config:
-            image:
-              repository: public.ecr.aws/docker/library/busybox
-              tag: latest@sha256:650fd573e056b679a5110a70aabeb01e26b76e545ec4b9c70a9523f2dfaf18c6
-              pullPolicy: IfNotPresent
-            command:
-              - "/bin/sh"
-              - "-c"
-              - "cp /tmp/config/recyclarr.yml /config/recyclarr.yml"
-            securityContext: &securityContext
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - ALL
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 6.0.2@sha256:02add40feae0569401b5020528e06419b47046723d0bb4bef1e82325e9eefdad
@@ -64,24 +48,16 @@ spec:
                 memory: 32M
               limits:
                 memory: 128M
-            securityContext: *securityContext
-    service:
-      main:
-        controller: main
-        enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
     persistence:
-      config:
-        enabled: true
-        retain: true
-        size: 500Mi
-        storageClass: zfs-nvmeof-csi
-        accessMode: ReadWriteOnce
       config-file:
-        enabled: true
         type: configMap
         name: recyclarr-configmap
-        advancedMounts:
-          main:
-            init-config:
-              - path: /tmp/config
-                readOnly: true
+        globalMounts:
+          - path: /config/recyclarr.yml
+            subPath: recyclarr.yml
+            readOnly: true
