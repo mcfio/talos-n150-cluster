@@ -8,13 +8,13 @@ resources:
   - repository.yaml
   # Flux Kustomizations
   - sonarr.yaml
+  - radarr.yaml
   - overseerr.yaml
   # Old Configurations
   - media-pvc/
   - mediaserver-db/
   - plex/
   - prowlarr/
-  - radarr/
   - recyclarr/
   - sabnzbd/
   - tautulli/
