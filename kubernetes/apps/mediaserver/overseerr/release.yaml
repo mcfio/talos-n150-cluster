@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app overseerr
+  name: overseerr
 spec:
   interval: 12h
   maxHistory: 3
@@ -17,24 +17,22 @@ spec:
         namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      overseerr:
         pod:
           labels:
             sidecar.istio.io/inject: "true"
           securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
             runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile:
               type: RuntimeDefault
         containers:
-          main:
+          app:
             image:
               repository: sctx/overseerr
               tag: 1.33.2@sha256:714ea6db2bc007a2262d112bef7eec74972eb33d9c72bddb9cbd98b8742de950
@@ -68,17 +66,15 @@ spec:
                 drop:
                   - ALL
     service:
-      main:
-        controller: main
+      app:
+        controller: overseerr
         ports:
           http:
             port: *port
     persistence:
       config:
-        enabled: true
-        retain: true
-        size: 1Gi
-        storageClass: zfs-nvmeof-csi
-        accessMode: ReadWriteOnce
-        globalMounts:
-          - path: /app/config
+        existingClaim: overseerr-config
+        advancedMounts:
+          overseerr:
+            app:
+              - path: /app/config

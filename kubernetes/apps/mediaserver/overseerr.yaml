@@ -24,6 +24,6 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      # APP_UID: "568"
-      # APP_GID: "568"
-      # VOLUME_CLAIM: overseerr-config
+      APP_UID: "568"
+      APP_GID: "568"
+      VOLUME_CLAIM: overseerr-config
