@@ -24,7 +24,7 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      # APP_UID: "568"
-      # APP_GID: "568"
-      # VOLUME_CLAIM: radarr-config
-      # VOLUME_CAPACITY: 2Gi
+      APP_UID: "568"
+      APP_GID: "568"
+      VOLUME_CLAIM: radarr-config
+      VOLUME_CAPACITY: 2Gi
