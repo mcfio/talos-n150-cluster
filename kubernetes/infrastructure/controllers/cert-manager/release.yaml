@@ -23,9 +23,11 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    crds:
-      enabled: true
-      keep: true
+    installCRDs: true
+    # not enabled yet
+    # crds:
+    #   enabled: true
+    #   keep: true
     replicaCount: 1
     prometheus:
       servicemonitor:
