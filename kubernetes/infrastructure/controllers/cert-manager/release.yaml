@@ -23,8 +23,13 @@ spec:
   upgrade:
     crds: CreateReplace
   values:
-    installCRDs: true
+    crds:
+      enabled: true
+      keep: true
     replicaCount: 1
+    prometheus:
+      servicemonitor:
+        enabled: true
     resources:
       requests:
         cpu: 10m
