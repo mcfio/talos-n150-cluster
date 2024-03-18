@@ -54,6 +54,12 @@ spec:
                 drop:
                   - ALL
     persistence:
+      config:
+        type: emptyDir
+        advancedMounts:
+          recyclarr:
+            app:
+              - path: /config
       config-file:
         type: configMap
         name: recyclarr-configmap
