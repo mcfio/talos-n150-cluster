@@ -19,17 +19,12 @@ spec:
         name: jetstack-charts
         namespace: cert-manager
   install:
-    createNamespace: true
     crds: CreateReplace
-    replace: true
   upgrade:
-    cleanupOnFail: true
     crds: CreateReplace
-  uninstall:
-    keepHistory: false
   values:
     installCRDs: true
-    replicaCount: 3
+    replicaCount: 1
     resources:
       requests:
         cpu: 10m
@@ -38,13 +33,11 @@ spec:
       - --dns01-recursive-nameservers=1.1.1.1:53
       - --dns01-recursive-nameservers-only
     webhook:
-      replicaCount: 3
       resources:
         requests:
           cpu: 50m
           memory: 32Mi
     cainjector:
-      replicaCount: 3
       resources:
         requests:
           cpu: 100m
