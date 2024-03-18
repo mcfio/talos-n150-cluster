@@ -5,5 +5,3 @@ metadata:
   name: mediaserver
   labels:
     istio-injection: disabled
-    pod-security.kubernetes.io/enforce: privileged
-    pod-security.kubernetes.io/enforce-version: latest
