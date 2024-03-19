@@ -24,7 +24,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    fullnameOverride: prometheus
+    fullnameOverride: kps
     crds:
       enabled: true
     cleanPrometheusOperatorObjectNames: true
