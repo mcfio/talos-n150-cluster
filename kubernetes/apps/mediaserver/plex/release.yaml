@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/app-template-3.0.1/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
@@ -71,6 +71,24 @@ spec:
         size: 20Gi
         storageClass: zfs-nvmeof-csi
         accessMode: ReadWriteOnce
+      cache:
+        existingClaim: plex-cache
+        advancedMounts:
+          main:
+            main:
+              - path: /config/Library/Application Support/Plex Media Server/Cache
+      metadata:
+        existingClaim: plex-metadata
+        advancedMounts:
+          main:
+            main:
+              - path: /config/Library/Application Support/Plex Media Server/Metadata
+      logs:
+        type: emptyDir
+        advancedMounts:
+          main:
+            main:
+              - path: /config/Library/Application Support/Plex Media Server/Logs
       media:
         existingClaim: media
         globalMounts:
@@ -82,7 +100,8 @@ spec:
           - path: /media/tv
             readOnly: true
       transcode:
-        enabled: true
         type: emptyDir
-        medium: Memory
-        sizeLimit: 2G
+        advancedMounts:
+          main:
+            main:
+              - path: /transcode
