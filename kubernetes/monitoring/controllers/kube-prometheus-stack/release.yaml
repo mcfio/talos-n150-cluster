@@ -24,6 +24,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    fullnameOverride: prometheus
     crds:
       enabled: true
     cleanPrometheusOperatorObjectNames: true
@@ -132,8 +133,8 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        walCompression: true
     prometheusOperator:
+      fullnameOverride: prometheus-operator
       admissionWebhooks:
         certManager:
           enabled: true
