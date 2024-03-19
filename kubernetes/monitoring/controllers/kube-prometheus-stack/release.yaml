@@ -24,7 +24,7 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    fullnameOverride: kps
+    fullnameOverride: stack
     crds:
       enabled: true
     cleanPrometheusOperatorObjectNames: true
@@ -124,6 +124,8 @@ spec:
             memory: 3760M
         storageSpec:
           volumeClaimTemplate:
+            metadata:
+              name: data
             spec:
               storageClassName: ceph-block
               resources:
