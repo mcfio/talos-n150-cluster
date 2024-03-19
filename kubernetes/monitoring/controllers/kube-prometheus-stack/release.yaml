@@ -153,7 +153,7 @@ spec:
             memory: 80M
     grafana:
       enabled: false
-      forceDeployDashboards: false
+      forceDeployDashboards: true
       forceDeployDatasources: true
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
@@ -169,10 +169,11 @@ spec:
         monitor:
           enabled: true
           relabelings:
-            # node label isn't populated properly by default
             - action: replace
-              sourceLabels: [__meta_kubernetes_pod_node_name]
-              targetLabel: node
+              regex: (.*)
+              replacement: $1
+              sourceLabels: ["__meta_kubernetes_pod_node_name"]
+              targetLabel: kubernetes_node
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       resources:
