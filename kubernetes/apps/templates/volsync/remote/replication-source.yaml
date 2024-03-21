@@ -12,8 +12,7 @@ spec:
     copyMethod: Snapshot
     repository: ${APP}-backup-r2
     cacheStorageClassName: ${VOLUME_CACHE_SNAPSHOTCLASS:-openebs-hostpath}
-    cacheAccessModes:
-      - ${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}
+    cacheAccessModes: ["${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}"]
     cacheCapacity: ${VOLUME_CACHE_CAPACITY:-1Gi}
     storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
     volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-ceph-block}
