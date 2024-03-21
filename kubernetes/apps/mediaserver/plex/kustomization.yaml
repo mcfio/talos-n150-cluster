@@ -6,3 +6,4 @@ resources:
   - release.yaml
   - pvc-cache.yaml
   - pvc-metadata.yaml
+  - ../../templates/volsync/local/external-secret.yaml
