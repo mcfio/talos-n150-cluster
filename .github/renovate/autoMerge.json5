@@ -28,7 +28,7 @@
         "minor",
         "patch"
       ],
-      "matchPackageNames": [
+      "matchDepNames": [
         "kube-prometheus-stack"
       ],
       "ignoreTests": true
