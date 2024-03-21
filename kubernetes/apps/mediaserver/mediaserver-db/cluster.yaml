@@ -10,7 +10,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     size: 5Gi
-    storageClass: zfs-nvmeof-csi
+    storageClass: openebs-hostpath
   superuserSecret:
     name: mediaserver-cnpg-secret
   enableSuperuserAccess: true
@@ -38,7 +38,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://mediaserver-db/
       endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
-      serverName: &currentCluster postgres-v1
+      serverName: &currentCluster postgres-v2
       s3Credentials:
         accessKeyId:
           name: mediaserver-cnpg-secret
@@ -46,11 +46,11 @@ spec:
         secretAccessKey:
           name: mediaserver-cnpg-secret
           key: aws-secret-access-key
-  # bootstrap:
-  #   recovery:
-  #     source: &previousCluster postgres-v1
-  # externalClusters:
-  #   - name: *previousCluster
-  #     barmanObjectStore:
-  #       <<: *barmanObjectStore
-  #       serverName: *previousCluster
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres-v1
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        <<: *barmanObjectStore
+        serverName: *previousCluster
