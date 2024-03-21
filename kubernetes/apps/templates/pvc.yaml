@@ -9,7 +9,7 @@ spec:
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube
-    name: ${APP}-source
+    name: ${APP}-restore-once
   resources:
     requests:
       storage: ${VOLUME_CAPACITY:-1Gi}
