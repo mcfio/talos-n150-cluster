@@ -13,8 +13,8 @@ resources:
   - sabnzbd.yaml
   - recyclarr.yaml
   - prowlarr.yaml
+  - plex.yaml
   # Old Configurations
   - media-pvc/
   - mediaserver-db/
-  - plex/
   - tautulli/
