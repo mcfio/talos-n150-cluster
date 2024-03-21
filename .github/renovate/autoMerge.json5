@@ -33,5 +33,6 @@
       ],
       "ignoreTests": true
     }
-  ]
+  ],
+  "platformAutomerge": true
 }
