@@ -7,3 +7,5 @@ resources:
   - pvc-cache.yaml
   - pvc-metadata.yaml
   - ../../templates/volsync/local/external-secret.yaml
+  - ../../templates/volsync/local/replication-destination.yaml
+  - ../../templates/pvc.yaml
