@@ -78,7 +78,7 @@ spec:
             port: 32400
     persistence:
       config:
-        existingClaim: plex-confit
+        existingClaim: ${VOLUME_CLAIM}
       cache:
         existingClaim: plex-cache
         advancedMounts:
