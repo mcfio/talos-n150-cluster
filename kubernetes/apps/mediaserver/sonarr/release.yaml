@@ -36,17 +36,6 @@ spec:
               - 1000
             seccompProfile:
               type: RuntimeDefault
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app.kubernetes.io/name
-                        operator: In
-                        values:
-                          - radarr
-                          - plex
-                  topologyKey: kubernetes.io/hostname
         initContainers:
           01-init-db:
             image:
