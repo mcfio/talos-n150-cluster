@@ -26,3 +26,5 @@ spec:
       APP: *appname
       APP_UID: "568"
       APP_GID: "568"
+      VOLUME_CLAIM: plex-config
+      VOLUME_CAPACITY: 10Gi

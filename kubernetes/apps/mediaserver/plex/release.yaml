@@ -21,17 +21,29 @@ spec:
     keepHistory: false
   values:
     controllers:
-      main:
+      plex:
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/plex
               tag: 1.40.1.8227-c0dd5a73e@sha256:4ca8db0ffa1bee5a2976a0385cc43368112e81a2485b80d0fff3b04c9d5bd1ca
             env:
               TZ: Canada/Eastern
+              PLEX_ADVERTISE_URL: https://192.168.45.230:32400,https://plex.milton.mcf.io:443
+              PLEX_NO_AUTH_NETWORKS: 10.244.0.0/16
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
             resources:
               requests:
-                cpu: "3.25"
+                cpu: 3250m
                 memory: 3087Mi
               limits:
                 memory: 3087Mi
@@ -42,10 +54,10 @@ spec:
                   - ALL
         pod:
           securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
             runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
               - 44
@@ -54,8 +66,8 @@ spec:
             seccompProfile:
               type: RuntimeDefault
     service:
-      main:
-        controller: main
+      app:
+        controller: plex
         enabled: true
         annotations:
           external-dns.alpha.kubernetes.io/hostname: plex.milton.mcf.io
@@ -66,42 +78,42 @@ spec:
             port: 32400
     persistence:
       config:
-        enabled: true
-        retain: true
-        size: 20Gi
-        storageClass: zfs-nvmeof-csi
-        accessMode: ReadWriteOnce
+        existingClaim: plex-confit
       cache:
         existingClaim: plex-cache
         advancedMounts:
-          main:
-            main:
+          plex:
+            app:
               - path: /config/Library/Application Support/Plex Media Server/Cache
       metadata:
         existingClaim: plex-metadata
         advancedMounts:
-          main:
-            main:
+          plex:
+            app:
               - path: /config/Library/Application Support/Plex Media Server/Metadata
       logs:
         type: emptyDir
         advancedMounts:
-          main:
-            main:
+          plex:
+            app:
               - path: /config/Library/Application Support/Plex Media Server/Logs
       media:
         existingClaim: media
-        globalMounts:
-          - path: /nfs-data
-            readOnly: true
+        advancedMounts:
+          plex:
+            app:
+              - path: /nfs-data
+                readOnly: true
       media-tv:
         existingClaim: tv
-        globalMounts:
-          - path: /media/tv
-            readOnly: true
+        advancedMounts:
+          plex:
+            app:
+              - path: /media/tv
+                readOnly: true
       transcode:
         type: emptyDir
         advancedMounts:
-          main:
-            main:
+          plex:
+            app:
               - path: /transcode
