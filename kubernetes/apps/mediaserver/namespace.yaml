@@ -3,5 +3,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: mediaserver
-  labels:
-    istio-injection: disabled
