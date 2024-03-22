@@ -32,8 +32,7 @@ spec:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
-              - 100
-              - 1000
+              - 100 # nfs.cluster:users
             seccompProfile:
               type: RuntimeDefault
         initContainers:
@@ -95,21 +94,21 @@ spec:
     persistence:
       config:
         existingClaim: sonarr-data
-      downloads:
-        existingClaim: downloads
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /downloads
-      media:
-        existingClaim: tv
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /media/tv
-      storage-tv:
-        existingClaim: media
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /storage
+      nfs-downloads:
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /media-pool/downloads
+        globalMounts:
+          - path: /downloads
+      nfs-media-1:
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /media-pool/tv
+        globalMounts:
+          - path: /media/tv
+      nfs-media-2:
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /storage/media
+        globalMounts:
+          - path: /storage
