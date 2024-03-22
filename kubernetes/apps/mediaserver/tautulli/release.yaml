@@ -3,10 +3,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app tautulli
+  name: tautulli
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
   chart:
     spec:
       chart: app-template
@@ -17,48 +17,52 @@ spec:
         namespace: mediaserver
   upgrade:
     cleanupOnFail: true
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      tautulli:
         pod:
           securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
             runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
+            fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile:
               type: RuntimeDefault
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/tautulli
               tag: 2.13.4@sha256:b3000c0063cc4c0c6f2436fb7174f4bcfd8d91eca05206731edccb8b643ea570
             env:
               TZ: Canada/Eastern
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 5
             resources:
               requests:
                 cpu: 10m
-                memory: 250Mi
+                memory: 128Mi
               limits:
-                memory: 500Mi
+                memory: 512Mi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
                   - ALL
     service:
-      main:
-        controller: main
+      app:
+        controller: tautulli
         ports:
           http:
             port: 8181
     persistence:
       config:
-        enabled: true
-        retain: true
-        size: 2Gi
-        storageClass: zfs-nvmeof-csi
-        accessMode: ReadWriteOnce
+        existingClaim: ${VOLUME_CLAIM}
