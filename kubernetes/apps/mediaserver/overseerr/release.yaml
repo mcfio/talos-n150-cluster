@@ -73,7 +73,7 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: overseerr-config
+        existingClaim: ${VOLUME_CLAIM}
         advancedMounts:
           overseerr:
             app:
