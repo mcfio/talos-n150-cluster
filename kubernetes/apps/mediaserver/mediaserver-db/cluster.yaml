@@ -44,8 +44,8 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://mediaserver-db/
-      endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
+      destinationPath: s3://home-cluster/backups/mediaserver-db/
+      endpointURL: https://minio.milton.mcf.io
       serverName: &currentCluster postgres-v3
       s3Credentials:
         accessKeyId:
