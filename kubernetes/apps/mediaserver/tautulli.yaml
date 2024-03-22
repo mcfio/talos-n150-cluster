@@ -28,3 +28,4 @@ spec:
       APP_GID: "568"
       VOLUME_CLAIM: tautulli-config
       VOLUME_CAPACITY: 2Gi
+      BACKEND_PORT: "8181"

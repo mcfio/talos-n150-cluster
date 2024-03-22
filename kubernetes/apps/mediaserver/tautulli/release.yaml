@@ -62,7 +62,7 @@ spec:
         controller: tautulli
         ports:
           http:
-            port: 8181
+            port: ${BACKEND_PORT}
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}
