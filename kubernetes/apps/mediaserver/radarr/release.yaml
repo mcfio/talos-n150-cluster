@@ -32,8 +32,7 @@ spec:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
-              - 100
-              - 1000
+              - 100 # nfs.cluster:users
             seccompProfile:
               type: RuntimeDefault
         initContainers:
@@ -94,16 +93,16 @@ spec:
             port: *port
     persistence:
       config:
-        existingClaim: radarr-config
-      downloads:
-        existingClaim: downloads
-        advancedMounts:
-          radarr:
-            app:
-              - path: /downloads
-      media:
-        existingClaim: media
-        advancedMounts:
-          radarr:
-            app:
-              - path: /media
+        existingClaim: ${VOLUME_CLAIM}
+      nfs-downloads:
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /media-pool/downloads
+        globalMounts:
+          - path: /downloads
+      nfs-media:
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /storage/media
+        globalMounts:
+          - path: /media
