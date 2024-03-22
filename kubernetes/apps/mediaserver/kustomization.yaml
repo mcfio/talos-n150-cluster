@@ -15,6 +15,5 @@ resources:
   - prowlarr.yaml
   - plex.yaml
   # Old Configurations
-  - media-pvc/
   - mediaserver-db/
   - tautulli/
