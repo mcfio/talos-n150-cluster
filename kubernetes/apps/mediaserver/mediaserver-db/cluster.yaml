@@ -46,7 +46,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://mediaserver-db/
       endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
-      serverName: &currentCluster postgres-v2
+      serverName: &currentCluster postgres-v3
       s3Credentials:
         accessKeyId:
           name: mediaserver-cnpg-secret
@@ -56,7 +56,7 @@ spec:
           key: aws-secret-access-key
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v1
+      source: &previousCluster postgres-v2
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
