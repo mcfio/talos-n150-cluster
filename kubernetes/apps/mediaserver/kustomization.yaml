@@ -7,6 +7,7 @@ resources:
   - namespace.yaml
   - repository.yaml
   # Flux Kustomizations
+  - mediaserver-db.yaml
   - sonarr.yaml
   - radarr.yaml
   - overseerr.yaml
@@ -15,5 +16,4 @@ resources:
   - prowlarr.yaml
   - plex.yaml
   # Old Configurations
-  - mediaserver-db/
   - tautulli/
