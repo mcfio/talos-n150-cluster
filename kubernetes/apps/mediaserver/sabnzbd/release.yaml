@@ -75,8 +75,10 @@ spec:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /media-pool/downloads
-        globalMounts:
-          - path: /downloads
+        advancedMounts:
+          sabnzbd:
+            app:
+              - path: /downloads
       incomplete:
         enabled: true
         type: emptyDir

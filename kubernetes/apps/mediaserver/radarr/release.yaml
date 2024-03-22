@@ -98,11 +98,15 @@ spec:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /media-pool/downloads
-        globalMounts:
-          - path: /downloads
+        advancedMounts:
+          radarr:
+            app:
+              - path: /downloads
       nfs-media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /storage/media
-        globalMounts:
-          - path: /media
+        advancedMounts:
+          radarr:
+            app:
+              - path: /media
