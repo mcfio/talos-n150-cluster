@@ -36,8 +36,8 @@ spec:
               tag: 1.40.1.8227-c0dd5a73e@sha256:4ca8db0ffa1bee5a2976a0385cc43368112e81a2485b80d0fff3b04c9d5bd1ca
             env:
               TZ: Canada/Eastern
-              PLEX_ADVERTISE_URL: https://192.168.45.230:32400,https://plex.milton.mcf.io:443
-              PLEX_NO_AUTH_NETWORKS: 10.244.0.0/16
+              # PLEX_ADVERTISE_URL: https://192.168.45.230:32400,https://plex.milton.mcf.io:32400
+              # PLEX_NO_AUTH_NETWORKS: 10.244.0.0/16
             probes:
               liveness:
                 enabled: true
