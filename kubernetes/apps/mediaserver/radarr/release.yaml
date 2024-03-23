@@ -59,7 +59,7 @@ spec:
               RADARR__AUTHENTICATION_METHOD: External
               RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               RADARR__INSTANCE_NAME: Radarr
-              RADARR__PORT: &port 7878
+              RADARR__PORT: &port ${BACKEND_PORT}
               RADARR__lOG_LEVEL: info
               RADARR__THEME: dark
             envFrom: *envFrom
