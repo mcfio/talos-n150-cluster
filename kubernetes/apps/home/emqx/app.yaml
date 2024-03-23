@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname emqx
+  namespace: flux-system
+spec:
+  targetNamespace: home
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  interval: 2h
+  path: ./apps/home/zwave-js-ui
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  wait: false
+  dependsOn:
+    - name: infrastructure-configs
+      namespace: flux-system
+  postBuild:
+    substitute:
+      APP: *appname
+      BACKEND_PORT: "18083"
