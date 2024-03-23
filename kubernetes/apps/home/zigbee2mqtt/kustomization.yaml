@@ -5,8 +5,5 @@ kind: Kustomization
 resources:
   - external-secret.yaml
   - release.yaml
-  - http-route.yaml
+  - ../../templates/http-route.yaml
   - ../../templates
-labels:
-  - pairs:
-      kustomize.toolkit.fluxcd.io/prune: disabled

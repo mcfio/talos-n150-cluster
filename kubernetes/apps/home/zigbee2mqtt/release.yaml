@@ -15,11 +15,22 @@ spec:
         kind: HelmRepository
         name: home-charts
         namespace: home
+  upgrade:
+    cleanupOnFail: true
   values:
     controllers:
       zigbee2mqtt:
         annotations:
           reloader.stakater.com/auto: "true"
+        pod:
+          securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
+            runAsNonRoot: true
+            fsGroup: ${APP_GID}
+            fsGroupChangePolicy: OnRootMismatch
+            seccompProfile:
+              type: RuntimeDefault
         containers:
           app:
             image:
@@ -48,7 +59,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
               ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
-              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://zigbee.milton.mcf.io
+              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://${FRONTEND_NAME}.milton.mcf.io
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
@@ -66,7 +77,7 @@ spec:
                     key: EMQX_AUTH__USER__2__PASSWORD
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             resources:
               limits:
                 memory: 350M
@@ -78,24 +89,15 @@ spec:
               capabilities:
                 drop:
                   - ALL
-        pod:
-          securityContext:
-            runAsNonRoot: true
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            seccompProfile:
-              type: RuntimeDefault
     service:
       app:
         controller: zigbee2mqtt
         ports:
           http:
-            port: 8080
+            port: ${BACKEND_PORT}
     persistence:
       data:
-        existingClaim: zigbee2mqtt-data
+        existingClaim: ${VOLUME_CLAIM}
         advancedMounts:
           zigbee2mqtt:
             app:

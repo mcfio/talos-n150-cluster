@@ -20,8 +20,11 @@ spec:
   wait: false
   dependsOn:
     - name: infrastructure-configs
-      namespace: flux-system
   postBuild:
     substitute:
       APP: *appname
+      APP_UID: "568"
+      APP_GID: "568"
+      FRONTEND_NAME: zigbee
+      BACKEND_PORT: "8080"
       VOLUME_CLAIM: zigbee2mqtt-data
