@@ -6,5 +6,4 @@ namespace: mediaserver
 resources:
   - external-secret.yaml
   - cluster.yaml
-  - pooler.yaml
   - scheduled-backup.yaml
