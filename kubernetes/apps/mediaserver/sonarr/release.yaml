@@ -59,7 +59,7 @@ spec:
               SONARR__AUTHENTICATION_METHOD: External
               SONARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               SONARR__INSTANCE_NAME: Sonarr
-              SONARR__PORT: &port 8989
+              SONARR__PORT: &port ${BACKEND_PORT}
               SONARR__LOG_LEVEL: info
               SONARR__THEME: dark
             envFrom: *envFrom

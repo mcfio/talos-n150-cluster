@@ -26,5 +26,6 @@ spec:
       APP: *appname
       APP_UID: "568"
       APP_GID: "568"
+      BACKEND_PORT: "8989"
       VOLUME_CLAIM: sonarr-data
       VOLUME_CAPACITY: 2Gi
