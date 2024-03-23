@@ -24,4 +24,5 @@ spec:
   postBuild:
     substitute:
       APP: *appname
+      BACKEND_PORT: "8091"
       VOLUME_CLAIM: zwave-js-ui-data

@@ -3,10 +3,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app zwave-js-ui
+  name: zwave-js-ui
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
   chart:
     spec:
       chart: app-template
@@ -15,6 +15,8 @@ spec:
         kind: HelmRepository
         name: home-charts
         namespace: home
+  upgrade:
+    cleanupOnFail: true
   values:
     controllers:
       zwave-js-ui:
@@ -29,7 +31,7 @@ spec:
               TZ: Canada/Eastern
             envFrom:
               - secretRef:
-                  name: *app
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -37,7 +39,7 @@ spec:
                 spec:
                   httpGet:
                     path: /health
-                    port: &port 8091
+                    port: &port ${BACKEND_PORT}
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
