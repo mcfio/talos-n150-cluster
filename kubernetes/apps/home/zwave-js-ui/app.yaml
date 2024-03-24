@@ -3,15 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname mediaserver-db
+  name: &appname zwave-js-ui
   namespace: flux-system
 spec:
-  targetNamespace: mediaserver
+  targetNamespace: home
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/mediaserver/mediaserver-db
+  path: ./apps/home/zwave-js-ui/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -24,3 +24,6 @@ spec:
   postBuild:
     substitute:
       APP: *appname
+      FRONTEND_NAME: zwave
+      BACKEND_PORT: "8091"
+      VOLUME_CLAIM: zwave-js-ui-data

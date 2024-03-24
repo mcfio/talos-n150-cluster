@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname radarr
+  name: &appname prowlarr
   namespace: flux-system
 spec:
   targetNamespace: mediaserver
@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/mediaserver/radarr
+  path: ./apps/mediaserver/prowlarr/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -26,6 +26,6 @@ spec:
       APP: *appname
       APP_UID: "568"
       APP_GID: "568"
-      BACKEND_PORT: "7878"
-      VOLUME_CLAIM: radarr-config
-      VOLUME_CAPACITY: 2Gi
+      BACKEND_PORT: "9696"
+      VOLUME_CLAIM: prowlarr-config
+      VOLUME_CAPACITY: 500Mi

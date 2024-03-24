@@ -3,15 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname zwave-js-ui
+  name: &appname recyclarr
   namespace: flux-system
 spec:
-  targetNamespace: home
+  targetNamespace: mediaserver
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/home/zwave-js-ui
+  path: ./apps/mediaserver/recyclarr/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -24,6 +24,5 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      FRONTEND_NAME: zwave
-      BACKEND_PORT: "8091"
-      VOLUME_CLAIM: zwave-js-ui-data
+      APP_UID: "568"
+      APP_GID: "568"

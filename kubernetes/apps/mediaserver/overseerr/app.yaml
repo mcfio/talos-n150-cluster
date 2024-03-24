@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/mediaserver/overseerr
+  path: ./apps/mediaserver/overseerr/resources
   prune: true
   sourceRef:
     kind: OCIRepository

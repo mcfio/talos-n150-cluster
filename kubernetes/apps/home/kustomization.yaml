@@ -3,9 +3,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  # Setup Base Resources
   - namespace.yaml
   - repository.yaml
-  - kubernetes-schemas/
+  # Flux Kustomizations
   - emqx/app.yaml
-  - zwave-js-ui.yaml
-  - zigbee2mqtt.yaml
+  - zigbee2mqtt/app.yaml
+  - zwave-js-ui/app.yaml

@@ -6,7 +6,6 @@ metadata:
   name: apps-mediaserver
   namespace: flux-system
 spec:
-  targetNamespace: mediaserver
   interval: 2h
   path: ./apps/mediaserver
   prune: true

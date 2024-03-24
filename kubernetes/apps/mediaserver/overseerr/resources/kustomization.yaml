@@ -5,4 +5,5 @@ kind: Kustomization
 resources:
   - release.yaml
   - http-route.yaml
-  - ../../templates
+  - ../../../templates/pvc.yaml
+  - ../../../templates/volsync

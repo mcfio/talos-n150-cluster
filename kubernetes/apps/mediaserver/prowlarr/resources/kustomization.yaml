@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - external-secret.yaml
   - release.yaml
-  - http-route.yaml
-  - ../../templates
+  - ../../../templates

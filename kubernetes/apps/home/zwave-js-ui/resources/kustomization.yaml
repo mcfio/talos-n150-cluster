@@ -5,5 +5,4 @@ resources:
   - external-secret.yaml
   - release.yaml
   - node-feature-rule.yaml
-  - ../../templates/http-route.yaml
-  - ../../templates
+  - ../../../templates

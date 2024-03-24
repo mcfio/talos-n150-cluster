@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname prowlarr
+  name: &appname tautulli
   namespace: flux-system
 spec:
   targetNamespace: mediaserver
@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/mediaserver/prowlarr
+  path: ./apps/mediaserver/tautulli/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -26,5 +26,6 @@ spec:
       APP: *appname
       APP_UID: "568"
       APP_GID: "568"
-      VOLUME_CLAIM: prowlarr-config
-      VOLUME_CAPACITY: 500Mi
+      BACKEND_PORT: "8181"
+      VOLUME_CLAIM: tautulli-config
+      VOLUME_CAPACITY: 2Gi

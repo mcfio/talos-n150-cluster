@@ -40,7 +40,7 @@ spec:
               tag: 4.2.3@sha256:fa8ddea45e56b0e36454c3c0eb30ff5521d90aeb5b35301656ae9236680be3a9
             env:
               TZ: Canada/Eastern
-              SABNZBD__PORT: &port 8080
+              SABNZBD__PORT: &port ${BACKEND_PORT}
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
                 sabnzbd,
                 sabnzbd.default,

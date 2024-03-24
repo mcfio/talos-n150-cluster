@@ -7,12 +7,12 @@ resources:
   - namespace.yaml
   - repository.yaml
   # Flux Kustomizations
-  - mediaserver-db.yaml
-  - sonarr.yaml
-  - radarr.yaml
-  - overseerr.yaml
-  - sabnzbd.yaml
-  - recyclarr.yaml
-  - prowlarr.yaml
-  - tautulli.yaml
-  - plex.yaml
+  - mediaserver-db/app.yaml
+  - sonarr/app.yaml
+  - radarr/app.yaml
+  - overseerr/app.yaml
+  - sabnzbd/app.yaml
+  - tautulli/app.yaml
+  - recyclarr/app.yaml
+  - prowlarr/app.yaml
+  - plex/app.yaml

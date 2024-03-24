@@ -3,15 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname zigbee2mqtt
+  name: &appname sabnzbd
   namespace: flux-system
 spec:
-  targetNamespace: home
+  targetNamespace: mediaserver
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/home/zigbee2mqtt
+  path: ./apps/mediaserver/sabnzbd/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -20,11 +20,12 @@ spec:
   wait: false
   dependsOn:
     - name: infrastructure-configs
+      namespace: flux-system
   postBuild:
     substitute:
       APP: *appname
       APP_UID: "568"
       APP_GID: "568"
-      FRONTEND_NAME: zigbee
       BACKEND_PORT: "8080"
-      VOLUME_CLAIM: zigbee2mqtt-data
+      VOLUME_CLAIM: sabnzbd-config
+      VOLUME_CAPACITY: 500Mi
