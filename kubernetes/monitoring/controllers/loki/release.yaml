@@ -19,9 +19,9 @@ spec:
     cleanupOnFail: true
   values:
     loki:
+      podAnnotations:
+        secret.reloader.stakater.com/reload: loki-secret
       auth_enabled: false
-      analytics:
-        reporting_enabled: false
       server:
         log_level: info
       limits_config:
@@ -55,9 +55,11 @@ spec:
         retention_enabled: true
         retention_delete_delay: 2h
         retention_delete_worker_count: 150
+      ingester:
+        max_chunk_age: 1h
+      analytics:
+        reporting_enabled: false
 
-    # singleBinary:
-    #   replicas: 3
     #   rulerConfig:
     #     enable_api: true
     #     enable_alertmanager_v2: true
@@ -67,11 +69,58 @@ spec:
     #       local:
     #         directory: /rules
     #     rule_path: /rules
-    #   analytics:
-    #     reporting_enabled: false
-    #   ingester:
-    #     max_chunk_age: 1h
 
+    gateway:
+      enabled: true
+      replicas: 3
+      affinity: |
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "loki.gatewaySelectorLabels" . | nindent 12 }}
+                topologyKey: kubernetes.io/hostname
+      image:
+        registry: ghcr.io
+        repository: nginxinc/nginx-unprivileged
+        tag: 1.25-alpine
+      # deploymentStrategy:
+      #   type: RollingUpdate
+      #   # Scale down nodes before deploying new one
+      #   rollingUpdate:
+      #     maxSurge: 0
+      #     maxUnavailable: 1
+      resources:
+        limits:
+          memory: 125M
+        requests:
+          cpu: 15m
+          memory: 100M
+    read:
+      replicas: 3
+      affinity: |
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "loki.readSelectorLabels" . | nindent 12 }}
+                topologyKey: kubernetes.io/hostname
+      extraVolumeMounts:
+        - name: rules
+          mountPath: /rules
+      extraVolumes:
+        - name: rules
+          emptyDir: {}
+      resources:
+        limits:
+          memory: 800M
+        requests:
+          cpu: 60m
+          memory: 150M
     write:
       replicas: 3
       affinity: |
@@ -130,39 +179,6 @@ spec:
         enabled: false
     test:
       enabled: false
-    # read:
-    #   replicas: 1
-    #   extraVolumeMounts:
-    #     - name: rules
-    #       mountPath: /rules
-    #   extraVolumes:
-    #     - name: rules
-    #       emptyDir: {}
-    #   resources:
-    #     limits:
-    #       memory: 800M
-    #     requests:
-    #       cpu: 60m
-    #       memory: 150M
-    # gateway:
-    #   enabled: true
-    #   replicas: 3
-    #   image:
-    #     registry: ghcr.io
-    #     repository: nginxinc/nginx-unprivileged
-    #     tag: 1.25-alpine
-    #   deploymentStrategy:
-    #     type: RollingUpdate
-    #     # Scale down nodes before deploying new one
-    #     rollingUpdate:
-    #       maxSurge: 0
-    #       maxUnavailable: 1
-    #   resources:
-    #     limits:
-    #       memory: 125M
-    #     requests:
-    #       cpu: 15m
-    #       memory: 100M
   valuesFrom:
     - kind: Secret
       name: loki-secret
