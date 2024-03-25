@@ -164,24 +164,9 @@ spec:
             grafana_folder: Kubernetes
       forceDeployDatasources: true
     kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-      resources:
-        requests:
-          cpu: 15m
-          memory: 128M
-        limits:
-          memory: 400M
-      metricLabelsAllowlist:
-        - persistentvolumeclaims=[*]
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
+      - kind: ConfigMap
+        name: flux-kube-state-metrics-config
+        valuesKey: kube-state-metrics-config.yaml
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       resources:
