@@ -3,10 +3,9 @@ apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
   name: vector-aggregator
-  namespace: monitoring
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
   chart:
     spec:
       chart: vector
@@ -15,15 +14,8 @@ spec:
         kind: HelmRepository
         name: vector
         namespace: monitoring
-  install:
-    remediation:
-      retries: 3
   upgrade:
     cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
   values:
     role: Stateless-Aggregator
     replicas: 3
@@ -53,25 +45,32 @@ spec:
           decoding:
             codec: json
           host_key: __host
-      # transforms:
-      #   talos_source_xform:
-      #     type: remap
-      #     inputs:
-      #       - talos_source
-      #     source: |
-      #       .timestamp = del(."talos-time")
-      #   kubernetes_source_xform:
-      #     type: remap
-      #     inputs:
-      #       - kubernetes_source
-      #     source: |
-      #       .custom_app_name = .pod_labels."app.kubernetes.io/name"
+        kubernetes_source:
+          address: 0.0.0.0:6052
+          type: vector
+          version: "2"
+      transforms:
+        #   talos_source_xform:
+        #     type: remap
+        #     inputs:
+        #       - talos_source
+        #     source: |
+        #       .timestamp = del(."talos-time")
+        kubernetes_source_xform:
+          type: remap
+          inputs:
+            - kubernetes_source
+          source: |
+            # Standardize 'app' index
+            .custom_app_name = .pod_labels."app.kubernetes.io/name" || .pod_labels.app || .pod_labels."k8s-app" || "unknown"
+            # Drop pod_labels
+            del(.pod_labels)
       sinks:
-        talos_kernel:
+        loki_talos_kernel:
           type: loki
           inputs:
             - talos_kernel_logs
-          endpoint: http://loki-gateway
+          endpoint: http://loki-gateway.monitoring.svc.cluster.local
           encoding:
             codec: json
             except_fields:
@@ -93,42 +92,13 @@ spec:
           type: loki
           inputs:
             - kubernetes_source_xform
-          endpoint: http://loki-gateway
+          endpoint: http://loki-gateway.monitoring.svc.cluster.local
           encoding:
             codec: json
           out_of_order_action: rewrite_timestamp
           remove_label_fields: true
           remove_timestamp: true
           labels:
-            hostname: >-
-              {{`{{ kubernetes.pod_node_name }}`}}
-            k8s_app: >-
-              {{`{{ custom_app_name }}`}}
-            k8s_container: >-
-              {{`{{ kubernetes.container_name }}`}}
-            k8s_filename: >-
-              {{`{{ kubernetes.file }}`}}
-            k8s_instance: >-
-              {{`{{ kubernetes.pod_labels."app.kubernetes.io/instance" }}`}}
-            k8s_namespace: >-
-              {{`{{ kubernetes.pod_namespace }}`}}
-            k8s_node: >-
-              {{`{{ kubernetes.pod_node_name }}`}}
-            k8s_pod: >-
-              {{`{{ kubernetes.pod_name }}`}}
-    service:
-      enabled: true
-      annotations:
-        io.cilium/lb-ipam-ips: 192.168.45.10
-      type: LoadBalancer
-  postRenderers:
-    - kustomize:
-        patchesJson6902:
-          - target:
-              version: v1
-              kind: Service
-              name: vector-aggregator
-            patch:
-              - op: add
-                path: /metadata/labels/provider
-                value: cilium
+            app: "{{ custom_app_name }}"
+            namespace: "{{ kubernetes.pod_namespace }}"
+            node: "{{ kubernetes.pod_node_name }}"
