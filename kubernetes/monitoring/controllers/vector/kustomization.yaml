@@ -6,4 +6,4 @@ namespace: monitoring
 resources:
   - repository.yaml
   - aggregator/release.yaml
-  # - agent/helm-release.yaml
+  - agent/release.yaml
