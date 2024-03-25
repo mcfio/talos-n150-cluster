@@ -77,8 +77,8 @@ spec:
         enabled: true
         metricsInstance:
           enabled: false
-        additionalLabels:
-          app.kubernetes.io/part-of: kube-prometheus-stack
+        # additionalLabels:
+        #   app.kubernetes.io/part-of: kube-prometheus-stack
       selfMonitoring:
         enabled: false
         grafanaAgent:
@@ -154,8 +154,8 @@ spec:
     - kind: Secret
       name: loki-secret
       valuesKey: S3_ACCESS_KEY #gitleaks:allow
-      targetPath: loki.storage.s3.access_key_id
+      targetPath: loki.storage.s3.accessKeyId
     - kind: Secret
       name: loki-secret
       valuesKey: S3_SECRET_KEY #gitleaks:allow
-      targetPath: loki.storage.s3.secret_access_key
+      targetPath: loki.storage.s3.secretAccessKey
