@@ -50,8 +50,8 @@ spec:
         s3:
           s3ForcePathStyle: true
           insecure: false
-    singleBinary:
-      replicas: 3
+    # singleBinary:
+    #   replicas: 3
     #   rulerConfig:
     #     enable_api: true
     #     enable_alertmanager_v2: true
