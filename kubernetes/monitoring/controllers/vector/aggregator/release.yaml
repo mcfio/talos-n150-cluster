@@ -46,7 +46,7 @@ spec:
             codec: json
           host_key: __host
         kubernetes_source:
-          address: 0.0.0.0:6052
+          address: 0.0.0.0:6000
           type: vector
           version: "2"
       transforms:
