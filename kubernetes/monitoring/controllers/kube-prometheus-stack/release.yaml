@@ -16,14 +16,14 @@ spec:
         name: prometheus-community
         namespace: monitoring
   install:
-    createNamespace: true
     crds: Create
-    replace: true
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
-  uninstall:
-    keepHistory: false
+  valuesFrom:
+    - kind: ConfigMap
+      name: flux-kube-state-metrics-config
+      valuesKey: kube-state-metrics-config.yaml
   values:
     fullnameOverride: stack
     crds:
@@ -163,10 +163,6 @@ spec:
           annotations:
             grafana_folder: Kubernetes
       forceDeployDatasources: true
-    kube-state-metrics:
-      - kind: ConfigMap
-        name: flux-kube-state-metrics-config
-        valuesKey: kube-state-metrics-config.yaml
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       resources:
