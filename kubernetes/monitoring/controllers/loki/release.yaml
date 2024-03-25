@@ -18,8 +18,6 @@ spec:
   upgrade:
     cleanupOnFail: true
   values:
-    test:
-      enabled: false
     loki:
       auth_enabled: false
       analytics:
@@ -72,7 +70,32 @@ spec:
     #     reporting_enabled: false
     #   ingester:
     #     max_chunk_age: 1h
+
+    write:
+      replicas: 3
+      affinity: |
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "loki.writeSelectorLabels" . | nindent 12 }}
+                topologyKey: kubernetes.io/hostname
+      persistence:
+        size: 20Gi
+        storageClass: openebs-hostpath
+      resources:
+        limits:
+          memory: 800M
+        requests:
+          cpu: 60m
+          memory: 150M
+
     monitoring:
+      dashboards:
+        annotations:
+          grafana_folder: Loki
       serviceMonitor:
         enabled: true
         metricsInstance:
@@ -85,16 +108,8 @@ spec:
           installOperator: false
       lokiCanary:
         enabled: false
-    # write:
-    #   replicas: 1
-    #   persistence:
-    #     size: 20Gi
-    #   resources:
-    #     limits:
-    #       memory: 800M
-    #     requests:
-    #       cpu: 60m
-    #       memory: 150M
+    test:
+      enabled: false
     # read:
     #   replicas: 1
     #   extraVolumeMounts:
