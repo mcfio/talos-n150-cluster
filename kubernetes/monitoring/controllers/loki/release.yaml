@@ -48,6 +48,14 @@ spec:
         s3:
           s3ForcePathStyle: true
           insecure: false
+      compactor:
+        working_directory: /var/loki/boltdb-shipper-compactor
+        shared_store: s3
+        compaction_interval: 10m
+        retention_enabled: true
+        retention_delete_delay: 2h
+        retention_delete_worker_count: 150
+
     # singleBinary:
     #   replicas: 3
     #   rulerConfig:
@@ -59,13 +67,6 @@ spec:
     #       local:
     #         directory: /rules
     #     rule_path: /rules
-    #   compactor:
-    #     working_directory: /var/loki/boltdb-shipper-compactor
-    #     shared_store: s3
-    #     compaction_interval: 10m
-    #     retention_enabled: true
-    #     retention_delete_delay: 2h
-    #     retention_delete_worker_count: 150
     #   analytics:
     #     reporting_enabled: false
     #   ingester:
