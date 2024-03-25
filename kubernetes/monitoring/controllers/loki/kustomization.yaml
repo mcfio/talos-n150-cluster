@@ -5,8 +5,8 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - external-secret.yaml
-  # - repository.yaml
-  # - release.yaml
+  - repository.yaml
+  - release.yaml
   # - minio.yaml
   # - config-map.yaml
   # - grafana-datasource.yaml
