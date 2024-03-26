@@ -70,6 +70,25 @@ spec:
     #         directory: /rules
     #     rule_path: /rules
 
+    extraObjects:
+      - apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: loki-datasource
+          labels:
+            grafana_datasource: "1"
+            app.kubernetes.io/part-of: kube-prometheus-stack
+        data:
+          loki-datasource.yaml: |-
+            apiVersion: 1
+            datasources:
+            - name: Loki
+              type: loki
+              access: proxy
+              url: http://loki-gateway.monitoring.svc.cluster.local:{{ .Values.loki.server.http_listen_port }}
+              version: 1
+              isDefault: false
+
     gateway:
       enabled: true
       replicas: 3
