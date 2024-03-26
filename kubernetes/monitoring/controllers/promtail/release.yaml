@@ -1,0 +1,25 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: promtail
+spec:
+  interval: 12h
+  maxHistory: 3
+  dependsOn:
+    - name: kube-prometheus-stack
+  chart:
+    spec:
+      version: 6.15.5
+      chart: promtail
+      sourceRef:
+        kind: HelmRepository
+        name: grafana-charts
+        namespace: monitoring
+      interval: 60m
+  # https://github.com/grafana/helm-charts/blob/main/charts/promtail/values.yaml
+  values:
+    serviceMonitor:
+      enable: true
+    test:
+      enabled: false
