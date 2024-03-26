@@ -85,7 +85,7 @@ spec:
             - name: Loki
               type: loki
               access: proxy
-              url: http://loki-gateway.monitoring.svc.cluster.local:{{ .Values.loki.gateway.service.port }}
+              url: http://loki-gateway.monitoring.svc.cluster.local:{{ .Values.gateway.service.port }}
               version: 1
               isDefault: false
 
