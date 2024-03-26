@@ -147,10 +147,10 @@ spec:
       flux:
         flux-cluster:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/cluster.json
-          datasource: Prometheus
+          # datasource: Prometheus
         flux-control-plane:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/control-plane.json
-          datasource: Prometheus
+          # datasource: Prometheus
         flux-logs:
           url: https://raw.githubusercontent.com/fluxcd/flux2-monitoring-example/main/monitoring/configs/dashboards/logs.json
-          datasource: Loki
+          # datasource: Loki
