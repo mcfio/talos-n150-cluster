@@ -88,7 +88,6 @@ spec:
               url: http://loki-gateway.monitoring.svc.cluster.local:{{ .Values.gateway.service.port }}
               version: 1
               isDefault: false
-
     gateway:
       enabled: true
       replicas: 3
@@ -105,12 +104,6 @@ spec:
         registry: ghcr.io
         repository: nginxinc/nginx-unprivileged
         tag: 1.25-alpine
-      # deploymentStrategy:
-      #   type: RollingUpdate
-      #   # Scale down nodes before deploying new one
-      #   rollingUpdate:
-      #     maxSurge: 0
-      #     maxUnavailable: 1
       resources:
         limits:
           memory: 125M
@@ -188,8 +181,8 @@ spec:
         enabled: true
         metricsInstance:
           enabled: false
-        # additionalLabels:
-        #   app.kubernetes.io/part-of: kube-prometheus-stack
+        additionalLabels:
+          app.kubernetes.io/part-of: kube-prometheus-stack
       selfMonitoring:
         enabled: false
         grafanaAgent:
