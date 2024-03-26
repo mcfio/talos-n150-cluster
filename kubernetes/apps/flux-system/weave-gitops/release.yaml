@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: weave-gitops
 spec:
+  releaseName: weave-gitops
+  targetNamespace: flux-system
   interval: 12h
   maxHistory: 3
   chart:
