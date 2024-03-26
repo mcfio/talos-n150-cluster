@@ -17,6 +17,7 @@ spec:
         namespace: monitoring
   upgrade:
     cleanupOnFail: true
+  # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
   values:
     loki:
       podAnnotations:
