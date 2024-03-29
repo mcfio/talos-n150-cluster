@@ -43,6 +43,8 @@ spec:
         prefix: metrics/thanos
         config:
           insecure: false
+    additionalEndpoints:
+      - dnssrv+_grpc._tcp.stack-thanos-discovery.monitoring.svc.cluster.local
     additionalReplicaLabels: ["__replica__"]
     serviceMonitor:
       enabled: true
