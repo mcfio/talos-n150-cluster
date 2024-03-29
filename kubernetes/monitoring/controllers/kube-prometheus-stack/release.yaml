@@ -178,7 +178,7 @@ spec:
             memory: 80M
     grafana:
       enabled: false
-      forceDeployDashboards: true
+      forceDeployDashboards: false
       sidecar:
         dashboards:
           annotations:
