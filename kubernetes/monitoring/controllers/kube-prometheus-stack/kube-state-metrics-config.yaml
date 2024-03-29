@@ -1,5 +1,7 @@
 kube-state-metrics:
   fullnameOverride: kube-state-metrics
+  image:
+    tag: v2.10.1
   resources:
     requests:
       cpu: 15m
