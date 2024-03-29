@@ -165,6 +165,10 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
+      thanosService:
+        enabled: true
+      thanosServiceMonitor:
+        enabled: true
     prometheusOperator:
       fullnameOverride: prometheus-operator
       admissionWebhooks:
@@ -191,7 +195,7 @@ spec:
         dashboards:
           annotations:
             grafana_folder: Kubernetes
-      forceDeployDatasources: true
+      forceDeployDatasources: false
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       resources:
