@@ -129,6 +129,14 @@ spec:
           registry: quay.io
           repository: prometheus/prometheus
           tag: v2.51.0-dedupelabels
+        thanos:
+          image: quay.io/thanos/thanos:v0.34.1
+          # renovate: depName=quay.io/thanos/thanos datasource=docker
+          version: "0.34.1"
+          objectStorageConfig:
+            existingSecret:
+              name: kube-prometheus-stack-secret
+              key: objstore.yml
         externalUrl: https://prometheus.milton.mcf.io
         externalLabels:
           cluster: mcf-k8s-cluster
