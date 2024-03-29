@@ -116,10 +116,11 @@ spec:
         externalLabels:
           cluster: mcf-k8s-cluster
         logFormat: json
-        replicas: 1
+        replicas: 2
         retention: 2d
-        retentionSize: "15GB"
-        replicaExternalLabelName: "__replica__" # must match with thanos value `.query.replicaLabel[0]`
+        retentionSize: 15GB
+        replicaExternalLabelName: __replica__ # must match with thanos value `.query.replicaLabel[0]`
+        scrapeInterval: 1m # Matches interval from Grafana helm chart
         resources:
           requests:
             cpu: 257m
