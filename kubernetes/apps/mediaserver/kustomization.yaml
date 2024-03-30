@@ -16,3 +16,4 @@ resources:
   - recyclarr/app.yaml
   - prowlarr/app.yaml
   - plex/app.yaml
+  - plex/addons.yaml

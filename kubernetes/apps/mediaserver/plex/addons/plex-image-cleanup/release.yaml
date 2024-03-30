@@ -1,0 +1,94 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: plex-image-cleanup
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: app-template
+      version: 3.0.4
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: mediaserver-charts
+        namespace: mediaserver
+  values:
+    controllers:
+      plex-image-cleanup:
+        type: cronjob
+        annotations:
+          reloader.stakater.com/auto: "true"
+        cronjob:
+          schedule: "30 8 * * 6"
+        pod:
+          affinity:
+            podAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchExpressions:
+                      - key: app.kubernetes.io/name
+                        operator: In
+                        values:
+                          - plex
+                  topologyKey: kubernetes.io/hostname
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
+        containers:
+          app:
+            image:
+              repository: docker.io/meisnate12/plex-image-cleanup
+              tag: v1.0.2
+            env:
+              PLEX_URL: http://plex.mediaserver.svc.cluster.local:32400
+              PLEX_TOKEN:
+                valueFrom:
+                  secretKeyRef:
+                    name: plex-image-cleanup-secret
+                    key: PLEX_TOKEN
+              PLEX_PATH: /data/plex_config/Library/Application Support/Plex Media Server
+              MODE: remove
+              PHOTO_TRANSCODER: true
+            probes:
+              liveness:
+                enabled: false
+              readiness:
+                enabled: false
+              startup:
+                enabled: false
+            resources:
+              requests:
+                cpu: 25m
+                memory: 128Mi
+              limits:
+                memory: 128Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+    persistence:
+      config:
+        type: emptyDir
+        advancedMounts:
+          plex-image-cleanup:
+            app:
+              - path: /config
+      plex-config:
+        existingClaim: plex-config
+        advancedMounts:
+          plex-image-cleanup:
+            app:
+              - path: /data/plex_config
+      metadata:
+        existingClaim: plex-metadata
+        advancedMounts:
+          plex-image-cleanup:
+            app:
+              - path: /data/plex_config/Library/Application Support/Plex Media Server/Metadata
