@@ -34,7 +34,8 @@ spec:
       spec:
         containers:
           - name: runner
-            image: ghcr.io/onedr0p/github-actions-runner:rolling@sha256:97b74a2c9ae3f573e5168a247d3e0a14bd18aaf1e7b1003192090f4a089a8c07
+            image: ghcr.io/onedr0p/actions-runner:2.315.0@sha256:1ad36419cd4e2df4d196f462dee23c4bf82f16ba6a4fa05f8ce8378edb06937b
+            command: ["/home/runner/run.sh"]
   valuesFrom:
     - kind: Secret
       name: arc-runner
