@@ -19,8 +19,7 @@ spec:
     namespace: flux-system
   wait: false
   dependsOn:
-    - name: infrastructure-configs
-      namespace: flux-system
+    - name: plex
   postBuild:
     substitute:
       APP: *appname
