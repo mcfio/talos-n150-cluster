@@ -93,27 +93,28 @@ spec:
               - name: /dev/disk/by-id/virtio-P210FBBA23072712569
     cephBlockPools: []
     cephECBlockPools:
-      - name: ec-metadata-pool
+      - name: ec-pool
         spec:
-          failureDomain: host
-          replicated:
-            size: 3
-      - name: ec-data-pool
-        spec:
-          failureDomain: host
-          erasureCoded:
-            dataChunks: 2
-            codingChunks: 1
-    cephECStorageClass:
-      name: ceph-block
-      parameters:
-        clusterID: rook-ceph
-        dataPool: ec-data-pool
-        pool: ec-metadata-pool
-        imageFormat: "2"
-        imageFeatures: layering
-      allowVolumeExpansion: true
-      reclaimPolicy: Delete
+          metadataPool:
+            failureDomain: host
+            replicated:
+              size: 2
+          dataPool:
+            failureDomain: host
+            erasureCoded:
+              dataChunks: 2
+              codingChunks: 1
+        parameters:
+          clusterID: rook-ceph
+          imageFormat: "2"
+          imageFeatures: layering
+        storageClass:
+          provisioner: rook-ceph.rbd.csi.ceph.com # csi-provisioner-name
+          enabled: true
+          name: ceph-block
+          isDefault: true
+          allowVolumeExpansion: true
+          reclaimPolicy: Delete
     cephBlockPoolsVolumeSnapshotClass:
       enabled: true
       name: ceph-block
