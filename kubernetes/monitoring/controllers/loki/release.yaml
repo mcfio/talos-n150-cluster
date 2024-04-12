@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: loki
-      version: 5.47.2
+      version: 6.2.0
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
@@ -20,6 +20,7 @@ spec:
     cleanupOnFail: true
   # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
   values:
+    deploymentMode: SimpleScalable
     loki:
       podAnnotations:
         secret.reloader.stakater.com/reload: loki-secret
@@ -93,15 +94,6 @@ spec:
     gateway:
       enabled: true
       replicas: 3
-      affinity: |
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    {{- include "loki.gatewaySelectorLabels" . | nindent 12 }}
-                topologyKey: kubernetes.io/hostname
       image:
         registry: ghcr.io
         repository: nginxinc/nginx-unprivileged
@@ -112,23 +104,21 @@ spec:
         requests:
           cpu: 15m
           memory: 100M
+      deploymentStrategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxUnavailable: 50%
+          maxSurge: 50%
+      topologySpreadConstraints:
+        - maxSkew: 2
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: loki
+              app.kubernetes.io/component: gateway
     read:
       replicas: 3
-      affinity: |
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    {{- include "loki.readSelectorLabels" . | nindent 12 }}
-                topologyKey: kubernetes.io/hostname
-      extraVolumeMounts:
-        - name: rules
-          mountPath: /rules
-      extraVolumes:
-        - name: rules
-          emptyDir: {}
       resources:
         limits:
           memory: 800M
@@ -137,15 +127,6 @@ spec:
           memory: 150M
     write:
       replicas: 3
-      affinity: |
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    {{- include "loki.writeSelectorLabels" . | nindent 12 }}
-                topologyKey: kubernetes.io/hostname
       persistence:
         size: 20Gi
         storageClass: openebs-hostpath
@@ -157,15 +138,6 @@ spec:
           memory: 150M
     backend:
       replicas: 3
-      affinity: |
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    {{- include "loki.backendSelectorLabels" . | nindent 12 }}
-                topologyKey: kubernetes.io/hostname
       persistence:
         size: 20Gi
         storageClass: openebs-hostpath
@@ -179,6 +151,8 @@ spec:
       dashboards:
         annotations:
           grafana_folder: Loki
+      rules:
+        enabled: false
       serviceMonitor:
         enabled: true
         metricsInstance:
@@ -189,8 +163,14 @@ spec:
         enabled: false
         grafanaAgent:
           installOperator: false
-      lokiCanary:
-        enabled: false
+    sidecar:
+      image:
+        repository: ghcr.io/kiwigrid/k8s-sidecar
+      rules:
+        searchNamespace: ALL
+        folder: /rules/fake
+    lokiCanary:
+      enabled: false
     test:
       enabled: false
   valuesFrom:
