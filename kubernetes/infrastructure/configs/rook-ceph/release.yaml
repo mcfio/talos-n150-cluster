@@ -111,8 +111,8 @@ spec:
         storageClass:
           provisioner: rook-ceph.rbd.csi.ceph.com # csi-provisioner-name
           enabled: true
-          name: ceph-block
-          isDefault: true
+          name: ceph-ec-block
+          isDefault: false
           allowVolumeExpansion: true
           reclaimPolicy: Delete
     cephBlockPoolsVolumeSnapshotClass:
