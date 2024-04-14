@@ -6,6 +6,7 @@ metadata:
   name: rook-ceph-cluster
 spec:
   interval: 30m
+  timeout: 15m
   chart:
     spec:
       chart: rook-ceph-cluster
@@ -14,9 +15,19 @@ spec:
         kind: HelmRepository
         name: rook-ceph-charts
         namespace: rook-ceph
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
+  dependsOn:
+    - name: rook-ceph
   values:
     toolbox:
-      enabled: false
+      enabled: true
     monitoring:
       enabled: true
       createPrometheusRules: true
@@ -76,6 +87,7 @@ spec:
         enabled: true
         urlPrefix: /
         ssl: false
+        prometheusEndpoint: http://thanos-query-frontend.monitoring.svc.cluster.local:10902
       storage:
         useAllNodes: false
         useAllDevices: false
