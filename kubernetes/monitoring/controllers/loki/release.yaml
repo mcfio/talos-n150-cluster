@@ -172,6 +172,10 @@ spec:
       rules:
         searchNamespace: ALL
         folder: /rules/fake
+    chunksCache:
+      enabled: false
+    resultsCache:
+      enabled: false
     lokiCanary:
       enabled: false
     test:
