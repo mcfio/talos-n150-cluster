@@ -56,10 +56,10 @@ spec:
                 enabled: false
             resources:
               requests:
-                cpu: 15m
-                memory: 384M
+                cpu: 10m
+                memory: 256Mi
               limits:
-                memory: 2560M
+                memory: 2Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
