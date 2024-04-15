@@ -24,8 +24,6 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      APP_UID: "568"
-      APP_GID: "568"
       BACKEND_PORT: "8080"
       VOLUME_CLAIM: sabnzbd-config
       VOLUME_CAPACITY: 500Mi

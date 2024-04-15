@@ -24,10 +24,10 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
+            runAsUser: 568
+            runAsGroup: 568
             runAsNonRoot: true
-            fsGroup: ${APP_GID}
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
               - 100 # nfs.cluster:users
@@ -71,14 +71,10 @@ spec:
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}
-      nfs-downloads:
+      media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /media-pool/downloads
-        advancedMounts:
-          sabnzbd:
-            app:
-              - path: /downloads
+        path: /storage/media
       incomplete:
         enabled: true
         type: emptyDir
