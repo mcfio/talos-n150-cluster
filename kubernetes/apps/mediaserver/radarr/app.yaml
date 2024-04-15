@@ -24,8 +24,6 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      APP_UID: "568"
-      APP_GID: "568"
       BACKEND_PORT: "7878"
       VOLUME_CLAIM: radarr-config
       VOLUME_CAPACITY: 2Gi
