@@ -102,27 +102,11 @@ spec:
           sonarr:
             app:
               - path: /archive/tv
-      nfs-downloads:
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /media-pool/downloads
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /downloads
-      nfs-media-1:
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /media-pool/tv
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /media/tv
-      nfs-media-2:
+      media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /storage/media
         advancedMounts:
           sonarr:
             app:
-              - path: /storage
+              - path: /media
