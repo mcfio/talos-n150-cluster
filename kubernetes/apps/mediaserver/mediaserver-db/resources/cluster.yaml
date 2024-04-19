@@ -6,7 +6,7 @@ metadata:
   name: mediaserver-db
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.2-13
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.2-14
   primaryUpdateStrategy: unsupervised
   storage:
     size: 5Gi
