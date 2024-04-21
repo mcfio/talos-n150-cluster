@@ -42,7 +42,7 @@ jobs:
         uses: fluxcd/flux2/action@main
 
       - name: Diff resources
-        uses: allenporter/flux-local/action/diff@dc498019492d96440ff8e9ec28514491cf2319d7 # 5.0.0
+        uses: allenporter/flux-local/action/diff@e34aaaffd4f4884d24201c7033b64ea1015dc755 # 5.0.1
         id: diff
         with:
           path: ${{ matrix.cluster_path }}
