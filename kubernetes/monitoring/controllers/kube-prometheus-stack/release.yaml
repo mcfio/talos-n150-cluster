@@ -130,7 +130,7 @@ spec:
           repository: prometheus/prometheus
           tag: v2.51.0-dedupelabels
         thanos:
-          image: quay.io/thanos/thanos:v0.35.0
+          image: quay.io/thanos/thanos:v0.35.1
           # renovate: depName=quay.io/thanos/thanos datasource=docker
           version: "0.34.1"
           objectStorageConfig:
