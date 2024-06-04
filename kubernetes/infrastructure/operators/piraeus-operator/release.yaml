@@ -1,0 +1,31 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: piraeus-operator
+  namespace: piraeus-datastore
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: charts/piraeus
+      version: 2.5.1
+      sourceRef:
+        kind: GitRepository
+        name: piraeus-operator-chart
+        namespace: piraeus-datastore
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    installCRDs: true
+    tls:
+      certManagerIssuerRef:
+        name: piraeus-selfsigned
+        kind: Issuer
