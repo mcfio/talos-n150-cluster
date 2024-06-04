@@ -6,4 +6,5 @@ namespace: piraeus-datastore
 resources:
   - namespace.yaml
   - repository.yaml
+  - issuer.yaml
   - release.yaml
