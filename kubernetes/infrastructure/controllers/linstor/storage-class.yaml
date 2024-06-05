@@ -7,5 +7,18 @@ provisioner: linstor.csi.linbit.com
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
 parameters:
-  linstor.csi.linbit.com/storagePool: piraeus-datastore
-  linstor.csi.linbit.com/placementCount: "2"
+  autoPlace: "1"
+  storagePool: piraeus-datastore
+  resourceGroup: piraeus-datastore
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: piraeus-replicated
+provisioner: linstor.csi.linbit.com
+allowVolumeExpansion: true
+volumeBindingMode: WaitForFirstConsumer
+parameters:
+  autoPlace: "2"
+  storagePool: piraeus-datastore
+  resourceGroup: piraeus-replicated
