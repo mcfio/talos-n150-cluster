@@ -27,3 +27,5 @@ spec:
       APP_UID: "568"
       APP_GID: "568"
       VOLUME_CLAIM: overseerr-config
+      VOLUME_STORAGECLASS: piraeus-replicated
+      VOLUME_SNAPSHOTCLASS: piraeus-datastore

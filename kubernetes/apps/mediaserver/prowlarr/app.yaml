@@ -29,3 +29,5 @@ spec:
       BACKEND_PORT: "9696"
       VOLUME_CLAIM: prowlarr-config
       VOLUME_CAPACITY: 500Mi
+      VOLUME_STORAGECLASS: piraeus-replicated
+      VOLUME_SNAPSHOTCLASS: piraeus-datastore
