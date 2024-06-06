@@ -20,9 +20,12 @@ spec:
   wait: false
   dependsOn:
     - name: infrastructure-configs
+      namespace: flux-system
   postBuild:
     substitute:
       APP: *appname
       BACKEND_PORT: "8989"
-      VOLUME_CLAIM: sonarr-data
+      VOLUME_CLAIM: sonarr-config
       VOLUME_CAPACITY: 2Gi
+      VOLUME_STORAGECLASS: piraeus-replicated
+      VOLUME_SNAPSHOTCLASS: piraeus-datastore

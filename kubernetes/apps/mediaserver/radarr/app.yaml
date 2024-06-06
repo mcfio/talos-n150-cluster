@@ -27,3 +27,5 @@ spec:
       BACKEND_PORT: "7878"
       VOLUME_CLAIM: radarr-config
       VOLUME_CAPACITY: 2Gi
+      VOLUME_STORAGECLASS: piraeus-replicated
+      VOLUME_SNAPSHOTCLASS: piraeus-datastore
