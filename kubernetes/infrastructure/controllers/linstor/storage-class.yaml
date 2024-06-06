@@ -7,6 +7,7 @@ provisioner: linstor.csi.linbit.com
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
 parameters:
+  placementCount: "1"
   storagePool: piraeus-datastore
   resourceGroup: piraeus-datastore-rg
 ---
@@ -18,5 +19,6 @@ provisioner: linstor.csi.linbit.com
 allowVolumeExpansion: true
 volumeBindingMode: WaitForFirstConsumer
 parameters:
+  placementCount: "2"
   storagePool: piraeus-datastore
   resourceGroup: piraeus-replicated-rg

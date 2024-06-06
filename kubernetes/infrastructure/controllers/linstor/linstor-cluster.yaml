@@ -7,3 +7,8 @@ metadata:
 spec:
   externalController:
     url: http://192.168.55.10:3370
+  nodeAffinity:
+    nodeSelectorTerms:
+      - matchExpressions:
+          - key: node-role.kubernetes.io/control-plane
+            operator: DoesNotExist
