@@ -29,3 +29,5 @@ spec:
       BACKEND_PORT: "8181"
       VOLUME_CLAIM: tautulli-config
       VOLUME_CAPACITY: 2Gi
+      VOLUME_STORAGECLASS: piraeus-replicated
+      VOLUME_SNAPSHOTCLASS: piraeus-datastore
