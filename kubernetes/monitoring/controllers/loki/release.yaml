@@ -101,12 +101,6 @@ spec:
         registry: ghcr.io
         repository: nginxinc/nginx-unprivileged
         tag: 1.27-alpine
-      resources:
-        limits:
-          memory: 125M
-        requests:
-          cpu: 15m
-          memory: 100M
       deploymentStrategy:
         type: RollingUpdate
         rollingUpdate:
@@ -122,34 +116,16 @@ spec:
               app.kubernetes.io/component: gateway
     read:
       replicas: 3
-      resources:
-        limits:
-          memory: 800M
-        requests:
-          cpu: 60m
-          memory: 150M
     write:
       replicas: 3
       persistence:
         size: 20Gi
         storageClass: openebs-hostpath
-      resources:
-        limits:
-          memory: 800M
-        requests:
-          cpu: 60m
-          memory: 150M
     backend:
       replicas: 3
       persistence:
         size: 20Gi
         storageClass: openebs-hostpath
-      resources:
-        limits:
-          memory: 800M
-        requests:
-          cpu: 60m
-          memory: 150M
     monitoring:
       dashboards:
         annotations:
