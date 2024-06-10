@@ -59,7 +59,7 @@ spec:
       eventing:
         enabled: false
       obs:
-        callHome:
+        callhome:
           enabled: false
     engines:
       local:
