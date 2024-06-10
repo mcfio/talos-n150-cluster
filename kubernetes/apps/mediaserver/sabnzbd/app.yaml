@@ -27,5 +27,5 @@ spec:
       BACKEND_PORT: "8080"
       VOLUME_CLAIM: sabnzbd-config
       VOLUME_CAPACITY: 500Mi
-      VOLUME_STORAGECLASS: piraeus-replicated
-      VOLUME_SNAPSHOTCLASS: piraeus-datastore
+      VOLUME_STORAGECLASS: openebs-datastore
+      VOLUME_SNAPSHOTCLASS: openebs-datastore
