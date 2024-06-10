@@ -28,5 +28,5 @@ spec:
       APP_GID: "568"
       VOLUME_CLAIM: plex-config
       VOLUME_CAPACITY: 10Gi
-      VOLUME_STORAGECLASS: piraeus-replicated
-      VOLUME_SNAPSHOTCLASS: piraeus-datastore
+      VOLUME_STORAGECLASS: openebs-datastore
+      VOLUME_SNAPSHOTCLASS: openebs-datastore
