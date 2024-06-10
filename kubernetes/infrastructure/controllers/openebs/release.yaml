@@ -46,7 +46,7 @@ spec:
       csi:
         node:
           initContainers:
-            enabled: true
+            enabled: false
       etcd:
         localpvScConfig:
           enabled: false
