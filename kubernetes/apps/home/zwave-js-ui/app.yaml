@@ -27,5 +27,5 @@ spec:
       FRONTEND_NAME: zwave
       BACKEND_PORT: "8091"
       VOLUME_CLAIM: zwave-js-ui-data
-      VOLUME_STORAGECLASS: piraeus-replicated
-      VOLUME_SNAPSHOTCLASS: piraeus-datastore
+      VOLUME_STORAGECLASS: openebs-datastore
+      VOLUME_SNAPSHOTCLASS: openebs-datastore

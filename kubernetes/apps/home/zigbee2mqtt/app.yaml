@@ -28,5 +28,5 @@ spec:
       FRONTEND_NAME: zigbee
       BACKEND_PORT: "8080"
       VOLUME_CLAIM: zigbee2mqtt-data
-      VOLUME_STORAGECLASS: piraeus-replicated
-      VOLUME_SNAPSHOTCLASS: piraeus-datastore
+      VOLUME_STORAGECLASS: openebs-datastore
+      VOLUME_SNAPSHOTCLASS: openebs-datastore
