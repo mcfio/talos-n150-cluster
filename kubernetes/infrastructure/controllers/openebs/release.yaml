@@ -41,7 +41,27 @@ spec:
     lvm-localpv:
       enabled: false
     mayastor:
-      enabled: false
+      enabled: true
+      csi:
+        node:
+          initContainers:
+            enabled: true
+      etcd:
+        localpvScConfig:
+          enabled: false
+        persistence:
+          storageClass: openebs-hostpath
+      localpv-provisioner:
+        enabled: false
+      crds:
+        enabled: false
+      loki-stack:
+        enabled: false
+      eventing:
+        enabled: false
+      obs:
+        callHome:
+          enabled: false
     engines:
       local:
         lvm:
