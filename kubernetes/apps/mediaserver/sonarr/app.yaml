@@ -27,5 +27,5 @@ spec:
       BACKEND_PORT: "8989"
       VOLUME_CLAIM: sonarr-config
       VOLUME_CAPACITY: 2Gi
-      VOLUME_STORAGECLASS: piraeus-replicated
-      VOLUME_SNAPSHOTCLASS: piraeus-datastore
+      VOLUME_STORAGECLASS: openebs-datastore
+      VOLUME_SNAPSHOTCLASS: openebs-datastore
