@@ -41,7 +41,8 @@ spec:
     lvm-localpv:
       enabled: false
     mayastor:
-      enabled: true
+      crds:
+        enabled: false
       csi:
         node:
           initContainers:
@@ -52,8 +53,6 @@ spec:
         persistence:
           storageClass: openebs-hostpath
       localpv-provisioner:
-        enabled: false
-      crds:
         enabled: false
       loki-stack:
         enabled: false
@@ -70,4 +69,4 @@ spec:
           enabled: false
       replicated:
         mayastor:
-          enabled: false
+          enabled: true
