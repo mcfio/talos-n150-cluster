@@ -42,7 +42,7 @@ spec:
       enabled: false
     mayastor:
       crds:
-        enabled: false
+        enabled: false # managed in openebs-crds section
       csi:
         node:
           initContainers:
@@ -52,6 +52,8 @@ spec:
           enabled: false
         persistence:
           storageClass: openebs-hostpath
+      storageClass:
+        enabled: false
       localpv-provisioner:
         enabled: false
       loki-stack:
