@@ -1,0 +1,10 @@
+---
+apiVersion: openebs.io/v1beta2
+kind: DiskPool
+metadata:
+  name: talos-k8s-node04-diskpool
+  namespace: openebs-system
+spec:
+  node: talos-k8s-node04
+  disks:
+    - /dev/vdb
