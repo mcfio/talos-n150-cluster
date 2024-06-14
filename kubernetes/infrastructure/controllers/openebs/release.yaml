@@ -31,18 +31,11 @@ spec:
           repository: openebs/provisioner-localpv
       hostpathClass:
         name: openebs-hostpath
-    openebs-crds:
-      csi:
-        volumeSnapshots:
-          enabled: false
-          keep: false
     zfs-localpv:
       enabled: false
     lvm-localpv:
       enabled: false
     mayastor:
-      crds:
-        enabled: false # managed in openebs-crds section
       csi:
         node:
           initContainers:
@@ -56,6 +49,8 @@ spec:
         enabled: false
       localpv-provisioner:
         enabled: false
+      crds:
+        enabled: false # managed in openebs-crds section
       loki-stack:
         enabled: false
       eventing:
