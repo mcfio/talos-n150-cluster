@@ -2,10 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Flux Group",
+      "description": ["Flux Group"],
       "groupName": "Flux",
       "matchPackagePatterns": [
-        "flux"
+        "fluxcd"
       ],
       "matchDatasources": [
         "docker",
@@ -18,24 +18,7 @@
       "separateMinorPatch": true
     },
     {
-      "description": "Cilium image and chart",
-      "groupName": "Cilium",
-      "matchPackageNames": [
-        "quay.io/cilium/cilium",
-        "quay.io/cilium/operator-generic",
-        "cilium"
-      ],
-      "matchDatasources": [
-        "helm",
-        "docker"
-      ],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "separateMinorPatch": true
-    },
-    {
-      "description": "1Password Connect and Sync",
+      "description": ["1Password Connect and Sync"],
       "groupName": "1password-connect",
       "matchPackagePatterns": [
         "1password"
@@ -49,7 +32,7 @@
       "separateMinorPatch": true
     },
     {
-      "description": "Istio Service Mesh",
+      "description": ["Istio Service Mesh"],
       "groupName": "istio",
       "matchPackageNames": [
         "base",
@@ -67,15 +50,13 @@
       "separateMinorPatch": true
     },
     {
-      "description": "external snapshotter CRDs and releases",
-      "groupName": "External Snapshotter",
+      "description": ["Talos Group"],
+      "groupName": "Talos",
       "matchPackagePatterns": [
-        "snapshot-controller",
-        "snapshot-validation-webhook"
+        "siderolabs/talosctl",
+        "siderolabs/installer"
       ],
-      "matchDatasources": [
-        "helm"
-      ],
+      "matchDatasources": ["docker"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
