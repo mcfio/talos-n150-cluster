@@ -6,3 +6,4 @@ namespace: system-upgrade
 resources:
   - service-account.yaml
   - talos.yaml
+  - kubernetes.yaml
