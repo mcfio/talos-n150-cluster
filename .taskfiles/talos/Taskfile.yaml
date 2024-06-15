@@ -24,9 +24,9 @@ tasks:
   bootstrap:etcd:
     desc: Bootstrap Etcd
     internal: true
-    cmd: until talosctl --nodes {{.controlplane}} bootstrap; do sleep 10; done
+    cmd: until talosctl --nodes {{.CONTROLPLANE}} bootstrap; do sleep 10; done
     vars:
-      controlplane:
+      CONTROLPLANE:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
     preconditions:
       - test -f {{.TALOSCONFIG_FILE}}
@@ -46,9 +46,9 @@ tasks:
 
   kubeconfig:
     desc: Generate KUBECONFIG directly from Talos API
-    cmd: talosctl kubeconfig --nodes {{.controlplane}} --force {{.KUBECONFIG_FILE}}
+    cmd: talosctl kubeconfig --nodes {{.CONTROLPLANE}} --force {{.KUBECONFIG_FILE}}
     vars:
-      controlplane:
+      CONTROLPLANE:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
     preconditions:
       - test -f {{.TALOSCONFIG_FILE}}
@@ -57,28 +57,30 @@ tasks:
   apply-config:
     desc: Apply Talos configuration to a node
     cmd: |
-      sops -d {{.ROOT_DIR}}/bootstrap/talos/profiles/{{.role}}.enc.yaml | envsubst | \
-        talosctl machineconfig patch /dev/stdin --patch @{{.ROOT_DIR}}/bootstrap/talos/assets/{{.node}}.yaml | \
-          talosctl apply-config --nodes {{.node}} --mode {{.mode}} --file /dev/stdin
+      sops -d {{.ROOT_DIR}}/bootstrap/talos/profiles/{{.ROLE}}.enc.yaml | envsubst | \
+        talosctl machineconfig patch /dev/stdin --patch @{{.ROOT_DIR}}/bootstrap/talos/assets/{{.NODE}}.yaml | \
+          talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
     env: *vars
     vars:
-      mode: '{{.mode | default "no-reboot"}}'
-      role:
-        sh: talosctl --nodes {{.node}} get machineconfig -o jsonpath='{.spec.machine.type}'
+      NODE: '{{.node}}'
+      MODE: '{{.mode | default "no-reboot"}}'
+      ROLE:
+        sh: talosctl --nodes {{.NODE}} get machineconfig -o jsonpath='{.spec.machine.type}'
     requires:
       vars: [node]
     preconditions:
       - test -f {{.TALOSCONFIG_FILE}}
       - test -f {{.ROOT_DIR}}/bootstrap/talos/profiles/controlplane.enc.yaml
-      - test -f {{.ROOT_DIR}}/bootstrap/talos/assets/{{.node}}.yaml
-      - talosctl --nodes {{.node}} get machineconfig >/dev/null 2>&1
+      - test -f {{.ROOT_DIR}}/bootstrap/talos/assets/{{.NODE}}.yaml
+      - talosctl --nodes {{.NODE}} get machineconfig >/dev/null 2>&1
 
   upgrade:
     desc: Upgrade a single Talos Linux OS
     cmds:
-      - talosctl upgrade --nodes {{.NODE}} --image factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}} --reboot-mode {{.mode}} --wait=true --timeout=10m --preserve=true
+      - talosctl upgrade --nodes {{.NODE}} --image factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}} --reboot-mode {{.MODE}} --wait=true --timeout=10m --preserve=true
     vars:
-      mode: '{{.mode | default "default"}}'
+      NODE: '{{.node}}'
+      MODE: '{{.mode | default "default"}}'
     requires:
       vars: [node]
     preconditions:
@@ -89,11 +91,11 @@ tasks:
   upgrade-k8s:
     desc: Upgrade a Talos Linux Kubernetes cluster
     cmds:
-      - talosctl upgrade-k8s --nodes {{.node}} --to {{.KUBERNETES_VERSION}}
+      - talosctl upgrade-k8s --nodes {{.NODE}} --to {{.KUBERNETES_VERSION}}
     vars:
-      node:
+      NODE:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
     preconditions:
       - test -f {{.TALOSCONFIG_FILE}}
       - talosctl config info >/dev/null 2>&1
-      - talosctl --nodes {{.node}} get machineconfig >/dev/null 2>&1
+      - talosctl --nodes {{.NODE}} get machineconfig >/dev/null 2>&1

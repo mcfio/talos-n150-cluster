@@ -7,7 +7,7 @@ includes:
     taskfile: .taskfiles/1password/Taskfile.yml
     dir: .taskfiles/1password
   talos:
-    taskfile: .taskfiles/talos/Taskfile.yml
+    taskfile: .taskfiles/talos/Taskfile.yaml
     dir: .taskfiles/talos
   k8s:
     taskfile: .taskfiles/k8s/Taskfile.yml
@@ -21,10 +21,8 @@ includes:
 
 vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
-  TERRAFORM_DIR: "{{.ROOT_DIR}}/infrastructure/terraform"
   PROJECT_DIR:
     sh: 'git rev-parse --show-toplevel'
-  CLUSTER_DIR: '{{.PROJECT_DIR}}/kubernetes'
 
 tasks:
   default:
