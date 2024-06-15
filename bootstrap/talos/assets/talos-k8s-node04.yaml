@@ -1,0 +1,6 @@
+version: v1alpha1
+machine:
+  network:
+    hostname: talos-k8s-node04
+  nodeLabels:
+    openebs.io/engine: mayastor

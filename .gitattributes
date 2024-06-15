@@ -1,1 +1,2 @@
-*.enc.yaml diff=sopsdiffer
+* text=auto eol=lf
+*.enc.* diff=sopsdiffer

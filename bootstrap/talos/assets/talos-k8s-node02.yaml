@@ -1,0 +1,4 @@
+version: v1alpha1
+machine:
+  network:
+    hostname: talos-k8s-node02

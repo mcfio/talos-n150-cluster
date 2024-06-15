@@ -1,5 +1,11 @@
 ---
 creation_rules:
+  - path_regex: talos/.+\.enc\.ya?ml
+    input_type: yaml
+    encrypted_regex: ^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$
+    key_groups:
+      - age:
+          - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
   - path_regex: \.enc\.ya?ml
     encrypted_regex: ^(data|stringData)$
     key_groups:
