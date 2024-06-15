@@ -19,7 +19,7 @@ autoDirectNodeRoutes: true
 # -- disable BPF and IPv4 masquerading.
 bpf:
   masquerade: true
-enableIPv4Masquerade: false
+enableIPv4Masquerade: true
 
 # -- configure multi-pool IPAM from kubernetes configuration.
 ipam:
