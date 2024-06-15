@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/helmfile.json
+helmDefaults:
+  wait: true
+  waitForJobs: true
+  timeout: 600
+  recreatePods: true
+  force: true
+repositories:
+  - name: cilium
+    url: https://helm.cilium.io
+  - name: postfinance
+    url: https://postfinance.github.io/kubelet-csr-approver
+releases:
+  - name: cilium
+    namespace: kube-system
+    chart: cilium/cilium
+    version: 1.15.6
+    values: ["../../kubernetes/infrastructure/controllers/cilium/helm-values.yaml"]
+  - name: kubelet-csr-approver
+    namespace: kube-system
+    chart: postfinance/kubelet-csr-approver
+    version: 1.2.1
+    values: ["../../kubernetes/infrastructure/controllers/kubelet-csr-approver/helm-values.yaml"]
+    needs: ["cilium"]
