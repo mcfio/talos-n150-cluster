@@ -6,3 +6,9 @@ namespace: kube-system
 resources:
   - repository.yaml
   - release.yaml
+configMapGenerator:
+  - name: kubelet-csr-approver-values
+    files:
+      - values.yaml=./helm-values.yaml
+configurations:
+  - name-reference.yaml
