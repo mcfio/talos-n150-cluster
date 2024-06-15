@@ -26,6 +26,23 @@ spec:
   uninstall:
     keepHistory: false
   valuesFrom:
-  - kind: ConfigMap
-    name: cilium-values
-    valuesKey: cilium-values.yaml
+    - kind: ConfigMap
+      name: cilium-values
+  values:
+    hubble:
+      enabled: true
+      metrics:
+        enabled:
+          - dns:query;ignoreAAAA
+          - drop
+          - tcp
+          - flow
+          - port-distribution
+          - icmp
+          - http
+      relay:
+        enabled: true
+        rollOutPods: true
+      ui:
+        enabled: true
+        rollOutPods: true

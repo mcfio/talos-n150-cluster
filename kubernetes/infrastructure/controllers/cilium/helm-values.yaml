@@ -1,0 +1,101 @@
+---
+# -- cluster mesh configuration
+cluster:
+  name: home-cluster
+  id: 100
+
+# -- roll out cilium agent pods automatically when configmap is updated.
+rollOutCiliumPods: true
+
+# -- use Talos KubePrism endpoint for k8s service host
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+
+# -- Enable native routing mode
+routingMode: native
+ipv4NativeRoutingCIDR: 10.244.0.0/18
+autoDirectNodeRoutes: true
+
+# -- disable BPF and IPv4 masquerading.
+bpf:
+  masquerade: false
+enableIPv4Masquerade: false
+
+# -- configure multi-pool IPAM from kubernetes configuration.
+ipam:
+  mode: kubernetes
+
+# -- configure the kube-proxy replacement in Cilium BPF datapath.
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+
+# -- configure the maglev table size and hashseed
+maglev:
+  tableSize: 1021
+  hashSeed: "P9jc887+zv7eNcUr"
+
+# -- configure loadBalancer
+loadBalancer:
+  algorithm: maglev
+
+# -- configure the cilium-operator component.
+operator:
+  replicas: 1
+  rollOutPods: true
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
+# -- disable Hubble temporarily, default enabled.
+hubble:
+  enabled: false
+
+# -- enable external IP service support.
+externalIPs:
+  enabled: true
+
+# -- Annotate k8s node upon initialization with Cilium's metadata.
+annotateK8sNode: true
+
+# -- configure L2 announcements - listen for CRD configurations
+l2announcements:
+  enabled: true
+  leaseDuration: 120s
+  leaseRenewDeadline: 60s
+  leaseRetryPeriod: 1s
+
+# -- disable CNI exclusive mode
+cni:
+  exclusive: false
+
+# -- Configure socket LB
+socketLB:
+  # -- Disable socket lb for non-root ns. This is used to enable Istio routing rules.
+  hostNamespaceOnly: true
+
+# -- configure cgroup related configuration for talos systems.
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+
+# -- configure security context that is compatible with talos
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE
