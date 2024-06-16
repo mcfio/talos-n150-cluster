@@ -15,3 +15,8 @@ creation_rules:
     key_groups:
       - age:
           - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
+
+# this won't work until 3.9.x, but to be ready!
+stores:
+  yaml:
+    indent: 2
