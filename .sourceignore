@@ -5,5 +5,5 @@
 /*
 
 # include the cluster deployments directory
-!/cluster
-/cluster/**/*.md
+!/kubernetes
+/kubernetes/**/*.md

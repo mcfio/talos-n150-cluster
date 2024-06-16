@@ -1,7 +1,6 @@
 .DS_Store
 Thumbs.db
 .private/*
-.secrets/*
 **/.terraform/*
 *.tfstate
 *.tfstate.*
