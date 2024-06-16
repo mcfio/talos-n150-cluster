@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+tasks:
+
+  state-*:
+    desc: Suspend or Resume Volsync
+    summary: |
+      Args:
+        state: resume or suspend (required)
+    cmds:
+      - flux --namespace {{.NAMESPACE}} {{.STATE}} helmrelease volsync
+      - kubectl --namespace {{.NAMESPACE}} scale deployment volsync --replicas {{if eq "suspend" .STATE}}0{{else}}1{{end}}
+    vars:
+      NAMESPACE: '{{.NAMESPACE | default "volsync-system" }}'
+      STATE: '{{index .MATCH 0}}'

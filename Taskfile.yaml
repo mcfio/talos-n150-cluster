@@ -18,6 +18,7 @@ includes:
   flux:
     taskfile: .taskfiles/flux/Taskfile.yml
     dir: .taskfiles/flux
+  volsync: .taskfiles/volsync/Taskfile.yaml
 
 vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
