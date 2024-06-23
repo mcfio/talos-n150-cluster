@@ -24,10 +24,10 @@ spec:
           labels:
             sidecar.istio.io/inject: "true"
           securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
             runAsNonRoot: true
-            fsGroup: ${APP_GID}
+            runAsUser: 568
+            runAsGroup: 568
+            fsGroup: 568
             fsGroupChangePolicy: OnRootMismatch
             seccompProfile:
               type: RuntimeDefault

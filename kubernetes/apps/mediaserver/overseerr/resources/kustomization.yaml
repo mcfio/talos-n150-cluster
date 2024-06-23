@@ -4,5 +4,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - release.yaml
-  - http-route.yaml
-  - ../../../../templates/volsync
+  - ../../../../templates/istio/
+  - ../../../../templates/volsync/
+patches:
+  - target:
+      group: gateway.networking.k8s.io
+      version: v1
+      kind: HTTPRoute
+    patch: |
+      - op: add
+        path: /spec/parentRefs/0/sectionName
+        value: https-external
+      - op: replace
+        path: /spec/hostnames/0
+        value: requests.mcf.io

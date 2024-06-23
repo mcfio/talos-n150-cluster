@@ -24,8 +24,5 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      APP_UID: "568"
-      APP_GID: "568"
+      BACKEND_PORT: "5055"
       VOLUME_CLAIM: overseerr-config
-      VOLUME_STORAGECLASS: openebs-datastore
-      VOLUME_SNAPSHOTCLASS: openebs-datastore
