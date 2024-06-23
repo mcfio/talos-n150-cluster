@@ -6,5 +6,4 @@ resources:
   - release.yaml
   - pvc-cache.yaml
   - pvc-metadata.yaml
-  - ../../../templates/pvc.yaml
-  - ../../../templates/volsync
+  - ../../../../templates/volsync/

@@ -5,4 +5,5 @@ resources:
   - external-secret.yaml
   - release.yaml
   - node-feature-rule.yaml
-  - ../../../templates
+  - ../../../../templates/istio/
+  - ../../../../templates/volsync/
