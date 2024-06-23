@@ -38,8 +38,8 @@ jobs:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-      - name: Setup Flux CLI
-        uses: fluxcd/flux2/action@main
+      - name: Setup Flux
+        uses: fluxcd/flux2/action@896e0fa46d5107a05e953dd0a5261d78a145ec8c # v2.3.0
 
       - name: Diff resources
         uses: allenporter/flux-local/action/diff@a7781d853eb47a8c5b24406f1a1ebe6c2c220c73 # 5.3.1
