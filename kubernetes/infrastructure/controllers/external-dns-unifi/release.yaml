@@ -22,6 +22,8 @@ spec:
   values:
     domainFilters:
       - milton.mcf.io
+    extraArgs:
+      - --ignore-ingress-tls-spec
     podAnnotations:
       secret.reloader.stakater.com/reload: external-dns-unifi-secret
     policy: sync
@@ -40,7 +42,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: external-dns-unifi-secret
-                key: password
+                key: external_dns_unifi_password
         livenessProbe:
           httpGet:
             path: /healthz
