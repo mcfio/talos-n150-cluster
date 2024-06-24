@@ -1,0 +1,67 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: external-dns-unifi
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: external-dns
+      version: 1.13.1
+      sourceRef:
+        kind: HelmRepository
+        name: external-dns-charts
+        namespace: external-dns
+  upgrade:
+    cleanupOnFail: true
+  uninstall:
+    keepHistory: false
+  values:
+    domainFilters:
+      - milton.mcf.io
+    podAnnotations:
+      secret.reloader.stakater.com/reload: external-dns-unifi-secret
+    policy: sync
+    provider:
+      name: webhook
+      webhook:
+        image:
+          repository: ghcr.io/kashalls/external-dns-unifi-webhook
+          tag: v0.2.0
+        env:
+          - name: UNIFI_HOST
+            value: https://192.168.30.1
+          - name: UNIFI_USER
+            value: external-dns
+          - name: UNIFI_PASS
+            valueFrom:
+              secretKeyRef:
+                name: external-dns-unifi-secret
+                key: password
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http-wh-metrics
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: http-wh-metrics
+          initialDelaySeconds: 10
+          timeoutSeconds: 5
+    resources:
+      requests:
+        cpu: 16m
+        memory: 90M
+      limits:
+        memory: 90M
+    serviceMonitor:
+      enabled: true
+    sources:
+      - gateway-httproute
+    txtPrefix: k8s.
+    txtOwnerId: home-cluster
