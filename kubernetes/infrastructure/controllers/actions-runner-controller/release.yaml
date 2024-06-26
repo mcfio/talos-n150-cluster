@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -16,7 +16,6 @@ spec:
         name: arc-charts
         namespace: arc-system
   install:
-    createNamespace: true
     crds: Create
     replace: true
   upgrade:
@@ -26,6 +25,3 @@ spec:
     keepHistory: false
   values:
     fullnameOverride: gha-runner-scale-set-controller
-    image:
-      repository: ghcr.io/actions/gha-runner-scale-set-controller
-      tag: 0.9.3@sha256:63a90e30999cf47a5b36b88bbf9411233fa9e10dfc6d6467335577a02f18572c
