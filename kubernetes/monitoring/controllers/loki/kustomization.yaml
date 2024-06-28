@@ -4,10 +4,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 resources:
-  - external-secret.yaml
   - repository.yaml
   - release.yaml
-  # - minio.yaml
-  # - config-map.yaml
-  # - grafana-datasource.yaml
-  # - dashboard

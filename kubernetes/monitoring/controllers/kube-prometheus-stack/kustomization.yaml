@@ -5,7 +5,6 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - namespace.yaml
-  - external-secret.yaml
   - repository.yaml
   - crds-release.yaml
   - release.yaml
