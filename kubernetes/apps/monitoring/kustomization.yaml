@@ -8,4 +8,4 @@ resources:
   # Flux Kustomizations
   - loki/app.yaml
   - promtail/app.yaml
-  - grafana.yaml
+  - grafana/app.yaml
