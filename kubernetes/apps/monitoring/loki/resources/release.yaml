@@ -15,9 +15,13 @@ spec:
         kind: HelmRepository
         name: grafana-charts
         namespace: monitoring
-  timeout: 15m
+  install:
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
+    remediation:
+      retries: 3
   # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
   values:
     deploymentMode: SingleBinary
