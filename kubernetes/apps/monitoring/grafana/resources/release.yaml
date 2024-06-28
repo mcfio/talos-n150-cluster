@@ -6,7 +6,7 @@ metadata:
   name: grafana
 spec:
   interval: 12h
-  maxHistory: 2
+  maxHistory: 3
   chart:
     spec:
       chart: grafana
@@ -15,8 +15,13 @@ spec:
         kind: HelmRepository
         name: grafana-charts
         namespace: monitoring
+  install:
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     annotations:
       configmap.reloader.stakater.com/reload: grafana
@@ -31,9 +36,10 @@ spec:
       GF_EXPLORE_ENABLED: true
       GF_FEATURE_TOGGLES_ENABLE: publicDashboards
       GF_LOG_MODE: console
-      GF_NEWS_NEWS_FEED_ENABLED: false
+      GF_NEWS_FEED_ENABLED: false
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: natel-discrete-panel,pr0ps-trackmap-panel,panodata-map-panel
       GF_SECURITY_COOKIE_SAMESITE: grafana
+      GF_SECURITY_ANGULAR_SUPPORT_ENABLED: true
       GF_SERVER_ROOT_URL: https://grafana.milton.mcf.io
     admin:
       existingSecret: grafana-admin-secret
@@ -59,7 +65,6 @@ spec:
       dashboards:
         enabled: true
         searchNamespace: ALL
-        labelValue: ""
         label: grafana_dashboard
         folderAnnotation: grafana_folder
         provider:
@@ -73,27 +78,20 @@ spec:
         enabled: true
       resources:
         limits:
-          memory: 512M
+          memory: 512Mi
         requests:
           cpu: 10m
-          memory: 80M
-    testFramework:
-      enabled: false
+          memory: 80Mi
     resources:
       limits:
-        memory: 512M
+        memory: 1Gi
       requests:
         cpu: 15m
-        memory: 128M
+        memory: 128Mi
     persistence:
       enabled: false
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: grafana
+    testFramework:
+      enabled: false
     # Configure Dashboards
     dashboardProviders:
       dashboardproviders.yaml:
@@ -107,14 +105,6 @@ spec:
             editable: true
             options:
               path: /var/lib/grafana/dashboards/default
-          - name: ceph
-            orgId: 1
-            folder: Ceph
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/ceph
           - name: flux
             orgId: 1
             folder: Flux
@@ -127,22 +117,6 @@ spec:
       default:
         cert-manager:
           url: https://raw.githubusercontent.com/monitoring-mixins/website/master/assets/cert-manager/dashboards/cert-manager.json
-          datasource: Prometheus
-      ceph:
-        ceph-cluster:
-          # renovate: dashboardName="Ceph Cluster"
-          gnetId: 2842
-          revision: 17
-          datasource: Prometheus
-        ceph-osd:
-          # renovate: dashboardName="Ceph - OSD (Single)"
-          gnetId: 5336
-          revision: 9
-          datasource: Prometheus
-        ceph-pools:
-          # renovate: dashboardName="Ceph - Pools"
-          gnetId: 5342
-          revision: 9
           datasource: Prometheus
       flux:
         flux-cluster:
