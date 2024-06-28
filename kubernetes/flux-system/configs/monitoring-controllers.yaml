@@ -8,7 +8,7 @@ metadata:
 spec:
   interval: 2h
   path: ./monitoring/controllers
-  prune: true
+  prune: false
   retryInterval: 1m
   sourceRef:
     kind: OCIRepository
