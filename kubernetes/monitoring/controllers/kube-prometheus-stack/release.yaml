@@ -20,6 +20,8 @@ spec:
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
+  dependsOn:
+    - name: prometheus-operator-crds
   valuesFrom:
     - kind: ConfigMap
       name: flux-kube-state-metrics-config
