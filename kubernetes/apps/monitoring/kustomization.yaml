@@ -5,7 +5,10 @@ kind: Kustomization
 resources:
   # Base Manifests
   - namespace.yaml
+  # Flux Kustomization Sources
+  - sources/
   # Flux Kustomizations
   - loki/app.yaml
   - promtail/app.yaml
+  - kube-prometheus-stack/app.yaml
   - grafana/app.yaml
