@@ -8,6 +8,7 @@ resources:
   # Flux Kustomization Sources
   - sources/
   # Flux Kustomizations
+  - prometheus-operator-crds/app.yaml
   - loki/app.yaml
   - promtail/app.yaml
   - kube-prometheus-stack/app.yaml
