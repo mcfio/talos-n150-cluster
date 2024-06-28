@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -16,10 +16,10 @@ spec:
         name: prometheus-community
         namespace: monitoring
   install:
-    crds: Create
+    crds: Skip
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
+    crds: Skip
   dependsOn:
     - name: prometheus-operator-crds
   valuesFrom:
@@ -53,8 +53,6 @@ spec:
         # supported in alertmanagerConfig
         # configMaps:
         #   - slack-templates
-        podAntiAffinity: hard
-        replicas: 2
         resources:
           limits:
             memory: 300M
@@ -122,32 +120,22 @@ spec:
       enabled: false
     prometheus:
       prometheusSpec:
+        scrapeInterval: 1m # Matches interval from Grafana helm chart
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
+        podMonitorSelectorNilUsesHelmValues: false
+        probeSelectorNilUsesHelmValues: false
+        scrapeConfigSelectorNilUsesHelmValues: false
         enableAdminAPI: true
+        walCompression: true
         enableFeatures:
           - auto-gomaxprocs
           - memory-snapshot-on-shutdown
           - new-service-discovery-manager
-        image:
-          registry: quay.io
-          repository: prometheus/prometheus
-          tag: v2.51.0-dedupelabels
-        thanos:
-          image: quay.io/thanos/thanos:v0.35.1
-          # renovate: depName=quay.io/thanos/thanos datasource=docker
-          version: "0.34.1"
-          objectStorageConfig:
-            existingSecret:
-              name: kube-prometheus-stack-secret
-              key: objstore.yml
         externalUrl: https://prometheus.milton.mcf.io
-        externalLabels:
-          cluster: mcf-k8s-cluster
         logFormat: json
-        replicas: 2
-        retention: 2d
-        retentionSize: 15GB
-        replicaExternalLabelName: __replica__ # must match with thanos value `.query.replicaLabel[0]`
-        scrapeInterval: 1m # Matches interval from Grafana helm chart
+        retention: 14d
+        retentionSize: 70GB
         resources:
           requests:
             cpu: 257m
@@ -161,16 +149,7 @@ spec:
               storageClassName: openebs-replicated
               resources:
                 requests:
-                  storage: 20Gi
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
-        podMonitorSelectorNilUsesHelmValues: false
-        probeSelectorNilUsesHelmValues: false
-        scrapeConfigSelectorNilUsesHelmValues: false
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
+                  storage: 75Gi
     prometheusOperator:
       fullnameOverride: prometheus-operator
       admissionWebhooks:
