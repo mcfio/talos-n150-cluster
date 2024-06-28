@@ -62,10 +62,10 @@ spec:
               isDefault: false
     singleBinary:
       replicas: 1
-    persistence:
-      enabled: true
-      storageClass: openebs-replicated
-      size: 50Gi
+      persistence:
+        enabled: true
+        storageClass: openebs-replicated
+        size: 50Gi
     gateway:
       enabled: false
     read:
