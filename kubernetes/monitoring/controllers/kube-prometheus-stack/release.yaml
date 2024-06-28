@@ -30,7 +30,7 @@ spec:
   values:
     fullnameOverride: stack
     crds:
-      enabled: true
+      enabled: false
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       # config:
