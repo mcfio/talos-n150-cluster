@@ -10,14 +10,13 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 2h
-  path: ./apps/monitoring/grafana
+  interval: 12h
+  path: ./apps/monitoring/grafana/resources
   prune: true
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
   wait: false
-  dependsOn:
-    - name: infrastructure-configs
-      namespace: flux-system
+  retryInterval: 1m
+  timeout: 5m
