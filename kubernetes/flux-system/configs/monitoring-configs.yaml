@@ -6,8 +6,6 @@ metadata:
   name: monitoring-configs
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: monitoring-controllers
   interval: 2h
   path: ./monitoring/configs
   prune: true
