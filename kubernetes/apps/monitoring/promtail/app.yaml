@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   interval: 12h
-  path: ./kubernetes/apps/monitoring/promtail/resources
+  path: ./apps/monitoring/promtail/resources
   prune: true
   sourceRef:
     kind: OCIRepository
