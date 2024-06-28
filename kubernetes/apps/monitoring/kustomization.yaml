@@ -6,5 +6,6 @@ resources:
   # Base Manifests
   - namespace.yaml
   # Flux Kustomizations
+  - loki/app.yaml
   - promtail/app.yaml
   - grafana.yaml
