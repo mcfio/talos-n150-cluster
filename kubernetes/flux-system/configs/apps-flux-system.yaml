@@ -14,7 +14,7 @@ spec:
     - name: infrastructure-configs
   interval: 2h
   path: ./apps/flux-system
-  prune: true
+  prune: false
   retryInterval: 1m
   sourceRef:
     kind: OCIRepository
