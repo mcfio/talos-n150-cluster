@@ -13,7 +13,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 12h
-  path: ./apps/monitoring/kube-prometheus-stack/resources
+  path: ./apps/monitoring/prometheus-stack/resources
   prune: true
   sourceRef:
     kind: OCIRepository
