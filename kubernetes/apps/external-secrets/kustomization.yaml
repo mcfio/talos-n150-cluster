@@ -9,3 +9,4 @@ resources:
   - sources/
   # Flux Kustomizations
   - app.yaml
+  - onepassword.yaml

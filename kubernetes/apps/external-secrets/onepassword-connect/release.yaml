@@ -16,14 +16,13 @@ spec:
         name: onepassword-connect-charts
         namespace: external-secrets
   install:
-    createNamespace: true
-    crds: CreateReplace
-    replace: true
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
-  uninstall:
-    keepHistory: false
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     connect:
       annotations:
