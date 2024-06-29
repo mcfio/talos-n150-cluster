@@ -3,7 +3,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname prometheus-operator-crds
+  name: &appname prometheus-stack-crds
   namespace: flux-system
 spec:
   targetNamespace: monitoring
@@ -11,12 +11,12 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 12h
-  path: ./apps/monitoring/prometheus-operator-crds/resources
+  path: ./apps/monitoring/prometheus-stack/crds
   prune: false # should never be removed
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
-  wait: false
+  wait: true # enable wait
   retryInterval: 1m
   timeout: 5m
