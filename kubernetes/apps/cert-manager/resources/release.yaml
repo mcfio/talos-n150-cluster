@@ -19,15 +19,19 @@ spec:
         name: jetstack-charts
         namespace: cert-manager
   install:
-    crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
-    installCRDs: true
-    # not enabled yet
-    # crds:
-    #   enabled: true
-    #   keep: true
+    crds:
+      enabled: true
+      keep: true
+    dns01RecursiveNameservers: https://1.1.1.1:443/dns-query,https://1.0.0.1:443/dns-query
+    dns01RecursiveNameserversOnly: true
     replicaCount: 1
     prometheus:
       servicemonitor:
@@ -36,9 +40,6 @@ spec:
       requests:
         cpu: 10m
         memory: 128Mi
-    extraArgs:
-      - --dns01-recursive-nameservers=1.1.1.1:53
-      - --dns01-recursive-nameservers-only
     webhook:
       resources:
         requests:
