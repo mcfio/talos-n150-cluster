@@ -12,6 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: external-secrets
+    - name: external-secrets-onepassword
   interval: 12h
   path: ./apps/external-secrets/stores
   prune: true
