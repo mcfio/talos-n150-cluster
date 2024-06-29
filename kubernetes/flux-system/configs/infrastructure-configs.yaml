@@ -15,7 +15,7 @@ spec:
     - name: infrastructure-operators
   interval: 2h
   path: ./infrastructure/configs
-  prune: true
+  prune: false
   retryInterval: 1m
   sourceRef:
     kind: OCIRepository
