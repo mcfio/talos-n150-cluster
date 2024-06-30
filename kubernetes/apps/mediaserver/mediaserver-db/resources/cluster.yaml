@@ -28,14 +28,6 @@ spec:
       memory: 4Gi
   monitoring:
     enablePodMonitor: true
-    # Ref: https://github.com/cloudnative-pg/cloudnative-pg/issues/2501
-    podMonitorMetricRelabelings:
-      - sourceLabels:
-          - cluster
-        targetLabel: cnpg_cluster
-        action: replace
-      - regex: cluster
-        action: labeldrop
   backup:
     retentionPolicy: 30d
     barmanObjectStore: &barmanObjectStore
@@ -45,8 +37,8 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: s3://home-cluster/backups/mediaserver-db/
-      endpointURL: https://minio.milton.mcf.io
-      serverName: &currentCluster postgres-v3
+      endpointURL: https://s3.milton.mcf.io
+      serverName: postgres-v3 # current cluster version
       s3Credentials:
         accessKeyId:
           name: mediaserver-cnpg-secret
