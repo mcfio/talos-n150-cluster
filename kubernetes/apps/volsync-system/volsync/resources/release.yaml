@@ -6,6 +6,7 @@ metadata:
   name: volsync
 spec:
   interval: 12h
+  maxHistory: 3
   chart:
     spec:
       chart: volsync
@@ -14,6 +15,15 @@ spec:
         kind: HelmRepository
         name: backube-charts
         namespace: volsync-system
+  install:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
   values:
     manageCRDs: true
     metrics:
