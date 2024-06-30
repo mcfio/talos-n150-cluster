@@ -16,12 +16,13 @@ spec:
         name: arc-charts
         namespace: arc-system
   install:
-    crds: Create
-    replace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
-  uninstall:
-    keepHistory: false
+    remediation:
+      retries: 3
   values:
     fullnameOverride: gha-runner-scale-set-controller
