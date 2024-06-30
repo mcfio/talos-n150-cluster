@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname openebs
+  namespace: flux-system
+spec:
+  targetNamespace: openebs-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  interval: 12h
+  path: ./apps/openebs-system/openebs/resources
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  wait: false
+  retryInterval: 1m
+  timeout: 10m
