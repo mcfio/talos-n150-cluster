@@ -10,3 +10,7 @@ resources:
   # Flux Kustomizations
   - cilium/app.yaml
   - kubelet-csr-approver/app.yaml
+  - metrics-server/app.yaml
+  - node-feature-discovery/app.yaml
+  - descheduler/app.yaml
+  - reloader/app.yaml
