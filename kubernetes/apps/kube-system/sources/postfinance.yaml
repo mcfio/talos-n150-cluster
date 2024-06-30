@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: kubelet-csr-approver-charts
+  name: postfinance-charts
   namespace: kube-system
 spec:
   interval: 24h
