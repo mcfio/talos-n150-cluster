@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   interval: 12h
   path: ./apps/kube-system/kubelet-csr-approver/resources
-  prune: true
+  prune: false # lets not remove this
   sourceRef:
     kind: OCIRepository
     name: home-cluster
