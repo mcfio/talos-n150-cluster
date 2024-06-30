@@ -20,3 +20,7 @@ spec:
   wait: false
   retryInterval: 1m
   timeout: 5m
+  postBuild:
+    substitute:
+      APP: *appname
+      BACKEND_PORT: "9001"
