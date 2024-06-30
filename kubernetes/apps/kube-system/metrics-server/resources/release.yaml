@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -16,15 +16,22 @@ spec:
         name: metrics-server-charts
         namespace: kube-system
   install:
-    createNamespace: true
-    crds: Create
-    replace: true
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
-  uninstall:
-    keepHistory: false
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
+    args:
+      - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+      - --kubelet-use-node-status-port
+      - --metric-resolution=15s
+    metrics:
+      enabled: true
+    serviceMonitor:
+      enabled: true
     resources:
       requests:
         cpu: 30m

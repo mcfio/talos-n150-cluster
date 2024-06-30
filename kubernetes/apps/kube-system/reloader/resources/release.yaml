@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -16,19 +16,17 @@ spec:
         name: stakater-charts
         namespace: kube-system
   install:
-    createNamespace: true
-    crds: Create
-    replace: true
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
-  uninstall:
-    keepHistory: false
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     fullnameOverride: reloader
     reloader:
-      enableHA: true
-      deployment:
-        replicas: 3
-      reloadStrategy: annotations
-      reloadOnCreate: false
+      readOnlyRootFileSystem: true
+      podMonitor:
+        enabled: true
+        namespace: "{{ .Release.Namespace }}"

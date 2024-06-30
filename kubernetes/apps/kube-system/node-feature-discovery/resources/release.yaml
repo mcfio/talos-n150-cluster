@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -16,14 +16,15 @@ spec:
         name: node-feature-discovery-charts
         namespace: kube-system
   install:
-    createNamespace: true
-    crds: Create
-    replace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
-  uninstall:
-    keepHistory: false
+    remediation:
+      strategy: rollback
+      retries: 3
   values:
     master:
       resources:
@@ -33,8 +34,6 @@ spec:
           cpu: 20m
           memory: 100M
     worker:
-      annotations:
-        configmap.reloader.stakater.com/reload: node-feature-discovery-worker-conf
       config:
         core:
           sources:

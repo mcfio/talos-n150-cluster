@@ -5,3 +5,7 @@ kind: Kustomization
 resources:
   - cilium.yaml
   - postfinance.yaml
+  - descheduler.yaml
+  - metrics-server.yaml
+  - node-feature-discovery.yaml
+  - reloader.yaml
