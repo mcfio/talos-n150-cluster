@@ -3,13 +3,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app minio
+  name: &appname minio
   namespace: flux-system
 spec:
   targetNamespace: default
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
+      app.kubernetes.io/name: *appname
   interval: 2h
   path: ./apps/default/minio/resources
   prune: true
@@ -20,7 +20,3 @@ spec:
   wait: false
   retryInterval: 1m
   timeout: 5m
-  postBuild:
-    substitute:
-      APP: *app
-      BACKEND_PORT: "9001"
