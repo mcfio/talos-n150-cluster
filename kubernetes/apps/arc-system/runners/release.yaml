@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: arc-runner
+  chart: gha-runner-scale-set
 spec:
   interval: 12h
   maxHistory: 3
@@ -16,15 +16,14 @@ spec:
         name: arc-charts
         namespace: arc-system
   install:
-    crds: Create
-    replace: true
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
-    crds: CreateReplace
-  uninstall:
-    keepHistory: false
+    remediation:
+      retries: 3
   dependsOn:
-    - name: actions-runner-controller
+    - name: gha-runner-scale-set-controller
       namespace: arc-system
   valuesFrom:
     - kind: Secret

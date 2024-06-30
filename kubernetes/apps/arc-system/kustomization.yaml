@@ -9,3 +9,4 @@ resources:
   - sources/
   # Flux Kustomizations
   - controller/app.yaml
+  - runners.yaml

@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: actions-runner-controller
+  name: gha-runner-scale-set-controller
 spec:
   interval: 12h
   maxHistory: 3
