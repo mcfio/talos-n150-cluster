@@ -8,4 +8,5 @@ resources:
   # Flux Sources
   - sources/
   # Flux Kustomizations
+  - cilium/app.yaml
   - kubelet-csr-approver/app.yaml
