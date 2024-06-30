@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  chart: gha-runner-scale-set
+  name: gha-runner-scale-set
 spec:
   interval: 12h
   maxHistory: 3
