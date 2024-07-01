@@ -6,12 +6,12 @@ metadata:
   name: &appname zigbee2mqtt
   namespace: flux-system
 spec:
-  targetNamespace: home
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/home/zigbee2mqtt/resources
+  path: ./apps/default/zigbee2mqtt/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -21,10 +21,6 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      APP_UID: "568"
-      APP_GID: "568"
       FRONTEND_NAME: zigbee
       BACKEND_PORT: "8080"
       VOLUME_CLAIM: zigbee2mqtt-data
-      VOLUME_STORAGECLASS: openebs-datastore
-      VOLUME_SNAPSHOTCLASS: openebs-datastore
