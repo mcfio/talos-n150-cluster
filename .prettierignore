@@ -1,6 +1,0 @@
-.private/
-.terraform/
-infrastructure/ansible/
-docs/
-*.enc.*
-flux-components.yaml
