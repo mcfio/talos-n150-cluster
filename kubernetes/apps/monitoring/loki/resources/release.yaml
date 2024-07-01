@@ -61,7 +61,7 @@ spec:
             - name: Loki
               type: loki
               access: proxy
-              url: http://loki-headless.monitoring.svc.cluster.local:{{ .Values.gateway.service.port }}
+              url: http://loki-headless.monitoring.svc.cluster.local:{{ .Values.loki.server.http_listen_port }}
               version: 1
               isDefault: false
     singleBinary:
