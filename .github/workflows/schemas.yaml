@@ -28,17 +28,17 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
       - name: Setup Kube Tools
-        uses: yokawasa/action-setup-kube-tools@dc0754a9a47b40f22f9bd52ffb082bbe6d142b22 # v0.11.0
+        uses: yokawasa/action-setup-kube-tools@5fe385031665158529decddddb51d6224422836e # v0.11.1
         with:
           setup-tools: kubectl
 
       - name: Setup Python
-        uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c # v5.0.0
+        uses: actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d # v5.1.0
         with:
           python-version: 3.x
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
           node-version: 18.x
 
@@ -79,7 +79,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: "op://${{ secrets.OP_VAULT_NAME }}/mcfio-cloudflare-pages/api_token"
 
       - name: Deploy Schemas to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@a08dc762e87e8754e0d56a16a35a70b406bc869f # v3
         with:
           accountId: "${{ steps.op-load-cloudflare-secret.outputs.CLOUDFLARE_ACCOUNT_ID }}"
           apiToken: "${{ steps.op-load-cloudflare-secret.outputs.CLOUDFLARE_API_TOKEN }}"
