@@ -46,7 +46,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_ADVANCED_LAST_SEEN: ISO_8601
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_API: "false"
               ZIGBEE2MQTT_CONFIG_ADVANCED_LEGACY_AVAILABILITY_PAYLOAD: "false"
-              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug to be see everything, it's noisy
+              ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_LEVEL: info # debug to see everything, it's noisy
               ZIGBEE2MQTT_CONFIG_ADVANCED_LOG_OUTPUT: '["console"]'
               ZIGBEE2MQTT_CONFIG_ADVANCED_CHANNEL: 25
               ZIGBEE2MQTT_CONFIG_ADVANCED_TRANSMIT_POWER: 15
@@ -64,16 +64,6 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_SERVER: http://emqx.home
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
-              ZIGBEE2MQTT_CONFIG_MQTT_USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: emqx-auth
-                    key: EMQX_AUTH__USER__2__USERNAME
-              ZIGBEE2MQTT_CONFIG_MQTT_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: emqx-auth
-                    key: EMQX_AUTH__USER__2__PASSWORD
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
