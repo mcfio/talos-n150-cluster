@@ -2,8 +2,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: istio-system
 resources:
+  # Base Resources
   - namespace.yaml
-  - repository.yaml
-  - release.yaml
+  # Flux Sources
+  - sources/
+  # Flux Kustomizations
+  - istio/app.yaml
