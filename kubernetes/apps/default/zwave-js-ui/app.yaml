@@ -6,12 +6,12 @@ metadata:
   name: &appname zwave-js-ui
   namespace: flux-system
 spec:
-  targetNamespace: home
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/home/zwave-js-ui/resources
+  path: ./apps/default/zwave-js-ui/resources
   prune: true
   sourceRef:
     kind: OCIRepository

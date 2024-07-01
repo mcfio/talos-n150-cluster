@@ -9,4 +9,3 @@ resources:
   # Flux Kustomizations
   - emqx/app.yaml
   - zigbee2mqtt/app.yaml
-  - zwave-js-ui/app.yaml
