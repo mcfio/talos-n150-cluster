@@ -20,7 +20,7 @@ releases:
     namespace: kube-system
     chart: cilium/cilium
     version: 1.15.6
-    values: ["../../kubernetes/infrastructure/controllers/cilium/helm-values.yaml"]
+    values: ["../../kubernetes/apps/kube-system/cilium/resources/helm-values.yaml"]
   - name: kubelet-csr-approver
     namespace: kube-system
     chart: postfinance/kubelet-csr-approver
