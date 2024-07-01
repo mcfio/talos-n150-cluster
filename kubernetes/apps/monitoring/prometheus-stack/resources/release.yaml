@@ -176,7 +176,7 @@ spec:
         dashboards:
           annotations:
             grafana_folder: Kubernetes
-      forceDeployDatasources: false
+      forceDeployDatasources: true
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       resources:
