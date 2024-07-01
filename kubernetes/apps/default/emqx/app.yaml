@@ -6,12 +6,14 @@ metadata:
   name: &appname emqx
   namespace: flux-system
 spec:
-  targetNamespace: home
+  dependsOn:
+    - name: external-secret-stores
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/home/emqx/resources
+  path: ./apps/default/emqx/resources
   prune: true
   sourceRef:
     kind: OCIRepository

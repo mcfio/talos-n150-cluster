@@ -9,5 +9,6 @@ resources:
   - sources/
   # Flux-Kustomizations
   - minio/app.yaml
+  - emqx/app.yaml
   - zigbee2mqtt/app.yaml
   - zwave-js-ui/app.yaml
