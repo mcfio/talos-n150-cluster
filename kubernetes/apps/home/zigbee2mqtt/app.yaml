@@ -18,8 +18,6 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
-  dependsOn:
-    - name: infrastructure-configs
   postBuild:
     substitute:
       APP: *appname
