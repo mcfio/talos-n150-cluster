@@ -14,3 +14,4 @@ resources:
   - node-feature-discovery/app.yaml
   - descheduler/app.yaml
   - reloader/app.yaml
+  - spegel/app.yaml
