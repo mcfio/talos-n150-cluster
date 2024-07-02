@@ -26,9 +26,6 @@ spec:
     fullnameOverride: nginx-ingress
     controller:
       replicaCount: 2
-      service:
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: ipv4.milton.mcf.io
       allowSnippetAnnotations: true
       config:
         force-ssl-redirect: "true"
