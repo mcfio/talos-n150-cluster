@@ -26,6 +26,11 @@ spec:
     fullnameOverride: nginx-ingress
     controller:
       replicaCount: 2
+      allowSnippetAnnotations: true
+      config:
+        force-ssl-redirect: "true"
+        hide-headers: Server,X-Powered-By
+        ssl-protocols: TLSv1.3 TLSv1.2
       metrics:
         enabled: true
         serviceMonitor:
