@@ -23,7 +23,7 @@ spec:
     remediation:
       retries: 3
   values:
-    fullnameOverride: ingress-nginx
+    fullnameOverride: nginx-ingress
     controller:
       replicaCount: 2
       metrics:
