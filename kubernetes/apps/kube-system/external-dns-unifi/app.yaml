@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: external-secrets-store
+    - name: external-secrets-stores
   targetNamespace: kube-system
   commonMetadata:
     labels:
