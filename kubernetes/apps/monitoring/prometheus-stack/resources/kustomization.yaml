@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: monitoring
 resources:
   - release.yaml
-  - http-route.yaml
+  # - http-route.yaml
 configMapGenerator:
   - name: flux-kube-state-metrics-config
     files:
