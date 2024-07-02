@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://crds.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -14,12 +14,18 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: external-dns-charts
-        namespace: external-dns
+        namespace: kube-system
+  install:
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
-  uninstall:
-    keepHistory: false
+    remediation:
+      retries: 3
   values:
+    sources:
+      - ingress
+      - gateway-httproute
     domainFilters:
       - milton.mcf.io
     extraArgs:
@@ -27,6 +33,8 @@ spec:
     podAnnotations:
       secret.reloader.stakater.com/reload: external-dns-unifi-secret
     policy: sync
+    txtPrefix: k8s.
+    txtOwnerId: home-cluster
     provider:
       name: webhook
       webhook:
@@ -63,7 +71,3 @@ spec:
         memory: 90M
     serviceMonitor:
       enabled: true
-    sources:
-      - gateway-httproute
-    txtPrefix: k8s.
-    txtOwnerId: home-cluster
