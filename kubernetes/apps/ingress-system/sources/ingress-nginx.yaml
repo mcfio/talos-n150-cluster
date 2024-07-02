@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/source.toolkit.fluxcd.io/helmrepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: ingress-nginx
+  namespace: ingress-system
+spec:
+  interval: 2h
+  url: https://kubernetes.github.io/ingress-nginx
