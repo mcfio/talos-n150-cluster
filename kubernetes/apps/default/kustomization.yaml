@@ -8,6 +8,7 @@ resources:
   # Flux Sources
   - sources/
   # Flux-Kustomizations
+  - cnpg-cluster/app.yaml
   - minio/app.yaml
   - emqx/app.yaml
   - zigbee2mqtt/app.yaml

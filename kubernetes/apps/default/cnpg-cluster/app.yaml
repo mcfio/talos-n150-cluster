@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname cnpg-cluster
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cloudnative-pg
+  targetNamespace: default
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  interval: 2h
+  path: ./apps/default/cnpg-cluster/resources
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  wait: true
+  retryInterval: 1m
+  timeout: 5m

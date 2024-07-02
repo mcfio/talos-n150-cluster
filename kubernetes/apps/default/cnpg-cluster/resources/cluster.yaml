@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cnpg-cluster
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.3-4
+  primaryUpdateStrategy: unsupervised
+  storage:
+    size: 10Gi
+    storageClass: openebs-hostpath
+  superuserSecret:
+    name: cnpg-cluster-secret
+  enableSuperuserAccess: true
+  postgresql:
+    parameters:
+      max_connections: "400"
+      shared_buffers: 256MB
+  nodeMaintenanceWindow:
+    inProgress: false
+    reusePVC: true
+  resources:
+    requests:
+      cpu: 500m
+    limits:
+      memory: 4Gi
+  monitoring:
+    enablePodMonitor: true
+  backup:
+    retentionPolicy: 30d
+    barmanObjectStore: &barmanObjectStore
+      data:
+        compression: bzip2
+      wal:
+        compression: bzip2
+        maxParallel: 8
+      destinationPath: s3://home-cluster/backups/cnpg-cluster/
+      endpointURL: http://minio.default.svc.cluster.local:9000
+      serverName: postgres-v1 # current cluster version
+      s3Credentials:
+        accessKeyId:
+          name: cnpg-cluster-secret
+          key: aws-access-key-id
+        secretAccessKey:
+          name: cnpg-cluster-secret
+          key: aws-secret-access-key
+  bootstrap:
+    recovery:
+      source: &previousCluster postgres-v3
+  externalClusters:
+    - name: *previousCluster
+      barmanObjectStore:
+        data:
+          compression: bzip2
+        wal:
+          compression: bzip2
+          maxParallel: 8
+        destinationPath: s3://home-cluster/backups/mediaserver-db/
+        endpointURL: http://minio.default.svc.cluster.local:9000
+        serverName: *previousCluster
+        s3Credentials:
+          accessKeyId:
+            name: cnpg-cluster-secret
+            key: aws-access-key-id
+          secretAccessKey:
+            name: cnpg-cluster-secret
+            key: aws-secret-access-key
+        # <<: *barmanObjectStore
+        # serverName: *previousCluster
+
