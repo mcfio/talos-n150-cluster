@@ -7,8 +7,8 @@ resources:
   - namespace.yaml
   - repository.yaml
   # Flux Kustomizations
-  - mediaserver-db/app.yaml
-  - sonarr/app.yaml
+  # - mediaserver-db/app.yaml
+  # - sonarr/app.yaml
   - radarr/app.yaml
   - overseerr/app.yaml
   - sabnzbd/app.yaml
