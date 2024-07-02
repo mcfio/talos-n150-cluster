@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   # Base Resources
   - namespace.yaml
+  - certificate.yaml
   # Flux Sources
   - sources/
   # Flux Kustomizations
