@@ -4,11 +4,11 @@ version: "3"
 
 vars: &vars
   TALOS_VERSION:
-    sh: yq '.spec.postBuild.substitute.TALOS_VERSION' {{.KUBERNETES_DIR}}/flux-system/configs/infrastructure-configs.yaml
+    sh: yq '.spec.postBuild.substitute.TALOS_VERSION' {{.KUBERNETES_DIR}}/apps/system-upgrade/plans.yaml
   TALOS_SCHEMATIC_ID:
-    sh: yq '.spec.postBuild.substitute.TALOS_SCHEMATIC_ID' {{.KUBERNETES_DIR}}/flux-system/configs/infrastructure-configs.yaml
+    sh: yq '.spec.postBuild.substitute.TALOS_SCHEMATIC_ID' {{.KUBERNETES_DIR}}/apps/system-upgrade/plans.yaml
   KUBERNETES_VERSION:
-    sh: yq '.spec.postBuild.substitute.KUBERNETES_VERSION' {{.KUBERNETES_DIR}}/flux-system/configs/infrastructure-configs.yaml
+    sh: yq '.spec.postBuild.substitute.KUBERNETES_VERSION' {{.KUBERNETES_DIR}}/apps/system-upgrade/plans.yaml
   TALOSCONFIG_FILE: "{{.PROJECT_DIR}}/bootstrap/talos/clusterconfig/talosconfig"
   KUBECONFIG_FILE: "{{.PROJECT_DIR}}/bootstrap/talos/clusterconfig/kubeconfig"
 
