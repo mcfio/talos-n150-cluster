@@ -32,6 +32,8 @@ spec:
           enabled: true
           namespaceSelector:
             any: true
+      extraArgs:
+        default-ssl-certificate: ingress-system/milton-mcf-io-cert-tls
       resources:
         requests:
           cpu: 100m
