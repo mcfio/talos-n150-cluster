@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+# yaml-language-server: $schema=https://crds.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -34,6 +34,12 @@ spec:
         external-dns.alpha.kubernetes.io/hostname: mqtt.milton.mcf.io
         io.cilium/lb-ipam-ips: 192.168.45.235
       type: LoadBalancer
+    ingress:
+      dashboard:
+        enabled: true
+        ingressClassName: nginx
+        hosts:
+          - emqx.milton.mcf.io
     persistence:
       enabled: true
       size: 1Gi
@@ -54,9 +60,6 @@ spec:
       - maxSkew: 1
         topologyKey: kubernetes.io/hostname
         whenUnsatisfiable: DoNotSchedule
-        labelSelector:
-          matchLabels:
-            app.kubernetes.io/name: emqx
   valuesFrom:
     - targetPath: emqxConfig.EMQX_DASHBOARD__DEFAULT_PASSWORD
       kind: Secret

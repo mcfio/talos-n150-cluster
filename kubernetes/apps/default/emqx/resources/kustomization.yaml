@@ -6,4 +6,3 @@ resources:
   - certificate.yaml
   - external-secret.yaml
   - release.yaml
-  - ../../../../templates/istio/
