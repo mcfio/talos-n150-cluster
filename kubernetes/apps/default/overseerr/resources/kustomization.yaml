@@ -3,9 +3,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # Setup Base Resources
-  - namespace.yaml
-  - repository.yaml
-  # Flux Kustomizations
-  - plex/app.yaml
-  - plex/addons.yaml
+  - release.yaml
+  - ../../../../templates/volsync/
