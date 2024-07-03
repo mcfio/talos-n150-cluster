@@ -29,6 +29,8 @@
 - name: renovate/terraform
   color: "a21f4d"
 # Semantic Version Labels
+- name: type/digest
+  color: "201ffb"
 - name: type/major
   color: "201ffb"
 - name: type/minor
