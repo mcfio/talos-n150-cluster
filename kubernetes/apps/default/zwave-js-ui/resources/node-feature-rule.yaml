@@ -1,13 +1,14 @@
 ---
+# yaml-language-server: $schema=https://crds.pages.dev/nfd.k8s-sigs.io/nodefeaturerule_v1alpha1.json
 apiVersion: nfd.k8s-sigs.io/v1alpha1
 kind: NodeFeatureRule
 metadata:
   name: zwave-usb-stick
 spec:
   rules:
-    - name: "aeotec.zwave"
+    - name: aeotec.zwave
       labels:
-        "aeotec.feature.node.kubernetes.io/zwave": "true"
+        aeotec.feature.node.kubernetes.io/zwave: "true"
       matchFeatures:
         - feature: usb.device
           matchExpressions:
