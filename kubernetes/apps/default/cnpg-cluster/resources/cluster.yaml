@@ -52,21 +52,6 @@ spec:
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
-        data:
-          compression: bzip2
-        wal:
-          compression: bzip2
-          maxParallel: 8
-        destinationPath: s3://home-cluster/backups/mediaserver-db/
-        endpointURL: http://minio.default.svc.cluster.local:9000
+        <<: *barmanObjectStore
         serverName: *previousCluster
-        s3Credentials:
-          accessKeyId:
-            name: cnpg-cluster-secret
-            key: aws-access-key-id
-          secretAccessKey:
-            name: cnpg-cluster-secret
-            key: aws-secret-access-key
-        # <<: *barmanObjectStore
-        # serverName: *previousCluster
 
