@@ -14,5 +14,6 @@ resources:
   - sabnzbd/app.yaml
   - minio/app.yaml
   - emqx/app.yaml
+  - tautulli/app.yaml
   - zigbee2mqtt/app.yaml
   - zwave-js-ui/app.yaml
