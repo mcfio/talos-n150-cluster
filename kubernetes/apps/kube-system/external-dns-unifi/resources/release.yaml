@@ -25,6 +25,7 @@ spec:
   values:
     sources:
       - ingress
+      - service
       - gateway-httproute
     domainFilters:
       - milton.mcf.io
