@@ -4,7 +4,7 @@
     "github>mcfio/renovate-config",
     ":automergeBranch",
     ":semanticCommits",
-    ":skipSatusChecks",
+    ":skipStatusChecks",
     "github>mcfio/home-cluster//.github/renovate/autoMerge.json5",
     "github>mcfio/home-cluster//.github/renovate/customManagers.json5",
     "github>mcfio/home-cluster//.github/renovate/groups.json5",
