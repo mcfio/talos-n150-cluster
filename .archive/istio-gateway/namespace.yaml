@@ -1,8 +1,0 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: istio-ingress
-  labels:
-    istio-injection: enabled
-    topology.istio.io/network: milton.mcf.io

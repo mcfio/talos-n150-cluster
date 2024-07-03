@@ -1,8 +1,0 @@
----
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: milton-cluster-pool
-spec:
-  addresses:
-    - 192.168.45.100-192.168.45.195
