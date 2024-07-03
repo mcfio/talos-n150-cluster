@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://crds.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -21,17 +21,12 @@ spec:
     controllers:
       recyclarr:
         type: cronjob
+        annotations:
+          reloader.stakater.com/auto: "true"
         cronjob:
           schedule: "@daily"
-        pod:
-          securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
-            runAsNonRoot: true
-            fsGroup: ${APP_GID}
-            fsGroupChangePolicy: OnRootMismatch
-            seccompProfile:
-              type: RuntimeDefault
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
         containers:
           app:
             image:
@@ -43,7 +38,7 @@ spec:
               TZ: Canada/Eastern
             envFrom:
               - secretRef:
-                  name: recyclarr-secret
+                  name: "{{ .Release.Name }}-secret"
             resources:
               requests:
                 cpu: 5m
@@ -55,6 +50,15 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       config:
         type: emptyDir
