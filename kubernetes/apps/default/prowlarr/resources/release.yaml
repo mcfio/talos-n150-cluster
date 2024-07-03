@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://crds.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -13,26 +13,23 @@ spec:
       version: 3.2.1
       sourceRef:
         kind: HelmRepository
-        name: mediaserver-charts
-        namespace: mediaserver
+        name: bjw-s
+        namespace: default
+  install:
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
+    remediation:
+      retries: 3
+  dependsOn:
+    - name: volsync
+      namespace: volsync-system
   values:
     controllers:
       prowlarr:
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          labels:
-            sidecar.istio.io/inject: "true"
-          securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
-            runAsNonRoot: true
-            fsGroup: ${APP_GID}
-            fsGroupChangePolicy: OnRootMismatch
-            seccompProfile:
-              type: RuntimeDefault
         containers:
           app:
             image:
@@ -43,7 +40,7 @@ spec:
               PROWLARR__AUTHENTICATION_METHOD: External
               PROWLARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
               PROWLARR__INSTANCE_NAME: Prowlarr
-              PROWLARR__PORT: &port ${BACKEND_PORT}
+              PROWLARR__PORT: &port 9696
               PROWLARR__LOG_LEVEL: info
             envFrom:
               - secretRef:
@@ -74,12 +71,31 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     service:
       app:
         controller: prowlarr
         ports:
           http:
             port: *port
+    ingress:
+      app:
+        className: nginx
+        hosts:
+          - host: "{{ .Release.Name }}.milton.mcf.io"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}

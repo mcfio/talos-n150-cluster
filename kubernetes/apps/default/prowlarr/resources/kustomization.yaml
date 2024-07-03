@@ -6,4 +6,3 @@ resources:
   - external-secret.yaml
   - release.yaml
   - ../../../../templates/volsync/
-  - ../../../../templates/istio/

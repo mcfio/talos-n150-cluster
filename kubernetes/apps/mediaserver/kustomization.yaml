@@ -8,6 +8,5 @@ resources:
   - repository.yaml
   # Flux Kustomizations
   - overseerr/app.yaml
-  - prowlarr/app.yaml
   - plex/app.yaml
   - plex/addons.yaml

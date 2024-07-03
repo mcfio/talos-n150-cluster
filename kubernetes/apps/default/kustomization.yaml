@@ -11,6 +11,7 @@ resources:
   - cnpg-cluster/app.yaml
   - sonarr/app.yaml
   - radarr/app.yaml
+  - prowlarr/app.yaml
   - sabnzbd/app.yaml
   - minio/app.yaml
   - emqx/app.yaml
