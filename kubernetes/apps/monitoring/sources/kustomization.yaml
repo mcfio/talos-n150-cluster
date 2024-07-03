@@ -5,3 +5,4 @@ kind: Kustomization
 resources:
   - grafana-charts.yaml
   - prometheus-community-charts.yaml
+  - kube-prometheus-stack-chart.yaml
