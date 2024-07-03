@@ -1,17 +1,17 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+# yaml-language-server: $schema=https://crds.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname sabnzbd
   namespace: flux-system
 spec:
-  targetNamespace: mediaserver
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 2h
-  path: ./apps/mediaserver/sabnzbd/resources
+  path: ./apps/default/sabnzbd/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -21,8 +21,5 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      BACKEND_PORT: "8080"
       VOLUME_CLAIM: sabnzbd-config
       VOLUME_CAPACITY: 500Mi
-      VOLUME_STORAGECLASS: openebs-datastore
-      VOLUME_SNAPSHOTCLASS: openebs-datastore

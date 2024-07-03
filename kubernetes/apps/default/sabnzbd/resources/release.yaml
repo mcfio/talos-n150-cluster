@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://crds.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -13,26 +13,20 @@ spec:
       version: 3.2.1
       sourceRef:
         kind: HelmRepository
-        name: mediaserver-charts
-        namespace: mediaserver
+        name: bjw-s
+        namespace: default
+  install:
+    remediation:
+      retries: 3
   upgrade:
     cleanupOnFail: true
+    remediation:
+      retries: 3
   values:
     controllers:
       sabnzbd:
         annotations:
           reloader.stakater.com/auto: "true"
-        pod:
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            runAsNonRoot: true
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-            supplementalGroups:
-              - 100 # nfs.cluster:users
-            seccompProfile:
-              type: RuntimeDefault
         containers:
           app:
             image:
@@ -40,7 +34,7 @@ spec:
               tag: 4.3.2@sha256:8e70a877c77805dfe93ce30a8da3362fbddf221ef806951d4e4634bb80dc87b5
             env:
               TZ: Canada/Eastern
-              SABNZBD__PORT: &port ${BACKEND_PORT}
+              SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
                 sabnzbd,
                 sabnzbd.default,
@@ -62,12 +56,33 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 100 # nfs.cluster:users
+        seccompProfile:
+          type: RuntimeDefault
     service:
       app:
         controller: sabnzbd
         ports:
           http:
             port: *port
+    ingress:
+      app:
+        className: nginx
+        hosts:
+          - host: "{{ .Release.Name }}.milton.mcf.io"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}
