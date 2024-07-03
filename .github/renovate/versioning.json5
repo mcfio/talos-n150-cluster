@@ -14,10 +14,19 @@
       ]
     },
     {
-      "description": "disable package pinning for cluster manifests",
-      "pinDigests": false,
+      "description": [
+        "Special Rules for Minio"
+      ],
+      "matchDatasources": [
+        "docker",
+        "helm"
+      ],
       "matchPackagePatterns": [
-        "ghcr.io/mcfio/kubernetes-manifests/home-cluster"
+        "minio"
+      ],
+      "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
+      "schedule": [
+        "on the first day of the month"
       ]
     }
   ]

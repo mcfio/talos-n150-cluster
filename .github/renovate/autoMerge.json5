@@ -14,7 +14,8 @@
         "digest"
       ],
       "matchPackagePatterns": [
-        "ghcr.io/onedr0p"
+        "ghcr.io/onedr0p",
+        "ghcr.io/mcfio"
       ],
       "ignoreTests": true
     },
@@ -28,10 +29,10 @@
         "minor",
         "patch"
       ],
-      "matchDepNames": [
+      "matchPackagePatterns": [
         "kube-prometheus-stack"
       ],
-      "ignoreTests": true
+      "ignoreTests": false
     }
   ],
   "platformAutomerge": true

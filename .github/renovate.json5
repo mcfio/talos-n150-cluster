@@ -2,13 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>mcfio/renovate-config",
-    "github>mcfio/renovate-config:automerge-github-actions",
+    ":automergeBranch",
+    ":semanticCommits",
+    ":skipSatusChecks",
     "github>mcfio/home-cluster//.github/renovate/autoMerge.json5",
     "github>mcfio/home-cluster//.github/renovate/customManagers.json5",
     "github>mcfio/home-cluster//.github/renovate/groups.json5",
-    "github>mcfio/home-cluster//.github/renovate/packageRules.json5",
-    ":automergeBranch",
-    "helpers:pinGitHubActionDigests"
+    "github>mcfio/home-cluster//.github/renovate/versioning.json5",
   ],
   "suppressNotifications": [
     "prEditedNotification",
@@ -18,19 +18,12 @@
     "**/.archive/**"
   ],
   "flux": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
-    ]
+    "fileMatch": ["^kubernetes/.+\\.ya?ml$"]
   },
   "helm-values": {
-    "fileMatch": [
-      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
-    ]
+    "fileMatch": ["^kubernetes/.+\\.ya?ml$"]
   },
   "kubernetes": {
-    "fileMatch": [
-      "(^|/)\\.taskfiles/.+\\.ya?ml(\\.j2)?$",
-      "(^|/)kubernetes/.+\\.ya?ml(\\.j2)?$"
-    ]
+    "fileMatch": ["^kubernetes/.+\\.ya?ml$"]
   }
 }
