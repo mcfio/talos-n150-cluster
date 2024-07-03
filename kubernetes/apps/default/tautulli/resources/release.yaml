@@ -53,17 +53,19 @@ spec:
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                  - ALL
+              startup:
+                enabled: false
             resources:
               requests:
                 cpu: 10m
                 memory: 128Mi
               limits:
                 memory: 512Mi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
