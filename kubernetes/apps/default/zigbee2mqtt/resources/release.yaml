@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2beta2.schema.json
+# yaml-language-server: $schema=https://crds.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -58,6 +58,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_LEGACY: "false"
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
               ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
+              ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
               ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://${FRONTEND_NAME}.milton.mcf.io
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
@@ -92,7 +93,17 @@ spec:
         controller: zigbee2mqtt
         ports:
           http:
-            port: ${BACKEND_PORT}
+            port: *port
+    ingress:
+      app:
+        className: nginx
+        hosts:
+          - host: zigbee.milton.mcf.io
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
     persistence:
       data:
         existingClaim: ${VOLUME_CLAIM}
