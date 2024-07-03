@@ -21,14 +21,14 @@ jobs:
       matrix: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
     steps:
       - name: Checkout Default Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           fetch-depth: 0
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - name: Get Changed Files
         id: changed-files
-        uses: tj-actions/changed-files@v44
+        uses: tj-actions/changed-files@cc733854b1f224978ef800d29e4709d5ee2883e4 # v44
         with:
           files: kubernetes/**
           dir_names: true
@@ -63,13 +63,13 @@ jobs:
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           token: ${{ steps.app-token.outputs.token }}
           path: pull
 
       - name: Checkout Default Branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           token: ${{ steps.app-token.outputs.token }}
           ref: ${{ github.event.repository.default_branch }}
