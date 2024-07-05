@@ -13,6 +13,7 @@ on:
 permissions:
   packages: write
   id-token: write
+  attestations: write
 
 env:
   OCI_REPO: "oci://ghcr.io/${{ github.repository_owner }}/kubernetes-manifests/${{ github.event.repository.name }}"
@@ -42,19 +43,23 @@ jobs:
       - name: Create OCI Artifact
         id: create
         run: |
-          digest_url=$(flux push artifact \
+          digest_sha=$(flux push artifact \
             $OCI_REPO:$(git rev-parse --short HEAD) \
             --path="./kubernetes" \
             --source="${{ github.repositoryUrl }}" \
             --revision="${{ github.ref_name }}@sha1:$(git rev-parse HEAD)" \
             --output=json | \
-            jq -r '. | .repository + "@" + .digest')
-          echo "DIGEST_URL=$digest_url" >> $GITHUB_OUTPUT
+            jq -r '. | .digest')
+          echo "DIGEST_SHA=$digest_sha" >> $GITHUB_OUTPUT
 
-      - name: Tag OCI Artifact
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: $OCI_REPO
+          subject-digest: ${{ steps.create.outputs.DIGEST_SHA }}}
+          push-to-registry: true
+
+      - name: Tag OCI artifact
         run: |
           flux tag artifact "$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
 
-      - name: Sign OCI Artifact
-        run: |
-          cosign sign --yes ${{ steps.create.outputs.DIGEST_URL }}
