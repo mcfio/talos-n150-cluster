@@ -56,7 +56,7 @@ jobs:
         uses: actions/attest-build-provenance@v1
         with:
           subject-name: $OCI_REPO
-          subject-digest: ${{ steps.create.outputs.DIGEST_SHA }}}
+          subject-digest: ${{ steps.create.outputs.DIGEST_SHA }}
           push-to-registry: true
 
       - name: Tag OCI artifact
