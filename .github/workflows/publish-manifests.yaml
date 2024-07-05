@@ -61,7 +61,7 @@ jobs:
 
       - name: Generate Cosign attestation
         run: |
-          cosign sign --yes "oci://${{ env.OCI_REPO }}@${{ steps.create.outputs.DIGEST_SHA }}"
+          cosign sign --yes "${{ env.OCI_REPO }}@${{ steps.create.outputs.DIGEST_SHA }}"
 
       - name: Tag OCI artifact
         run: |
