@@ -27,6 +27,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 # v3.5.0
+
       - name: Setup Flux
         uses: fluxcd/flux2/action@896e0fa46d5107a05e953dd0a5261d78a145ec8c # v2.3.0
 
@@ -55,6 +58,10 @@ jobs:
           subject-name: ${{ env.OCI_REPO }}
           subject-digest: ${{ steps.create.outputs.DIGEST_SHA }}
           push-to-registry: true
+
+      - name: Generate Cosign attestation
+        run: |
+          cosign sign --yes "oci://${{ env.OCI_REPO }}@${{ steps.create.outputs.DIGEST_SHA }}"
 
       - name: Tag OCI artifact
         run: |
