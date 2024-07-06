@@ -16,7 +16,7 @@ permissions:
   attestations: write
 
 env:
-  OCI_REPO: "ghcr.io/${{ github.repository_owner }}/kubernetes-manifests/${{ github.event.repository.name }}"
+  REPOSITORY: "ghcr.io/${{ github.repository_owner }}/kubernetes-manifests/${{ github.event.repository.name }}"
 
 jobs:
   publish-manifests:
@@ -42,22 +42,22 @@ jobs:
       - name: Create OCI Artifact
         id: create
         run: |
-          digest_sha=$(flux push artifact \
-            oci://$OCI_REPO:$(git rev-parse --short HEAD) \
+          digest=$(flux push artifact \
+            oci://$REPOSITORY:$(git rev-parse --short HEAD) \
             --path="./kubernetes" \
             --source="${{ github.repositoryUrl }}" \
             --revision="${{ github.ref_name }}@sha1:$(git rev-parse HEAD)" \
             --output=json | \
-            jq -r '. | .digest')
-          echo "DIGEST_SHA=$digest_sha" >> $GITHUB_OUTPUT
+            jq -r '.digest')
+          echo "DIGEST_SHA=$digest" >> $GITHUB_OUTPUT
 
-      # - name: Generate artifact attestation
-      #   uses: actions/attest-build-provenance@v1
-      #   with:
-      #     subject-name: ${{ env.OCI_REPO }}
-      #     subject-digest: ${{ steps.create.outputs.DIGEST_SHA }}
-      #     push-to-registry: true
-      #
+      - name: Generate artifact attestation
+        uses: actions/attest-build-provenance@bdd51370e0416ac948727f861e03c2f05d32d78e # v1
+        with:
+          subject-name: ${{ env.REPOSITORY }}
+          subject-digest: ${{ steps.create.outputs.DIGEST_SHA }}
+          push-to-registry: true
+
       # - name: Generate Cosign attestation
       #   run: |
       #     cosign sign --yes "${{ env.OCI_REPO }}@${{ steps.create.outputs.DIGEST_SHA }}"
