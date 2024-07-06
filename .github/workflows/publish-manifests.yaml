@@ -75,4 +75,3 @@ jobs:
       # - name: Tag OCI artifact
       #   run: |
       #     flux tag artifact "oci://$OCI_REPO:$(git rev-parse --short HEAD)" --tag main
-      #
