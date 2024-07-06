@@ -10,11 +10,6 @@ on:
       - .github/workflows/publish-manifests.yaml
       - kubernetes/**
 
-permissions:
-  packages: write
-  id-token: write
-  attestations: write
-
 env:
   OCI_REPO: "ghcr.io/${{ github.repository_owner }}/kubernetes-manifests/${{ github.event.repository.name }}"
 
@@ -22,6 +17,10 @@ jobs:
   publish-manifests:
     name: OCI Artifact
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      id-token: write
+      attestations: write
 
     steps:
       - name: Generate Token
