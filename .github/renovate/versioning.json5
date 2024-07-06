@@ -2,32 +2,18 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": [
-        "Loose versioning for non-semver packages"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
+      "description": "Loose versioning for non-semver packages"
+      "matchDatasources": ["docker"],
       "versioning": "loose",
-      "matchPackagePatterns": [
-        "plex"
-      ]
+      "matchPackagePatterns": ["plex"]
     },
     {
-      "description": [
-        "Special Rules for Minio"
-      ],
-      "matchDatasources": [
-        "docker",
-        "helm"
-      ],
-      "matchPackagePatterns": [
-        "minio"
-      ],
+      "description": "Schedule monthly updates for Minio",
+      "matchDatasources": ["docker", "helm"],
+      "matchPackagePatterns": ["minio"],
       "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
-      "schedule": [
-        "on the first day of the month"
-      ]
+      "extends": ["schedule:monthly"],
+      "stabilityDays": 0
     }
   ]
 }

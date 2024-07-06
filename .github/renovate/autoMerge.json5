@@ -3,35 +3,19 @@
   "packageRules": [
     {
       "description": "Auto Merge trusted container digests",
-      "matchDatasources": [
-        "docker"
-      ],
+      "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "branch",
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "digest"
-      ],
-      "matchPackagePatterns": [
-        "ghcr.io/onedr0p",
-        "ghcr.io/mcfio"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "matchPackagePatterns": ["ghcr.io/onedr0p", "ghcr.io/mcfio"],
       "ignoreTests": true
     },
     {
       "description": "Auto Merge Specific Helm Releases",
-      "matchDatasources": [
-        "helm"
-      ],
+      "matchDatasources": ["helm"],
       "automerge": true,
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "matchPackagePatterns": [
-        "kube-prometheus-stack"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackagePatterns": ["kube-prometheus-stack"],
       "ignoreTests": false
     }
   ],

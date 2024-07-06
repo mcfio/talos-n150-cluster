@@ -2,15 +2,10 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": ["Flux Group"],
+      "description": "Flux Group",
       "groupName": "Flux",
-      "matchPackagePatterns": [
-        "fluxcd"
-      ],
-      "matchDatasources": [
-        "docker",
-        "github-tags"
-      ],
+      "matchDatasources": ["docker", "github-tags"],
+      "matchPackagePatterns": ["fluxcd"],
       "versioning": "semver",
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
@@ -18,55 +13,30 @@
       "separateMinorPatch": true
     },
     {
-      "description": ["1Password Connect and Sync"],
+      "description": "1Password Connect and Sync",
       "groupName": "1password-connect",
-      "matchPackagePatterns": [
-        "1password"
-      ],
-      "matchDatasources": [
-        "docker"
-      ],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "separateMinorPatch": true
-    },
-    {
-      "description": ["Istio Service Mesh"],
-      "groupName": "istio",
-      "matchPackageNames": [
-        "base",
-        "cni",
-        "istiod",
-        "gateway"
-      ],
-      "matchDatasources": [
-        "helm",
-        "docker"
-      ],
-      "group": {
-        "commitMessageTopic": "{{{groupName}}} group"
-      },
-      "separateMinorPatch": true
-    },
-    {
-      "description": ["Talos Group"],
-      "groupName": "Talos",
-      "matchPackagePatterns": [
-        "siderolabs/talosctl",
-        "siderolabs/installer"
-      ],
       "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["1password"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
       "separateMinorPatch": true
     },
     {
-      "description": ["Actions Runner Controller Group"],
-      "groupName": "Actions Runner Controller",
-      "matchPackagePatterns": ["gha-runner-scale-set"],
+      "description": "Talos Linux Group",
+      "groupName": "Talos",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/siderolabs/talosctl", "ghcr.io/siderolabs/installer"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
+    },
+    {
+      "description": "Actions Runner Controller Group",
+      "groupName": "ARC",
       "matchDatasources": ["docker", "helm"],
+      "matchPackagePatterns": ["gha-runner-scale-set"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
