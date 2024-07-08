@@ -37,6 +37,10 @@ maglev:
 loadBalancer:
   algorithm: maglev
 
+# -- configure Ingress Controller
+ingressController:
+  enabled: true
+
 # -- configure the cilium-operator component.
 operator:
   replicas: 1
