@@ -89,9 +89,11 @@ spec:
             port: 9000
     ingress:
       app:
-        className: nginx
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.cluster.milton.mcf.io
+        className: cilium
         hosts:
-          - host: "{{ .Release.Name }}.milton.mcf.io"
+          - host: &fqdn "{{ .Release.Name }}.milton.mcf.io"
             paths:
               - path: /
                 service:
@@ -103,6 +105,10 @@ spec:
                 service:
                   identifier: app
                   port: s3
+        tls:
+          - hosts:
+              - *fqdn
+              - s3.milton.mcf.io
     serviceMonitor:
       app:
         serviceName: minio
