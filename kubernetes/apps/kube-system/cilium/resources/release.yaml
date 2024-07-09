@@ -37,15 +37,6 @@ spec:
       hashSeed: "P9jc887+zv7eNcUr"
     loadBalancer:
       algorithm: maglev
-    ingressController:
-      enabled: true
-      loadbalancerMode: shared
-      defaultSecretNamespace: ingress-system
-      defaultSecretName: milton-mcf-io-cert-tls
-      service:
-        annotations:
-          external-dns.alpha.kubernetes.io/hostname: ipv4.cluster.milton.mcf.io
-          io.cilium/lb-ipam-ips: 192.168.45.225
     hubble:
       enabled: true
       metrics:
