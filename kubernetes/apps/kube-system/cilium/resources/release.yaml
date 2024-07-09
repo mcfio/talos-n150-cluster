@@ -42,7 +42,7 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: ipv4.cluster.milton.mcf.io
-          io.cilium/lb-ipam-ips: 192.168.45.235
+          io.cilium/lb-ipam-ips: 192.168.45.225
     hubble:
       enabled: true
       metrics:
