@@ -96,7 +96,7 @@ spec:
             port: *port
     ingress:
       app:
-        className: nginx
+        className: cilium
         hosts:
           - host: "{{ .Release.Name }}.milton.mcf.io"
             paths:
