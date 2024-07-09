@@ -27,6 +27,22 @@ spec:
     - kind: ConfigMap
       name: cilium-values
   values:
+    l2announcements:
+      enabled: true
+      leaseDuration: 120s
+      leaseRenewDeadline: 60s
+      leaseRetryPeriod: 1s
+    maglev:
+      tableSize: 1021
+      hashSeed: "P9jc887+zv7eNcUr"
+    loadBalancer:
+      algorithm: maglev
+    ingressController:
+      enabled: true
+      service:
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ipv4.cluster.milton.mcf.io
+          io.cilium/lb-ipam-ips: 192.168.45.235
     hubble:
       enabled: true
       metrics:

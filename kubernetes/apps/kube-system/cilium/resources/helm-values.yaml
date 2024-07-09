@@ -28,19 +28,6 @@ ipam:
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 
-# -- configure the maglev table size and hashseed
-maglev:
-  tableSize: 1021
-  hashSeed: "P9jc887+zv7eNcUr"
-
-# -- configure loadBalancer
-loadBalancer:
-  algorithm: maglev
-
-# -- configure Ingress Controller
-ingressController:
-  enabled: true
-
 # -- configure the cilium-operator component.
 operator:
   replicas: 1
@@ -60,13 +47,6 @@ externalIPs:
 
 # -- Annotate k8s node upon initialization with Cilium's metadata.
 annotateK8sNode: true
-
-# -- configure L2 announcements - listen for CRD configurations
-l2announcements:
-  enabled: true
-  leaseDuration: 120s
-  leaseRenewDeadline: 60s
-  leaseRetryPeriod: 1s
 
 # -- disable CNI exclusive mode
 cni:
