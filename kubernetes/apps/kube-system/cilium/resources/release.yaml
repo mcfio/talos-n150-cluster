@@ -40,6 +40,8 @@ spec:
     ingressController:
       enabled: true
       loadbalancerMode: shared
+      defaultSecretNamespace: ingress-system
+      defaultSecretName: milton-mcf-io-cert-tls
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: ipv4.cluster.milton.mcf.io
