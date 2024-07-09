@@ -77,8 +77,9 @@ spec:
     ingress:
       app:
         annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.cluster.milton.mcf.io
           cert-manager.io/cluster-issuer: letsencrypt-prod
-        className: nginx
+        className: cilium
         hosts:
           - host: &fqdn requests.mcf.io
             paths:
