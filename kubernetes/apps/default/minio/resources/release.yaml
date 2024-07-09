@@ -89,17 +89,20 @@ spec:
             port: 9000
     ingress:
       app:
-        className: cilium
+        className: nginx
         hosts:
-          - host: &fqdn "{{ .Release.Name }}.milton.mcf.io"
+          - host: "{{ .Release.Name }}.milton.mcf.io"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *fqdn
+          - host: s3.milton.mcf.io
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: s3
     serviceMonitor:
       app:
         serviceName: minio
