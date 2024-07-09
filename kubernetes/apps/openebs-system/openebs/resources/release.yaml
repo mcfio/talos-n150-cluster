@@ -25,10 +25,10 @@ spec:
       retries: 3
   values:
     # Required to be modified for upgrades
-    openebs-crds:
-      csi:
-        volumeSnapshots:
-          enabled: false
+    # openebs-crds:
+    #   csi:
+    #     volumeSnapshots:
+    #       enabled: false
     localpv-provisioner:
       localpv:
         image:
@@ -42,11 +42,11 @@ spec:
       enabled: false
     mayastor:
       # Required to be modified for upgrades
-      agents:
-        core:
-          rebuild:
-            partial:
-              enabled: false
+      # agents:
+      #   core:
+      #     rebuild:
+      #       partial:
+      #         enabled: false
       csi:
         node:
           initContainers:
