@@ -87,14 +87,19 @@ spec:
             port: 3000
     ingress:
       app:
-        className: nginx
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.cluster.milton.mcf.io
+        className: cilium
         hosts:
-          - host: zwave.milton.mcf.io
+          - host: &fqdn zwave.milton.mcf.io
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
+        tls:
+          - hosts:
+              - *fqdn
     persistence:
       config:
         existingClaim: zwave-js-ui-data
