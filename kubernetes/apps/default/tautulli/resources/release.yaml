@@ -83,19 +83,14 @@ spec:
             port: *port
     ingress:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.cluster.milton.mcf.io
-        className: cilium
+        className: nginx
         hosts:
-          - host: &fqdn "{{ .Release.Name }}.milton.mcf.io"
+          - host: "{{ .Release.Name }}.milton.mcf.io"
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *fqdn
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}

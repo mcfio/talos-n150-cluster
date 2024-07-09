@@ -96,19 +96,14 @@ spec:
             port: *port
     ingress:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.cluster.milton.mcf.io
-        className: cilium
+        className: nginx
         hosts:
-          - host: &fqdn zigbee.milton.mcf.io
+          - host: zigbee.milton.mcf.io
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - hosts:
-              - *fqdn
     persistence:
       data:
         existingClaim: ${VOLUME_CLAIM}
