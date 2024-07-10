@@ -12,9 +12,6 @@ on:
     paths:
       - .github/workflows/schemas.yaml
 
-env:
-  OCI_REPO: "oci://ghcr.io/${{ github.repository_owner }}/kubernetes-schemas/${{ github.event.repository.name }}"
-
 jobs:
   publish-schemas:
     name: Schemas
@@ -70,7 +67,7 @@ jobs:
           chmod +x $GITHUB_WORKSPACE/crd-extractor.sh
           bash $GITHUB_WORKSPACE/crd-extractor.sh
 
-      - name: Retrieve Cloudflae Token from 1Password Vault
+      - name: Retrieve Cloudflare Token from 1Password Vault
         id: op-load-cloudflare-secret
         uses: 1password/load-secrets-action@581a835fb51b8e7ec56b71cf2ffddd7e68bb25e0 # v2
         with:
