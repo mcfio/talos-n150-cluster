@@ -1,0 +1,24 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname gatus
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: cnpg-cluster
+  targetNamespace: monitoring
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  interval: 12h
+  path: ./apps/monitoring/gatus/resources
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  wait: false
+  retryInterval: 1m
+  timeout: 5m

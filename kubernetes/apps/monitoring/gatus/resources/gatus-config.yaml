@@ -1,0 +1,34 @@
+---
+# Note: Gatus vars should be escaped with $${VAR_NAME} to avoid interpolation by Flux
+web:
+  port: $${WEB_PORT}
+storage:
+  type: postgres
+  path: postgres://$${GATUS__POSTGRES_USER}:$${GATUS__POSTGRES_PASSWORD}@$${GATUS__POSTGRES_HOST}:$${GATUS__POSTGRES_PORT}/$${GATUS__POSTGRES_DBNAME}?sslmode=disable
+  caching: true
+metrics: true
+debug: false
+ui:
+  title: Status | Gatus
+  header: Status
+connectivity:
+  checker:
+    target: 1.1.1.1:53
+    interval: 1m
+endpoints:
+  - name: status
+    group: external
+    url: https://status.mcf.io
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 200"
+  - name: flux-webhook
+    group: external
+    url: https://flux-webhook.mcf.io
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == 404"

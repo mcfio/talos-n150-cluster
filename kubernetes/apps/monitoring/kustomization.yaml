@@ -13,3 +13,4 @@ resources:
   - prometheus-stack/crds.yaml
   - prometheus-stack/app.yaml
   - grafana/app.yaml
+  - gatus/app.yaml
