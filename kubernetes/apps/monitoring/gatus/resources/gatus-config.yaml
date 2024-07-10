@@ -1,10 +1,10 @@
 ---
 # Note: Gatus vars should be escaped with $${VAR_NAME} to avoid interpolation by Flux
 web:
-  port: $${WEB_PORT}
+  port: ${WEB_PORT}
 storage:
   type: postgres
-  path: postgres://$${GATUS__POSTGRES_USER}:$${GATUS__POSTGRES_PASSWORD}@$${GATUS__POSTGRES_HOST}:$${GATUS__POSTGRES_PORT}/$${GATUS__POSTGRES_DBNAME}?sslmode=disable
+  path: postgres://${GATUS__POSTGRES_USER}:${GATUS__POSTGRES_PASSWORD}@${GATUS__POSTGRES_HOST}:${GATUS__POSTGRES_PORT}/${GATUS__POSTGRES_DBNAME}?sslmode=disable
   caching: true
 metrics: true
 debug: false
