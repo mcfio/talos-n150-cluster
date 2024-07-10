@@ -114,6 +114,8 @@ spec:
             scrapeTimeout: 10s
     ingress:
       app:
+        annotations:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
         className: nginx
         hosts:
           - host: &fqdn status.mcf.io
