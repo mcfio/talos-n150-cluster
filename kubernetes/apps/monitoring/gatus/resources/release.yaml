@@ -123,7 +123,8 @@ spec:
                   identifier: app
                   port: http
         tls:
-          - hosts:
+          - secretName: gatus-cert
+            hosts:
               - *fqdn
     serviceAccount:
       create: true
