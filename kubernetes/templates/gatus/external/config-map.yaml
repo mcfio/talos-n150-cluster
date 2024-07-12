@@ -10,7 +10,7 @@ data:
     endpoints:
       - name: ${APP}
         group: external
-        url: https://${FQDN:-${APP}}.mcf.io${SUBPATH:-/}
+        url: https://${FQDN:-${APP}.mcf.io}${SUBPATH:-/}
         interval: 1m
         client:
           dns-resolver: tcp://1.1.1.1:53
