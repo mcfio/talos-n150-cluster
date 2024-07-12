@@ -9,14 +9,14 @@ data:
   config.yaml: |
     endpoints:
       - name: ${APP}
-        group: guarded
+        group: internal
         url: 1.1.1.1
         interval: 1m
         ui:
           hide-hostname: true
           hide-url: true
         dns:
-          query-name: ${FQDN:-${APP}}.devbu.io
+          query-name: ${FQDN:-${APP}}.milton.mcf.io
           query-type: A
         conditions:
           - "len([BODY]) == 0"
