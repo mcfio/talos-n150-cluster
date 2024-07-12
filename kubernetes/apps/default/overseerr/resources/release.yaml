@@ -80,7 +80,7 @@ spec:
           cert-manager.io/cluster-issuer: letsencrypt-prod
         className: nginx
         hosts:
-          - host: &fqdn requests.mcf.io
+          - host: &fqdn ${FQDN}
             paths:
               - path: /
                 service:
