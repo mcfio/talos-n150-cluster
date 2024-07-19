@@ -12,8 +12,7 @@
       "matchDatasources": ["docker", "helm"],
       "matchPackagePatterns": ["minio"],
       "versioning": "regex:^RELEASE\\.(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)T.*Z$",
-      "extends": ["schedule:monthly"],
-      "stabilityDays": 0
+      "schedule": ["on the first day of the month"]
     }
   ]
 }
