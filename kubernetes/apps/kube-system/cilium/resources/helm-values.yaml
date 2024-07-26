@@ -1,4 +1,7 @@
 ---
+# -- set upgrade compatibility
+upgradeCompatibility: 1.15
+
 # -- cluster mesh configuration
 cluster:
   name: home-cluster
