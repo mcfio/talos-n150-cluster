@@ -1,6 +1,6 @@
 ---
 # -- set upgrade compatibility
-upgradeCompatibility: 1.15
+upgradeCompatibility: "1.15"
 
 # -- cluster mesh configuration
 cluster:
