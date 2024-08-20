@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: rook-ceph
+  name: rook-ceph-charts
   namespace: rook-ceph
 spec:
   interval: 12h

@@ -2,6 +2,19 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
+x-env-vars: &env-vars
+  app: "{{.app}}"
+  claim: "{{.claim}}"
+  controller: "{{.controller}}"
+  job: "{{.job}}"
+  ns: "{{.ns}}"
+  pgid: "{{.pgid}}"
+  previous: "{{.previous}}"
+  puid: "{{.puid}}"
+
+vars:
+  VOLSYNC_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/volsync/resources"
+
 tasks:
 
   state-*:
@@ -15,3 +28,25 @@ tasks:
     vars:
       NAMESPACE: '{{.NAMESPACE | default "volsync-system" }}'
       STATE: '{{index .MATCH 0}}'
+
+  unlock:
+    desc: Unlock a Restic repository for an application
+    summary: |
+      ns: Namespace the PVC is in (default: default)
+      app: Application to unlock (required)
+    cmds:
+      - $GOPATH/bin/envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml) | kubectl apply -f -
+      - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=1m
+      - kubectl -n {{.ns}} logs job/{{.job}} --container minio
+      - kubectl -n {{.ns}} logs job/{{.job}} --container r2
+      - kubectl -n {{.ns}} delete job {{.job}}
+    env: *env-vars
+    requires:
+      vars: ["app"]
+    vars:
+      ns: '{{.ns | default "default"}}'
+      job: volsync-unlock-{{.app}}
+    preconditions:
+      - test -f $GOPATH/bin/envsubst
+      - test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml
+    silent: true
