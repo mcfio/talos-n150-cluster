@@ -101,7 +101,7 @@ spec:
           limits:
             memory: 256Mi
     cephECBlockPools:
-      - name: ceph-blockpool
+      - name: ceph-ec-blockpool
         spec:
           metadataPool:
             replicated:
