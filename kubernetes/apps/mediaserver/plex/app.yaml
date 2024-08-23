@@ -25,5 +25,5 @@ spec:
       APP_GID: "568"
       VOLUME_CLAIM: plex-config
       VOLUME_CAPACITY: 10Gi
-      VOLUME_STORAGECLASS: openebs-datastore
-      VOLUME_SNAPSHOTCLASS: openebs-datastore
+      VOLUME_STORAGECLASS: ceph-block
+      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
