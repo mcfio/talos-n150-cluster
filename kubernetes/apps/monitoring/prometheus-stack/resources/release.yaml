@@ -64,7 +64,7 @@ spec:
             metadata:
               name: data
             spec:
-              storageClassName: openebs-replicated
+              storageClassName: ceph-block
               accessModes:
                 - ReadWriteOnce
               resources:
@@ -135,7 +135,7 @@ spec:
             metadata:
               name: data
             spec:
-              storageClassName: openebs-replicated
+              storageClassName: ceph-block
               resources:
                 requests:
                   storage: 75Gi
