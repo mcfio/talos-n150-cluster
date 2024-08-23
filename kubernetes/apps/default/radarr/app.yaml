@@ -23,3 +23,5 @@ spec:
       APP: *appname
       VOLUME_CLAIM: radarr-config
       VOLUME_CAPACITY: 2Gi
+      VOLUME_STORAGECLASS: ceph-block
+      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
