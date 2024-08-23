@@ -23,3 +23,5 @@ spec:
       APP: *appname
       FQDN: requests.mcf.io
       VOLUME_CLAIM: overseerr-config
+      VOLUME_STORAGECLASS: ceph-block
+      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
