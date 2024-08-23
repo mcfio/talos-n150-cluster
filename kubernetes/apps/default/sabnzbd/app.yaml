@@ -23,3 +23,5 @@ spec:
       APP: *appname
       VOLUME_CLAIM: sabnzbd-config
       VOLUME_CAPACITY: 500Mi
+      VOLUME_STORAGECLASS: ceph-block
+      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
