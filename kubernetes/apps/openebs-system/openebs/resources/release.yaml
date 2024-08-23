@@ -41,34 +41,7 @@ spec:
     lvm-localpv:
       enabled: false
     mayastor:
-      # Required to be modified for upgrades
-      # agents:
-      #   core:
-      #     rebuild:
-      #       partial:
-      #         enabled: false
-      csi:
-        node:
-          initContainers:
-            enabled: false
-      etcd:
-        localpvScConfig:
-          enabled: false
-        persistence:
-          storageClass: openebs-hostpath
-      storageClass:
-        enabled: false
-      localpv-provisioner:
-        enabled: false
-      crds:
-        enabled: false # managed in openebs-crds section
-      loki-stack:
-        enabled: false
-      eventing:
-        enabled: false
-      obs:
-        callhome:
-          enabled: false
+      enabled: false
     engines:
       local:
         lvm:
@@ -77,4 +50,4 @@ spec:
           enabled: false
       replicated:
         mayastor:
-          enabled: true
+          enabled: false
