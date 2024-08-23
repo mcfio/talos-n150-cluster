@@ -22,3 +22,5 @@ spec:
     substitute:
       APP: *appname
       VOLUME_CLAIM: zwave-js-ui-data
+      VOLUME_STORAGECLASS: ceph-block
+      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
