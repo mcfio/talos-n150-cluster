@@ -32,6 +32,12 @@ spec:
       createPrometheusRules: true
     toolbox:
       enabled: true
+    ingress:
+      dashboard:
+        host:
+          name: ceph.milton.mcf.io
+          path: /
+        ingressClassName: nginx
     cephClusterSpec:
       crashCollector:
         disable: false
