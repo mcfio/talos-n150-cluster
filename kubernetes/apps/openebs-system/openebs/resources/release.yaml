@@ -24,12 +24,14 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    # Required to be modified for upgrades
-    # openebs-crds:
-    #   csi:
-    #     volumeSnapshots:
-    #       enabled: false
+    openebs-crds:
+      csi:
+        volumeSnapshots:
+          enabled: false
+          keep: false
     localpv-provisioner:
+      rbac:
+        create: true
       localpv:
         image:
           registry: quay.io/
