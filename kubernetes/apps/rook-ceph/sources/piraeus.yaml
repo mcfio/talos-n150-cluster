@@ -1,0 +1,10 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/source.toolkit.fluxcd.io/helmrepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: piraeus
+  namespace: rook-ceph
+spec:
+  interval: 12h
+  url: https://piraeus.io/helm-charts/
