@@ -9,4 +9,3 @@ resources:
   - sources/
   # Flux Kustomizations
   - openebs/app.yaml
-  # - configs.yaml
