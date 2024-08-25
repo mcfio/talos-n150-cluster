@@ -43,7 +43,7 @@ spec:
                     port: &port 5055
                   initialDelaySeconds: 0
                   periodSeconds: 10
-                  timeoutSeconds: 1
+                  timeoutSeconds: 20
                   failureThreshold: 3
               readiness: *probes
             resources:
