@@ -9,7 +9,7 @@ spec:
   maxHistory: 3
   chart:
     spec:
-      version: 6.16.4
+      version: 6.16.5
       chart: promtail
       sourceRef:
         kind: HelmRepository
