@@ -1,19 +1,18 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: "3"
-
-x-env-vars: &env-vars
-  app: "{{.app}}"
-  claim: "{{.claim}}"
-  controller: "{{.controller}}"
-  job: "{{.job}}"
-  ns: "{{.ns}}"
-  pgid: "{{.pgid}}"
-  previous: "{{.previous}}"
-  puid: "{{.puid}}"
+version: '3'
 
 vars:
-  VOLSYNC_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/volsync/resources"
+  VOLSYNC_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/volsync/resources'
+
+env: &env-vars
+  APP: '{{.APP}}'
+  NAMESPACE: '{{.NAMESPACE}}'
+  JOB: '{{.JOB}}'
+  CLAIM: '{{.CLAIM}}'
+  PREVIOUS: '{{.PREVIOUS}}'
+  PUID: '{{.PUID}}'
+  PGID: '{{.PGID}}'
 
 tasks:
 
@@ -29,24 +28,107 @@ tasks:
       NAMESPACE: '{{.NAMESPACE | default "volsync-system" }}'
       STATE: '{{index .MATCH 0}}'
 
+  list:
+    desc: List snapshots for an application
+    summary: |
+      namespace: Namespace the PVC is in (default: default)
+      app: Application to list snapshots for (required)
+    cmds:
+      - $GOPATH/bin/envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml) | kubectl apply -f -
+      - kubectl --namespace {{.NAMESPACE}} wait job/{{.JOB}} --for condition=complete --timeout=1m
+      - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container main
+      - kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
+    requires:
+      vars:
+        - app
+    vars:
+      APP: '{{.app}}'
+      NAMESPACE: '{{.namespace | default "default"}}'
+      JOB: 'volsync-list-{{.app}}'
+    preconditions:
+      - test -f $GOPATH/bin/envsubst
+      - test -f {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml
+    silent: true
+
   unlock:
     desc: Unlock a Restic repository for an application
     summary: |
-      ns: Namespace the PVC is in (default: default)
+      namespace: Namespace the PVC is in (default: default)
       app: Application to unlock (required)
     cmds:
       - $GOPATH/bin/envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml) | kubectl apply -f -
-      - kubectl -n {{.ns}} wait job/{{.job}} --for condition=complete --timeout=1m
-      - kubectl -n {{.ns}} logs job/{{.job}} --container minio
-      - kubectl -n {{.ns}} logs job/{{.job}} --container r2
-      - kubectl -n {{.ns}} delete job {{.job}}
-    env: *env-vars
+      - kubectl --namespace {{.NAMESPACE}} wait job/{{.JOB}} --for condition=complete --timeout=1m
+      - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container minio
+      - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container r2
+      - kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
     requires:
-      vars: ["app"]
+      vars:
+        - app
     vars:
-      ns: '{{.ns | default "default"}}'
-      job: volsync-unlock-{{.app}}
+      APP: '{{.app}}'
+      NAMESPACE: '{{.namespace | default "default"}}'
+      JOB: 'volsync-unlock-{{.app}}'
     preconditions:
       - test -f $GOPATH/bin/envsubst
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml
     silent: true
+
+  restore:
+    desc: Restore a snapshot to an application PVC
+    summary: |
+      namespace: Namespace the PVC is in (default: default)
+      app: Application to list snapshots for (required)
+      previous: The number of previous snapshot to restore (default 2)
+    cmds:
+      - { task: .suspend, vars: *env-vars }
+      - { task: .resume, vars: *env-vars }
+    requires:
+      vars:
+        - app
+    vars:
+      APP: '{{.app}}'
+      NAMESPACE: '{{.namespace | default "default"}}'
+      PREVIOUS: '{{.previous | default 2}}'
+      CLAIM:
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} -o jsonpath="{.spec.sourcePVC}"
+      PUID:
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
+      PGID:
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
+
+  cleanup:
+    desc: Clean up volume populator PVCs
+    cmds:
+      - for: { var: DEST }
+        cmd: |
+          {{- $items := (split "/" .ITEM) }}
+          kubectl --namespace {{ $items._0 }} delete pvc {{ $items._1 }}
+      - for: { var: CACHE }
+        cmd: |
+          {{- $items := (split "/" .ITEM) }}
+          kubectl --namespace {{ $items._0 }} delete pvc {{ $items._1 }}
+      - for: { var: SNAPSHOTS }
+        cmd: |
+          {{- $items := (split "/" .ITEM) }}
+          kubectl --namespace {{ $items._0 }} delete volumesnapshot {{ $items._1 }}
+    vars:
+      DEST:
+        sh: kubectl get pvc --all-namespaces --no-headers | grep "restore-once-dest" | awk '{print $1 "/" $2}'
+      CACHE:
+        sh: kubectl get pvc --all-namespaces --no-headers | grep "restore-once-cache" | awk '{print $1 "/" $2}'
+      SNAPSHOTS:
+        sh: kubectl get volumesnapshots --all-namespaces --no-headers | grep "restore-once-dest" | awk '{print $1 "/" $2}'
+
+  .suspend:
+    internal: true
+    cmds:
+      - flux --namespace flux-system suspend kustomization {{.APP}}
+      - flux --namespace {{.NAMESPACE}} suspend helmrelease {{.APP}}
+      # - kubectl --namespace {{.NAMESPACE}} scale deployment.apps/{{.APP}} --replicas 0
+      # - kubectl --namespace {{.NAMESPACE}} wait pod --for delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=2m
+
+  .resume:
+    internal: true
+    cmds:
+      - flux --namespace flux-system resume kustomization {{.APP}}
+      - flux --namespace {{.NAMESPACE}} resume helmrelease {{.APP}}

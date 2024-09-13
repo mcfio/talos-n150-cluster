@@ -11,26 +11,18 @@ spec:
       automountServiceAccountToken: false
       restartPolicy: OnFailure
       containers:
-        - name: minio
+        - name: main
           image: ghcr.io/restic/restic:latest
-          args: ["unlock", "--remove-all", "--no-cache"]
+          args: ["snapshots", "--no-cache"]
           envFrom:
             - secretRef:
                 name: ${APP}-backup-local
           resources: {}
-          securityContext: &securityContext
+          securityContext:
             allowPrivilegeEscalation: false
             capabilities:
               drop:
                 - ALL
-        - name: r2
-          image: ghcr.io/restic/restic:latest
-          args: ["unlock", "--remove-all", "--no-cache"]
-          envFrom:
-            - secretRef:
-                name: ${APP}-backup-r2
-          resources: {}
-          securityContext: *securityContext
       securityContext:
         runAsNonRoot: true
         runAsUser: 65535 # nobody
