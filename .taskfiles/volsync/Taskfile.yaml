@@ -25,7 +25,7 @@ tasks:
       - flux --namespace {{.NAMESPACE}} {{.STATE}} helmrelease volsync
       - kubectl --namespace {{.NAMESPACE}} scale deployment volsync --replicas {{if eq "suspend" .STATE}}0{{else}}1{{end}}
     vars:
-      NAMESPACE: '{{.NAMESPACE | default "volsync-system" }}'
+      NAMESPACE: '{{default "volsync-system" .namespace}}'
       STATE: '{{index .MATCH 0}}'
 
   list:
@@ -34,19 +34,18 @@ tasks:
       namespace: Namespace the PVC is in (default: default)
       app: Application to list snapshots for (required)
     cmds:
-      - $GOPATH/bin/envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml) | kubectl apply -f -
+      - /usr/bin/env -S envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml) | kubectl apply -f -
+      - defer: kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
       - kubectl --namespace {{.NAMESPACE}} wait job/{{.JOB}} --for condition=complete --timeout=1m
       - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container main
-      - kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
     requires:
-      vars:
-        - app
+      vars: ["app"]
     vars:
       APP: '{{.app}}'
-      NAMESPACE: '{{.namespace | default "default"}}'
+      NAMESPACE: '{{default "default" .namespace}}'
       JOB: 'volsync-list-{{.app}}'
     preconditions:
-      - test -f $GOPATH/bin/envsubst
+      - test -f $(which envsubst)
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml
     silent: true
 
@@ -56,20 +55,19 @@ tasks:
       namespace: Namespace the PVC is in (default: default)
       app: Application to unlock (required)
     cmds:
-      - $GOPATH/bin/envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml) | kubectl apply -f -
+      - envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml) | kubectl apply -f -
+      - defer: kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
       - kubectl --namespace {{.NAMESPACE}} wait job/{{.JOB}} --for condition=complete --timeout=1m
       - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container minio
       - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container r2
-      - kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
     requires:
-      vars:
-        - app
+      vars: ["app"]
     vars:
       APP: '{{.app}}'
-      NAMESPACE: '{{.namespace | default "default"}}'
+      NAMESPACE: '{{default "default" .namespace}}'
       JOB: 'volsync-unlock-{{.app}}'
     preconditions:
-      - test -f $GOPATH/bin/envsubst
+      - test -f $(which envsubst)
       - test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml
     silent: true
 
@@ -83,12 +81,11 @@ tasks:
       - { task: .suspend, vars: *env-vars }
       - { task: .resume, vars: *env-vars }
     requires:
-      vars:
-        - app
+      vars: ["app"]
     vars:
       APP: '{{.app}}'
-      NAMESPACE: '{{.namespace | default "default"}}'
-      PREVIOUS: '{{.previous | default 2}}'
+      NAMESPACE: '{{default "default" .namespace}}'
+      PREVIOUS: '{{default 2 .previous}}'
       CLAIM:
         sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} -o jsonpath="{.spec.sourcePVC}"
       PUID:
@@ -119,6 +116,7 @@ tasks:
       SNAPSHOTS:
         sh: kubectl get volumesnapshots --all-namespaces --no-headers | grep "restore-once-dest" | awk '{print $1 "/" $2}'
 
+  # Internal task to suspend the kustomization and helm-release resources and scale the deployment to zero.
   .suspend:
     internal: true
     cmds:
@@ -127,6 +125,7 @@ tasks:
       # - kubectl --namespace {{.NAMESPACE}} scale deployment.apps/{{.APP}} --replicas 0
       # - kubectl --namespace {{.NAMESPACE}} wait pod --for delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=2m
 
+  # Internal task to resume the kustomization and helm-release resources.
   .resume:
     internal: true
     cmds:
