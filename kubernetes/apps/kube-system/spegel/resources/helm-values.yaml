@@ -1,9 +1,10 @@
 ---
+# support for containerd v2 - until https://github.com/spegel-org/spegel/issues/580
+image:
+  repository: ghcr.io/deedee-ops/spegel-hack
+  digest: sha256:7de27625da39e0524982c3075c1bc724224dedd2f6b2f3cf51535a943a3a8586
 spegel:
-  # support for talos 1.8.0 - until https://github.com/spegel-org/spegel/issues/580
-  image:
-    repository: ghcr.io/jfroy/spegel
-    digest: "sha256-50f6e296cb4083033148e6e609f6fa97028b9c17eff6ca26584471b856aa0264"
+  appendMirrors: true
   containerdSock: /run/containerd/containerd.sock
   containerdRegistryConfigPath: /etc/cri/conf.d/hosts
 service:
