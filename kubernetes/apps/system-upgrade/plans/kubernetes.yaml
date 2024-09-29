@@ -27,9 +27,7 @@ spec:
       operator: Exists
       effect: NoSchedule
   prepare: &prepare
-    # Temporarily until 1.8.0 is released
-    image: ghcr.io/siderolabs/talosctl:v1.8.0-beta.0
-    # image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
+    image: ghcr.io/siderolabs/talosctl:${TALOS_VERSION}
     envs:
       - name: NODE_IP
         valueFrom:
