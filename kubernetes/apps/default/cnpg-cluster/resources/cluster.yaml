@@ -6,7 +6,7 @@ metadata:
   name: cnpg-cluster
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.3-10
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.4-31
   primaryUpdateStrategy: unsupervised
   storage:
     size: 10Gi
@@ -38,7 +38,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://home-cluster/backups/cnpg-cluster/
       endpointURL: http://minio.default.svc.cluster.local:9000
-      serverName: postgres-v1 # current cluster version
+      serverName: postgres-v4 # current cluster version
       s3Credentials:
         accessKeyId:
           name: cnpg-cluster-secret
@@ -48,7 +48,7 @@ spec:
           key: aws-secret-access-key
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v3
+      source: &previousCluster postgres-v1
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
