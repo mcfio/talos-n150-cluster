@@ -23,10 +23,20 @@
       "separateMinorPatch": true
     },
     {
+      "description": ["Rook-Ceph Group"],
+      "groupName": "Rook-Ceph",
+      "matchDatasources": ["helm"],
+      "matchPackagePatterns": ["rook.ceph"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}} group"
+      },
+      "separateMinorPatch": true
+    },
+    {
       "description": "Talos Linux Group",
       "groupName": "Talos",
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["ghcr.io/siderolabs/talosctl", "ghcr.io/siderolabs/installer"],
+      "matchPackagePatterns": ["siderolabs/talosctl", "siderolabs/installer"],
       "group": {
         "commitMessageTopic": "{{{groupName}}} group"
       },
