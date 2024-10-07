@@ -31,7 +31,7 @@ spec:
           01-init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.3@sha256:9cc2856e3bd5e6100dca9123aae7b6dc9c2f8b7d5a0eab00aad0c2fed5355c93
+              tag: 16.3@sha256:9c136223fb4e05b0ca24e2350c2dc45843110d0e1d09615c52c9a037628c09fa
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
@@ -45,7 +45,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/radarr-develop
-              tag: 5.12.0.9255@sha256:87c788eb150218172c951e8f37ec60dbc5a3033c909f1467c3bbee88e5a51f3b
+              tag: 5.12.0.9255@sha256:be91d7f205a76640795198e850541d09a63e3e4ba6efad5d928e23a84c1b95ad
             env:
               TZ: Canada/Eastern
               RADARR__AUTHENTICATION_METHOD: External
