@@ -26,6 +26,7 @@ sonarr:
           - name: WEB-1080p
             score: 0
 
+radarr:
   radarr:
     base_url: http://radarr:7878
     api_key: !env_var RADARR__API_KEY
