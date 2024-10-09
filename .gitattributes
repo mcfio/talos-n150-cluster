@@ -1,3 +1,3 @@
 * text=auto eol=lf
 *.enc.* diff=sopsdiffer
-*.tpl linguist-detectable=false
+kubernetes/*.yaml linguist-detectable
