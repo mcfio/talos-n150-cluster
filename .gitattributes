@@ -1,3 +1,4 @@
 * text=auto eol=lf
 *.enc.* diff=sopsdiffer
-kubernetes/*.yaml linguist-detectable
+*.tpl linguist-detectable=false
+kubernetes/*.yml linguist-detectable
