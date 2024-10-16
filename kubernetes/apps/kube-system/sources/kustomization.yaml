@@ -11,4 +11,4 @@ resources:
   - node-feature-discovery.yaml
   - reloader.yaml
   - spegel.yaml
-  - siderolabs-talos-ccm.yaml
+  - siderolabs.yaml
