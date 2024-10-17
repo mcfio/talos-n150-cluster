@@ -16,3 +16,4 @@ resources:
   - descheduler/app.yaml
   - reloader/app.yaml
   - spegel/app.yaml
+  - talos-ccm/app.yaml
