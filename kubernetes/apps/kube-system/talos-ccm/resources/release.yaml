@@ -23,6 +23,7 @@ spec:
       retries: 3
   # https://github.com/siderolabs/talos-cloud-controller-manager/blob/main/charts/talos-cloud-controller-manager/values.yaml
   values:
+    fullnameOverride: talos-cloud-controller-manager
     enabledControllers:
       - cloud-node
       - node-csr-approval
