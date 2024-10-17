@@ -27,7 +27,7 @@ spec:
     fullnameOverride: proxmox-cloud-controller-manager
     podAnnotations:
       reloader.stakater.com/auto: "true"
-    existingConfigSecret: proxmox-csm-secret
+    existingConfigSecret: proxmox-ccm-secret
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
