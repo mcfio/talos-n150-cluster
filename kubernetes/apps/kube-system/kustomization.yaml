@@ -17,3 +17,4 @@ resources:
   - reloader/app.yaml
   - spegel/app.yaml
   - talos-ccm/app.yaml
+  - proxmox-ccm/app.yaml

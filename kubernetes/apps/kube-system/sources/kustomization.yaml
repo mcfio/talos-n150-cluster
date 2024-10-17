@@ -12,3 +12,4 @@ resources:
   - reloader.yaml
   - spegel.yaml
   - siderolabs.yaml
+  - proxmox-sergelogvinov.yaml
