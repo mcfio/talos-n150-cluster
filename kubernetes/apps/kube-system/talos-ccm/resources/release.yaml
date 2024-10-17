@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: talos-cloud-controller-manager
-      version: v1.8.0
+      version: 0.4.2
       sourceRef:
         kind: HelmRepository
         name: siderolabs-charts
