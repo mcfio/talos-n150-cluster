@@ -24,6 +24,14 @@ spec:
   # https://github.com/siderolabs/talos-cloud-controller-manager/blob/main/charts/talos-cloud-controller-manager/values.yaml
   values:
     fullnameOverride: talos-cloud-controller-manager
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+    nodeSelector: {}
     enabledControllers:
       - cloud-node
       - node-csr-approval
