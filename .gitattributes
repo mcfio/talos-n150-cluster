@@ -1,4 +1,4 @@
 * text=auto eol=lf
 *.enc.* diff=sopsdiffer
-*.tpl linguist-detectable=false
+*.yaml.j2 linguist-language=YAML
 *.yaml linguist-detectable=true

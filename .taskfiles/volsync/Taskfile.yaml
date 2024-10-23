@@ -5,11 +5,13 @@ version: '3'
 vars:
   VOLSYNC_RESOURCES_DIR: '{{.ROOT_DIR}}/.taskfiles/volsync/resources'
 
-env: &env-vars
+env:
   APP: '{{.APP}}'
   NAMESPACE: '{{.NAMESPACE}}'
   JOB: '{{.JOB}}'
-  CLAIM: '{{.CLAIM}}'
+  CLAIM_NAME: '{{.CLAIM_NAME}}'
+  ACCESS_MODES: '{{.ACCESS_MODES}}'
+  STORAGE_CLASS_NAME: '{{.STORAGE_CLASS_NAME}}'
   PREVIOUS: '{{.PREVIOUS}}'
   PUID: '{{.PUID}}'
   PGID: '{{.PGID}}'
@@ -34,7 +36,7 @@ tasks:
       namespace: Namespace the PVC is in (default: default)
       app: Application to list snapshots for (required)
     cmds:
-      - /usr/bin/env -S envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml) | kubectl apply -f -
+      - minijinja-cli --env --trim-blocks --lstrip-blocks --autoescape=none {{.VOLSYNC_RESOURCES_DIR}}/list.yaml.j2 | kubectl apply --server-side --filename -
       - defer: kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
       - kubectl --namespace {{.NAMESPACE}} wait job/{{.JOB}} --for condition=complete --timeout=1m
       - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container main
@@ -45,31 +47,15 @@ tasks:
       NAMESPACE: '{{default "default" .namespace}}'
       JOB: 'volsync-list-{{.app}}'
     preconditions:
-      - test -f $(which envsubst)
-      - test -f {{.VOLSYNC_RESOURCES_DIR}}/list.tmpl.yaml
+      - test -f {{.VOLSYNC_RESOURCES_DIR}}/list.yaml.j2
     silent: true
 
   unlock:
-    desc: Unlock a Restic repository for an application
-    summary: |
-      namespace: Namespace the PVC is in (default: default)
-      app: Application to unlock (required)
-    cmds:
-      - envsubst < <(cat {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml) | kubectl apply -f -
-      - defer: kubectl --namespace {{.NAMESPACE}} delete job {{.JOB}}
-      - kubectl --namespace {{.NAMESPACE}} wait job/{{.JOB}} --for condition=complete --timeout=1m
-      - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container minio
-      - kubectl --namespace {{.NAMESPACE}} logs job/{{.JOB}} --container r2
-    requires:
-      vars: ["app"]
-    vars:
-      APP: '{{.app}}'
-      NAMESPACE: '{{default "default" .namespace}}'
-      JOB: 'volsync-unlock-{{.app}}'
-    preconditions:
-      - test -f $(which envsubst)
-      - test -f {{.VOLSYNC_RESOURCES_DIR}}/unlock.tmpl.yaml
-    silent: true
+    desc: Unlock all restic repositories
+    cmd: >
+      kubectl get replicationsources --all-namespaces --no-headers -A | awk '{print $1, $2}'
+      | xargs --max-procs=2 -l bash -c 'kubectl --namespace "$0" patch --field-manager=flux-client-side-apply replicationsources "$1" --type merge \
+        --patch "{\"spec\":{\"restic\":{\"unlock\":\"{{now | unixEpoch}}\"}}}"'
 
   restore:
     desc: Restore a snapshot to an application PVC
@@ -78,43 +64,24 @@ tasks:
       app: Application to list snapshots for (required)
       previous: The number of previous snapshot to restore (default 2)
     cmds:
-      - { task: .suspend, vars: *env-vars }
-      - { task: .resume, vars: *env-vars }
+      - task: .suspend
+      - task: .resume
     requires:
       vars: ["app"]
     vars:
       APP: '{{.app}}'
       NAMESPACE: '{{default "default" .namespace}}'
       PREVIOUS: '{{default 2 .previous}}'
-      CLAIM:
-        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} -o jsonpath="{.spec.sourcePVC}"
+      CLAIM_NAME:
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} --output jsonpath="{.spec.sourcePVC}"
+      ACCESS_MODES:
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} --output jsonpath="{.spec.restic.accessModes}"
+      STORAGE_CLASS_NAME:
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} --output jsonpath="{.spec.restic.storageClassName}"
       PUID:
-        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} --output jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
       PGID:
-        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
-
-  cleanup:
-    desc: Clean up volume populator PVCs
-    cmds:
-      - for: { var: DEST }
-        cmd: |
-          {{- $items := (split "/" .ITEM) }}
-          kubectl --namespace {{ $items._0 }} delete pvc {{ $items._1 }}
-      - for: { var: CACHE }
-        cmd: |
-          {{- $items := (split "/" .ITEM) }}
-          kubectl --namespace {{ $items._0 }} delete pvc {{ $items._1 }}
-      - for: { var: SNAPSHOTS }
-        cmd: |
-          {{- $items := (split "/" .ITEM) }}
-          kubectl --namespace {{ $items._0 }} delete volumesnapshot {{ $items._1 }}
-    vars:
-      DEST:
-        sh: kubectl get pvc --all-namespaces --no-headers | grep "restore-once-dest" | awk '{print $1 "/" $2}'
-      CACHE:
-        sh: kubectl get pvc --all-namespaces --no-headers | grep "restore-once-cache" | awk '{print $1 "/" $2}'
-      SNAPSHOTS:
-        sh: kubectl get volumesnapshots --all-namespaces --no-headers | grep "restore-once-dest" | awk '{print $1 "/" $2}'
+        sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} --output jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
 
   # Internal task to suspend the kustomization and helm-release resources and scale the deployment to zero.
   .suspend:
@@ -122,8 +89,11 @@ tasks:
     cmds:
       - flux --namespace flux-system suspend kustomization {{.APP}}
       - flux --namespace {{.NAMESPACE}} suspend helmrelease {{.APP}}
-      # - kubectl --namespace {{.NAMESPACE}} scale deployment.apps/{{.APP}} --replicas 0
-      # - kubectl --namespace {{.NAMESPACE}} wait pod --for delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=2m
+      - kubectl --namespace {{.NAMESPACE}} scale {{.CONTROLLER}}/{{.APP}} --replicas 0
+      - kubectl --namespace {{.NAMESPACE}} wait pod --for delete --selector="app.kubernetes.io/name={{.APP}}" --timeout=2m
+    vars:
+      CONTROLLER:
+        sh: kubectl --namespace {{.NAMESPACE}} get deployment {{.APP}} &>/dev/null && echo deployment.apps || echo statefulset.apps
 
   # Internal task to resume the kustomization and helm-release resources.
   .resume:

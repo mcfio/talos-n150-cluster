@@ -2,8 +2,8 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ${JOB}
-  namespace: ${NAMESPACE}
+  name: volsync-list-{{ ENV.APP }}
+  namespace: {{ ENV.NAMESPACE }}
 spec:
   ttlSecondsAfterFinished: 3600
   template:
@@ -16,7 +16,7 @@ spec:
           args: ["snapshots", "--no-cache"]
           envFrom:
             - secretRef:
-                name: ${APP}-backup-local
+                name: {{ ENV.APP }}-backup-local
           resources: {}
           securityContext:
             allowPrivilegeEscalation: false
