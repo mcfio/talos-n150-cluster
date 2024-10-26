@@ -31,7 +31,7 @@ spec:
           01-init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.3@sha256:9c136223fb4e05b0ca24e2350c2dc45843110d0e1d09615c52c9a037628c09fa
+              tag: 16
               pullPolicy: IfNotPresent
             envFrom: &envFrom
               - secretRef:
@@ -48,12 +48,13 @@ spec:
               tag: 5.13.1.9378@sha256:d6d6f561c071e54f8b70a609b7ec9948db0892771028d856ee1a76974f9dd7f7
             env:
               TZ: Canada/Eastern
-              RADARR__AUTHENTICATION_METHOD: External
-              RADARR__AUTHENTICATION_REQUIRED: DisabledForLocalAddresses
-              RADARR__INSTANCE_NAME: Radarr
-              RADARR__PORT: &port 7878
-              RADARR__lOG_LEVEL: info
-              RADARR__THEME: dark
+              RADARR__APP__INSTANCENAME: Radarr
+              RADARR__APP__THEME: dark
+              RADARR__AUTH__METHOD: External
+              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              RADARR__lOG__DBENABLED: "False"
+              RADARR__lOG__LEVEL: info
+              RADARR__SERVER__PORT: &port 7878
             envFrom: *envFrom
             probes:
               liveness: &probes
@@ -75,7 +76,7 @@ spec:
                 cpu: 100m
                 memory: 384Mi
               limits:
-                memory: 2Gi
+                memory: 4Gi
             securityContext: *securityContext
     defaultPodOptions:
       securityContext:
@@ -106,7 +107,7 @@ spec:
                   port: http
     persistence:
       config:
-        existingClaim: ${VOLUME_CLAIM}
+        existingClaim: radarr
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
