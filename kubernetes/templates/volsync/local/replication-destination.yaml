@@ -8,17 +8,21 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    copyMethod: Snapshot
+    copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
     repository: ${APP}-backup-local
+
     cacheStorageClassName: ${VOLUME_CACHE_SNAPSHOTCLASS:-openebs-hostpath}
     cacheAccessModes: ["${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}"]
-    cacheCapacity: ${VOLUME_CACHE_CAPACITY:-1Gi}
-    storageClassName: ${VOLUME_STORAGECLASS:-openebs-datastore}
-    volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-openebs-datastore}
+    cacheCapacity: ${VOLUME_CACHE_CAPACITY:-5Gi}
+
+    storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
+    accessModes: ["${VOLUME_ACCESSMODES:-ReadWriteOnce}"]
+    volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-csi-ceph-blockpool}
+    capacity: ${VOLUME_CAPACITY:-5Gi}
     moverSecurityContext:
       runAsUser: ${APP_UID:-568}
       runAsGroup: ${APP_GID:-568}
       fsGroup: ${APP_GID:-568}
-    accessModes:
-      - ${VOLUME_ACCESSMODES:-ReadWriteOnce}
-    capacity: ${VOLUME_CAPACITY:-1Gi}
+    enableFileDeletion: true
+    cleanupCachePVC: true
+    cleanupTempPVC: true
