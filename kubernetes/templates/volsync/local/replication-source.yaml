@@ -9,19 +9,19 @@ spec:
   trigger:
     schedule: "0 * * * *"
   restic:
-    copyMethod: Snapshot
+    copyMethod: "${VOLUME_COPY_METHOD:-Snapshot}"
     repository: ${APP}-backup-local
     cacheStorageClassName: ${VOLUME_CACHE_SNAPSHOTCLASS:-openebs-hostpath}
     cacheAccessModes: ["${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}"]
-    cacheCapacity: ${VOLUME_CACHE_CAPACITY:-1Gi}
-    storageClassName: ${VOLUME_STORAGECLASS:-openebs-datastore}
-    volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-openebs-datastore}
+    cacheCapacity: ${VOLUME_CACHE_CAPACITY:-10Gi}
+    storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
+    accessModes: ["${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}"]
+    volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-csi-ceph-blockpool}
     moverSecurityContext:
       runAsUser: ${APP_UID:-568}
       runAsGroup: ${APP_GID:-568}
       fsGroup: ${APP_GID:-568}
-    pruneIntervalDays: 7
+    pruneIntervalDays: 14
     retain:
       hourly: 24
       daily: 7
-      weekly: 5
