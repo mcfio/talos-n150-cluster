@@ -10,7 +10,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 2h
+  dependsOn:
+    - name: emqx
+    - name: external-secrets-stores
   path: ./apps/default/zigbee2mqtt/resources
   prune: true
   sourceRef:
@@ -18,9 +20,12 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
+  interval: 2h
   postBuild:
     substitute:
       APP: *appname
-      VOLUME_CLAIM: zigbee2mqtt-data
-      VOLUME_STORAGECLASS: ceph-block
-      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
+      FQDN: zigbee.milton.mcf.io
+      VOLUME_CLAIM: *appname
+      VOLUME_ACCESSMODES: ReadWriteMany
+      VOLUME_STORAGECLASS: ceph-filesystem
+      VOLUME_SNAPSHOTCLASS: csi-ceph-filesystem

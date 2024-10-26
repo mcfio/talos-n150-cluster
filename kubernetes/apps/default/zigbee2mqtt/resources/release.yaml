@@ -37,7 +37,7 @@ spec:
               tag: 1.40.2@sha256:40dca7e6ee816c84d6220daeb92cf20a52cf35446ec1d3ef0c2965a87cd397cc
             env:
               TZ: Canada/Eastern
-              ZIGBEE2MQTT_DATA: /data
+              ZIGBEE2MQTT_DATA: /config
               ZIGBEE2MQTT_CONFIG_HOMEASSISTANT: "true"
               ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_DISCOVERY_TOPIC: homeassistant
               ZIGBEE2MQTT_CONFIG_ADVANCED_HOMEASSISTANT_LEGACY_ENTITY_ATTRIBUTES: "true"
@@ -59,7 +59,7 @@ spec:
               ZIGBEE2MQTT_CONFIG_DEVICE_OPTIONS_RETAIN: "true"
               ZIGBEE2MQTT_CONFIG_EXPERIMENTAL_NEW_API: "true"
               ZIGBEE2MQTT_CONFIG_FRONTEND_PORT: &port 8080
-              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://${FRONTEND_NAME}.milton.mcf.io
+              ZIGBEE2MQTT_CONFIG_FRONTEND_URL: https://${FQDN}
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
@@ -98,16 +98,12 @@ spec:
       app:
         className: nginx
         hosts:
-          - host: zigbee.milton.mcf.io
+          - host: ${FQDN}
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
     persistence:
-      data:
-        existingClaim: ${VOLUME_CLAIM}
-        advancedMounts:
-          zigbee2mqtt:
-            app:
-              - path: /data
+      config:
+        existingClaim: "{{ .Release.Name }}"
