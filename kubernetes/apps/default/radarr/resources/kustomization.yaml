@@ -6,3 +6,4 @@ resources:
   - external-secret.yaml
   - pvc.yaml
   - release.yaml
+  - ../../../../templates/gatus/internal/
