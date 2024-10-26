@@ -26,6 +26,7 @@ spec:
       APP: *appname
       FQDN: zigbee.milton.mcf.io
       VOLUME_CLAIM: *appname
+      VOLUME_CAPACITY: 1Gi
       VOLUME_ACCESSMODES: ReadWriteMany
       VOLUME_STORAGECLASS: ceph-filesystem
       VOLUME_SNAPSHOTCLASS: csi-ceph-filesystem
