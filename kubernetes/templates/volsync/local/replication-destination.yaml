@@ -18,7 +18,7 @@ spec:
     storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
     accessModes: ["${VOLUME_ACCESSMODES:-ReadWriteOnce}"]
     volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-csi-ceph-blockpool}
-    capacity: ${VOLUME_CAPACITY:-10Gi}
+    capacity: ${VOLUME_CAPACITY:-5Gi}
     moverSecurityContext:
       runAsUser: ${APP_UID:-568}
       runAsGroup: ${APP_GID:-568}
