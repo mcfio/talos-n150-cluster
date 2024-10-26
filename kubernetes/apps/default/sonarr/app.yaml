@@ -10,7 +10,9 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 2h
+  dependsOn:
+    - name: cnpg-cluster
+    - name: external-secrets-stores
   path: ./apps/default/sonarr/resources
   prune: true
   sourceRef:
@@ -18,10 +20,7 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
+  interval: 2h
   postBuild:
     substitute:
       APP: *appname
-      VOLUME_CLAIM: sonarr-config
-      VOLUME_CAPACITY: 2Gi
-      VOLUME_STORAGECLASS: ceph-block
-      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
