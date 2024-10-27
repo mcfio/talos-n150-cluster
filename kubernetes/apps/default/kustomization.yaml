@@ -14,7 +14,7 @@ resources:
   - prowlarr/app.yaml
   - sabnzbd/app.yaml
   - plex/app.yaml
-  # - plex/addons.yaml
+  - plex/addons.yaml
   - minio/app.yaml
   - emqx/app.yaml
   - tautulli/app.yaml

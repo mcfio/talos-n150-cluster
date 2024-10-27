@@ -14,16 +14,27 @@ spec:
       interval: 30m
       sourceRef:
         kind: HelmRepository
-        name: mediaserver-charts
-        namespace: mediaserver
+        name: bjw-s
+        namespace: default
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  dependsOn:
+    - name: plex
+      namespace: default
   values:
     controllers:
       plex-image-cleanup:
         type: cronjob
-        annotations:
-          reloader.stakater.com/auto: "true"
         cronjob:
           schedule: "30 8 * * 6"
+          timeZone: &timeZone Canada/Eastern
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
         pod:
           affinity:
             podAffinity:
@@ -35,17 +46,13 @@ spec:
                         values:
                           - plex
                   topologyKey: kubernetes.io/hostname
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            runAsNonRoot: true
         containers:
           app:
             image:
               repository: docker.io/meisnate12/plex-image-cleanup
               tag: v1.0.2
             env:
-              PLEX_URL: http://plex.mediaserver.svc.cluster.local:32400
+              PLEX_URL: http://plex.default.svc.cluster.local:32400
               PLEX_TOKEN:
                 valueFrom:
                   secretKeyRef:
@@ -54,6 +61,7 @@ spec:
               PLEX_PATH: /data/plex_config/Library/Application Support/Plex Media Server
               MODE: remove
               PHOTO_TRANSCODER: true
+              TZ: *timeZone
             probes:
               liveness:
                 enabled: false
@@ -73,28 +81,27 @@ spec:
               capabilities:
                 drop:
                   - ALL
+    defaultPodOptions:
+      securityContext:
+        runAsUser: 568
+        runAsGroup: 568
+        runAsNonRoot: true
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
     persistence:
       config:
         type: emptyDir
-        advancedMounts:
-          plex-image-cleanup:
-            app:
-              - path: /config
       plex-config:
-        existingClaim: plex-config
-        advancedMounts:
-          plex-image-cleanup:
-            app:
-              - path: /data/plex_config
-      metadata:
-        existingClaim: plex-metadata
-        advancedMounts:
-          plex-image-cleanup:
-            app:
-              - path: /data/plex_config/Library/Application Support/Plex Media Server/Metadata
+        existingClaim: plex
+        globalMounts:
+          - path: /data/plex_config/Library/Application Support/Plex Media Server
       cache:
         existingClaim: plex-cache
-        advancedMounts:
-          plex-image-cleanup:
-            app:
-              - path: /data/plex_config/Library/Application Support/Plex Media Server/Cache
+        globalMounts:
+          - path: /data/plex_config/Library/Application Support/Plex Media Server/Cache
+      metadata:
+        existingClaim: plex-metadata
+        globalMounts:
+          - path: /data/plex_config/Library/Application Support/Plex Media Server/Metadata

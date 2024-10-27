@@ -6,20 +6,21 @@ metadata:
   name: &appname plex-addons
   namespace: flux-system
 spec:
-  targetNamespace: mediaserver
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 2h
-  path: ./apps/mediaserver/plex/addons
+  dependsOn:
+    - name: plex
+    - name: external-secrets-stores
+  path: ./apps/default/plex/addons
   prune: true
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
   wait: false
-  dependsOn:
-    - name: plex
+  interval: 2h
   postBuild:
     substitute:
       APP: *appname
