@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   # Setup Base Resources
   - namespace.yaml
-  - repository.yaml
+  # - repository.yaml
   # Flux Kustomizations
-  - plex/app.yaml
-  - plex/addons.yaml
+  # - plex/app.yaml
+  # - plex/addons.yaml
