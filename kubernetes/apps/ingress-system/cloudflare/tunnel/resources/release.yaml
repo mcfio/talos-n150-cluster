@@ -106,14 +106,14 @@ spec:
     persistence:
       config:
         type: configMap
-        name: cloudflared-configmap
+        name: cloudflare-tunnel-configmap
         globalMounts:
           - path: /etc/cloudflared/config/config.yaml
             subPath: config.yaml
             readOnly: true
       creds:
         type: secret
-        name: cloudflared-tunnel-secret
+        name: cloudflare-tunnel-secret
         globalMounts:
           - path: /etc/cloudflared/creds/credentials.json
             subPath: credentials.json

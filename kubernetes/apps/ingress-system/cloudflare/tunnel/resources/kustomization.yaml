@@ -6,7 +6,7 @@ resources:
   - external-secret.yaml
   - release.yaml
 configMapGenerator:
-  - name: cloudflared-configmap
+  - name: cloudflare-tunnel-configmap
     files:
       - config.yaml
 generatorOptions:
