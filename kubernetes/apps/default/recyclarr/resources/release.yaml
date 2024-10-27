@@ -23,7 +23,7 @@ spec:
         type: cronjob
         cronjob:
           schedule: "@daily"
-          timeZone: &timeZone America/New_York
+          timeZone: &timeZone Canada/Eastern
           successfulJobsHistory: 1
           failedJobsHistory: 1
         containers:
