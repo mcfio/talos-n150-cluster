@@ -9,4 +9,4 @@ spec:
     - dnsName: ipv4.mcf.io
       recordType: CNAME
       targets:
-        - ${CLUSTER_CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
+        - ${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
