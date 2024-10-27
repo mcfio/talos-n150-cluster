@@ -29,16 +29,11 @@ spec:
     provider:
       name: cloudflare
     env:
-      - name: CF_API_EMAIL
+      - name: CF_API_TOKEN
         valueFrom:
           secretKeyRef:
             name: *secretName
-            key: CF_API_EMAIL
-      - name: CF_API_KEY
-        valueFrom:
-          secretKeyRef:
-            name: *secretName
-            key: CF_API_KEY
+            key: CF_API_TOKEN
     extraArgs:
       - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
