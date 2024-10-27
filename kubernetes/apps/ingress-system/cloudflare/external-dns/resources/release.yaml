@@ -41,10 +41,8 @@ spec:
       - --crd-source-kind=DNSEndpoint
       - --events
       - --ignore-ingress-tls-spec
-      - --ingress-class=nginx
     sources:
       - crd
-      - ingress
     domainFilters:
       - mcf.io
     policy: sync
