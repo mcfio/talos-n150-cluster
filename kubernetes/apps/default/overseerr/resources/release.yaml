@@ -100,10 +100,10 @@ spec:
         advancedMounts:
           overseerr:
             app:
-              - path: /app/config/new-cache
-      # logs:
-      #   type: emptyDir
-      #   globalMounts:
-      #     - path: /app/config/logs
+              - path: /app/config/cache
+      logs:
+        type: emptyDir
+        globalMounts:
+          - path: /app/config/logs
       tmp:
         type: emptyDir
