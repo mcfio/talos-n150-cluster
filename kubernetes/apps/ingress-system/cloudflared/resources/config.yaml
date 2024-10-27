@@ -1,0 +1,10 @@
+---
+originRequest:
+  originServerName: external.devbu.io
+
+ingress:
+  - hostname: mcf.io
+    service: https://nginx-ingress-controller.ingress-system.svc.cluster.local:443
+  - hostname: "*.mcf.io"
+    service: https://nginx-ingress-controller.ingress-system.svc.cluster.local:443
+  - service: http_status:404
