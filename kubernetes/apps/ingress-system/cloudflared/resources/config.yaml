@@ -1,6 +1,6 @@
 ---
 originRequest:
-  originServerName: external.devbu.io
+  originServerName: ipv4.mcf.io
 
 ingress:
   - hostname: mcf.io
