@@ -95,3 +95,15 @@ spec:
           overseerr:
             app:
               - path: /app/config
+      cache:
+        existingClaim: overseerr-cache
+        advancedMounts:
+          overseerr:
+            app:
+              - path: /app/config/new-cache
+      # logs:
+      #   type: emptyDir
+      #   globalMounts:
+      #     - path: /app/config/logs
+      tmp:
+        type: emptyDir

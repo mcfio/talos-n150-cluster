@@ -22,6 +22,8 @@ spec:
     substitute:
       APP: *appname
       FQDN: requests.mcf.io
+      SUBPATH: /api/v1/status
       VOLUME_CLAIM: overseerr-config
+      VOLUME_CAPACITY: 1Gi
       VOLUME_STORAGECLASS: ceph-block
       VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
