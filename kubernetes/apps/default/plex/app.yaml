@@ -6,24 +6,19 @@ metadata:
   name: &appname plex
   namespace: flux-system
 spec:
-  targetNamespace: mediaserver
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 2h
-  path: ./apps/mediaserver/plex/resources
+  path: ./apps/default/plex/resources
   prune: true
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
   wait: false
+  interval: 2h
   postBuild:
     substitute:
       APP: *appname
-      APP_UID: "568"
-      APP_GID: "568"
-      VOLUME_CLAIM: plex-config
       VOLUME_CAPACITY: 10Gi
-      VOLUME_STORAGECLASS: ceph-block
-      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
