@@ -49,6 +49,7 @@ spec:
               - --config
               - /etc/cloudflared/config/config.yaml
               - run
+              - ${CLOUDFLARE_TUNNEL_ID}
             probes:
               liveness: &probes
                 enabled: true

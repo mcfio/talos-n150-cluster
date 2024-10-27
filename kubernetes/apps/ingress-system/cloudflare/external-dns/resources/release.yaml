@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &releaseName cloudflare-external-dns
+spec:
+  interval: 12h
+  maxHistory: 3
+  chart:
+    spec:
+      chart: external-dns
+      version: 1.15.0
+      sourceRef:
+        kind: HelmRepository
+        name: external-dns-charts
+        namespace: kube-system
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    fullnameOverride: *releaseName
+    podAnnotations:
+      secret.reloader.stakater.com/reload: &secretName cloudflare-external-dns-secret
+    provider:
+      name: cloudflare
+    env:
+      - name: CF_API_EMAIL
+        valueFrom:
+          secretKeyRef:
+            name: *secretName
+            key: CF_API_EMAIL
+      - name: CF_API_KEY
+        valueFrom:
+          secretKeyRef:
+            name: *secretName
+            key: CF_API_KEY
+    extraArgs:
+      - --cloudflare-dns-records-per-page=1000
+      - --cloudflare-proxied
+      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+      - --crd-source-kind=DNSEndpoint
+      - --events
+      - --ignore-ingress-tls-spec
+      - --ingress-class=nginx
+    sources:
+      - crd
+      - ingress
+    domainFilters:
+      - mcf.io
+    policy: sync
+    txtPrefix: k8s.
+    txtOwnerId: home-cluster
+    resources:
+      requests:
+        cpu: 16m
+        memory: 90M
+      limits:
+        memory: 90M
+    serviceMonitor:
+      enabled: true

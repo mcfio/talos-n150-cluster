@@ -9,5 +9,6 @@ resources:
   # Flux Sources
   - sources/
   # Flux Kustomizations
-  - cloudflared/app.yaml
+  - cloudflare/tunnel/app.yaml
+  - cloudflare/external-dns/app.yaml
   - nginx/app.yaml
