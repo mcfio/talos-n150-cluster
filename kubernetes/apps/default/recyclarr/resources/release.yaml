@@ -21,10 +21,9 @@ spec:
     controllers:
       recyclarr:
         type: cronjob
-        annotations:
-          reloader.stakater.com/auto: "true"
         cronjob:
           schedule: "@daily"
+          timeZone: &timeZone America/New_York
           successfulJobsHistory: 1
           failedJobsHistory: 1
         containers:
@@ -35,7 +34,7 @@ spec:
             args:
               - sync
             env:
-              TZ: Canada/Eastern
+              TZ: *timeZone
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -62,10 +61,6 @@ spec:
     persistence:
       config:
         type: emptyDir
-        advancedMounts:
-          recyclarr:
-            app:
-              - path: /config
       config-file:
         type: configMap
         name: recyclarr-configmap
