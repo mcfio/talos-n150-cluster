@@ -41,13 +41,7 @@ spec:
         default-ssl-certificate: ingress-system/milton-mcf-io-cert-tls
       service:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ipv4.mcf.io
-          lbipam.cilium.io/ips: 192.168.45.240
-        internal:
-          enabled: true
-          annotations:
-            external-dns.alpha.kubernetes.io/hostname: ipv4.milton.mcf.io
-            lbipam.cilium.io/ips: 192.168.45.225
+          lbipam.cilium.io/ips: 192.168.45.225
       resources:
         requests:
           cpu: 100m
