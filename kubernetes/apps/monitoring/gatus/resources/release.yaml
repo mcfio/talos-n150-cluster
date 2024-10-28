@@ -114,20 +114,14 @@ spec:
             scrapeTimeout: 10s
     ingress:
       app:
-        annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
         className: nginx
         hosts:
-          - host: &fqdn status.mcf.io
+          - host: status.mcf.io
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - secretName: gatus-cert
-            hosts:
-              - *fqdn
     serviceAccount:
       create: true
       name: gatus
