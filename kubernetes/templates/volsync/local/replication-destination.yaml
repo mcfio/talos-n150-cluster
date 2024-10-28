@@ -10,19 +10,20 @@ spec:
   restic:
     copyMethod: "${VOLSYNC_COPYMETHOD:-Snapshot}"
     repository: ${APP}-backup-local
-
     cacheStorageClassName: ${VOLUME_CACHE_SNAPSHOTCLASS:-openebs-hostpath}
-    cacheAccessModes: ["${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}"]
-    cacheCapacity: ${VOLUME_CACHE_CAPACITY:-10Gi}
+    cacheAccessModes:
+      - ${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}
+    cacheCapacity: ${VOLUME_CAPACITY:-1Gi}
 
     storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
-    accessModes: ["${VOLUME_ACCESSMODES:-ReadWriteOnce}"]
+    accessModes:
+      - ${VOLUME_ACCESSMODES:-ReadWriteOnce}
     volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-csi-ceph-blockpool}
-    capacity: ${VOLUME_CAPACITY:-5Gi}
+    capacity: ${VOLUME_CAPACITY:-1Gi}
     moverSecurityContext:
-      runAsUser: ${APP_UID:-568}
-      runAsGroup: ${APP_GID:-568}
-      fsGroup: ${APP_GID:-568}
+      runAsUser: ${VOLUME_PUID:-568}
+      runAsGroup: ${VOLUME_PGID:-568}
+      fsGroup: ${VOLUME_PGID:-568}
     enableFileDeletion: true
     cleanupCachePVC: true
     cleanupTempPVC: true
