@@ -21,7 +21,7 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      SUBPATH: /web/index.html
+      APP_SUBPATH: /web/index.html
       VOLUME_CLAIM: plex
       VOLUME_CAPACITY: 10Gi
       VOLUME_STORAGECLASS: ceph-block

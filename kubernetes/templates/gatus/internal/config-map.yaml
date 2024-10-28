@@ -16,7 +16,7 @@ data:
           hide-hostname: true
           hide-url: true
         dns:
-          query-name: ${FQDN:-${APP}}.milton.mcf.io
+          query-name: ${APP_FQDN:-${APP}.milton.mcf.io}
           query-type: A
         conditions:
           - "[DNS_RCODE] == NXDOMAIN"

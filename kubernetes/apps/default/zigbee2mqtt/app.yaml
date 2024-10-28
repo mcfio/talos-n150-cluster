@@ -24,7 +24,7 @@ spec:
   postBuild:
     substitute:
       APP: *appname
-      FQDN: zigbee.milton.mcf.io
+      APP_FQDN: zigbee.milton.mcf.io
       VOLUME_CLAIM: *appname
       VOLUME_CAPACITY: 1Gi
       VOLUME_ACCESSMODES: ReadWriteMany

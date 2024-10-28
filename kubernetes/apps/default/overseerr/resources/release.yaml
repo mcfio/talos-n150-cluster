@@ -78,7 +78,7 @@ spec:
           external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         className: nginx
         hosts:
-          - host: ${FQDN}
+          - host: ${APP_FQDN}
             paths:
               - path: /
                 service:

@@ -10,9 +10,9 @@ data:
     endpoints:
       - name: ${APP}
         group: external
-        url: https://${FQDN:-${APP}.mcf.io}${SUBPATH:-/}
+        url: https://${APP_FQDN:-${APP}.mcf.io}${APP_SUBPATH:-/}
         interval: 1m
         client:
           dns-resolver: tcp://1.1.1.1:53
         conditions:
-          - "[STATUS] == ${STATUS:-200}"
+          - "[STATUS] == ${APP_STATUS:-200}"
