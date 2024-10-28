@@ -9,7 +9,7 @@ data:
   config.yaml: |
     endpoints:
       - name: ${APP}
-        group: internal
+        group: protected
         url: 1.1.1.1
         interval: 1m
         ui:
@@ -19,4 +19,4 @@ data:
           query-name: ${FQDN:-${APP}}.milton.mcf.io
           query-type: A
         conditions:
-          - "len([BODY]) == 0"
+          - "[DNS_RCODE] == NXDOMAIN"
