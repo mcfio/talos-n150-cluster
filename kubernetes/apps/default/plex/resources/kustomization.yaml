@@ -6,4 +6,5 @@ resources:
   - release.yaml
   - pvc-cache.yaml
   - pvc-metadata.yaml
+  - ../../../../templates/gatus/external
   - ../../../../templates/volsync/
