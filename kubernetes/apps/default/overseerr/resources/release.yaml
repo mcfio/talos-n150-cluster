@@ -75,19 +75,15 @@ spec:
     ingress:
       app:
         annotations:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         className: nginx
         hosts:
-          - host: &fqdn ${FQDN}
+          - host: ${FQDN}
             paths:
               - path: /
                 service:
                   identifier: app
                   port: http
-        tls:
-          - secretName: overseerr-cert
-            hosts:
-              - *fqdn
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}
