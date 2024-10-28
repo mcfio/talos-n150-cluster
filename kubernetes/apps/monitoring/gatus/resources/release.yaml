@@ -114,6 +114,8 @@ spec:
             scrapeTimeout: 10s
     ingress:
       app:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         className: nginx
         hosts:
           - host: status.mcf.io
