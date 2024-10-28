@@ -20,6 +20,7 @@ spec:
     name: letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
+    - ipv4.mcf.io
     - milton.mcf.io
     - "*.milton.mcf.io"
 
