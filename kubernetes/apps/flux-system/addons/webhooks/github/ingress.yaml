@@ -4,7 +4,7 @@ kind: Ingress
 metadata:
   name: webhook-receiver
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
 spec:
   ingressClassName: nginx
   rules:
@@ -18,7 +18,3 @@ spec:
                 name: webhook-receiver
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - flux-webhook.mcf.io
-      secretName: webhook-receiver-tls
