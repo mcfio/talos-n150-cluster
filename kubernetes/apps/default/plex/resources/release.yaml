@@ -81,6 +81,19 @@ spec:
         ports:
           http:
             port: 32400
+    ingress:
+      app:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
+          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+        className: nginx
+        hosts:
+          - host: "{{ .Release.Name }}.mcf.io"
+            paths:
+              - path: /
+                service:
+                  identifier: app
+                  port: http
     persistence:
       config:
         existingClaim: plex
