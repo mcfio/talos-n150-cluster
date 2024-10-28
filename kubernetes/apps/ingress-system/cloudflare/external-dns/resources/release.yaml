@@ -45,6 +45,8 @@ spec:
       - crd
     domainFilters:
       - mcf.io
+    excludeDomains:
+      - milton.mcf.io
     policy: sync
     txtPrefix: k8s.
     txtOwnerId: home-cluster
