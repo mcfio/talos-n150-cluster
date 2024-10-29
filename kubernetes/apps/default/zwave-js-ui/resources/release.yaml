@@ -89,7 +89,7 @@ spec:
       app:
         className: nginx
         hosts:
-          - host: zwave.milton.mcf.io
+          - host: ${APP_FQDN}
             paths:
               - path: /
                 service:
@@ -97,11 +97,9 @@ spec:
                   port: http
     persistence:
       config:
-        existingClaim: zwave-js-ui-data
-        advancedMounts:
-          zwave-js-ui:
-            app:
-              - path: /usr/src/app/store
+        existingClaim: ${APP}
+        globalMounts:
+          - path: /usr/src/app/store
       # usb:
       #   enabled: true
       #   type: hostPath

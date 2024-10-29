@@ -6,4 +6,5 @@ resources:
   - external-secret.yaml
   - release.yaml
   - node-feature-rule.yaml
+  - ../../../../templates/gatus/internal/
   - ../../../../templates/volsync/
