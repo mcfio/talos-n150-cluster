@@ -87,16 +87,12 @@ spec:
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}
-        advancedMounts:
-          overseerr:
-            app:
-              - path: /app/config
+        globalMounts:
+          - path: /app/config
       cache:
         existingClaim: overseerr-cache
-        advancedMounts:
-          overseerr:
-            app:
-              - path: /app/config/cache
+        globalMounts:
+          - path: /app/config/cache
       logs:
         type: emptyDir
         globalMounts:
