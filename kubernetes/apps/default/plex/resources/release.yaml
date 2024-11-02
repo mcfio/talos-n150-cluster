@@ -33,7 +33,7 @@ spec:
             env:
               TZ: Canada/Eastern
               PLEX_ADVERTISE_URL: https://plex.mcf.io:443,https://192.168.45.230:32400
-              PLEX_NO_AUTH_NETWORKS: 192.168.30.0/24
+              PLEX_NO_AUTH_NETWORKS: 192.168.0.0/16
             probes:
               liveness: &probes
                 enabled: true
@@ -56,7 +56,8 @@ spec:
               requests:
                 cpu: 100m
               limits:
-                memory: 16Gi
+                gpu.intel.com/i915: 1
+                memory: 8Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
