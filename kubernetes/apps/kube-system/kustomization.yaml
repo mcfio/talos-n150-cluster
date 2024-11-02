@@ -13,6 +13,8 @@ resources:
   - external-dns-unifi/app.yaml
   - metrics-server/app.yaml
   - node-feature-discovery/app.yaml
+  - intel-device-plugin/app.yaml
+  - intel-device-plugin/gpu.yaml
   - descheduler/app.yaml
   - reloader/app.yaml
   - spegel/app.yaml

@@ -9,6 +9,7 @@ resources:
   - descheduler.yaml
   - metrics-server.yaml
   - node-feature-discovery.yaml
+  - intel.yaml
   - reloader.yaml
   - spegel.yaml
   - siderolabs.yaml
