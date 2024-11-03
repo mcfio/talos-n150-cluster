@@ -18,8 +18,6 @@ spec:
   upgrade:
     cleanupOnFail: true
   values:
-    image:
-      repository: public.ecr.aws/emqx/emqx
     replicaCount: 3
     recreatePods: true
     emqxConfig:
@@ -32,7 +30,7 @@ spec:
     service:
       annotations:
         external-dns.alpha.kubernetes.io/hostname: mqtt.milton.mcf.io
-        io.cilium/lb-ipam-ips: 192.168.45.235
+        lbipam.cilium.io/ips: 192.168.45.235
       type: LoadBalancer
     ingress:
       dashboard:
@@ -43,7 +41,7 @@ spec:
     persistence:
       enabled: true
       size: 1Gi
-      storageClassName: openebs-hostpath
+      storageClassName: ceph-block
     resources:
       requests:
         cpu: 100m
