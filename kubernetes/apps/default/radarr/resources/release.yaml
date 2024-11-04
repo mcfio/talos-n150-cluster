@@ -107,7 +107,10 @@ spec:
                   port: http
     persistence:
       config:
-        existingClaim: radarr
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 10Gi
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
