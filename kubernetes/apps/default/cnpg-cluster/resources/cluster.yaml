@@ -7,6 +7,9 @@ metadata:
 spec:
   instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:16.4-50
+  affinity:
+    podAntiAffinityType: required
+  enablePDB: true
   primaryUpdateStrategy: unsupervised
   storage:
     size: 10Gi
@@ -23,7 +26,8 @@ spec:
     reusePVC: true
   resources:
     requests:
-      cpu: 500m
+      cpu: 50m
+      memory: 512Mi
     limits:
       memory: 4Gi
   monitoring:
