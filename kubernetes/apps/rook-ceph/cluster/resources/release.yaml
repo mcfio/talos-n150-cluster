@@ -56,25 +56,18 @@ spec:
             enabled: true
           - name: rook
             enabled: true
+          - name: diskprediction_local
+            enable: true
       network:
         provider: host
         connections:
           requireMsgr2: true
       storage:
-        useAllNodes: false
+        useAllNodes: true
         useAllDevices: false
+        deviceFilter: ^nvme.
         config:
           osdsPerDevice: "1"
-        nodes:
-          - name: talos-k8s-node04
-            devices:
-              - name: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi2
-          - name: talos-k8s-node05
-            devices:
-              - name: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi1
-          - name: talos-k8s-node06
-            devices:
-              - name: /dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_P210FBBA23072712571
       placement:
         mgr: &placement
           nodeAffinity:
@@ -105,7 +98,7 @@ spec:
             cpu: 500m
             memory: 2Gi
           limits:
-            memory: 6Gi
+            memory: 4Gi
         mgr-sidecar:
           requests:
             cpu: 50m
