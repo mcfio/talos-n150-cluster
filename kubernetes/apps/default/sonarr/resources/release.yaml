@@ -107,20 +107,20 @@ spec:
                   port: http
     persistence:
       config:
-        existingClaim: sonarr
+        enabled: true
+        type: persistentVolumeClaim
+        size: 10Gi
+      tmp:
+        type: emptyDir
       archive:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /media-pool/tv
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /archive/tv
+        globalMounts:
+          - path: /archive/tv
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /storage/media
-        advancedMounts:
-          sonarr:
-            app:
-              - path: /media
+        globalMounts:
+          - path: /media
