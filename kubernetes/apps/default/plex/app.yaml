@@ -23,6 +23,4 @@ spec:
       APP: *appname
       APP_SUBPATH: /web/index.html
       VOLUME_CLAIM: plex
-      VOLUME_CAPACITY: 10Gi
-      VOLUME_STORAGECLASS: ceph-block
-      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
+      VOLUME_CAPACITY: 20Gi
