@@ -5,7 +5,6 @@ kind: CiliumL2AnnouncementPolicy
 metadata:
   name: cluster-l2-announcements
 spec:
-  externalIPs: false
   loadBalancerIPs: true
   nodeSelector:
     matchExpressions:

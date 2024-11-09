@@ -29,14 +29,11 @@ spec:
   values:
     l2announcements:
       enabled: true
-      leaseDuration: 120s
-      leaseRenewDeadline: 60s
-      leaseRetryPeriod: 1s
+    loadBalancer:
+      algorithm: maglev
     maglev:
       tableSize: 1021
       hashSeed: "P9jc887+zv7eNcUr"
-    loadBalancer:
-      algorithm: maglev
     hubble:
       enabled: true
       metrics:
@@ -67,6 +64,10 @@ spec:
           hosts:
             - hubble.milton.mcf.io
     operator:
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
       prometheus:
         enabled: true
         serviceMonitor:
