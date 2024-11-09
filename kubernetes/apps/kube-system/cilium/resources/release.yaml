@@ -26,6 +26,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
+  # https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml
   values:
     l2announcements:
       enabled: true
@@ -38,7 +39,7 @@ spec:
       enabled: true
       metrics:
         enabled:
-          - dns:query;ignoreAAAA
+          - dns:query
           - drop
           - tcp
           - flow
