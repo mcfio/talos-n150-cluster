@@ -96,7 +96,7 @@ spec:
             port: *port
     serviceMonitor:
       app:
-        serviceName: cloudflared
+        serviceName: cloudflare-tunnel
         endpoints:
           - port: http
             scheme: http
