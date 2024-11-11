@@ -1,22 +1,18 @@
 ---
 creation_rules:
-  - path_regex: talos/.+\.enc\.ya?ml
-    input_type: yaml
+  - path_regex: talos/.+\.enc\.yaml\.j2
     encrypted_regex: ^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$
+    mac_only_encrypted: true
     key_groups:
       - age:
           - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
-  - path_regex: \.enc\.ya?ml
+  - path_regex: \.enc\.yaml
     encrypted_regex: ^(data|stringData)$
-    key_groups:
-      - age:
-          - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
-  - path_regex: \.sops\.ya?ml
+    mac_only_encrypted: true
     key_groups:
       - age:
           - age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
 
-# this won't work until 3.9.x, but to be ready!
 stores:
   yaml:
     indent: 2
