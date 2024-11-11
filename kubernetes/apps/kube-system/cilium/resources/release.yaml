@@ -35,6 +35,8 @@ spec:
     maglev:
       tableSize: 1021
       hashSeed: "P9jc887+zv7eNcUr"
+    ingressController:
+      enabled: true
     gatewayAPI:
       enabled: true
     hubble:
