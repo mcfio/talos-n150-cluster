@@ -9,7 +9,6 @@ resources:
   - sources/
   # Flux Kustomizations
   - cilium/app.yaml
-  # - kubelet-csr-approver/app.yaml
   - external-dns-unifi/app.yaml
   - metrics-server/app.yaml
   - node-feature-discovery/app.yaml
@@ -19,4 +18,3 @@ resources:
   - reloader/app.yaml
   - spegel/app.yaml
   - talos-ccm/app.yaml
-  # - proxmox-ccm/app.yaml
