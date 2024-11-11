@@ -104,6 +104,10 @@ spec:
             namespace: ingress-system
         hostnames:
           - "{{ .Release.Name }}-cilium.milton.mcf.io"
+        rules:
+          - backendRefs:
+              name: sonarr
+              port: 8989
     ingress:
       app:
         className: nginx
