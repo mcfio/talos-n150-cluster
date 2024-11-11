@@ -95,6 +95,15 @@ spec:
         ports:
           http:
             port: *port
+    route:
+      app:
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: cluster-gateway
+            namespace: ingress-system
+        hostnames:
+          - "{{ .Release.Name }}-cilium.milton.mcf.io"
     ingress:
       app:
         className: nginx
