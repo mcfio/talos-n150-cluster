@@ -101,6 +101,7 @@ spec:
         kind: HTTPRoute
         parentRefs:
           - name: cluster-gateway
+            sectionName: https-gateway
             namespace: ingress-system
         hostnames:
           - "{{ .Release.Name }}-cilium.milton.mcf.io"
