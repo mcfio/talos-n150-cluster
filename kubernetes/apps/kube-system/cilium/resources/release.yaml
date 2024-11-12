@@ -37,6 +37,7 @@ spec:
       hashSeed: "P9jc887+zv7eNcUr"
     ingressController:
       enabled: true
+      loadbalancerMode: shared
     gatewayAPI:
       enabled: true
     hubble:
