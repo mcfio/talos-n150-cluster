@@ -72,18 +72,19 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
-        className: nginx
-        hosts:
-          - host: ${APP_FQDN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: external
+            namespace: ingress-system
+        hostnames:
+          - ${APP_FQDN}
+        rules:
+          - backendRefs:
+              - name: overseerr
+                port: *port
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}

@@ -83,7 +83,7 @@ spec:
         enabled: true
         kind: HTTPRoute
         parentRefs:
-          - name: cluster-gateway
+          - name: internal
             namespace: ingress-system
             sectionName: https
         hostnames:
