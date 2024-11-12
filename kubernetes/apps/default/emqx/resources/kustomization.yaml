@@ -6,3 +6,4 @@ resources:
   - certificate.yaml
   - external-secret.yaml
   - release.yaml
+  - http-route.yaml
