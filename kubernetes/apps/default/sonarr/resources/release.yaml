@@ -101,24 +101,14 @@ spec:
         kind: HTTPRoute
         parentRefs:
           - name: cluster-gateway
-            sectionName: https-gateway
             namespace: ingress-system
+            sectionName: https
         hostnames:
-          - "{{ .Release.Name }}-cilium.milton.mcf.io"
+          - "{{ .Release.Name }}.milton.mcf.io"
         rules:
           - backendRefs:
               - name: sonarr
                 port: 8989
-    ingress:
-      app:
-        className: nginx
-        hosts:
-          - host: "{{ .Release.Name }}.milton.mcf.io"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
     persistence:
       config:
         enabled: true
