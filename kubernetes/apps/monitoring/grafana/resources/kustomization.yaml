@@ -6,3 +6,4 @@ namespace: monitoring
 resources:
   - external-secret.yaml
   - release.yaml
+  - http-route.yaml

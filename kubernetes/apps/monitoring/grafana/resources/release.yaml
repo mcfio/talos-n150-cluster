@@ -53,15 +53,16 @@ spec:
         news_feed_enabled: false
     serviceMonitor:
       enabled: true
-    route:
-      main:
-        enabled: true
-        hostnames:
-          - grafana.milton.mcf.io
-        parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+    # coming in a future release
+    # route:
+    #   main:
+    #     enabled: true
+    #     hostnames:
+    #       - grafana.milton.mcf.io
+    #     parentRefs:
+    #       - name: internal
+    #         namespace: ingress-system
+    #         sectionName: https
     plugins:
       - grafana-clock-panel
       - grafana-piechart-panel
