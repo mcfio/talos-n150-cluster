@@ -84,25 +84,36 @@ spec:
         controller: minio
         ports:
           http:
-            port: 9001
+            port: &ui 9001
           s3:
-            port: 9000
-    ingress:
+            port: &app 9000
+    route:
+      ui:
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: internal
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.milton.mcf.io"
+        rules:
+          - backendRefs:
+              - name: minio
+                port: *ui
       app:
-        className: nginx
-        hosts:
-          - host: "{{ .Release.Name }}.milton.mcf.io"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
-          - host: s3.milton.mcf.io
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: s3
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: internal
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - s3.milton.mcf.io
+        rules:
+          - backendRefs:
+              - name: minio
+                port: *app
     serviceMonitor:
       app:
         serviceName: minio
