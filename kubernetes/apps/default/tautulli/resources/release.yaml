@@ -36,10 +36,7 @@ spec:
             env:
               TZ: Canada/Eastern
             command: ["/usr/local/bin/python", "Tautulli.py"]
-            args: [
-              "--config", "/config/config.ini",
-              "--datadir", "/config"
-            ]
+            args: ["--config", "/config/config.ini", "--datadir", "/config"]
             probes:
               liveness: &probes
                 enabled: true
@@ -81,16 +78,20 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
-        className: nginx
-        hosts:
-          - host: "{{ .Release.Name }}.milton.mcf.io"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: cluster-gateway
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.milton.mcf.io"
+        rules:
+          - backendRefs:
+              - name: tautulli
+                port: *port
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}

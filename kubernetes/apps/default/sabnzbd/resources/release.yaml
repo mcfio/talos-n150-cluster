@@ -73,16 +73,20 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
-        className: nginx
-        hosts:
-          - host: "{{ .Release.Name }}.milton.mcf.io"
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: cluster-gateway
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.milton.mcf.io"
+        rules:
+          - backendRefs:
+              - name: sabnzbd
+                port: *port
     persistence:
       config:
         existingClaim: ${VOLUME_CLAIM}

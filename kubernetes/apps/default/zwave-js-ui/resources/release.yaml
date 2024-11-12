@@ -85,16 +85,20 @@ spec:
           websocket:
             enabled: true
             port: 3000
-    ingress:
+    route:
       app:
-        className: nginx
-        hosts:
-          - host: ${APP_FQDN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: cluster-gateway
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - ${APP_FQDN}
+        rules:
+          - backendRefs:
+              - name: zwave-js-ui
+                port: *port
     persistence:
       config:
         existingClaim: ${APP}

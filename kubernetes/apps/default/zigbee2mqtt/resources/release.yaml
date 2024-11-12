@@ -94,16 +94,20 @@ spec:
         ports:
           http:
             port: *port
-    ingress:
+    route:
       app:
-        className: nginx
-        hosts:
-          - host: ${APP_FQDN}
-            paths:
-              - path: /
-                service:
-                  identifier: app
-                  port: http
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: cluster-gateway
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - ${APP_FQDN}
+        rules:
+          - backendRefs:
+              - name: zigbee2mqtt
+                port: *port
     persistence:
       config:
         existingClaim: zigbee2mqtt
