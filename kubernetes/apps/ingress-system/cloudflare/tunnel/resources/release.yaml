@@ -22,9 +22,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  dependsOn:
-    - name: nginx
-      namespace: ingress-system
   values:
     controllers:
       cloudflared:
@@ -75,19 +72,19 @@ spec:
               limits:
                 memory: 256Mi
     defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: DoesNotExist
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
         seccompProfile:
           type: RuntimeDefault
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: *releaseName
     service:
       app:
         controller: cloudflared

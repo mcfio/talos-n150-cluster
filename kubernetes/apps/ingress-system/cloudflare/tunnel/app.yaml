@@ -12,6 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: external-secrets-stores
+    - name: cilium-gateway
   path: ./apps/ingress-system/cloudflare/tunnel/resources
   prune: true
   sourceRef:
