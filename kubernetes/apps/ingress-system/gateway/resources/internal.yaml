@@ -3,7 +3,6 @@ apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
   name: internal
-  namespace: ingress-system
 spec:
   gatewayClassName: cilium
   listeners:
