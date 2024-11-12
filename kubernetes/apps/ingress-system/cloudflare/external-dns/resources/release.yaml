@@ -43,7 +43,7 @@ spec:
       - --ignore-ingress-tls-spec
     sources:
       - crd
-      - ingress
+      - gateway-httproute
     domainFilters:
       - mcf.io
     excludeDomains:

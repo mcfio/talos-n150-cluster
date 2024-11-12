@@ -1,0 +1,18 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: http-filter-redirect
+  namespace: ingress-system
+spec:
+  parentRefs:
+    - name: internal
+      namespace: ingress-system
+      sectionName: http
+  hostnames:
+    - "*.milton.mcf.io"
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname cilium-gateway
+  namespace: flux-system
+spec:
+  targetNamespace: ingress-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  dependsOn:
+    - name: gateway-api-crds
+    - name: cilium-config
+  path: ./apps/ingress-system/gateway/resources
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  wait: false
+  interval: 12h

@@ -11,4 +11,5 @@ resources:
   # Flux Kustomizations
   - cloudflare/tunnel/app.yaml
   - cloudflare/external-dns/app.yaml
-  - nginx/app.yaml
+  - gateway/app.yaml
+  # - nginx/app.yaml
