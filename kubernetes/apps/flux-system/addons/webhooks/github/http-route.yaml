@@ -13,3 +13,7 @@ spec:
     - backendRefs:
         - name: webhook-receiver
           port: 80
+      matches:
+        - path:
+            type: PathPrefix
+            value: /hook/
