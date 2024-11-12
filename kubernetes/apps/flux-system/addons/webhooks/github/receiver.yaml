@@ -8,8 +8,7 @@ spec:
   type: github
   events:
     - ping
-    - push
-    - workflow_run
+    - package
   secretRef:
     name: github-webhook-token
   resources:
