@@ -33,12 +33,12 @@ spec:
               repository: quay.io/minio/minio
               tag: RELEASE.2024-10-29T16-01-48Z@sha256:ebd2af76d40ff25ccc630533615f7ccd55fbe83d629a4b7c7a1b6311c1af3d6c
             env:
-              MINIO_API_CORS_ALLOW_ORIGIN: https://minio.milton.mcf.io,https://s3.milton.mcf.io
-              MINIO_BROWSER_REDIRECT_URL: https://minio.milton.mcf.io
+              # MINIO_API_CORS_ALLOW_ORIGIN: https://minio.milton.mcf.io,https://s3.milton.mcf.io
+              # MINIO_BROWSER_REDIRECT_URL: https://minio.milton.mcf.io
               MINIO_PROMETHEUS_JOB_ID: minio
               MINIO_PROMETHEUS_URL: https://prometheus.milton.mcf.io
               MINIO_PROMETHEUS_AUTH_TYPE: public
-              MINIO_SERVER_URL: https://s3.milton.mcf.io
+              # MINIO_SERVER_URL: https://s3.milton.mcf.io
               MINIO_STORAGE_CLASS_RRS: EC:0
               MINIO_STORAGE_CLASS_STANDARD: EC:0
               MINIO_UPDATE: "off"
@@ -80,43 +80,13 @@ spec:
         seccompProfile:
           type: RuntimeDefault
     service:
-      ui:
-        controller: minio
-        ports:
-          http:
-            port: 9001
       app:
         controller: minio
         ports:
-          http:
+          api:
             port: 9000
-    route:
-      ui:
-        enabled: true
-        kind: HTTPRoute
-        parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
-        hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
-        rules:
-          - backendRefs:
-              - name: minio-ui
-                port: 9001
-      app:
-        enabled: true
-        kind: HTTPRoute
-        parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
-        hostnames:
-          - s3.milton.mcf.io
-        rules:
-          - backendRefs:
-              - name: minio-app
-                port: 9000
+          console:
+            port: 9001
     serviceMonitor:
       app:
         serviceName: minio
