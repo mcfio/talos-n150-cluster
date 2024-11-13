@@ -80,40 +80,43 @@ spec:
         seccompProfile:
           type: RuntimeDefault
     service:
+      ui:
+        controller: minio
+        ports:
+          http:
+            port: 9001
       app:
         controller: minio
         ports:
           http:
-            port: &ui 9001
-          s3:
-            port: &app 9000
-    route:
-      ui:
-        enabled: true
-        kind: HTTPRoute
-        parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
-        hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
-        rules:
-          - backendRefs:
-              - name: minio
-                port: *ui
-      app:
-        enabled: true
-        kind: HTTPRoute
-        parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
-        hostnames:
-          - s3.milton.mcf.io
-        rules:
-          - backendRefs:
-              - name: minio
-                port: *app
+            port: 9000
+    # route:
+    #   ui:
+    #     enabled: true
+    #     kind: HTTPRoute
+    #     parentRefs:
+    #       - name: internal
+    #         namespace: ingress-system
+    #         sectionName: https
+    #     hostnames:
+    #       - "{{ .Release.Name }}.milton.mcf.io"
+    #     rules:
+    #       - backendRefs:
+    #           - name: minio
+    #             port: 9001
+    #   app:
+    #     enabled: true
+    #     kind: HTTPRoute
+    #     parentRefs:
+    #       - name: internal
+    #         namespace: ingress-system
+    #         sectionName: https
+    #     hostnames:
+    #       - s3.milton.mcf.io
+    #     rules:
+    #       - backendRefs:
+    #           - name: minio
+    #             port: 9000
     serviceMonitor:
       app:
         serviceName: minio
