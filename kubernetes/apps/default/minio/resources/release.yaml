@@ -90,33 +90,33 @@ spec:
         ports:
           http:
             port: 9000
-    # route:
-    #   ui:
-    #     enabled: true
-    #     kind: HTTPRoute
-    #     parentRefs:
-    #       - name: internal
-    #         namespace: ingress-system
-    #         sectionName: https
-    #     hostnames:
-    #       - "{{ .Release.Name }}.milton.mcf.io"
-    #     rules:
-    #       - backendRefs:
-    #           - name: minio
-    #             port: 9001
-    #   app:
-    #     enabled: true
-    #     kind: HTTPRoute
-    #     parentRefs:
-    #       - name: internal
-    #         namespace: ingress-system
-    #         sectionName: https
-    #     hostnames:
-    #       - s3.milton.mcf.io
-    #     rules:
-    #       - backendRefs:
-    #           - name: minio
-    #             port: 9000
+    route:
+      ui:
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: internal
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - "{{ .Release.Name }}.milton.mcf.io"
+        rules:
+          - backendRefs:
+              - name: minio-ui
+                port: 9001
+      app:
+        enabled: true
+        kind: HTTPRoute
+        parentRefs:
+          - name: internal
+            namespace: ingress-system
+            sectionName: https
+        hostnames:
+          - s3.milton.mcf.io
+        rules:
+          - backendRefs:
+              - name: minio-app
+                port: 9000
     serviceMonitor:
       app:
         serviceName: minio
