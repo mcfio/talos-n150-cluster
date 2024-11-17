@@ -68,6 +68,16 @@ spec:
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+              startup:
+                enabled: true
+                spec:
+                  failureThreshold: 30
+                  periodSeconds: 10
             resources:
               limits:
                 memory: 350M
@@ -76,6 +86,7 @@ spec:
                 memory: 128M
             securityContext:
               allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
@@ -103,7 +114,7 @@ spec:
             namespace: ingress-system
             sectionName: https
         hostnames:
-          - ${APP_FQDN}
+          - zigbee.milton.mcf.io
         rules:
           - backendRefs:
               - name: zigbee2mqtt
