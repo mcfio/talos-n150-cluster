@@ -54,11 +54,7 @@ spec:
                   failureThreshold: 3
               readiness: *probes
             securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              priveleged: true
             resources:
               requests:
                 cpu: 10m
@@ -68,11 +64,11 @@ spec:
       nodeSelector:
         aeotec.feature.node.kubernetes.io/zwave: "true"
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
+        # runAsNonRoot: true
+        # runAsUser: 568
+        # runAsGroup: 568
+        # fsGroup: 568
+        # fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
     service:
