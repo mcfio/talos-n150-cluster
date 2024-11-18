@@ -66,8 +66,7 @@ spec:
           timeoutSeconds: 5
     resources:
       requests:
-        cpu: 16m
-        memory: 90M
+        cpu: 10m
       limits:
         memory: 90M
     serviceMonitor:

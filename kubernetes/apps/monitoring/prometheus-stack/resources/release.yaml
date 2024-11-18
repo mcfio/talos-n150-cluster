@@ -54,11 +54,10 @@ spec:
         # configMaps:
         #   - slack-templates
         resources:
-          limits:
-            memory: 300M
           requests:
             cpu: 10m
-            memory: 60M
+          limits:
+            memory: 300M
         storage:
           volumeClaimTemplate:
             metadata:
@@ -115,7 +114,7 @@ spec:
         retentionSize: 70GB
         resources:
           requests:
-            cpu: 257m
+            cpu: 100m
           limits:
             memory: 3200Mi
         storageSpec:

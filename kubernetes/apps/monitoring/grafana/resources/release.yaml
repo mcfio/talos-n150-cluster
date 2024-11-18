@@ -87,17 +87,15 @@ spec:
       notifiers:
         enabled: true
       resources:
-        limits:
-          memory: 512Mi
         requests:
           cpu: 10m
-          memory: 80Mi
+        limits:
+          memory: 512Mi
     resources:
+      requests:
+        cpu: 10m
       limits:
         memory: 1Gi
-      requests:
-        cpu: 15m
-        memory: 128Mi
     persistence:
       enabled: false
     testFramework:

@@ -32,21 +32,7 @@ spec:
       keep: true
     dns01RecursiveNameservers: https://1.1.1.1/dns-query,https://1.0.0.1/dns-query
     dns01RecursiveNameserversOnly: true
-    replicaCount: 1
     prometheus:
+      enabled: true
       servicemonitor:
         enabled: true
-    resources:
-      requests:
-        cpu: 10m
-        memory: 128Mi
-    webhook:
-      resources:
-        requests:
-          cpu: 50m
-          memory: 32Mi
-    cainjector:
-      resources:
-        requests:
-          cpu: 100m
-          memory: 128Mi

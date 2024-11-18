@@ -51,11 +51,10 @@ spec:
               - "vendor"
               - "device"
       resources:
+        requests:
+          cpu: 10m
         limits:
           memory: 200M
-        requests:
-          cpu: 15m
-          memory: 150M
       tolerations:
         - key: node-role.kubernetes.io/control-plane
           effect: NoSchedule
