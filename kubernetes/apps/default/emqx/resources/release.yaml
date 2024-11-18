@@ -38,8 +38,7 @@ spec:
       storageClassName: ceph-block
     resources:
       requests:
-        cpu: 100m
-        memory: 512Mi
+        cpu: 10m
       limits:
         memory: 512Mi
     ssl:

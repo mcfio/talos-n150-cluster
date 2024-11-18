@@ -47,10 +47,9 @@ spec:
                   name: "{{ .Release.Name }}-secret"
             resources:
               requests:
-                cpu: 10m
-                memory: 250Mi
+                cpu: 100m
               limits:
-                memory: 8000Mi
+                memory: 8Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
