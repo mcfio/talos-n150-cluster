@@ -36,8 +36,7 @@ spec:
               repository: ghcr.io/zwave-js/zwave-js-ui
               tag: 9.27.7
             env:
-              TZ: Canada/Eastern
-              TRUST_PROXY: "true"
+              TRUST_PROXY: 10.244.0.0/18
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
