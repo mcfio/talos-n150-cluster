@@ -37,6 +37,7 @@ spec:
               tag: 9.27.2
             env:
               TZ: Canada/Eastern
+              TRUST_PROXY: "true"
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
