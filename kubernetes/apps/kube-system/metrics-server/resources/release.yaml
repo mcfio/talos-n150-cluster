@@ -32,8 +32,3 @@ spec:
       enabled: true
     serviceMonitor:
       enabled: true
-    resources:
-      requests:
-        cpu: 10m
-      limits:
-        memory: 125M
