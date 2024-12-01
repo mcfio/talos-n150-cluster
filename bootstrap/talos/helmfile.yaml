@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/helmfile
-# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+# renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
 kubeVersion: v1.31.2
 
 helmDefaults:
