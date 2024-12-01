@@ -78,7 +78,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: op://${{ secrets.OP_VAULT_NAME }}/mcfio-cloudflare-pages/api_token
 
       - name: Deploy Schemas to Cloudflare Pages
-        uses: cloudflare/wrangler-action@05f17c4a695b4d94b57b59997562c6a4624c64e4 # v3
+        uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f # v3
         with:
           accountId: ${{ steps.op-load-cloudflare-secret.outputs.CLOUDFLARE_ACCOUNT_ID }}
           apiToken: ${{ steps.op-load-cloudflare-secret.outputs.CLOUDFLARE_API_TOKEN }}
