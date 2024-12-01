@@ -7,6 +7,5 @@ metadata:
 spec:
   loadBalancerIPs: true
   nodeSelector:
-    matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
+    matchLabels:
+      kubernetes.io/os: linux
