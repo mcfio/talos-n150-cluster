@@ -11,6 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
+    - name: cert-manager
     - name: gateway-api-crds
     - name: cilium-config
   path: ./apps/ingress-system/gateway/resources
