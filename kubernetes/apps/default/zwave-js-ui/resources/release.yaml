@@ -46,7 +46,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /health/zwave
+                    path: /health/zwave/
                     port: &port 8091
                   initialDelaySeconds: 0
                   periodSeconds: 10
