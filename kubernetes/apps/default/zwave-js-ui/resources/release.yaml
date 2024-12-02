@@ -54,7 +54,7 @@ spec:
                   failureThreshold: 3
               readiness: *probes
             securityContext:
-              allowPrivilegeEscalation: false
+              privileged: true
               capabilities:
                 drop:
                   - ALL
