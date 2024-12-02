@@ -36,7 +36,7 @@ spec:
               repository: ghcr.io/zwave-js/zwave-js-ui
               tag: 9.27.7
             env:
-              TRUST_PROXY: 10.244.0.0/18
+              TRUST_PROXY: 10.45.0.0/16
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
@@ -46,7 +46,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /health
+                    path: /health/zwave
                     port: &port 8091
                   initialDelaySeconds: 0
                   periodSeconds: 10
