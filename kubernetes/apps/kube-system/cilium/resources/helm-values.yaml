@@ -1,13 +1,12 @@
 ---
 autoDirectNodeRoutes: true
-# temporarily disable until 1.17
 bandwidthManager:
-  enabled: false
-  bbr: false
+  enabled: true
+  bbr: true
 bpf:
   masquerade: true
-  # temporarily enable until 1.17
-  hostLegacyRouting: true
+  preallocateMaps: true
+  tproxy: true
 cgroup:
   autoMount:
     enabled: false
@@ -15,11 +14,11 @@ cgroup:
 cluster:
   name: home-cluster
   id: 100
+enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
-# temporarily enable until 1.17
-# envoy:
-#   enabled: false
+envoy:
+  enabled: false
 hubble:
   enabled: false
 ipam:
