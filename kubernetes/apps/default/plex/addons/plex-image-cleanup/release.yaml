@@ -100,7 +100,3 @@ spec:
         existingClaim: plex-cache
         globalMounts:
           - path: /data/plex_config/Library/Application Support/Plex Media Server/Cache
-      metadata:
-        existingClaim: plex-metadata
-        globalMounts:
-          - path: /data/plex_config/Library/Application Support/Plex Media Server/Metadata
