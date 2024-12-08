@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: emqx
-      version: 5.8.2
+      version: 5.8.3
       sourceRef:
         kind: HelmRepository
         name: emqx-charts
@@ -35,7 +35,7 @@ spec:
     persistence:
       enabled: true
       size: 1Gi
-      storageClassName: ceph-block
+      storageClassName: openebs-hostpath
     resources:
       requests:
         cpu: 10m
@@ -48,10 +48,6 @@ spec:
       existingName: mqtt-cert
     podAnnotations:
       reloader.stakater.com/auto: "true"
-    topologySpreadConstraints:
-      - maxSkew: 1
-        topologyKey: kubernetes.io/hostname
-        whenUnsatisfiable: DoNotSchedule
   valuesFrom:
     - targetPath: emqxConfig.EMQX_DASHBOARD__DEFAULT_PASSWORD
       kind: Secret
