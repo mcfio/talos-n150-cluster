@@ -117,14 +117,14 @@ spec:
       nfs-media-1:
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /storage/media
+        path: /mnt/storage/media
         globalMounts:
           - path: /nfs-data
             readOnly: true
       nfs-media-2:
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /media-pool/tv
+        path: /mnt/media-pool/tv
         globalMounts:
           - path: /media/tv
             readOnly: true
