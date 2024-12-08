@@ -120,12 +120,12 @@ spec:
       archive:
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /media-pool/tv
+        path: /mnt/media-pool/tv
         globalMounts:
           - path: /archive/tv
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /storage/media
+        path: /mnt/storage/media
         globalMounts:
           - path: /media
