@@ -93,7 +93,7 @@ spec:
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /storage/media
+        path: /mnt/storage/media
       incomplete:
         enabled: true
         type: emptyDir
