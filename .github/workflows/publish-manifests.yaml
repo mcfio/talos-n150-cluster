@@ -52,7 +52,7 @@ jobs:
           echo "DIGEST_SHA=$digest" >> $GITHUB_OUTPUT
 
       - name: Generate GitHub Attestation
-        uses: actions/attest-build-provenance@c4fbc648846ca6f503a13a2281a5e7b98aa57202 # v2
+        uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2
         with:
           subject-name: ${{ env.REPOSITORY }}
           subject-digest: ${{ steps.create.outputs.DIGEST_SHA }}
