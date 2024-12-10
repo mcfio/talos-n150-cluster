@@ -117,12 +117,6 @@ spec:
         size: 10Gi
       tmp:
         type: emptyDir
-      archive:
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool/tv
-        globalMounts:
-          - path: /archive/tv
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io

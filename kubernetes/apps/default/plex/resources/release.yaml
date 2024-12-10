@@ -114,17 +114,10 @@ spec:
         type: emptyDir
       transcode:
         type: emptyDir
-      nfs-media-1:
+      media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
         globalMounts:
           - path: /nfs-data
-            readOnly: true
-      nfs-media-2:
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/media-pool/tv
-        globalMounts:
-          - path: /media/tv
             readOnly: true
