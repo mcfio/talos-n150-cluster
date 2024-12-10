@@ -96,6 +96,10 @@ spec:
               namespace: ingress-system
               sectionName: https
       prometheusSpec:
+        image:
+          registry: quay.io
+          repository: prometheus/prometheus
+          tag: v3.0.1
         scrapeInterval: 1m # Matches interval from Grafana helm chart
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
@@ -105,9 +109,7 @@ spec:
         enableAdminAPI: true
         walCompression: true
         enableFeatures:
-          - auto-gomaxprocs
           - memory-snapshot-on-shutdown
-          - new-service-discovery-manager
         externalUrl: https://prometheus.milton.mcf.io
         logFormat: json
         retention: 14d
