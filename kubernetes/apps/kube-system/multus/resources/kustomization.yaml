@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/refs/tags/v4.1.4/deployments/multus-daemonset-thick.yml
 patches:
-  # https://www.talos.dev/v1.8/kubernetes-guides/network/multus/#patching-the-daemonset
+  # https://www.talos.dev/v1.8/kubernetes-guides/network/multus/
   - patch: |-
       apiVersion: apps/v1
       kind: DaemonSet
@@ -24,13 +24,13 @@ patches:
               - name: install-cni
                 image: ghcr.io/siderolabs/install-cni:v1.8.0
                 command:
-                - /install-cni.sh
+                  - /install-cni.sh
                 securityContext:
                   privileged: true
                 volumeMounts:
-                - mountPath: /host/opt/cni/bin
-                  mountPropagation: Bidirectional
-                  name: cnibin
+                  - mountPath: /host/opt/cni/bin
+                    mountPropagation: Bidirectional
+                    name: cnibin
             volumes:
               - name: host-run-netns
                 hostPath:
