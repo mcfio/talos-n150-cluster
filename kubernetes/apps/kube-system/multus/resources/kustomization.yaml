@@ -4,6 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/refs/tags/v4.1.4/deployments/multus-daemonset-thick.yml
+  - network-definition.yaml
 patches:
   # https://www.talos.dev/v1.8/kubernetes-guides/network/multus/
   - patch: |-
