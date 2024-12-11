@@ -22,7 +22,7 @@ patches:
               - name: install-multus-binary
                 image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.4-thick
               - name: install-cni
-                image: ghcr.io/siderolabs/install-cni:v1.8.3
+                image: ghcr.io/siderolabs/install-cni:v1.8.0
                 command:
                 - /install-cni.sh
                 securityContext:
