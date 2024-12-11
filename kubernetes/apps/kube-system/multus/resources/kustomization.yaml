@@ -15,6 +15,22 @@ patches:
       spec:
         template:
           spec:
+            containers:
+              - name: kube-multus
+                image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.4-thick
+            initContainers:
+              - name: install-multus-binary
+                image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.4-thick
+              - name: install-cni
+                image: ghcr.io/siderolabs/install-cni:v1.8.3
+                command:
+                - /install-cni.sh
+                securityContext:
+                  privileged: true
+                volumeMounts:
+                - mountPath: /host/opt/cni/bin
+                  mountPropagation: Bidirectional
+                  name: cnibin
             volumes:
               - name: host-run-netns
                 hostPath:
