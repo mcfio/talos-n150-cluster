@@ -32,6 +32,7 @@ spec:
       enabled: true
     loadBalancer:
       algorithm: maglev
+      mode: dsr
     maglev:
       tableSize: 1021
       hashSeed: "P9jc887+zv7eNcUr"
