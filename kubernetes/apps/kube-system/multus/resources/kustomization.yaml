@@ -19,6 +19,8 @@ patches:
             containers:
               - name: kube-multus
                 image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.4-thick
+                resources:
+                  $patch: delete
             initContainers:
               - name: install-multus-binary
                 image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.4-thick
@@ -27,14 +29,12 @@ patches:
                   - "-f"
                   - "/usr/src/multus-cni/bin/multus-shim"
                   - "/host/opt/cni/bin/multus-shim"
+                resources:
+                  $patch: delete
               - name: install-cni
                 image: ghcr.io/siderolabs/install-cni:v1.8.0
                 command:
                   - /install-cni.sh
-                resources:
-                  requests:
-                    cpu: 10m
-                    memory: 15Mi
                 securityContext:
                   privileged: true
                 volumeMounts:
