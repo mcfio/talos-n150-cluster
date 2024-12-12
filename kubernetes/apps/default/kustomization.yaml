@@ -21,3 +21,4 @@ resources:
   - overseerr/app.yaml
   - zigbee2mqtt/app.yaml
   - zwave-js-ui/app.yaml
+  - home-assistant/app.yaml
