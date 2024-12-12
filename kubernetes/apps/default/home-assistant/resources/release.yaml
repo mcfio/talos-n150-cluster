@@ -50,6 +50,13 @@ spec:
                 drop:
                   - ALL
     defaultPodOptions:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [{
+            "name": "multus-trusted",
+            "namespace": "kube-system",
+            "ips": ["192.168.10.14/24"]
+          }]
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
