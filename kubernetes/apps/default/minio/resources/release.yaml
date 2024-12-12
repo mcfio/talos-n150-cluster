@@ -115,6 +115,6 @@ spec:
       config:
         type: nfs
         server: nfs.cluster.milton.mcf.io
-        path: /storage/minio
+        path: /mnt/storage/minio
         globalMounts:
           - path: /data
