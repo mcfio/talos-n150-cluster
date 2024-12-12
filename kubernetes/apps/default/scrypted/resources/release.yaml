@@ -62,7 +62,7 @@ spec:
         controller: scrypted
         ports:
           http:
-            port: &port 10443
+            port: &port 11080
     route:
       app:
         enabled: true
