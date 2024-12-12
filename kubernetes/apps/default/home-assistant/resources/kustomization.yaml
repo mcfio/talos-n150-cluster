@@ -6,3 +6,4 @@ resources:
   # - external-secret.yaml
   - release.yaml
   # - ../../../../templates/gatus/internal/
+  - ../../../../templates/volsync/
