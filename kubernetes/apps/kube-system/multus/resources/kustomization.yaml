@@ -22,10 +22,19 @@ patches:
             initContainers:
               - name: install-multus-binary
                 image: ghcr.io/k8snetworkplumbingwg/multus-cni:v4.1.4-thick
+                command:
+                  - "cp"
+                  - "-f"
+                  - "/usr/src/multus-cni/bin/multus-shim"
+                  - "/host/opt/cni/bin/multus-shim"
               - name: install-cni
                 image: ghcr.io/siderolabs/install-cni:v1.8.0
                 command:
                   - /install-cni.sh
+                resources:
+                  requests:
+                    cpu: 10m
+                    memory: 15Mi
                 securityContext:
                   privileged: true
                 volumeMounts:
