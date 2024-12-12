@@ -37,6 +37,7 @@ spec:
               tag: 2024.12.2@sha256:352d00833a6bb2a1a82e20e846c054bccb4a186c7f264d06b139ca406af288e1
             env:
               TZ: Canada/Eastern
+              HASS_HTTP_TRUSTED_PROXY_2: 10.45.0.0/16
             resources:
               requests:
                 cpu: 10m
