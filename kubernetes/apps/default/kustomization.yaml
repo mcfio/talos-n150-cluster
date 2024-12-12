@@ -22,3 +22,4 @@ resources:
   - zigbee2mqtt/app.yaml
   - zwave-js-ui/app.yaml
   - home-assistant/app.yaml
+  - scrypted/app.yaml
