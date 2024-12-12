@@ -27,7 +27,7 @@ spec:
       namespace: rook-ceph
   values:
     controllers:
-      home-assistant:
+      scrypted:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
