@@ -26,6 +26,10 @@ spec:
   values:
     replicas: 2
     kind: Deployment
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
     deschedulerPolicy:
       policies:
         - name: default
