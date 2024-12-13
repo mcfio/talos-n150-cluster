@@ -24,12 +24,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-      - name: Setup Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
-
-      - name: Setup Workflow Tools
-        shell: bash
-        run: brew install kubernetes-cli
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v4
 
       - name: Setup Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
@@ -41,25 +37,7 @@ jobs:
         with:
           node-version: 18.x
 
-      # - name: Retrieve Kubeconfig from 1Password Vault
-      #   id: op-load-kubeconfig-secret
-      #   uses: 1password/load-secrets-action@581a835fb51b8e7ec56b71cf2ffddd7e68bb25e0 # v2
-      #   with:
-      #     export-env: false
-      #   env:
-      #     OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-      #     KUBECONFIG_BASE64: op://${{ secrets.OP_VAULT_NAME }}/mcfio-github-actions-read/credential
-
-      # - name: Write Kubeconfig
-      #   id: kubeconfig
-      #   uses: timheuer/base64-to-file@adaa40c0c581f276132199d4cf60afa07ce60eac # v1.2
-      #   with:
-      #     encodedString: ${{ steps.op-load-kubeconfig-secret.outputs.KUBECONFIG_BASE64 }}
-      #     fileName: kubeconfig
-
       - name: Run crd-extractor
-        # env:
-        #   KUBECONFIG: ${{ steps.kubeconfig.outputs.filePath }}
         shell: bash
         run: |
           curl -fsSL -o $GITHUB_WORKSPACE/crd-extractor.sh \
