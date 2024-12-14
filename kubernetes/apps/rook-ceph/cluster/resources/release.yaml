@@ -36,9 +36,15 @@ spec:
       [global]
       bdev_enable_discard = true
       bdev_async_discard = true
+      osd_class_update_on_start = false
     cephClusterSpec:
+      cephVersion:
+        image: quay.io/ceph/ceph:v19.2.0 #
       crashCollector:
         disable: false
+      csi:
+        readAffinity:
+          enabled: true
       dashboard:
         enabled: true
         urlPrefix: /
@@ -70,9 +76,6 @@ spec:
                 - matchExpressions:
                     - key: node-role.kubernetes.io/control-plane
                       operator: Exists
-          tolerations:
-            - key: node-role.kubernetes.io/control-plane
-              operator: Exists
         mon: *placement
       resources:
         mgr:
@@ -127,6 +130,6 @@ spec:
       name: csi-ceph-blockpool
       isDefault: false
       deletionPolicy: Delete
-    cephFileSystems: {}
-    cephFileSystemVolumeSnapshotClass: {}
-    cephObjectStores: {}
+    cephFileSystems: []
+    cephFileSystemVolumeSnapshotClass: []
+    cephObjectStores: []
