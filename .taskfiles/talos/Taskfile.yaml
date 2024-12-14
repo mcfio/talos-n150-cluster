@@ -2,100 +2,108 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
-vars: &vars
-  TALOS_VERSION:
-    sh: yq '.spec.postBuild.substitute.TALOS_VERSION' {{.KUBERNETES_DIR}}/apps/system-upgrade/plans.yaml
-  TALOS_SCHEMATIC_ID:
-    sh: yq '.spec.postBuild.substitute.TALOS_SCHEMATIC_ID' {{.KUBERNETES_DIR}}/apps/system-upgrade/plans.yaml
-  KUBERNETES_VERSION:
-    sh: yq '.spec.postBuild.substitute.KUBERNETES_VERSION' {{.KUBERNETES_DIR}}/apps/system-upgrade/plans.yaml
-  TALOSCONFIG_FILE: "{{.PROJECT_DIR}}/bootstrap/talos/clusterconfig/talosconfig"
-  KUBECONFIG_FILE: "{{.PROJECT_DIR}}/bootstrap/talos/clusterconfig/kubeconfig"
-
 tasks:
-
-  bootstrap:
-    desc: Bootstrap Talos Cluster
-    cmds:
-      - task: bootstrap:etcd
-      - task: kubeconfig
-      - task: bootstrap:apps
-
-  bootstrap:etcd:
-    desc: Bootstrap Etcd
-    internal: true
-    cmd: until talosctl --nodes {{.CONTROLPLANE}} bootstrap; do sleep 10; done
-    vars:
-      CONTROLPLANE:
-        sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
-    preconditions:
-      - test -f {{.TALOSCONFIG_FILE}}
-      - talosctl config info >/dev/null 2>&1
-
-  bootstrap:apps:
-    desc: Bootstrap core apps needed for Talos
-    internal: true
-    cmds:
-      - until kubectl wait --for=condition=Ready=False nodes --all --timeout=10m; do sleep 10; done
-      - helmfile --quiet --file {{.ROOT_DIR}}/bootstrap/talos/helmfile.yaml apply --skip-diff-on-install --suppress-diff
-      - until kubectl wait --for=condition=Ready nodes --all --timeout=10m; do sleep 10; done
-    preconditions:
-      - test -f {{.TALOSCONFIG_FILE}}
-      - talosctl config info >/dev/null 2>&1
-      - test -f {{.ROOT_DIR}}/bootstrap/talos/helmfile.yaml
-
-  kubeconfig:
-    desc: Generate KUBECONFIG directly from Talos API
-    cmd: talosctl kubeconfig --nodes {{.CONTROLPLANE}} --force {{.KUBECONFIG_FILE}}
-    vars:
-      CONTROLPLANE:
-        sh: talosctl config info --output json | jq --raw-output '.endpoints[0]'
-    preconditions:
-      - test -f {{.TALOSCONFIG_FILE}}
-      - talosctl config info >/dev/null 2>&1
-
   apply-config:
-    desc: Apply Talos configuration to a node
-    cmd: |
-      sops -d {{.ROOT_DIR}}/bootstrap/talos/profiles/{{.ROLE}}.enc.yaml | envsubst | \
-        talosctl machineconfig patch /dev/stdin --patch @{{.ROOT_DIR}}/bootstrap/talos/assets/{{.NODE}}.yaml | \
-          talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
-    env: *vars
-    vars:
-      NODE: '{{.node}}'
-      MODE: '{{.mode | default "no-reboot"}}'
-      ROLE:
-        sh: talosctl --nodes {{.NODE}} get machineconfig -o jsonpath='{.spec.machine.type}'
-    requires:
-      vars: [node]
-    preconditions:
-      - test -f {{.TALOSCONFIG_FILE}}
-      - test -f {{.ROOT_DIR}}/bootstrap/talos/profiles/controlplane.enc.yaml
-      - test -f {{.ROOT_DIR}}/bootstrap/talos/assets/{{.NODE}}.yaml
-      - talosctl --nodes {{.NODE}} get machineconfig >/dev/null 2>&1
-
-  upgrade:
-    desc: Upgrade a single Talos Linux OS
+    desc: Apply machine configuration to a single node [node=required] [mode=no-reboot]
     cmds:
-      - talosctl upgrade --nodes {{.NODE}} --image factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}} --reboot-mode {{.MODE}} --wait=true --timeout=10m --preserve=true
+      - task: health-check
+      - sops exec-file --input-type yaml --output-type yaml {{.ROOT_DIR}}/talos/profiles/{{.TYPE}}.enc.yaml.j2 "minijinja-cli {}" | talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
+      - talosctl --nodes {{.NODE}} health --wait-timeout=10m --server=false
+    env:
+      TALOS_SCHEMATIC_ID:
+        sh: talosctl --nodes {{.NODE}} get nodeannotationspec --output json | jq --raw-output '.spec | select(.key == "extensions.talos.dev/schematic") | .value'
     vars:
-      NODE: '{{.node}}'
-      MODE: '{{.mode | default "default"}}'
+      NODE: "{{.node}}"
+      MODE: '{{default "no-reboot" .mode}}'
+      TYPE:
+        sh: talosctl --nodes {{.NODE}} get machinetypes --output jsonpath='{.spec}'
     requires:
       vars: [node]
     preconditions:
-      - test -f {{.TALOSCONFIG_FILE}}
-      - talosctl config info >/dev/null 2>&1
-      - talosctl --nodes {{.NODE}} get machineconfig >/dev/null 2>&1
+      - which jq talosctl minijinja-cli sops
+      - test -f {{.TALOSCONFIG}}
+      - talosctl --nodes {{.NODE}} get machineconfig
+      - test -f {{.ROOT_DIR}}/talos/profiles/{{.TYPE}}.enc.yaml.j2
+
+  apply-cluster:
+    desc: Apply machine configuration to all Talos nodes [mode=no-reboot]
+    cmds:
+      - for: { var: TALOS_NODES }
+        task: apply-config
+        vars:
+          node: "{{.ITEM}}"
+          mode: "{{.MODE}}"
+    vars:
+      TALOS_NODES:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+      MODE: '{{default "no-reboot" .mode}}'
+    preconditions:
+      - which jq talosctl
+
+  upgrade-node:
+    desc: Upgrade Talos on a single node [node=required] [mode=default]
+    cmds:
+      - task: health-check
+      - talosctl --nodes {{.NODE}} upgrade --image="factory.talos.dev/installer/{{.TALOS_SCHEMATIC_ID}}:{{.TALOS_VERSION}}" --reboot-mode {{.MODE}} --wait=true --timeout=10m
+      - talosctl --nodes {{.NODE}} health --wait-timeout=10m --server=false
+    vars:
+      NODE: "{{.node}}"
+      MODE: '{{default "default" .mode}}'
+      TALOS_SCHEMATIC_ID:
+        sh: talosctl --nodes {{.NODE}} get nodeannotationspec --output json | jq --raw-output '.spec | select(.key == "extensions.talos.dev/schematic") | .value'
+    requires:
+      vars: [node]
+    preconditions:
+      - which jq talosctl
+      - test -f {{.TALOSCONFIG}}
+      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/talos/releases/tag/{{.TALOS_VERSION}}
+      - talosctl --nodes {{.NODE}} get machineconfig
+      - talosctl config info
+
+  upgrade-cluster:
+    desc: Upgrade all Talos nodes [mode=default]
+    cmds:
+      - for: { var: TALOS_NODES }
+        task: upgrade-node
+        vars:
+          node: "{{.ITEM}}"
+    vars:
+      TALOS_NODES:
+        sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
+    preconditions:
+      - which jq talosctl
 
   upgrade-k8s:
-    desc: Upgrade a Talos Linux Kubernetes cluster
+    desc: Upgrade Kubernetes on all Talos Linux nodes.
     cmds:
-      - talosctl upgrade-k8s --nodes {{.NODE}} --to {{.KUBERNETES_VERSION}}
+      - task: health-check
+      - talosctl --nodes {{.TALOS_ENDPOINT}} upgrade-k8s --to {{.KUBERNETES_VERSION}}
     vars:
-      NODE:
+      TALOS_ENDPOINT:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
     preconditions:
-      - test -f {{.TALOSCONFIG_FILE}}
-      - talosctl config info >/dev/null 2>&1
-      - talosctl --nodes {{.NODE}} get machineconfig >/dev/null 2>&1
+      - which jq talosctl
+      - test -f {{.TALOSCONFIG}}
+      - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/kubelet/releases/tag/{{.KUBERNETES_VERSION}}
+      - talosctl config info
+      - talosctl --nodes {{.TALOS_ENDPOINT}} get machineconfig
+
+  kubeconfig:
+    desc: Generate the kubeconfig directly from Talos API
+    cmd: talosctl kubeconfig --nodes {{.TALOS_ENDPOINT}} --force {{.KUBECONFIG}}
+    vars:
+      TALOS_ENDPOINT:
+        sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
+    preconditions:
+      - which jq talosctl
+      - talosctl config info
+      - talosctl --nodes {{.TALOS_ENDPOINT}} get machineconfig
+      - test -f {{.TALOSCONFIG}}
+
+  health-check:
+    internal: true
+    cmds:
+      - until kubectl wait cephcluster --for=jsonpath=.status.ceph.health=HEALTH_OK --timeout=10m --all --all-namespaces &>/dev/null; do sleep 5; done
+      - until kubectl wait jobs --all --all-namespaces --for=condition=complete --timeout=5m &>/dev/null; do sleep 5; done
+    preconditions:
+      - which kubectl

@@ -1,0 +1,191 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: controlplane
+  token: ENC[AES256_GCM,data:GdZvIT717X/bCPZUdLlOHwAZpq63HLM=,iv:il2xuyyMTZwHoWO2KvjR8rCQhbMuFQn5VIzRShD3Q2U=,tag:CzwjkWGzY4HwxFUfR7qzPA==,type:str]
+  ca:
+    crt: ENC[AES256_GCM,data:AWw6kJFBHBcdnf3yWJP6hpaJHMAGE9j9jsCa80Z6xTNjYRzSRThQYS7xtn0Q8WPKF3K0JVek+PW+O9+1kms8/cZol17iOt5+dTWD73K0GUyvL80Fpn0poHGY7jQ+2KrgRpe5wqze4KbNLiLLq0yfhy+SyQ1DPfVh7Z1LSz778MVn28/OO7FhUP4XFO4GfKDgvmw0nXxbVtg3qX/F0KwiBPHOiXIHxLz1qMyL4S3BSTIWpyMCoOlxBoWAlu5bNkVgBuIlNdTuNKGN93EPIZVlK+ViuMw9ghTJSYGUGJ7l9ptfoysUXQMirru1RUD+lvf6+brGW0sWghVNlNdUokeraCksdZ4+ut8HnZ5ko9UJ4APZH/WfpzL7WEmjSUpr748/aRb50KiATBvFaN7i0k5qCkZ55XocAN2/esJ26uE5qoCjjeaOPd3FXw0ExZaVpqH6ZNjVt3sfZorcTOuy7JgdExpBW1GGRwZwGcTz8TP8St81G1ovPgynlbE+Baz5/Kx73rWch/BeEunJCcXtmXIMnuWMSXPzmtuOH0UnNFgo5zGyOMpStuLox78M/o6fkS5bOP7QqJhqsfmxBHtGDqmHkGvrq9WWIwLSCi2ZYbjcADwqMqg5L5szZTrWvKEOnfJKf3hAJgUsDW/9o0O6ud3eS9ne1vng46X6C8KSXXY63ydltaX5u0rvJ+e98ost7VQSvChjf3Kh8gauY/BWY7Tg3VRPOhcDhJzxJPD1MK3B38PKTDuYkF2UaNFTGe1uSNtL3Fws/jgNaTULdkCrUfammFlDOWawrdeuQ2qBzJ+YHBc9+xmiGXQaPGklTCv7TNI8F4JSQKtdYBmvfOaHuvIJ7Bx0lcaNmFd7uYdXJFw7V9hN69Fn,iv:xJWzXZ3DTckKmIQuEyD62+qtbGTUVN5xkqPlaB3xd8M=,tag:FACrbcUn+m71UGW9YChVYw==,type:str]
+    key: ENC[AES256_GCM,data:zlgyoI82/4329kh1nM0dDI3Zh+tgYp6zCHtJ5krU1YQR2tmCJGCNr6KcaAz4a8xqq2XMRHttgsNHV3be4S/tTl+333JAyLTs7rSNmASn6GZXsEqQKj7i1ROcCwTAuLBFDo6BKzA53QHzP8WDPpC4PfGn+NPL93+KQNhuy537wwBHaRbAMSqdbMAQi0/QKqRMg0TeYH9urCeBTbLOhcBn99FlWfbSjRapN/2cnim5B008N0eZ,iv:8BwrxtrYkxrAmZe8IOCOrEtEJ3Den/O0lTVKu1m5qCU=,tag:0tpLiGQxnjSLWiGXLa3Agw==,type:str]
+  certSANs:
+    - 127.0.0.1
+    - 192.168.45.40
+  kubelet:
+    image: ghcr.io/siderolabs/kubelet:{{ ENV.KUBERNETES_VERSION }}
+    extraArgs:
+      cloud-provider: external
+      rotate-server-certificates: "true"
+    extraConfig:
+      imageGCHighThresholdPercent: 70
+      imageGCLowThresholdPercent: 50
+      shutdownGracePeriod: 60s
+    extraMounts:
+      - destination: /var/openebs/local
+        type: bind
+        source: /var/openebs/local
+        options:
+          - bind
+          - rshared
+          - rw
+    defaultRuntimeSeccompProfileEnabled: true
+    nodeIP:
+      validSubnets:
+        - 192.168.45.0/24
+    disableManifestsDirectory: true
+  network:
+    interfaces:
+      - deviceSelector:
+          driver: e1000e
+          hardwareAddr: 6c:4b:90:*
+        mtu: 1500
+        dhcp: true
+        vip:
+          ip: 192.168.45.40
+        vlans:
+          - vlanId: 10
+            dhcp: false
+            mtu: 1500
+  install:
+    diskSelector:
+      model: Lexar 128GB SSD
+    extraKernelArgs:
+      - apparmor=0
+      - mitigations=off
+      - security=none
+    image: factory.talos.dev/installer/{{ ENV.TALOS_SCHEMATIC_ID }}:{{ ENV.TALOS_VERSION }}
+    wipe: false
+  files:
+    - content: |-
+        [ NFSMount_Global_Options ]
+        nfsvers=4.2
+        hard=True
+        nconnect=16
+        noatime=True
+      permissions: 420
+      path: /etc/nfsmount.conf
+      op: overwrite
+  sysctls:
+    # Watchdog
+    fs.inotify.max_user_watches: 1048576
+    fs.inotify.max_user_instances: 8192
+    # Cloudflared / QUIC
+    net.core.rmem_max: 67108864
+    # Cloudflared / QUIC
+    net.core.wmem_max: 67108864
+    # PostgreSQL
+    vm.nr_hugepages: 1024
+  features:
+    rbac: true
+    stableHostname: true
+    kubernetesTalosAPIAccess:
+      enabled: true
+      allowedRoles:
+        - os:reader
+      allowedKubernetesNamespaces:
+        - kube-system
+    apidCheckExtKeyUsage: true
+    diskQuotaSupport: true
+    kubePrism:
+      enabled: true
+      port: 7445
+    hostDNS:
+      enabled: true
+      resolveMemberNames: true
+      forwardKubeDNSToHost: false
+cluster:
+  id: ENC[AES256_GCM,data:vApir5eCWUzhfUZvzqM+IhXWyAAhWLkxjLwVbEH6YzOjVLWVnXBAUnR7CSs=,iv:xb86NrcV0kqnGP5Qx2UzbskowfSPzqi6aUqzfmx1tpg=,tag:Ec8kuuKwYkfj6TozvY0V+w==,type:str]
+  secret: ENC[AES256_GCM,data:84tIfpNQ4Gdh3Dr/b4vaT4RX34fB9WJpdgBPsr2hoSbb3oSvnx4Xgi6rYbE=,iv:q5pSaCLEREQA1FzyZWrYQtkbBYxP6Pw3DLg37WcMj0I=,tag:ZA5DfxabY7wUzoz1Av2l4g==,type:str]
+  controlPlane:
+    endpoint: https://192.168.45.40:6443
+  clusterName: home-cluster
+  allowSchedulingOnMasters: true
+  network:
+    cni:
+      name: none
+    dnsDomain: cluster.local
+    podSubnets:
+      - 10.45.0.0/16
+    serviceSubnets:
+      - 10.46.0.0/16
+  token: ENC[AES256_GCM,data:/5u3StMvy7fUs8Xse2Q1lI0d7z/OYls=,iv:+mV1/Gs6J8JZz9n3b7axh1/uZq3SKyHAwfCew7/aQZ8=,tag:nsG2b5V5pfEHKyDJOxm0GA==,type:str]
+  secretboxEncryptionSecret: ENC[AES256_GCM,data:FmwRfD2LAZ3sM5Q3Qiv/b+Np8gjJK6h1T20WlL6YU+cO6np3MnwprlPfgCU=,iv:vTQsl7cVAaqMBUsLyRTB5L2PBgvfvRmJrdDjz4mXjd0=,tag:CI7ga0ixVbcmqhFMbjWQ3g==,type:str]
+  ca:
+    crt: ENC[AES256_GCM,data:pRV6Uv/HG0qO9LqaJBDQySqwZcIfutn4IFo8rEbE7WhFpPWRSqYB6oBV8LqOUrbic5Wy9nMHhK1txLXn4OxLR+zOEFfJ59S29q6fjnQZE7LiUK55umPS1sz4+jLrfyTRT4kbEn9yNQqepGY1cPRPYAbf2DXQxkRjpGkwVGzOM9vP74molxQ8kogCBgeRJCB7f2ceKBfVpyx8gPUOkIpcSZNiMWZxmkyP+QljHMe3y/ore3/JVnijHFU+S+rEESGtL/CjuxQZYrfNuPy6mD9axyPen8bB1J/3lAvHjVFC6KmuoS7Z0YSRF/9Xc90nmktbw681UePIz3ndUMafz8YMieWPcVoo6cnFEUjcV51jcpuQPakMCGajlnbOqYpnSG5O0JcTBoIa7fwvTlgp5Vf9xTz10XlV2wWjypEIDr+EIUn2LXLm2QShlvGt918SY6TLN2DpFyVf9T5N0B3XvGc3HFRqp8PYZAI/qGx/Mxf9lmbZSEbVJxzRjh4E9SuOdUOjD5/sFWwRXe9eo0UmQwtstUxWSzHbsIvPYbXb3qCGzpc+gmlSinWzt+AdE3qCOqzVtwsD/M1ABS+algawhTU5zmqVeW7FLQqbaeH8p0JPWLM64PoRRradDo3UQwZhbn46nvsLpTt9Jz6gYh6bmHhAkF+1Wx+d6n6U3D1ZEscGJDephemxU4JLClJQ0ce0J8HRbUPUQyinFXqonXgQMtAM4xlEtSf82RRjS7DI3z5ceunqKTc6l7+SAV1UV4dA57yVzio/dEj+VMMCKCIKRFpzLbBhgMrpvvlCEJSNRAlvVR1+d6pJqzgITuq5W3tMy/64hjkie3KjZR1o3Lc2rhIw3MDwLVBr7l6b4xjE2VQLGCfY0s1W6y90OqFw9MRaU1Ayt+JwdNcs+x77HBaSsevYr+tg5k9OhOZVwOAj2XtW2/ox/MNiiLmHwi+nZ3Nsp21r9HR0HPKiclsC+b8f1RP+zcpXaP9p5SFS92mPOZ1Fdk41T+inWJWnN/QmOEd+v9XL89/NcNBxcKbp+cbipJvB9wHFBqX3Xb91PS7JSg==,iv:fGAe/8pXnl6CAD9SG/j3hPh86EWiEIoKxvDOIU+AsVc=,tag:fxmUAo3KJarM9Gfr0wlIug==,type:str]
+    key: ENC[AES256_GCM,data:2P8DjY07sBECBcWiYfvYxppybNY2pK76+wPpgOAoy+RD9o12qJH03vtKMcBw2db4RhnQOH5tJXOaJPinDBKSBCEwXL0dm7FfmVmFbLR6RbEWrxZSn9JtKuWQLHKtio/Heu2Y57sbNsVHQiyqvp8HfkN0HthEAuFKKO6lXFleqg/+foK3b8Oka2OPKj8EVwZP8nhzMD3Xw5RQ6eDDxaP1vkLJspYmvlXpOvBvonYco1TtCzyzeomueZKdFk+OXUkZMf8Yxjt6MNMfICTKzoNGnII3PYzGiSZGPUQr6+x4YcDRpFEzY59p+3TskEbMb3HzCIflt2OekwWEiy902ru2hbZxP8k5IGvWm2NHOgGpaynI9eEFteeE3ghM/6xVVKP9tPpBFpPQJnXjcN7q3SgF1w==,iv:PegJM42/INOQJWaLvvP/7KK/5ewexJNrYAhiqjvIPpo=,tag:TI5OiXbNc/aFirtCZsaapA==,type:str]
+  aggregatorCA:
+    crt: ENC[AES256_GCM,data:3zHNJ+TTvhymLCtntSchIkYWbgzHTysWLMT4RR9gSNo+ZtXirsqdH7MrhQ2Zo+mjDXN7Mw8TVubKpuEtdgy+cv+LSGD758Hu28wrvvjD++l+a7KPThHbMANWmQYtHf13DvFtJHq9xj7KAJUOscF4x6qd/jnLCgLtjZsdLLzO5MEnnx4nmo0luLSPVNsGNKjj8YLWH164+/h53UQQqXEyLHI6BJ3dv0kdOl31F0aojDmMAYnRsg9Y833gbiFj9XQKG8xArhPC+kYZ+z8X7lghb0duPvalnv7N1mOje82WZtrSxbTcquc0mdPpLM5Ber0dxFgY9rKYuFjE6xAMDNPucaY0btfbngLBBj4WwF4jJA+wEyTGZCdBzX0xhu3Bhj8+tsE+9WzH61FWEBMKkWy97zc/3oCdN+FeUVDTviOwD5a/7oCj0LE4FJe7A0dyXtVFea6G1NgnIA7F7zBvivsCQAKrNGujaz6ACddL3PZ1Pm9Ltx4nsm/r0ygSHN/hJ4oxppu6iCCwVaulZgJ+L/afaBS5C+7iTJW+XttilgCNzuuYo+axI0dJQACruQEQM/0d+h4aFgVjcCnOiQX51ZYNE+sKHjs3r2SV8qpyCx385cPHsvLmQr5d5Ik74run6UYRLvmQNNHyyyIUmMDvz0n1ikp6/U3Yuw68cNV3IaS348VkKjfksQAX+7z12SKGbkCkEFy3spRwGutxHJB0gncv54h4+nQuqvhp2COfC/GVMwi+FWCapV7drCJpwhn77msMoQS3SWATNtJSsEqdNMAr0d/A6ZtG1i3Ua+xzZwlCCp1JY7+czyLa+PZSqumNTaLGZp3s7OPQnWFVTPX1z3zH/YcYBVrbmjSHt+pzbZgpZ/uh0ysYh6/StqY+5zHN+9GKDc/IEyr6t7jkkxAwtDfgfQjcMTyb3EdM0zMjdYpkqlCMKoLJ6cg0sEHKq2ew8SxA,iv:b0RtG260z41CwTV9QLIxpyx52/xSobAFhbhPFXZXDGo=,tag:xhwHwzm8/fZON9Sz+sDDMQ==,type:str]
+    key: ENC[AES256_GCM,data:+Zef93B9L4r38vGjb0ABJyOXCsChGqID1EKk00lQQ/VPFjjEd4VrslikGpl7PyJnBWORU0HShiARkFcTR1q9knMUpmlqcr1Dc6Wkw11Da6sA9YQjeoQLU2J54FSbAaFV90hqVDkFG5Z0VeOECFZrzMrQTp6+NfyLxhJDeNZLNzbQvYn9qizvqbCsC4WDSqMTUYNs34FIYk5Y07qPIeR8ZWI0EjGOj6xJfym57QIl5dYRETmPFVza/BY2nhBWoGaXftT+KmOmfJHr7i/NNdliq9Ff/0i3RS9kEng1BS8sM9i9U/UintKns+0g0xpkrjOnio6CIj9Sf3YH3wwDM8tI25u+q3MgVN8w7yqd/y67jbrp4Bym0xkbWED1puyBUDXw8d4nMZD85yQvyrmFZ5QtdQ==,iv:6wiiR3cR2AShw2vUhlxoXufraw+WuS7smR7APehFGEc=,tag:e4E1vVFJddsOfGB0Tczd5w==,type:str]
+  serviceAccount:
+    key: ENC[AES256_GCM,data:HFFvoxd0l/RGXJYJ9+l3n4KOtdRxhn34FsnbaUSFIw8cjiAhxSmu8zA9YJaMtnUr7tGzp0qAMCR5gnwbeZUdXEhWHxIyG9H+bPnV7gfPGg3gS9IxBV5Bj8Cfc8O1P9f7YsFq2HSnJQOpzpKpLV10CFr6p6oCVN3judSlxRhjrYQvLNIfqTpKkQc9OIcX4V6LMnazLwyHLrtA+rYiLPTSMeCuhSo4qwdbZfMIggPV92QC0EKERH5KoDgoXN9VgHajVI54ws6v9aTW6uQJpsfr3rSm+YwCcFcKKb81MTlpMKNoY4xv+1oGBxw+zjnQpQCdO9lmum6P2Xl74BdfKDKPhUJMOImwwxLrs5DjpYnQ+ghUyj1cLYY4yjmyL7xdhHCI23Mt6QblduLrzwdGFPMctQ==,iv:GDmQzGl02prWGzfGj1o/i0txWRwxUZmkJiaiGdV+Jgw=,tag:QQylzVXyd+nxr8m/e9zCNA==,type:str]
+  apiServer:
+    image: registry.k8s.io/kube-apiserver:{{ ENV.KUBERNETES_VERSION }}
+    extraArgs:
+      anonymous-auth: "true"
+    certSANs:
+      - 127.0.0.1
+      - 192.168.45.40
+    disablePodSecurityPolicy: true
+    auditPolicy:
+      apiVersion: audit.k8s.io/v1
+      kind: Policy
+      rules:
+        - level: Metadata
+  controllerManager:
+    image: registry.k8s.io/kube-controller-manager:{{ ENV.KUBERNETES_VERSION }}
+    extraArgs:
+      bind-address: 0.0.0.0
+  proxy:
+    disabled: true
+  scheduler:
+    image: registry.k8s.io/kube-scheduler:{{ ENV.KUBERNETES_VERSION }}
+    extraArgs:
+      bind-address: 0.0.0.0
+    config:
+      apiVersion: kubescheduler.config.k8s.io/v1
+      kind: KubeSchedulerConfiguration
+      profiles:
+        - schedulerName: default-scheduler
+          pluginConfig:
+            - name: PodTopologySpread
+              args:
+                defaultingType: List
+                defaultConstraints:
+                  - maxSkew: 1
+                    topologyKey: kubernetes.io/hostname
+                    whenUnsatisfiable: ScheduleAnyway
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: false
+      service:
+        disabled: true
+  etcd:
+    ca:
+      crt: ENC[AES256_GCM,data:hqQxroUgqhlN6B0jmZAOlSsR9vH63vbtlVxRrpoehqaJw4Q6YDWatyBFKp2/JZYrNefsPUDeg2nASUyNICeGGZ19ZoV2MJfErSF0p2q88NC9zkxln+WYu/QrNYuhQU8TKKVWK3dEjstqQaUHxTA3U6oR+7od28nwTR92CwZW7gkLF04hvfzFebjbqXD/HR3aXj/Jr7KQNZTg3icf/inyfgmb3rD6eadgiKM0PR6aXfjtCe0ZZcL02nUD3aFHhMnLEGdAr1PTdap9TiyCPqQ1QrFykiAlzY1xG7R8v21yywbMmzbttvs34QpHQRoNLvdQa5sxWTAgYZZcXO5fTJVv9+YLeC41HRvruIvqHnBEImCvvwtdqQUumm6crTz87R45pteBrPHm7EhuNGkomxvpcvg92Ug17wA7xe1A68RSfrbVYLAGTRcnLUYVemdVUsmEIVcJ7X/r2fRAvM7j1Whp/tvhpE+xcqlDwh31iln0ScImNsvut2neyNycxktBiR+ZM0DuJElOkCaZGD3e9PIP34svNS9Yb2tJt8sg77RJlM4trP41E079Moah/X3Y+MNPxzSBn8cahqxKAOQTlHMKEPFgsO/u5azvvWz/u8hK70NvgTuPpRloHlxlUD0dnzeLj6F+sbt3q7xN0zz5ezVoTUVm8R8N1sFsfvq3xrhjIHEgjEv3mEBI1gk348VGawbuIHhS3NlhIF5yC5nPjr3TCAWmIuIP50FfFQMFtUdKaKHVSMzLSKM0zqyhCQ9XhKvCrtRjcKXvbk9wQUy41L/JcwbUJ38EKOylDUDXzX08HmZM7YQrwQ380+kgWZ/ycF3HjMDGSMyDpYrkOtvIba+WBqcEkq9xvzFNd31PhEmOFOt4vjCAWv+krpzY0RElXuTu5UIHT+nqb3XJjCuvCNn1NJ9jOGMyxQEs1xDLRXyhmkoQunalSL5S7wHNwYhyt3+Qsyy2JWVlZdJCyZm6RiWYhT06ZYtrQdwY6mHsd/TYISseIImpyDlzJKRRdQCi5wu+lgdkWw==,iv:aZA7hPauQhiKKXuq963USZFvmFwQlWUw6Bug5KfEal8=,tag:Ioe3Fx9g3fnKH9rOq2+dQA==,type:str]
+      key: ENC[AES256_GCM,data:tECU0v+N4CYsQBuMMcRDLAuif1v1ZMrwDNsYXJJm1tXoJc3lzYB/estjs+ALGE2W+yluptALyp87oogYBIcqkaJ1JiuGRgFXhT3ihpzq2hwmnkN7fIkuM4aCDD7QmkOAxGiQk3vGLKqwh9bSdO/TUlS/H9YilQX29aYn4/eHxwcJ/zrinG+lkVvfV+l7C0nChn8V87LnAlROFl2bHox3kL0Z7XwSvLPWLGhJGQVzLTJBGJQ4AJ2nseb7cVWHQDevdTh58q3Zc0W2jMgKgKJpohh04VHcdXVAFkvvBpxYMvYq790nm3QISvazCIn8qM6wA2HSuwAoLgPOu1xihUMLk65mEtKCltUNXZaM1LqPcjgdvI0KtGXcdrtsmCQLN/gOi1MwiLG23MnzeALzagHmFg==,iv:ebjKosJC2F4GxPRp8SuWK1o7o8Ru3bT2KF70w4FFkr8=,tag:xJMWyoowJTYQSFk3R0plpA==,type:str]
+    extraArgs:
+      listen-metrics-urls: http://0.0.0.0:2381
+    advertisedSubnets:
+      - 192.168.45.0/24
+sops:
+  kms: []
+  gcp_kms: []
+  azure_kv: []
+  hc_vault: []
+  age:
+    - recipient: age13g8vu0uypup5ulq059xrs0gh4nkecvhhpkqmjdp3gpuc4w8q9c4sjys65q
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA2dUQySWlFaHY3RjNKejBH
+        eEpZVlFMR29JZFByMFdDUnlRUXJReXExSENNCjl3VmJ0VWlJaTJ6WmF3aHROZHpH
+        SHhOay92ZUpkZUw4TVU4YTEwWmduS0UKLS0tIHd1NFg0cDM2c3VwZG5HRXR5VUNk
+        TDVOVEZJVG9ZT29Mb2V1MzhTcmt6dlkKoelJJEy/LNejMCOJTpsAKKRnROw+6d60
+        yonkaRZBO05gfyRmLKusVMkiTQ+P9PiqcznzebTLNQHDNDkl1q/B1Q==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2024-12-14T15:05:14Z"
+  mac: ENC[AES256_GCM,data:zj6C169l3mWkGTwULdDC3CN/Fr2RdYZgPhBIrbdueU1NmhrzbLZP7QSO7L9oCQc5N9zlOLsTTOy1Tdid0+16ywnBlkClxIHbtui2qAyHGDacSLkFCc36wjJ8ljA3eFCElBvQLgN/L+/HKsrgAFvJw0uN7asBG52BwxVIS4DRNwE=,iv:QqTY+dSTcUdI7iXwL84M/2HInR34cz29M8YyaW9/kTM=,tag:+ZCGqQ0KXonbE1yXvQtAHA==,type:str]
+  pgp: []
+  encrypted_regex: ^(token|crt|key|id|secret|secretboxEncryptionSecret|ca)$
+  mac_only_encrypted: true
+  version: 3.9.2

@@ -1,8 +1,13 @@
 ---
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
-version: '3'
+version: "3"
+
+shopt: [globstar]
+
+dotenv: ["{{.ROOT_DIR}}/talos/versions.env"]
 
 includes:
+  bootstrap: .taskfiles/bootstrap
   op:
     taskfile: .taskfiles/1password/Taskfile.yml
     dir: .taskfiles/1password
@@ -23,9 +28,9 @@ includes:
 vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
   PROJECT_DIR:
-    sh: 'git rev-parse --show-toplevel'
+    sh: "git rev-parse --show-toplevel"
 
 tasks:
   default:
     silent: true
-    cmds: [task -l]
+    cmd: task --list
