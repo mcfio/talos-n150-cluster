@@ -48,3 +48,7 @@ spec:
     template:
       spec:
         serviceAccountName: mcfio-github-actions
+        containers:
+          - name: runner
+            image: ghcr.io/actions/actions-runner:latest
+            command: ["/home/runner/run.sh"]
