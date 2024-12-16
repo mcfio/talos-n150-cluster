@@ -1,4 +1,9 @@
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mcfio-github-actions
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -15,10 +20,10 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: arc-home-cluster-runner-gha-rs
+  name: mcfio-github-actions-binding
 subjects:
   - kind: ServiceAccount
-    name: arc-home-cluster-runner-gha-rs-no-permission
+    name: mcfio-github-actions
     namespace: arc-system
 roleRef:
   kind: ClusterRole

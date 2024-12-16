@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: gha-runner-scale-set
-      version: 0.9.3
+      version: 0.10.0
       sourceRef:
         kind: HelmRepository
         name: arc-charts
@@ -47,10 +47,4 @@ spec:
       type: dind
     template:
       spec:
-        containers:
-          - name: runner
-            image: ghcr.io/onedr0p/actions-runner:2.321.0@sha256:d968199e3772ef831c34eb8edd495ef9eb99339a2f7176d4f1774f252f7903fb
-            command: ["/home/runner/run.sh"]
-    controllerServiceAccount:
-      name: gha-runner-scale-set-controller
-      namespace: arc-system
+        serviceAccountName: mcfio-github-actions
