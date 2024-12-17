@@ -21,6 +21,6 @@ resources:
   - overseerr/app.yaml
   - zigbee2mqtt/app.yaml
   - zwave-js-ui/app.yaml
-  - home-assistant/app.yaml
-  - matter-server/app.yaml
-  - scrypted/app.yaml
+  # - home-assistant/app.yaml
+  # - matter-server/app.yaml
+  # - scrypted/app.yaml
