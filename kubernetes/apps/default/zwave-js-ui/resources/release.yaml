@@ -68,10 +68,10 @@ spec:
       nodeSelector:
         aeotec.feature.node.kubernetes.io/zwave: "true"
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
+        # runAsNonRoot: true
+        # runAsUser: 568
+        # runAsGroup: 568
+        # fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
