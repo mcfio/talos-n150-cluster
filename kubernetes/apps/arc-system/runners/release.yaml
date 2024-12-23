@@ -50,5 +50,5 @@ spec:
         serviceAccountName: mcfio-github-actions
         containers:
           - name: runner
-            image: ghcr.io/actions/actions-runner:2.231.0
+            image: ghcr.io/actions/actions-runner:2.321.0
             command: ["/home/runner/run.sh"]
