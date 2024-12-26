@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 3.5.1
+      version: 3.6.0
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -45,7 +45,7 @@ spec:
           app:
             image:
               repository: ghcr.io/onedr0p/sonarr
-              tag: 4.0.11.2680@sha256:61fe40251b0a8684520e6d3897e321430cab9994dd4d77e6ab35b587e0204a6d
+              tag: 4.0.11.2680@sha256:be61367714d750b241eec33c10cafd89002564404c18706b3f3e93ea40c2e608
             env:
               TZ: Canada/Eastern
               SONARR__APP__INSTANCENAME: Sonarr
