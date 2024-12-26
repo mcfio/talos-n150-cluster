@@ -5,8 +5,8 @@ kind: Kustomization
 resources:
   - external-secret.yaml
   - database.yaml
-#   - rbac.yaml
-#   - release.yaml
+  - rbac.yaml
+  - release.yaml
 configMapGenerator:
   - name: gatus-configmap
     files:
