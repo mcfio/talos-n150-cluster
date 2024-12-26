@@ -8,12 +8,12 @@ metadata:
 spec:
   dependsOn:
     - name: cnpg-cluster
-  targetNamespace: monitoring
+  targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 12h
-  path: ./apps/monitoring/gatus/resources
+  path: ./apps/default/gatus/resources
   prune: true
   sourceRef:
     kind: OCIRepository

@@ -28,15 +28,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
-          init-db:
-            image:
-              repository: ghcr.io/onedr0p/postgres-init
-              tag: 16
-            envFrom: &envFrom
-              - secretRef:
-                  name: gatus-secret
           init-config:
-            dependsOn: init-db
             image:
               repository: ghcr.io/kiwigrid/k8s-sidecar
               tag: 1.28.4@sha256:20caf4e241e1f9f9231527db5e75b735aa7b0da7bee3d262cbe369bb9b33469f
@@ -62,8 +54,20 @@ spec:
               TZ: Canada/Eastern
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
+              GATUS__POSTGRES_HOST: cnpg-cluster-rw.default.svc.cluster.local
+              GATUS__POSTGRES_PORT: "5432"
+              GATUS__POSTGRES_DBNAME: gatus
+              GATUS__POSTGRES_USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: gatus-secret
+                    key: username
+              GATUS__POSTGRES_PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: gatus-secret
+                    key: password
               WEB_PORT: &port 8080
-            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true

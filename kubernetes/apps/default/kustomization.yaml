@@ -16,11 +16,9 @@ resources:
   - plex/app.yaml
   - minio/app.yaml
   - emqx/app.yaml
+  - gatus/app.yaml
   - tautulli/app.yaml
   - recyclarr/app.yaml
   - overseerr/app.yaml
   - zigbee2mqtt/app.yaml
   - zwave-js-ui/app.yaml
-  # - home-assistant/app.yaml
-  # - matter-server/app.yaml
-  # - scrypted/app.yaml

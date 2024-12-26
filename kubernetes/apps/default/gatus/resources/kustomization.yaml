@@ -4,8 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - external-secret.yaml
-  - rbac.yaml
-  - release.yaml
+  - database.yaml
+#   - rbac.yaml
+#   - release.yaml
 configMapGenerator:
   - name: gatus-configmap
     files:

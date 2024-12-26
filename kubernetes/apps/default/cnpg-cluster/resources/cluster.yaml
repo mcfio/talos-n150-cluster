@@ -34,6 +34,11 @@ spec:
         login: true
         passwordSecret:
           name: prowlarr-secret
+      - name: gatus
+        ensure: present
+        login: true
+        passwordSecret:
+          name: gatus-secret
   postgresql:
     parameters:
       max_connections: "250"
