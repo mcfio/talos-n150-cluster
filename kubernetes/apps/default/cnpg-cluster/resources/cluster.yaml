@@ -5,8 +5,8 @@ kind: Cluster
 metadata:
   name: cnpg-cluster
 spec:
-  instances: 3
   imageName: ghcr.io/cloudnative-pg/postgresql:16.6-7
+  instances: 3
   affinity:
     podAntiAffinityType: required
   enablePDB: true
@@ -17,18 +17,23 @@ spec:
   superuserSecret:
     name: cnpg-cluster-secret
   enableSuperuserAccess: true
+  managed:
+    roles:
+      - name: sonarr
+        ensure: present
+        login: true
+        passwordSecret:
+          name: sonarr-secret
   postgresql:
     parameters:
-      max_connections: "400"
-      shared_buffers: 256MB
-  nodeMaintenanceWindow:
-    inProgress: false
-    reusePVC: true
+      max_connections: "250"
+      shared_buffers: 128MB
   resources:
     requests:
       cpu: 100m
       memory: 256Mi
     limits:
+      hugepages-2Mi: 2Gi
       memory: 4Gi
   monitoring:
     enablePodMonitor: true
