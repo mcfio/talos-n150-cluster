@@ -24,6 +24,16 @@ spec:
         login: true
         passwordSecret:
           name: sonarr-secret
+      - name: radarr
+        ensure: present
+        login: true
+        passwordSecret:
+          name: radarr-secret
+      - name: prowlarr
+        ensure: present
+        login: true
+        passwordSecret:
+          name: prowlarr-secret
   postgresql:
     parameters:
       max_connections: "250"
