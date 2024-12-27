@@ -44,7 +44,7 @@ spec:
           tag: v0.3.4
         env:
           - name: UNIFI_HOST
-            value: https://192.168.30.1
+            value: https://unifi
           - name: UNIFI_USER
             value: external-dns
           - name: UNIFI_PASS
