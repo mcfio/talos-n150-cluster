@@ -18,6 +18,8 @@ spec:
     name: cnpg-cluster-secret
   enableSuperuserAccess: true
   managed:
+    services:
+      disabledDefaultServices: ["ro", "r"]
     roles:
       - name: sonarr
         ensure: present
