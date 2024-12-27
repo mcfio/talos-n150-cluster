@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: cnpg-cluster
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.6
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.6-26
   instances: 3
   affinity:
     podAntiAffinityType: required
