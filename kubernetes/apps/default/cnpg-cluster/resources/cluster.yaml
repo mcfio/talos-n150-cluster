@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: cnpg-cluster
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:17.2
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.6
   instances: 3
   affinity:
     podAntiAffinityType: required
@@ -62,7 +62,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://home-cluster/backups/cnpg-cluster/
       endpointURL: https://s3.cluster.milton.mcf.io:9000
-      serverName: postgres-v1 # current cluster version
+      serverName: postgres-v7 # current cluster version
       s3Credentials:
         accessKeyId:
           name: cnpg-cluster-secret
