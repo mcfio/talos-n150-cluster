@@ -8,5 +8,5 @@ resources:
   # Flux Sources
   - sources/
   # Flux Kustomizations
-  # - controller/app.yaml
-  # - runners.yaml
+  - controller/app.yaml
+  # - runners/app.yaml

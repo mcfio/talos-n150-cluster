@@ -13,7 +13,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 12h
-  path: ./apps/arc-system/runners
+  path: ./apps/arc-system/runners/resources
   prune: true
   sourceRef:
     kind: OCIRepository
