@@ -35,7 +35,7 @@ sonarr:
 radarr:
   radarr:
     base_url: http://radarr:7878
-    api_key: !env_var RADARR__API_KEY
+    api_key: !env_var RADARR__APIKEY
     delete_old_custom_formats: true
     replace_existing_custom_formats: true
     include:
