@@ -39,7 +39,8 @@ spec:
       valuesKey: github_app_private_key
       targetPath: githubConfigSecret.github_app_private_key
   values:
-    runnerScaleSetName: arc-home-cluster-runner
+    nameOverride: gha-runner-scale-set
+    runnerScaleSetName: gha-runner-scale-set
     githubConfigUrl: https://github.com/mcfio/home-cluster
     minRunners: 1
     maxRunners: 3
@@ -52,3 +53,6 @@ spec:
           - name: runner
             image: ghcr.io/actions/actions-runner:2.321.0
             command: ["/home/runner/run.sh"]
+    controllerServiceAccount:
+      name: gha-runner-scale-set-controller
+      namespace: arc-system
