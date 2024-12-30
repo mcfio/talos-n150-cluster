@@ -16,7 +16,7 @@ jobs:
   publish-schemas:
     name: Schemas
     runs-on:
-      - self-hosted
+      - gha-runner-scale-set
     permissions:
       contents: read
       packages: write
