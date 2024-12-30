@@ -16,7 +16,7 @@ jobs:
   publish-schemas:
     name: Schemas
     runs-on:
-      - arc-home-cluster-runner
+      - self-hosted
     permissions:
       contents: read
       packages: write
