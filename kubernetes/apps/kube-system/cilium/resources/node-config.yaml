@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://crds.pages.dev/cilium.io/ciliumnodeconfig_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNodeConfig
+metadata:
+  name: enable-tuning-guide
+  namespace: kube-system
+spec:
+  nodeSelector:
+    matchLabels:
+      io.cilium.tuning-guide: "true"
+  defaults:
+    datapath-mode: "netkit"
+    enable-ipv4-big-tcp: "true"
+    bpf-lb-acceleration: "native"

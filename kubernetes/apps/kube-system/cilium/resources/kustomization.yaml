@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - release.yaml
   - http-route.yaml
+  - node-config.yaml
 configMapGenerator:
   - name: cilium-values
     files:
