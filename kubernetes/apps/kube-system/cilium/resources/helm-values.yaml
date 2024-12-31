@@ -17,7 +17,7 @@ cluster:
   id: 100
 cni:
   exclusive: false
-enableIPv4BIGTCP: true
+# enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
 envoy:
