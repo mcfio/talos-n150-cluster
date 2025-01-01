@@ -25,6 +25,7 @@ spec:
       retries: 3
   values:
     csi:
+      enableVolumeGroupSnapshot: false # Until rook supports group snapshots
       enableCephfsDriver: false
       enableCephfsSnapshotter: false
       enableLiveness: true
