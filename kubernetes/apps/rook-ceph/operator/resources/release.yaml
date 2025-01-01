@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph
-      version: v1.16.0
+      version: v1.15.7 # downgrading until v1.16.1
       sourceRef:
         kind: HelmRepository
         name: rook-ceph-charts
@@ -25,7 +25,7 @@ spec:
       retries: 3
   values:
     csi:
-      enableVolumeGroupSnapshot: false # Until rook supports group snapshots
+      enableVolumeGroupSnapshot: false # Until rook supports group snapshots, v1.16.1
       enableCephfsDriver: false
       enableCephfsSnapshotter: false
       enableLiveness: true
