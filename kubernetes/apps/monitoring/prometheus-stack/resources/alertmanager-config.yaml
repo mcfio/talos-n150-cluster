@@ -33,10 +33,10 @@ spec:
   receivers:
     - name: "null"
     - name: heartbeat
-      pagerdutyConfigs:
-        - routingKey:
+      webhookConfigs:
+        - urlSecret:
             name: alertmanager-secret
-            key: PAGERDUTY_HEARTBEAT_ROUTING_KEY
+            key: ALERTMANAGER_HEARTBEAT_URL
     - name: pagerduty
       pagerdutyConfigs:
         - routingKey:
