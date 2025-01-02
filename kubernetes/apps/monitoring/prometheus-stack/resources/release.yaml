@@ -33,31 +33,21 @@ spec:
       enabled: false
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
-      # config:
-      #   templates:
-      #     - /etc/alertmanager/config/*.tmpl
-      #     - /etc/alertmanager/configmaps/**/*.tmpl
-      # ingress:
-      #   enabled: true
-      #   pathType: Prefix
-      #   ingressClassName: nginx
-      #   hosts:
-      #     - alertmanager.milton.mcf.io
-      #   tls:
-      #     - hosts:
-      #         - alertmanager.milton.mcf.io
-      # podDisruptionBudget:
-      #   enabled: true
+      route:
+        main:
+          enabled: true
+          hostnames:
+            - alertmanager.milton.mcf.io
+          parentRefs:
+            - name: internal
+              namespace: ingress-system
+              sectionName: https
       alertmanagerSpec:
-        # for now we need to add the templates to the stack spec until it's
-        # supported in alertmanagerConfig
-        # configMaps:
-        #   - slack-templates
-        resources:
-          requests:
-            cpu: 10m
-          limits:
-            memory: 300M
+        alertmanagerConfiguration:
+          name: alertmanager
+          global:
+            resolveTimeout: 5m
+        externalUrl: https://alertmanager.milton.mcf.io
         storage:
           volumeClaimTemplate:
             metadata:
@@ -96,7 +86,6 @@ spec:
               namespace: ingress-system
               sectionName: https
       prometheusSpec:
-        scrapeInterval: 1m # Matches interval from Grafana helm chart
         ruleSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
@@ -109,7 +98,7 @@ spec:
         externalUrl: https://prometheus.milton.mcf.io
         logFormat: json
         retention: 14d
-        retentionSize: 70GB
+        retentionSize: 50GB
         resources:
           requests:
             cpu: 100m
@@ -129,20 +118,6 @@ spec:
       admissionWebhooks:
         certManager:
           enabled: true
-      resources:
-        requests:
-          cpu: 15m
-          memory: 128M
-        limits:
-          memory: 800M
-      prometheusConfigReloader:
-        resources:
-          requests:
-            cpu: 10m
-            memory: 60M
-          limits:
-            cpu: 0
-            memory: 80M
     grafana:
       enabled: false
       forceDeployDashboards: false
@@ -162,20 +137,8 @@ spec:
               replacement: $1
               sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
-      resources:
-        requests:
-          cpu: 15m
-          memory: 100M
-        limits:
-          memory: 150M
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
-      resources:
-        requests:
-          cpu: 15m
-          memory: 128M
-        limits:
-          memory: 400M
       metricLabelsAllowlist:
         - pods=[*]
         - deployments=[*]
