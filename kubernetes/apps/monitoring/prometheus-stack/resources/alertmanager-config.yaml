@@ -30,6 +30,16 @@ spec:
           - name: severity
             value: critical
             matchType: =
+  inhibitRules:
+    - equal: ["alertname", "namespace"]
+      sourceMatch:
+        - name: severity
+          value: critical
+          matchType: =
+      targetMatch:
+        - name: severity
+          value: warning
+          matchType: =
   receivers:
     - name: "null"
     - name: heartbeat
