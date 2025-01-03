@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph
-      version: v1.15.7 # downgrading until v1.16.1
+      version: v1.16.1 # downgrading until v1.16.1
       sourceRef:
         kind: HelmRepository
         name: rook-ceph-charts
