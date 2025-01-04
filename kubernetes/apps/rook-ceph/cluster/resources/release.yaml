@@ -38,6 +38,7 @@ spec:
       bdev_enable_discard = true
       bdev_async_discard = true
       osd_class_update_on_start = false
+      mon_warn_on_pool_no_redundancy = false
     cephClusterSpec:
       cephVersion:
         image: quay.io/ceph/ceph:v19.2.0
@@ -119,28 +120,30 @@ spec:
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
             csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
             csi.storage.k8s.io/fstype: ext4
-      # - name: ceph-nonreplicated
-      #   spec:
-      #     failureDomain: host
-      #     replicated:
-      #       size: 1
-      #   storageClass:
-      #     enabled: true
-      #     name: ceph-block-nonreplicated
-      #     isDefault: false
-      #     reclaimPolicy: Delete
-      #     allowVolumeExpansion: true
-      #     volumeBindingMode: Immediate
-      #     parameters:
-      #       imageFormat: "2"
-      #       imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
-      #       csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-      #       csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-      #       csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-      #       csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-      #       csi.storage.k8s.io/fstype: ext4
+      - name: non-replicated
+        spec:
+          failureDomain: host
+          replicated:
+            size: 1
+        storageClass:
+          enabled: true
+          name: ceph-non-replicated
+          isDefault: false
+          reclaimPolicy: Delete
+          allowVolumeExpansion: true
+          volumeBindingMode: Immediate
+          mountOptions:
+            - discard
+          parameters:
+            imageFormat: "2"
+            imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/fstype: ext4
     cephBlockPoolsVolumeSnapshotClass:
       enabled: true
       name: csi-ceph-blockpool
