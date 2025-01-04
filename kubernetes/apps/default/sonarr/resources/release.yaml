@@ -25,6 +25,8 @@ spec:
   values:
     controllers:
       sonarr:
+        labels:
+          app.kubernetes.io/depends-on: cnpg-cluster
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
