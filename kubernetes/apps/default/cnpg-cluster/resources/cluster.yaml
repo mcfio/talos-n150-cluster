@@ -13,7 +13,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     size: 10Gi
-    storageClass: openebs-hostpath
+    storageClass: ceph-non-replicated
   superuserSecret:
     name: cnpg-cluster-secret
   enableSuperuserAccess: true
@@ -64,7 +64,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://home-cluster/backups/cnpg-cluster/
       endpointURL: https://s3.cluster.milton.mcf.io:9000
-      serverName: postgres-v7 # current cluster version
+      serverName: postgres16-v1 # current cluster version
       s3Credentials:
         accessKeyId:
           name: cnpg-cluster-secret
@@ -74,7 +74,7 @@ spec:
           key: MINIO_SECRET_KEY
   bootstrap:
     recovery:
-      source: &previousCluster postgres-v6
+      source: &previousCluster postgres-v7
   externalClusters:
     - name: *previousCluster
       barmanObjectStore:
