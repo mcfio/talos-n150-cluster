@@ -24,11 +24,6 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-  dependsOn:
-    - name: minio
-      namespace: default
-    - name: openebs
-      namespace: openebs-system
   values:
     crds:
       create: true
