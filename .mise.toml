@@ -1,4 +1,9 @@
 [env]
-MINIJINJA_CONFIG_FILE = '{{config_root}}/.minijinja.toml'
-TALOSCONFIG = '{{config_root}}/talos/clusterconfig/talosconfig'
-KUBECONFIG = '{{config_root}}/talos/clusterconfig/kubeconfig'
+MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
+TALOSCONFIG = "{{config_root}}/kubernetes/talosconfig"
+KUBECONFIG = "{{config_root}}/kubernetes/kubeconfig"
+
+# renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
+KUBERNETES_VERSION = "v1.32.0"
+# renovate: depName=ghcr.io/siderolabs/installer datasource=docker
+TALOS_VERSION = "v1.9.1"
