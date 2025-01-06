@@ -7,7 +7,7 @@ tasks:
     desc: Apply machine configuration to a single node [node=required] [mode=no-reboot]
     cmds:
       - task: health-check
-      - sops exec-file --input-type yaml --output-type yaml {{.ROOT_DIR}}/talos/profiles/{{.TYPE}}.enc.yaml.j2 "minijinja-cli {}" | talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
+      - sops exec-file --input-type yaml --output-type yaml {{.ROOT_DIR}}/talos/{{.TYPE}}.enc.yaml.j2 "minijinja-cli {}" | talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
       - talosctl --nodes {{.NODE}} health --wait-timeout=10m --server=false
     env:
       TALOS_SCHEMATIC_ID:
@@ -23,7 +23,7 @@ tasks:
       - which jq talosctl minijinja-cli sops
       - test -f {{.TALOSCONFIG}}
       - talosctl --nodes {{.NODE}} get machineconfig
-      - test -f {{.ROOT_DIR}}/talos/profiles/{{.TYPE}}.enc.yaml.j2
+      - test -f {{.ROOT_DIR}}/talos/{{.TYPE}}.enc.yaml.j2
 
   apply-cluster:
     desc: Apply machine configuration to all Talos nodes [mode=no-reboot]
@@ -49,8 +49,9 @@ tasks:
     vars:
       NODE: "{{.node}}"
       MODE: '{{default "default" .mode}}'
-      TALOS_SCHEMATIC_ID:
+      SCHEMATIC_ID:
         sh: talosctl --nodes {{.NODE}} get nodeannotationspec --output json | jq --raw-output '.spec | select(.key == "extensions.talos.dev/schematic") | .value'
+      TALOS_SCHEMATIC_ID: "{{default .SCHEMATIC_ID .schematic}}"
     requires:
       vars: [node]
     preconditions:
