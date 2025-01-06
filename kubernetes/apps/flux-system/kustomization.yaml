@@ -8,4 +8,6 @@ resources:
   # Flux Sources
   - sources/
   # Flux Kustomizations
+  - app.yaml
+  - configs.yaml
   - addons.yaml
