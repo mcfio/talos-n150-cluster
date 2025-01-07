@@ -66,15 +66,15 @@ jobs:
         run: |
           cat diff.patch;
           {
-            echo 'diff<<EOF'
-            cat diff.patch
-            echo 'EOF'
+              echo 'diff<<EOF'
+              cat diff.patch
+              echo 'EOF'
           } >> $GITHUB_OUTPUT;
           {
-            echo "### Diff"
-            echo '```diff'
-            cat diff.patch
-            echo '```'
+              echo "### Diff"
+              echo '```diff'
+              cat diff.patch
+              echo '```'
           } >> $GITHUB_STEP_SUMMARY
 
       - name: Add PR Comment
