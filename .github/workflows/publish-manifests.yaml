@@ -46,7 +46,7 @@ jobs:
             oci://$REPOSITORY:$(git rev-parse --short HEAD) \
             --path="./kubernetes" \
             --source="${{ github.repositoryUrl }}" \
-            --revision="${{ github.ref_name }}@sha1:$(git rev-parse HEAD)" \
+            --revision="${{ github.ref_name }}/$(git rev-parse HEAD)" \
             --output=json | \
             jq -r '.digest')
           echo "DIGEST_SHA=$digest" >> $GITHUB_OUTPUT
