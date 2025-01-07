@@ -65,6 +65,8 @@ spec:
                 valueFrom:
                   fieldRef:
                     fieldPath: status.hostIP
+        securityContext:
+          fsGroup: 1001
         serviceAccountName: mcfio-github-actions
     controllerServiceAccount:
       name: gha-runner-scale-set-controller
