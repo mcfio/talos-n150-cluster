@@ -1,13 +1,11 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/notification.toolkit.fluxcd.io/alert_v1beta3.json
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/notification.toolkit.fluxcd.io/provider_v1beta3.json
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
-kind: Alert
+kind: Provider
 metadata:
   name: github
 spec:
-  providerRef:
-    name: github
-  eventSeverity: info
-  eventSources:
-    - kind: Kustomization
-      name: "*"
+  type: github
+  address: https://github.com/mcfio/home-cluster
+  secretRef:
+    name: github-notification-token
