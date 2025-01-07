@@ -6,19 +6,18 @@ metadata:
   name: &appname cilium-config
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cilium
   targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 12h
   path: ./apps/kube-system/cilium/config
-  dependsOn:
-    - name: cilium
   prune: false # do not remove CNI configuration
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
   wait: true
-  retryInterval: 1m
+  interval: 12h
   timeout: 10m

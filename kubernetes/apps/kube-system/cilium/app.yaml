@@ -6,19 +6,18 @@ metadata:
   name: &appname cilium
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: gateway-api-crds
   targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 12h
   path: ./apps/kube-system/cilium/resources
-  dependsOn:
-    - name: gateway-api-crds
   prune: false # do not remove CNI
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
   wait: true
-  retryInterval: 1m
+  interval: 12h
   timeout: 10m
