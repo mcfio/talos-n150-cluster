@@ -93,7 +93,7 @@ jobs:
     name: flux-local Diff Successful
     if: ${{ always() }}
     needs:
-      - flux-local-diff
+      - flux-diff
     runs-on: ubuntu-latest
     steps:
       - name: Check Matrix Status
