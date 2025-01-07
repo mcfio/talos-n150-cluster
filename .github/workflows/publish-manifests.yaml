@@ -43,10 +43,10 @@ jobs:
         id: create
         run: |
           digest=$(flux push artifact \
-            oci://$REPOSITORY:$(git rev-parse --short HEAD) \
+            oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) \
             --path="./kubernetes" \
             --source="${{ github.repositoryUrl }}" \
-            --revision="${{ github.ref_name }}/$(git rev-parse HEAD)" \
+            --revision="${{ github.ref_name }}/${{ github.sha }}" \
             --output=json | \
             jq -r '.digest')
           echo "DIGEST_SHA=$digest" >> $GITHUB_OUTPUT
@@ -64,4 +64,4 @@ jobs:
 
       - name: Add :main Tag to OCI Artifact
         run: |
-          flux tag artifact oci://$REPOSITORY:$(git rev-parse --short HEAD) --tag main
+          flux tag artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) --tag main
