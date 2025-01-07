@@ -6,12 +6,12 @@ metadata:
   name: &appname cloudflare-external-dns
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: external-secrets-stores
   targetNamespace: ingress-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  dependsOn:
-    - name: external-secrets-stores
   path: ./apps/ingress-system/cloudflare/external-dns/resources
   prune: true
   sourceRef:
@@ -20,6 +20,7 @@ spec:
     namespace: flux-system
   wait: false
   interval: 12h
+  timeout: 5m
   postBuild:
     substitute:
       CLOUDFLARE_TUNNEL_ID: d36b11af-eece-4f98-b93b-6b087a3951bf

@@ -6,14 +6,14 @@ metadata:
   name: &appname cilium-gateway
   namespace: flux-system
 spec:
-  targetNamespace: ingress-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
   dependsOn:
     - name: cert-manager
     - name: gateway-api-crds
     - name: cilium-config
+  targetNamespace: ingress-system
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
   path: ./apps/ingress-system/gateway/resources
   prune: true
   sourceRef:
@@ -22,3 +22,4 @@ spec:
     namespace: flux-system
   wait: false
   interval: 12h
+  timeout: 5m

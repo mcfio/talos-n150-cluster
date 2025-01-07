@@ -11,4 +11,3 @@ resources:
   - cloudflare/tunnel/app.yaml
   - cloudflare/external-dns/app.yaml
   - gateway/app.yaml
-  # - nginx/app.yaml
