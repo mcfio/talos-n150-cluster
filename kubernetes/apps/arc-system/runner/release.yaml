@@ -25,22 +25,10 @@ spec:
   dependsOn:
     - name: gha-runner-scale-set-controller
       namespace: arc-system
-  valuesFrom:
-    - kind: Secret
-      name: arc-runner
-      valuesKey: github_app_id
-      targetPath: githubConfigSecret.github_app_id
-    - kind: Secret
-      name: arc-runner
-      valuesKey: github_app_installation_id
-      targetPath: githubConfigSecret.github_app_installation_id
-    - kind: Secret
-      name: arc-runner
-      valuesKey: github_app_private_key
-      targetPath: githubConfigSecret.github_app_private_key
   values:
     nameOverride: gha-runner-scale-set
     runnerScaleSetName: gha-runner-scale-set
+    githubConfigSecret: arc-runner
     githubConfigUrl: https://github.com/mcfio/home-cluster
     minRunners: 1
     maxRunners: 3
