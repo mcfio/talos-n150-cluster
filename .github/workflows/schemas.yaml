@@ -30,15 +30,14 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
         with:
-          python-version: 3.x
+          python-version: 3.13.x
 
       - name: Setup Node
         uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
         with:
-          node-version: 18.x
+          node-version: 22.x
 
       - name: Run crd-extractor
-        shell: bash
         run: |
           curl -fsSL -o $GITHUB_WORKSPACE/crd-extractor.sh \
             https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/Utilities/crd-extractor.sh
