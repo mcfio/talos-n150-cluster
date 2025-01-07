@@ -11,6 +11,18 @@ tasks:
             PHASE: [Failed, Succeeded]
         cmd: kubectl delete pods --field-selector status.phase={{.ITEM.PHASE}} -A --ignore-not-found=true
 
+  # https://docs.github.com/en/enterprise-cloud@latest/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/deploying-runner-scale-sets-with-actions-runner-controller#upgrading-arc
+  upgrade-arc:
+    desc: Upgrade the ARC [CLUSTER=main]
+    cmds:
+      - helm -n arc-system uninstall gha-runner-scale-set-runner
+      - helm -n arc-system uninstall gha-runner-scale-set-controller
+      - sleep 5
+      - flux -n arc-system reconcile hr gha-runner-scale-set-controller
+      - flux -n arc-system reconcile hr gha-runner-scale-set-runner
+    preconditions:
+      - which flux helm
+
   # Maintain a clean execution
   default:
     silent: true
