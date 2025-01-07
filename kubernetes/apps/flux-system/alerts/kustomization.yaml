@@ -2,13 +2,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: flux-system
 resources:
-  # Base Resources
-  - namespace.yaml
-  # Flux Resources
-  - alerts/
-  - sources/
-  # Flux Kustomizations
-  - app.yaml
-  - configs.yaml
-  - addons.yaml
+  - ../../../templates/flux/alerts/provider.yaml
+  - alert.yaml
