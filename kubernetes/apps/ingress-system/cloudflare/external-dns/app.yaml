@@ -8,6 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: external-secrets-stores
+    - name: cilium-gateway
   targetNamespace: ingress-system
   commonMetadata:
     labels:

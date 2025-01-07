@@ -7,3 +7,4 @@ resources:
   - internal.yaml
   - external.yaml
   - http-redirect.yaml
+  - ../../../templates/flux/alerts
