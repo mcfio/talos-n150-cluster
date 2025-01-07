@@ -10,7 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 12h
   path: ./apps/rook-ceph/snapshot-controller/resources
   prune: true
   sourceRef:
@@ -18,5 +17,5 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
-  retryInterval: 1m
+  interval: 12h
   timeout: 5m

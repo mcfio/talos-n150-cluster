@@ -6,6 +6,7 @@ resources:
   # Base Manifests
   - namespace.yaml
   # Flux Kustomization Sources
+  - alerts/
   - sources/
   # Flux Kustomizations
   - loki/app.yaml

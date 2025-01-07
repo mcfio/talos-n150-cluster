@@ -5,7 +5,8 @@ kind: Kustomization
 resources:
   # Base Manifests
   - namespace.yaml
-  # Flux Kustomization Sources
+  # Flux Resources
+  - alerts/
   - sources/
   # Flux Kustomizations
   - operator/app.yaml
