@@ -10,7 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 2h
   path: ./apps/default/sabnzbd/resources
   prune: true
   sourceRef:
@@ -18,6 +17,8 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
+  interval: 12h
+  timeout: 5m
   postBuild:
     substitute:
       APP: *appname

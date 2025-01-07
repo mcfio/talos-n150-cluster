@@ -6,13 +6,13 @@ metadata:
   name: &appname prowlarr
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cnpg-cluster
+    - name: external-secrets-stores
   targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  dependsOn:
-    - name: cnpg-cluster
-    - name: external-secrets-stores
   path: ./apps/default/prowlarr/resources
   prune: true
   sourceRef:
@@ -20,7 +20,8 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
-  interval: 2h
+  interval: 12h
+  timeout: 5m
   postBuild:
     substitute:
       APP: *appname

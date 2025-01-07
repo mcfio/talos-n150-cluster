@@ -10,7 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 2h
   path: ./apps/default/recyclarr/resources
   prune: true
   sourceRef:
@@ -18,3 +17,5 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
+  interval: 12h
+  timeout: 5m

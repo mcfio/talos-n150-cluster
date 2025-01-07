@@ -6,13 +6,13 @@ metadata:
   name: &appname zwave-js-ui
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: emqx
+    - name: external-secrets-stores
   targetNamespace: default
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  dependsOn:
-    - name: emqx
-    - name: external-secrets-stores
   path: ./apps/default/zwave-js-ui/resources
   prune: true
   sourceRef:
@@ -20,7 +20,8 @@ spec:
     name: home-cluster
     namespace: flux-system
   wait: false
-  interval: 2h
+  interval: 12h
+  timeout: 5m
   postBuild:
     substitute:
       APP: *appname
