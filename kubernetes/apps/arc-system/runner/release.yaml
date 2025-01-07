@@ -45,14 +45,27 @@ spec:
     minRunners: 1
     maxRunners: 3
     containerMode:
-      type: dind
+      type: kubernetes
+      kubernetesModeWorkVolumeClaim:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: ceph-non-replicated
+        resources:
+          requests:
+            storage: 25Gi
     template:
       spec:
-        serviceAccountName: mcfio-github-actions
         containers:
           - name: runner
             image: ghcr.io/actions/actions-runner:2.321.0
             command: ["/home/runner/run.sh"]
+            env:
+              - name: ACTIONS_RUNNER_REQUIRE_JOB_CONTAINER
+                value: "false"
+              - name: NODE_IP
+                valueFrom:
+                  fieldRef:
+                    fieldPath: status.hostIP
+        serviceAccountName: mcfio-github-actions
     controllerServiceAccount:
       name: gha-runner-scale-set-controller
       namespace: arc-system
