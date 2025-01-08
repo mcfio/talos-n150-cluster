@@ -25,4 +25,4 @@ spec:
       retries: 3
   valuesFrom:
     - kind: ConfigMap
-      name: flux-helm-values
+      name: flux-values
