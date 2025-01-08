@@ -3,17 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname flux-addons
+  name: &app flux
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: external-secrets-stores
   targetNamespace: flux-system
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *appname
-  path: ./apps/flux-system/addons
-  prune: true
+      app.kubernetes.io/name: *app
+  path: ./apps/flux-system/flux/resources
+  prune: false # do not remove
   sourceRef:
     kind: OCIRepository
     name: home-cluster

@@ -24,11 +24,34 @@ releases:
     namespace: kube-system
     chart: cilium/cilium
     version: 1.16.5
-    values: ["../../kubernetes/apps/kube-system/cilium/resources/helm-values.yaml"]
+    values:
+      - ../kubernetes/apps/kube-system/cilium/resources/helm-values.yaml
+    needs:
+      - monitoring/prometheus-operator-crds
 
   - name: talos-ccm
     namespace: kube-system
     chart: oci://ghcr.io/siderolabs/charts/talos-cloud-controller-manager
     version: 0.4.4
-    values: ["../../kubernetes/apps/kube-system/talos-ccm/resources/helm-values.yaml"]
-    needs: ["cilium"]
+    values:
+      - ../kubernetes/apps/kube-system/talos-ccm/resources/helm-values.yaml
+    needs:
+      - kube-system/cilium
+
+  - name: spegel
+    namespace: kube-system
+    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
+    version: v0.0.28
+    values:
+      - ../kubernetes/apps/kube-system/spegel/resources/helm-values.yaml
+    needs:
+      - kube-system/cilium
+
+  - name: flux
+    namespace: flux-system
+    chart: oci://ghcr.io/fluxcd-community/charts/flux2
+    version: 2.14.1
+    values:
+      - ../kubernetes/apps/flux-system/flux/resources/helm-values.yaml
+    needs:
+      - kube-system/spegel

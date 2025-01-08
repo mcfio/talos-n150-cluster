@@ -9,6 +9,6 @@ resources:
   - alerts/
   - sources/
   # Flux Kustomizations
-  - app.yaml
+  - flux/app.yaml
+  - flux/github.yaml
   - configs.yaml
-  - addons.yaml
