@@ -32,7 +32,7 @@ spec:
     extraArgs:
       - --ignore-ingress-tls-spec
     podAnnotations:
-      secret.reloader.stakater.com/reload: external-dns-unifi-secret
+      secret.reloader.stakater.com/reload: &secret external-dns-unifi-secret
     policy: sync
     txtPrefix: k8s.
     txtOwnerId: home-cluster
@@ -41,17 +41,15 @@ spec:
       webhook:
         image:
           repository: ghcr.io/kashalls/external-dns-unifi-webhook
-          tag: v0.3.4
+          tag: pr-85
         env:
           - name: UNIFI_HOST
             value: https://unifi
-          - name: UNIFI_USER
-            value: external-dns
-          - name: UNIFI_PASS
+          - name: UNIFI_API_KEY
             valueFrom:
               secretKeyRef:
-                name: external-dns-unifi-secret
-                key: external_dns_unifi_password
+                name: *secret
+                key: apikey
         livenessProbe:
           httpGet:
             path: /healthz
