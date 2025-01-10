@@ -33,7 +33,7 @@ spec:
         valueFrom:
           secretKeyRef:
             name: *secretName
-            key: CF_API_TOKEN
+            key: CLOUDFLARE_API_TOKEN
     extraArgs:
       - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
