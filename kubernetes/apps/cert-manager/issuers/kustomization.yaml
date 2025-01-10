@@ -6,4 +6,3 @@ resources:
   - external-secret.yaml
   - letsencrypt-prod.yaml
   - letsencrypt-staging.yaml
-  - letsencrypt-azure.yaml
