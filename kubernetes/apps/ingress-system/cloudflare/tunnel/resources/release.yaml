@@ -22,6 +22,8 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
+  dependsOn:
+    - name: cloudflare-external-dns
   values:
     controllers:
       cloudflared:

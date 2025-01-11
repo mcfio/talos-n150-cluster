@@ -22,6 +22,3 @@ spec:
   wait: false
   interval: 12h
   timeout: 5m
-  postBuild:
-    substitute:
-      CLOUDFLARE_TUNNEL_ID: d36b11af-eece-4f98-b93b-6b087a3951bf

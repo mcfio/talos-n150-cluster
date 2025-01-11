@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - external-secret.yaml
   - release.yaml
+  - dns-endpoint.yaml
 configMapGenerator:
   - name: cloudflare-tunnel-configmap
     files:
