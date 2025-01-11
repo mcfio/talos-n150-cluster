@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname kyverno-policies
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: kyverno
+  targetNamespace: kyverno
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  path: ./apps/kyverno/policies
+  prune: true
+  sourceRef:
+    kind: OCIRepository
+    name: home-cluster
+    namespace: flux-system
+  wait: true
+  interval: 12h
+  timeout: 5m

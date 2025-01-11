@@ -6,13 +6,11 @@ resources:
   # Base Resources
   - namespace.yaml
   # Flux Sources
-  - alerts/
   - sources/
   # Flux Kustomizations
   - cilium/gateway-api.yaml
   - cilium/app.yaml
   - cilium/config.yaml
-  # - multus/app.yaml
   - external-dns-unifi/app.yaml
   - metrics-server/app.yaml
   - node-feature-discovery/app.yaml

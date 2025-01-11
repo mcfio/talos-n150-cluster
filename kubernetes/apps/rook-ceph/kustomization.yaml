@@ -6,7 +6,6 @@ resources:
   # Base Manifests
   - namespace.yaml
   # Flux Resources
-  - alerts/
   - sources/
   # Flux Kustomizations
   - operator/app.yaml

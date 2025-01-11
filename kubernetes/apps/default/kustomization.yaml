@@ -6,7 +6,6 @@ resources:
   # Base Resources
   - namespace.yaml
   # Flux Resources
-  - alerts/
   - sources/
   # Flux-Kustomizations
   - cnpg-cluster/app.yaml

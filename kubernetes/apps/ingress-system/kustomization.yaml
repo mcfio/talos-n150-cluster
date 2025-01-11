@@ -6,7 +6,6 @@ resources:
   # Base Resources
   - namespace.yaml
   # Flux Sources
-  - alerts/
   - sources/
   # Flux Kustomizations
   - cloudflare/tunnel/app.yaml
