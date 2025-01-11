@@ -30,19 +30,21 @@ spec:
       enabled: true
     admissionController:
       replicas: 1
-      clusterRole:
-        extraResources: &extraResources
-          - apiGroups: ["*"]
-            resources: ["*"]
-            verbs: ["get", "list", "watch"]
-          - apiGroups: ["notification.toolkit.fluxcd.io"]
-            resources: ["alerts", "providers"]
-            verbs: ["create", "update", "patch", "delete", "get", "list"]
+      rbac:
+        clusterRole:
+          extraResources: &extraResources
+            - apiGroups: ["*"]
+              resources: ["*"]
+              verbs: ["get", "list", "watch"]
+            - apiGroups: ["notification.toolkit.fluxcd.io"]
+              resources: ["alerts", "providers"]
+              verbs: ["create", "update", "patch", "delete", "get", "list"]
       serviceMonitor:
         enabled: true
     backgroundController:
-      clusterRole:
-        extraResources: *extraResources
+      rbac:
+        clusterRole:
+          extraResources: *extraResources
       resources:
         requests:
           cpu: 100m
