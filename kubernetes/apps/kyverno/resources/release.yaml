@@ -35,6 +35,9 @@ spec:
           - apiGroups: ["*"]
             resources: ["*"]
             verbs: ["get", "list", "watch"]
+          - apiGroups: ["notification.toolkit.fluxcd.io"]
+            resources: ["alerts", "providers"]
+            verbs: ["create", "update", "patch", "delete", "get", "list"]
       serviceMonitor:
         enabled: true
     backgroundController:
