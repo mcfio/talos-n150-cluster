@@ -50,10 +50,6 @@ jobs:
             --source="${{ github.repositoryUrl }}" \
             --revision="${{ github.ref_name }}/${{ github.sha }}"
 
-      - name: Add :main Tag to OCI Artifact
-        run: |
-          flux tag artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) --tag main
-
       - name: Get OCI Artifact Digest
         id: digest
         run: |
@@ -70,3 +66,7 @@ jobs:
       - name: Generate Cosign Signature
         run: |
           cosign sign --yes "${{ env.REPOSITORY }}@${{ steps.digest.outputs.DIGEST_SHA }}"
+
+      - name: Add :main Tag to OCI Artifact
+        run: |
+          flux tag artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) --tag main
