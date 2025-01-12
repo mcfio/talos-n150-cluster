@@ -64,9 +64,9 @@ jobs:
         uses: actions/attest-build-provenance@7668571508540a607bdfd90a87a560489fe372eb # v2
         with:
           subject-name: ${{ env.REPOSITORY }}
-          subject-digest: ${{ steps.crane.outputs.DIGEST_SHA }}
+          subject-digest: ${{ steps.digest.outputs.DIGEST_SHA }}
           push-to-registry: true
 
       - name: Generate Cosign Signature
         run: |
-          cosign sign --yes "${{ env.REPOSITORY }}@${{ steps.crane.outputs.DIGEST_SHA }}"
+          cosign sign --yes "${{ env.REPOSITORY }}@${{ steps.digest.outputs.DIGEST_SHA }}"
