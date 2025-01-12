@@ -57,7 +57,7 @@ jobs:
       - name: Get OCI Artifact Digest
         id: digest
         run: |
-          digest=$(crane digest oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}))
+          digest=$(crane digest "oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }})")
           echo "DIGEST_SHA=$digest" >> $GITHUB_OUTPUT
 
       - name: Generate GitHub Attestation
