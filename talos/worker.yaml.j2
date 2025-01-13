@@ -23,10 +23,7 @@ machine:
       - destination: /var/openebs/local
         type: bind
         source: /var/openebs/local
-        options:
-          - bind
-          - rshared
-          - rw
+        options: [ "bind", "rshared", "rw" ]
     defaultRuntimeSeccompProfileEnabled: true
     nodeIP:
       validSubnets:
@@ -35,8 +32,7 @@ machine:
   network:
     interfaces:
       - deviceSelector:
-          # Ensure PCI devices on nodes are selected
-          busPath: 0000:*
+          busPath: 0000:* # Ensure PCI deivces are selected
         mtu: 9000
         dhcp: true
     disableSearchDomain: true
@@ -66,14 +62,11 @@ machine:
         nconnect=16
         noatime=True
   sysctls:
-    # Watchdog
-    fs.inotify.max_user_watches: 1048576
-    fs.inotify.max_user_instances: 8192
-    # Cloudflared / QUIC
-    net.core.rmem_max: 67108864
-    net.core.wmem_max: 67108864
-    # PostgreSQL
-    vm.nr_hugepages: 1024
+    fs.inotify.max_user_watches: 1048576  # Watchdog
+    fs.inotify.max_user_instances: 8192   # Watchdog
+    net.core.rmem_max: 67108864           # Cloudflared / QUIC
+    net.core.wmem_max: 67108864           # Cloudflared / QUIC
+    vm.nr_hugepages: 1024                 # PostgreSQL
   registries: {}
   features:
     rbac: true
