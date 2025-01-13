@@ -1,4 +1,5 @@
 [env]
+_.file = ".env"
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/kubernetes/talosconfig"
 KUBECONFIG = "{{config_root}}/kubernetes/kubeconfig"

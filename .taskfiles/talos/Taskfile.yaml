@@ -7,7 +7,7 @@ tasks:
     desc: Apply machine configuration to a single node [node=required] [mode=no-reboot]
     cmds:
       - task: health-check
-      - sops exec-file --input-type yaml --output-type yaml {{.ROOT_DIR}}/talos/{{.TYPE}}.enc.yaml.j2 "minijinja-cli {}" | talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
+      - minijinja-cli {{.ROOT_DIR}}/talos/{{.TYPE}}.yaml.j2 | op inject | talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
       - talosctl --nodes {{.NODE}} health --wait-timeout=10m --server=false
     env:
       TALOS_SCHEMATIC_ID:
@@ -20,10 +20,10 @@ tasks:
     requires:
       vars: [node]
     preconditions:
-      - which jq talosctl minijinja-cli sops
-      - test -f {{.TALOSCONFIG}}
+      - which jq minijinja-cli
+      - op user get --me
       - talosctl --nodes {{.NODE}} get machineconfig
-      - test -f {{.ROOT_DIR}}/talos/{{.TYPE}}.enc.yaml.j2
+      - test -f {{.ROOT_DIR}}/talos/{{.TYPE}}.yaml.j2
 
   apply-cluster:
     desc: Apply machine configuration to all Talos nodes [mode=no-reboot]
@@ -38,7 +38,8 @@ tasks:
         sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
       MODE: '{{default "no-reboot" .mode}}'
     preconditions:
-      - which jq talosctl
+      - which jq
+      - talosctl config info
 
   upgrade-node:
     desc: Upgrade Talos on a single node [node=required] [mode=default]
@@ -55,11 +56,9 @@ tasks:
     requires:
       vars: [node]
     preconditions:
-      - which jq talosctl
-      - test -f {{.TALOSCONFIG}}
+      - which jq
       - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/talos/releases/tag/{{.TALOS_VERSION}}
       - talosctl --nodes {{.NODE}} get machineconfig
-      - talosctl config info
 
   upgrade-cluster:
     desc: Upgrade all Talos nodes [mode=default]
@@ -72,7 +71,8 @@ tasks:
       TALOS_NODES:
         sh: talosctl config info --output json | jq --join-output '[.nodes[]] | join(" ")'
     preconditions:
-      - which jq talosctl
+      - which jq
+      - talosctl config info
 
   upgrade-k8s:
     desc: Upgrade Kubernetes on all Talos Linux nodes.
@@ -83,11 +83,9 @@ tasks:
       TALOS_ENDPOINT:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
     preconditions:
-      - which jq talosctl
-      - test -f {{.TALOSCONFIG}}
+      - which jq
       - curl -fsSL -o /dev/null --fail https://github.com/siderolabs/kubelet/releases/tag/{{.KUBERNETES_VERSION}}
       - talosctl config info
-      - talosctl --nodes {{.TALOS_ENDPOINT}} get machineconfig
 
   kubeconfig:
     desc: Generate the kubeconfig directly from Talos API
@@ -96,10 +94,8 @@ tasks:
       TALOS_ENDPOINT:
         sh: talosctl config info --output json | jq --raw-output '.endpoints[]' | shuf -n 1
     preconditions:
-      - which jq talosctl
+      - which jq
       - talosctl config info
-      - talosctl --nodes {{.TALOS_ENDPOINT}} get machineconfig
-      - test -f {{.TALOSCONFIG}}
 
   health-check:
     internal: true
