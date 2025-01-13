@@ -1,6 +1,7 @@
 /.private/
 .DS_Store
 Thumbs.db
+.env
 *.agekey
 *.pub
 *.key
