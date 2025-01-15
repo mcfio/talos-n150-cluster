@@ -16,6 +16,6 @@ spec:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
-  wait: false
+  wait: true
   interval: 12h
-  timeout: 5m
+  timeout: 10m
