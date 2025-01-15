@@ -8,6 +8,4 @@ resources:
   # Flux Resources
   - sources/
   # Flux Kustomizations
-  - operator/app.yaml
-  - cluster/app.yaml
-  - snapshot-controller/app.yaml
+  - rook-ceph.yaml

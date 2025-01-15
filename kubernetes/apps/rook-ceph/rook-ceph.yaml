@@ -3,15 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname rook-ceph-cluster
+  name: &appname rook-ceph
   namespace: flux-system
 spec:
   targetNamespace: rook-ceph
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/rook-ceph/cluster/resources
-  prune: false
+  path: ./apps/rook-ceph/resources
+  prune: false # Do not prune the CSI
   sourceRef:
     kind: OCIRepository
     name: home-cluster
