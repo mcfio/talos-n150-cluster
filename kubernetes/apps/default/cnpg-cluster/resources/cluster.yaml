@@ -55,7 +55,8 @@ spec:
   monitoring:
     enablePodMonitor: true
   backup:
-    retentionPolicy: 30d
+    retentionPolicy: 20d
+    target: prefer-standby
     barmanObjectStore: &barmanObjectStore
       data:
         compression: bzip2
