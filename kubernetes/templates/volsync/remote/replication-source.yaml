@@ -11,11 +11,11 @@ spec:
   restic:
     copyMethod: ${VOLUME_COPY_METHOD:-Snapshot}
     repository: ${APP}-backup-r2
-    cacheStorageClassName: ${VOLUME_CACHE_SNAPSHOTCLASS:-openebs-hostpath}
+    cacheStorageClassName: ${VOLUME_CACHE_SNAPSHOTCLASS:-ceph-non-replicated}
     cacheAccessModes:
       - ${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}
     cacheCapacity: ${VOLUME_CAPACITY:-1Gi}
-    storageClassName: ${VOLUME_STORAGECLASS:-ceph-block}
+    storageClassName: ${VOLUME_STORAGECLASS:-ceph-replicated}
     accessModes:
       - ${VOLUME_CACHE_ACCESSMODES:-ReadWriteOnce}
     volumeSnapshotClassName: ${VOLUME_SNAPSHOTCLASS:-csi-ceph-blockpool}
