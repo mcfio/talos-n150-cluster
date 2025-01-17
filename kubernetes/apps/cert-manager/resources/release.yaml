@@ -17,7 +17,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: jetstack-charts
-        namespace: cert-manager
+        namespace: flux-system
   install:
     remediation:
       retries: 3

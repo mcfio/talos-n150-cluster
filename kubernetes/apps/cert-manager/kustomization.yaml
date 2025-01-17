@@ -5,8 +5,6 @@ kind: Kustomization
 resources:
   # Base Resources
   - namespace.yaml
-  # Flux Sources
-  - sources/
   # Flux Kustomizations
   - app.yaml
   - issuers.yaml
