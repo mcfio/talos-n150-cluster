@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: external-secrets-stores
+      namespace: flux-system
   path: ./apps/rook-ceph/resources
   prune: false # Do not prune the CSI
   sourceRef:
