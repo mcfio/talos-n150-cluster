@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: "Renovate"
+name: "Schedule - Renovate"
 
 on:
   workflow_dispatch:
@@ -59,6 +59,5 @@ jobs:
       - name: Renovate
         uses: renovatebot/github-action@531c6786d6cf05ef148c4cfe251745c2c6de442c # v41.0.9
         with:
-          configurationFile: .github/renovate.json5
           token: "${{ steps.app-token.outputs.token }}"
           renovate-version: "${{ env.WORKFLOW_RENOVATE_VERSION }}"
