@@ -14,7 +14,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   path: ./apps/external-secrets/stores
-  prune: true
+  prune: false
   sourceRef:
     kind: OCIRepository
     name: home-cluster
