@@ -11,6 +11,7 @@
     "github>mcfio/home-cluster//.renovate/groups.json5",
     "github>mcfio/home-cluster//.renovate/versioning.json5",
     "github>mcfio/home-cluster//.renovate/schedule.json5",
+    "github>mcfio/home-cluster//.renovate/grafanaDashboards.json5",
   ],
   suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
   ignorePaths: ["**/.archive/**"],
