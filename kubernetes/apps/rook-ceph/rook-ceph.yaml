@@ -9,11 +9,13 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
+  dependsOn:
+    - name: external-secrets-stores
   path: ./apps/rook-ceph/resources
   prune: false # Do not prune the CSI
   sourceRef:
     kind: OCIRepository
-    name: home-cluster
+    name: cluster-manifests
     namespace: flux-system
   wait: true
   interval: 12h
