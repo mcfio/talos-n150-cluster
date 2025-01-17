@@ -6,12 +6,12 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
-  path: ./apps/flux-system/configs
-  prune: true
+  path: ./flux/configs
+  prune: false
   sourceRef:
     kind: OCIRepository
     name: home-cluster
     namespace: flux-system
   wait: true
-  interval: 12h
-  timeout: 3m
+  interval: 2h
+  timeout: 5m

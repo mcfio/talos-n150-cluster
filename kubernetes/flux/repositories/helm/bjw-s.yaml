@@ -3,9 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: weave-gitops-charts
-  namespace: flux-system
+  name: bjw-s
 spec:
   interval: 24h
   type: oci
-  url: oci://ghcr.io/weaveworks/charts
+  url: oci://ghcr.io/bjw-s/helm

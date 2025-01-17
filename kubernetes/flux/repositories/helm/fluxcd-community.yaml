@@ -3,8 +3,8 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: piraeus-charts
-  namespace: rook-ceph
+  name: fluxcd-community-charts
 spec:
-  interval: 12h
-  url: https://piraeus.io/helm-charts/
+  interval: 24h
+  type: oci
+  url: oci://ghcr.io/fluxcd-community/charts

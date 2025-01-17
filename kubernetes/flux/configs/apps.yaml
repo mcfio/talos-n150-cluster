@@ -6,6 +6,8 @@ metadata:
   name: cluster-apps
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cluster-repositories
   path: ./apps
   prune: true
   sourceRef:

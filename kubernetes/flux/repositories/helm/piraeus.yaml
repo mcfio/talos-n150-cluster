@@ -3,9 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: fluxcd-community-charts
-  namespace: flux-system
+  name: piraeus-charts
 spec:
-  interval: 24h
-  type: oci
-  url: oci://ghcr.io/fluxcd-community/charts
+  interval: 12h
+  url: https://piraeus.io/helm-charts/
