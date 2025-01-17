@@ -14,3 +14,5 @@ spec:
   resources:
     - kind: OCIRepository
       name: home-cluster
+    - kind: OCIRepository
+      name: cluster-manifests
