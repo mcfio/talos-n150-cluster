@@ -8,6 +8,7 @@ metadata:
 spec:
   dependsOn:
     - name: cloudnative-pg
+    - name: external-secret-stores
   targetNamespace: default
   commonMetadata:
     labels:

@@ -24,5 +24,3 @@ spec:
       APP: *appname
       VOLUME_CLAIM: tautulli-config
       VOLUME_CAPACITY: 2Gi
-      VOLUME_STORAGECLASS: ceph-block
-      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
