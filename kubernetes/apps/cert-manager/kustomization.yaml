@@ -6,5 +6,5 @@ resources:
   # Base Resources
   - namespace.yaml
   # Flux Kustomizations
-  - app.yaml
-  - issuers.yaml
+  - cert-manager.yaml
+  - cert-manager-issuers.yaml
