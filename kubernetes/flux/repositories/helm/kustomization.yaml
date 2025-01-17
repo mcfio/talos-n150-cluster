@@ -11,3 +11,4 @@ resources:
   - piraeus.yaml
   - external-secrets.yaml
   - onepassword.yaml
+  - jetstack-charts.yaml
