@@ -8,3 +8,4 @@ resources:
   - namespace.yaml
   # Flux Kustomizations
   - external-secrets.yaml
+  - external-secrets-stores.yaml
