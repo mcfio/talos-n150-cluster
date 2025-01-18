@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: metrics-server-charts
-        namespace: kube-system
+        namespace: flux-system
   install:
     remediation:
       retries: 3
