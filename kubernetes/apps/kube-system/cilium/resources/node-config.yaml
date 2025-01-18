@@ -4,7 +4,6 @@ apiVersion: cilium.io/v2
 kind: CiliumNodeConfig
 metadata:
   name: enable-tuning-guide
-  namespace: kube-system
 spec:
   nodeSelector:
     matchLabels:

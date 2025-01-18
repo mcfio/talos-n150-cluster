@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cilium-charts
-        namespace: kube-system
+        namespace: flux-system
   timeout: 15m
   install:
     remediation:

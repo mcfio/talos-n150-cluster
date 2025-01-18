@@ -4,6 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - bjw-s.yaml
+  - cilium.yaml
   - emqx.yaml
   - fluxcd-community.yaml
   - weaveworks-charts.yaml
