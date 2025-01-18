@@ -1,8 +1,5 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/helmfile
-# renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
-kubeVersion: v1.32.1
-
 helmDefaults:
   force: true
   recreatePods: true
