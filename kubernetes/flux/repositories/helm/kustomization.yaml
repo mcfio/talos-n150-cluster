@@ -13,3 +13,4 @@ resources:
   - onepassword.yaml
   - jetstack-charts.yaml
   - gha-actions.yaml
+  - cloudnative-pg.yaml
