@@ -7,7 +7,7 @@ tasks:
     desc: Apply machine configuration to a single node [node=required] [mode=no-reboot]
     cmds:
       - task: health-check
-      - minijinja-cli {{.ROOT_DIR}}/talos/{{.TYPE}}.yaml.j2 | op inject | talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} --file /dev/stdin
+      - minijinja-cli {{.ROOT_DIR}}/talos/{{.TYPE}}.yaml.j2 | op inject | talosctl apply-config --nodes {{.NODE}} --mode {{.MODE}} {{if .dryrun | eq "true"}}--dry-run{{end}} --file /dev/stdin
       - talosctl --nodes {{.NODE}} health --wait-timeout=10m --server=false
     env:
       TALOS_SCHEMATIC_ID:

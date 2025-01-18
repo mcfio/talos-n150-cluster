@@ -7,7 +7,7 @@ shopt: [globstar]
 dotenv: ["{{.ROOT_DIR}}/talos/versions.env"]
 
 includes:
-  bootstrap: .taskfiles/bootstrap
+  bootstrap: .taskfiles/bootstrap/Taskfile.yaml
   op:
     taskfile: .taskfiles/1password/Taskfile.yml
     dir: .taskfiles/1password
