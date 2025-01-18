@@ -3,22 +3,25 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname cilium-gateway
-  namespace: flux-system
+  name: &appname cluster-gateway
+  namespace: ingress-system
 spec:
-  dependsOn:
-    - name: cert-manager
-    - name: gateway-api-crds
-    - name: cilium-config
   targetNamespace: ingress-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
+  dependsOn:
+    - name: cert-manager-issuers
+      namespace: cert-manager
+    - name: gateway-api-crds
+      namespace: flux-system
+    - name: cilium-config
+      namespace: flux-system
   path: ./apps/ingress-system/gateway/resources
   prune: true
   sourceRef:
     kind: OCIRepository
-    name: home-cluster
+    name: cluster-manifests
     namespace: flux-system
   wait: false
   interval: 12h

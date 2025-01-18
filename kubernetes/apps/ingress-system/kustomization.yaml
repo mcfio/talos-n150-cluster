@@ -5,8 +5,6 @@ kind: Kustomization
 resources:
   # Base Resources
   - namespace.yaml
-  # Flux Sources
-  - sources/
   # Flux Kustomizations
   - cloudflare/tunnel/app.yaml
   - cloudflare/external-dns/app.yaml
