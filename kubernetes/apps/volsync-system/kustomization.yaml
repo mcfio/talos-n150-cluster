@@ -5,7 +5,5 @@ kind: Kustomization
 resources:
   # Base Resources
   - namespace.yaml
-  # Flux Resources
-  - sources/
   # Flux Kustomizations
-  - volsync/app.yaml
+  - volsync.yaml
