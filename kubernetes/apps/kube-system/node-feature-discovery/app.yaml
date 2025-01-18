@@ -16,6 +16,6 @@ spec:
     kind: OCIRepository
     name: cluster-manifests
     namespace: flux-system
-  wait: false
+  wait: true
   interval: 12h
   timeout: 5m

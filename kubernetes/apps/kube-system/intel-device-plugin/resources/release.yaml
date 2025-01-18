@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: intel-charts
-        namespace: kube-system
+        namespace: flux-system
   install:
     crds: CreateReplace
     remediation:
@@ -25,6 +25,3 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: node-feature-discovery
-      namespace: kube-system

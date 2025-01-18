@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: intel-charts
-        namespace: kube-system
+        namespace: flux-system
   install:
     remediation:
       retries: 3
@@ -23,8 +23,5 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
-  dependsOn:
-    - name: intel-device-plugin-operator
-      namespace: kube-system
   values:
     name: gpudevice
