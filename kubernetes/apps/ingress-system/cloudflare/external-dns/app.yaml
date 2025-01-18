@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: cilium-gateway
+    - name: cluster-gateway
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/ingress-system/cloudflare/external-dns/resources
