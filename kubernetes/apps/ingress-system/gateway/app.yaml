@@ -13,10 +13,8 @@ spec:
   dependsOn:
     - name: cert-manager-issuers
       namespace: cert-manager
-    - name: gateway-api-crds
-      namespace: flux-system
     - name: cilium-config
-      namespace: flux-system
+      namespace: kube-system
   path: ./apps/ingress-system/gateway/resources
   prune: true
   sourceRef:
