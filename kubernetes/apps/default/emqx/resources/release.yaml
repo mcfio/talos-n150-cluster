@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: emqx-charts
-        namespace: default
+        namespace: flux-system
   upgrade:
     cleanupOnFail: true
   values:
