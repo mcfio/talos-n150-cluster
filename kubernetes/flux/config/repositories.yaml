@@ -11,7 +11,7 @@ spec:
   prune: false
   sourceRef:
     kind: OCIRepository
-    name: home-cluster
+    name: cluster-manifests
     namespace: flux-system
   wait: true
   interval: 2h
