@@ -5,8 +5,6 @@ kind: Kustomization
 resources:
   # Base Manifests
   - namespace.yaml
-  # Flux Resources
-  - sources/
   # Flux Kustomizations
-  - app.yaml
+  - kyverno.yaml
   - policies.yaml

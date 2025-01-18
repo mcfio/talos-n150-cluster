@@ -24,3 +24,4 @@ resources:
   - siderolabs.yaml
   - spegel.yaml
   - backube.yaml
+  - kyverno.yaml
