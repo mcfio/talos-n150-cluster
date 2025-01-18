@@ -130,6 +130,7 @@ cluster:
       bind-address: 0.0.0.0
   proxy:
     disabled: true
+    image: registry.k8s.io/kube-proxy:{{ ENV.KUBERNETES_VERSION }}
   scheduler:
     image: registry.k8s.io/kube-scheduler:{{ ENV.KUBERNETES_VERSION }}
     extraArgs:
