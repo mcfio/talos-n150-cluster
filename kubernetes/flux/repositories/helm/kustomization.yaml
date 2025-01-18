@@ -5,6 +5,8 @@ kind: Kustomization
 resources:
   - bjw-s.yaml
   - cilium.yaml
+  - descheduler.yaml
+  - intel.yaml
   - emqx.yaml
   - fluxcd-community.yaml
   - weaveworks-charts.yaml
@@ -16,3 +18,8 @@ resources:
   - gha-actions.yaml
   - cloudnative-pg.yaml
   - external-dns.yaml
+  - metrics-server.yaml
+  - node-feature-discovery.yaml
+  - reloader.yaml
+  - siderolabs.yaml
+  - spegel.yaml
