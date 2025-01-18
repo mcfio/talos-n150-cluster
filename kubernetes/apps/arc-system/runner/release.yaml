@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: arc-charts
-        namespace: arc-system
+        namespace: kube-system
   install:
     remediation:
       retries: 3
@@ -22,9 +22,6 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  dependsOn:
-    - name: gha-runner-scale-set-controller
-      namespace: arc-system
   values:
     nameOverride: gha-runner-scale-set
     runnerScaleSetName: gha-runner-scale-set

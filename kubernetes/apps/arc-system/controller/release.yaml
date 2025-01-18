@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: arc-charts
-        namespace: arc-system
+        namespace: kube-system
   install:
     crds: CreateReplace
     remediation:
