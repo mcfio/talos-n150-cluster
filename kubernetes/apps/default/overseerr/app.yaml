@@ -4,7 +4,7 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname overseerr
-  namespace: flux-system
+  namespace: default
 spec:
   targetNamespace: default
   commonMetadata:
@@ -14,7 +14,7 @@ spec:
   prune: true
   sourceRef:
     kind: OCIRepository
-    name: home-cluster
+    name: cluster-manifests
     namespace: flux-system
   wait: false
   interval: 12h
@@ -26,5 +26,3 @@ spec:
       APP_SUBPATH: /api/v1/status
       VOLUME_CLAIM: overseerr-config
       VOLUME_CAPACITY: 1Gi
-      VOLUME_STORAGECLASS: ceph-block
-      VOLUME_SNAPSHOTCLASS: csi-ceph-blockpool
