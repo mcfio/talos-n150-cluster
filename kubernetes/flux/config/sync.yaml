@@ -21,7 +21,7 @@ metadata:
   namespace: flux-system
 spec:
   path: ./flux/config
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests
