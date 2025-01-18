@@ -12,7 +12,6 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: cnpg-cluster
-      namespace: flux-system
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/default/gatus/resources
