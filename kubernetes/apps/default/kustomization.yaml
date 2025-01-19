@@ -2,9 +2,11 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: default
 resources:
   # Base Resources
   - namespace.yaml
+  - ../../templates/alerts/
   # Flux-Kustomizations
   - cnpg-cluster/app.yaml
   - sonarr/app.yaml
