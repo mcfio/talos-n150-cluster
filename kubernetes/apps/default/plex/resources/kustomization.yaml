@@ -6,6 +6,4 @@ resources:
   - release.yaml
   - pvc-cache.yaml
   - ../../../../templates/gatus/external
-  - ../../../../templates/volsync/local/external-secret.yaml
-  - ../../../../templates/volsync/local/replication-destination.yaml
   - ../../../../templates/volsync/remote
