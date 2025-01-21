@@ -13,7 +13,7 @@ spec:
       version: 3.6.1
       sourceRef:
         kind: HelmRepository
-        name: bjw-s
+        name: app-template-charts
         namespace: flux-system
   install:
     remediation:
@@ -55,7 +55,6 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 128Mi
               limits:
                 gpu.intel.com/i915: 1
                 memory: 4Gi
@@ -67,9 +66,9 @@ spec:
                   - ALL
     defaultPodOptions:
       securityContext:
+        runAsNonRoot: true
         runAsUser: 568
         runAsGroup: 568
-        runAsNonRoot: true
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
@@ -102,11 +101,11 @@ spec:
         existingClaim: plex
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server
-      cache:
+      config-cache:
         existingClaim: plex-cache
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/Cache
-      logs:
+      config-logs:
         type: emptyDir
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/Logs
