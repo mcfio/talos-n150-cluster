@@ -4,10 +4,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 resources:
-  # Base Manifests
-  - namespace.yaml
-  - ../../templates/alerts/
-  # Flux Kustomizations
   - logging-stack.yaml
   - metrics-stack.yaml
   - grafana/app.yaml
+components:
+  - ../../components/namespace
+  - ../../components/flux/alerts/

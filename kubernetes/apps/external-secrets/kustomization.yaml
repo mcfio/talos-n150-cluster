@@ -4,9 +4,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: external-secrets
 resources:
-  # Base Resources
-  - namespace.yaml
-  - ../../templates/alerts/
-  # Flux Kustomizations
   - external-secrets.yaml
   - external-secrets-stores.yaml
+components:
+  - ../../components/namespace
+  - ../../components/flux/alerts/

@@ -4,10 +4,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
 resources:
-  # Base Resources
-  - namespace.yaml
-  - ../../templates/alerts/
-  # Flux Kustomizations
   - cilium/gateway-api.yaml
   - cilium/app.yaml
   - cilium/config.yaml
@@ -20,3 +16,6 @@ resources:
   - reloader/app.yaml
   - spegel/app.yaml
   - talos-ccm/app.yaml
+components:
+  - ../../components/namespace
+  - ../../components/flux/alerts/
