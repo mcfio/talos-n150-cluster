@@ -24,7 +24,10 @@ spec:
       namespace: volsync-system
   components:
     - ../../../../components/volsync
+    - ../../../../components/gatus/external
   postBuild:
     substitute:
       app: *appname
       volume_name: overseerr-config
+      gatus_domain: requests.mcf.io
+      gatus_path: /api/v1/status

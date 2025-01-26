@@ -27,6 +27,7 @@ spec:
       namespace: volsync-system
   components:
     - ../../../../components/volsync
+    - ../../../../components/gatus/internal
   postBuild:
     substitute:
       app: *appname

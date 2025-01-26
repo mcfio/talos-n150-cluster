@@ -23,6 +23,8 @@ spec:
   wait: false
   interval: 12h
   timeout: 5m
+  components:
+    - ../../../../components/gatus/internal
   postBuild:
     substitute:
       app: *appname
