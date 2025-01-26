@@ -1,0 +1,13 @@
+endpoints:
+  - name: ${app}
+    group: protected
+    url: 1.1.1.1
+    interval: 1m
+    ui:
+      hide-hostname: true
+      hide-url: true
+    dns:
+      query-name: ${gatus_domain:=${app}.milton.mcf.io}
+      query-type: A
+    conditions:
+      - "[DNS_RCODE] == NXDOMAIN"

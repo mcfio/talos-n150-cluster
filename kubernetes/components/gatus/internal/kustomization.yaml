@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/component.json
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+configMapGenerator:
+  - name: ${app}-gatus
+    files:
+      - config.yaml=./config.yaml
+    options:
+      labels:
+        gatus.io/enabled: "true"
+generatorOptions:
+  disableNameSuffixHash: true
+

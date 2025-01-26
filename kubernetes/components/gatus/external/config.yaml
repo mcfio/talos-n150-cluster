@@ -1,0 +1,9 @@
+endpoints:
+  - name: ${app}
+    group: external
+    url: https://${gatus_domain:=${app}.mcf.io}${gatus_path:=/}
+    interval: 1m
+    client:
+      dns-resolver: tcp://1.1.1.1:53
+    conditions:
+      - "[STATUS] == ${gatus_status:-200}"
