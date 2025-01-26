@@ -23,7 +23,7 @@ spec:
     - name: volsync
       namespace: volsync-system
   components:
-    - ../../../../componens/volsync/
+    - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname
