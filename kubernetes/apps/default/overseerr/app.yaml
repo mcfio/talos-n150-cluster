@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname overseerr
-  namespace: default
+  namespace: &namespace default
 spec:
-  targetNamespace: default
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
@@ -19,10 +19,12 @@ spec:
   wait: false
   interval: 12h
   timeout: 5m
+  dependsOn:
+    - name: volsync
+      namespace: volsync-system
+  components:
+    - ../../../../components/volsync
   postBuild:
     substitute:
-      APP: *appname
-      APP_FQDN: requests.mcf.io
-      APP_SUBPATH: /api/v1/status
-      VOLUME_CLAIM: overseerr-config
-      VOLUME_CAPACITY: 1Gi
+      app: *appname
+      volume_name: overseerr-config

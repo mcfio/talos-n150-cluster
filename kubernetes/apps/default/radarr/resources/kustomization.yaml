@@ -6,4 +6,3 @@ resources:
   - external-secret.yaml
   - database.yaml
   - release.yaml
-  - ../../../../templates/gatus/internal/

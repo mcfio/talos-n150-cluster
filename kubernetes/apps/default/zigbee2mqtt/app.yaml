@@ -4,16 +4,12 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname zigbee2mqtt
-  namespace: default
+  namespace: &namespace default
 spec:
-  targetNamespace: default
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  dependsOn:
-    - name: emqx
-    - name: external-secrets-stores
-      namespace: external-secrets
   path: ./apps/default/zigbee2mqtt/resources
   prune: true
   sourceRef:
@@ -23,7 +19,14 @@ spec:
   wait: false
   interval: 12h
   timeout: 5m
+  dependsOn:
+    - name: emqx
+    - name: external-secrets-stores
+      namespace: external-secrets
+    - name: volsync
+      namespace: volsync-system
+  components:
+    - ../../../../components/volsync
   postBuild:
     substitute:
-      APP: *appname
-      APP_FQDN: zigbee.milton.mcf.io
+      app: *appname
