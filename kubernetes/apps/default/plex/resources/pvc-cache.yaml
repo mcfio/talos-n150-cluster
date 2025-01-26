@@ -10,5 +10,5 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10Gi
-  storageClassName: ceph-block
+      storage: 5Gi
+  storageClassName: ceph-replicated

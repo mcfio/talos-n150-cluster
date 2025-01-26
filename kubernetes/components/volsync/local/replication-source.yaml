@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: ${app}
+spec:
+  sourcePVC: ${volume_claim:=${app}}
+  trigger:
+    schedule: "0 * * * *"
+  restic:
+    copyMethod: ${volume_copy_method:=Snapshot}
+    repository: ${app}-backup-local
+    cacheStorageClassName: ${volume_cache_snapshotclass:=ceph-non-replicated}
+    cacheAccessModes:
+      - ${volume_cache_accessmodes:=ReadWriteOnce}
+    cacheCapacity: ${volume_capacity:=1Gi}
+    storageClassName: ${volume_storageclass:=ceph-replicated}
+    accessModes:
+      - ${volume_accessmodes:=ReadWriteOnce}
+    volumeSnapshotClassName: ${volume_snapshotclass:=csi-ceph-blockpool}
+    moverSecurityContext:
+      runAsUser: ${volume_uid:=1000}
+      runAsGroup: ${volume_gid:=1000}
+      fsGroup: ${volume_gid:=1000}
+    pruneIntervalDays: 7
+    retain:
+      hourly: 24
+      daily: 7
