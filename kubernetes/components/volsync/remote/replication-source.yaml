@@ -5,7 +5,7 @@ kind: ReplicationSource
 metadata:
   name: ${app}-r2
 spec:
-  sourcePVC: ${volume_claim:=${app}}
+  sourcePVC: ${volume_name:=${app}}
   trigger:
     schedule: "0 0 * * *"
   restic:
