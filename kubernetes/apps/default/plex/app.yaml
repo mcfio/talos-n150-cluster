@@ -24,9 +24,9 @@ spec:
       namespace: volsync-system
   components:
     - ../../../../components/volsync
+    - ../../../../components/gatus/external
   postBuild:
     substitute:
       app: *appname
       volume_capacity: 20Gi
-      APP_SUBPATH: /web/index.html
-      VOLUME_CAPACITY: 20Gi
+      gatus_path: /web/index.html
