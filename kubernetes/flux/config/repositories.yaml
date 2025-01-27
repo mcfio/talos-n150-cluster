@@ -8,7 +8,7 @@ metadata:
 spec:
   targetNamespace: flux-system
   path: ./flux/repositories
-  prune: true
+  prune: false
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests
