@@ -23,16 +23,15 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  # https://github.com/kubernetes-sigs/descheduler/blob/master/charts/descheduler/values.yaml
   values:
     replicas: 2
     kind: Deployment
     resources:
+      limits: {}
       requests:
         cpu: 10m
         memory: 100Mi
-      limits:
-        cpu: ""
-        memory: 128Mi
     deschedulerPolicy:
       policies:
         - name: default

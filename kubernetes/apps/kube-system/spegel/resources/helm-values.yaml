@@ -6,3 +6,8 @@ spegel:
 service:
   registry:
     hostPort: 29999
+resources:
+  limits: {}
+  requests:
+    cpu: 10m
+    memory: 100Mi

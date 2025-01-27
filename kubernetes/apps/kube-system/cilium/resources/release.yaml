@@ -59,13 +59,31 @@ spec:
         prometheus:
           serviceMonitor:
             enabled: true
+        resources:
+          limits: {}
+          requests:
+            cpu: 10m
       ui:
         enabled: true
         rollOutPods: true
+        backend:
+          resources:
+            limits: {}
+            requests:
+              cpu: 10m
+              memory: 100Mi
+        frontend:
+          resources:
+            limits: {}
+            requests:
+              cpu: 10m
+              memory: 100Mi
     operator:
       resources:
+        limits: {}
         requests:
-          cpu: 100m
+          cpu: 10m
+          memory: 100Mi
       prometheus:
         enabled: true
         serviceMonitor:

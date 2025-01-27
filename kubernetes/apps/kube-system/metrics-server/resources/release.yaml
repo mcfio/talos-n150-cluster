@@ -23,6 +23,7 @@ spec:
     remediation:
       strategy: rollback
       retries: 3
+  # https://github.com/kubernetes-sigs/metrics-server/blob/master/charts/metrics-server/values.yaml
   values:
     args:
       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
@@ -32,3 +33,8 @@ spec:
       enabled: true
     serviceMonitor:
       enabled: true
+    resources:
+      limits: {}
+      requests:
+        cpu: 10m
+        memory: 200Mi

@@ -25,6 +25,7 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: spegel-values
+  # https://github.com/spegel-org/spegel/blob/main/charts/spegel/values.yaml
   values:
     grafanaDashboard:
       enabled: true
