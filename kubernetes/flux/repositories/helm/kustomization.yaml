@@ -27,3 +27,4 @@ resources:
   - kyverno.yaml
   - grafana.yaml
   - prometheus-community.yaml
+  - controlplaneio.yaml

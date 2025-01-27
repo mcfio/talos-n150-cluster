@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app flux-installation
-  namespace: flux-system
+  name: &appname flux-installation
+  namespace: &namespace flux-system
 spec:
-  targetNamespace: flux-system
+  targetNamespace: *namespace
   commonMetadata:
     labels:
-      app.kubernetes.io/name: *app
-  path: ./apps/flux-system/resources
+      app.kubernetes.io/name: *appname
+  path: ./apps/flux-system/flux
   prune: false # do not remove
   sourceRef:
     kind: OCIRepository
