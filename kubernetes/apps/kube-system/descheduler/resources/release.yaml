@@ -28,8 +28,11 @@ spec:
     kind: Deployment
     resources:
       requests:
-        cpu: 50m
-        memory: 64Mi
+        cpu: 10m
+        memory: 100Mi
+      limits:
+        cpu: ""
+        memory: 128Mi
     deschedulerPolicy:
       policies:
         - name: default
