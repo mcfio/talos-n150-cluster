@@ -16,6 +16,7 @@ instance:
     url: oci://ghcr.io/mcfio/kubernetes-manifests/home-cluster
     ref: main
     path: flux/config
+    interval: 6h
   commonMetadata:
     labels:
       app.kubernetes.io/name: flux
