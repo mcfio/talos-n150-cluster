@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   path: ./apps/kube-system/node-feature-discovery/resources
-  prune: true
+  prune: false
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests

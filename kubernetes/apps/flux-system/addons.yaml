@@ -15,7 +15,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/flux-system/addons
-  prune: true
+  prune: false
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests

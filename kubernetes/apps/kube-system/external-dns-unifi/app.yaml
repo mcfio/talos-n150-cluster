@@ -14,7 +14,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/kube-system/external-dns-unifi/resources
-  prune: true
+  prune: false
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests
