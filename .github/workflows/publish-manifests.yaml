@@ -48,7 +48,7 @@ jobs:
           flux push artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) \
             --path="./kubernetes" \
             --source="${{ github.repositoryUrl }}" \
-            --revision="${{ github.ref_name }}/${{ github.sha }}"
+            --revision="${{ github.ref_name }}@sha1:${{ github.sha }}"
 
       - name: Get OCI Artifact Digest
         id: digest
