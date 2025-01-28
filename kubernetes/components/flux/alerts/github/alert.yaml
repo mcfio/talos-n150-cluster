@@ -9,7 +9,5 @@ spec:
     name: github
   eventSeverity: info
   eventSources:
-    - kind: OCIRepository
-      name: milton-cluster
     - kind: Kustomization
       name: "*"
