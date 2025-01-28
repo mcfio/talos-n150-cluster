@@ -9,7 +9,7 @@ spec:
   dependsOn:
     - name: cluster-repositories
   path: ./apps
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests
