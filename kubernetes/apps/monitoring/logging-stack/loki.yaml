@@ -78,22 +78,6 @@ spec:
       replicas: 0
     backend:
       replicas: 0
-    monitoring:
-      dashboards:
-        annotations:
-          grafana_folder: Loki
-      rules:
-        enabled: false
-      serviceMonitor:
-        enabled: true
-        metricsInstance:
-          enabled: false
-        additionalLabels:
-          app.kubernetes.io/part-of: kube-prometheus-stack
-      selfMonitoring:
-        enabled: false
-        grafanaAgent:
-          installOperator: false
     chunksCache:
       enabled: false
     resultsCache:
@@ -102,3 +86,8 @@ spec:
       enabled: false
     test:
       enabled: false
+    sidecar:
+      image:
+        repository: ghcr.io/kiwigrid/k8s-sidecar
+      rules:
+        searchNamespace: ALL
