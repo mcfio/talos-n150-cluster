@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   path: ./apps/kube-system/talos-ccm/resources
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests

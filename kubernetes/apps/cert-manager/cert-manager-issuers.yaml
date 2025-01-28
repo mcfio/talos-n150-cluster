@@ -15,7 +15,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/cert-manager/issuers
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests

@@ -14,7 +14,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/monitoring/grafana/resources
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests

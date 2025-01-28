@@ -15,7 +15,7 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/arc-system/runner
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests

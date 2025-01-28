@@ -17,7 +17,7 @@ spec:
       namespace: external-secrets
   interval: 2h
   path: ./apps/default/cnpg-cluster/resources
-  prune: false
+  prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests
