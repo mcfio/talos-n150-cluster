@@ -35,20 +35,21 @@ releases:
     needs:
       - kube-system/cilium
 
-  - name: spegel
-    namespace: kube-system
-    chart: oci://ghcr.io/spegel-org/helm-charts/spegel
-    version: v0.0.30
+  - name: flux-operator
+    namespace: flux-system
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
+    version: 0.13.0
     values:
-      - ../kubernetes/apps/kube-system/spegel/resources/helm-values.yaml
+      - ../kubernetes/apps/flux-system/flux/operator/helm-values.yaml
     needs:
       - kube-system/cilium
 
-  - name: flux
+  - name: flux-instance
     namespace: flux-system
-    chart: oci://ghcr.io/fluxcd-community/charts/flux2
-    version: 2.14.1
+    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
+    version: 0.13.0
+    wait: false
     values:
-      - ../kubernetes/apps/flux-system/flux/resources/helm-values.yaml
+      - ../kubernetes/apps/flux-system/flux/instance/helm-values.yaml
     needs:
-      - kube-system/spegel
+      - flux-system/flux-operator
