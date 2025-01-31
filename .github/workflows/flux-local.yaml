@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   test:
-    name: flux-local Test
+    name: Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
           args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/config --sources "cluster-manifests=./kubernetes" -v
 
   diff:
-    name: flux-local Diff
+    name: Diff
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -102,7 +102,7 @@ jobs:
             ```
 
   flux-local-success:
-    name: flux-local Successful
+    name: Successful
     if: ${{ always() }}
     needs:
       - test
