@@ -2,18 +2,13 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "Flux Group",
-      groupName: "Flux",
-      matchDatasources: ["docker", "github-tags"],
-      matchPackagePatterns: [
-        "^flux",
-        "^ghcr.io/fluxcd/"
-      ],
-      versioning: "semver",
+      description: ["Flux Operator Group"],
+      groupName: "Flux Operator",
+      matchDatasources: ["docker"],
+      matchPackagePatterns: ["flux-operator", "flux-instance"],
       group: {
-        commitMessageTopic: "{{{groupName}}} group"
+        commitMessageTopic: "{{{groupName}}} group",
       },
-      separateMinorPatch: true
     },
     {
       description: "1Password Connect and Sync",
@@ -21,9 +16,17 @@
       matchDatasources: ["docker"],
       matchPackagePatterns: ["1password"],
       group: {
-        commitMessageTopic: "{{{groupName}}} group"
+        commitMessageTopic: "{{{groupName}}} group",
       },
-      separateMinorPatch: true
+    },
+    {
+      description: ["Intel Device Plugins Group"],
+      groupName: "Intel-Device-Plugins",
+      matchDatasources: ["helm"],
+      matchPackagePatterns: ["intel-device-plugins"],
+      group: {
+        commitMessageTopic: "{{{groupName}}} group",
+      },
     },
     {
       description: ["Rook-Ceph Group"],
@@ -31,22 +34,17 @@
       matchDatasources: ["helm"],
       matchPackagePatterns: ["rook.ceph"],
       group: {
-        commitMessageTopic: "{{{groupName}}} group"
+        commitMessageTopic: "{{{groupName}}} group",
       },
-      separateMinorPatch: true
     },
     {
       description: "Talos Linux Group",
       groupName: "Talos",
       matchDatasources: ["docker"],
-      matchPackagePatterns: [
-        "siderolabs/talosctl",
-        "siderolabs/installer"
-      ],
+      matchPackagePatterns: ["siderolabs/talosctl", "siderolabs/installer"],
       group: {
-        commitMessageTopic: "{{{groupName}}} group"
+        commitMessageTopic: "{{{groupName}}} group",
       },
-      separateMinorPatch: true
     },
     {
       description: "Actions Runner Controller Group",
@@ -54,9 +52,8 @@
       matchDatasources: ["docker", "helm"],
       matchPackagePatterns: ["gha-runner-scale-set"],
       group: {
-        commitMessageTopic: "{{{groupName}}} group"
+        commitMessageTopic: "{{{groupName}}} group",
       },
-      separateMinorPatch: true
-    }
-  ]
+    },
+  ],
 }
