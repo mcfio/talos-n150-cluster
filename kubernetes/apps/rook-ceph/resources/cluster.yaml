@@ -10,7 +10,7 @@ spec:
   chart:
     spec:
       chart: rook-ceph-cluster
-      version: v1.16.2
+      version: v1.16.3
       sourceRef:
         kind: HelmRepository
         name: rook-ceph-charts
@@ -44,7 +44,7 @@ spec:
       continueUpgradeAfterChecksEvenIfNotHealthy: true
       waitTimeoutForHealthyOSDInMinutes: 5m
       cephVersion:
-        image: quay.io/ceph/ceph:v19.2.0
+        image: quay.io/ceph/ceph:v19.2.1
       crashCollector:
         disable: false
       csi:
