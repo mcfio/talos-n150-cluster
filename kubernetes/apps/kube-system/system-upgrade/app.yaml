@@ -13,9 +13,9 @@ spec:
   path: ./apps/kube-system/system-upgrade/app
   prune: true
   sourceRef:
-    kind: GitRepository
-    name: milton-cluster
+    kind: OCIRepository
+    name: cluster-manifests
     namespace: flux-system
-  timeout: 5m
   wait: true
   interval: 12h
+  timeout: 5m
