@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/kube-system/system-upgrade/app
+  path: ./apps/kube-system/system-upgrade/resources
   prune: true
   sourceRef:
     kind: OCIRepository
