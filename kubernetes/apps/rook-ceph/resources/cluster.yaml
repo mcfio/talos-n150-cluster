@@ -41,7 +41,7 @@ spec:
       mon_warn_on_pool_no_redundancy = false
     cephClusterSpec:
       cephVersion:
-        image: quay.io/ceph/ceph:v19.2.0
+        image: quay.io/ceph/ceph:v19.2.1
       crashCollector:
         disable: false
       csi:
