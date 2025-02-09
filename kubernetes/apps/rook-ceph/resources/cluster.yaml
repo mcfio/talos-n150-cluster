@@ -42,7 +42,7 @@ spec:
     cephClusterSpec:
       # Enabled as ceph is used for non-replicated blockpool
       continueUpgradeAfterChecksEvenIfNotHealthy: true
-      waitTimeoutForHealthyOSDInMinutes: 5m
+      waitTimeoutForHealthyOSDInMinutes: 5
       cephVersion:
         image: quay.io/ceph/ceph:v19.2.1
       crashCollector:
