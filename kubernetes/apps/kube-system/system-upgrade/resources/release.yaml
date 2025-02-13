@@ -43,11 +43,16 @@ spec:
               SYSTEM_UPGRADE_JOB_PRIVILEGED: true
               SYSTEM_UPGRADE_JOB_TTL_SECONDS_AFTER_FINISH: 900
               SYSTEM_UPGRADE_PLAN_POLLING_INTERVAL: 15m
+              SYSTEM_UPGRADE_CONTROLLER_LEADER_ELECT: true
               SYSTEM_UPGRADE_CONTROLLER_NAME: *appname
               SYSTEM_UPGRADE_CONTROLLER_NAMESPACE:
                 valueFrom:
                   fieldRef:
                     fieldPath: metadata.namespace
+              SYSTEM_UPGRADE_CONTROLLER_NODE_NAME:
+                valueFrom:
+                  fieldRef:
+                    fieldPath: spec.nodeName
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
