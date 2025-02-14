@@ -22,6 +22,17 @@ instance:
       app.kubernetes.io/name: flux
   kustomize:
     patches:
+      - # Add OCI verification
+        patch: |
+          - op: add
+            path: /spec/verify
+            value:
+              provider: cosign
+              matchOIDCIdentity:
+                - issuer: ^https://token\.actions\.githubusercontent\.com$
+                  subject: ^https://github\.com/mcfio/home-cluster/\.github/workflows/publish-manifests\.yaml@refs/heads/main$
+        target:
+          kind: OCIRepository
       - # Increase the number of workers
         patch: |
           - op: add
