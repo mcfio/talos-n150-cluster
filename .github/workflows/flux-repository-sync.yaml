@@ -31,7 +31,7 @@ jobs:
         uses: fluxcd/flux2/action@5350425cdcd5fa015337e09fa502153c0275bd4b # v2.4.0
 
       - name: Setup yq
-        uses: chrisdickinson/setup-yq@v1.0.0
+        uses: vegardit/gha-setup-yq@v1
 
       - name: Get Changed Files
         id: changed-files
