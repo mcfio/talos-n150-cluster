@@ -31,7 +31,7 @@ jobs:
         uses: fluxcd/flux2/action@5350425cdcd5fa015337e09fa502153c0275bd4b # v2.4.0
 
       - name: Setup yq
-        uses: chrisdickinson/setup-yq@3d931309f27270ebbafd53f2daee773a82ea1822 # v1.0.1
+        uses: mikefarah/yq@v4.45.1
 
       - name: Get Changed Files
         id: changed-files
