@@ -16,8 +16,7 @@ resources:
   - reloader/app.yaml
   - spegel/app.yaml
   - talos-ccm/app.yaml
-  - ./system-upgrade/app.yaml
-  - ./system-upgrade/plans.yaml
+  - ./system-upgrade
 components:
   - ../../components/namespace
   - ../../components/flux/alerts/

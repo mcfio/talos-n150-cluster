@@ -23,8 +23,7 @@ spec:
   interval: 12h
   timeout: 10m
   postBuild:
-    substitute:
-      # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
-      KUBERNETES_VERSION: "v1.32.2"
-      # renovate: depName=ghcr.io/siderolabs/installer datasource=docker
-      TALOS_VERSION: "v1.9.4"
+    substituteFrom:
+      - kind: ConfigMap
+        name: system-upgrade-plans-versions
+        optional: false
