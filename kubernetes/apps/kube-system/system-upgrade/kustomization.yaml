@@ -6,7 +6,7 @@ resources:
   - ./app.yaml
   - ./plans.yaml
 configMapGenerator:
-  - name: system-upgrade-plan-versions
+  - name: system-upgrade-plans-versions
     env: ./plans/versions.env
 generatorOptions:
   disableNameSuffixHash: true
