@@ -3,17 +3,22 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname system-upgrade-plans
-  namespace: &namespace kube-system
+  name: &appname system-upgrade-controller-plans
+  namespace: &namespace system-upgrade
 spec:
   targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: system-upgrade
-      namespace: kube-system
-  path: ./apps/kube-system/system-upgrade/plans
+    - name: system-upgrade-controller
+      namespace: system-upgrade
+  path: ./apps/system-upgrade/plans
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: system-upgrade-plans-versions
+        optional: false
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -22,8 +27,3 @@ spec:
   wait: false
   interval: 12h
   timeout: 10m
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: system-upgrade-plans-versions
-        optional: false

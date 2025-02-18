@@ -2,11 +2,15 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: system-upgrade
 resources:
-  - ./app.yaml
+  - ./controller.yaml
   - ./plans.yaml
 configMapGenerator:
   - name: system-upgrade-plans-versions
     env: ./plans/versions.env
 generatorOptions:
   disableNameSuffixHash: true
+components:
+  - ../../components/namespace
+  - ../../components/flux/alerts/

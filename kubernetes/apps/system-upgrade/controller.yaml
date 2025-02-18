@@ -3,14 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname system-upgrade
-  namespace: &namespace kube-system
+  name: &appname system-upgrade-controller
+  namespace: &namespace system-upgrade
 spec:
   targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/kube-system/system-upgrade/resources
+  path: ./apps/system-upgrade/controller
   prune: true
   sourceRef:
     kind: OCIRepository
