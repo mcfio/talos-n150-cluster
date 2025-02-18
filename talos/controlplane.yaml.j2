@@ -75,8 +75,10 @@ machine:
       enabled: true
       allowedRoles:
         - os:reader
+        - os:admin
       allowedKubernetesNamespaces:
         - kube-system
+        - system-upgrade
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
     kubePrism:
