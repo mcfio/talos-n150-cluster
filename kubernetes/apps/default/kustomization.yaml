@@ -3,20 +3,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: default
-resources:
-  - cnpg-cluster/app.yaml
-  - sonarr/app.yaml
-  - radarr/app.yaml
-  - prowlarr/app.yaml
-  - sabnzbd/app.yaml
-  - plex/app.yaml
-  - emqx/app.yaml
-  - gatus/app.yaml
-  - tautulli/app.yaml
-  - recyclarr/app.yaml
-  - overseerr/app.yaml
-  - zigbee2mqtt/app.yaml
-  - zwave-js-ui/app.yaml
 components:
-  - ../../components/namespace
-  - ../../components/flux/alerts/
+  - ../../components/common
+resources:
+  - ./cnpg-cluster/app.yaml
+  - ./sonarr/app.yaml
+  - ./radarr/app.yaml
+  - ./prowlarr/app.yaml
+  - ./sabnzbd/app.yaml
+  - ./plex/app.yaml
+  - ./emqx/app.yaml
+  - ./gatus/app.yaml
+  - ./tautulli/app.yaml
+  - ./recyclarr/app.yaml
+  - ./overseerr/app.yaml
+  - ./zigbee2mqtt/app.yaml
+  - ./zwave-js-ui/app.yaml

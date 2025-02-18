@@ -3,19 +3,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: kube-system
-resources:
-  - cilium/gateway-api.yaml
-  - cilium/app.yaml
-  - cilium/config.yaml
-  - external-dns-unifi/app.yaml
-  - metrics-server/app.yaml
-  - node-feature-discovery/app.yaml
-  - intel-device-plugin/app.yaml
-  - intel-device-plugin/gpu.yaml
-  - descheduler/app.yaml
-  - reloader/app.yaml
-  - spegel/app.yaml
-  - talos-ccm/app.yaml
 components:
-  - ../../components/namespace
-  - ../../components/flux/alerts/
+  - ../../components/common
+resources:
+  - ./cilium/gateway-api.yaml
+  - ./cilium/app.yaml
+  - ./cilium/config.yaml
+  - ./external-dns-unifi/app.yaml
+  - ./metrics-server/app.yaml
+  - ./node-feature-discovery/app.yaml
+  - ./intel-device-plugin/app.yaml
+  - ./intel-device-plugin/gpu.yaml
+  - ./descheduler/app.yaml
+  - ./reloader/app.yaml
+  - ./spegel/app.yaml
+  - ./talos-ccm/app.yaml

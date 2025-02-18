@@ -3,6 +3,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: system-upgrade
+components:
+  - ../../components/common
 resources:
   - ./controller.yaml
   - ./plans.yaml
@@ -11,6 +13,3 @@ configMapGenerator:
     env: ./plans/versions.env
 generatorOptions:
   disableNameSuffixHash: true
-components:
-  - ../../components/namespace
-  - ../../components/flux/alerts/
