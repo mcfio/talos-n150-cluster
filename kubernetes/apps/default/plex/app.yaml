@@ -30,3 +30,4 @@ spec:
       app: *appname
       volume_capacity: 20Gi
       gatus_path: /web/index.html
+      volume_cache_capacity: 2Gi
