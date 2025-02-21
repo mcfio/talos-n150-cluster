@@ -4,5 +4,4 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - ./alertmanager
-  # disabling until: https://github.com/fluxcd/flux2/issues/5148
-  # - ./github
+  - ./github
