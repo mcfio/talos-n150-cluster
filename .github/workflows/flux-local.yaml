@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   test:
-    name: Test
+    name: Flux Local Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
           args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/config --sources "cluster-manifests=./kubernetes" -v
 
   diff:
-    name: Diff
+    name: Flux Local Diff
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -102,13 +102,16 @@ jobs:
             ```
 
   flux-local-success:
-    name: Successful
+    name: Flux Local Successful
     if: ${{ always() }}
     needs:
       - test
       - diff
     runs-on: ubuntu-latest
     steps:
-      - name: Check flux-local Status
-        if: ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }}
+      - name: Jobs failed?
+        if: ${{ contains(needs.*.result, 'failure') }}
         run: exit 1
+      - name: Jobs skipped or success?
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: echo "All jobs have passed or been skipped" && echo "${{ toJSON(needs.*.result) }}"
