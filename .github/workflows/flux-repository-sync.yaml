@@ -61,3 +61,17 @@ jobs:
         run: |
           flux --namespace ${{ github.event.inputs.helmRepoNamespace }} \
               reconcile source helm ${{ github.event.inputs.helmRepoName }} || true
+
+  workflow-status:
+    name: Flux Repository Sync Successful
+    needs:
+      - helm-sync
+    runs-on: ubuntu-latest
+    if: ${{ always() }}
+    steps:
+      - name: Jobs failed?
+        if: ${{ contains(needs.*.result, 'failure') }}
+        run: exit 1
+      - name: Jobs skipped or success?
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: echo "All jobs have passed or been skipped" && echo "${{ toJSON(needs.*.result) }}"

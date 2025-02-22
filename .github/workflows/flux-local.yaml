@@ -101,13 +101,13 @@ jobs:
             ${{ steps.diff.outputs.diff }}
             ```
 
-  flux-local-success:
+  workflow-status:
     name: Flux Local Successful
-    if: ${{ always() }}
     needs:
       - test
       - diff
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - name: Jobs failed?
         if: ${{ contains(needs.*.result, 'failure') }}
