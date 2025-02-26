@@ -21,7 +21,7 @@ spec:
   timeout: 5m
   dependsOn:
     - name: emqx
-    - name: external-secrets
+    - name: external-secrets-stores
       namespace: external-secrets
     - name: volsync
       namespace: volsync-system

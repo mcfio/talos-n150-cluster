@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: external-secrets
+    - name: external-secrets-stores
       namespace: external-secrets
   path: ./apps/default/emqx/resources
   prune: true
