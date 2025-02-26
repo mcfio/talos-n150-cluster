@@ -3,26 +3,32 @@
 name: Flux Repository Sync
 
 on:
-  workflow_dispatch:
-    inputs:
-      helmRepoNamespace:
-        description: Helm Repository Namespace
-        default: flux-system
-        required: true
-      helmRepoName:
-        description: Helm Repository Name
-        required: true
   pull_request:
     branches:
       - main
-    paths:
-      - kubernetes/**/release.yaml
 
 jobs:
+  workflow-setup:
+    name: Helm Repository Sync Setup
+    runs-on: ubuntu-latest
+    outputs:
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+      all_changed_and_modified_files: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
+        with:
+          files: kubernetes/**/release.yaml
+
   helm-sync:
     name: Helm Repositories
-    runs-on:
-      - gha-runner-scale-set
+    needs: workflow-setup
+    runs-on: gha-runner-scale-set
+    if: needs.workflow-setup.outputs.any_changed == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -33,45 +39,23 @@ jobs:
       - name: Setup yq
         uses: vegardit/gha-setup-yq@v1
 
-      - name: Get Changed Files
-        id: changed-files
-        if: ${{ github.event.inputs.helmRepoNamespace == '' && github.event.inputs.helmRepoName == '' }}
-        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
-        with:
-          files: kubernetes/**/release.yaml
-          safe_output: false
-
       - name: Sync Repository
-        if: ${{ github.event.inputs.helmRepoNamespace == '' && github.event.inputs.helmRepoName == '' }}
+        env:
+          FILTER: '[.spec.chart.spec.sourceRef] | unique | .[] | "\(.namespace) \(.name)"'
         run: |
-          declare -A repos=()
-          for f in ${{ steps.changed-files.outputs.all_changed_and_modified_files }}; do
-              repo_namespace="$(yq -r '.spec.chart.spec.sourceRef.namespace' "${f}")"
-              repo_name="$(yq -r '.spec.chart.spec.sourceRef.name' "${f}")"
-              repos["${repo_namespace}:${repo_name}"]=1
-          done
-          for r in "${!repos[@]}"; do
-              IFS=':' read -r repo_namespace repo_name <<< "${r}"
-              flux --namespace ${repo_namespace} \
-                  reconcile source helm ${repo_name} || true
-          done
-
-      - name: Sync Repository
-        if: ${{ github.event.inputs.helmRepoNamespace != '' && github.event.inputs.helmRepoName != '' }}
-        run: |
-          flux --namespace ${{ github.event.inputs.helmRepoNamespace }} \
-              reconcile source helm ${{ github.event.inputs.helmRepoName }} || true
+          yq eval-all "${FILTER}" ${{ needs.workflow-setup.outputs.all_changed_and_modified_files }} \
+            | xargs -l bash -c 'flux --namespace $0 reconcile source helm $1'
 
   workflow-status:
     name: Flux Repository Sync Successful
-    needs:
-      - helm-sync
+    needs: helm-sync
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: always()
     steps:
       - name: Jobs failed?
-        if: ${{ contains(needs.*.result, 'failure') }}
+        if: contains(needs.*.result, 'failure')
         run: exit 1
+
       - name: Jobs skipped or success?
         if: ${{ !(contains(needs.*.result, 'failure')) }}
         run: echo "All jobs have passed or been skipped" && echo "${{ toJSON(needs.*.result) }}"
