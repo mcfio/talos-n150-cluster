@@ -6,17 +6,32 @@ on:
   pull_request:
     branches:
       - main
-    paths:
-      - kubernetes/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
+  workflow-setup:
+    name: Flux Local Setup
+    runs-on: ubuntu-latest
+    outputs:
+      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Get Changed Files
+        id: changed-files
+        uses: tj-actions/changed-files@dcc7a0cba800f454d79fff4b993e8c3555bcc0a8 # v45
+        with:
+          files: kubernetes/**
+
   test:
     name: Flux Local Test
+    needs: workflow-setup
     runs-on: ubuntu-latest
+    if: needs.workflow-setup.outputs.any_changed == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -28,6 +43,7 @@ jobs:
 
   diff:
     name: Flux Local Diff
+    needs: workflow-setup
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -38,25 +54,17 @@ jobs:
           - kustomization
       max-parallel: 4
       fail-fast: false
+    if: needs.workflow-setup.outputs.any_changed == 'true'
     steps:
-      - name: Generate Token
-        uses: actions/create-github-app-token@0d564482f06ca65fa9e77e2510873638c82206f2 # v1
-        id: app-token
-        with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-
       - name: Checkout PR Branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
-          token: ${{ steps.app-token.outputs.token }}
           path: pull
 
       - name: Checkout Default Branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
-          token: ${{ steps.app-token.outputs.token }}
-          ref: ${{ github.event.repository.default_branch }}
+          ref: github.event.repository.default_branch
           path: default
 
       - name: Run flux-local Diff
@@ -89,8 +97,17 @@ jobs:
               echo '```'
           } >> $GITHUB_STEP_SUMMARY
 
+      - name: Generate Token
+        if: ${{ steps.diff.outputs.diff != '' }}
+        id: app-token
+        uses: actions/create-github-app-token@0d564482f06ca65fa9e77e2510873638c82206f2 # v1
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+
       - name: Add PR Comment
         if: ${{ steps.diff.outputs.diff != '' }}
+        continue-on-error: true
         uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
         with:
           repo-token: ${{ steps.app-token.outputs.token }}
@@ -107,11 +124,12 @@ jobs:
       - test
       - diff
     runs-on: ubuntu-latest
-    if: ${{ always() }}
+    if: always()
     steps:
       - name: Jobs failed?
-        if: ${{ contains(needs.*.result, 'failure') }}
+        if: contains(needs.*.result, 'failure')
         run: exit 1
+
       - name: Jobs skipped or success?
         if: ${{ !(contains(needs.*.result, 'failure')) }}
         run: echo "All jobs have passed or been skipped" && echo "${{ toJSON(needs.*.result) }}"
