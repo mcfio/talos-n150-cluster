@@ -22,6 +22,7 @@ spec:
     namespace: flux-system
   wait: false
   interval: 12h
+  retryInterval: 2m
   timeout: 5m
   postBuild:
     substitute:

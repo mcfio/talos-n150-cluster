@@ -10,7 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 12h
   path: ./apps/cnpg-system/resources
   prune: true
   sourceRef:
@@ -18,5 +17,6 @@ spec:
     name: cluster-manifests
     namespace: flux-system
   wait: false
-  retryInterval: 1m
+  interval: 12h
+  retryInterval: 2m
   timeout: 10m
