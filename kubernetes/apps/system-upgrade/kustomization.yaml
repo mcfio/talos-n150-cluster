@@ -9,7 +9,7 @@ resources:
   - ./controller.yaml
   - ./plans.yaml
 configMapGenerator:
-  - name: system-upgrade-plans-versions
+  - name: suc-plan-versions
     env: ./plans/versions.env
-generatorOptions:
-  disableNameSuffixHash: true
+configurations:
+  - name-reference.yaml

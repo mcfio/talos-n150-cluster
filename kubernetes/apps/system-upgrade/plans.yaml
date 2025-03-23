@@ -17,7 +17,7 @@ spec:
   postBuild:
     substituteFrom:
       - kind: ConfigMap
-        name: system-upgrade-plans-versions
+        name: suc-plan-versions
         optional: false
   prune: true
   sourceRef:
