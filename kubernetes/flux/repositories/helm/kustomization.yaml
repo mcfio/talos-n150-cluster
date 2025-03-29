@@ -10,7 +10,6 @@ resources:
   - emqx.yaml
   - fluxcd-community.yaml
   - weaveworks-charts.yaml
-  - rook-ceph.yaml
   - piraeus.yaml
   - external-secrets.yaml
   - onepassword.yaml
