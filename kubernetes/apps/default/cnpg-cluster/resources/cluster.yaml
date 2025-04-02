@@ -12,7 +12,7 @@ spec:
   enablePDB: true
   primaryUpdateStrategy: unsupervised
   storage:
-    size: 10Gi
+    size: 20Gi
     storageClass: ceph-non-replicated
   superuserSecret:
     name: cnpg-cluster-secret
