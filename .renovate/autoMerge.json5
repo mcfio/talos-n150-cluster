@@ -5,10 +5,10 @@
       description: "Auto Merge trusted container digests",
       matchDatasources: ["docker"],
       automerge: true,
-      automergeType: "branch",
-      matchUpdateTypes: ["minor", "patch", "digest"],
-      matchPackagePrefixes: ["ghcr.io/onedr0p", "ghcr.io/mcfio"],
-      ignoreTests: true
+      automergeType: "pr",
+      matchUpdateTypes: ["digest"],
+      matchPackageNames: ["/home-operations/"],
+      ignoreTests: false
     },
     {
       description: "Auto Merge Specific Helm Releases",
