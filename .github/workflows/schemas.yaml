@@ -12,6 +12,9 @@ on:
     paths:
       - .github/workflows/schemas.yaml
 
+env:
+  UV_SYSTEM_PYTHON: "1"
+
 jobs:
   publish-schemas:
     name: Schemas
@@ -27,6 +30,9 @@ jobs:
       - name: Setup Kubectl
         uses: azure/setup-kubectl@3e0aec4d80787158d308d7b364cb1b702e7feb7f # v4
 
+      - name: Install uv
+        uses: astral-sh/setup-uv@0c5e2b8115b80b4c7c5ddf6ffdd634974642d182 # v5.4.1
+
       - name: Setup Python
         uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
         with:
@@ -37,12 +43,11 @@ jobs:
         with:
           node-version: 22.x
 
+      - name: Install Python Dependencies
+        run: uv pip install pyyaml
+
       - name: Run crd-extractor
-        run: |
-          curl -fsSL -o $GITHUB_WORKSPACE/crd-extractor.sh \
-            https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/Utilities/crd-extractor.sh
-          chmod +x $GITHUB_WORKSPACE/crd-extractor.sh
-          bash $GITHUB_WORKSPACE/crd-extractor.sh
+        run: curl -fsSL https://raw.githubusercontent.com/datreeio/CRDs-catalog/43e4407642d4c37683c88711f37caa6c9c20ca40/Utilities/crd-extractor.sh | bash
 
       - name: Retrieve Cloudflare Token from 1Password Vault
         id: op-load-cloudflare-secret
