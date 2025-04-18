@@ -15,13 +15,12 @@ spec:
     - name: external-secrets-stores
       namespace: external-secrets
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: *appname
-      namespace: *namespace
     - apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
       name: letsencrypt-prod
+    - apiVersion: cert-manager.io/v1
+      kind: ClusterIssuer
+      name: letsencrypt-staging
   healthCheckExprs:
     - apiVersion: cert-manager.io/v1
       kind: ClusterIssuer
