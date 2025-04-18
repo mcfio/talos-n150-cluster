@@ -54,18 +54,6 @@ spec:
               resources:
                 requests:
                   storage: 1Gi
-    kubeApiServer:
-      serviceMonitor:
-        selector:
-          k8s-app: kube-apiserver
-    kubeScheduler:
-      service:
-        selector:
-          k8s-app: kube-scheduler
-    kubeControllerManager:
-      service:
-        selector:
-          k8s-app: kube-controller-manager
     kubeEtcd:
       service:
         selector:
@@ -86,8 +74,8 @@ spec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
         enableAdminAPI: true
         walCompression: true
         enableFeatures:

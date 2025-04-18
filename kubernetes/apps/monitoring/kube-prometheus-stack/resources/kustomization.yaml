@@ -6,7 +6,7 @@ resources:
   - ./oci-repository.yaml
   - ./external-secret.yaml
   - ./alertmanager-config.yaml
-  - ./release.yaml
+  - ./helm-release.yaml
 configMapGenerator:
   - name: flux-kube-state-metrics-config
     files:
