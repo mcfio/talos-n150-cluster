@@ -7,18 +7,12 @@ metadata:
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      version: 6.16.6
-      chart: promtail
-      sourceRef:
-        kind: HelmRepository
-        name: grafana-charts
-        namespace: flux-system
-      interval: 60m
+  chartRef:
+    kind: OCIRepository
+    name: promtail
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
