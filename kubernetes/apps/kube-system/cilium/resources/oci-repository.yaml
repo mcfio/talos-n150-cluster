@@ -13,3 +13,8 @@ spec:
     tag: 1.17.3
   # Using temporary mirror until https://github.com/cilium/cilium/issues/22157
   url: oci://ghcr.io/home-operations/charts-mirror/cilium
+  verify:
+    provider: cosign
+    matchOIDCIdentity:
+      - issuer: "^https://token.actions.githubusercontent.com$"
+        subject: "^https://github.com/home-operations/charts-mirror.*$"
