@@ -29,10 +29,10 @@
       },
     },
     {
-      description: ["Rook-Ceph Group"],
+      description: "Rook-Ceph Group",
       groupName: "Rook-Ceph",
-      matchDatasources: ["helm"],
-      matchPackagePatterns: ["rook.ceph"],
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
