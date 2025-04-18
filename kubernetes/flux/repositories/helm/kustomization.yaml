@@ -24,6 +24,4 @@ resources:
   - spegel.yaml
   - backube.yaml
   - kyverno.yaml
-  - grafana.yaml
-  - prometheus-community.yaml
   - controlplaneio.yaml
