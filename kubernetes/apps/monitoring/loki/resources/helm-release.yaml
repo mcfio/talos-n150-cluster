@@ -7,19 +7,16 @@ metadata:
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: loki
-      version: 6.29.0
-      sourceRef:
-        kind: HelmRepository
-        name: grafana-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: loki
   install:
+    crds: Skip
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
+    crds: Skip
     remediation:
       retries: 3
   # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
@@ -37,6 +34,12 @@ spec:
         chunk_encoding: snappy
       commonConfig:
         replication_factor: 1
+      compactor:
+        working_directory: /var/loki/compactor/retention
+        delete_request_store: filesystem
+        retention_enabled: true
+      limits_config:
+        retention_period: 14d
       schemaConfig:
         configs:
           - from: "2024-04-01"
@@ -46,6 +49,16 @@ spec:
             index:
               prefix: loki_index_
               period: 24h
+      structuredConfig:
+        ruler:
+          enable_api: true
+          enable_alertmanager_v2: true
+          alertmanager_url: http://alertmanager-operated.observability.svc.cluster.local:9093
+          storage:
+            type: local
+            local:
+              directory: /rules
+          rule_path: /rules/fake
     extraObjects:
       - apiVersion: v1
         kind: ConfigMap
@@ -68,7 +81,7 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: ceph-block
+        storageClass: ceph-replicated
         size: 50Gi
     gateway:
       enabled: false

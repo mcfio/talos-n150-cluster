@@ -7,6 +7,6 @@ components:
   - ../../components/common
 resources:
   - ./kube-prometheus-stack/app.yaml
+  - ./loki/app.yaml
   - ./promtail/app.yaml
-  - ./logging-stack.yaml
   - ./grafana/app.yaml
