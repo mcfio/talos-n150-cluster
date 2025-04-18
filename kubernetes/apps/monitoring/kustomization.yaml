@@ -6,7 +6,6 @@ namespace: monitoring
 components:
   - ../../components/common
 resources:
-  - ./kube-prometheus-stack/resources # TODO: finish migrating
+  - ./kube-prometheus-stack/app.yaml
   - ./logging-stack.yaml
-  - ./metrics-stack.yaml
   - ./grafana/app.yaml

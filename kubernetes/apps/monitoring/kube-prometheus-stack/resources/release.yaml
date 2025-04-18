@@ -7,30 +7,27 @@ metadata:
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: kube-prometheus-stack
-      version: 70.7.0
-      sourceRef:
-        kind: HelmRepository
-        name: prometheus-community-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: kube-prometheus-stack
   install:
-    crds: Skip
+    remediation:
+      retries: -1
   upgrade:
     cleanupOnFail: true
-    crds: Skip
-  dependsOn:
-    - name: prometheus-operator-crds
+    remediation:
+      retries: 3
   valuesFrom:
     - kind: ConfigMap
       name: flux-kube-state-metrics-config
       valuesKey: kube-state-metrics-config.yaml
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
   values:
-    fullnameOverride: stack
     crds:
-      enabled: false
+      enabled: true
+      upgradeJob:
+        enabled: true
+        forceConflicts: true
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       route:
@@ -50,10 +47,8 @@ spec:
         externalUrl: https://alertmanager.milton.mcf.io
         storage:
           volumeClaimTemplate:
-            metadata:
-              name: data
             spec:
-              storageClassName: ceph-block
+              storageClassName: ceph-replicated
               accessModes:
                 - ReadWriteOnce
               resources:
@@ -67,12 +62,14 @@ spec:
       service:
         selector:
           k8s-app: kube-scheduler
-    kubeControllerManager: &kubeControllerManager
+    kubeControllerManager:
       service:
         selector:
           k8s-app: kube-controller-manager
     kubeEtcd:
-      <<: *kubeControllerManager
+      service:
+        selector:
+          component: kube-apiserver
     kubeProxy:
       enabled: false
     prometheus:
@@ -86,10 +83,10 @@ spec:
               namespace: ingress-system
               sectionName: https
       prometheusSpec:
-        ruleSelectorNilUsesHelmValues: false
-        serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
+        ruleSelectorNilUsesHelmValues: false
+        serviceMonitorSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         enableAdminAPI: true
         walCompression: true
@@ -106,21 +103,14 @@ spec:
             memory: 3200Mi
         storageSpec:
           volumeClaimTemplate:
-            metadata:
-              name: data
             spec:
-              storageClassName: ceph-block
+              storageClassName: ceph-replicated
               resources:
                 requests:
-                  storage: 75Gi
-    prometheusOperator:
-      fullnameOverride: prometheus-operator
-      admissionWebhooks:
-        certManager:
-          enabled: true
+                  storage: 50Gi
     grafana:
       enabled: false
-      forceDeployDashboards: false
+      forceDeployDashboards: true
       sidecar:
         dashboards:
           annotations:
