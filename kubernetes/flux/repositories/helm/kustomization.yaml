@@ -13,7 +13,6 @@ resources:
   - piraeus.yaml
   - external-secrets.yaml
   - onepassword.yaml
-  - jetstack-charts.yaml
   - gha-actions.yaml
   - cloudnative-pg.yaml
   - external-dns.yaml
