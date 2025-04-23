@@ -18,4 +18,4 @@ resources:
   - ./recyclarr/app.yaml
   - ./overseerr/app.yaml
   - ./zigbee2mqtt/app.yaml
-  - ./zwave-js-ui/app.yaml
+  # - ./zwave-js-ui/app.yaml
