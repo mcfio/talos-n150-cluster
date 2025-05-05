@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: system-upgrade
 components:
   - ../../components/common
+  - ../../components/app-template
 resources:
   - ./controller.yaml
   - ./plans.yaml

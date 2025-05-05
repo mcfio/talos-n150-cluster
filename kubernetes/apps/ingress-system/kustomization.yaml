@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: ingress-system
 components:
   - ../../components/common
+  - ../../components/app-template
 resources:
   - ./cloudflare/tunnel/app.yaml
   - ./cloudflare/external-dns/app.yaml
