@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: default
 components:
   - ../../components/common
+  - ../../components/app-template
 resources:
   - ./cnpg-cluster/app.yaml
   - ./sonarr/app.yaml
