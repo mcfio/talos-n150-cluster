@@ -3,70 +3,49 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: radarr
+  name: sabnzbd
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.3
-      sourceRef:
-        kind: HelmRepository
-        name: app-template-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
   values:
     controllers:
-      radarr:
-        labels:
-          app.kubernetes.io/depends-on: cnpg-cluster
+      sabnzbd:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: ghcr.io/home-operations/radarr
-              tag: 5.23.1.9914@sha256:9e7c9a048d63b0b9d8e4266561cf336ceecaec047fbc2508dcfe417e0f326cef
+              repository: ghcr.io/home-operations/sabnzbd
+              tag: 4.5.1@sha256:83ced26f35674908821f3712dd48fdbf40f75da5149721690744526c4ec9f350
             env:
               TZ: Canada/Eastern
-              RADARR__APP__INSTANCENAME: Radarr
-              RADARR__APP__THEME: dark
-              RADARR__AUTH__METHOD: External
-              RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
-              RADARR__lOG__DBENABLED: "False"
-              RADARR__lOG__LEVEL: info
-              RADARR__SERVER__PORT: &port 7878
+              SABNZBD__PORT: &port 8080
+              SABNZBD__HOST_WHITELIST_ENTRIES: >-
+                sabnzbd,
+                sabnzbd.default,
+                sabnzbd.default.svc,
+                sabnzbd.default.svc.cluster,
+                sabnzbd.default.svc.cluster.local,
+                sabnzbd.milton.mcf.io
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /ping
-                    port: *port
-                  initialDelaySeconds: 10
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
-              startup:
-                enabled: false
             resources:
               requests:
                 cpu: 100m
                 memory: 128Mi
               limits:
-                memory: 4Gi
+                memory: 8Gi
             securityContext:
               allowPrivilegeEscalation: false
               capabilities:
@@ -85,7 +64,7 @@ spec:
           type: RuntimeDefault
     service:
       app:
-        controller: radarr
+        controller: sabnzbd
         ports:
           http:
             port: *port
@@ -101,17 +80,15 @@ spec:
           - "{{ .Release.Name }}.milton.mcf.io"
         rules:
           - backendRefs:
-              - name: radarr
+              - name: sabnzbd
                 port: *port
     persistence:
       config:
-        enabled: true
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 10Gi
+        existingClaim: sabnzbd-config
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
-      tmp:
+      incomplete:
+        enabled: true
         type: emptyDir

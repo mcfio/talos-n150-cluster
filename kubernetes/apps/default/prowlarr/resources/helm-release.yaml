@@ -3,45 +3,53 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: tautulli
+  name: prowlarr
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: app-template
-      version: 3.7.3
-      sourceRef:
-        kind: HelmRepository
-        name: app-template-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: app-template
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
   values:
     controllers:
-      tautulli:
+      prowlarr:
+        labels:
+          app.kubernetes.io/depends-on: cnpg-cluster
+        annotations:
+          reloader.stakater.com/auto: "true"
         containers:
           app:
             image:
-              repository: ghcr.io/tautulli/tautulli
-              tag: v2.15.2
+              repository: ghcr.io/home-operations/prowlarr
+              tag: 1.35.1.5034@sha256:866e9f26acc49b49ce18f650c145eb36cc5211fbf3fdfb3d629683319af8cb41
             env:
               TZ: Canada/Eastern
-            command: ["/usr/local/bin/python", "Tautulli.py"]
-            args: ["--config", "/config/config.ini", "--datadir", "/config"]
+              PROWLARR__APP__INSTANCENAME: Prowlarr
+              PROWLARR__APP__THEME: dark
+              PROWLARR__AUTH__METHOD: External
+              PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
+              PROWLARR__LOG__DBENABLED: "False"
+              PROWLARR__LOG__LEVEL: info
+              PROWLARR__SERVER__PORT: &port 9696
+              PROWLARR__UPDATE__BRANCH: develop
+            envFrom:
+              - secretRef:
+                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /status
-                    port: &port 8181
+                    path: /ping
+                    port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -51,12 +59,13 @@ spec:
                 enabled: false
             resources:
               requests:
-                cpu: 10m
+                cpu: 100m
                 memory: 128Mi
               limits:
                 memory: 1Gi
             securityContext:
               allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
@@ -71,7 +80,7 @@ spec:
           type: RuntimeDefault
     service:
       app:
-        controller: tautulli
+        controller: prowlarr
         ports:
           http:
             port: *port
@@ -87,8 +96,10 @@ spec:
           - "{{ .Release.Name }}.milton.mcf.io"
         rules:
           - backendRefs:
-              - name: tautulli
+              - name: prowlarr
                 port: *port
     persistence:
       config:
-        existingClaim: tautulli-config
+        type: emptyDir
+      tmp:
+        type: emptyDir
