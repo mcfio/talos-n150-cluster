@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Generate Token
-        uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2
         id: app-token
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
@@ -57,7 +57,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Renovate
-        uses: renovatebot/github-action@8ac70de2fe55752c573155866e30735411e3b61c # v41.0.22
+        uses: renovatebot/github-action@19ba43e1bc58ed95c0ba205dee8b1bc0f27b630d # v42.0.0
         with:
           token: ${{ steps.app-token.outputs.token }}
           renovate-version: ${{ env.WORKFLOW_RENOVATE_VERSION }}

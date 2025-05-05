@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v7.4.0
+        uses: docker://ghcr.io/allenporter/flux-local:v7.5.0
         with:
           args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/config --sources "cluster-manifests=./kubernetes" -v
 
@@ -68,7 +68,7 @@ jobs:
           path: default
 
       - name: Run flux-local Diff
-        uses: docker://ghcr.io/allenporter/flux-local:v7.4.0
+        uses: docker://ghcr.io/allenporter/flux-local:v7.5.0
         with:
           args: >-
             diff ${{ matrix.resources }}
@@ -100,7 +100,7 @@ jobs:
       - name: Generate Token
         if: ${{ steps.diff.outputs.diff != '' }}
         id: app-token
-        uses: actions/create-github-app-token@3ff1caaa28b64c9cc276ce0a02e2ff584f3900c5 # v2
+        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
