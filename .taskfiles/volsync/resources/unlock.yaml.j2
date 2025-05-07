@@ -2,7 +2,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: volsync-list-{{ ENV.APP }}
+  name: volsync-unlock-{{ ENV.APP }}
   namespace: {{ ENV.NAMESPACE }}
 spec:
   ttlSecondsAfterFinished: 3600
@@ -11,9 +11,9 @@ spec:
       automountServiceAccountToken: false
       restartPolicy: OnFailure
       containers:
-        - name: main
-          image: ghcr.io/restic/restic:latest
-          args: ["snapshots", "--no-cache"]
+        - name: local
+          image: docker.io/restic/restic:latest
+          args: ["unlock", "--remove-all"]
           envFrom:
             - secretRef:
                 name: "{{ ENV.APP }}-backup-local"
@@ -23,8 +23,20 @@ spec:
             capabilities:
               drop:
                 - ALL
+        - name: r2
+          image: docker.io/restic/restic:latest
+          args: ["unlock", "--remove-all"]
+          envFrom:
+            - secretRef:
+                name: "{{ ENV.APP }}-backup-r2"
+          resources: {}
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65535 # nobody
+        runAsUser: 65535
         seccompProfile:
           type: RuntimeDefault

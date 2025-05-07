@@ -2,13 +2,13 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationDestination
 metadata:
-  name: {{ ENV.JOB }}
-  namespace: {{ ENV.NS }}
+  name: "{{ ENV.APP }}-manual"
+  namespace: "{{ ENV.NAMESPACE }}"
 spec:
   trigger:
     manual: restore-once
   restic:
-    repository: {{ ENV.APP }}-volsync-secret
+    repository: "{{ ENV.APP }}-backup-local"
     destinationPVC: {{ ENV.CLAIM_NAME }}
     copyMethod: Direct
     storageClassName: {{ ENV.STORAGE_CLASS_NAME }}

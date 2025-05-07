@@ -2,35 +2,19 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
+set: [pipefail]
 shopt: [globstar]
 
-dotenv: ["{{.ROOT_DIR}}/talos/versions.env"]
-
 includes:
-  bootstrap: .taskfiles/bootstrap/Taskfile.yaml
-  op:
-    taskfile: .taskfiles/1password/Taskfile.yml
-    dir: .taskfiles/1password
-  talos:
-    taskfile: .taskfiles/talos/Taskfile.yaml
-    dir: .taskfiles/talos
-  k8s:
-    taskfile: .taskfiles/k8s/Taskfile.yml
-    dir: .taskfiles/k8s
-  es:
-    taskfile: .taskfiles/externalsecret/Taskfile.yml
-    dir: .taskfiles/externalsecret
-  flux:
-    taskfile: .taskfiles/flux/Taskfile.yml
-    dir: .taskfiles/flux
-  volsync: .taskfiles/volsync/Taskfile.yaml
-
-vars:
-  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
-  PROJECT_DIR:
-    sh: "git rev-parse --show-toplevel"
+  bootstrap: .taskfiles/bootstrap
+  op: .taskfiles/1password
+  talos: .taskfiles/talos
+  k8s: .taskfiles/k8s
+  es: .taskfiles/externalsecret
+  flux: ./taskfiles/flux
+  volsync: .taskfiles/volsync
 
 tasks:
   default:
-    silent: true
     cmd: task --list
+    silent: true
