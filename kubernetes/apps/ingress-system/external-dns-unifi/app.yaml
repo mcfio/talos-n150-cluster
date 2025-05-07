@@ -4,16 +4,17 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname external-dns-unifi
-  namespace: kube-system
+  namespace: &namespace ingress-system
 spec:
-  targetNamespace: kube-system
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: external-secrets-stores
       namespace: external-secrets
-  path: ./apps/kube-system/external-dns-unifi/resources
+    - name: external-dns-cloudflare
+  path: ./apps/ingress-system/external-dns-unifi/resources
   prune: true
   sourceRef:
     kind: OCIRepository
