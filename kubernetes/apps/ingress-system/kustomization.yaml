@@ -7,6 +7,6 @@ components:
   - ../../components/common
   - ../../components/app-template
 resources:
-  - ./cloudflare/tunnel/app.yaml
   - ./external-dns-cloudflare/app.yaml
+  - ./cloudflare-tunnel/app.yaml
   - ./gateway/app.yaml

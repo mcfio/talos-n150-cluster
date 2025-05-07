@@ -4,9 +4,9 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname cloudflare-tunnel
-  namespace: ingress-system
+  namespace: &namespace ingress-system
 spec:
-  targetNamespace: ingress-system
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
@@ -14,7 +14,7 @@ spec:
     - name: cluster-gateway
     - name: external-secrets-stores
       namespace: external-secrets
-  path: ./apps/ingress-system/cloudflare/tunnel/resources
+  path: ./apps/ingress-system/cloudflare-tunnel/resources
   prune: true
   sourceRef:
     kind: OCIRepository
@@ -25,5 +25,6 @@ spec:
   retryInterval: 2m
   timeout: 5m
   postBuild:
-    substitute:
-      CLOUDFLARE_TUNNEL_ID: d36b11af-eece-4f98-b93b-6b087a3951bf
+    substituteFrom:
+      - kind: Secret
+        name: cloudflare-tunnel-secret

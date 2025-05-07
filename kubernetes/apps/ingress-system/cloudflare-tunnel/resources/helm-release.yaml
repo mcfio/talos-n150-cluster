@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &releaseName cloudflare-tunnel
+  name: cloudflare-tunnel
 spec:
   interval: 12h
   maxHistory: 3
@@ -33,17 +33,13 @@ spec:
               tag: 2025.4.2@sha256:698f5c59bf0b9ece62f8c60061004bdfcf7718fbac5d72b87e214af7b9d1d7ac
             env:
               NO_AUTOUPDATE: true
-              TUNNEL_CRED_FILE: /etc/cloudflared/creds/credentials.json
               TUNNEL_METRICS: 0.0.0.0:8080
               TUNNEL_ORIGIN_ENABLE_HTTP2: true
               TUNNEL_TRANSPORT_PROTOCOL: quic
               TUNNEL_POST_QUANTUM: true
             args:
               - tunnel
-              - --config
-              - /etc/cloudflared/config/config.yaml
               - run
-              - ${CLOUDFLARE_TUNNEL_ID}
             probes:
               liveness: &probes
                 enabled: true
@@ -77,7 +73,7 @@ spec:
           type: RuntimeDefault
     service:
       app:
-        controller: cloudflared
+        controller: cloudflare-tunnel
         ports:
           http:
             port: *port
@@ -86,10 +82,6 @@ spec:
         serviceName: cloudflare-tunnel
         endpoints:
           - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
     persistence:
       config:
         type: configMap
@@ -97,11 +89,4 @@ spec:
         globalMounts:
           - path: /etc/cloudflared/config/config.yaml
             subPath: config.yaml
-            readOnly: true
-      creds:
-        type: secret
-        name: cloudflare-tunnel-secret
-        globalMounts:
-          - path: /etc/cloudflared/creds/credentials.json
-            subPath: credentials.json
             readOnly: true
