@@ -18,7 +18,7 @@ spec:
     remediation:
       retries: 3
   dependsOn:
-    - name: cloudflare-external-dns
+    - name: external-dns-cloudflare
   values:
     controllers:
       cloudflared:
