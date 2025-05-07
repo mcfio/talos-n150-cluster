@@ -21,7 +21,7 @@ spec:
     - name: external-dns-cloudflare
   values:
     controllers:
-      cloudflared:
+      cloudflare-tunnel:
         replicas: 2
         strategy: RollingUpdate
         annotations:
