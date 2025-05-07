@@ -27,4 +27,4 @@ spec:
   postBuild:
     substituteFrom:
       - kind: Secret
-        name: cloudflare-tunnel-secret
+        name: cloudflare-tunnel-id-secret
