@@ -16,6 +16,5 @@ resources:
   - node-feature-discovery.yaml
   - reloader.yaml
   - siderolabs.yaml
-  - spegel.yaml
   - backube.yaml
   - controlplaneio.yaml
