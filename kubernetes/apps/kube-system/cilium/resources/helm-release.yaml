@@ -7,22 +7,17 @@ metadata:
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: cilium
-      version: 1.17.3
-      sourceRef:
-        kind: HelmRepository
-        name: cilium-charts
-        namespace: flux-system
-  timeout: 15m
+  chartRef:
+    kind: OCIRepository
+    name: cilium
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
       retries: 3
+  timeout: 15m
   valuesFrom:
     - kind: ConfigMap
       name: cilium-values
@@ -87,6 +82,7 @@ spec:
               cpu: 10m
               memory: 100Mi
     operator:
+      tolerations: []
       resources:
         limits: {}
         requests:
