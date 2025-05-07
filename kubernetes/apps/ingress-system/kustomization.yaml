@@ -8,5 +8,5 @@ components:
   - ../../components/app-template
 resources:
   - ./cloudflare/tunnel/app.yaml
-  - ./cloudflare/external-dns/app.yaml
+  - ./external-dns-cloudflare/app.yaml
   - ./gateway/app.yaml

@@ -3,46 +3,38 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &releaseName cloudflare-external-dns
+  name: &appname external-dns-cloudflare
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: external-dns
-      version: 1.16.1
-      sourceRef:
-        kind: HelmRepository
-        name: external-dns-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: external-dns
   install:
-    disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
-    disableSchemaValidation: true # Ref: https://github.com/kubernetes-sigs/external-dns/issues/5206
     cleanupOnFail: true
     remediation:
       retries: 3
   values:
-    fullnameOverride: *releaseName
+    fullnameOverride: *appname
     podAnnotations:
-      secret.reloader.stakater.com/reload: &secretName cloudflare-external-dns-secret
+      secret.reloader.stakater.com/reload: &secret external-dns-cloudflare-secret
     provider:
       name: cloudflare
     env:
       - name: CF_API_TOKEN
         valueFrom:
           secretKeyRef:
-            name: *secretName
+            name: *secret
             key: CLOUDFLARE_API_TOKEN
     extraArgs:
       - --cloudflare-dns-records-per-page=1000
       - --cloudflare-proxied
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --events
-      - --ignore-ingress-tls-spec
+      - --gateway-name=external
     sources:
       - crd
       - gateway-httproute
