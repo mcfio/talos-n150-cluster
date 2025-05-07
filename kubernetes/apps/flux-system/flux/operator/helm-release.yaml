@@ -3,29 +3,20 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: flux-instance
+  name: flux-operator
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: flux-instance
-      version: 0.19.0
-      sourceRef:
-        kind: HelmRepository
-        name: controlplaneio-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: flux-operator
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
-  dependsOn:
-    - name: flux-operator
-      namespace: flux-system
   valuesFrom:
     - kind: ConfigMap
-      name: flux-instance-values
+      name: flux-operator-values

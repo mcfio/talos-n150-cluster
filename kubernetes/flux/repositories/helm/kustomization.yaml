@@ -17,4 +17,3 @@ resources:
   - reloader.yaml
   - siderolabs.yaml
   - backube.yaml
-  - controlplaneio.yaml
