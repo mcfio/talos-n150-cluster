@@ -9,7 +9,7 @@ spec:
   maxHistory: 3
   chartRef:
     kind: OCIRepository
-    name: flux-operator
+    name: flux-instance
   install:
     remediation:
       retries: -1
