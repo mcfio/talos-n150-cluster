@@ -31,3 +31,4 @@ spec:
   postBuild:
     substitute:
       app: *appname
+      volume_cache_capacity: 2Gi

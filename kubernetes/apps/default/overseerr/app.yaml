@@ -29,5 +29,6 @@ spec:
     substitute:
       app: *appname
       volume_name: overseerr-config
+      volume_cache_capacity: 2Gi
       gatus_domain: requests.mcf.io
       gatus_path: /api/v1/status

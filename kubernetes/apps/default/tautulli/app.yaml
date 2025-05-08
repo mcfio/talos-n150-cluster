@@ -30,3 +30,4 @@ spec:
       app: *appname
       volume_name: tautulli-config
       volume_capacity: 2Gi
+      volume_cache_capacity: 4Gi

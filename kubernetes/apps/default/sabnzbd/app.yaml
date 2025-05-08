@@ -30,3 +30,4 @@ spec:
       app: *appname
       volume_name: sabnzbd-config
       volume_capacity: 500Mi
+      volume_cache_capacity: 2Gi
