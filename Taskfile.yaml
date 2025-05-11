@@ -11,7 +11,7 @@ includes:
   talos: .taskfiles/talos
   k8s: .taskfiles/k8s
   es: .taskfiles/externalsecret
-  flux: ./taskfiles/flux
+  flux: .taskfiles/flux
   volsync: .taskfiles/volsync
 
 tasks:
