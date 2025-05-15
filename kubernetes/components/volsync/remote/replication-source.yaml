@@ -7,7 +7,7 @@ metadata:
 spec:
   sourcePVC: ${volume_name:=${app}}
   trigger:
-    schedule: "0 0 * * *"
+    schedule: "30 0 * * *"
   restic:
     copyMethod: ${volume_copy_method:=Snapshot}
     repository: ${app}-backup-r2
@@ -23,6 +23,6 @@ spec:
       runAsUser: ${volume_uid:=1000}
       runAsGroup: ${volume_gid:=1000}
       fsGroup: ${volume_gid:=1000}
-    pruneIntervalDays: 7
+    pruneIntervalDays: 14
     retain:
       daily: 7
