@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: cluster-gateway
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
   path: ./apps/ingress-system/external-dns-cloudflare/resources
   prune: true

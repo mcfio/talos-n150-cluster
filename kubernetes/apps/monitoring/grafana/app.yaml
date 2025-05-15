@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
   path: ./apps/monitoring/grafana/resources
   prune: true

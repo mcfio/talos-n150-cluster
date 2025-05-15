@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: cert-manager
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
   healthChecks:
     - apiVersion: cert-manager.io/v1

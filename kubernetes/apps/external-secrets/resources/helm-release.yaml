@@ -7,21 +7,15 @@ metadata:
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: external-secrets
-      version: 0.17.0
-      sourceRef:
-        kind: HelmRepository
-        name: external-secrets-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: external-secrets
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
   values:
     installCRDs: true

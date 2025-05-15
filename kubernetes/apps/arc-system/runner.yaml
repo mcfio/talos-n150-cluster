@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *appname
   dependsOn:
     - name: actions-runner-controller
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
   path: ./apps/arc-system/runner
   prune: true

@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
     - name: external-dns-cloudflare
   path: ./apps/ingress-system/external-dns-unifi/resources

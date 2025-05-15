@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: cnpg-operator
       namespace: cnpg-system
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
   interval: 2h
   path: ./apps/default/cnpg-cluster/resources

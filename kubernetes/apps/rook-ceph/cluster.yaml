@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: rook-ceph-operator
       namespace: *namespace
-    - name: external-secrets-stores
+    - name: external-secrets
       namespace: external-secrets
   path: ./apps/rook-ceph/cluster
   prune: false # Do not prune the CSI

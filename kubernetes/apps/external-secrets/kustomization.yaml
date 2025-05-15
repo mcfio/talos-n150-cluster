@@ -7,5 +7,3 @@ components:
   - ../../components/common
 resources:
   - ./external-secrets.yaml
-  - ./onepassword.yaml
-  - ./external-secrets-stores.yaml
