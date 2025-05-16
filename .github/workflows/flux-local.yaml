@@ -73,7 +73,7 @@ jobs:
       - name: Checkout Default Branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
-          ref: github.event.repository.default_branch
+          ref: ${{ github.event.repository.default_branch }}
           path: default
           persist-credentials: false
 
@@ -103,15 +103,15 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2
         with:
-          app-id: secrets.BOT_APP_ID
-          private-key: secrets.BOT_APP_PRIVATE_KEY
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
       - name: Add PR Comment
         if: ${{ steps.diff.outputs.diff != '' }}
         continue-on-error: true
         uses: marocchino/sticky-pull-request-comment@67d0dec7b07ed060a405f9b2a64b8ab319fdd7db # v2.9.2
         with:
-          GITHUB_TOKEN: steps.app-token.outputs.token
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           header: ${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}
           message: |
             ```diff
