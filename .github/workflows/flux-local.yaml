@@ -11,16 +11,16 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   workflow-setup:
     name: Flux Local Setup
     runs-on: ubuntu-latest
     outputs:
-      any_changed: ${{ steps.changed-files.outputs.any_changed }}
+      any_changed: steps.changed-files.outputs.any_changed
     steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-
       - name: Get Changed Files
         id: changed-files
         uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
@@ -35,37 +35,47 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
 
       - name: Run flux-local test
         uses: docker://ghcr.io/allenporter/flux-local:v7.5.0
         with:
-          args: test --enable-helm --all-namespaces --path /github/workspace/kubernetes/flux/config --sources "cluster-manifests=./kubernetes" -v
+          args: >-
+            test
+            --all-namespaces
+            --enable-helm
+            --path /github/workspace/kubernetes/flux/config
+            --sources "cluster-manifests=./kubernetes"
+            --verbose
 
   diff:
     name: Flux Local Diff
     needs: workflow-setup
+    if: needs.workflow-setup.outputs.any_changed == 'true'
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pull-requests: write
     strategy:
       matrix:
         resources:
           - helmrelease
           - kustomization
-      max-parallel: 4
       fail-fast: false
-    if: needs.workflow-setup.outputs.any_changed == 'true'
     steps:
       - name: Checkout PR Branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
           path: pull
+          persist-credentials: false
 
       - name: Checkout Default Branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
         with:
-          ref: ${{ github.event.repository.default_branch }}
+          ref: github.event.repository.default_branch
           path: default
+          persist-credentials: false
 
       - name: Run flux-local Diff
         uses: docker://ghcr.io/allenporter/flux-local:v7.5.0
@@ -84,35 +94,25 @@ jobs:
       - name: Generate Diff
         id: diff
         run: |
-          cat diff.patch;
-          {
-              echo 'diff<<EOF'
-              cat diff.patch
-              echo 'EOF'
-          } >> $GITHUB_OUTPUT;
-          {
-              echo "### Diff"
-              echo '```diff'
-              cat diff.patch
-              echo '```'
-          } >> $GITHUB_STEP_SUMMARY
+          echo 'diff<<EOF' >> $GITHUB_OUTPUT
+          cat diff.patch >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
       - name: Generate Token
         if: ${{ steps.diff.outputs.diff != '' }}
         id: app-token
         uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2
         with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          app-id: secrets.BOT_APP_ID
+          private-key: secrets.BOT_APP_PRIVATE_KEY
 
       - name: Add PR Comment
         if: ${{ steps.diff.outputs.diff != '' }}
         continue-on-error: true
-        uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
+        uses: marocchino/sticky-pull-request-comment@67d0dec7b07ed060a405f9b2a64b8ab319fdd7db # v2.9.2
         with:
-          repo-token: ${{ steps.app-token.outputs.token }}
-          message-id: ${{ github.event.pull_request.number }} - ${{ matrix.resources }}
-          message-failure: Diff was not successful
+          GITHUB_TOKEN: steps.app-token.outputs.token
+          header: ${{ github.event.pull_request.number }}/kubernetes/${{ matrix.resources }}
           message: |
             ```diff
             ${{ steps.diff.outputs.diff }}
