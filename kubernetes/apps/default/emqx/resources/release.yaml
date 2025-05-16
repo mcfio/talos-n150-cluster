@@ -35,7 +35,7 @@ spec:
     persistence:
       enabled: true
       size: 1Gi
-      storageClassName: ceph-non-replicated
+      storageClassName: openebs-hostpath
     resources:
       requests:
         cpu: 10m
