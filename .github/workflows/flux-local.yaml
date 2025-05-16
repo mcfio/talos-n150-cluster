@@ -15,23 +15,23 @@ permissions:
   contents: read
 
 jobs:
-  workflow-setup:
-    name: Flux Local Setup
+  filter:
+    name: Flux Local - Changed Files Filter
     runs-on: ubuntu-latest
     outputs:
-      any_changed: steps.changed-files.outputs.any_changed
+      changed-files: steps.changed-files.outputs.changed_files
     steps:
       - name: Get Changed Files
         id: changed-files
-        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555d944a631a4c # v46.0.5
+        uses: bjw-s-labs/action-changed-files@930cef8463348e168cab7235c47fe95a7a235f65 # v0.3.3
         with:
-          files: kubernetes/**
+          patterns: kubernetes/**/*
 
   test:
-    name: Flux Local Test
-    needs: workflow-setup
+    name: Flux Local - Test
+    needs: filter
+    if: ${{ needs.filter.outputs.changed-files != '[]' }}
     runs-on: ubuntu-latest
-    if: needs.workflow-setup.outputs.any_changed == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
@@ -50,9 +50,9 @@ jobs:
             --verbose
 
   diff:
-    name: Flux Local Diff
-    needs: workflow-setup
-    if: needs.workflow-setup.outputs.any_changed == 'true'
+    name: Flux Local - Diff
+    needs: filter
+    if: ${{ needs.filter.outputs.changed-files != '[]' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
