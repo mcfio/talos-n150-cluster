@@ -33,9 +33,6 @@ spec:
           osd_class_update_on_start: "false"
           mon_warn_on_pool_no_redundancy: "false"
           device_failure_prediction_mode: local
-      # Enabled as ceph is used for non-replicated blockpool
-      continueUpgradeAfterChecksEvenIfNotHealthy: true
-      waitTimeoutForHealthyOSDInMinutes: 5
       cephVersion:
         image: quay.io/ceph/ceph:v19.2.2
       crashCollector:
@@ -103,30 +100,6 @@ spec:
           enabled: true
           name: ceph-replicated
           isDefault: true
-          reclaimPolicy: Delete
-          allowVolumeExpansion: true
-          volumeBindingMode: Immediate
-          mountOptions:
-            - discard
-          parameters:
-            imageFormat: "2"
-            imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/fstype: ext4
-      - name: non-replicated
-        spec:
-          failureDomain: host
-          replicated:
-            size: 1
-        storageClass:
-          enabled: true
-          name: ceph-non-replicated
-          isDefault: false
           reclaimPolicy: Delete
           allowVolumeExpansion: true
           volumeBindingMode: Immediate
