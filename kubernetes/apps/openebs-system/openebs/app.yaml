@@ -20,7 +20,7 @@ spec:
   interval: 12h
   retryInterval: 2m
   sourceRef:
-    kind: GitRepository
-    name: flux-system
+    kind: OCIRepository
+    name: cluster-manifests
     namespace: flux-system
   timeout: 5m
