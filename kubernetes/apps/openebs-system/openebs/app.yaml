@@ -15,7 +15,7 @@ spec:
       kind: HelmRelease
       name: *appname
       namespace: *namespace
-  path: .apps/openebs-system/openebs/resources
+  path: ./apps/openebs-system/openebs/resources
   prune: true
   interval: 12h
   retryInterval: 2m
