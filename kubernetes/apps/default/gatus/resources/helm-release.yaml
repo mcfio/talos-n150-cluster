@@ -128,6 +128,21 @@ spec:
           - backendRefs:
               - identifier: app
                 port: *port
+    rbac:
+      roles:
+        gatus:
+          type: Role
+          rules:
+            - apiGroups: [""]
+              resources: ["configmaps", "secrets"]
+              verbs: ["get", "list", "watch"]
+      bindings:
+        gatus:
+          type: RoleBinding
+          subjects:
+            - identifier: gatus
+          roleRef:
+            identifier: gatus
     serviceAccount:
       gatus: {}
     persistence:
