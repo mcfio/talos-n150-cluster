@@ -9,6 +9,6 @@ spec:
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
+  url: oci://ghcr.io/home-operations/charts-mirror/silence-operator
   ref:
-    tag: 0.0.8
-  url: oci://ghcr.io/wiremind/wiremind-helm-charts/silence-operator
+    tag: 0.16.1
