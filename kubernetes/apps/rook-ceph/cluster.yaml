@@ -16,7 +16,7 @@ spec:
     - name: external-secrets
       namespace: external-secrets
     - name: silence-operator
-      namespace: kube-system
+      namespace: monitoring
   path: ./apps/rook-ceph/cluster
   prune: false # Do not prune the CSI
   sourceRef:

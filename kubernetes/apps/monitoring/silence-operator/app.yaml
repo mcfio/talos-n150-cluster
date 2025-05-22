@@ -10,9 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  dependsOn:
-    - name: silence-operator-crds
-      namespace: *namespace
   interval: 12h
   path: ./apps/monitoring/silence-operator/resources
   prune: true
