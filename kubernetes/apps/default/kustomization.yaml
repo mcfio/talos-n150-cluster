@@ -13,7 +13,6 @@ resources:
   - ./prowlarr/app.yaml
   - ./sabnzbd/app.yaml
   - ./plex/app.yaml
-  - ./emqx/app.yaml
   - ./mosquitto/app.yaml
   - ./gatus/app.yaml
   - ./tautulli/app.yaml
