@@ -111,14 +111,6 @@ spec:
         existingClaim: plex-cache
         globalMounts:
           - path: /config/Library/Application Support/Plex Media Server/Cache
-      config-logs:
-        type: emptyDir
-        globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Logs
-      tmp:
-        type: emptyDir
-      transcode:
-        type: emptyDir
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
@@ -126,3 +118,14 @@ spec:
         globalMounts:
           - path: /nfs-data
             readOnly: true
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          plex:
+            app:
+              - path: /config/Library/Application Support/Plex Media Server/Logs
+                subPath: logs
+              - path: /transcode
+                subPath: transcode
+              - path: /tmp
+                subPath: tmp
