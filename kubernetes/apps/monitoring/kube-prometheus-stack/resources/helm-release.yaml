@@ -71,24 +71,23 @@ spec:
               namespace: ingress-system
               sectionName: https
       prometheusSpec:
+        image:
+          registry: docker.io
+          repository: prompp/prompp
+          tag: 2.53.2-0.2.5
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
         scrapeConfigSelectorNilUsesHelmValues: false
         serviceMonitorSelectorNilUsesHelmValues: false
-        enableAdminAPI: true
-        walCompression: true
-        enableFeatures:
-          - memory-snapshot-on-shutdown
         externalUrl: https://prometheus.milton.mcf.io
-        logFormat: json
         retention: 14d
         retentionSize: 50GB
         resources:
           requests:
             cpu: 100m
           limits:
-            memory: 3200Mi
+            memory: 2000Mi
         storageSpec:
           volumeClaimTemplate:
             spec:
@@ -96,6 +95,11 @@ spec:
               resources:
                 requests:
                   storage: 50Gi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 64535
+          runAsGroup: 64535
+          fsGroup: 64535
     grafana:
       enabled: false
       forceDeployDashboards: true
