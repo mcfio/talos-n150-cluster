@@ -6,5 +6,5 @@ namespace: arc-system
 components:
   - ../../components/common
 resources:
-  - ./controller.yaml
-  - ./runner.yaml
+  - ./controller/app.yaml
+  - ./runner/app.yaml

@@ -15,7 +15,7 @@ spec:
       kind: HelmRelease
       name: *appname
       namespace: *namespace
-  path: ./apps/arc-system/controller
+  path: ./apps/arc-system/controller/resources
   prune: true
   sourceRef:
     kind: OCIRepository
