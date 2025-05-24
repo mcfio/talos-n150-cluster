@@ -9,6 +9,7 @@ spec:
     matchLabels:
       io.cilium.tuning-guide: "true"
   defaults:
-    datapath-mode: netkit
-    enable-ipv4-big-tcp: "true"
-    bpf-lb-acceleration: best-effort
+    bpf-lb-acceleration: "native"
+    bpf-distributed-lru: "true"
+    bpf-map-dynamic-size-ratio: "0.08"
+    enable-bpf-clock-probe: "true"
