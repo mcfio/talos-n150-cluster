@@ -6,4 +6,5 @@ resources:
   - ./service-account.yaml
   - ./roles
   - ./external-secret.yaml
-  - ./release.yaml
+  - ./oci-repository.yaml
+  - ./helm-release.yaml
