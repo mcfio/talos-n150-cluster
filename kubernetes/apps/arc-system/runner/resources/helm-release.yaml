@@ -47,5 +47,5 @@ spec:
           fsGroup: 1001
         serviceAccountName: mcfio-github-actions
     controllerServiceAccount:
-      name: gha-runner-scale-set-controller
+      name: actions-runner-controller
       namespace: arc-system
