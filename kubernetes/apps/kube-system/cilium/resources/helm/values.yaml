@@ -4,9 +4,12 @@ bandwidthManager:
   enabled: true
   bbr: true
 bpf:
+  datapathMode: netkit
   masquerade: true
   preallocateMaps: true
   tproxy: true
+# TODO: Enable on next tuning cycle
+# bpfClockProbe: true
 cgroup:
   autoMount:
     enabled: false
@@ -16,6 +19,8 @@ cluster:
   id: 100
 cni:
   exclusive: false
+devices: enp+
+enableIPv4BIGTCP: true
 endpointRoutes:
   enabled: true
 envoy:
@@ -44,6 +49,8 @@ securityContext:
       - IPC_LOCK
       - SYS_ADMIN
       - SYS_RESOURCE
+      - PERFMON
+      - BPF
       - DAC_OVERRIDE
       - FOWNER
       - SETGID

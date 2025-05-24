@@ -26,6 +26,8 @@ spec:
     l2announcements:
       enabled: true
     loadBalancer:
+      # TODO: Change to native on next tuning cycle
+      acceleration: best-effort
       algorithm: maglev
       mode: dsr
     maglev:
