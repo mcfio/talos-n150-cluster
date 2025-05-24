@@ -7,34 +7,23 @@ metadata:
 spec:
   interval: 12h
   maxHistory: 3
-  chart:
-    spec:
-      chart: metrics-server
-      version: 3.12.2
-      sourceRef:
-        kind: HelmRepository
-        name: metrics-server-charts
-        namespace: flux-system
+  chartRef:
+    kind: OCIRepository
+    name: metrics-server
   install:
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
-      strategy: rollback
       retries: 3
   # https://github.com/kubernetes-sigs/metrics-server/blob/master/charts/metrics-server/values.yaml
   values:
     args:
       - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
       - --kubelet-use-node-status-port
-      - --metric-resolution=15s
+      - --metric-resolution=10s
     metrics:
       enabled: true
     serviceMonitor:
       enabled: true
-    resources:
-      limits: {}
-      requests:
-        cpu: 10m
-        memory: 200Mi
