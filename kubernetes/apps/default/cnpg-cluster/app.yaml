@@ -35,4 +35,4 @@ spec:
   postBuild:
     substitute:
       # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      POSTGRESQL_VERSION: 17-minimal-bookworm
+      POSTGRESQL_VERSION: 17-bookworm
