@@ -18,4 +18,4 @@ spec:
       hostname: "*.mcf.io"
       allowedRoutes:
         namespaces:
-          from: Same
+          from: All
