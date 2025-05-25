@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: node-feature-discovery-charts
-        namespace: flux-system
+        namespace: kube-system
   install:
     crds: CreateReplace
     remediation:
