@@ -77,6 +77,7 @@ spec:
         ports:
           http:
             port: *port
+            appProtocol: HTTPS
     route:
       app:
         hostnames:
