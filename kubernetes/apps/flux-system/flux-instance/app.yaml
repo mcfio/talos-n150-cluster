@@ -1,0 +1,25 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname flux-instance
+  namespace: &namespace flux-system
+spec:
+  targetNamespace: *namespace
+  commonMetadata:
+    labels:
+      app.kubernetes.io/name: *appname
+  dependsOn:
+    - name: flux-operator
+      namespace: *namespace
+  path: ./apps/flux-system/flux-instance/resources
+  prune: false # do not remove
+  sourceRef:
+    kind: OCIRepository
+    name: cluster-manifests
+    namespace: flux-system
+  interval: 12h
+  retryInterval: 2m
+  timeout: 5m
+  wait: false

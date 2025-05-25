@@ -6,4 +6,5 @@ namespace: flux-system
 components:
   - ../../components/common
 resources:
-  - ./flux.yaml
+  - ./flux-operator/app.yaml
+  - ./flux-instance/app.yaml
