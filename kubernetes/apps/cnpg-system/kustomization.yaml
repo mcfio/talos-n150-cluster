@@ -6,4 +6,4 @@ namespace: cnpg-system
 components:
   - ../../components/common
 resources:
-  - ./cnpg-operator.yaml
+  - ./operator/app.yaml

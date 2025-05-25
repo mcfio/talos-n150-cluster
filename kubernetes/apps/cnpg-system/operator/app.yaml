@@ -4,13 +4,13 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname cnpg-operator
-  namespace: cnpg-system
+  namespace: &namespace cnpg-system
 spec:
-  targetNamespace: cnpg-system
+  targetNamespace: *namespace
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/cnpg-system/resources
+  path: ./apps/cnpg-system/operator/resources
   prune: true
   sourceRef:
     kind: OCIRepository
