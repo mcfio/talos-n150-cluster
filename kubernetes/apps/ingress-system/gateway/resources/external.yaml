@@ -5,9 +5,12 @@ kind: Gateway
 metadata:
   name: external
   annotations:
-    external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
+    external-dns.alpha.kubernetes.io/target: &hostname ipv4.mcf.io
 spec:
   gatewayClassName: cilium
+  infrastructure:
+    annotations:
+      external-dns.alpha.kubernetes.io/hostname: *hostname
   listeners:
     - name: http
       protocol: HTTP
@@ -15,4 +18,15 @@ spec:
       hostname: "*.mcf.io"
       allowedRoutes:
         namespaces:
+          from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: "*.mcf.io"
+      allowedRoutes:
+        namespaces:
           from: All
+      tls:
+        certificateRefs:
+          - kind: Secret
+            name: mcf-io-cert-tls
