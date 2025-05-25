@@ -117,13 +117,12 @@ spec:
             scrapeTimeout: 10s
     route:
       app:
-        enabled: true
-        kind: HTTPRoute
+        hostnames:
+          - status.mcf.io
         parentRefs:
           - name: external
             namespace: ingress-system
-        hostnames:
-          - status.mcf.io
+            sectionName: https
         rules:
           - backendRefs:
               - identifier: app

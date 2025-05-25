@@ -69,13 +69,12 @@ spec:
             port: *port
     route:
       app:
-        enabled: true
-        kind: HTTPRoute
+        hostnames:
+          - requests.mcf.io
         parentRefs:
           - name: external
             namespace: ingress-system
-        hostnames:
-          - requests.mcf.io
+            sectionName: https
         rules:
           - backendRefs:
               - identifier: app

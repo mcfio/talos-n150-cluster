@@ -77,11 +77,8 @@ spec:
         ports:
           http:
             port: *port
-            appProtocol: HTTPS
     route:
       app:
-        enabled: true
-        kind: HTTPRoute
         hostnames:
           - "{{ .Release.Name }}.mcf.io"
         parentRefs:
