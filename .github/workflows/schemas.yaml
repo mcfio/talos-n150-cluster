@@ -19,7 +19,7 @@ jobs:
   publish-schemas:
     name: Schemas
     runs-on:
-      - gha-runner-scale-set
+      - home-cluster-runner
     permissions:
       contents: read
       packages: write
