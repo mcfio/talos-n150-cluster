@@ -6,4 +6,4 @@ namespace: external-secrets
 components:
   - ../../components/common
 resources:
-  - ./external-secrets.yaml
+  - ./external-secrets/app.yaml
