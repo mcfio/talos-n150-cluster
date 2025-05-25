@@ -8,11 +8,13 @@ spec:
   parentRefs:
     - name: external
       namespace: ingress-system
+      sectionName: https
   hostnames:
     - flux-webhook.mcf.io
   rules:
     - backendRefs:
         - name: webhook-receiver
+          namespace: flux-system
           port: 80
       matches:
         - path:
