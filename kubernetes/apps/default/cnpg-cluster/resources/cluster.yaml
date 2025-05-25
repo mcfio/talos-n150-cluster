@@ -5,7 +5,7 @@ kind: Cluster
 metadata:
   name: cnpg-cluster
 spec:
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.6-26
+  imageName: ghcr.io/cloudnative-pg/postgresql:${POSTGRESQL_VERSION}
   instances: 3
   affinity:
     podAntiAffinityType: required
@@ -73,11 +73,11 @@ spec:
         secretAccessKey:
           name: cnpg-cluster-secret
           key: MINIO_SECRET_KEY
-  bootstrap:
-    recovery:
-      source: &previousCluster postgres16-v2
-  externalClusters:
-    - name: *previousCluster
-      barmanObjectStore:
-        <<: *barmanObjectStore
-        serverName: *previousCluster
+  # bootstrap:
+  #   recovery:
+  #     source: &previousCluster postgres16-v2
+  # externalClusters:
+  #   - name: *previousCluster
+  #     barmanObjectStore:
+  #       <<: *barmanObjectStore
+  #       serverName: *previousCluster
