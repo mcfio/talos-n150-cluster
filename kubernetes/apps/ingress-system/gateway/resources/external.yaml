@@ -19,14 +19,3 @@ spec:
       allowedRoutes:
         namespaces:
           from: Same
-    - name: https
-      protocol: HTTPS
-      port: 443
-      hostname: "*.mcf.io"
-      allowedRoutes:
-        namespaces:
-          from: All
-      tls:
-        certificateRefs:
-          - kind: Secret
-            name: mcf-io-cert-tls

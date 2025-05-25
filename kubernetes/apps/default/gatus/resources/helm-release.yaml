@@ -122,7 +122,6 @@ spec:
         parentRefs:
           - name: external
             namespace: ingress-system
-            sectionName: https
         rules:
           - backendRefs:
               - identifier: app
