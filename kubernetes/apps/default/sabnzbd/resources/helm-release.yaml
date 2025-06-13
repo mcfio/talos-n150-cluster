@@ -69,18 +69,12 @@ spec:
             port: *port
     route:
       app:
-        enabled: true
-        kind: HTTPRoute
+        hostnames:
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
           - name: internal
             namespace: ingress-system
             sectionName: https
-        hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     persistence:
       config:
         existingClaim: sabnzbd-config

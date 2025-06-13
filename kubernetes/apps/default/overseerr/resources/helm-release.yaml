@@ -73,10 +73,6 @@ spec:
         parentRefs:
           - name: external
             namespace: ingress-system
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     persistence:
       config:
         existingClaim: overseerr-config

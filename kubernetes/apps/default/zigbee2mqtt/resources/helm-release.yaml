@@ -95,18 +95,12 @@ spec:
             port: *port
     route:
       app:
-        enabled: true
-        kind: HTTPRoute
+        hostnames:
+          - zigbee.milton.mcf.io
         parentRefs:
           - name: internal
             namespace: ingress-system
             sectionName: https
-        hostnames:
-          - zigbee.milton.mcf.io
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     persistence:
       config:
         existingClaim: zigbee2mqtt

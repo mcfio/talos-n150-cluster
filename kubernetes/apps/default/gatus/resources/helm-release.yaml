@@ -114,10 +114,6 @@ spec:
         parentRefs:
           - name: external
             namespace: ingress-system
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     rbac:
       roles:
         gatus:
