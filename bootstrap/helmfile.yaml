@@ -22,16 +22,25 @@ releases:
     chart: cilium/cilium
     version: 1.17.4
     values:
-      - ../kubernetes/apps/kube-system/cilium/resources/helm-values.yaml
+      - ../kubernetes/apps/kube-system/cilium/resources/helm/values.yaml
     needs:
       - monitoring/prometheus-operator-crds
+
+  - name: coredns
+    namespace: kube-system
+    chart: oci://ghcr.io/coredns/charts/coredns
+    version: 1.42.2
+    values:
+      - ../kubernetes/apps/kube-system/coredns/resources/helm/values.yaml
+    needs:
+      - kube-system/cilium
 
   - name: talos-ccm
     namespace: kube-system
     chart: oci://ghcr.io/siderolabs/charts/talos-cloud-controller-manager
     version: 0.4.5
     values:
-      - ../kubernetes/apps/kube-system/talos-ccm/resources/helm-values.yaml
+      - ../kubernetes/apps/kube-system/talos-ccm/resources/helm/values.yaml
     needs:
       - kube-system/cilium
 
@@ -40,7 +49,7 @@ releases:
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
     version: 0.20.0
     values:
-      - ../kubernetes/apps/flux-system/flux/operator/helm-values.yaml
+      - ../kubernetes/apps/flux-system/flux/operator/helm/values.yaml
     needs:
       - kube-system/cilium
 
@@ -50,6 +59,6 @@ releases:
     version: 0.20.0
     wait: false
     values:
-      - ../kubernetes/apps/flux-system/flux/instance/helm-values.yaml
+      - ../kubernetes/apps/flux-system/flux/instance/helm/values.yaml
     needs:
       - flux-system/flux-operator
