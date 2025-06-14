@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.0.1/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.1.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -26,7 +26,7 @@ spec:
           app:
             image:
               repository: ghcr.io/koenkk/zigbee2mqtt
-              tag: 2.3.0@sha256:42de8c55dc578a8404a18c43aeb2b7c75be7988179abe9a8195d99a9e7ebb917
+              tag: 2.4.0@sha256:dd7479e5416c4b95725333d0a69ff504bcbda9a7a3431e5d5dd1e27c16465cdd
             env:
               TZ: Canada/Eastern
               ZIGBEE2MQTT_DATA: /config
@@ -90,24 +90,17 @@ spec:
           type: RuntimeDefault
     service:
       app:
-        controller: zigbee2mqtt
         ports:
           http:
             port: *port
     route:
       app:
-        enabled: true
-        kind: HTTPRoute
+        hostnames:
+          - zigbee.milton.mcf.io
         parentRefs:
           - name: internal
             namespace: ingress-system
             sectionName: https
-        hostnames:
-          - zigbee.milton.mcf.io
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     persistence:
       config:
         existingClaim: zigbee2mqtt

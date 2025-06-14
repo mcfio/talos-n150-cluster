@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.0.1/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.1.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -46,7 +46,7 @@ spec:
           app:
             image:
               repository: ghcr.io/twin/gatus
-              tag: v5.17.0@sha256:a8c53f9e9f1a3876cd00e44a42c80fc984e118d5ba0bdbaf08980cb627d61512
+              tag: v5.18.1@sha256:97525568fdef34539b1b4d015aef2d1cf6f58f1bc087443387b349940544394d
             env:
               TZ: Canada/Eastern
               GATUS_CONFIG_PATH: /config
@@ -85,8 +85,6 @@ spec:
                 drop:
                   - ALL
             resources: *resources
-        serviceAccount:
-          identifier: gatus
     defaultPodOptions:
       dnsConfig:
         options:
@@ -102,19 +100,13 @@ spec:
           type: RuntimeDefault
     service:
       app:
-        controller: gatus
         ports:
           http:
             port: *port
     serviceMonitor:
       app:
-        serviceName: gatus
         endpoints:
           - port: http
-            scheme: http
-            path: /metrics
-            interval: 1m
-            scrapeTimeout: 10s
     route:
       app:
         hostnames:
@@ -122,10 +114,6 @@ spec:
         parentRefs:
           - name: external
             namespace: ingress-system
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     rbac:
       roles:
         gatus:

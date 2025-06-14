@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.0.1/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.1.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -28,7 +28,7 @@ spec:
           app:
             image:
               repository: ghcr.io/home-operations/radarr
-              tag: 5.24.0.10006@sha256:3c28f896612a35dde6473cd0a8c7f39a6acc07de5f3df6e4854bbe456b75d4ae
+              tag: 5.26.1.10080@sha256:1c85411af158a269592b9ce2c90ec10a59528f3585844b832e38f710e0c89557
             env:
               TZ: Canada/Eastern
               RADARR__APP__INSTANCENAME: Radarr
@@ -80,24 +80,17 @@ spec:
           type: RuntimeDefault
     service:
       app:
-        controller: radarr
         ports:
           http:
             port: *port
     route:
       app:
-        enabled: true
-        kind: HTTPRoute
+        hostnames:
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
           - name: internal
             namespace: ingress-system
             sectionName: https
-        hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
-        rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
     persistence:
       config:
         enabled: true

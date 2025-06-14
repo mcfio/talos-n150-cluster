@@ -1,9 +1,9 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.0.1/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.1.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &appname system-upgrade
+  name: &appname system-upgrade-controller
 spec:
   interval: 12h
   maxHistory: 3
@@ -46,8 +46,6 @@ spec:
               capabilities:
                 drop:
                   - ALL
-        serviceAccount:
-          identifier: system-upgrade-controller
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true

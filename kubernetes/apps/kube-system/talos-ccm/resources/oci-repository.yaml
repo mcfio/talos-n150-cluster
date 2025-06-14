@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/source.toolkit.fluxcd.io/ocirepository_v1beta2.json
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: OCIRepository
 metadata:
   name: talos-ccm
@@ -11,4 +11,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/siderolabs/charts/talos-cloud-controller-manager
   ref:
-    tag: 0.4.5
+    tag: 0.4.6
