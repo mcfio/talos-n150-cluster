@@ -10,6 +10,7 @@ resources:
   - ./cnpg-cluster/app.yaml
   - ./sonarr/app.yaml
   - ./radarr/app.yaml
+  - ./maintainerr/app.yaml
   - ./prowlarr/app.yaml
   - ./sabnzbd/app.yaml
   - ./plex/app.yaml
