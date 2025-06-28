@@ -11,3 +11,4 @@ resources:
   - ./loki/app.yaml
   - ./promtail/app.yaml
   - ./grafana/app.yaml
+  - ./keda/app.yaml
