@@ -9,8 +9,3 @@ components:
 resources:
   - ./controller.yaml
   - ./plans.yaml
-configMapGenerator:
-  - name: suc-plan-versions
-    env: ./plans/versions.env
-configurations:
-  - name-reference.yaml

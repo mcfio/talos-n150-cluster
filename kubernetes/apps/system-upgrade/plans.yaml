@@ -15,10 +15,11 @@ spec:
       namespace: system-upgrade
   path: ./apps/system-upgrade/plans
   postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: suc-plan-versions
-        optional: false
+    substitute:
+      # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker
+      KUBERNETES_VERSION: v1.33.2
+      # renovate: depName=ghcr.io/siderolabs/installer datasource=docker
+      TALOS_VERSION: v1.10.4
   prune: true
   sourceRef:
     kind: OCIRepository
