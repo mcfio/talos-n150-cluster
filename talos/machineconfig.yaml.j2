@@ -2,11 +2,13 @@ version: v1alpha1
 debug: false
 persist: true
 machine:
-  type: controlplane
+  type: {{ ENV.TALOS_MACHINE_TYPE }}
   token: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/machine/token
   ca:
     crt: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/machine/ca_crt
+    {% if ENV.TALOS_MACHINE_TYPE == 'controlplane' %}
     key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/machine/ca_key
+    {% endif %}
   certSANs:
     - 127.0.0.1
     - 192.168.45.40
@@ -35,18 +37,14 @@ machine:
           busPath: 0000:* # Ensure PCI deivces are selected
         mtu: 9000
         dhcp: true
+        {% if ENV.TALOS_MACHINE_TYPE == 'controlplane' %}
         vip:
           ip: 192.168.45.40
+        {% endif %}
   install:
     diskSelector:
-      type: ssd
       size: <= 128GB
-    extraKernelArgs:
-      - apparmor=0
-      - mitigations=off
-      - security=none
-    image: factory.talos.dev/installer/{{ ENV.TALOS_SCHEMATIC_ID }}:{{ ENV.TALOS_VERSION }}
-    wipe: true
+    image: factory.talos.dev/metal-installer/{{ ENV.TALOS_SCHEMATIC_ID }}:{{ ENV.TALOS_VERSION }}
   files:
     - path: /etc/cri/conf.d/20-customization.part
       op: create
@@ -67,10 +65,12 @@ machine:
     fs.inotify.max_user_instances: 8192   # Watchdog
     net.core.rmem_max: 67108864           # Cloudflared / QUIC
     net.core.wmem_max: 67108864           # Cloudflared / QUIC
+    user.max_user_namespaces: 11255       # User Namespaces
     vm.nr_hugepages: 1024                 # PostgreSQL
   features:
     rbac: true
     stableHostname: true
+    {% if ENV.TALOS_MACHINE_TYPE == 'controlplane' %}
     kubernetesTalosAPIAccess:
       enabled: true
       allowedRoles:
@@ -79,6 +79,7 @@ machine:
       allowedKubernetesNamespaces:
         - kube-system
         - system-upgrade
+    {% endif %}
     apidCheckExtKeyUsage: true
     diskQuotaSupport: true
     kubePrism:
@@ -88,13 +89,15 @@ machine:
       enabled: true
       resolveMemberNames: true
       forwardKubeDNSToHost: false
+  time:
+    servers:
+      - 192.168.10.30
 cluster:
   id: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/id
   secret: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/secret
   controlPlane:
     endpoint: https://192.168.45.40:6443
   clusterName: home-cluster
-  allowSchedulingOnControlPlanes: true
   network:
     cni:
       name: none
@@ -104,15 +107,29 @@ cluster:
     serviceSubnets:
       - 10.46.0.0/16
   token: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/token
-  secretboxEncryptionSecret: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/secretbox_encryption_secret
   ca:
     crt: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/ca_crt
+    {% if ENV.TALOS_MACHINE_TYPE == 'controlplane' %}
     key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/ca_key
+    {% endif %}
+  proxy:
+    disabled: true
+    image: registry.k8s.io/kube-proxy:{{ ENV.KUBERNETES_VERSION }}
+  discovery:
+    enabled: true
+    registries:
+      kubernetes:
+        disabled: true
+      service:
+        disabled: false
+  {% if ENV.TALOS_MACHINE_TYPE == 'controlplane' %}
   aggregatorCA:
     crt: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/aggregator_ca_crt
     key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/aggregator_ca_key
   serviceAccount:
     key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/service_account_key
+  allowSchedulingOnControlPlanes: true
+  secretboxEncryptionSecret: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/secretbox_encryption_secret
   apiServer:
     image: registry.k8s.io/kube-apiserver:{{ ENV.KUBERNETES_VERSION }}
     extraArgs:
@@ -131,9 +148,6 @@ cluster:
     image: registry.k8s.io/kube-controller-manager:{{ ENV.KUBERNETES_VERSION }}
     extraArgs:
       bind-address: 0.0.0.0
-  proxy:
-    disabled: true
-    image: registry.k8s.io/kube-proxy:{{ ENV.KUBERNETES_VERSION }}
   scheduler:
     image: registry.k8s.io/kube-scheduler:{{ ENV.KUBERNETES_VERSION }}
     extraArgs:
@@ -143,6 +157,10 @@ cluster:
       kind: KubeSchedulerConfiguration
       profiles:
         - schedulerName: default-scheduler
+          plugins:
+            score:
+              disabled:
+                - name: ImageLocality
           pluginConfig:
             - name: PodTopologySpread
               args:
@@ -151,18 +169,15 @@ cluster:
                   - maxSkew: 1
                     topologyKey: kubernetes.io/hostname
                     whenUnsatisfiable: ScheduleAnyway
-  discovery:
-    enabled: true
-    registries:
-      kubernetes:
-        disabled: true
-      service:
-        disabled: false
+  coreDNS:
+    disabled: true
   etcd:
     ca:
       crt: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/etcd/ca_crt
       key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/etcd/ca_key
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
+      election-timeout: "5000"
     advertisedSubnets:
       - 192.168.45.0/24
+  {% endif %}
