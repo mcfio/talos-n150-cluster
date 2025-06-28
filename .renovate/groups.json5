@@ -41,7 +41,7 @@
       description: "Talos Linux Group",
       groupName: "Talos",
       matchDatasources: ["docker"],
-      matchPackagePatterns: ["siderolabs/talosctl", "siderolabs/installer"],
+      matchPackagePatterns: ["siderolabs/talosctl", "siderolabs/installer", "siderolabs/talos-cloud-controller-manager"],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
