@@ -34,5 +34,5 @@ spec:
   timeout: 5m
   postBuild:
     substitute:
-      # renovate: datasource=docker depName=ghcr.io/cloudnative-pg/postgresql
-      POSTGRESQL_VERSION: 17-bookworm
+      # renovate: depName=ghcr.io/cloudnative-pg/postgresql datasource=docker
+      POSTGRESQL_VERSION: 17.5-bookworm
