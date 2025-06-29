@@ -25,7 +25,7 @@ spec:
   timeout: 5m
   components:
     - ../../../../components/gatus/internal
-    - ../../../../components/keda/nfs-scalar
+    - ../../../../components/nfs-scaler
   postBuild:
     substitute:
       app: *appname

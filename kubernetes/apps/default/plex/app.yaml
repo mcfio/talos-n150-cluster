@@ -25,7 +25,7 @@ spec:
   components:
     - ../../../../components/volsync
     - ../../../../components/gatus/external
-    - ../../../../components/keda/nfs-scalar
+    - ../../../../components/nfs-scaler
   postBuild:
     substitute:
       app: *appname
