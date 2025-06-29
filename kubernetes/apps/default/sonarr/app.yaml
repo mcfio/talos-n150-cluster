@@ -24,6 +24,7 @@ spec:
   interval: 12h
   timeout: 5m
   components:
+    - ../../../../components/database
     - ../../../../components/gatus/internal
     - ../../../../components/nfs-scaler
   postBuild:

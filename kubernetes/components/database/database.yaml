@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/postgresql.cnpg.io/database_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: ${app}-main-db
+spec:
+  name: ${app}_main
+  owner: ${app}
+  cluster:
+    name: cnpg-cluster
