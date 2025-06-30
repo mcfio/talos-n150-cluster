@@ -63,16 +63,16 @@ spec:
       wal:
         compression: bzip2
         maxParallel: 8
-      destinationPath: s3://home-cluster/backups/cnpg-cluster/
-      endpointURL: https://s3.cluster.milton.mcf.io:9000
+      destinationPath: s3://home-cluster-cloudnative-pg/
+      endpointURL: https://d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
       serverName: postgres16-v3 # current cluster version
       s3Credentials:
         accessKeyId:
           name: cnpg-cluster-secret
-          key: MINIO_ACCESS_KEY
+          key: S3_ACCESS_KEY_ID
         secretAccessKey:
           name: cnpg-cluster-secret
-          key: MINIO_SECRET_KEY
+          key: S3_SECRET_KEY
   # bootstrap:
   #   recovery:
   #     source: &previousCluster postgres16-v2
