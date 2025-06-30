@@ -20,8 +20,6 @@ spec:
       namespace: *namespace
   path: ./apps/volsync-system/volsync/resources
   prune: true
-  components:
-    - ../../../../components/nfs-scaler
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests
@@ -29,3 +27,8 @@ spec:
   interval: 12h
   retryInterval: 2m
   timeout: 10m
+  components:
+    - ../../../../components/nfs-scaler
+  postBuild:
+    substitute:
+      app: *appname
