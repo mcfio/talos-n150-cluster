@@ -117,14 +117,14 @@ spec:
     rbac:
       roles:
         gatus:
-          type: Role
+          type: ClusterRole
           rules:
             - apiGroups: [""]
               resources: ["configmaps", "secrets"]
               verbs: ["get", "list", "watch"]
       bindings:
         gatus:
-          type: RoleBinding
+          type: ClusterRoleBinding
           subjects:
             - identifier: gatus
           roleRef:
