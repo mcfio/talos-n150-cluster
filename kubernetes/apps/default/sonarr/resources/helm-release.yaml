@@ -41,6 +41,8 @@ spec:
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
+              - secretRef:
+                  name: "{{ .Release.Name }}-db-secret"
             probes:
               liveness: &probes
                 enabled: true
