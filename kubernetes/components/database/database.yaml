@@ -3,9 +3,9 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: ${app}-main-db
+  name: ${app}
 spec:
-  name: ${app}_main
-  owner: ${app}
+  name: ${dbName:=${app}}
+  owner: ${dbUser:=${app}}
   cluster:
     name: cnpg-cluster

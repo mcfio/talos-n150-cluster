@@ -30,4 +30,5 @@ spec:
   postBuild:
     substitute:
       app: *appname
+      dbName: sonarr_main
       volume_cache_capacity: 2Gi
