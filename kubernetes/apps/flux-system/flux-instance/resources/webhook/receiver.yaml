@@ -12,6 +12,7 @@ spec:
   secretRef:
     name: github-webhook-token
   resources:
-    - kind: OCIRepository
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: OCIRepository
       name: cluster-manifests
       namespace: flux-system
