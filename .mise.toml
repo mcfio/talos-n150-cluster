@@ -5,5 +5,5 @@ TALOSCONFIG = "{{config_root}}/talosconfig"
 KUBECONFIG = "{{config_root}}/kubeconfig"
 _.file = [
   "{{config_root}}/onepassword.env",
-  "{{config_root}}/kubernetes/apps/system-upgrade/versions.env",
+  "{{config_root}}/kubernetes/apps/system-upgrade/plans/versions.env",
 ]
