@@ -25,7 +25,7 @@ spec:
         ensure: present
         login: true
         passwordSecret:
-          name: sonarr-secret
+          name: sonarr-db-secret
       - name: radarr
         ensure: present
         login: true
