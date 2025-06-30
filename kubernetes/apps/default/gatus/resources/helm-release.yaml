@@ -57,12 +57,12 @@ spec:
               GATUS__POSTGRES_USER:
                 valueFrom:
                   secretKeyRef:
-                    name: gatus-secret
+                    name: gatus-db-secret
                     key: username
               GATUS__POSTGRES_PASSWORD:
                 valueFrom:
                   secretKeyRef:
-                    name: gatus-secret
+                    name: gatus-db-secret
                     key: password
               WEB_PORT: &port 8080
             probes:

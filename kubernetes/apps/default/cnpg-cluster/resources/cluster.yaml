@@ -30,17 +30,17 @@ spec:
         ensure: present
         login: true
         passwordSecret:
-          name: radarr-secret
+          name: radarr-db-secret
       - name: prowlarr
         ensure: present
         login: true
         passwordSecret:
-          name: prowlarr-secret
+          name: prowlarr-db-secret
       - name: gatus
         ensure: present
         login: true
         passwordSecret:
-          name: gatus-secret
+          name: gatus-db-secret
   postgresql:
     parameters:
       max_connections: "250"

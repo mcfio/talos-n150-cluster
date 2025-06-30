@@ -39,6 +39,19 @@ spec:
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 9696
               PROWLARR__UPDATE__BRANCH: develop
+              PROWLARR__POSTGRES__HOST: cnpg-cluster-rw.default.svc.cluster.local
+              PROWLARR__POSTGRES__PORT: "5432"
+              PROWLARR__POSTGRES__MAINDB: ${dbName}
+              PROWLARR__POSTGRES__USER:
+                valueFrom:
+                  secretKeyRef:
+                    name: prowlarr-db-secret
+                    key: username
+              PROWLARR__POSTGRES__PASSWORD:
+                valueFrom:
+                  secretKeyRef:
+                    name: prowlarr-db-secret
+                    key: password
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"

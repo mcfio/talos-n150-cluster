@@ -24,7 +24,9 @@ spec:
   interval: 12h
   timeout: 5m
   components:
+    - ../../../../components/database
     - ../../../../components/gatus/internal
   postBuild:
     substitute:
       app: *appname
+      dbName: prowlarr_main
