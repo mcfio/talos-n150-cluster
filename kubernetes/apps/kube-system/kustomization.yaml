@@ -11,6 +11,7 @@ resources:
   - ./cilium/app.yaml
   - ./cilium/config.yaml
   - ./multus/app.yaml
+  - ./multus/networks.yaml
   - ./coredns/app.yaml
   - ./metrics-server/app.yaml
   - ./node-feature-discovery/app.yaml
