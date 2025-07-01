@@ -58,7 +58,7 @@ spec:
       app:
         ports:
           http:
-            port: 10443
+            port: 11080
     route:
       app:
         hostnames:
