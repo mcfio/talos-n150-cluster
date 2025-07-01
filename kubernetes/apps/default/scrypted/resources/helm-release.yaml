@@ -1,0 +1,76 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.1.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: scrypted
+spec:
+  interval: 12h
+  maxHistory: 3
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      scrypted:
+        containers:
+          app:
+            image:
+              repository: ghcr.io/koush/scrypted
+              tag: v0.139.0-noble-lite
+            env:
+              TZ: Canada/Eastern
+            # resources:
+            #   requests:
+            #     cpu: 100m
+            #     memory: 128Mi
+            #   limits:
+            #     memory: 4Gi
+            securityContext:
+              allowPrivilegeEscalation: false
+              capabilities:
+                drop:
+                  - ALL
+    defaultPodOptions:
+      annotations:
+        k8s.v1.cni.cncf.io/networks: |
+          [{
+            "name": "multus-client",
+            "namespace": "kube-system",
+            "ips": ["192.168.10.21/24"]
+          }]
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        seccompProfile:
+          type: RuntimeDefault
+    service:
+      app:
+        ports:
+          http:
+            port: 10443
+    route:
+      app:
+        hostnames:
+          - "{{ .Release.Name }}.milton.mcf.io"
+        parentRefs:
+          - name: internal
+            namespace: ingress-system
+            sectionName: https
+    persistence:
+      config:
+        existingClaim: scrypted
+        globalMounts:
+          - path: /server/volume
+      tmp:
+        type: emptyDir
