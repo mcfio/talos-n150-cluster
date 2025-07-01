@@ -74,9 +74,9 @@ tasks:
         sh: kubectl --namespace {{.NAMESPACE}} get replicationsources/{{.APP}} --output jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
     requires:
       vars: [APP, PREVIOUS]
-      preconditions:
-        - test -f "{{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2"
-        - which flux kubectl minijinja-cli
+    preconditions:
+      - test -f "{{.VOLSYNC_RESOURCES_DIR}}/unlock.yaml.j2"
+      - which flux kubectl minijinja-cli
 
   unlock:
     desc: Unlock a restic source repo [namespace=default] [app=required]
