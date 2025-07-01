@@ -5,6 +5,7 @@ kind: Kustomization
 namespace: kube-system
 components:
   - ../../components/common
+  - ../../components/app-template
 resources:
   - ./cilium/gateway-api.yaml
   - ./cilium/app.yaml
