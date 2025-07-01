@@ -13,22 +13,13 @@ spec:
       containers:
         - name: local
           image: docker.io/restic/restic:latest
-          args: ["unlock", "--remove-all"]
+          args: ["unlock", "--remove-all", "--no-cache"]
           envFrom:
             - secretRef:
                 name: "{{ ENV.APP }}-backup-local"
-          resources: {}
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-        - name: r2
-          image: docker.io/restic/restic:latest
-          args: ["unlock", "--remove-all"]
-          envFrom:
-            - secretRef:
-                name: "{{ ENV.APP }}-backup-r2"
+          volumeMounts:
+            - name: repository
+              mountPath: /repository
           resources: {}
           securityContext:
             allowPrivilegeEscalation: false
@@ -40,3 +31,8 @@ spec:
         runAsUser: 65535
         seccompProfile:
           type: RuntimeDefault
+      volumes:
+        - name: repository
+          nfs:
+            server: nfs.cluster.milton.mcf.io
+            path: /mnt/storage/volsync
