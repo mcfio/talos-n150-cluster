@@ -19,5 +19,6 @@ resources:
   - ./recyclarr/app.yaml
   - ./overseerr/app.yaml
   - ./mosquitto/app.yaml
+  - ./home-assistant/app.yaml
   - ./scrypted/app.yaml
   - ./zigbee2mqtt/app.yaml
