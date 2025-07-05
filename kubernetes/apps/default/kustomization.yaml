@@ -20,5 +20,6 @@ resources:
   - ./overseerr/app.yaml
   - ./mosquitto/app.yaml
   - ./home-assistant/app.yaml
+  - ./matter-server/app.yaml
   - ./scrypted/app.yaml
   - ./zigbee2mqtt/app.yaml
