@@ -68,6 +68,6 @@ spec:
       config:
         existingClaim: matter-server
         globalMounts:
-          - path: /config
+          - path: /data
       tmp:
         type: emptyDir
