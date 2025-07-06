@@ -59,6 +59,13 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
+        sysctls:
+          - name: net.ipv6.conf.net1.accept_ra
+            value: "2"
+          - name: net.ipv6.conf.net1.accept_ra_rt_info_max_plen
+            value: "64"
+          - name: net.ipv6.conf.net1.forwarding
+            value: "1"
     service:
       app:
         ports:
