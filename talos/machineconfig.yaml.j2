@@ -21,7 +21,7 @@ machine:
       imageGCHighThresholdPercent: 70
       imageGCLowThresholdPercent: 50
       shutdownGracePeriod: 60s
-      allowedUnsafeSysctls: "net.ipv6.*" # Allow IPv6 syscalls, required for matter/thread
+      allowedUnsafeSysctls: "net.ipv6.conf.net1.*" # Allow IPv6 syscalls, required for matter/thread
     extraMounts:
       - destination: /var/openebs/local
         type: bind
