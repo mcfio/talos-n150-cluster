@@ -2,9 +2,6 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
     "github>mcfio/renovate-config",
-    ":automergeBranch",
-    ":semanticCommits",
-    ":skipStatusChecks",
     "github>mcfio/home-cluster//.renovate/allowedVersions.json5",
     "github>mcfio/home-cluster//.renovate/autoMerge.json5",
     "github>mcfio/home-cluster//.renovate/customManagers.json5",
@@ -13,7 +10,6 @@
     "github>mcfio/home-cluster//.renovate/schedule.json5",
     "github>mcfio/home-cluster//.renovate/grafanaDashboards.json5",
   ],
-  suppressNotifications: ["prEditedNotification", "prIgnoreNotification"],
   ignorePaths: ["**/.archive/**"],
   flux: {
     managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
