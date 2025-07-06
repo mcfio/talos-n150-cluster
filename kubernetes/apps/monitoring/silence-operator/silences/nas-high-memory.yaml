@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.giantswarm.io/silence_v1alpha1.json
-apiVersion: monitoring.giantswarm.io/v1alpha1
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/observability.giantswarm.io/silence_v1alpha2.json
+apiVersion: observability.giantswarm.io/v1alpha1
 kind: Silence
 metadata:
   name: nas-memory-high-utilization
@@ -8,7 +8,5 @@ spec:
   matchers:
     - name: alertname
       value: NodeMemoryHighUtilization
-      isRegex: false
     - name: instance
       value: caladan.cluster.milton.mcf.io:9100
-      isRegex: false
