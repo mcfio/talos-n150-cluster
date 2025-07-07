@@ -21,7 +21,6 @@ spec:
   timeout: 5m
   components:
     - ../../../../components/volsync
-    - ../../../../components/nfs-scaler
     - ../../../../components/gatus/internal
   postBuild:
     substitute:
