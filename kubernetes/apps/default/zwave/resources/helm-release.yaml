@@ -33,22 +33,22 @@ spec:
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}-secret"
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    httpHeaders:
-                      - name: Accept
-                        value: text/plain
-                    path: /health
-                    port: &port 8091
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         httpHeaders:
+            #           - name: Accept
+            #             value: text/plain
+            #         path: /health
+            #         port: &port 8091
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
             resources:
               requests:
                 cpu: 10m
@@ -62,14 +62,16 @@ spec:
                 drop:
                   - ALL
     defaultPodOptions:
-      # nodeSelector:
-      #   aeotec.feature.node.kubernetes.io/zwave: "true"
+      nodeSelector:
+        aeotec.feature.node.kubernetes.io/zwave: "true"
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups:
+          - 20
         seccompProfile:
           type: RuntimeDefault
     service:
@@ -93,10 +95,10 @@ spec:
         existingClaim: zwave
         globalMounts:
           - path: /usr/src/app/store
-      # usb:
-      #   enabled: true
-      #   type: hostPath
-      #   hostPath: /dev/ttyUSB0
-      #   hostPathType: CharDevice
-      #   globalMounts:
-      #     - path: /dev/zwave
+      usb:
+        enabled: true
+        type: hostPath
+        hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
+        hostPathType: CharDevice
+        globalMounts:
+          - path: /dev/zwave
