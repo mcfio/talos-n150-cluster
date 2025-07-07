@@ -39,8 +39,11 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /health/zwave
-                    port: &port 8091
+                    httpHeaders:
+                    - name: Accept
+                      value: text/plain
+                    path: /health
+                    port: http
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -73,14 +76,14 @@ spec:
       app:
         ports:
           http:
-            port: *port
+            port: 8091
           websocket:
             enabled: true
             port: 3000
     route:
       app:
         hostnames:
-          - zwave.milton.mcf.io
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
           - name: internal
             namespace: ingress-system
@@ -96,4 +99,4 @@ spec:
       #   hostPath: /dev/ttyUSB0
       #   hostPathType: CharDevice
       #   globalMounts:
-      #     - path: /dev/ttyUSB0
+      #     - path: /dev/zwave
