@@ -43,7 +43,7 @@ spec:
                     - name: Accept
                       value: text/plain
                     path: /health
-                    port: http
+                    port: &port 8091
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -76,7 +76,7 @@ spec:
       app:
         ports:
           http:
-            port: 8091
+            port: *port
           websocket:
             enabled: true
             port: 3000
