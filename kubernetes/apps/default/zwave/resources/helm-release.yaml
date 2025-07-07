@@ -19,11 +19,11 @@ spec:
       retries: 3
   values:
     controllers:
-      zigbee2mqtt:
+      zwave:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          zwave:
             image:
               repository: ghcr.io/zwave-js/zwave-js-ui
               tag: 10.8.0@sha256:d8f23d86505ec9ddfbf26d2b25b47272662c1f61d283593c8317c23c8baa0706
@@ -40,8 +40,8 @@ spec:
                 spec:
                   httpGet:
                     httpHeaders:
-                    - name: Accept
-                      value: text/plain
+                      - name: Accept
+                        value: text/plain
                     path: /health
                     port: &port 8091
                   initialDelaySeconds: 0
