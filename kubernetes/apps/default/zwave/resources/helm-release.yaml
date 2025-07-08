@@ -53,23 +53,23 @@ spec:
               limits:
                 memory: 512Mi
             securityContext:
-              # privileged: true
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
-                add:
-                  - SYS_RAWIO
+              privileged: true
+              # allowPrivilegeEscalation: false
+              # readOnlyRootFilesystem: true
+              # capabilities:
+              #   drop:
+              #     - ALL
+              #   add:
+              #     - SYS_RAWIO
     defaultPodOptions:
       nodeSelector:
         aeotec.feature.node.kubernetes.io/zwave: "true"
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 568
-        runAsGroup: 568
-        fsGroup: 568
-        fsGroupChangePolicy: OnRootMismatch
+        # runAsNonRoot: true
+        # runAsUser: 568
+        # runAsGroup: 568
+        # fsGroup: 568
+        # fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
           - 20
         seccompProfile:
