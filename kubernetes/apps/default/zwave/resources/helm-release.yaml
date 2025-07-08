@@ -30,9 +30,6 @@ spec:
             env:
               TZ: Canada/Eastern
               TRUST_PROXY: 10.45.0.0/16
-            envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -56,11 +53,14 @@ spec:
               limits:
                 memory: 512Mi
             securityContext:
+              # privileged: true
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
                   - ALL
+                add:
+                  - SYS_RAWIO
     defaultPodOptions:
       nodeSelector:
         aeotec.feature.node.kubernetes.io/zwave: "true"
