@@ -7,58 +7,54 @@ helmDefaults:
   wait: true
   waitForJobs: true
 
-repositories:
-  - name: cilium
-    url: https://helm.cilium.io
-
 releases:
-  - name: prometheus-operator-crds
-    namespace: monitoring
-    chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
-    version: 21.0.0
+- name: prometheus-operator-crds
+  namespace: monitoring
+  chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
+  version: 21.0.0
 
-  - name: cilium
-    namespace: kube-system
-    chart: cilium/cilium
-    version: 1.17.5
-    values:
-      - ../kubernetes/apps/kube-system/cilium/resources/helm/values.yaml
-    needs:
-      - monitoring/prometheus-operator-crds
+- name: cilium
+  namespace: kube-system
+  chart: oci://ghcr.io/home-operations/charts-mirror/cilium
+  version: 1.17.5
+  values:
+  - ../kubernetes/apps/kube-system/cilium/resources/helm/values.yaml
+  needs:
+  - monitoring/prometheus-operator-crds
 
-  - name: coredns
-    namespace: kube-system
-    chart: oci://ghcr.io/coredns/charts/coredns
-    version: 1.43.0
-    values:
-      - ../kubernetes/apps/kube-system/coredns/resources/helm/values.yaml
-    needs:
-      - kube-system/cilium
+- name: coredns
+  namespace: kube-system
+  chart: oci://ghcr.io/coredns/charts/coredns
+  version: 1.43.0
+  values:
+  - ../kubernetes/apps/kube-system/coredns/resources/helm/values.yaml
+  needs:
+  - kube-system/cilium
 
-  - name: talos-ccm
-    namespace: kube-system
-    chart: oci://ghcr.io/siderolabs/charts/talos-cloud-controller-manager
-    version: 0.4.7
-    values:
-      - ../kubernetes/apps/kube-system/talos-ccm/resources/helm/values.yaml
-    needs:
-      - kube-system/cilium
+- name: talos-ccm
+  namespace: kube-system
+  chart: oci://ghcr.io/siderolabs/charts/talos-cloud-controller-manager
+  version: 0.4.7
+  values:
+  - ../kubernetes/apps/kube-system/talos-ccm/resources/helm/values.yaml
+  needs:
+  - kube-system/cilium
 
-  - name: flux-operator
-    namespace: flux-system
-    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-    version: 0.24.1
-    values:
-      - ../kubernetes/apps/flux-system/flux/operator/helm/values.yaml
-    needs:
-      - kube-system/cilium
+- name: flux-operator
+  namespace: flux-system
+  chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
+  version: 0.24.1
+  values:
+  - ../kubernetes/apps/flux-system/flux/operator/helm/values.yaml
+  needs:
+  - kube-system/cilium
 
-  - name: flux-instance
-    namespace: flux-system
-    chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
-    version: 0.24.1
-    wait: false
-    values:
-      - ../kubernetes/apps/flux-system/flux/instance/helm/values.yaml
-    needs:
-      - flux-system/flux-operator
+- name: flux-instance
+  namespace: flux-system
+  chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
+  version: 0.24.1
+  wait: false
+  values:
+  - ../kubernetes/apps/flux-system/flux/instance/helm/values.yaml
+  needs:
+  - flux-system/flux-operator
