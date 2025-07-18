@@ -10,7 +10,7 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.17.5
+    tag: 1.17.6
   # Using temporary mirror until https://github.com/cilium/cilium/issues/22157
   url: oci://ghcr.io/home-operations/charts-mirror/cilium
   verify:
