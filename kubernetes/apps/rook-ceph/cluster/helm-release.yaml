@@ -27,9 +27,10 @@ spec:
       enabled: true
     route:
       dashboard:
-        host: ceph.milton.mcf.io
-        path: /
-        pathType: PathPrefix
+        host:
+          name: ceph.milton.mcf.io
+          path: /
+          pathType: PathPrefix
       parentRefs:
         - name: internal
           namespace: ingress-system
