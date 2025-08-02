@@ -6,10 +6,10 @@ metadata:
   name: ceph-node-nfsmount-diskspace-warning
 spec:
   matchers:
-    - name: alertname
-      value: CephNodeDiskspaceWarning
-    - name: mountpoint
-      value: /etc/nfsmount.conf
+  - name: alertname
+    value: CephNodeDiskspaceWarning
+  - name: mountpoint
+    value: /etc/nfsmount.conf
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/observability.giantswarm.io/silence_v1alpha2.json
 apiVersion: observability.giantswarm.io/v1alpha2
@@ -18,8 +18,8 @@ metadata:
   name: ceph-node-local-diskspace-warning
 spec:
   matchers:
-    - name: alertname
-      value: CephNodeDiskspaceWarning
-    - name: device
-      value: /dev/sd.*
-      matchType: "=~"
+  - name: alertname
+    value: CephNodeDiskspaceWarning
+  - name: device
+    value: /dev/sd.*
+    matchType: "=~"

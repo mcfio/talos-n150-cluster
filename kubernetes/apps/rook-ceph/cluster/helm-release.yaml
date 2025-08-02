@@ -32,9 +32,9 @@ spec:
           path: /
           pathType: PathPrefix
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: internal
+          namespace: ingress-system
+          sectionName: https
     cephClusterSpec:
       cephConfig:
         global:
@@ -55,14 +55,14 @@ spec:
         prometheusEndpoint: http://prometheus-operated.monitoring:9090
       mgr:
         modules:
-          - name: insights
-            enabled: true
-          - name: pg_autoscaler
-            enabled: true
-          - name: rook
-            enabled: true
-          - name: diskprediction_local
-            enable: true
+        - name: insights
+          enabled: true
+        - name: pg_autoscaler
+          enabled: true
+        - name: rook
+          enabled: true
+        - name: diskprediction_local
+          enable: true
       network:
         provider: host
         connections:
@@ -99,30 +99,30 @@ spec:
           limits:
             memory: 256Mi
     cephBlockPools:
-      - name: replicated
-        spec:
-          failureDomain: host
-          replicated:
-            size: 3
-        storageClass:
-          enabled: true
-          name: ceph-replicated
-          isDefault: true
-          reclaimPolicy: Delete
-          allowVolumeExpansion: true
-          volumeBindingMode: Immediate
-          mountOptions:
-            - discard
-          parameters:
-            imageFormat: "2"
-            imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
-            csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
-            csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
-            csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
-            csi.storage.k8s.io/fstype: ext4
+    - name: replicated
+      spec:
+        failureDomain: host
+        replicated:
+          size: 3
+      storageClass:
+        enabled: true
+        name: ceph-replicated
+        isDefault: true
+        reclaimPolicy: Delete
+        allowVolumeExpansion: true
+        volumeBindingMode: Immediate
+        mountOptions:
+        - discard
+        parameters:
+          imageFormat: "2"
+          imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
+          csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+          csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
+          csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+          csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+          csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+          csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+          csi.storage.k8s.io/fstype: ext4
     cephBlockPoolsVolumeSnapshotClass:
       enabled: true
       name: csi-ceph-blockpool
