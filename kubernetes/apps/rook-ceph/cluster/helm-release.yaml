@@ -25,6 +25,15 @@ spec:
       createPrometheusRules: true
     toolbox:
       enabled: true
+    route:
+      dashboard:
+        host: ceph.milton.mcf.io
+        path: /
+        pathType: PathPrefix
+      parentRefs:
+        - name: internal
+          namespace: ingress-system
+          sectionName: https
     cephClusterSpec:
       cephConfig:
         global:
@@ -33,8 +42,6 @@ spec:
           osd_class_update_on_start: "false"
           mon_warn_on_pool_no_redundancy: "false"
           device_failure_prediction_mode: local
-      cephVersion:
-        image: quay.io/ceph/ceph:v19.2.2
       crashCollector:
         disable: false
       csi:
