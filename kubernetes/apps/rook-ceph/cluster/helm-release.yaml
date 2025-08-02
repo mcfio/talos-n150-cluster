@@ -31,10 +31,10 @@ spec:
           name: ceph.milton.mcf.io
           path: /
           pathType: PathPrefix
-      parentRefs:
-        - name: internal
-          namespace: ingress-system
-          sectionName: https
+        parentRefs:
+          - name: internal
+            namespace: ingress-system
+            sectionName: https
     cephClusterSpec:
       cephConfig:
         global:
