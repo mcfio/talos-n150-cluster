@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &appname system-upgrade-controller
+  name: system-upgrade-controller
 spec:
   interval: 12h
   maxHistory: 3
@@ -29,11 +29,8 @@ spec:
               tag: v0.16.0@sha256:1d874e5034a565d29086db8f936c968afcbed1123c83fa880d62de382b89b501
             env:
               SYSTEM_UPGRADE_CONTROLLER_LEADER_ELECT: true
-              SYSTEM_UPGRADE_CONTROLLER_NAME: *appname
-              SYSTEM_UPGRADE_CONTROLLER_NAMESPACE:
-                valueFrom:
-                  fieldRef:
-                    fieldPath: metadata.namespace
+              SYSTEM_UPGRADE_CONTROLLER_NAME: "{{ .Release.Name }}"
+              SYSTEM_UPGRADE_CONTROLLER_NAMESPACE: "{{ .Release.Namespace }}"
               SYSTEM_UPGRADE_CONTROLLER_NODE_NAME:
                 valueFrom:
                   fieldRef:
@@ -45,7 +42,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                  - ALL
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -58,13 +55,13 @@ spec:
         spec:
           spec:
             roles:
-              - "os:admin"
+            - "os:admin"
     rbac:
       bindings:
         system-upgrade-controller:
           type: ClusterRoleBinding
           subjects:
-            - identifier: system-upgrade-controller
+          - identifier: system-upgrade-controller
           roleRef:
             kind: ClusterRole
             name: cluster-admin
