@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghcr.io/koush/scrypted
-              tag: v0.139.0-noble-lite
+              tag: v0.142.3-noble-lite
             env:
               TZ: Canada/Eastern
             # resources:
