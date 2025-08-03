@@ -3,13 +3,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: promtail
+  name: alloy
 spec:
   interval: 12h
   maxHistory: 3
   chartRef:
     kind: OCIRepository
-    name: promtail
+    name: alloy
   install:
     remediation:
       retries: -1
@@ -17,12 +17,15 @@ spec:
     cleanupOnFail: true
     remediation:
       retries: 3
-  # https://github.com/grafana/helm-charts/blob/main/charts/promtail/values.yaml
   values:
-    config:
-      clients:
-        - url: http://loki-headless.monitoring.svc.cluster.local:3100/loki/api/v1/push
+    fullnameOverride: alloy
+    alloy:
+      configMap:
+        create: false
+        name: &name alloy-configmap
+        key: config.alloy
+    controller:
+      podAnnotations:
+        configmap.reloader.stakater.com/reload: *name
     serviceMonitor:
-      enable: true
-    test:
-      enabled: false
+      enabled: true

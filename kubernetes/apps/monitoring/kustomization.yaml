@@ -4,12 +4,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 components:
-  - ../../components/common
+- ../../components/common
 resources:
-  - ./kube-prometheus-stack/app.yaml
-  - ./blackbox-exporter/app.yaml
-  - ./silence-operator
-  - ./loki/app.yaml
-  - ./promtail/app.yaml
-  - ./grafana/app.yaml
-  - ./keda/app.yaml
+- ./alloy/app.yaml
+- ./kube-prometheus-stack/app.yaml
+- ./blackbox-exporter/app.yaml
+- ./silence-operator
+- ./loki/app.yaml
+- ./grafana/app.yaml
+- ./keda/app.yaml
