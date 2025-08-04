@@ -29,17 +29,18 @@ spec:
             args: ["-c", "ulimit -c 0; exec npm --prefix /server exec scrypted-serve"]
             env:
               TZ: Canada/Eastern
-            # resources:
-            #   requests:
-            #     cpu: 100m
-            #     memory: 128Mi
-            #   limits:
-            #     memory: 4Gi
-            securityContext:
-              allowPrivilegeEscalation: false
-              capabilities:
-                drop:
-                - ALL
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+            resources:
+              requests:
+                cpu: 100m
+                memory: 1Gi
+              limits:
+                gpu.intel.com/i915: 1
+                memory: 8Gi
     defaultPodOptions:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
@@ -49,13 +50,10 @@ spec:
             "ips": ["192.168.10.21/24"]
           }]
       securityContext:
-        runAsNonRoot: true
         runAsUser: 568
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
     service:
       app:
         ports:
