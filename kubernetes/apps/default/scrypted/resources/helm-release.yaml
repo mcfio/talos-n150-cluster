@@ -24,7 +24,7 @@ spec:
           app:
             image:
               repository: ghcr.io/koush/scrypted
-              tag: v0.139.0-noble-lite
+              tag: v0.141.0-noble-full
             env:
               TZ: Canada/Eastern
             # resources:
@@ -37,7 +37,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                  - ALL
+                - ALL
     defaultPodOptions:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
@@ -62,15 +62,15 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
+        - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: internal
+          namespace: ingress-system
+          sectionName: https
     persistence:
       config:
         existingClaim: scrypted
         globalMounts:
-          - path: /server/volume
+        - path: /server/volume
       tmp:
         type: emptyDir
