@@ -24,7 +24,9 @@ spec:
           app:
             image:
               repository: ghcr.io/koush/scrypted
-              tag: v0.139.0-noble-lite
+              tag: v0.141.0-noble-lite
+            command: ["/bin/sh"]
+            args: ["-c", "ulimit -c 0; exec npm --prefix /server exec scrypted-serve"]
             env:
               TZ: Canada/Eastern
             # resources:
