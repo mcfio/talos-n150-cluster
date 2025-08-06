@@ -4,23 +4,24 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: default
 components:
-  - ../../components/common
-  - ../../components/app-template
+- ../../components/common
+- ../../components/app-template
 resources:
-  - ./cnpg-cluster/app.yaml
-  - ./sonarr/app.yaml
-  - ./radarr/app.yaml
-  - ./maintainerr/app.yaml
-  - ./prowlarr/app.yaml
-  - ./sabnzbd/app.yaml
-  - ./plex/app.yaml
-  - ./gatus/app.yaml
-  - ./tautulli/app.yaml
-  - ./recyclarr/app.yaml
-  - ./overseerr/app.yaml
-  - ./mosquitto/app.yaml
-  - ./home-assistant/app.yaml
-  - ./matter-server/app.yaml
-  - ./scrypted/app.yaml
-  - ./zigbee2mqtt/app.yaml
-  - ./zwave/app.yaml
+- ./cnpg-cluster/app.yaml
+- ./sonarr/app.yaml
+- ./radarr/app.yaml
+- ./maintainerr/app.yaml
+- ./prowlarr/app.yaml
+- ./sabnzbd/app.yaml
+- ./plex/app.yaml
+- ./jellyfin/app.yaml
+- ./gatus/app.yaml
+- ./tautulli/app.yaml
+- ./recyclarr/app.yaml
+- ./overseerr/app.yaml
+- ./mosquitto/app.yaml
+- ./home-assistant/app.yaml
+- ./matter-server/app.yaml
+- ./scrypted/app.yaml
+- ./zigbee2mqtt/app.yaml
+- ./zwave/app.yaml
