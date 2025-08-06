@@ -19,7 +19,7 @@ spec:
       retries: 3
   values:
     controllers:
-      plex:
+      jellyfin:
         containers:
           app:
             image:
