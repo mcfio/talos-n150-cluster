@@ -39,7 +39,7 @@ jobs:
           persist-credentials: false
 
       - name: Run flux-local test
-        uses: docker://ghcr.io/allenporter/flux-local:v7.7.1
+        uses: docker://ghcr.io/allenporter/flux-local:v7.8.0
         with:
           args: >-
             test
@@ -78,7 +78,7 @@ jobs:
           persist-credentials: false
 
       - name: Run flux-local Diff
-        uses: docker://ghcr.io/allenporter/flux-local:v7.7.1
+        uses: docker://ghcr.io/allenporter/flux-local:v7.8.0
         with:
           args: >-
             diff ${{ matrix.resources }}
@@ -101,7 +101,7 @@ jobs:
       - name: Generate Token
         if: ${{ steps.diff.outputs.diff != '' }}
         id: app-token
-        uses: actions/create-github-app-token@df432ceedc7162793a195dd1713ff69aefc7379e # v2
+        uses: actions/create-github-app-token@0f859bf9e69e887678d5bbfbee594437cb440ffe # v2
         with:
           app-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
