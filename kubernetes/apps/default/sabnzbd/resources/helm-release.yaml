@@ -31,15 +31,10 @@ spec:
               TZ: Canada/Eastern
               SABNZBD__PORT: &port 8080
               SABNZBD__HOST_WHITELIST_ENTRIES: >-
-                sabnzbd,
-                sabnzbd.default,
-                sabnzbd.default.svc,
-                sabnzbd.default.svc.cluster,
-                sabnzbd.default.svc.cluster.local,
-                sabnzbd.milton.mcf.io
+                sabnzbd, sabnzbd.default, sabnzbd.default.svc, sabnzbd.default.svc.cluster, sabnzbd.default.svc.cluster.local, sabnzbd.milton.mcf.io
             envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
+            - secretRef:
+                name: "{{ .Release.Name }}-secret"
             resources:
               requests:
                 cpu: 100m
@@ -50,7 +45,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                  - ALL
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -59,7 +54,7 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
-          - 100 # nfs.cluster:users
+        - 100 # nfs.cluster:users
         seccompProfile:
           type: RuntimeDefault
     service:
@@ -70,11 +65,11 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
+        - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: internal
+          namespace: ingress-system
+          sectionName: https
     persistence:
       config:
         existingClaim: sabnzbd-config
@@ -82,6 +77,10 @@ spec:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
+      media-new:
+        type: nfs
+        server: 192.168.45.20
+        path: /srv/storage/media
       incomplete:
         enabled: true
         type: emptyDir
