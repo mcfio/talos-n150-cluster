@@ -58,7 +58,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                  - ALL
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -80,49 +80,56 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.mcf.io"
+        - "{{ .Release.Name }}.mcf.io"
         parentRefs:
-          - name: external
-            namespace: ingress-system
+        - name: external
+          namespace: ingress-system
         rules:
-          - backendRefs:
-              - identifier: app
-                port: *port
-            filters:
-              - type: RequestHeaderModifier
-                requestHeaderModifier:
-                  remove: ["Range"]
-            matches:
-              - path:
-                  type: PathPrefix
-                  value: /library/streams
-          - backendRefs:
-              - identifier: app
-                port: *port
+        - backendRefs:
+          - identifier: app
+            port: *port
+          filters:
+          - type: RequestHeaderModifier
+            requestHeaderModifier:
+              remove: ["Range"]
+          matches:
+          - path:
+              type: PathPrefix
+              value: /library/streams
+        - backendRefs:
+          - identifier: app
+            port: *port
     persistence:
       config:
         existingClaim: plex
         globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server
+        - path: /config/Library/Application Support/Plex Media Server
       config-cache:
         existingClaim: plex-cache
         globalMounts:
-          - path: /config/Library/Application Support/Plex Media Server/Cache
+        - path: /config/Library/Application Support/Plex Media Server/Cache
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
         globalMounts:
-          - path: /nfs-data
-            readOnly: true
+        - path: /nfs-data
+          readOnly: true
+      media-new:
+        type: nfs
+        server: 192.168.45.20
+        path: /media
+        globalMounts:
+        - path: /media
+          readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:
           plex:
             app:
-              - path: /config/Library/Application Support/Plex Media Server/Logs
-                subPath: logs
-              - path: /transcode
-                subPath: transcode
-              - path: /tmp
-                subPath: tmp
+            - path: /config/Library/Application Support/Plex Media Server/Logs
+              subPath: logs
+            - path: /transcode
+              subPath: transcode
+            - path: /tmp
+              subPath: tmp
