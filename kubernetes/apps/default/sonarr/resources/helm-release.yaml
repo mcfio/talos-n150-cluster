@@ -112,5 +112,11 @@ spec:
         path: /shows
         globalMounts:
         - path: /media/shows
+      downloads:
+        type: nfs
+        server: nfs.cluster.milton.mcf.io
+        path: /mnt/storage/media/downloads
+        globalMounts:
+        - path: /media/downloads
       tmp:
         type: emptyDir
