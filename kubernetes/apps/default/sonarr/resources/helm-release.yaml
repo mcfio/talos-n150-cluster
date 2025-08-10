@@ -108,7 +108,7 @@ spec:
         size: 10Gi
       media:
         type: nfs
-        server: 192.168.45.20
+        server: kaitain.internal
         path: /shows
         globalMounts:
         - path: /media/shows
