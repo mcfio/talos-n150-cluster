@@ -115,12 +115,12 @@ spec:
         globalMounts:
         - path: /nfs-data
           readOnly: true
-      media-new:
+      shows:
         type: nfs
         server: 192.168.45.20
-        path: /media
+        path: /shows
         globalMounts:
-        - path: /media
+        - path: /media/shows
           readOnly: true
       tmpfs:
         type: emptyDir
