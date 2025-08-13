@@ -20,8 +20,6 @@ spec:
   values:
     controllers:
       radarr:
-        labels:
-          app.kubernetes.io/depends-on: cnpg-cluster
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -38,19 +36,6 @@ spec:
               RADARR__lOG__DBENABLED: "False"
               RADARR__lOG__LEVEL: info
               RADARR__SERVER__PORT: &port 7878
-              RADARR__POSTGRES__HOST: cnpg-cluster-rw.default.svc.cluster.local
-              RADARR__POSTGRES__PORT: "5432"
-              RADARR__POSTGRES__MAINDB: ${dbName}
-              RADARR__POSTGRES__USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: radarr-db-secret
-                    key: username
-              RADARR__POSTGRES__PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: radarr-db-secret
-                    key: password
             envFrom:
             - secretRef:
                 name: "{{ .Release.Name }}-secret"
@@ -104,11 +89,11 @@ spec:
           sectionName: https
     persistence:
       config:
+        existingClaim: "{{ .Release.Name }}"
+      config-cache:
         existingClaim: "{{ .Release.Name }}-cache"
-      # config-cache:
-      #   existingClaim: "{{ .Release.Name }}-cache"
-      #   globalMounts:
-      #   - path: /config/MediaCover
+        globalMounts:
+        - path: /config/MediaCover
       media:
         type: nfs
         server: nfs.cluster.milton.mcf.io
