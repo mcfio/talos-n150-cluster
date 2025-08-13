@@ -38,17 +38,6 @@ spec:
               SONARR__LOG__DBENABLED: "False"
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 8989
-              SONARR__POSTGRES__HOST: cnpg-cluster-rw.default.svc.cluster.local
-              SONARR__POSTGRES__PORT: "5432"
-              SONARR__POSTGRES__MAINDB: ${dbName}
-              SONARR__POSTGRES__USER:
-                secretKeyRef:
-                  name: sonarr-db-secret
-                  key: username
-              SONARR__POSTGRES__PASSWORD:
-                secretKeyRef:
-                  name: sonarr-db-secret
-                  key: password
             envFrom:
             - secretRef:
                 name: "{{ .Release.Name }}-secret"
@@ -102,11 +91,11 @@ spec:
           sectionName: https
     persistence:
       config:
+        existingClaim: "{{ .Release.Name }}"
+      config-cache:
         existingClaim: "{{ .Release.Name }}-cache"
-      # config-cache:
-      #   existingClaim: "{{ .Release.Name }}-cache"
-      #   globalMounts:
-      #     - path: /config/MediaCover
+        globalMounts:
+        - path: /config/MediaCover
       media:
         type: nfs
         server: kaitain.internal
