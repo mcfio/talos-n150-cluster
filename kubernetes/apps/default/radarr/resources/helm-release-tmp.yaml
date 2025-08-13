@@ -38,7 +38,7 @@ spec:
               RADARR__SERVER__PORT: &port 7878
             envFrom:
             - secretRef:
-                name: "radarr-secret"
+                name: radarr-secret
             probes:
               liveness: &probes
                 enabled: true
