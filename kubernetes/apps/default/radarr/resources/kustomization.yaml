@@ -6,3 +6,5 @@ resources:
 - ./external-secret.yaml
 - ./pvc.yaml
 - ./helm-release.yaml
+# temporary
+- ./helm-release-tmp.yaml
