@@ -26,8 +26,8 @@ spec:
   - ../../../../components/database
   - ../../../../components/gatus/internal
   - ../../../../components/nfs-scaler
+  - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname
       dbName: sonarr_main
-      volume_cache_capacity: 2Gi
