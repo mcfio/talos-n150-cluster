@@ -94,6 +94,7 @@ spec:
         existingClaim: "{{ .Release.Name }}"
       cache:
         enabled: true
+        suffix: cache
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 10Gi
