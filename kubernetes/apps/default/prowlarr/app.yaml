@@ -11,9 +11,8 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: cnpg-cluster
-    - name: external-secrets
-      namespace: external-secrets
+  - name: external-secrets
+    namespace: external-secrets
   path: ./apps/default/prowlarr/resources
   prune: true
   sourceRef:
@@ -24,8 +23,9 @@ spec:
   interval: 12h
   timeout: 5m
   components:
-    - ../../../../components/database
-    - ../../../../components/gatus/internal
+  - ../../../../components/database
+  - ../../../../components/gatus/internal
+  - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname
