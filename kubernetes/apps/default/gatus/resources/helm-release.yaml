@@ -20,8 +20,6 @@ spec:
   values:
     controllers:
       gatus:
-        labels:
-          app.kubernetes.io/depends-on: cnpg-cluster
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
