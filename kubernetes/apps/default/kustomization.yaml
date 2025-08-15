@@ -14,7 +14,6 @@ resources:
 - ./prowlarr/app.yaml
 - ./sabnzbd/app.yaml
 - ./plex/app.yaml
-- ./jellyfin/app.yaml
 - ./gatus/app.yaml
 - ./tautulli/app.yaml
 - ./recyclarr/app.yaml
