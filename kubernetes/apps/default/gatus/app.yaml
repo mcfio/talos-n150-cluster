@@ -22,8 +22,6 @@ spec:
   wait: false
   interval: 12h
   timeout: 5m
-  components:
-  - ../../../../components/database
   postBuild:
     substitute:
       app: *appname

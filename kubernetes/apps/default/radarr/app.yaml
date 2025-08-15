@@ -23,7 +23,6 @@ spec:
   interval: 12h
   timeout: 5m
   components:
-  - ../../../../components/database
   - ../../../../components/gatus/internal
   - ../../../../components/nfs-scaler
   - ../../../../components/volsync
@@ -31,4 +30,3 @@ spec:
     substitute:
       app: *appname
       volume_capacity: 2Gi
-      dbName: radarr_main
