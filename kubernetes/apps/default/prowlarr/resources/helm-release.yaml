@@ -20,8 +20,6 @@ spec:
   values:
     controllers:
       prowlarr:
-        labels:
-          app.kubernetes.io/depends-on: cnpg-cluster
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
@@ -38,23 +36,9 @@ spec:
               PROWLARR__LOG__DBENABLED: "False"
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 9696
-              PROWLARR__UPDATE__BRANCH: develop
-              PROWLARR__POSTGRES__HOST: cnpg-cluster-rw.default.svc.cluster.local
-              PROWLARR__POSTGRES__PORT: "5432"
-              PROWLARR__POSTGRES__MAINDB: ${dbName}
-              PROWLARR__POSTGRES__USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: prowlarr-db-secret
-                    key: username
-              PROWLARR__POSTGRES__PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: prowlarr-db-secret
-                    key: password
             envFrom:
-              - secretRef:
-                  name: "{{ .Release.Name }}-secret"
+            - secretRef:
+                name: "{{ .Release.Name }}-secret"
             probes:
               liveness: &probes
                 enabled: true
@@ -81,7 +65,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                  - ALL
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -99,13 +83,13 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
+        - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: internal
+          namespace: ingress-system
+          sectionName: https
     persistence:
       config:
-        type: emptyDir
+        existingClaim: "{{ .Release.Name }}"
       tmp:
         type: emptyDir
