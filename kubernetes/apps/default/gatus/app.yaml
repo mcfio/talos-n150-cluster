@@ -11,9 +11,8 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: cnpg-cluster
-    - name: external-secrets
-      namespace: external-secrets
+  - name: external-secrets
+    namespace: external-secrets
   path: ./apps/default/gatus/resources
   prune: true
   sourceRef:
@@ -24,7 +23,7 @@ spec:
   interval: 12h
   timeout: 5m
   components:
-    - ../../../../components/database
+  - ../../../../components/database
   postBuild:
     substitute:
       app: *appname

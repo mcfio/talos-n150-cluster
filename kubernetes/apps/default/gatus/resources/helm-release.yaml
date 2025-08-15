@@ -27,8 +27,8 @@ spec:
         initContainers:
           init-config:
             image:
-              repository: ghcr.io/kiwigrid/k8s-sidecar
-              tag: 1.30.7@sha256:318ca0734fe454e41584fe47421a07fd98eeef2721c5c0d4def2c4f0258e034b
+              repository: ghcr.io/home-operations/k8s-sidecar
+              tag: 1.30.9@sha256:74d65c3def9276b24b5bfe41f8efb773174e7a1ecf3c9b5a31bd02cfdee232c9
             env:
               FOLDER: /config
               LABEL: gatus.io/enabled
@@ -51,19 +51,6 @@ spec:
               TZ: Canada/Eastern
               GATUS_CONFIG_PATH: /config
               GATUS_DELAY_START_SECONDS: 5
-              GATUS__POSTGRES_HOST: cnpg-cluster-rw.default.svc.cluster.local
-              GATUS__POSTGRES_PORT: "5432"
-              GATUS__POSTGRES_DBNAME: gatus
-              GATUS__POSTGRES_USER:
-                valueFrom:
-                  secretKeyRef:
-                    name: gatus-db-secret
-                    key: username
-              GATUS__POSTGRES_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: gatus-db-secret
-                    key: password
               WEB_PORT: &port 8080
             probes:
               liveness: &probes
@@ -83,21 +70,17 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                  - ALL
+                - ALL
             resources: *resources
     defaultPodOptions:
       dnsConfig:
         options:
-          - name: ndots
-            value: "1"
+        - name: ndots
+          value: "1"
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
         runAsGroup: 65534
-        fsGroup: 65534
-        fsGroupChangePolicy: OnRootMismatch
-        seccompProfile:
-          type: RuntimeDefault
     service:
       app:
         ports:
@@ -106,27 +89,27 @@ spec:
     serviceMonitor:
       app:
         endpoints:
-          - port: http
+        - port: http
     route:
       app:
         hostnames:
-          - status.mcf.io
+        - status.mcf.io
         parentRefs:
-          - name: external
-            namespace: ingress-system
+        - name: external
+          namespace: ingress-system
     rbac:
       roles:
         gatus:
           type: ClusterRole
           rules:
-            - apiGroups: [""]
-              resources: ["configmaps", "secrets"]
-              verbs: ["get", "list", "watch"]
+          - apiGroups: [""]
+            resources: ["configmaps", "secrets"]
+            verbs: ["get", "list", "watch"]
       bindings:
         gatus:
           type: ClusterRoleBinding
           subjects:
-            - identifier: gatus
+          - identifier: gatus
           roleRef:
             identifier: gatus
     serviceAccount:
@@ -136,8 +119,8 @@ spec:
         type: emptyDir
       config-file:
         type: configMap
-        name: gatus-configmap
+        name: "{{ .Release.Name }}-configmap"
         globalMounts:
-          - path: /config/config.yaml
-            subPath: config.yaml
-            readOnly: true
+        - path: /config/config.yaml
+          subPath: config.yaml
+          readOnly: true
