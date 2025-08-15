@@ -7,7 +7,6 @@ components:
 - ../../components/common
 - ../../components/app-template
 resources:
-- ./cnpg-cluster/app.yaml
 - ./sonarr/app.yaml
 - ./radarr/app.yaml
 - ./maintainerr/app.yaml
