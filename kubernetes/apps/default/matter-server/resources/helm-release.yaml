@@ -44,8 +44,10 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
+      nodeSelector:
+        kubernetes.io/arch: amd64
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
@@ -60,12 +62,12 @@ spec:
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
         sysctls:
-          - name: net.ipv6.conf.net1.accept_ra
-            value: "2"
-          - name: net.ipv6.conf.net1.accept_ra_rt_info_max_plen
-            value: "64"
-          - name: net.ipv6.conf.net1.forwarding
-            value: "1"
+        - name: net.ipv6.conf.net1.accept_ra
+          value: "2"
+        - name: net.ipv6.conf.net1.accept_ra_rt_info_max_plen
+          value: "64"
+        - name: net.ipv6.conf.net1.forwarding
+          value: "1"
     service:
       app:
         ports:
@@ -75,6 +77,6 @@ spec:
       config:
         existingClaim: matter-server
         globalMounts:
-          - path: /data
+        - path: /data
       tmp:
         type: emptyDir
