@@ -4,11 +4,11 @@
     "github>mcfio/renovate-config",
     "github>mcfio/home-cluster//.renovate/allowedVersions.json5",
     "github>mcfio/home-cluster//.renovate/autoMerge.json5",
-    "github>mcfio/home-cluster//.renovate/customManagers.json5",
     "github>mcfio/home-cluster//.renovate/groups.json5",
     "github>mcfio/home-cluster//.renovate/versioning.json5",
     "github>mcfio/home-cluster//.renovate/schedule.json5",
     "github>mcfio/home-cluster//.renovate/grafanaDashboards.json5",
+    "github>mcfio/home-cluster//.renovate/talosFactory.json5",
   ],
   ignorePaths: ["**/.archive/**"],
   flux: {
@@ -20,4 +20,12 @@
   kubernetes: {
     managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
   },
+  packageRules: [
+    {
+      description: "Configure prompp versioning",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["docker.io/prompp/prompp"],
+      versioning: "regex:^(?<build>.*)-(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)$",
+    },
+  ],
 }
