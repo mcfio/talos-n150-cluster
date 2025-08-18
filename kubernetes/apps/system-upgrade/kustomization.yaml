@@ -4,13 +4,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: system-upgrade
 components:
-  - ../../components/common
-  - ../../components/app-template
+- ../../components/common
+- ../../components/app-template
 resources:
-  - ./controller.yaml
-  - ./plans.yaml
-configMapGenerator:
-  - name: suc-plan-versions
-    env: ./plans/versions.env
-configurations:
-  - name-reference.yaml
+- ./controller.yaml
+- ./plans.yaml

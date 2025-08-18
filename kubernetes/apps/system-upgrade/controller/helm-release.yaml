@@ -21,7 +21,6 @@ spec:
     controllers:
       system-upgrade:
         strategy: RollingUpdate
-        replicas: 2
         containers:
           app:
             image:
@@ -36,7 +35,7 @@ spec:
                   fieldRef:
                     fieldPath: spec.nodeName
               SYSTEM_UPGRADE_JOB_BACKOFF_LIMIT: 99
-              SYSTEM_UPGRADE_JOB_PRIVILEGED: true
+              SYSTEM_UPGRADE_JOB_PRIVILEGED: false
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

@@ -10,13 +10,17 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
+  healthChecks:
+  - apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    name: *appname
+    namespace: *namespace
   path: ./apps/system-upgrade/controller
   prune: true
   sourceRef:
     kind: OCIRepository
     name: cluster-manifests
     namespace: flux-system
-  wait: true
   interval: 12h
   retryInterval: 2m
   timeout: 5m

@@ -11,14 +11,9 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: system-upgrade-controller
-      namespace: system-upgrade
+  - name: system-upgrade-controller
+    namespace: system-upgrade
   path: ./apps/system-upgrade/plans
-  postBuild:
-    substituteFrom:
-      - kind: ConfigMap
-        name: suc-plan-versions
-        optional: false
   prune: true
   sourceRef:
     kind: OCIRepository
