@@ -6,9 +6,9 @@
     "github>mcfio/home-cluster//.renovate/autoMerge.json5",
     "github>mcfio/home-cluster//.renovate/groups.json5",
     "github>mcfio/home-cluster//.renovate/versioning.json5",
+    "github>mcfio/home-cluster//.renovate/overrides.json5",
     "github>mcfio/home-cluster//.renovate/schedule.json5",
     "github>mcfio/home-cluster//.renovate/grafanaDashboards.json5",
-    "github>mcfio/home-cluster//.renovate/talosFactory.json5",
   ],
   ignorePaths: ["**/.archive/**"],
   flux: {

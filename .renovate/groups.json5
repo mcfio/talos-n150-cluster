@@ -5,64 +5,67 @@
       description: "Flux Operator Group",
       groupName: "Flux Operator",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/flux-operator/", "/flux-instance/"],
+      matchPackageNames: [
+        "/flux-operator/",
+        "/flux-instance/"
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-    },
-    {
-      description: "Cilium Group",
-      groupName: "Cilium",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/cilium/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
-    },
-    {
-      description: "CoreDNS Group",
-      groupName: "CoreDNS",
-      matchDatasources: ["docker"],
-      matchPackageNames: ["/coredns/"],
-      group: {
-        commitMessageTopic: "{{{groupName}}} group",
-      },
+      minimumGroupSize: 2,
     },
     {
       description: "Intel Device Plugins Group",
       groupName: "Intel-Device-Plugins",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/intel-device-plugins-operator/", "/intel-device-plugins-gpu/"],
+      matchPackageNames: [
+        "/intel-device-plugins-operator/",
+        "/intel-device-plugins-gpu/"
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
+      minimumGroupSize: 2,
     },
     {
       description: "Rook-Ceph Group",
       groupName: "Rook-Ceph",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
+      matchPackageNames: [
+        "/rook-ceph/",
+        "/rook-ceph-cluster/"
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
+      minimumGroupSize: 2,
     },
     {
       description: "Talos Linux Group",
       groupName: "Talos",
       matchDatasources: ["docker"],
-      matchPackagePatterns: ["siderolabs/talosctl", "siderolabs/installer", "siderolabs/talos-cloud-controller-manager"],
+      matchPackagePatterns: [
+        "siderolabs/talosctl",
+        "siderolabs/installer",
+        "siderolabs/talos-cloud-controller-manager"
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
+      minimumGroupSize: 3,
     },
     {
       description: "Actions Runner Controller Group",
       groupName: "ARC",
       matchDatasources: ["docker"],
-      matchPackageNames: ["/gha-runner-scale-set-controller/", "/gha-runner-scale-set/"],
+      matchPackageNames: [
+        "/gha-runner-scale-set-controller/",
+        "/gha-runner-scale-set/"
+      ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
+      minimumGroupSize: 2,
     },
   ],
 }
