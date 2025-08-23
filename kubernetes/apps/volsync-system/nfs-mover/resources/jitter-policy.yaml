@@ -16,35 +16,35 @@ metadata:
 spec:
   matchConstraints:
     resourceRules:
-      - apiGroups: ["batch"]
-        apiVersions: ["v1"]
-        operations: ["CREATE", "UPDATE"]
-        resources: ["jobs"]
+    - apiGroups: ["batch"]
+      apiVersions: ["v1"]
+      operations: ["CREATE", "UPDATE"]
+      resources: ["jobs"]
   matchConditions:
-    - name: has-volsync-job-name-prefix
-      expression: >
-        object.metadata.name.startsWith("volsync-src-")
-    - name: has-volsync-created-by-labels
-      expression: >
-        object.metadata.labels["app.kubernetes.io/created-by"] == "volsync"
+  - name: has-volsync-job-name-prefix
+    expression: >
+      object.metadata.name.startsWith("volsync-src-")
+  - name: has-volsync-created-by-labels
+    expression: >
+      object.metadata.labels["app.kubernetes.io/created-by"] == "volsync"
   failurePolicy: Fail
   reinvocationPolicy: IfNeeded
   mutations:
-    - patchType: JSONPatch
-      jsonPatch:
-        expression: >
-          [
-            JSONPatch{
-              op: "add", path: "/spec/template/spec/initContainers",
-              value: []
-            },
-            JSONPatch{
-              op: "add", path: "/spec/template/spec/initContainers/-",
-              value: Object.spec.template.spec.initContainers{
-                name: "jitter",
-                image: "ghcr.io/home-operations/busybox:1.37.0@sha256:026ed7273270ec08f6902b4ae8334c23b473e5394bec3bbbdbfe580c710d50bc",
-                imagePullPolicy: "IfNotPresent",
-                command: ["sh", "-c", "sleep $(shuf -i 0-90 -n 1)"]
-              }
+  - patchType: JSONPatch
+    jsonPatch:
+      expression: >
+        [
+          JSONPatch{
+            op: "add", path: "/spec/template/spec/initContainers",
+            value: []
+          },
+          JSONPatch{
+            op: "add", path: "/spec/template/spec/initContainers/-",
+            value: Object.spec.template.spec.initContainers{
+              name: "jitter",
+              image: "ghcr.io/home-operations/busybox:1.37.0@sha256:026ed7273270ec08f6902b4ae8334c23b473e5394bec3bbbdbfe580c710d50bc",
+              imagePullPolicy: "IfNotPresent",
+              command: ["sh", "-c", "sleep $(shuf -i 0-90 -n 1)"]
             }
-          ]
+          }
+        ]

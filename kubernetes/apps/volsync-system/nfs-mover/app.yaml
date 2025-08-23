@@ -11,8 +11,8 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
+  - name: volsync
+    namespace: volsync-system
   path: ./apps/volsync-system/nfs-mover/resources
   prune: true
   sourceRef:
