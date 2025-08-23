@@ -96,7 +96,7 @@ spec:
         - path: /config/MediaCover
       media:
         type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/storage/media
+        server: nfs.internal
+        path: /media
       tmp:
         type: emptyDir

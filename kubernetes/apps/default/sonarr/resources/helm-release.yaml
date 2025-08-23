@@ -100,15 +100,7 @@ spec:
         - path: /config/MediaCover
       media:
         type: nfs
-        server: kaitain.internal
-        path: /shows
-        globalMounts:
-        - path: /media/shows
-      downloads:
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/storage/media/downloads
-        globalMounts:
-        - path: /media/downloads
+        server: nfs.internal
+        path: /media
       tmp:
         type: emptyDir
