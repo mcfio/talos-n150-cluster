@@ -11,4 +11,4 @@ spec:
   targets:
     staticConfig:
       static:
-        - caladan.cluster.milton.mcf.io:2049
+      - kaitain.internal:2049
