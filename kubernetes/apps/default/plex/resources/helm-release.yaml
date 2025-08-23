@@ -110,17 +110,17 @@ spec:
         - path: /config/Library/Application Support/Plex Media Server/Cache
       media:
         type: nfs
+        server: nfs.internal
+        path: /media
+        globalMounts:
+        - path: /media
+          readOnly: true
+      nfs-data:
+        type: nfs
         server: nfs.cluster.milton.mcf.io
         path: /mnt/storage/media
         globalMounts:
         - path: /nfs-data
-          readOnly: true
-      shows:
-        type: nfs
-        server: 192.168.45.20
-        path: /shows
-        globalMounts:
-        - path: /media/shows
           readOnly: true
       tmpfs:
         type: emptyDir
