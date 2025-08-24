@@ -6,13 +6,13 @@ metadata:
   name: &name node-exporter
 spec:
   staticConfigs:
-    - targets:
-        - caladan.cluster.milton.mcf.io:9100
+  - targets:
+    - kaitain.internal:9100
   metricsPath: /metrics
   relabelings:
-    - action: replace
-      targetLabel: job
-      replacement: *name
+  - action: replace
+    targetLabel: job
+    replacement: *name
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
@@ -21,10 +21,10 @@ metadata:
   name: &name smartctl-exporter
 spec:
   staticConfigs:
-    - targets:
-        - caladan.cluster.milton.mcf.io:9633
+  - targets:
+    - kaitain.internal:9100
   metricsPath: /metrics
   relabelings:
-    - action: replace
-      targetLabel: job
-      replacement: *name
+  - action: replace
+    targetLabel: job
+    replacement: *name
