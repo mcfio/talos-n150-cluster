@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
@@ -14,7 +14,7 @@ spec:
     targetLabel: job
     replacement: *name
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/monitoring.coreos.com/scrapeconfig_v1alpha1.json
 apiVersion: monitoring.coreos.com/v1alpha1
 kind: ScrapeConfig
 metadata:
@@ -22,7 +22,22 @@ metadata:
 spec:
   staticConfigs:
   - targets:
-    - kaitain.internal:9100
+    - kaitain.internal:9633
+  metricsPath: /metrics
+  relabelings:
+  - action: replace
+    targetLabel: job
+    replacement: *name
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/monitoring.coreos.com/scrapeconfig_v1alpha1.json
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+metadata:
+  name: &name onepassword-connect
+spec:
+  staticConfigs:
+  - targets:
+    - kaitain.internal:7070
   metricsPath: /metrics
   relabelings:
   - action: replace
