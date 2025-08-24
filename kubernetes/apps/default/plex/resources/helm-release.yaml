@@ -115,13 +115,6 @@ spec:
         globalMounts:
         - path: /media
           readOnly: true
-      nfs-data:
-        type: nfs
-        server: nfs.cluster.milton.mcf.io
-        path: /mnt/storage/media
-        globalMounts:
-        - path: /nfs-data
-          readOnly: true
       tmpfs:
         type: emptyDir
         advancedMounts:
