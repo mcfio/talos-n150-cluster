@@ -21,7 +21,9 @@ spec:
       retries: 3
   values:
     csi:
-      cephFSKernelMountOptions: ms_mode=prefer-crc
+      cephFSKernelMountOptions: ms_mode=prefer-crc # may need in future
+      enableCephfsDriver: false
+      enableCephfsSnapshotter: false
       enableLiveness: true
       serviceMonitor:
         enabled: true
