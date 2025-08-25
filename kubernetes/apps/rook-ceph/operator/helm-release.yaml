@@ -13,7 +13,7 @@ spec:
   timeout: 15m
   install:
     remediation:
-      retries: -1 # infinite
+      retries: -1
   upgrade:
     cleanupOnFail: true
     remediation:
@@ -21,11 +21,11 @@ spec:
       retries: 3
   values:
     csi:
-      enableCephfsDriver: false
-      enableCephfsSnapshotter: false
+      cephFSKernelMountOptions: ms_mode=prefer-crc
       enableLiveness: true
       serviceMonitor:
         enabled: true
-    enableDiscoveryDaemon: true
+    image:
+      repository: ghcr.io/rook/ceph
     monitoring:
       enabled: true
