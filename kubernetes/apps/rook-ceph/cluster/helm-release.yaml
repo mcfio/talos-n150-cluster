@@ -65,11 +65,19 @@ spec:
         connections:
           requireMsgr2: true
       storage:
-        useAllNodes: true
+        useAllNodes: false
         useAllDevices: false
-        deviceFilter: ^nvme.
         config:
           osdsPerDevice: "1"
+        nodes:
+        - name: talos-mr7-d1s # 192.168.45.76
+          deviceFilter: ^nvme.
+        - name: talos-dw8-i69 # 192.168.45.77
+          deviceFilter: ^nvme.
+        - name: talos-qb6-cqq # 192.168.45.75
+          deviceFilter: ^nvme.
+          # - name: talos-node03 # 192.168.45.77
+          #   deviceFilter: ^sd.
       resources:
         mgr:
           requests:
