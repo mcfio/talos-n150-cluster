@@ -3,10 +3,12 @@ machine:
   type: controlplane
   install:
     diskSelector:
-      type: nvme
-    image: factory.talos.dev/installer/{{ schematic_id }}:v1.10.6
+      size: <= 128GB
+      type: ssd
+      # type: nvme
+    image: factory.talos.dev/installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.10.6
   network:
-    hostname: talos-node03
+    # hostname: talos-node01
     interfaces:
     - deviceSelector:
         busPath: 0000:* # Ensure PCI deivces are selected
@@ -16,3 +18,8 @@ machine:
       - {vlanId: 10, dhcp: false, mtu: 9000}
       vip:
         ip: 192.168.45.70
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

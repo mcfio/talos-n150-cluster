@@ -1,0 +1,15 @@
+---
+machine:
+  type: worker
+  install:
+    diskSelector:
+      size: <= 128GB
+    image: factory.talos.dev/installer/69c0f32290e5f1abe266a219fbee33ff9f659fd49820452e47d626b86e292b4a:v1.10.5
+  network:
+    # hostname: talos-worker01
+    interfaces:
+    - deviceSelector:
+        driver: bcmgenet
+      dhcp: true
+      vlans:
+      - {vlanId: 10, dhcp: false}

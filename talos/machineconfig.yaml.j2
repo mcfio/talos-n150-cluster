@@ -5,7 +5,7 @@ machine:
   token: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/machine/token
   ca:
     crt: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/machine/ca_crt
-    {% if machinetype == 'controlplane' %}
+    {% if ENV.NODE_TYPE == 'controlplane' %}
     key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/machine/ca_key
     {% endif %}
   certSANs:
@@ -47,7 +47,7 @@ machine:
   files:
     - path: /etc/cri/conf.d/20-customization.part
       op: create
-      content: |
+      content: |-
         [plugins."io.containerd.cri.v1.images"]
           discard_unpacked_layers = false
         [plugins."io.containerd.cri.v1.runtime"]
@@ -55,7 +55,7 @@ machine:
     - path: /etc/nfsmount.conf
       op: overwrite
       permissions: 0o644
-      content: |
+      content: |-
         [ NFSMount_Global_Options ]
         nfsvers=4.2
         hard=True
@@ -71,7 +71,7 @@ machine:
   features:
     rbac: true
     stableHostname: true
-    {% if machinetype == 'controlplane' %}
+    {% if ENV.NODE_TYPE == 'controlplane' %}
     kubernetesTalosAPIAccess:
       enabled: true
       allowedRoles:
@@ -110,7 +110,7 @@ cluster:
   token: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/token
   ca:
     crt: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/ca_crt
-    {% if machinetype == 'controlplane' %}
+    {% if ENV.NODE_TYPE == 'controlplane' %}
     key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/ca_key
     {% endif %}
   proxy:
@@ -123,7 +123,7 @@ cluster:
         disabled: true
       service:
         disabled: false
-  {% if machinetype == 'controlplane' %}
+  {% if ENV.NODE_TYPE == 'controlplane' %}
   aggregatorCA:
     crt: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/aggregator_ca_crt
     key: op://{{ ENV.ONEPASSWORD_VAULT }}/{{ ENV.CLUSTER_NAME }}-talos-secrets/cluster/aggregator_ca_key
@@ -183,8 +183,3 @@ cluster:
     advertisedSubnets:
       - 192.168.45.0/24
   {% endif %}
----
-apiVersion: v1alpha1
-kind: WatchdogTimerConfig
-device: /dev/watchdog0
-timeout: 5m
