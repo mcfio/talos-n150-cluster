@@ -33,17 +33,6 @@ machine:
       validSubnets:
         - 192.168.45.0/24
     disableManifestsDirectory: true
-  install:
-    extraKernelArgs:
-      - -init_on_alloc
-      - -init_on_free
-      - -selinux
-      - apparmor=0
-      - init_on_alloc=0
-      - init_on_free=0
-      - mitigations=off
-      - security=none
-      - talos.auditd.disabled=1
   files:
     - path: /etc/cri/conf.d/20-customization.part
       op: create
