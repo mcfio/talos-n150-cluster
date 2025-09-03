@@ -8,7 +8,6 @@ shopt: [globstar]
 includes:
   bootstrap: .taskfiles/bootstrap
   op: .taskfiles/1password
-  talos: .taskfiles/talos
   k8s: .taskfiles/k8s
   es: .taskfiles/externalsecret
   flux: .taskfiles/flux
