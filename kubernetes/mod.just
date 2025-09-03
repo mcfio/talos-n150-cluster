@@ -44,7 +44,7 @@ sync-ks:
 [doc('Sync OCIRepositories')]
 sync-oci:
     kubectl get ocirepositories.source.toolkit.fluxcd.io --no-headers --all-namespaces | while read -r namespace resource _; do \
-        kubectl --namespace "$namespace" annotate --field-manager flux-client-side-apply
+        kubectl --namespace "$namespace" annotate --field-manager flux-client-side-apply \
           --overwrite ocirepositories.source.toolkit.fluxcd.io "$resource" {{ requested }}; \
     done
 
