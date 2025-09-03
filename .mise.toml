@@ -1,9 +1,4 @@
 [env]
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
-KUBERNETES_DIR = "{{config_root}}/kubernetes"
 TALOSCONFIG = "{{config_root}}/talosconfig"
 KUBECONFIG = "{{config_root}}/kubeconfig"
-_.file = [
-  "{{config_root}}/onepassword.env",
-  "{{config_root}}/kubernetes/apps/system-upgrade/plans/versions.env",
-]
