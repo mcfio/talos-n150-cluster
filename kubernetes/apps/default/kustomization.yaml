@@ -17,6 +17,7 @@ resources:
 - ./tautulli/app.yaml
 - ./recyclarr/app.yaml
 - ./overseerr/app.yaml
+- ./jellyseerr/app.yaml
 - ./mosquitto/app.yaml
 - ./home-assistant/app.yaml
 - ./matter-server/app.yaml
