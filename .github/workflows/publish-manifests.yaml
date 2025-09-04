@@ -6,15 +6,10 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+    - main
     paths:
-      - .github/workflows/publish-manifests.yaml
-      - kubernetes/**
-
-permissions:
-  packages: write
-  id-token: write
-  attestations: write
+    - .github/workflows/publish-manifests.yaml
+    - kubernetes/**
 
 env:
   REPOSITORY: ghcr.io/${{ github.repository_owner }}/kubernetes-manifests/${{ github.event.repository.name }}
@@ -23,51 +18,56 @@ jobs:
   publish-manifests:
     name: Publish Manifest Artifact
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+    - name: Checkout
+      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
 
-      - name: Install Cosign
-        uses: sigstore/cosign-installer@d58896d6a1865668819e1d91763c7751a165e159 # v3.9.2
+    - name: Install Cosign
+      uses: sigstore/cosign-installer@d58896d6a1865668819e1d91763c7751a165e159 # v3.9.2
 
-      - name: Install Crane
-        uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
+    - name: Install Crane
+      uses: imjasonh/setup-crane@31b88efe9de28ae0ffa220711af4b60be9435f6e # v0.4
 
-      - name: Setup Flux
-        uses: fluxcd/flux2/action@6bf37f6a560fd84982d67f853162e4b3c2235edb # v2.6.4
+    - name: Setup Flux
+      uses: fluxcd/flux2/action@6bf37f6a560fd84982d67f853162e4b3c2235edb # v2.6.4
 
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Manifest OCI Artifact
-        id: create
-        run: |
-          flux push artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) \
-            --path="./kubernetes" \
-            --source="${{ github.repositoryUrl }}" \
-            --revision="${{ github.ref_name }}@sha1:${{ github.sha }}"
+    - name: Create Manifest OCI Artifact
+      id: create
+      run: |
+        flux push artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) \
+          --path="./kubernetes" \
+          --source="${{ github.repositoryUrl }}" \
+          --revision="${{ github.ref_name }}@sha1:${{ github.sha }}"
 
-      - name: Get OCI Artifact Digest
-        id: digest
-        run: |
-          digest=$(crane digest $REPOSITORY:$(git rev-parse --short ${{ github.sha }}))
-          echo "DIGEST_SHA=$digest" >> $GITHUB_OUTPUT
+    - name: Get OCI Artifact Digest
+      id: digest
+      run: |
+        digest=$(crane digest $REPOSITORY:$(git rev-parse --short ${{ github.sha }}))
+        echo "DIGEST_SHA=$digest" >> $GITHUB_OUTPUT
 
-      - name: Generate GitHub Attestation
-        uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
-        with:
-          subject-name: ${{ env.REPOSITORY }}
-          subject-digest: ${{ steps.digest.outputs.DIGEST_SHA }}
-          push-to-registry: true
+    - name: Generate GitHub Attestation
+      uses: actions/attest-build-provenance@977bb373ede98d70efdf65b84cb5f73e068dcc2a # v3
+      with:
+        subject-name: ${{ env.REPOSITORY }}
+        subject-digest: ${{ steps.digest.outputs.DIGEST_SHA }}
+        push-to-registry: true
 
-      - name: Generate Cosign Signature
-        run: |
-          cosign sign --yes "${{ env.REPOSITORY }}@${{ steps.digest.outputs.DIGEST_SHA }}"
+    - name: Generate Cosign Signature
+      run: |
+        cosign sign --yes "${{ env.REPOSITORY }}@${{ steps.digest.outputs.DIGEST_SHA }}"
 
-      - name: Add :main Tag to OCI Artifact
-        run: |
-          flux tag artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) --tag main
+    - name: Add :main Tag to OCI Artifact
+      run: |-
+        flux tag artifact oci://$REPOSITORY:$(git rev-parse --short ${{ github.sha }}) --tag main
