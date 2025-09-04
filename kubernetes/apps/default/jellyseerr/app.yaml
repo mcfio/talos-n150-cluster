@@ -24,9 +24,9 @@ spec:
     namespace: volsync-system
   components:
   - ../../../../components/volsync
-  # - ../../../../components/gatus/external
+  - ../../../../components/gatus/external
   postBuild:
     substitute:
       app: *appname
-      # gatus_domain: requests.mcf.io
-      # gatus_path: /api/v1/status
+      gatus_domain: requests.mcf.io
+      gatus_path: /api/v1/status

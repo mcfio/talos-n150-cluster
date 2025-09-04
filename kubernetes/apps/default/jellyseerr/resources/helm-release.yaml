@@ -68,10 +68,9 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
-        # - requests.mcf.io
+        - requests.mcf.io
         parentRefs:
-        - name: internal
+        - name: external
           namespace: ingress-system
           sectionName: https
     persistence:
