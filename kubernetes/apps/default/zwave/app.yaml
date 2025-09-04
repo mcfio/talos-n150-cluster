@@ -10,24 +10,24 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/default/zwave/resources
+  path: ./kubernetes/apps/default/zwave/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: false
   interval: 12h
   timeout: 5m
   dependsOn:
-    - name: mosquitto
-    - name: external-secrets
-      namespace: external-secrets
-    - name: volsync
-      namespace: volsync-system
+  - name: mosquitto
+  - name: external-secrets
+    namespace: external-secrets
+  - name: volsync
+    namespace: volsync-system
   components:
-    - ../../../../components/volsync
-    - ../../../../components/gatus/internal
+  - ../../../../components/volsync
+  - ../../../../components/gatus/internal
   postBuild:
     substitute:
       app: *appname

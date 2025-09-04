@@ -10,18 +10,18 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/default/scrypted/resources
+  path: ./kubernetes/apps/default/scrypted/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: false
   interval: 12h
   timeout: 5m
   components:
-    - ../../../../components/volsync
-    - ../../../../components/gatus/internal
+  - ../../../../components/volsync
+  - ../../../../components/gatus/internal
   postBuild:
     substitute:
       app: *appname
