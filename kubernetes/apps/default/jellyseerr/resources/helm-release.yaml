@@ -72,7 +72,6 @@ spec:
         parentRefs:
         - name: external
           namespace: ingress-system
-          sectionName: https
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
