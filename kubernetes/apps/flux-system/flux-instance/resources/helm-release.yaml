@@ -33,28 +33,16 @@ spec:
       - helm-controller
       - notification-controller
       sync:
-        kind: OCIRepository
-        name: cluster-manifests
-        url: oci://ghcr.io/mcfio/kubernetes-manifests/home-cluster
-        ref: main
-        path: flux/config
+        kind: GitRepository
+        url: https://github.com/mcfio/home-cluster
+        ref: refs/heads/main
+        path: kubernetes/flux/config
         interval: 6h
       commonMetadata:
         labels:
           app.kubernetes.io/name: flux
       kustomize:
         patches:
-        - # Add OCI verification
-          patch: |
-            - op: add
-              path: /spec/verify
-              value:
-                provider: cosign
-                matchOIDCIdentity:
-                  - issuer: ^https://token\.actions\.githubusercontent\.com$
-                    subject: ^https://github\.com/mcfio/home-cluster/\.github/workflows/publish-manifests\.yaml@refs/heads/main$
-          target:
-            kind: OCIRepository
         - # Increase the number of workers
           patch: |
             - op: add
