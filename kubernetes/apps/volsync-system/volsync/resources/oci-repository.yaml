@@ -9,6 +9,6 @@ spec:
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
-  url: oci://ghcr.io/home-operations/charts-mirror/volsync
+  url: oci://ghcr.io/home-operations/charts-mirror/volsync-perfectra1n
   ref:
-    tag: 0.13.0
+    tag: 0.16.9
