@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   components:
-  - ../../../../components/keda/nfs-scaler
+  - ../../../../components/nfs-scaler
   dependsOn:
   - name: volsync
     namespace: volsync-system
