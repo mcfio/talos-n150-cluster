@@ -30,6 +30,11 @@ spec:
             env:
               TZ: Canada/Eastern
               KOPIA_WEB_ENABLED: true
+            envFrom:
+            - secretRef:
+                name: "{{ .Release.Name }}-secret"
+            args:
+            - --without-password
             probes:
               liveness: &probes
                 enabled: true
