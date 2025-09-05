@@ -7,12 +7,12 @@ metadata:
 spec:
   type: github
   events:
-    - ping
-    - package
+  - ping
+  - push
   secretRef:
     name: github-webhook-token
   resources:
-    - apiVersion: source.toolkit.fluxcd.io/v1
-      kind: OCIRepository
-      name: cluster-manifests
-      namespace: flux-system
+  - apiVersion: source.toolkit.fluxcd.io/v1
+    kind: GitRepository
+    name: temp-cluster-sync
+    namespace: flux-system
