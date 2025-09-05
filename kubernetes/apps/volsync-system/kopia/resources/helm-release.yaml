@@ -66,8 +66,6 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups:
-        - 100 # nfs.cluster:users
     service:
       app:
         ports:
@@ -92,7 +90,7 @@ spec:
       repository:
         type: nfs
         server: nfs.internal
-        path: /volsync-kopia
+        path: /volsync
         globalMounts:
         - path: /repository
       tmpfs:
