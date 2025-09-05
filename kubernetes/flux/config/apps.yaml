@@ -6,11 +6,11 @@ metadata:
   name: cluster-apps
   namespace: flux-system
 spec:
-  path: ./apps
+  path: ./kubernetes/apps
   prune: false
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: false
   interval: 2h
