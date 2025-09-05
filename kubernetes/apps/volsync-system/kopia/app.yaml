@@ -29,3 +29,6 @@ spec:
   wait: false
   interval: 12h
   timeout: 5m
+  postBuild:
+    substitute:
+      app: *appname
