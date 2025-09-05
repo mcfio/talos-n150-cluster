@@ -15,11 +15,11 @@ spec:
     kind: HelmRelease
     name: *appname
     namespace: *namespace
-  path: ./apps/system-upgrade/controller
+  path: ./kubernetes/apps/system-upgrade/controller
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   interval: 12h
   retryInterval: 2m
