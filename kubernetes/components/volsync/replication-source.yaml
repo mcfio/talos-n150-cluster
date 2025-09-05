@@ -7,23 +7,23 @@ metadata:
 spec:
   sourcePVC: ${volume_name:=${app}}
   trigger:
-    schedule: "0 * * * *"
-  restic:
-    copyMethod: ${volume_copy_method:=Snapshot}
+    schedule: 0 * * * *
+  kopia:
     repository: ${app}-backup-local
-    volumeSnapshotClassName: ${volume_snapshotclass:=csi-ceph-blockpool}
-    cacheStorageClassName: ${volume_cache_snapshotclass:=ceph-replicated}
+    copyMethod: Snapshot
+    compression: zstd-fastest
+    accessModes:
+    - ${volume_accessmodes:=ReadWriteOnce}
     storageClassName: ${volume_storageclass:=ceph-replicated}
     cacheAccessModes:
-      - ${volume_cache_accessmodes:=ReadWriteOnce}
+    - ${volume_cache_accessmodes:=ReadWriteOnce}
+    cacheStorageClassName: ${volume_cache_snapshotclass:=ceph-replicated}
     cacheCapacity: ${volume_capacity:=1Gi}
-    accessModes:
-      - ${volume_accessmodes:=ReadWriteOnce}
+    volumeSnapshotClassName: ${volume_snapshotclass:=csi-ceph-blockpool}
     moverSecurityContext:
       runAsUser: ${volume_uid:=1000}
       runAsGroup: ${volume_gid:=1000}
       fsGroup: ${volume_gid:=1000}
-    pruneIntervalDays: 7
     retain:
       hourly: 24
       daily: 7

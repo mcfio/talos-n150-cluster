@@ -1,0 +1,102 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: sonarr-backup-kopia
+  namespace: default
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: sonarr-backup-kopia
+    template:
+      data:
+        KOPIA_FS_PATH: /repository/kopia
+        KOPIA_PASSWORD: "{{ .KOPIA_PASSWORD }}"
+        KOPIA_REPOSITORY: filesystem:///repository/kopia
+  dataFrom:
+  - extract:
+      key: volsync-template
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: sonarr-kopia
+  namespace: default
+spec:
+  sourcePVC: sonarr
+  trigger:
+    schedule: 0 * * * *
+  kopia:
+    accessModes:
+    - ReadWriteOnce
+    cacheAccessModes:
+    - ReadWriteOnce
+    cacheCapacity: 5Gi
+    cacheStorageClassName: ceph-replicated
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    repository: sonarr-backup-kopia
+    retain:
+      hourly: 24
+      daily: 7
+    storageClassName: ceph-replicated
+    volumeSnapshotClassName: csi-ceph-blockpool
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/external-secrets.io/externalsecret_v1.json
+apiVersion: external-secrets.io/v1
+kind: ExternalSecret
+metadata:
+  name: plex-backup-kopia
+  namespace: default
+spec:
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: onepassword-connect
+  target:
+    name: plex-backup-kopia
+    template:
+      data:
+        KOPIA_FS_PATH: /repository/kopia
+        KOPIA_PASSWORD: "{{ .KOPIA_PASSWORD }}"
+        KOPIA_REPOSITORY: filesystem:///repository/kopia
+  dataFrom:
+  - extract:
+      key: volsync-template
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/volsync.backube/replicationsource_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationSource
+metadata:
+  name: plex-kopia
+  namespace: default
+spec:
+  sourcePVC: plex
+  trigger:
+    schedule: 0 * * * *
+  kopia:
+    accessModes:
+    - ReadWriteOnce
+    cacheAccessModes:
+    - ReadWriteOnce
+    cacheCapacity: 20Gi
+    cacheStorageClassName: ceph-replicated
+    compression: zstd-fastest
+    copyMethod: Snapshot
+    moverSecurityContext:
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+    repository: plex-backup-kopia
+    retain:
+      hourly: 24
+      daily: 7
+    storageClassName: ceph-replicated
+    volumeSnapshotClassName: csi-ceph-blockpool
