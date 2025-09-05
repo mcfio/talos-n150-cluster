@@ -11,20 +11,20 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: *appname
-      namespace: *namespace
+  - apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    name: *appname
+    namespace: *namespace
   healthCheckExprs:
-    - apiVersion: external-secrets.io/v1
-      kind: ClusterSecretStore
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  path: ./apps/external-secrets/external-secrets/resources
+  - apiVersion: external-secrets.io/v1
+    kind: ClusterSecretStore
+    failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+    current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+  path: ./kubernetes/apps/external-secrets/external-secrets/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   interval: 12h
   retryInterval: 2m

@@ -11,26 +11,26 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: cert-manager
-    - name: external-secrets
-      namespace: external-secrets
+  - name: cert-manager
+  - name: external-secrets
+    namespace: external-secrets
   healthChecks:
-    - apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
-      name: letsencrypt-prod
-    - apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
-      name: letsencrypt-staging
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    name: letsencrypt-staging
   healthCheckExprs:
-    - apiVersion: cert-manager.io/v1
-      kind: ClusterIssuer
-      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
-      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
-  path: ./apps/cert-manager/issuers
+  - apiVersion: cert-manager.io/v1
+    kind: ClusterIssuer
+    failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+    current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
+  path: ./kubernetes/apps/cert-manager/issuers
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   interval: 12h
   retryInterval: 2m

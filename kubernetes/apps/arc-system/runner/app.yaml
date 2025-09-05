@@ -11,17 +11,17 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: actions-runner-controller
-      namespace: *namespace
-    - name: openebs
-      namespace: openebs-system
-    - name: external-secrets
-      namespace: external-secrets
-  path: ./apps/arc-system/runner/resources
+  - name: actions-runner-controller
+    namespace: *namespace
+  - name: openebs
+    namespace: openebs-system
+  - name: external-secrets
+    namespace: external-secrets
+  path: ./kubernetes/apps/arc-system/runner/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: false
   interval: 12h

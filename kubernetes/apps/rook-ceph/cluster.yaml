@@ -11,32 +11,32 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: rook-ceph-operator
-      namespace: *namespace
-    - name: external-secrets
-      namespace: external-secrets
-    - name: silence-operator
-      namespace: monitoring
-  path: ./apps/rook-ceph/cluster
+  - name: rook-ceph-operator
+    namespace: *namespace
+  - name: external-secrets
+    namespace: external-secrets
+  - name: silence-operator
+    namespace: monitoring
+  path: ./kubernetes/apps/rook-ceph/cluster
   prune: false # Do not prune the CSI
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: rook-ceph-cluster
-      namespace: *namespace
-    - apiVersion: ceph.rook.io/v1
-      kind: CephCluster
-      name: rook-ceph
-      namespace: *namespace
+  - apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    name: rook-ceph-cluster
+    namespace: *namespace
+  - apiVersion: ceph.rook.io/v1
+    kind: CephCluster
+    name: rook-ceph
+    namespace: *namespace
   healthCheckExprs:
-    - apiVersion: ceph.rook.io/v1
-      kind: CephCluster
-      failed: status.ceph.health == 'HEALTH_ERR'
-      current: status.ceph.health in ['HEALTH_OK', 'HEALTH_WARN']
+  - apiVersion: ceph.rook.io/v1
+    kind: CephCluster
+    failed: status.ceph.health == 'HEALTH_ERR'
+    current: status.ceph.health in ['HEALTH_OK', 'HEALTH_WARN']
   wait: true
   interval: 12h
   retryInterval: 2m

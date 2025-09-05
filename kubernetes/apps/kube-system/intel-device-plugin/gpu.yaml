@@ -11,13 +11,13 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: node-feature-discovery
-    - name: intel-device-plugin
-  path: ./apps/kube-system/intel-device-plugin/gpu
+  - name: node-feature-discovery
+  - name: intel-device-plugin
+  path: ./kubernetes/apps/kube-system/intel-device-plugin/gpu
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: true
   interval: 12h

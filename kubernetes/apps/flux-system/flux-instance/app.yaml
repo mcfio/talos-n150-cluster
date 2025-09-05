@@ -11,13 +11,13 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: flux-operator
-      namespace: *namespace
-  path: ./apps/flux-system/flux-instance/resources
+  - name: flux-operator
+    namespace: *namespace
+  path: ./kubernetes/apps/flux-system/flux-instance/resources
   prune: false # do not remove
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   interval: 12h
   retryInterval: 2m

@@ -11,15 +11,15 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: cert-manager-issuers
-      namespace: cert-manager
-    - name: cilium-config
-      namespace: kube-system
-  path: ./apps/ingress-system/gateway/resources
+  - name: cert-manager-issuers
+    namespace: cert-manager
+  - name: cilium-config
+    namespace: kube-system
+  path: ./kubernetes/apps/ingress-system/gateway/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: false
   interval: 12h

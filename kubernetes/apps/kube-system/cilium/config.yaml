@@ -11,12 +11,12 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: cilium
-  path: ./apps/kube-system/cilium/config
+  - name: cilium
+  path: ./kubernetes/apps/kube-system/cilium/config
   prune: false # do not remove CNI configuration
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: true
   interval: 12h

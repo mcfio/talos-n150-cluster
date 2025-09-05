@@ -11,12 +11,12 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   interval: 12h
-  path: ./apps/monitoring/silence-operator/resources
+  path: ./kubernetes/apps/monitoring/silence-operator/resources
   prune: true
   retryInterval: 2m
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   timeout: 5m
   wait: false

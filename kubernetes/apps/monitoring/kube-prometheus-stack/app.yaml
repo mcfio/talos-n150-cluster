@@ -11,15 +11,15 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: external-secrets
-      namespace: external-secrets
-    - name: rook-ceph-cluster
-      namespace: rook-ceph
-  path: ./apps/monitoring/kube-prometheus-stack/resources
+  - name: external-secrets
+    namespace: external-secrets
+  - name: rook-ceph-cluster
+    namespace: rook-ceph
+  path: ./kubernetes/apps/monitoring/kube-prometheus-stack/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: false
   interval: 12h

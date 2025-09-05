@@ -11,12 +11,12 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: gateway-api-crds
-  path: ./apps/kube-system/cilium/resources
+  - name: gateway-api-crds
+  path: ./kubernetes/apps/kube-system/cilium/resources
   prune: false # do not remove CNI
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: true
   interval: 12h

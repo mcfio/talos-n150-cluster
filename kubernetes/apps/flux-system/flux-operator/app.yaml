@@ -11,15 +11,15 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: *appname
-      namespace: *namespace
-  path: ./apps/flux-system/flux-operator/resources
+  - apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    name: *appname
+    namespace: *namespace
+  path: ./kubernetes/apps/flux-system/flux-operator/resources
   prune: false # do not remove
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   interval: 12h
   retryInterval: 2m

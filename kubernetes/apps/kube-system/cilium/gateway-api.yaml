@@ -10,11 +10,11 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/kube-system/cilium/gateway-api
+  path: ./kubernetes/apps/kube-system/cilium/gateway-api
   prune: false # do not remove CNI dependency
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: true
   interval: 12h

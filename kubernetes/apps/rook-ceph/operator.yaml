@@ -10,17 +10,17 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  path: ./apps/rook-ceph/operator
+  path: ./kubernetes/apps/rook-ceph/operator
   prune: false # Do not prune the CSI
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: rook-ceph-operator
-      namespace: *namespace
+  - apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    name: rook-ceph-operator
+    namespace: *namespace
   wait: true
   interval: 12h
   retryInterval: 2m

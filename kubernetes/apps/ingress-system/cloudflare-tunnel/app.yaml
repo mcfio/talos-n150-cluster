@@ -11,14 +11,14 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: cluster-gateway
-    - name: external-secrets
-      namespace: external-secrets
-  path: ./apps/ingress-system/cloudflare-tunnel/resources
+  - name: cluster-gateway
+  - name: external-secrets
+    namespace: external-secrets
+  path: ./kubernetes/apps/ingress-system/cloudflare-tunnel/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   wait: false
   interval: 12h
@@ -26,5 +26,5 @@ spec:
   timeout: 5m
   postBuild:
     substituteFrom:
-      - kind: Secret
-        name: cloudflare-tunnel-id-secret
+    - kind: Secret
+      name: cloudflare-tunnel-id-secret
