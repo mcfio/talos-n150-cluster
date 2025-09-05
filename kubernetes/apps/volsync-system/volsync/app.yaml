@@ -11,24 +11,24 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   dependsOn:
-    - name: snapshot-controller
-      namespace: kube-system
+  - name: snapshot-controller
+    namespace: kube-system
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2
-      kind: HelmRelease
-      name: *appname
-      namespace: *namespace
-  path: ./apps/volsync-system/volsync/resources
+  - apiVersion: helm.toolkit.fluxcd.io/v2
+    kind: HelmRelease
+    name: *appname
+    namespace: *namespace
+  path: ./kubernetes/apps/volsync-system/volsync/resources
   prune: true
   sourceRef:
-    kind: OCIRepository
-    name: cluster-manifests
+    kind: GitRepository
+    name: temp-cluster-sync
     namespace: flux-system
   interval: 12h
   retryInterval: 2m
   timeout: 10m
   components:
-    - ../../../../components/nfs-scaler
+  - ../../../../components/nfs-scaler
   postBuild:
     substitute:
       app: *appname
