@@ -16,7 +16,7 @@ spec:
   prune: false # do not remove CNI configuration
   sourceRef:
     kind: GitRepository
-    name: temp-cluster-sync
+    name: flux-system
     namespace: flux-system
   wait: true
   interval: 12h

@@ -14,7 +14,7 @@ spec:
   prune: false # Do not prune the CSI
   sourceRef:
     kind: GitRepository
-    name: temp-cluster-sync
+    name: flux-system
     namespace: flux-system
   healthChecks:
   - apiVersion: helm.toolkit.fluxcd.io/v2

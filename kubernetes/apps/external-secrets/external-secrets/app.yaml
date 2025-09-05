@@ -24,7 +24,7 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: temp-cluster-sync
+    name: flux-system
     namespace: flux-system
   interval: 12h
   retryInterval: 2m

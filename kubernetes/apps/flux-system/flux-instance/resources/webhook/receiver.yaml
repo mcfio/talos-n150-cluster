@@ -14,5 +14,5 @@ spec:
   resources:
   - apiVersion: source.toolkit.fluxcd.io/v1
     kind: GitRepository
-    name: temp-cluster-sync
+    name: flux-system
     namespace: flux-system

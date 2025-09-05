@@ -21,6 +21,6 @@ spec:
   retryInterval: 2m
   sourceRef:
     kind: GitRepository
-    name: temp-cluster-sync
+    name: flux-system
     namespace: flux-system
   timeout: 5m
