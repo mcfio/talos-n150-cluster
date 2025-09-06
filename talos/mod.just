@@ -31,24 +31,24 @@ download-image version schematic:
 [group: 'node lifecycle']
 [doc('Upgrade Talos on a node')]
 upgrade node:
-    talosctl --nodes "{{ node }}" upgrade --image "$(just talos::machine-image)" --mode powercycle --timeout=10m
+    talosctl --nodes "{{ node }}" upgrade --image "$(just talos::machine-image {{ node }})" --reboot-mode powercycle --timeout=10m
 
 [group: 'node lifecycle']
 [doc('Reboot a Talos node')]
 reboot node:
-    gum confirm "Reboot node {{ node }}?" && \
+    gum confirm "Reboot node {{ node }}?" --default=No && \
         talosctl --nodes {{ node }} reboot --mode powercycle || exit 0
 
 [group: 'node lifecycle']
 [doc('Reset a Talos node')]
 reset node:
-    gum confirm "Reset node {{ node }}?" && \
+    gum confirm "Reset node {{ node }}?" --default=No && \
         talosctl --nodes "{{ node }}" reset --graceful=false || exit 0
 
 [group: 'node lifecycle']
 [doc('Shutdown a Talos node')]
 shutdown node:
-    gum confirm "Shutdown node {{ node }}?" && \
+    gum confirm "Shutdown node {{ node }}?" --default=No && \
         talosctl --nodes "{{ node }}" shutdown --force || exit 0
 
 [private]

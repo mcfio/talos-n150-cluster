@@ -4,7 +4,7 @@ machine:
   install:
     diskSelector:
       size: <= 128GB
-    image: factory.talos.dev/installer/69c0f32290e5f1abe266a219fbee33ff9f659fd49820452e47d626b86e292b4a:v1.11.0
+    image: factory.talos.dev/installer/59f9a2221b1fb1dee881c1556f31584632cd7e2b950b8db0d3b4f54df088cc30:v1.11.0
     extraKernelArgs:
     - -init_on_alloc
     - -init_on_free
@@ -16,7 +16,7 @@ machine:
     - security=none
     - talos.auditd.disabled=1
   network:
-    # hostname: talos-worker01
+    hostname: talos-worker01
     interfaces:
     - deviceSelector:
         driver: bcmgenet
