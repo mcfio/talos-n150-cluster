@@ -47,7 +47,7 @@ jobs:
         persist-credentials: false
 
     - name: Run flux-local test
-      uses: docker://ghcr.io/allenporter/flux-local:v7.8.0
+      uses: docker://ghcr.io/allenporter/flux-local:v7.9.0
       env:
         GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
       with:
@@ -96,7 +96,7 @@ jobs:
         persist-credentials: false
 
     - name: Run flux-local Diff
-      uses: docker://ghcr.io/allenporter/flux-local:v7.8.0
+      uses: docker://ghcr.io/allenporter/flux-local:v7.9.0
       env:
         GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
       with:
