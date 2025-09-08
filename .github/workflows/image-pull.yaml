@@ -84,13 +84,13 @@ jobs:
   compare-images:
     name: Pre-pull Images - Compare Images
     needs: extract-images
-    if: ${{ needs.extract-images.outputs.default != needs.extract-images.outputs.pull }}
+    if: ${{ needs.extract.outputs.default != needs.extract.outputs.pull }}
     runs-on: ubuntu-latest
     outputs:
       images: ${{ steps.compare-images.outputs.images }}
     steps:
-      - name: Diff Images
-        id: diff
+      - name: Compare Images
+        id: compare
         run: |-
           images=$(jq --compact-output --null-input \
               --argjson f1 '${{ needs.extract-images.outputs.default }}' \
@@ -107,7 +107,7 @@ jobs:
   pre-pull-image:
     name: Pre-pull Images - Pull New Images
     needs: compare-images
-    if: ${{ needs.compare-images.outputs.images != '[]' }}
+    if: ${{ needs.compare.outputs.images != '[]' }}
     runs-on: home-cluster-runner
     strategy:
       matrix:
