@@ -39,8 +39,8 @@ jobs:
           - pull
       fail-fast: false
     outputs:
-      default: ${{ steps.extract-images.outputs.default }}
-      pull: ${{ steps.extract-images.outputs.pull }}
+      default: ${{ steps.extract.outputs.default }}
+      pull: ${{ steps.extract.outputs.pull }}
     steps:
       - name: Generate Token
         id: app-token
@@ -87,14 +87,14 @@ jobs:
     if: ${{ needs.extract.outputs.default != needs.extract.outputs.pull }}
     runs-on: ubuntu-latest
     outputs:
-      images: ${{ steps.compare-images.outputs.images }}
+      images: ${{ steps.compare.outputs.images }}
     steps:
       - name: Compare Images
         id: compare
         run: |-
           images=$(jq --compact-output --null-input \
-              --argjson f1 '${{ needs.extract-images.outputs.default }}' \
-              --argjson f2 '${{ needs.extract-images.outputs.pull }}' \
+              --argjson f1 '${{ needs.extract.outputs.default }}' \
+              --argjson f2 '${{ needs.extract.outputs.pull }}' \
               '$f2 - $f1' \
           )
           echo "images=${images}" >> $GITHUB_OUTPUT
