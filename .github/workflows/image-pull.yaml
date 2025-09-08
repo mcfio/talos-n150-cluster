@@ -120,7 +120,7 @@ jobs:
         run: curl -fsSL https://talos.dev/install | sh
 
       - name: Pull Image
-        run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
+        run: talosctl --nodes $NODE_IP image pull "${MATRIX_IMAGE}"
 
   workflow-status:
     name: Flux Local Successful
