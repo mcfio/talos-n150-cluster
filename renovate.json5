@@ -2,7 +2,6 @@
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
     "github>mcfio/renovate-config",
-    "github>mcfio/home-cluster//.renovate/allowedVersions.json5",
     "github>mcfio/home-cluster//.renovate/autoMerge.json5",
     "github>mcfio/home-cluster//.renovate/groups.json5",
     "github>mcfio/home-cluster//.renovate/versioning.json5",
