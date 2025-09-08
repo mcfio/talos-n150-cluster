@@ -66,8 +66,8 @@ machine:
       enabled: true
       allowedRoles:
         - os:admin
-        - os:reader
       allowedKubernetesNamespaces:
+        - arc-system
         - kube-system
         - system-upgrade
     {% endif %}
