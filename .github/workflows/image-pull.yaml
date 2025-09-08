@@ -19,7 +19,7 @@ jobs:
     name: Pre-pull Images - Changed Files Filter
     runs-on: ubuntu-latest
     outputs:
-      changed-files: steps.changed-files.outputs.changed_files
+      changed-files: ${{ steps.changed-files.outputs.changed_files }}
     steps:
       - name: Get Changed Files
         id: changed-files
@@ -39,8 +39,8 @@ jobs:
           - pull
       fail-fast: false
     outputs:
-      default: steps.extract-images.outputs.default
-      pull: steps.extract-images.outputs.pull
+      default: ${{ steps.extract-images.outputs.default }}
+      pull: ${{ steps.extract-images.outputs.pull }}
     steps:
       - name: Generate Token
         id: app-token
@@ -74,8 +74,9 @@ jobs:
       - name: Extract Images
         id: extract
         run: |-
-          echo "${{ matrix.branches }}=$(jq --compact-output '.' images.json)" >> "${GITHUB_OUTPUT}"
-          echo '## Branch ${{ matrix.branch }} Images' >> $GITHUB_STEP_SUMMARY
+          echo "${{ matrix.branch }}=$(jq --compact-output '.' images.json)" >> $GITHUB_OUTPUT
+
+          echo '## Branch ${{ matrix.branch }} images' >> $GITHUB_STEP_SUMMARY
           echo '```json' >> $GITHUB_STEP_SUMMARY
           jq '.' images.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
@@ -86,7 +87,7 @@ jobs:
     if: ${{ needs.extract-images.outputs.default != needs.extract-images.outputs.pull }}
     runs-on: ubuntu-latest
     outputs:
-      images: steps.compare-images.outputs.images
+      images: ${{ steps.compare-images.outputs.images }}
     steps:
       - name: Diff Images
         id: diff
@@ -113,7 +114,7 @@ jobs:
       max-parallel: 4
       fail-fast: false
     env:
-      MATRIX_IMAGE: matrix.image
+      MATRIX_IMAGE: ${{ matrix.image }}
     steps:
       - name: Install talosctl
         run: curl -fsSL https://talos.dev/install | sh
