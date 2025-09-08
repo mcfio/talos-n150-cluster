@@ -10,6 +10,7 @@ resources:
 - ./kube-prometheus-stack/app.yaml
 - ./blackbox-exporter/app.yaml
 - ./silence-operator
+- ./smartctl-exporter/app.yaml
 - ./loki/app.yaml
 - ./grafana/app.yaml
 - ./keda/app.yaml
