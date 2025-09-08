@@ -6,7 +6,7 @@ machine:
       size: <= 128GB
       type: ssd
       # type: nvme
-    image: factory.talos.dev/installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.11.0
+    image: factory.talos.dev/installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.11.1
     extraKernelArgs:
     - -init_on_alloc
     - -init_on_free
