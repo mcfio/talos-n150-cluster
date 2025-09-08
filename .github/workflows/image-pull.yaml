@@ -34,7 +34,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        branches:
+        branch:
           - default
           - pull
       fail-fast: false
@@ -98,6 +98,7 @@ jobs:
               '$f2 - $f1' \
           )
           echo "images=${images}" >> $GITHUB_OUTPUT
+
           echo '## Images to Pre-pull' >> $GITHUB_STEP_SUMMARY
           echo '```json' >> $GITHUB_STEP_SUMMARY
           echo $images | jq >> $GITHUB_STEP_SUMMARY
