@@ -5,7 +5,7 @@ name: Pre-pull Images
 on:
   pull_request:
     branches:
-    - main
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -21,11 +21,11 @@ jobs:
     outputs:
       changed-files: steps.changed-files.outputs.changed_files
     steps:
-    - name: Get Changed Files
-      id: changed-files
-      uses: bjw-s-labs/action-changed-files@930cef8463348e168cab7235c47fe95a7a235f65 # v0.3.3
-      with:
-        patterns: kubernetes/**/*
+      - name: Get Changed Files
+        id: changed-files
+        uses: bjw-s-labs/action-changed-files@930cef8463348e168cab7235c47fe95a7a235f65 # v0.3.3
+        with:
+          patterns: kubernetes/**/*
 
   extract-images:
     name: Pre-Pull Images - Extract Images
@@ -35,48 +35,48 @@ jobs:
     strategy:
       matrix:
         branches:
-        - default
-        - pull
+          - default
+          - pull
       fail-fast: false
     outputs:
       default: steps.extract-images.outputs.default
       pull: steps.extract-images.outputs.pull
     steps:
-    - name: Generate Token
-      id: app-token
-      uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2
-      with:
-        app-id: secrets.BOT_APP_ID
-        private-key: secrets.BOT_APP_PRIVATE_KEY
+      - name: Generate Token
+        id: app-token
+        uses: actions/create-github-app-token@a8d616148505b5069dccd32f177bb87d7f39123b # v2
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
 
-    - name: Checkout
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
-      with:
-        ref: ${{ matrix.branch == 'default' && github.event.repository.default_branch || '' }}
-        token: steps.app-token.outputs.token
-        persist-credentials: false
+      - name: Checkout
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5
+        with:
+          ref: ${{ matrix.branch == 'default' && github.event.repository.default_branch || '' }}
+          token: steps.app-token.outputs.token
+          persist-credentials: false
 
-    - name: Gather Images
-      id: gather
-      uses: docker://ghcr.io/allenporter/flux-local:v7.9.0
-      with:
-        args: >-
-          get cluster
-          --all-namespaces
-          --path /github/workspace/kubernetes/flux/config
-          --enable-images
-          --only-images
-          --output json
-          --output-file images.json
+      - name: Gather Images
+        id: gather
+        uses: docker://ghcr.io/allenporter/flux-local:v7.9.0
+        with:
+          args: >-
+            get cluster
+            --all-namespaces
+            --path /github/workspace/kubernetes/flux/config
+            --enable-images
+            --only-images
+            --output json
+            --output-file images.json
 
-    - name: Extract Images
-      id: extract
-      run: |-
-        echo "${{ matrix.branches }}=$(jq --compact-output '.' images.json)" >> "${GITHUB_OUTPUT}"
-        echo '## Branch ${{ matrix.branch }} Images' >> $GITHUB_STEP_SUMMARY
-        echo '```json' >> $GITHUB_STEP_SUMMARY
-        jq '.' images.json >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
+      - name: Extract Images
+        id: extract
+        run: |-
+          echo "${{ matrix.branches }}=$(jq --compact-output '.' images.json)" >> "${GITHUB_OUTPUT}"
+          echo '## Branch ${{ matrix.branch }} Images' >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          jq '.' images.json >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
   compare-images:
     name: Pre-pull Images - Compare Images
@@ -86,19 +86,19 @@ jobs:
     outputs:
       images: steps.compare-images.outputs.images
     steps:
-    - name: Diff Images
-      id: diff
-      run: |-
-        images=$(jq --compact-output --null-input \
-            --argjson f1 '${{ needs.extract-images.outputs.default }}' \
-            --argjson f2 '${{ needs.extract-images.outputs.pull }}' \
-            '$f2 - $f1' \
-        )
-        echo "images=${images}" >> $GITHUB_OUTPUT
-        echo '## Images to Pre-pull' >> $GITHUB_STEP_SUMMARY
-        echo '```json' >> $GITHUB_STEP_SUMMARY
-        echo $images | jq >> $GITHUB_STEP_SUMMARY
-        echo '```' >> $GITHUB_STEP_SUMMARY
+      - name: Diff Images
+        id: diff
+        run: |-
+          images=$(jq --compact-output --null-input \
+              --argjson f1 '${{ needs.extract-images.outputs.default }}' \
+              --argjson f2 '${{ needs.extract-images.outputs.pull }}' \
+              '$f2 - $f1' \
+          )
+          echo "images=${images}" >> $GITHUB_OUTPUT
+          echo '## Images to Pre-pull' >> $GITHUB_STEP_SUMMARY
+          echo '```json' >> $GITHUB_STEP_SUMMARY
+          echo $images | jq >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
 
   pre-pull-image:
     name: Pre-pull Images - Pull New Images
@@ -113,11 +113,11 @@ jobs:
     env:
       MATRIX_IMAGE: matrix.image
     steps:
-    - name: Install talosctl
-      run: curl -fsSL https://talos.dev/install | sh
+      - name: Install talosctl
+        run: curl -fsSL https://talos.dev/install | sh
 
-    - name: Pull Image
-      run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
+      - name: Pull Image
+        run: talosctl --nodes $NODE image pull "${MATRIX_IMAGE}"
 
   workflow-status:
     name: Flux Local Successful
@@ -125,10 +125,10 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-    - name: Jobs failed?
-      if: contains(needs.*.result, 'failure')
-      run: exit 1
+      - name: Jobs failed?
+        if: contains(needs.*.result, 'failure')
+        run: exit 1
 
-    - name: Jobs skipped or success?
-      if: ${{ !(contains(needs.*.result, 'failure')) }}
-      run: echo "All jobs have passed or been skipped" && echo "${{ toJSON(needs.*.result) }}"
+      - name: Jobs skipped or success?
+        if: ${{ !(contains(needs.*.result, 'failure')) }}
+        run: echo "All jobs have passed or been skipped" && echo "${{ toJSON(needs.*.result) }}"
