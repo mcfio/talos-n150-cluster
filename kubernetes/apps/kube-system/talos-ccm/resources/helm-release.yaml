@@ -31,15 +31,3 @@ spec:
     enabledControllers:
     - cloud-node
     - node-csr-approval
-    transformations:
-    - name: zwave-dedicated-node
-      nodeSelector:
-      - matchExpressions:
-        - key: aeotec.feature.node.kubernetes.io/zwave
-          operator: Exists
-        - key: kubernetes.io/arch
-          operator: In
-          values:
-          - arm64
-      taints:
-      - dedicated-node: "true:PreferNoSchedule"
