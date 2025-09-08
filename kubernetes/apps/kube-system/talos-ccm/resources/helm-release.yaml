@@ -42,4 +42,4 @@ spec:
           values:
           - arm64
       taints:
-      - dedicated-node: "true:PreferNoSchedule"
+        dedicated-node: "true:PreferNoSchedule"
