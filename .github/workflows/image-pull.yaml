@@ -27,7 +27,7 @@ jobs:
         with:
           patterns: kubernetes/**/*
 
-  extract-images:
+  extract:
     name: Pre-Pull Images - Extract Images
     needs: filter
     if: ${{ needs.filter.outputs.changed-files != '[]' }}
@@ -57,7 +57,6 @@ jobs:
           persist-credentials: false
 
       - name: Gather Images
-        id: gather
         uses: docker://ghcr.io/allenporter/flux-local:v7.9.0
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
@@ -81,9 +80,9 @@ jobs:
           jq '.' images.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
 
-  compare-images:
+  compare:
     name: Pre-pull Images - Compare Images
-    needs: extract-images
+    needs: extract
     if: ${{ needs.extract.outputs.default != needs.extract.outputs.pull }}
     runs-on: ubuntu-latest
     outputs:
@@ -106,12 +105,12 @@ jobs:
 
   pre-pull-image:
     name: Pre-pull Images - Pull New Images
-    needs: compare-images
+    needs: compare
     if: ${{ needs.compare.outputs.images != '[]' }}
     runs-on: home-cluster-runner
     strategy:
       matrix:
-        image: ${{ fromJSON(needs.compare-images.outputs.images) }}
+        image: ${{ fromJSON(needs.compare.outputs.images) }}
       max-parallel: 4
       fail-fast: false
     env:
