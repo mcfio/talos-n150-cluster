@@ -24,24 +24,24 @@ spec:
     provider:
       name: cloudflare
     env:
-      - name: CF_API_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: *secret
-            key: CLOUDFLARE_API_TOKEN
+    - name: CF_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: *secret
+          key: CLOUDFLARE_API_TOKEN
     extraArgs:
-      - --cloudflare-dns-records-per-page=1000
-      - --cloudflare-proxied
-      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-      - --crd-source-kind=DNSEndpoint
-      - --gateway-name=external
+    - --cloudflare-dns-records-per-page=1000
+    - --cloudflare-proxied
+    - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+    - --crd-source-kind=DNSEndpoint
+    - --gateway-name=envoy-external
     sources:
-      - crd
-      - gateway-httproute
+    - crd
+    - gateway-httproute
     domainFilters:
-      - mcf.io
+    - mcf.io
     excludeDomains:
-      - milton.mcf.io
+    - milton.mcf.io
     policy: sync
     txtPrefix: k8s.
     txtOwnerId: home-cluster
