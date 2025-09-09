@@ -6,16 +6,16 @@ metadata:
   name: webhook-receiver
 spec:
   parentRefs:
-    - name: external
-      namespace: ingress-system
+  - name: envoy-external
+    namespace: ingress-system
   hostnames:
-    - flux-webhook.mcf.io
+  - flux-webhook.mcf.io
   rules:
-    - backendRefs:
-        - name: webhook-receiver
-          namespace: flux-system
-          port: 80
-      matches:
-        - path:
-            type: PathPrefix
-            value: /hook/
+  - backendRefs:
+    - name: webhook-receiver
+      namespace: flux-system
+      port: 80
+    matches:
+    - path:
+        type: PathPrefix
+        value: /hook/

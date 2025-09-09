@@ -3,8 +3,8 @@ originRequest:
   originServerName: ipv4.mcf.io
 
 ingress:
-  - hostname: mcf.io
-    service: http://cilium-gateway-external.ingress-system.svc.cluster.local
-  - hostname: "*.mcf.io"
-    service: http://cilium-gateway-external.ingress-system.svc.cluster.local
-  - service: http_status:404
+- hostname: mcf.io
+  service: &service https://envoy-external.ingress-system.svc.cluster.local
+- hostname: "*.mcf.io"
+  service: *service
+- service: http_status:404

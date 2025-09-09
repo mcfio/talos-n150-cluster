@@ -70,7 +70,7 @@ spec:
         hostnames:
         - requests.mcf.io
         parentRefs:
-        - name: external
+        - name: envoy-external
           namespace: ingress-system
     persistence:
       config:

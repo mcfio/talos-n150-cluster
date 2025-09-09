@@ -18,7 +18,7 @@ spec:
     remediation:
       retries: 3
   dependsOn:
-    - name: external-dns-cloudflare
+  - name: external-dns-cloudflare
   values:
     controllers:
       cloudflare-tunnel:
@@ -35,14 +35,14 @@ spec:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
               TUNNEL_ORIGIN_ENABLE_HTTP2: true
-              TUNNEL_TRANSPORT_PROTOCOL: quic
-              TUNNEL_POST_QUANTUM: true
+              TUNNEL_TRANSPORT_PROTOCOL: http2 # quic, http3 origins not yet working
+              # TUNNEL_POST_QUANTUM: true
             envFrom:
-              - secretRef:
-                  name: cloudflare-tunnel-secret
+            - secretRef:
+                name: cloudflare-tunnel-secret
             args:
-              - tunnel
-              - run
+            - tunnel
+            - run
             probes:
               liveness: &probes
                 enabled: true
@@ -61,7 +61,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                  - ALL
+                - ALL
             resources:
               requests:
                 cpu: 10m
@@ -82,12 +82,12 @@ spec:
     serviceMonitor:
       app:
         endpoints:
-          - port: http
+        - port: http
     persistence:
       config:
         type: configMap
         name: cloudflare-tunnel-configmap
         globalMounts:
-          - path: /etc/cloudflared/config.yaml
-            subPath: config.yaml
-            readOnly: true
+        - path: /etc/cloudflared/config.yaml
+          subPath: config.yaml
+          readOnly: true

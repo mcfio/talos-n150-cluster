@@ -82,7 +82,7 @@ spec:
         hostnames:
         - "{{ .Release.Name }}.mcf.io"
         parentRefs:
-        - name: external
+        - name: envoy-external
           namespace: ingress-system
         rules:
         - backendRefs:
@@ -91,7 +91,8 @@ spec:
           filters:
           - type: RequestHeaderModifier
             requestHeaderModifier:
-              remove: ["Range"]
+              remove:
+              - "Range"
           matches:
           - path:
               type: PathPrefix

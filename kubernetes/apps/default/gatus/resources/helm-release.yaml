@@ -93,16 +93,22 @@ spec:
         hostnames:
         - status.mcf.io
         parentRefs:
-        - name: external
+        - name: envoy-external
           namespace: ingress-system
     rbac:
       roles:
         gatus:
           type: ClusterRole
           rules:
-          - apiGroups: [""]
-            resources: ["configmaps", "secrets"]
-            verbs: ["get", "list", "watch"]
+          - apiGroups:
+            - ""
+            resources:
+            - "configmaps"
+            - "secrets"
+            verbs:
+            - "get"
+            - "list"
+            - "watch"
       bindings:
         gatus:
           type: ClusterRoleBinding
