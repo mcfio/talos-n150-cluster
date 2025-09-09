@@ -4,10 +4,11 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ingress-system
 components:
-  - ../../components/common
-  - ../../components/app-template
+- ../../components/common
+- ../../components/app-template
 resources:
-  - ./external-dns-cloudflare/app.yaml
-  - ./external-dns-unifi/app.yaml
-  - ./cloudflare-tunnel/app.yaml
-  - ./gateway/app.yaml
+- ./envoy-gateway/app.yaml
+- ./external-dns-cloudflare/app.yaml
+- ./external-dns-unifi/app.yaml
+- ./cloudflare-tunnel/app.yaml
+- ./gateway/app.yaml
