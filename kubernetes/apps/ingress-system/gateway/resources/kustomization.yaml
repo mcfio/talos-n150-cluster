@@ -9,3 +9,4 @@ resources:
 - ./http-redirect.yaml
 - ./envoy-proxy.yaml
 - ./gateway-class.yaml
+- ./envoy-external.yaml
