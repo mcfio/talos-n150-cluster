@@ -6,14 +6,17 @@ metadata:
   name: http-filter-redirect
 spec:
   parentRefs:
-    - name: internal
-      namespace: ingress-system
-      sectionName: http
+  - name: internal
+    namespace: ingress-system
+    sectionName: http
+  - name: envoy-internal
+    namespace: ingress-system
+    sectionName: http
   hostnames:
-    - "*.milton.mcf.io"
+  - "*.milton.mcf.io"
   rules:
-    - filters:
-        - type: RequestRedirect
-          requestRedirect:
-            scheme: https
-            statusCode: 301
+  - filters:
+    - type: RequestRedirect
+      requestRedirect:
+        scheme: https
+        statusCode: 301
