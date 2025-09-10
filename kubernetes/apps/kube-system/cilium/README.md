@@ -3,12 +3,10 @@
 ## UniFi UDM Pro
 
 ```sh
-! -*- bgp -*-
 !
-hostname $UDMP_HOSTNAME
-password zebra
 frr defaults traditional
-log file stdout
+hostname $UDMP_HOSTNAME
+log syslog informational
 !
 router bgp 64513
  bgp ebgp-requires-policy
@@ -31,9 +29,10 @@ router bgp 64513
   neighbor cilium route-map ALLOW-ALL out
   neighbor cilium next-hop-self
  exit-address-family
- !
+exit
+!
 route-map ALLOW-ALL permit 10
+exit
 !
-line vty
-!
+end
 ```
