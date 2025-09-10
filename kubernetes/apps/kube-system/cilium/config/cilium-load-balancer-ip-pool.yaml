@@ -1,11 +1,11 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cilium.io/ciliumloadbalancerippool_v2alpha1.json
-apiVersion: cilium.io/v2alpha1
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cilium.io/ciliumloadbalancerippool_v2.json
+apiVersion: cilium.io/v2
 kind: CiliumLoadBalancerIPPool
 metadata:
   name: cluster-ip-pool
 spec:
   blocks:
-    # 192.168.45.225|254
-    - cidr: 192.168.45.40/32
-    - cidr: 192.168.45.224/27
+  # 192.168.45.225|254
+  - cidr: 192.168.45.40/32
+  - cidr: 192.168.45.224/27

@@ -5,3 +5,6 @@ kind: Kustomization
 resources:
 - ./cilium-l2-announcement-policy.yaml
 - ./cilium-load-balancer-ip-pool.yaml
+- ./cilium-bgp-peer-config.yaml
+- ./cilium-bgp-cluster-config.yaml
+- ./cilium-bgp-advertisement.yaml

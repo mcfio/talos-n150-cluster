@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cilium.io/ciliumbgpclusterconfig_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumBGPClusterConfig
+metadata:
+  name: l3-bgp-cluster-config
+spec:
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/arch: amd64
+  bgpInstances:
+  - name: cilium
+    localASN: 64515
+    peers:
+    - name: unifi
+      peerASN: 64513
+      peerAddress: 192.168.45.1
+      peerConfigRef:
+        name: l3-bgp-peer-config
