@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cilium.io/ciliumbgppeerconfig_v2.json
-piVersion: cilium.io/v2
+apiVersion: cilium.io/v2
 kind: CiliumBGPPeerConfig
 metadata:
   name: l3-bgp-peer-config
