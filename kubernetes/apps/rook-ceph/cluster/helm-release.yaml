@@ -32,9 +32,8 @@ spec:
           path: /
           pathType: PathPrefix
         parentRefs:
-        - name: internal
+        - name: envoy-internal
           namespace: ingress-system
-          sectionName: https
     cephClusterSpec:
       cephConfig:
         global:
@@ -75,7 +74,7 @@ spec:
         - name: talos-qb6-cqq # 192.168.45.75
           deviceFilter: ^nvme.
         - name: talos-node03 # 192.168.45.77
-          deviceFilter: ^sd.
+          devicePathFilter: /dev/disk/by-partlabel/r-ceph-data
       resources:
         mgr:
           requests:

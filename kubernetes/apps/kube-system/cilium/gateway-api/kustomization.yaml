@@ -1,7 +1,0 @@
----
-# yaml-language-server: $schema=https://json.schemastore.org/kustomization
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - https://github.com/kubernetes-sigs/gateway-api//config/crd/?ref=v1.3.0
-  - https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/refs/tags/v1.3.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml

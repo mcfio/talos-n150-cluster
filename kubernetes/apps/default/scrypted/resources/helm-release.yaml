@@ -25,8 +25,11 @@ spec:
             image:
               repository: ghcr.io/koush/scrypted
               tag: v0.141.0-noble-lite
-            command: ["/bin/sh"]
-            args: ["-c", "ulimit -c 0; exec npm --prefix /server exec scrypted-serve"]
+            command:
+            - "/bin/sh"
+            args:
+            - "-c"
+            - "ulimit -c 0; exec npm --prefix /server exec scrypted-serve"
             env:
               TZ: Canada/Eastern
             probes:
@@ -64,9 +67,8 @@ spec:
         hostnames:
         - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: internal
+        - name: envoy-internal
           namespace: ingress-system
-          sectionName: https
     persistence:
       config:
         existingClaim: scrypted

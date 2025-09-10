@@ -27,8 +27,14 @@ spec:
               tag: v2.16.0
             env:
               TZ: Canada/Eastern
-            command: ["/usr/local/bin/python", "Tautulli.py"]
-            args: ["--config", "/config/config.ini", "--datadir", "/config"]
+            command:
+            - "/usr/local/bin/python"
+            - "Tautulli.py"
+            args:
+            - "--config"
+            - "/config/config.ini"
+            - "--datadir"
+            - "/config"
             probes:
               liveness: &probes
                 enabled: true
@@ -54,7 +60,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                  - ALL
+                - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -72,11 +78,10 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
+        - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: envoy-internal
+          namespace: ingress-system
     persistence:
       config:
         existingClaim: tautulli-config
@@ -85,7 +90,7 @@ spec:
         advancedMounts:
           tautulli:
             app:
-              - path: /config/logs
-                subPath: logs
-              - path: /tmp
-                subPath: tmp
+            - path: /config/logs
+              subPath: logs
+            - path: /tmp
+              subPath: tmp

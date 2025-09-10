@@ -52,18 +52,17 @@ spec:
       main:
         enabled: true
         hostnames:
-          - grafana.milton.mcf.io
+        - grafana.milton.mcf.io
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: envoy-internal
+          namespace: ingress-system
     plugins:
-      - grafana-clock-panel
-      - grafana-piechart-panel
-      - grafana-worldmap-panel
-      - natel-discrete-panel
-      - pr0ps-trackmap-panel
-      - vonage-status-panel
+    - grafana-clock-panel
+    - grafana-piechart-panel
+    - grafana-worldmap-panel
+    - natel-discrete-panel
+    - pr0ps-trackmap-panel
+    - vonage-status-panel
     rbac:
       pspEnabled: false
     sidecar:
@@ -100,30 +99,30 @@ spec:
       dashboardproviders.yaml:
         apiVersion: 1
         providers:
-          - name: default
-            orgId: 1
-            folder: ""
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/default
-          - name: flux
-            orgId: 1
-            folder: Flux
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/flux
-          - name: ceph
-            orgId: 1
-            folder: Ceph
-            type: file
-            disableDeletion: false
-            editable: true
-            options:
-              path: /var/lib/grafana/dashboards/ceph
+        - name: default
+          orgId: 1
+          folder: ""
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+        - name: flux
+          orgId: 1
+          folder: Flux
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/flux
+        - name: ceph
+          orgId: 1
+          folder: Ceph
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/ceph
     dashboards:
       default:
         cert-manager:
@@ -136,13 +135,13 @@ spec:
           gnetId: 17457
           revision: 6
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+          - {name: DS_PROMETHEUS, value: Prometheus}
         smartctl-exporter:
           # renovate: depName="SMARTctl Exporter Dashboard"
           gnetId: 22604
           revision: 2
           datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
+          - {name: DS_PROMETHEUS, value: Prometheus}
       ceph:
         ceph-cluster:
           # renovate: dashboardName="Ceph Cluster"

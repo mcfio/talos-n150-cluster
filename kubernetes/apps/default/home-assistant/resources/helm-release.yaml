@@ -46,7 +46,7 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: { drop: ["ALL"] }
+              capabilities: {drop: ["ALL"]}
     defaultPodOptions:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
@@ -69,29 +69,28 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
-          # - hass.milton.mcf.io
+        - "{{ .Release.Name }}.milton.mcf.io"
+        - hass.milton.mcf.io
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: envoy-internal
+          namespace: ingress-system
     persistence:
       config:
         existingClaim: home-assistant
         globalMounts:
-          - path: /config
+        - path: /config
       config-cache:
         existingClaim: home-assistant-cache
         globalMounts:
-          - path: /config/.venv
+        - path: /config/.venv
       tmpfs:
         type: emptyDir
         advancedMounts:
           home-assistant:
             app:
-              - path: /config/logs
-                subPath: logs
-              - path: /config/tts
-                subPath: tts
-              - path: /tmp
-                subPath: tmp
+            - path: /config/logs
+              subPath: logs
+            - path: /config/tts
+              subPath: tts
+            - path: /tmp
+              subPath: tmp

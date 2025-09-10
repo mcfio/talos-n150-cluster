@@ -18,9 +18,9 @@ spec:
     remediation:
       retries: 3
   valuesFrom:
-    - kind: ConfigMap
-      name: flux-kube-state-metrics-config
-      valuesKey: kube-state-metrics-config.yaml
+  - kind: ConfigMap
+    name: flux-kube-state-metrics-config
+    valuesKey: kube-state-metrics-config.yaml
   # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
   values:
     crds:
@@ -34,11 +34,10 @@ spec:
         main:
           enabled: true
           hostnames:
-            - alertmanager.milton.mcf.io
+          - alertmanager.milton.mcf.io
           parentRefs:
-            - name: internal
-              namespace: ingress-system
-              sectionName: https
+          - name: envoy-internal
+            namespace: ingress-system
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
@@ -50,7 +49,7 @@ spec:
             spec:
               storageClassName: ceph-replicated
               accessModes:
-                - ReadWriteOnce
+              - ReadWriteOnce
               resources:
                 requests:
                   storage: 1Gi
@@ -65,11 +64,10 @@ spec:
         main:
           enabled: true
           hostnames:
-            - prometheus.milton.mcf.io
+          - prometheus.milton.mcf.io
           parentRefs:
-            - name: internal
-              namespace: ingress-system
-              sectionName: https
+          - name: envoy-internal
+            namespace: ingress-system
       prometheusSpec:
         image:
           registry: docker.io
@@ -114,23 +112,25 @@ spec:
         monitor:
           enabled: true
           relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
+          - action: replace
+            regex: (.*)
+            replacement: $1
+            sourceLabels:
+            - "__meta_kubernetes_pod_node_name"
+            targetLabel: kubernetes_node
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
       metricLabelsAllowlist:
-        - pods=[*]
-        - deployments=[*]
-        - persistentvolumeclaims=[*]
+      - pods=[*]
+      - deployments=[*]
+      - persistentvolumeclaims=[*]
       prometheus:
         monitor:
           enabled: true
           relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
+          - action: replace
+            regex: (.*)
+            replacement: $1
+            sourceLabels:
+            - "__meta_kubernetes_pod_node_name"
+            targetLabel: kubernetes_node

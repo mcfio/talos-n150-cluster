@@ -43,8 +43,8 @@ spec:
                 spec:
                   httpGet:
                     httpHeaders:
-                      - name: Accept
-                        value: text/plain
+                    - name: Accept
+                      value: text/plain
                     path: /health
                     port: *port
                   initialDelaySeconds: 5
@@ -76,7 +76,7 @@ spec:
         # fsGroup: 568
         # fsGroupChangePolicy: OnRootMismatch
         supplementalGroups:
-          - 20
+        - 20
         seccompProfile:
           type: RuntimeDefault
     service:
@@ -90,20 +90,19 @@ spec:
     route:
       app:
         hostnames:
-          - "{{ .Release.Name }}.milton.mcf.io"
+        - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-          - name: internal
-            namespace: ingress-system
-            sectionName: https
+        - name: envoy-internal
+          namespace: ingress-system
     persistence:
       config:
         existingClaim: zwave
         globalMounts:
-          - path: /usr/src/app/store
+        - path: /usr/src/app/store
       usb:
         enabled: true
         type: hostPath
         hostPath: /dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_ee8903ec48e5ea11b68584d5994a5d01-if00-port0
         hostPathType: CharDevice
         globalMounts:
-          - path: /dev/zwave
+        - path: /dev/zwave
