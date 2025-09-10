@@ -35,6 +35,8 @@ spec:
       # mapDynamicSizeRatio: 0.08
     # TODO: Enable on next tuning cycle
     # bpfClockProbe: true
+    bgpControlPlane:
+      enabled: true
     cgroup:
       autoMount:
         enabled: false
