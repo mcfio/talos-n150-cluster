@@ -21,9 +21,6 @@ spec:
   # https://github.com/cilium/cilium/blob/main/install/kubernetes/cilium/values.yaml
   values:
     autoDirectNodeRoutes: true
-    bandwidthManager:
-      enabled: true
-      bbr: true
     bpf:
       datapathMode: netkit
       masquerade: true

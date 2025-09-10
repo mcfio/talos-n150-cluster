@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *appname
   path: ./kubernetes/apps/kube-system/cilium/resources
-  prune: false # do not remove CNI
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
