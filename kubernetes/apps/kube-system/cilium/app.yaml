@@ -10,8 +10,6 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  dependsOn:
-  - name: gateway-api-crds
   path: ./kubernetes/apps/kube-system/cilium/resources
   prune: false # do not remove CNI
   sourceRef:
