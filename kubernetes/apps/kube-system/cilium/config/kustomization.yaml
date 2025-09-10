@@ -8,3 +8,4 @@ resources:
 - ./cilium-bgp-peer-config.yaml
 - ./cilium-bgp-cluster-config.yaml
 - ./cilium-bgp-advertisement.yaml
+- ./kube-apiserver.yaml
