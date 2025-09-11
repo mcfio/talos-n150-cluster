@@ -28,13 +28,13 @@ spec:
           repository: ghcr.io/kashalls/external-dns-unifi-webhook
           tag: v0.6.2@sha256:cff737eb9d7d7d1e5aec49f510588e3172667dba3d4e7f544f0497b68c5f9c51
         env:
-          - name: UNIFI_HOST
-            value: https://unifi
-          - name: UNIFI_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: *secret
-                key: apikey
+        - name: UNIFI_HOST
+          value: https://unifi
+        - name: UNIFI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: *secret
+              key: apikey
         livenessProbe:
           httpGet:
             path: /healthz
@@ -49,10 +49,11 @@ spec:
           timeoutSeconds: 5
     policy: sync
     sources:
-      - gateway-httproute
-      - service
+    - gateway-httproute
+    - service
     domainFilters:
-      - milton.mcf.io
+    - milton.mcf.io
+    - internal
     txtPrefix: k8s.
     txtOwnerId: home-cluster
     resources:
