@@ -2,3 +2,7 @@
 MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
 TALOSCONFIG = "{{config_root}}/talosconfig"
 KUBECONFIG = "{{config_root}}/kubeconfig"
+
+[tools]
+"uv" = "latest"
+"pipx:flux-local" = "latest"
