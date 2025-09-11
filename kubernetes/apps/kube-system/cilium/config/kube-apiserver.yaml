@@ -4,7 +4,8 @@ kind: Service
 metadata:
   name: kube-apiserver
   annotations:
-    lbipam.cilium.io/ips: 192.168.45.40
+    external-dns.alpha.kubernetes.io/hostname: kubernetes.internal
+    lbipam.cilium.io/ips: 192.168.45.70
 spec:
   type: LoadBalancer
   selector:
