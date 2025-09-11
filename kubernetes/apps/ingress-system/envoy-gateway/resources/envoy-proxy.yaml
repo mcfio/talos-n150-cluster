@@ -8,7 +8,6 @@ spec:
   logging:
     level:
       default: info
-  mergeGateways: true
   provider:
     type: Kubernetes
     kubernetes:
