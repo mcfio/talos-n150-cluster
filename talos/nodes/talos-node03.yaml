@@ -14,8 +14,6 @@ machine:
       dhcp: true
       vlans:
       - {vlanId: 10, dhcp: false, mtu: 9000}
-      vip:
-        ip: 192.168.45.70
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
