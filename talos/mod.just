@@ -14,11 +14,11 @@ render-config node:
 
 [doc('Apply Talos config to a node')]
 apply-config node *args:
-    just talos::render-config "{{ node }}" | talosctl --nodes "{{ node }}" apply-config --file /dev/stdin {{ args }}
+    just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ node }}" --file /dev/stdin {{ args }}
 
 [doc('Upgrade Kubernetes version on the cluster')]
 upgrade-k8s version:
-    talosctl --nodes "{{ controller }}" upgrade-k8s --to {{ version }}
+    talosctl upgrade-k8s --nodes "{{ controller }}" --to {{ version }}
 
 [doc('Download Talos machine image')]
 download-image version schematic:
@@ -31,25 +31,25 @@ download-image version schematic:
 [group: 'node lifecycle']
 [doc('Upgrade Talos on a node')]
 upgrade node:
-    talosctl --nodes "{{ node }}" upgrade --image "$(just talos::machine-image {{ node }})" --reboot-mode powercycle --timeout=10m
+    talosctl upgrade --nodes "{{ node }}" --image "$(just talos::machine-image {{ node }})" --reboot-mode powercycle --timeout=10m
 
 [group: 'node lifecycle']
 [doc('Reboot a Talos node')]
 reboot node:
     gum confirm "Reboot node {{ node }}?" --default=No && \
-        talosctl --nodes {{ node }} reboot --mode powercycle || exit 0
+        talosctl reboot --nodes {{ node }} --mode powercycle || exit 0
 
 [group: 'node lifecycle']
 [doc('Reset a Talos node')]
 reset node:
     gum confirm "Reset node {{ node }}?" --default=No && \
-        talosctl --nodes "{{ node }}" reset --graceful=false || exit 0
+        talosctl reset --nodes "{{ node }}" --graceful=false || exit 0
 
 [group: 'node lifecycle']
 [doc('Shutdown a Talos node')]
 shutdown node:
     gum confirm "Shutdown node {{ node }}?" --default=No && \
-        talosctl --nodes "{{ node }}" shutdown --force || exit 0
+        talosctl shutdown --nodes "{{ node }}" --force || exit 0
 
 [private]
 template node:
