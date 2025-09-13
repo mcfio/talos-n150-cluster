@@ -25,7 +25,7 @@ provisioning:
 ---
 apiVersion: v1alpha1
 kind: RawVolumeConfig
-name: ceph-data
+name: csi-data
 provisioning:
   diskSelector:
     match: disk.transport == "nvme"

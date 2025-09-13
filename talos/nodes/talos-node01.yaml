@@ -3,22 +3,10 @@ machine:
   type: controlplane
   install:
     diskSelector:
-      size: <= 128GB
-      type: ssd
-      # type: nvme
+      type: nvme
     image: factory.talos.dev/installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.11.1
-    extraKernelArgs:
-    - -init_on_alloc
-    - -init_on_free
-    - -selinux
-    - apparmor=0
-    - init_on_alloc=0
-    - init_on_free=0
-    - mitigations=off
-    - security=none
-    - talos.auditd.disabled=1
   network:
-    # hostname: talos-node01
+    hostname: talos-node01
     interfaces:
     - deviceSelector:
         busPath: 0000:* # Ensure PCI deivces are selected
@@ -26,6 +14,23 @@ machine:
       dhcp: true
       vlans:
       - {vlanId: 10, dhcp: false, mtu: 9000}
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  maxSize: 250GiB
+---
+apiVersion: v1alpha1
+kind: RawVolumeConfig
+name: csi-data
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  minSize: 250GiB
+  grow: true
 ---
 apiVersion: v1alpha1
 kind: WatchdogTimerConfig
