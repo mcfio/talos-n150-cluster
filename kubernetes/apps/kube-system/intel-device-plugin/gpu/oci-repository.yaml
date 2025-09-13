@@ -11,4 +11,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/home-operations/charts-mirror/intel-device-plugins-gpu
   ref:
-    tag: 0.32.1
+    tag: 0.34.0
