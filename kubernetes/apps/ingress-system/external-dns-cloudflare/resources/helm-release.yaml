@@ -34,10 +34,9 @@ spec:
     - --cloudflare-proxied
     - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
     - --crd-source-kind=DNSEndpoint
-    - --gateway-name=envoy-external
     sources:
-    - crd
     - gateway-httproute
+    - crd
     domainFilters:
     - mcf.io
     excludeDomains:
