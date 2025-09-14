@@ -70,9 +70,8 @@ spec:
         hostnames:
         - requests.mcf.io
         parentRefs:
-        - name: envoy-external
+        - name: external
           namespace: ingress-system
-          sectionName: https
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"

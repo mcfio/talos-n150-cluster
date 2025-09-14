@@ -93,9 +93,8 @@ spec:
         hostnames:
         - status.mcf.io
         parentRefs:
-        - name: envoy-external
+        - name: external
           namespace: ingress-system
-          sectionName: https
     rbac:
       roles:
         gatus:

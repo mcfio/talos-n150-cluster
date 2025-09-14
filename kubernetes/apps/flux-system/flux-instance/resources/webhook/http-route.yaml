@@ -5,12 +5,11 @@ kind: HTTPRoute
 metadata:
   name: webhook-receiver
 spec:
-  parentRefs:
-  - name: envoy-external
-    namespace: ingress-system
-    sectionName: https
   hostnames:
   - flux-webhook.mcf.io
+  parentRefs:
+  - name: external
+    namespace: ingress-system
   rules:
   - backendRefs:
     - name: webhook-receiver
