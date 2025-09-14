@@ -8,6 +8,7 @@ spec:
   parentRefs:
   - name: envoy-external
     namespace: ingress-system
+    sectionName: https
   hostnames:
   - flux-webhook.mcf.io
   rules:

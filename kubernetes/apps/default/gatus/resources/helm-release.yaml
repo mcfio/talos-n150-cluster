@@ -95,6 +95,7 @@ spec:
         parentRefs:
         - name: envoy-external
           namespace: ingress-system
+          sectionName: https
     rbac:
       roles:
         gatus:
