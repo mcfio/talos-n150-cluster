@@ -4,7 +4,7 @@ machine:
   install:
     diskSelector:
       size: <= 128GB
-    image: factory.talos.dev/installer/314b18a3f89d844efb2df46e362ff669ce4e49a7d74835cd365c54846acb822e:v1.11.1
+    image: factory.talos.dev/installer/17100fec97758f0a6f47196297df7774b5e39d29c7b164b0d1ddbbd4c08773dc:v1.11.1
     extraKernelArgs:
     - -init_on_alloc
     - -init_on_free

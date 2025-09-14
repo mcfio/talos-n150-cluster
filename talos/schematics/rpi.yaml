@@ -3,12 +3,11 @@ overlay:
   image: siderolabs/sbc-raspberrypi
   name: rpi_generic
   options:
-    configTxtAppend: |-
-      dtoverlay=rpi-poe
-      dtparam=poe_fan_temp0=70000,poe_fan_temp0_hyst=1000
-      dtparam=poe_fan_temp1=75000,poe_fan_temp1_hyst=5000
-      dtparam=poe_fan_temp2=80000,poe_fan_temp2_hyst=5000
-      dtparam=poe_fan_temp3=82000,poe_fan_temp3_hyst=2000
+    configTxtAppend: |
+      dtparam=poe_fan_temp0=65000
+      dtparam=poe_fan_temp1=70000
+      dtparam=poe_fan_temp2=75000
+      dtparam=poe_fan_temp3=80000
 customization:
   systemExtensions:
     officialExtensions:
