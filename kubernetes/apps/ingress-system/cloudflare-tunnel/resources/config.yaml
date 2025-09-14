@@ -4,5 +4,7 @@ originRequest:
 
 ingress:
 - hostname: "*.mcf.io"
-  service: https://cilium-gateway-external.ingress-system.svc.cluster.local
+  service: http://cilium-gateway-external.ingress-system.svc.cluster.local
+- hostname: plex.mcf.io
+  service: http://plex.default.svc.cluster.local:32400
 - service: http_status:404
