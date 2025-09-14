@@ -32,7 +32,7 @@ spec:
           path: /
           pathType: PathPrefix
         parentRefs:
-        - name: envoy-internal
+        - name: internal
           namespace: ingress-system
     cephClusterSpec:
       cephConfig:

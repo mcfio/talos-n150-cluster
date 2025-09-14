@@ -9,9 +9,6 @@ spec:
   - name: internal
     namespace: ingress-system
     sectionName: http
-  - name: envoy-internal
-    namespace: ingress-system
-    sectionName: http
   rules:
   - filters:
     - type: RequestRedirect

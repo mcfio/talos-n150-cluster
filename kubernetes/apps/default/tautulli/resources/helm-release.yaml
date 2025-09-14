@@ -80,7 +80,7 @@ spec:
         hostnames:
         - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: envoy-internal
+        - name: internal
           namespace: ingress-system
     persistence:
       config:
