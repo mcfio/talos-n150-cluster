@@ -3,11 +3,11 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: envoy-internal
+  name: ingress-gateway
   annotations:
-    external-dns.alpha.kubernetes.io/target: &hostname ipv4-envoy.milton.mcf.io
+    external-dns.alpha.kubernetes.io/target: &hostname ipv4.milton.mcf.io
 spec:
-  gatewayClassName: envoy
+  gatewayClassName: cilium
   infrastructure:
     annotations:
       external-dns.alpha.kubernetes.io/hostname: *hostname
@@ -27,4 +27,4 @@ spec:
     tls:
       certificateRefs:
       - kind: Secret
-        name: milton-mcf-io-cert-tls
+        name: mcf-io-cert-tls
