@@ -25,7 +25,6 @@ spec:
       datapathMode: netkit
       masquerade: true
       preallocateMaps: true
-      tproxy: true
       # TODO: Enable on next tuning cycle
       # distributedLRU:
       #   enabled: true
@@ -66,7 +65,15 @@ spec:
       tableSize: 1021
       hashSeed: "P9jc887+zv7eNcUr"
     envoy:
-      enabled: false
+      enabled: true
+      prometheus:
+        serviceMonitor:
+          enabled: true
+      rollOutPods: true
+    gatewayAPI:
+      enabled: true
+      enableAlpn: true
+      xffNumTrustedHops: 1
     hubble:
       enabled: false
     operator:
