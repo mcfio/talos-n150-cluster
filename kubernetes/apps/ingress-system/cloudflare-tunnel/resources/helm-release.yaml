@@ -83,8 +83,8 @@ spec:
       app:
         endpoints:
         - port: http
-    config:
-      configMap:
+    configMap:
+      config:
         data:
           config.yaml: |
             originRequest:
