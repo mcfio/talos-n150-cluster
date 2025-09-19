@@ -3,12 +3,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./external-secret.yaml
-  - ./dns-endpoint.yaml
-  - ./helm-release.yaml
-configMapGenerator:
-  - name: cloudflare-tunnel-configmap
-    files:
-      - ./config.yaml
-generatorOptions:
-  disableNameSuffixHash: true
+- ./external-secret.yaml
+- ./dns-endpoint.yaml
+- ./helm-release.yaml
