@@ -83,7 +83,7 @@ spec:
       app:
         endpoints:
         - port: http
-    configMap:
+    configMaps:
       config:
         data:
           config.yaml: |
@@ -91,7 +91,7 @@ spec:
               originServerName: ipv4.mcf.io
             ingress:
             - hostname: "*.mcf.io"
-              service: http://cilium-gateway-external.ingress-system.svc.cluster.local
+              service: http://cilium-gateway-external.{{ .Release.Namespace }}.svc.cluster.local
             - service: http_status:404
     persistence:
       config:
