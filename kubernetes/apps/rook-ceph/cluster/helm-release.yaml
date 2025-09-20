@@ -63,45 +63,22 @@ spec:
         provider: host
         connections:
           requireMsgr2: true
+      placement:
+        all:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: NotIn
+                  values:
+                  - arm64
       storage:
-        useAllNodes: false
+        useAllNodes: true
         useAllDevices: false
+        devicePathFilter: /dev/disk/by-partlabel/r-csi-data
         config:
           osdsPerDevice: "1"
-        nodes:
-        - name: talos-node01 # 192.168.45.75
-          device:
-          - name: /dev/disk/by-partlabel/r-csi-data
-        - name: talos-mr7-d1s # 192.168.45.76
-          deviceFilter: ^nvme.
-        - name: talos-node03 # 192.168.45.77
-          device:
-          - name: /dev/disk/by-partlabel/r-csi-data
-      resources:
-        mgr:
-          requests:
-            cpu: 100m
-            memory: 512Mi
-          limits:
-            memory: 2Gi
-        mon:
-          requests:
-            cpu: 50m
-            memory: 512Mi
-          limits:
-            memory: 1Gi
-        osd:
-          requests:
-            cpu: 500m
-            memory: 2Gi
-          limits:
-            memory: 4Gi
-        mgr-sidecar:
-          requests:
-            cpu: 50m
-            memory: 128Mi
-          limits:
-            memory: 256Mi
     cephBlockPools:
     - name: replicated
       spec:
