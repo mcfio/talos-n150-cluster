@@ -4,7 +4,7 @@ machine:
   install:
     diskSelector:
       type: nvme
-    image: factory.talos.dev/installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.11.1
+    image: factory.talos.dev/installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.11.2
   network:
     hostname: talos-node02
     interfaces:
