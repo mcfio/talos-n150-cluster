@@ -15,10 +15,15 @@ metadata:
 spec:
   matchConstraints:
     resourceRules:
-    - apiGroups: ["batch"]
-      apiVersions: ["v1"]
-      operations: ["CREATE", "UPDATE"]
-      resources: ["jobs"]
+    - apiGroups:
+      - batch
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - jobs
   matchConditions:
   - name: has-volsync-job-name-prefix
     expression: >
