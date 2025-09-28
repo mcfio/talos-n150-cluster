@@ -9,4 +9,5 @@ components:
 resources:
 - ./volsync/app.yaml
 - ./kopia/app.yaml
+- ./kopia/maintenance.yaml
 - ./nfs-mover/app.yaml
