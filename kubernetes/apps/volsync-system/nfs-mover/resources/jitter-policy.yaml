@@ -12,7 +12,6 @@ apiVersion: admissionregistration.k8s.io/v1beta1
 kind: MutatingAdmissionPolicy
 metadata:
   name: volsync-mover-jitter
-  namespace: volsync-system
 spec:
   matchConstraints:
     resourceRules:
@@ -31,7 +30,7 @@ spec:
       object.metadata.name.startsWith("volsync-src-")
   - name: has-volsync-created-by-labels
     expression: >
-      object.metadata.labels["app.kubernetes.io/created-by"] == "volsync"
+      object.metadata.?labels["app.kubernetes.io/created-by"].orValue("") == "volsync"
   failurePolicy: Fail
   reinvocationPolicy: IfNeeded
   mutations:
