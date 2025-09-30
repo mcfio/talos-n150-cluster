@@ -7,12 +7,13 @@
       matchDatasources: ["docker"],
       matchPackageNames: [
         "/flux-operator/",
-        "/flux-instance/"
+        "/flux-instance/",
+        "/flux-operator-manifests/"
       ],
       group: {
         commitMessageTopic: "{{{groupName}}} group",
       },
-      minimumGroupSize: 2,
+      minimumGroupSize: 3,
     },
     {
       description: "Intel Device Plugins Group",
