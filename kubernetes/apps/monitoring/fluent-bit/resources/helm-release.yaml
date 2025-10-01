@@ -11,7 +11,7 @@ spec:
     name: fluent-bit
   values:
     config:
-      service: |-
+      service: |
         [SERVICE]
           daemon off
           flush {{ .Values.flush }}
@@ -23,7 +23,7 @@ spec:
           http_port {{ .Values.metricsPort }}
           health_check on
 
-      inputs: |-
+      inputs: |
         [INPUT]
           name tail
           alias kubernetes
@@ -33,7 +33,7 @@ spec:
           skip_empty_lines on
           skip_long_lines on
 
-      filters: |-
+      filters: |
         [FILTER]
           name kubernetes
           match kubernetes.*
@@ -70,7 +70,15 @@ spec:
           rename k_labels_app app
           rename k_labels_k8s-app app
 
-      outputs: |-
+      customParsers: |
+        [PARSER]
+          Name          containerd
+          Format        regex
+          Regex         ^(?<time>[^ ]+) (?<stream>stdout|stderr) (?<logtag>[^ ]*) (?<log>.*)$
+          Time_Key      time
+          Time_Format   %Y-%m-%dT%H:%M:%S.%L%z
+
+      outputs: |
         [OUTPUT]
           name loki
           match kubernetes.*
