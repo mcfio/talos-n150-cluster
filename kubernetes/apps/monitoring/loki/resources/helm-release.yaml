@@ -6,20 +6,9 @@ metadata:
   name: loki
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: loki
-  install:
-    crds: Skip
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    crds: Skip
-    remediation:
-      retries: 3
-  # https://github.com/grafana/loki/blob/main/production/helm/loki/values.yaml
   values:
     deploymentMode: SingleBinary
     loki:

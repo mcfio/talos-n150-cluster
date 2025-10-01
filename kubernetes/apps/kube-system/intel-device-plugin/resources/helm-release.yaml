@@ -6,19 +6,9 @@ metadata:
   name: intel-device-plugin-operator
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: intel-device-plugins-operator
-  install:
-    crds: CreateReplace
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    crds: CreateReplace
-    remediation:
-      retries: 3
   values:
     manager:
       device:

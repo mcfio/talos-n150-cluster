@@ -6,17 +6,9 @@ metadata:
   name: silence-operator
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: silence-operator
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     alertmanagerAddress: http://kube-prometheus-stack-alertmanager:9093
     image:
@@ -29,4 +21,5 @@ spec:
         - matchExpressions:
           - key: kubernetes.io/arch
             operator: In
-            values: ["amd64"]
+            values:
+            - "amd64"

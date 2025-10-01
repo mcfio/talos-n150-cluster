@@ -6,17 +6,9 @@ metadata:
   name: multus
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: app-template
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     controllers:
       multus:
@@ -32,7 +24,7 @@ spec:
               repository: ghcr.io/k8snetworkplumbingwg/multus-cni
               tag: v4.2.2@sha256:7591a27cd28eeafd6dfb197618b06dabd9446a7026164b9b21fee67adc925761
             args:
-              - --cleanup-config-on-exit
+            - --cleanup-config-on-exit
             resources:
               requests:
                 cpu: 10m
@@ -47,20 +39,34 @@ spec:
         multus:
           type: ClusterRole
           rules:
-            - apiGroups: ["k8s.cni.cncf.io"]
-              resources: ["*"]
-              verbs: ["*"]
-            - apiGroups: [""]
-              resources: ["pods", "pods/status"]
-              verbs: ["get", "update"]
-            - apiGroups: ["", "events.k8s.io"]
-              resources: ["events"]
-              verbs: ["create", "patch", "update"]
+          - apiGroups:
+            - "k8s.cni.cncf.io"
+            resources:
+            - "*"
+            verbs:
+            - "*"
+          - apiGroups:
+            - ""
+            resources:
+            - "pods"
+            - "pods/status"
+            verbs:
+            - "get"
+            - "update"
+          - apiGroups:
+            - ""
+            - "events.k8s.io"
+            resources:
+            - "events"
+            verbs:
+            - "create"
+            - "patch"
+            - "update"
       bindings:
         multus:
           type: ClusterRoleBinding
           subjects:
-            - identifier: multus
+          - identifier: multus
           roleRef:
             identifier: multus
     serviceAccount:
@@ -70,9 +76,9 @@ spec:
         type: hostPath
         hostPath: /etc/cni/net.d
         globalMounts:
-          - path: /host/etc/cni/net.d
+        - path: /host/etc/cni/net.d
       opt-cni-bin:
         type: hostPath
         hostPath: /opt/cni/bin
         globalMounts:
-          - path: /host/opt/cni/bin
+        - path: /host/opt/cni/bin

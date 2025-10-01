@@ -6,22 +6,13 @@ metadata:
   name: kube-prometheus-stack
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: kube-prometheus-stack
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   valuesFrom:
   - kind: ConfigMap
     name: flux-kube-state-metrics-config
     valuesKey: kube-state-metrics-config.yaml
-  # https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
   values:
     crds:
       enabled: true

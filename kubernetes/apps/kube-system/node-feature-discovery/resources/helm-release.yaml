@@ -6,7 +6,6 @@ metadata:
   name: node-feature-discovery
 spec:
   interval: 12h
-  maxHistory: 3
   chart:
     spec:
       chart: node-feature-discovery
@@ -15,16 +14,6 @@ spec:
         kind: HelmRepository
         name: node-feature-discovery-charts
         namespace: kube-system
-  install:
-    crds: CreateReplace
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    crds: CreateReplace
-    remediation:
-      strategy: rollback
-      retries: 3
   values:
     master:
       resources:
@@ -37,24 +26,24 @@ spec:
       config:
         core:
           sources:
-            - custom
-            - pci
-            - system
-            - usb
+          - custom
+          - pci
+          - system
+          - usb
         sources:
           usb:
             deviceClassWhitelist:
-              - "02"
-              - "ff"
+            - "02"
+            - "ff"
             deviceLabelFields:
-              - "class"
-              - "vendor"
-              - "device"
+            - "class"
+            - "vendor"
+            - "device"
       resources:
         requests:
           cpu: 10m
         limits:
           memory: 200M
       tolerations:
-        - key: node-role.kubernetes.io/control-plane
-          effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule

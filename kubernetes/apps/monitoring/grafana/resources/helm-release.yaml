@@ -6,17 +6,9 @@ metadata:
   name: grafana
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: grafana
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     annotations:
       configmap.reloader.stakater.com/reload: grafana

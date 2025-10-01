@@ -6,19 +6,9 @@ metadata:
   name: rook-ceph-operator
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: rook-ceph
-  timeout: 15m
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      strategy: rollback
-      retries: 3
   values:
     csi:
       cephFSKernelMountOptions: ms_mode=prefer-crc # may need in future

@@ -6,17 +6,9 @@ metadata:
   name: &appname smartctl-exporter
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: smartctl-exporter
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     fullnameOverride: *appname
     serviceMonitor:

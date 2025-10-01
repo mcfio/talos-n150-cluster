@@ -6,18 +6,9 @@ metadata:
   name: descheduler
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: descheduler
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  # https://github.com/kubernetes-sigs/descheduler/blob/master/charts/descheduler/values.yaml
   values:
     replicas: 2
     kind: Deployment

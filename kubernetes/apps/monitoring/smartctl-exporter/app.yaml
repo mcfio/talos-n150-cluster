@@ -10,7 +10,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  interval: 1h
+  interval: 12h
   path: ./kubernetes/apps/monitoring/smartctl-exporter/resources
   prune: true
   retryInterval: 2m

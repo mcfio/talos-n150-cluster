@@ -6,17 +6,9 @@ metadata:
   name: home-cluster-runner
 spec:
   interval: 12h
-  maxHistory: 3
   chartRef:
     kind: OCIRepository
     name: gha-runner-scale-set
-  install:
-    remediation:
-      retries: -1
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
   values:
     githubConfigUrl: https://github.com/mcfio/home-cluster
     githubConfigSecret: home-cluster-runner-secret
