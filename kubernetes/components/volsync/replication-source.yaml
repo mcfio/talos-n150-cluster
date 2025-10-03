@@ -18,12 +18,13 @@ spec:
     cacheAccessModes:
     - ${volume_cache_accessmodes:=ReadWriteOnce}
     cacheStorageClassName: ${volume_cache_snapshotclass:=ceph-replicated}
-    cacheCapacity: ${volume_capacity:=1Gi}
+    cacheCapacity: ${volume_capacity:=2Gi}
     volumeSnapshotClassName: ${volume_snapshotclass:=csi-ceph-blockpool}
     moverSecurityContext:
       runAsUser: ${volume_uid:=1000}
       runAsGroup: ${volume_gid:=1000}
       fsGroup: ${volume_gid:=1000}
+    parallelism: 2
     retain:
       hourly: 24
       daily: 7
