@@ -5,6 +5,8 @@ kind: Kustomization
 namespace: monitoring
 components:
 - ../../components/common
+replacements:
+- path: ../../replacements/target-namespace.yaml
 resources:
 - ./kube-prometheus-stack/app.yaml
 - ./blackbox-exporter/app.yaml

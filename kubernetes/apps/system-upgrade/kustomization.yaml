@@ -6,6 +6,8 @@ namespace: system-upgrade
 components:
 - ../../components/common
 - ../../components/app-template
+replacements:
+- path: ../../replacements/target-namespace.yaml
 resources:
 - ./controller.yaml
 - ./plans.yaml

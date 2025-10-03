@@ -6,6 +6,8 @@ namespace: ingress-system
 components:
 - ../../components/common
 - ../../components/app-template
+replacements:
+- path: ../../replacements/target-namespace.yaml
 resources:
 - ./external-dns-cloudflare/app.yaml
 - ./external-dns-unifi/app.yaml

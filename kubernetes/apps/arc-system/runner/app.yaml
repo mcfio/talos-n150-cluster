@@ -3,20 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname actions-runner-controller-runners
-  namespace: &namespace arc-system
+  name: actions-runner-controller-runners
 spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
   dependsOn:
   - name: actions-runner-controller
-    namespace: *namespace
   - name: openebs
     namespace: openebs-system
   - name: external-secrets
     namespace: external-secrets
+  interval: 12h
   path: ./kubernetes/apps/arc-system/runner/resources
   prune: true
   sourceRef:
@@ -24,6 +19,3 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: false
-  interval: 12h
-  retryInterval: 2m
-  timeout: 10m

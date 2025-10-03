@@ -3,13 +3,9 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname spegel
-  namespace: kube-system
+  name: spegel
 spec:
-  targetNamespace: kube-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
+  interval: 12h
   path: ./kubernetes/apps/kube-system/spegel/resources
   prune: true
   sourceRef:
@@ -17,6 +13,3 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: false
-  interval: 12h
-  retryInterval: 2m
-  timeout: 10m

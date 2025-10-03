@@ -4,15 +4,11 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname prowlarr
-  namespace: &namespace default
 spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
   dependsOn:
   - name: external-secrets
     namespace: external-secrets
+  interval: 12h
   path: ./kubernetes/apps/default/prowlarr/resources
   prune: true
   sourceRef:
@@ -20,8 +16,6 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: false
-  interval: 12h
-  timeout: 5m
   components:
   - ../../../../components/gatus/internal
   - ../../../../components/volsync

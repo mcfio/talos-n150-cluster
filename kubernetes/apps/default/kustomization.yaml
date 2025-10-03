@@ -6,6 +6,8 @@ namespace: default
 components:
 - ../../components/common
 - ../../components/app-template
+replacements:
+- path: ../../replacements/target-namespace.yaml
 resources:
 - ./sonarr/app.yaml
 - ./radarr/app.yaml

@@ -3,24 +3,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname flux-operator
-  namespace: &namespace flux-system
+  name: flux-operator
 spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
-  healthChecks:
-  - apiVersion: helm.toolkit.fluxcd.io/v2
-    kind: HelmRelease
-    name: *appname
-    namespace: *namespace
+  interval: 12h
   path: ./kubernetes/apps/flux-system/flux-operator/resources
-  prune: false # do not remove
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  interval: 12h
-  retryInterval: 2m
-  timeout: 5m
+  wait: true

@@ -6,6 +6,8 @@ namespace: volsync-system
 components:
 - ../../components/common
 - ../../components/app-template
+replacements:
+- path: ../../replacements/target-namespace.yaml
 resources:
 - ./volsync/app.yaml
 - ./kopia/app.yaml

@@ -3,23 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname silence-operator-silences
-  namespace: &namespace monitoring
+  name: silence-operator-silences
 spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
-  interval: 12h
-  path: ./kubernetes/apps/monitoring/silence-operator/silences
   dependsOn:
   - name: silence-operator
-    namespace: *namespace
+  interval: 12h
+  path: ./kubernetes/apps/monitoring/silence-operator/silences
   prune: true
-  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  timeout: 5m
   wait: false

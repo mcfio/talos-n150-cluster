@@ -14,25 +14,36 @@ spec:
     namespace: flux-system
   wait: false
   interval: 2h
-  timeout: 5m
+  retryInterval: 2m
+  timeout: 10m
   patches:
+  - # Add default timings to all Kustomizations
+    patch: |
+      apiVersion: kustomize.toolkit.fluxcd.io/v1
+      kind: Kustomization
+      metadata:
+        name: not-used
+      spec:
+        retryInterval: 2m
+        timeout: 10m
+    target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
   - # Add HelmRelease defaults to all Kustomizations
-    patch: |-
+    patch: |
       apiVersion: kustomize.toolkit.fluxcd.io/v1
       kind: Kustomization
       metadata:
         name: not-used
       spec:
         patches:
-          - patch: |-
+          - patch: |
               apiVersion: helm.toolkit.fluxcd.io/v2
               kind: HelmRelease
               metadata:
                 name: not-used
               spec:
                 maxHistory: 3
-                driftDetection:
-                  mode: warn
                 install:
                   crds: CreateReplace
                 upgrade:

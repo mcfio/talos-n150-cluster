@@ -3,22 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname cilium-config
-  namespace: kube-system
+  name: cilium-config
 spec:
-  targetNamespace: kube-system
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
   dependsOn:
   - name: cilium
+  interval: 12h
   path: ./kubernetes/apps/kube-system/cilium/config
-  prune: false # do not remove CNI configuration
+  prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  wait: true
-  interval: 12h
-  retryInterval: 2m
-  timeout: 10m
+  wait: false

@@ -4,12 +4,11 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &appname tautulli
-  namespace: &namespace default
 spec:
-  targetNamespace: *namespace
-  commonMetadata:
-    labels:
-      app.kubernetes.io/name: *appname
+  dependsOn:
+  - name: volsync
+    namespace: volsync-system
+  interval: 12h
   path: ./kubernetes/apps/default/tautulli/resources
   prune: true
   sourceRef:
@@ -17,11 +16,6 @@ spec:
     name: flux-system
     namespace: flux-system
   wait: false
-  interval: 12h
-  timeout: 5m
-  dependsOn:
-  - name: volsync
-    namespace: volsync-system
   components:
   - ../../../../components/volsync
   - ../../../../components/gatus/internal

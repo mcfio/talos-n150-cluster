@@ -6,6 +6,8 @@ namespace: external-secrets
 components:
 - ../../components/common
 - ../../components/app-template
+replacements:
+- path: ../../replacements/target-namespace.yaml
 resources:
 - ./external-secrets/app.yaml
 - ./onepassword-connect/app.yaml

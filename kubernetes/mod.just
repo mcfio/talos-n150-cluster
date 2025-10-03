@@ -20,6 +20,18 @@ browse-pvc namespace claim:
 view-secret namespace *args:
     kubectl view-secret --namespace {{ namespace }} {{ args }}
 
+[doc('Snapshot VolSync PVCs')]
+snapshot:
+    kubectl get replicationsources --no-headers --all-namespaces | while read -r namespace name _; do \
+        kubectl --namespace "$namespace" patch replicationsources "$name" --type merge --patch '{"spec":{"trigger":{"manual":"$(date +%s)"}}}'; \
+    done
+
+[doc('Suspend or resume VolSync')]
+volsync state:
+    flux -n volsync-system {{ state }} kustomization volsync
+    flux -n volsync-system {{ state }} helmrelease volsync
+    kubectl --namespace volsync-system scale deployment volsync --replicas {{ if state != "suspend" { "1" } else { "0" } }}
+
 [doc('Sync ExternalSecrets')]
 sync-es:
     kubectl get externalsecrets.external-secrets.io --no-headers --all-namespaces | while read -r namespace resource _; do \
