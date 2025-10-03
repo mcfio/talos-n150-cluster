@@ -8,7 +8,7 @@ spec:
   interval: 12h
   chartRef:
     kind: OCIRepository
-    name: nfd
+    name: node-feature-discovery
   values:
     master:
       resources:
