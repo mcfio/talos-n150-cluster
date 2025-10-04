@@ -46,10 +46,20 @@ spec:
                 maxHistory: 3
                 install:
                   crds: CreateReplace
+                  strategy:
+                    name: RetryOnFailure
+                    retryInterval: 2m
                 upgrade:
                   crds: CreateReplace
                   strategy:
-                    name: RetryOnFailure
+                    name: RemediateOnFailure
+                  remediation:
+                    strategy: rollback
+                    retries: 2
+                    remediateLastFailure: true
+                rollback:
+                  cleanupOnFail: true
+                  recreate: true
             target:
               group: helm.toolkit.fluxcd.io
               kind: HelmRelease
