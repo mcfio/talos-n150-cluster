@@ -71,10 +71,12 @@ spec:
             appProtocol: HTTPS
     route:
       app:
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         hostnames:
         - "{{ .Release.Name }}.mcf.io"
         parentRefs:
-        - name: external
+        - name: internal
           namespace: ingress-system
         rules:
         - backendRefs:
