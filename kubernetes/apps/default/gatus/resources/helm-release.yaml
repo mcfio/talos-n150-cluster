@@ -82,12 +82,10 @@ spec:
         - port: http
     route:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         hostnames:
         - status.mcf.io
         parentRefs:
-        - name: internal
+        - name: external
           namespace: ingress-system
     rbac:
       roles:

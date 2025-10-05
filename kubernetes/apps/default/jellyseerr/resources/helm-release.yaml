@@ -59,12 +59,10 @@ spec:
             port: *port
     route:
       app:
-        annotations:
-          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
         hostnames:
         - requests.mcf.io
         parentRefs:
-        - name: internal
+        - name: external
           namespace: ingress-system
     persistence:
       config:
