@@ -6,7 +6,5 @@ metadata:
   name: cluster-ip-pool
 spec:
   blocks:
-  # 192.168.45.225|254
-  - cidr: 192.168.45.224/27
-  # KubeAPI VIP
-  - cidr: 192.168.45.70/32
+  - start: 192.168.45.96
+    stop: 192.168.45.110
