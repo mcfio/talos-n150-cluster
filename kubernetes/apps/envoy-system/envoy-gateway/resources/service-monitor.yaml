@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/monitoring.coreos.com/servicemonitor_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: envoy-gateway
+spec:
+  jobLabel: envoy-gateway
+  namespaceSelector:
+    matchNames:
+    - envoy-system
+  endpoints:
+  - port: metrics
+    path: /metrics
+    honorLabels: true
+  selector:
+    matchLabels:
+      control-plane: envoy-gateway
