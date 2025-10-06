@@ -9,9 +9,19 @@ metadata:
 spec:
   gatewayClassName: cluster-proxy
   listeners:
-  - allowedRoutes:
-      namespaces:
-        from: Same
-    name: http
+  - name: http
     protocol: HTTP
     port: 80
+    allowedRoutes:
+      namespaces:
+        from: Same
+  - name: https
+    protocol: HTTPS
+    port: 443
+    allowedRoutes:
+      namespaces:
+        from: All
+    tls:
+      certificateRefs:
+      - kind: Secret
+        name: mcf-io-cert-tls

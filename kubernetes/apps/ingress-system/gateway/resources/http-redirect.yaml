@@ -6,6 +6,9 @@ metadata:
   name: http-filter-redirect
 spec:
   parentRefs:
+  - name: external
+    namespace: ingress-system
+    sectionName: http
   - name: internal
     namespace: ingress-system
     sectionName: http
