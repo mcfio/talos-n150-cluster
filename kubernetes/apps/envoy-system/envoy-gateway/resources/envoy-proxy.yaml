@@ -5,6 +5,7 @@ kind: EnvoyProxy
 metadata:
   name: cluster-proxy-config
 spec:
+  mergeGateways: true
   logging:
     level:
       default: info
