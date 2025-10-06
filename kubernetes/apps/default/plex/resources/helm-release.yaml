@@ -19,7 +19,7 @@ spec:
               tag: 1.42.2.10156@sha256:9ad8a3506e1d8ebda873a668603c1a2c10e6887969564561be669efd65ae8871
             env:
               TZ: Canada/Eastern
-              PLEX_ADVERTISE_URL: "https://{{ .Release.Name }}.mcf.io:443,https://192.168.45.230:32400"
+              PLEX_ADVERTISE_URL: "https://{{ .Release.Name }}.mcf.io:443,https://192.168.45.120:32400"
               PLEX_NO_AUTH_NETWORKS: 192.168.0.0/16
             probes:
               liveness: &probes
@@ -63,7 +63,7 @@ spec:
     service:
       app:
         annotations:
-          lbipam.cilium.io/ips: 192.168.45.230
+          lbipam.cilium.io/ips: 192.168.45.120
         type: LoadBalancer
         ports:
           http:

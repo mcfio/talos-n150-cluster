@@ -82,7 +82,7 @@ spec:
             ---
             ingress:
               - hostname: "*.mcf.io"
-                service: http://external.{{ .Release.Namespace }}.svc.cluster.local
+                service: http://cluster-proxy.envoy-system.svc.cluster.local
                 originRequest:
                   originServerName: ipv4.mcf.io
               - service: http_status:404

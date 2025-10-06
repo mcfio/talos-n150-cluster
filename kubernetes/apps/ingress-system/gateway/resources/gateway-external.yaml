@@ -9,9 +9,10 @@ metadata:
 spec:
   gatewayClassName: cluster-proxy
   listeners:
-  - name: http
-    protocol: HTTP
-    port: 80
-    allowedRoutes:
+  - allowedRoutes:
       namespaces:
         from: All
+    hostname: '*.mcf.io'
+    name: http
+    protocol: HTTP
+    port: 80

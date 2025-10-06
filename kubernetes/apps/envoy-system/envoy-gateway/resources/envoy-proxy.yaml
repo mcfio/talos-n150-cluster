@@ -5,6 +5,7 @@ kind: EnvoyProxy
 metadata:
   name: cluster-proxy-config
 spec:
+  mergeGateways: true
   logging:
     level:
       default: info
@@ -21,6 +22,9 @@ spec:
             limits:
               memory: 1Gi
       envoyService:
+        name: cluster-proxy
+        annotations:
+          external-dns.alpha.kubernetes.io/hostname: ipv4.milton.mcf.io
         externalTrafficPolicy: Local
   shutdown:
     drainTimeout: 180s

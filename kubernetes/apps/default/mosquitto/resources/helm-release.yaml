@@ -42,9 +42,7 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: mosquitto.milton.mcf.io
-          lbipam.cilium.io/ips: 192.168.45.236
-          # external-dns.alpha.kubernetes.io/hostname: mqtt.milton.mcf.io
-          # lbipam.cilium.io/ips: 192.168.45.235
+          lbipam.cilium.io/ips: 192.168.45.115
         ports:
           http:
             port: 1883
