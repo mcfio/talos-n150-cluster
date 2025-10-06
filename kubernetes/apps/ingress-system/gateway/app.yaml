@@ -8,8 +8,8 @@ spec:
   dependsOn:
   - name: cert-manager-issuers
     namespace: cert-manager
-  - name: cilium-config
-    namespace: kube-system
+  - name: envoy-gateway
+    namespace: envoy-system
   interval: 12h
   path: ./kubernetes/apps/ingress-system/gateway/resources
   prune: true
