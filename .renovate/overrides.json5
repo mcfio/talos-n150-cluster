@@ -13,5 +13,10 @@
       matchPackageNames: ["/factory\\.talos\\.dev/"],
       overridePackageName: "ghcr.io/siderolabs/installer",
     },
+    {
+      description: "Override datasource",
+      datasource: "github-release",
+      matchPackageNames: ["/ghcr\\.io/koush/scrypted/"],
+    }
   ],
 }
