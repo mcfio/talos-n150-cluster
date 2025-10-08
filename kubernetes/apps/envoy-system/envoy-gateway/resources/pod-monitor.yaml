@@ -9,6 +9,7 @@ spec:
   namespaceSelector:
     matchNames:
     - envoy-system
+    - ingress-system
   podMetricsEndpoints:
   - port: metrics
     path: /stats/prometheus

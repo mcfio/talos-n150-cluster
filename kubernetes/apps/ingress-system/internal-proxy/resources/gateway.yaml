@@ -3,11 +3,16 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: internal
+  name: internal-proxy
   annotations:
     external-dns.alpha.kubernetes.io/target: ipv4.milton.mcf.io
 spec:
-  gatewayClassName: cluster-proxy
+  gatewayClassName: envoy
+  infrastructure:
+    parametersRef:
+      group: gateway.envoyproxy.io
+      kind: EnvoyProxy
+      name: internal-proxy-config
   listeners:
   - allowedRoutes:
       namespaces:
