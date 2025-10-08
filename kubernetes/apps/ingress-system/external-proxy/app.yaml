@@ -3,18 +3,24 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: cluster-gateway
+  name: external-proxy
 spec:
   dependsOn:
+  - name: cloudflare-tunnel
+  - name: internal-proxy
   - name: cert-manager-issuers
     namespace: cert-manager
   - name: envoy-gateway
     namespace: envoy-system
   interval: 12h
-  path: ./kubernetes/apps/ingress-system/gateway/resources
+  path: ./kubernetes/apps/ingress-system/external-proxy/resources
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   wait: true
+  postBuild:
+    substituteFrom:
+    - kind: Secret
+      name: cloudflare-tunnel-id-secret

@@ -12,4 +12,5 @@ resources:
 - ./external-dns-cloudflare/app.yaml
 - ./external-dns-unifi/app.yaml
 - ./cloudflare-tunnel/app.yaml
-- ./gateway/app.yaml
+- ./internal-proxy/app.yaml
+- ./external-proxy/app.yaml

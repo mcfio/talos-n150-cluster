@@ -81,10 +81,12 @@ spec:
           config.yaml: |
             ---
             ingress:
-              - hostname: "*.mcf.io"
-                service: http://cluster-proxy.envoy-system.svc.cluster.local
+              - hostname: plex.mcf.io
+                service: https://plex.default.svc.cluster.local:32400
                 originRequest:
-                  originServerName: ipv4.mcf.io
+                  noTLSVerify: true
+              - hostname: "*.mcf.io"
+                service: http://external-proxy.ingress-system.svc.cluster.local
               - service: http_status:404
     persistence:
       config:

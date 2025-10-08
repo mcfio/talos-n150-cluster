@@ -8,7 +8,7 @@ metadata:
     external-dns.alpha.kubernetes.io/controller: none
 spec:
   parentRefs:
-  - name: internal
+  - name: internal-proxy
     namespace: ingress-system
     sectionName: http
   rules:

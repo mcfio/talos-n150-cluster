@@ -3,23 +3,6 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: mcf-io-cert
-spec:
-  secretName: mcf-io-cert-tls
-  dnsNames:
-  - mcf.io
-  - "*.mcf.io"
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
-  privateKey:
-    algorithm: ECDSA
-    size: 256
----
-# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cert-manager.io/certificate_v1.json
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
   name: milton-mcf-io-cert
 spec:
   secretName: milton-mcf-io-cert-tls

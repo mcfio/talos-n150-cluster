@@ -6,5 +6,7 @@ resources:
 - ./oci-repository.yaml
 - ./helm-release.yaml
 - ./gateway-class.yaml
-- ./envoy-proxy.yaml
+- ./backend-traffic-policy.yaml
+- ./client-traffic-policy.yaml
 - ./service-monitor.yaml
+- ./pod-monitor.yaml
