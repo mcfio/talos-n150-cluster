@@ -86,7 +86,7 @@ spec:
                 originRequest:
                   noTLSVerify: true
               - hostname: "*.mcf.io"
-                service: http://external-proxy.ingress-system.svc.cluster.local
+                service: http://external.ingress-system.svc.cluster.local
               - service: http_status:404
     persistence:
       config:
