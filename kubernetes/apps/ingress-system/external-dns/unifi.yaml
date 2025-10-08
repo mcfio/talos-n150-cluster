@@ -10,7 +10,7 @@ spec:
     namespace: external-secrets
   - name: external-dns-cloudflare
   interval: 12h
-  path: ./kubernetes/apps/ingress-system/external-dns-unifi/resources
+  path: ./kubernetes/apps/ingress-system/external-dns/unifi
   prune: true
   sourceRef:
     kind: GitRepository

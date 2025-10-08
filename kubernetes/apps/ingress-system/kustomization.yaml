@@ -9,8 +9,8 @@ components:
 replacements:
 - path: ../../replacements/target-namespace.yaml
 resources:
-- ./external-dns-cloudflare/app.yaml
-- ./external-dns-unifi/app.yaml
+- ./external-dns/cloudflare.yaml
+- ./external-dns/unifi.yaml
 - ./cloudflare-tunnel/app.yaml
 - ./internal-proxy/app.yaml
 - ./external-proxy/app.yaml
