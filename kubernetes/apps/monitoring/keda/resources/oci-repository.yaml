@@ -11,4 +11,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/home-operations/charts-mirror/keda
   ref:
-    tag: 2.17.2
+    tag: 2.18.0
