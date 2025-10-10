@@ -81,14 +81,6 @@ spec:
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
-      cache:
-        enabled: true
-        suffix: cache
-        type: persistentVolumeClaim
-        accessMode: ReadWriteOnce
-        size: 10Gi
-        globalMounts:
-        - path: /config/MediaCover
       media:
         type: nfs
         server: nfs.internal

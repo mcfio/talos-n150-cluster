@@ -63,7 +63,7 @@ spec:
           namespace: ingress-system
     persistence:
       config:
-        existingClaim: scrypted
+        existingClaim: "{{ .Release.Name }}"
         globalMounts:
         - path: /server/volume
       tmp:

@@ -60,14 +60,5 @@ spec:
         - path: /config/recyclarr.yml
           subPath: recyclarr.yml
           readOnly: true
-      tmpfs:
+      tmp:
         type: emptyDir
-        advancedMounts:
-          recyclarr:
-            app:
-            - path: /config/logs
-              subPath: logs
-            - path: /config/repositories
-              subPath: repositories
-            - path: /tmp
-              subPath: tmp
