@@ -67,10 +67,5 @@ spec:
         existingClaim: maintainerr
         globalMounts:
         - path: /opt/data
-      tmpfs:
+      tmp:
         type: emptyDir
-        advancedMounts:
-          maintainerr:
-            app:
-            - path: /tmp
-              subPath: tmp
