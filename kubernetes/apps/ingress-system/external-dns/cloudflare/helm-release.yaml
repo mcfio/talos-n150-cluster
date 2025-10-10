@@ -28,6 +28,7 @@ spec:
     - --crd-source-kind=DNSEndpoint
     sources:
     - gateway-httproute
+    - service
     - crd
     domainFilters:
     - mcf.io

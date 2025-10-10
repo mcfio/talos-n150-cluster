@@ -63,23 +63,15 @@ spec:
     service:
       app:
         annotations:
+          # by eliminating the http-route source, this will only be managed by external-dns-cloudflare
+          external-dns.alpha.kubernetes.io/hostname: "{{ .Release.Name }}.mcf.io"
+          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
           lbipam.cilium.io/ips: 192.168.45.120
         type: LoadBalancer
         ports:
           http:
             port: *port
             appProtocol: HTTPS
-    route:
-      app:
-        hostnames:
-        - "{{ .Release.Name }}.mcf.io"
-        parentRefs:
-        - name: external
-          namespace: ingress-system
-        rules:
-        - backendRefs:
-          - identifier: app
-            port: *port
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
