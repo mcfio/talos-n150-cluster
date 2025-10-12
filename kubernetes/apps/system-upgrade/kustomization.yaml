@@ -10,4 +10,4 @@ replacements:
 - path: ../../replacements/target-namespace.yaml
 resources:
 - ./controller.yaml
-- ./plans.yaml
+# - ./plans.yaml
