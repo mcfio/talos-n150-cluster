@@ -14,6 +14,8 @@ spec:
   upgrade:
     disableHooks: true
   values:
+    preUpgradeHook:
+      enabled: false
     localpv-provisioner:
       analytics:
         enabled: false
