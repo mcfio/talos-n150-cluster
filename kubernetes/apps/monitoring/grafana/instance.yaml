@@ -3,13 +3,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: grafana
+  name: grafana-instance
 spec:
   dependsOn:
   - name: external-secrets
     namespace: external-secrets
+  - name: grafana-operator
+    namespace: monitoring
   interval: 12h
-  path: ./kubernetes/apps/monitoring/grafana/resources
+  path: ./kubernetes/apps/monitoring/grafana/instance
   prune: true
   sourceRef:
     kind: GitRepository
