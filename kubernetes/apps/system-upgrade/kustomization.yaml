@@ -8,4 +8,4 @@ components:
 replacements:
 - path: ../../replacements/target-namespace.yaml
 resources:
-- ./controller.yaml
+- ./tuppr.yaml
