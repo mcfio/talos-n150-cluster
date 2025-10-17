@@ -9,3 +9,4 @@ replacements:
 - path: ../../replacements/target-namespace.yaml
 resources:
 - ./tuppr.yaml
+- ./upgrades.yaml

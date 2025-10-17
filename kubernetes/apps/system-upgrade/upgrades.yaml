@@ -3,13 +3,13 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: system-upgrade-controller-plans
+  name: tuppr-upgrades
 spec:
   dependsOn:
-  - name: system-upgrade-controller
+  - name: tuppr
     namespace: system-upgrade
   interval: 12h
-  path: ./kubernetes/apps/system-upgrade/plans
+  path: ./kubernetes/apps/system-upgrade/upgrades
   prune: true
   sourceRef:
     kind: GitRepository
