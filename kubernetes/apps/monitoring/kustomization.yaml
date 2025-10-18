@@ -9,6 +9,7 @@ replacements:
 - path: ../../replacements/target-namespace.yaml
 resources:
 - ./kube-prometheus-stack/app.yaml
+- ./kube-prometheus-stack/dashboards.yaml
 - ./blackbox-exporter/app.yaml
 - ./silence-operator
 - ./smartctl-exporter/app.yaml
