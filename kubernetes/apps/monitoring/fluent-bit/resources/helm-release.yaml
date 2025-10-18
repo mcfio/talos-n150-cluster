@@ -37,21 +37,17 @@ spec:
         [FILTER]
           name kubernetes
           match kubernetes.*
-          kube_url https://kubernetes.default.svc:443
-          kube_ca_file /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-          kube_token_file /var/run/secrets/kubernetes.io/serviceaccount/token
-          kube_tag_prefix kubernetes.var.log.containers.
           merge_log on
-          merge_log_key log_processed
-          merge_log_trim on
+          kube_tag_prefix kubernetes.var.log.containers.
           k8s-logging.parser on
           k8s-logging.exclude off
-          labels on
+          namespace_labels off
           annotations off
 
         [FILTER]
           name nest
           match kubernetes.*
+          wildcard pod_name
           operation lift
           nested_under kubernetes
           add_prefix k_
@@ -89,7 +85,5 @@ spec:
           labels job=fluent-bit, namespace=$k_namespace_name, app=$app
           structured_metadata container=$k_container_name, pod=$k_pod_name, host=$k_host
           compress gzip
-    dashboards:
-      enabled: true
     serviceMonitor:
       enabled: true

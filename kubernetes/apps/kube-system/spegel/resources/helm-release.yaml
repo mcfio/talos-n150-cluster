@@ -10,8 +10,6 @@ spec:
     kind: OCIRepository
     name: spegel
   values:
-    grafanaDashboard:
-      enabled: true
     service:
       registry:
         hostPort: 29999
