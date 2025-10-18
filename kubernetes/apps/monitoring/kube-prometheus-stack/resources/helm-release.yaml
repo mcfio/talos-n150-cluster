@@ -92,12 +92,6 @@ spec:
           fsGroup: 64535
     grafana:
       enabled: false
-      forceDeployDashboards: true
-      operator:
-        dashboardsConfigMapRefEnabled: true
-        folder: Kubernetes
-        matchLabels:
-          grafana.internal/instance: grafana
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
