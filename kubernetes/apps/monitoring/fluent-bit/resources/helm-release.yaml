@@ -37,6 +37,7 @@ spec:
         [FILTER]
           name kubernetes
           match kubernetes.*
+          buffer_size 32k
           merge_log on
           kube_tag_prefix kubernetes.var.log.containers.
           k8s-logging.parser on
@@ -47,7 +48,6 @@ spec:
         [FILTER]
           name nest
           match kubernetes.*
-          wildcard pod_name
           operation lift
           nested_under kubernetes
           add_prefix k_
@@ -85,5 +85,7 @@ spec:
           labels job=fluent-bit, namespace=$k_namespace_name, app=$app
           structured_metadata container=$k_container_name, pod=$k_pod_name, host=$k_host
           compress gzip
+          log_response_payload false
+
     serviceMonitor:
       enabled: true
