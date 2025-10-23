@@ -22,6 +22,8 @@ spec:
       # mapDynamicSizeRatio: 0.08
     # TODO: Enable on next tuning cycle
     # bpfClockProbe: true
+    bgpControlPlane:
+      enabled: true
     cgroup:
       autoMount:
         enabled: false
@@ -43,7 +45,7 @@ spec:
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     localRedirectPolicy: true
     l2announcements:
-      enabled: true
+      enabled: false
     loadBalancer:
       algorithm: maglev
       mode: dsr
