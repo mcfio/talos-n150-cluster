@@ -27,7 +27,7 @@ spec:
               - matchExpressions:
                   - key: node.cloudprovider.kubernetes.io/platform
                     operator: In
-                    value:
+                    values:
                     - vmware
                   - key: node-role.kubernetes.io/control-plane
                     operator: Exists
