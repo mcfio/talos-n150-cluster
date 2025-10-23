@@ -6,5 +6,6 @@ resources:
 - ./bgp-advertisement.yaml
 - ./bgp-peer-config.yaml
 - ./bgp-cluster-config.yaml
+- ./l2-announcement-policy.yaml
 - ./load-balancer-ip-pool.yaml
 - ./node-config.yaml
