@@ -19,14 +19,15 @@ spec:
       datacenter: Milton
       secret:
         create: false
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: node.cloudprovider.kubernetes.io/platform
-                  operator: Exists
-                  value:
-                  - vmware
-                - key: node-role.kubernetes.io/control-plane
-                  operator: Exists
+    daemonset:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node.cloudprovider.kubernetes.io/platform
+                    operator: Exists
+                    value:
+                    - vmware
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: Exists
