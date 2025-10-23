@@ -3,6 +3,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- ./l2-announcement-policy.yaml
+- ./bgp-advertisement.yaml
+- ./bgp-peer-config.yaml
+- ./bgp-cluster-config.yaml
 - ./load-balancer-ip-pool.yaml
 - ./node-config.yaml
