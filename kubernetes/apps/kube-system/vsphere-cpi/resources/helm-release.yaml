@@ -1,0 +1,29 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: vsphere-cpi
+spec:
+  interval: 12h
+  chartRef:
+    kind: GitRepository
+    name: vsphere-cpi
+  values:
+    config:
+      enabled: true
+      vcenter: "192.168.1.15"
+      datacenter: Milton
+      secret:
+        create: false
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node.cloudprovider.kubernetes.io/platform
+                  operator: Exists
+                  value:
+                  - vmware
+                - key: node-role.kubernetes.io/control-plane
+                  operator: Exists

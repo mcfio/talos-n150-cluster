@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: vsphere-cpi
+spec:
+  interval: 5m
+  url: https://github.com/kubernetes/cloud-provider-vsphere/charts/vsphere-cpi
+  ref:
+    tag: release-1.34
