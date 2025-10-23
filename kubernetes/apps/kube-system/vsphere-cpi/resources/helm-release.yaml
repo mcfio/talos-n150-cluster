@@ -6,9 +6,12 @@ metadata:
   name: vsphere-cpi
 spec:
   interval: 12h
-  chartRef:
-    kind: GitRepository
-    name: vsphere-cpi
+  chart:
+    spec:
+      chart: ./charts/vsphere-cpi
+      sourceRef:
+        kind: GitRepository
+        name: vsphere-cpi
   values:
     config:
       enabled: true

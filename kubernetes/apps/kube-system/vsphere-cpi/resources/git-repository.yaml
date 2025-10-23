@@ -6,6 +6,6 @@ metadata:
   name: vsphere-cpi
 spec:
   interval: 5m
-  url: https://github.com/kubernetes/cloud-provider-vsphere/charts/vsphere-cpi
+  url: https://github.com/kubernetes/cloud-provider-vsphere
   ref:
     tag: release-1.34
