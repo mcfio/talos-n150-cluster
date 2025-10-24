@@ -81,8 +81,6 @@ spec:
         - IPC_LOCK
         - SYS_ADMIN
         - SYS_RESOURCE
-        - PERFMON
-        - BPF
         - DAC_OVERRIDE
         - FOWNER
         - SETGID
