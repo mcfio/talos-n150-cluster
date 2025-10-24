@@ -14,7 +14,7 @@ resources:
 - ./silence-operator
 - ./smartctl-exporter/app.yaml
 - ./fluent-bit/app.yaml
-- ./loki/app.yaml
+- ./victoria-logs/app.yaml
 - ./grafana/operator.yaml
 - ./grafana/instance.yaml
 - ./keda/app.yaml
