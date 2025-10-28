@@ -3,6 +3,7 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 
 talos_dir := justfile_dir() + '/talos'
 controller := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
+node_ip := `just talos::machine-ip {{ node }}`
 
 [private]
 default:
@@ -31,13 +32,13 @@ download-image version schematic:
 [group: 'node lifecycle']
 [doc('Upgrade Talos on a node')]
 upgrade node:
-    talosctl upgrade --nodes "{{ node }}" --image "$(just talos::machine-image {{ node }})" --reboot-mode powercycle --timeout=10m
+    talosctl upgrade --nodes "$(just talos::machine-ip {{ node }})" --image "$(just talos::machine-image {{ node }})" --reboot-mode powercycle --timeout=10m
 
 [group: 'node lifecycle']
 [doc('Reboot a Talos node')]
 reboot node:
     gum confirm "Reboot node {{ node }}?" --default=No && \
-        talosctl reboot --nodes {{ node }} --mode powercycle || exit 0
+        talosctl reboot --nodes {{ node_ip }} --mode powercycle --dry-run || exit 0
 
 [group: 'node lifecycle']
 [doc('Reset a Talos node')]
@@ -59,6 +60,10 @@ template node:
 [private]
 is_controlplane node:
     yq --raw-output 'select(.machine) | (.machine.type == "controlplane")' {{ talos_dir }}/nodes/{{ node }}.yaml
+
+[private]
+machine-ip node:
+    kubectl get nodes {{ node }} --output jsonpath='{.status.addresses[?(@.type=="InternalIP")].address}'
 
 [private]
 machine-image node:

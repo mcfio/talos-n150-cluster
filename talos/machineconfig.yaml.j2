@@ -9,10 +9,7 @@ machine:
     {% if is_controlplane %}
     key: op://home-cluster/talos/machine/ca_key
     {% endif %}
-  certSANs:
-    - 127.0.0.1
-    - 192.168.45.40
-    - 192.168.45.70
+  certSANs: []
   kubelet:
     image: ghcr.io/siderolabs/kubelet:v1.34.1
     extraArgs:
@@ -88,7 +85,7 @@ cluster:
   id: op://home-cluster/talos/cluster/id
   secret: op://home-cluster/talos/cluster/secret
   controlPlane:
-    endpoint: https://192.168.45.70:6443
+    endpoint: https://192.168.45.66:6443
   clusterName: home-cluster
   network:
     cni:
@@ -129,9 +126,7 @@ cluster:
       feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
       runtime-config: admissionregistration.k8s.io/v1beta1=true
     certSANs:
-      - 127.0.0.1
-      - 192.168.45.40
-      - 192.168.45.70
+      - 192.168.45.66
     disablePodSecurityPolicy: true
     auditPolicy:
       apiVersion: audit.k8s.io/v1
