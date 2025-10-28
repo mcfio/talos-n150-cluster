@@ -3,7 +3,6 @@ set shell := ['bash', '-euo', 'pipefail', '-c']
 
 talos_dir := justfile_dir() + '/talos'
 controller := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
-node_ip := `just talos::machine-ip {{ node }}`
 
 [private]
 default:
@@ -38,7 +37,7 @@ upgrade node:
 [doc('Reboot a Talos node')]
 reboot node:
     gum confirm "Reboot node {{ node }}?" --default=No && \
-        talosctl reboot --nodes {{ node_ip }} --mode powercycle --dry-run || exit 0
+        talosctl reboot --nodes {{ node }} --mode powercycle --dry-run || exit 0
 
 [group: 'node lifecycle']
 [doc('Reset a Talos node')]
