@@ -23,7 +23,7 @@ spec:
     # TODO: Enable on next tuning cycle
     # bpfClockProbe: true
     bgpControlPlane:
-      enabled: true
+      enabled: false # temporary disabling
     cgroup:
       autoMount:
         enabled: false
