@@ -120,7 +120,8 @@ jobs:
       run: curl -fsSL https://talos.dev/install | sh
 
     - name: Pull Image
-      run: talosctl --nodes "${NODE}" image pull "${MATRIX_IMAGE}"
+      # temporarily specify endpoint until I can determine why in-cluster endpoint times out
+      run: talosctl --nodes "${NODE}" --endpoints "${NODE}" image pull "${MATRIX_IMAGE}"
 
   workflow-status:
     name: Flux Local Successful
