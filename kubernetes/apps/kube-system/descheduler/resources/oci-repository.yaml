@@ -11,4 +11,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/home-operations/charts-mirror/descheduler
   ref:
-    tag: 0.33.0
+    tag: 0.34.0
