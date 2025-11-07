@@ -11,8 +11,6 @@ spec:
     name: silence-operator
   values:
     alertmanagerAddress: http://kube-prometheus-stack-alertmanager:9093
-    image:
-      registry: quay.io
     networkPolicy:
       enabled: false
     nodeAffinity:
