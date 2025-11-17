@@ -12,4 +12,4 @@ spec:
   # Using temporary mirror until https://github.com/cilium/cilium/issues/22157
   url: oci://ghcr.io/home-operations/charts-mirror/cilium
   ref:
-    tag: 1.18.3
+    tag: 1.18.4
