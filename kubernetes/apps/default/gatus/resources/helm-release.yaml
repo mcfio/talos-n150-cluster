@@ -96,12 +96,21 @@ spec:
           - apiGroups:
             - ""
             resources:
-            - "configmaps"
-            - "secrets"
+            - configmaps
+            - secrets
             verbs:
-            - "get"
-            - "list"
-            - "watch"
+            - get
+            - list
+            - watch
+          - apiGroups:
+            - gateway.networking.k8s.io
+            resources:
+            - gateways
+            - httproutes
+            verbs:
+            - get
+            - list
+            - watch
       bindings:
         gatus:
           type: ClusterRoleBinding
