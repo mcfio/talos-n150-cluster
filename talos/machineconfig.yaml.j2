@@ -11,7 +11,7 @@ machine:
     {% endif %}
   certSANs: []
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.34.1
+    image: ghcr.io/siderolabs/kubelet:v1.34.2
     extraArgs:
       cloud-provider: external
       rotate-server-certificates: "true"
@@ -103,7 +103,7 @@ cluster:
     {% endif %}
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.34.1
+    image: registry.k8s.io/kube-proxy:v1.34.2
   discovery:
     enabled: true
     registries:
@@ -120,7 +120,7 @@ cluster:
   allowSchedulingOnControlPlanes: true
   secretboxEncryptionSecret: op://home-cluster/talos/cluster/secretbox_encryption_secret
   apiServer:
-    image: registry.k8s.io/kube-apiserver:v1.34.1
+    image: registry.k8s.io/kube-apiserver:v1.34.2
     extraArgs:
       enable-aggregator-routing: "true"
       feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
@@ -134,11 +134,11 @@ cluster:
       rules:
         - level: Metadata
   controllerManager:
-    image: registry.k8s.io/kube-controller-manager:v1.34.1
+    image: registry.k8s.io/kube-controller-manager:v1.34.2
     extraArgs:
       bind-address: 0.0.0.0
   scheduler:
-    image: registry.k8s.io/kube-scheduler:v1.34.1
+    image: registry.k8s.io/kube-scheduler:v1.34.2
     extraArgs:
       bind-address: 0.0.0.0
     config:
