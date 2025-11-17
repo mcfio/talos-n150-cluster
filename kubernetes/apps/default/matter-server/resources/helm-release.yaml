@@ -41,6 +41,15 @@ spec:
     defaultPodOptions:
       nodeSelector:
         kubernetes.io/arch: amd64
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node.cloudprovider.kubernetes.io/platform
+                operator: NotIn
+                values:
+                - vmware
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
