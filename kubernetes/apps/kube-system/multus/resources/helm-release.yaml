@@ -40,7 +40,7 @@ spec:
           type: ClusterRole
           rules:
           - apiGroups:
-            - "k8s.cni.cncf.io"
+            - k8s.cni.cncf.io
             resources:
             - "*"
             verbs:
@@ -48,20 +48,20 @@ spec:
           - apiGroups:
             - ""
             resources:
-            - "pods"
-            - "pods/status"
+            - pods
+            - pods/status
             verbs:
-            - "get"
-            - "update"
+            - get
+            - update
           - apiGroups:
             - ""
-            - "events.k8s.io"
+            - events.k8s.io
             resources:
-            - "events"
+            - events
             verbs:
-            - "create"
-            - "patch"
-            - "update"
+            - create
+            - patch
+            - update
       bindings:
         multus:
           type: ClusterRoleBinding
