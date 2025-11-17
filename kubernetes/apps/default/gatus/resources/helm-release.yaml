@@ -15,23 +15,20 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         initContainers:
-          init-config:
+          gatus-sidecar:
             image:
-              repository: ghcr.io/home-operations/k8s-sidecar
-              tag: 2.0.3
-            env:
-              FOLDER: /config
-              LABEL: gatus.io/enabled
-              NAMESPACE: ALL
-              RESOURCE: both
-              UNIQUE_FILENAMES: true
-              METHOD: WATCH
-            restartPolicy: Always
-            resources: &resources
+              repository: ghcr.io/home-operations/gatus-sidecar
+              tag: 0.0.9@sha256:31a52dd0e579c1f865b2580a4bb715d2a893deb1351fedeaba73598e9a578cbe
+            args:
+            - --auto-httproute
+            - --enable-httproute
+            - --enable-service
+            resources:
               requests:
                 cpu: 10m
               limits:
-                memory: 256Mi
+                memory: 64Mi
+            restartPolicy: Always
         containers:
           app:
             image:
@@ -61,16 +58,20 @@ spec:
               capabilities:
                 drop:
                 - ALL
-            resources: *resources
+                add:
+                - NET_RAW
+            resources:
+              requests:
+                cpu: 100m
+              limits:
+                memory: 256Mi
     defaultPodOptions:
-      dnsConfig:
-        options:
-        - name: ndots
-          value: "1"
       securityContext:
         runAsNonRoot: true
-        runAsUser: 65534
-        runAsGroup: 65534
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
     service:
       app:
         ports:
