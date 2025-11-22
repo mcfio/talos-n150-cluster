@@ -9,6 +9,6 @@ spec:
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
+  url: oci://ghcr.io/openebs/dev/helm/openebs
   ref:
-    tag: 4.3.3
-  url: oci://ghcr.io/home-operations/charts-mirror/openebs
+    tag: 4.4.0
