@@ -51,7 +51,8 @@ spec:
           [{
             "name": "multus-client",
             "namespace": "kube-system",
-            "ips": ["192.168.10.21/24"]
+            "ips": ["192.168.10.21/24"],
+            "mac": "46:a9:fb:cd:56:35"
           }]
       securityContext:
         runAsUser: 568
