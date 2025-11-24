@@ -6,8 +6,8 @@ metadata:
   name: l3-bgp-peer-config
 spec:
   families:
-    - afi: ipv4
-      safi: unicast
-      advertisements:
-        matchLabels:
-          advertise: bgp
+  - afi: ipv4
+    safi: unicast
+    advertisements:
+      matchLabels:
+        advertise: bgp

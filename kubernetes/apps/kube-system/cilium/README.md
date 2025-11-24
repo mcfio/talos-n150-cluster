@@ -3,8 +3,8 @@
 ## UniFi UDM Pro
 
 ```sh
-router bgp 64513
-  bgp router-id 192.168.45.1
+router bgp 64510
+  bgp router-id 192.168.1.1
   neighbor cilium peer-group
   neighbor cilium remote-as 64515
   bgp listen range 192.168.45.0/24 peer-group cilium
