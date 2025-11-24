@@ -44,7 +44,8 @@ spec:
     socketLB:
       hostNamespaceOnly: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-    localRedirectPolicy: true
+    localRedirectPolicies:
+      enabled: true
     l2announcements:
       enabled: true
     bgpControlPlane:
