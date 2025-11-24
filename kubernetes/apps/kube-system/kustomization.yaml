@@ -23,4 +23,3 @@ resources:
 - ./spegel/app.yaml
 - ./snapshot-controller/app.yaml
 - ./talos-ccm/app.yaml
-# - ./vsphere-cpi/app.yaml
