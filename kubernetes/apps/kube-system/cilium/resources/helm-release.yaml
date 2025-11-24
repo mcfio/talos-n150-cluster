@@ -22,8 +22,6 @@ spec:
       # mapDynamicSizeRatio: 0.08
     # TODO: Enable on next tuning cycle
     # bpfClockProbe: true
-    bgpControlPlane:
-      enabled: false # temporary disabling
     cgroup:
       autoMount:
         enabled: false
@@ -42,9 +40,14 @@ spec:
     k8sServiceHost: 127.0.0.1
     k8sServicePort: 7445
     kubeProxyReplacement: true
+    routingMode: native
+    socketLB:
+      hostNamespaceOnly: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     localRedirectPolicy: true
     l2announcements:
+      enabled: true
+    bgpControlPlane:
       enabled: true
     loadBalancer:
       algorithm: maglev
@@ -70,7 +73,6 @@ spec:
         enabled: true
         trustCRDsExist: true
     rollOutCiliumPods: true
-    routingMode: native
     securityContext:
       capabilities:
         ciliumAgent:
