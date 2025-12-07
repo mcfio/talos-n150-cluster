@@ -10,23 +10,10 @@ spec:
     kind: OCIRepository
     name: external-secrets
   values:
-    installCRDs: true
-    replicaCount: 1
     leaderElect: true
-    image:
-      repository: ghcr.io/external-secrets/external-secrets
     webhook:
-      image:
-        repository: ghcr.io/external-secrets/external-secrets
-      serviceMonitor:
-        enabled: true
-        interval: 1m
-    certController:
-      image:
-        repository: ghcr.io/external-secrets/external-secrets
-      serviceMonitor:
-        enabled: true
-        interval: 1m
+      replicaCount: 2
+    grafanaDashboard:
+      enabled: true
     serviceMonitor:
       enabled: true
-      interval: 1m
