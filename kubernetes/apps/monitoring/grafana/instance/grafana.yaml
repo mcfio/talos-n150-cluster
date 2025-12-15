@@ -58,6 +58,13 @@ spec:
           - name: grafana-data
             persistentVolumeClaim:
               claimName: grafana-pvc
+  httpRoute:
+    spec:
+      parentRefs:
+      - name: internal
+        namespace: ingress-system
+      hostnames:
+      - grafana.milton.mcf.io
   persistentVolumeClaim:
     spec:
       accessModes:
