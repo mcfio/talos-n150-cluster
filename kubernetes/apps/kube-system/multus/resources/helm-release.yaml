@@ -34,6 +34,15 @@ spec:
               privileged: true
     defaultPodOptions:
       hostNetwork: true
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: NotIn
+                values:
+                - arm64
     rbac:
       roles:
         multus:
