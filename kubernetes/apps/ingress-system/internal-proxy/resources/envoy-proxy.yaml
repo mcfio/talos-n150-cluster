@@ -19,7 +19,7 @@ spec:
             requests:
               cpu: 100m
             limits:
-              memory: 1Gi
+              memory: 2Gi
       envoyService:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: ipv4.milton.mcf.io
@@ -30,4 +30,4 @@ spec:
     metrics:
       prometheus:
         compression:
-          type: Gzip
+          type: Zstd
