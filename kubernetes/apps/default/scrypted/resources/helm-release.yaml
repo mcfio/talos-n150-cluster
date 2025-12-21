@@ -32,9 +32,8 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 1Gi
-              limits:
                 gpu.intel.com/i915: 1
+              limits:
                 memory: 8Gi
     defaultPodOptions:
       affinity:
@@ -46,6 +45,10 @@ spec:
                 operator: NotIn
                 values:
                 - vmware
+              - key: intel.feature.node.kubernetes.io/gpu
+                operator: In
+                values:
+                - "true"
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
