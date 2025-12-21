@@ -6,5 +6,6 @@ metadata:
   name: cluster-ip-pool
 spec:
   blocks:
+  - cidr: 192.168.45.70/32
   - start: 192.168.45.110
     stop: 192.168.45.120

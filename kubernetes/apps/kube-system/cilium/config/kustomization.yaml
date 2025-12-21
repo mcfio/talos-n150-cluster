@@ -8,4 +8,5 @@ resources:
 - ./bgp-cluster-config.yaml
 - ./l2-announcement-policy.yaml
 - ./load-balancer-ip-pool.yaml
+- ./k8s-service.yaml
 - ./node-config.yaml
