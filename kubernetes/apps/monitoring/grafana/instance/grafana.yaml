@@ -65,6 +65,10 @@ spec:
         namespace: ingress-system
       hostnames:
       - grafana.milton.mcf.io
+      rules:
+      - backendRefs:
+        - name: grafana-service
+          port: 3000
   persistentVolumeClaim:
     spec:
       accessModes:
