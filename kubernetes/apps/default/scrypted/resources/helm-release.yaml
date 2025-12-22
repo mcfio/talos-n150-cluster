@@ -49,10 +49,6 @@ spec:
                 operator: NotIn
                 values:
                 - vmware
-              - key: intel.feature.node.kubernetes.io/gpu
-                operator: In
-                values:
-                - "true"
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
