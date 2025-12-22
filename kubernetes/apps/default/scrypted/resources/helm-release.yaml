@@ -39,7 +39,7 @@ spec:
     defaultPodOptions:
       resourceClaims:
       - name: gpu
-        resourceClaimTemplateName: plex
+        resourceClaimTemplateName: scrypted
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
