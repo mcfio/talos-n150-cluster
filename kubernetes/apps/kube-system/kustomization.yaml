@@ -22,4 +22,3 @@ resources:
 - ./reloader/app.yaml
 - ./spegel/app.yaml
 - ./snapshot-controller/app.yaml
-- ./talos-ccm/app.yaml

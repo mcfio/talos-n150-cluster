@@ -52,7 +52,7 @@ spec:
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
-            "name": "multus-client",
+            "name": "client-network",
             "namespace": "kube-system",
             "ips": ["192.168.10.21/24"],
             "mac": "46:a9:fb:cd:56:35"

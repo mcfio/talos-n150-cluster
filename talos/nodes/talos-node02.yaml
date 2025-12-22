@@ -4,18 +4,11 @@ machine:
   install:
     diskSelector:
       type: nvme
-    image: factory.talos.dev/installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.12.0
-  network:
-    hostname: talos-node02
-    interfaces:
-    - deviceSelector:
-        busPath: 0000:* # Ensure PCI deivces are selected
-      mtu: 9000
-      dhcp: true
-      vip:
-        ip: 192.168.45.66 # 192.168.45.64/27 Subnet
-      vlans:
-      - {vlanId: 10, dhcp: false, mtu: 9000}
+    image: factory.talos.dev/metal-installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.12.0
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+hostname: talos-node02
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig

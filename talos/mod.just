@@ -1,7 +1,7 @@
 set quiet := true
 set shell := ['bash', '-euo', 'pipefail', '-c']
 
-talos_dir := justfile_dir() + '/talos'
+talos_dir := justfile_directory() + '/talos'
 controller := `talosctl config info -o yaml | yq -e '.endpoints[0]'`
 
 [private]
@@ -10,7 +10,8 @@ default:
 
 [doc('Render Talos config for a node')]
 render-config node:
-    talosctl machineconfig patch <(just talos::template {{ node }}) --patch @{{ talos_dir }}/nodes/{{ node }}.yaml
+    talosctl machineconfig patch <(just talos::template {{ node }}) \
+        --patch @{{ talos_dir }}/nodes/{{ node }}.yaml
 
 [doc('Apply Talos config to a node')]
 apply-config node *args:
@@ -28,25 +29,26 @@ download-image version schematic:
         "https://factory.talos.dev/image/{{ schematic }}/{{ version }}/metal-amd64.iso"
     just log info "Downloaded Talos" version "{{ version }}" schematic "{{ schematic }}"
 
-[group: 'node lifecycle']
 [doc('Upgrade Talos on a node')]
+[group('node lifecycle')]
 upgrade node:
-    talosctl upgrade --nodes "$(just talos::machine-ip {{ node }})" --image "$(just talos::machine-image {{ node }})" --reboot-mode powercycle --timeout=10m
+    gum confirm "Upgrade node {{ node }} with image $(just talos::machine-image {{ node }})" --default=No && \
+        talosctl upgrade --nodes "$(just talos::machine-ip {{ node }})" --image "$(just talos::machine-image {{ node }})" --reboot-mode powercycle --timeout=10m
 
-[group: 'node lifecycle']
 [doc('Reboot a Talos node')]
+[group('node lifecycle')]
 reboot node:
     gum confirm "Reboot node {{ node }}?" --default=No && \
         talosctl reboot --nodes {{ node }} --mode powercycle --dry-run || exit 0
 
-[group: 'node lifecycle']
 [doc('Reset a Talos node')]
+[group('node lifecycle')]
 reset node:
     gum confirm "Reset node {{ node }}?" --default=No && \
         talosctl reset --nodes "{{ node }}" --graceful=false || exit 0
 
-[group: 'node lifecycle']
 [doc('Shutdown a Talos node')]
+[group('node lifecycle')]
 shutdown node:
     gum confirm "Shutdown node {{ node }}?" --default=No && \
         talosctl shutdown --nodes "{{ node }}" --force || exit 0
@@ -58,7 +60,7 @@ template node:
 
 [private]
 is_controlplane node:
-    yq --raw-output 'select(.machine) | (.machine.type == "controlplane")' {{ talos_dir }}/nodes/{{ node }}.yaml
+    yq 'select(.machine) | (.machine.type == "controlplane")' {{ talos_dir }}/nodes/{{ node }}.yaml
 
 [private]
 machine-ip node:
@@ -66,10 +68,9 @@ machine-ip node:
 
 [private]
 machine-image node:
-    yq --raw-output --exit-status 'select(.machine) | .machine.install.image' "{{ talos_dir }}/nodes/{{ node }}.yaml"
+    yq 'select(.machine) | .machine.install.image' "{{ talos_dir }}/nodes/{{ node }}.yaml"
 
 [private]
 gen-schematic-id +type='metal':
     curl --silent -X POST --data-binary \
         "@{{ talos_dir }}/schematics/{{ type }}.yaml" "https://factory.talos.dev/schematics" | jq --raw-output '.id'
-

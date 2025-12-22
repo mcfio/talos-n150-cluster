@@ -3,12 +3,22 @@ overlay:
   image: siderolabs/sbc-raspberrypi
   name: rpi_generic
   options:
-    configTxtAppend: |
+    configTxtAppend: |-
       dtparam=poe_fan_temp0=65000
       dtparam=poe_fan_temp1=70000
       dtparam=poe_fan_temp2=75000
       dtparam=poe_fan_temp3=80000
 customization:
+  extraKernelArgs:
+  - -init_on_alloc
+  - -init_on_free
+  - -selinux
+  - apparmor=0
+  - init_on_alloc=0
+  - init_on_free=0
+  - mitigations=off
+  - security=none
+  - talos.auditd.disabled=1
   systemExtensions:
     officialExtensions:
     - siderolabs/nfsrahead

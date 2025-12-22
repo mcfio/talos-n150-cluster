@@ -22,12 +22,12 @@ spec:
       localpv:
         image:
           registry: quay.io/
-        basePath: &hostPath /var/openebs/local
+        basePath: &basePath /var/mnt/local-hostpath
       hostpathClass:
         enabled: true
         name: openebs-hostpath
         isDefaultClass: false
-        basePath: *hostPath
+        basePath: *basePath
       helperPod:
         image:
           registry: quay.io/
