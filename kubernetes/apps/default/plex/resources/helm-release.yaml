@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.1.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/refs/tags/app-template-4.5.0/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -40,11 +40,12 @@ spec:
                   failureThreshold: 30
                   periodSeconds: 10
             resources:
+              claims:
+              - name: gpu
               requests:
                 cpu: 100m
               limits:
                 memory: 4Gi
-                gpu.intel.com/i915: 1
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -52,6 +53,9 @@ spec:
                 drop:
                 - ALL
     defaultPodOptions:
+      resourceClaims:
+      - name: gpu
+        resourceClaimTemplateName: plex
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
@@ -60,15 +64,18 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-            - matchExpressions:
-              - key: intel.feature.node.kubernetes.io/gpu
-                operator: In
-                values:
-                - "true"
+    rawResources:
+      gpu:
+        apiVersion: resource.k8s.io/v1
+        kind: ResourceClaimTemplate
+        spec:
+          spec:
+            spec:
+              devices:
+                requests:
+                - name: gpu
+                  exactly:
+                    deviceClassName: gpu.intel.com
     service:
       app:
         annotations:
