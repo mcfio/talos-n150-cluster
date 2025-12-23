@@ -5,10 +5,19 @@ machine:
     diskSelector:
       type: nvme
     image: factory.talos.dev/metal-installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.12.0
+  nodeLabels:
+    node.kubernetes.io/intel-gpu: "true"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: talos-node02
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: vlan10
+vlanID: 10
+vlanMode: 802.1q
+parent: primary0
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig

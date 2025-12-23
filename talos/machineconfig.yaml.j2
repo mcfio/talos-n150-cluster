@@ -166,13 +166,6 @@ selector:
   match: true
 ---
 apiVersion: v1alpha1
-kind: VLANConfig
-name: vlan10
-vlanID: 10
-vlanMode: 802.1q
-parent: primary0
----
-apiVersion: v1alpha1
 kind: DHCPv4Config
 name: primary0
 clientIdentifier: mac

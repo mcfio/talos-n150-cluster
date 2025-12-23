@@ -5,7 +5,16 @@ machine:
     diskSelector:
       size: <= 128GB
     image: factory.talos.dev/metal-installer/67d1323137664d4df47e3df36ba93784c7e97a2f7b0c2651aa5cdf603d2f6a90:v1.12.0
+  nodeLabels:
+    node.kubernetes.io/zwave: "true"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: talos-worker01
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: vlan10
+vlanID: 10
+vlanMode: 802.1q
+parent: primary0

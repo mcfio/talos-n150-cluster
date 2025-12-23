@@ -10,8 +10,9 @@ spec:
     kind: OCIRepository
     name: intel-gpu-resource-driver
   values:
+    kubeletPlugin:
+      nodeSelector:
+        node.kubernetes.io/intel-gpu: "true"
     cdi:
       staticPath: /var/cdi/static
       dynamicPath: /var/cdi/dynamic
-    nodeFeatureRules:
-      enabled: true
