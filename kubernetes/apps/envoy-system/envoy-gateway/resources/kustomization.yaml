@@ -10,3 +10,4 @@ resources:
 - ./client-traffic-policy.yaml
 - ./service-monitor.yaml
 - ./pod-monitor.yaml
+- ./grafana-dashboard.yaml
