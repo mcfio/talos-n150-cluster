@@ -15,19 +15,24 @@ render-config node:
 
 [doc('Apply Talos config to a node')]
 apply-config node *args:
-    just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ node }}" --file /dev/stdin {{ args }}
+    just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ node }}" --file /dev/stdin --dry-run {{ args }}
+    gum confirm "Apply above config to node {{ node }}?" --default=No && \
+        just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ node }}" --file /dev/stdin {{ args }}
 
 [doc('Upgrade Kubernetes version on the cluster')]
 upgrade-k8s version:
     talosctl upgrade-k8s --nodes "{{ controller }}" --to {{ version }}
 
 [doc('Download Talos machine image')]
-download-image version schematic:
+download-image version +platform='metal':
+    #!/usr/bin/env bash
+    SCHEMATIC="$(just talos::gen-schematic-id {{ platform }})"
+    FILE_SUFFIX="{{ if platform == 'rpi' { 'arm64.raw.xz' } else { 'amd64.iso' } }}"
     gum spin --title "Downloading Talos {{ version }} ..." -- \
     curl -sfL --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors \
-        --output "{{ talos_dir }}/talos-{{ version }}-{{ replace_regex(schematic, '^(.{8}).*', '$1') }}.iso" \
-        "https://factory.talos.dev/image/{{ schematic }}/{{ version }}/metal-amd64.iso"
-    just log info "Downloaded Talos" version "{{ version }}" schematic "{{ schematic }}"
+        --output "{{ talos_dir }}/talos-{{ version }}-${SCHEMATIC:0:8}-{{ platform }}-${FILE_SUFFIX}" \
+        "https://factory.talos.dev/image/${SCHEMATIC}/{{ version }}/metal-${FILE_SUFFIX}"
+    just log info "Downloaded Talos" version "{{ version }}" schematic "${SCHEMATIC}" platform "{{ platform }}"
 
 [doc('Upgrade Talos on a node')]
 [group('node lifecycle')]
@@ -71,6 +76,6 @@ machine-image node:
     yq 'select(.machine) | .machine.install.image' "{{ talos_dir }}/nodes/{{ node }}.yaml"
 
 [private]
-gen-schematic-id +type='metal':
+gen-schematic-id +platform='metal':
     curl --silent -X POST --data-binary \
-        "@{{ talos_dir }}/schematics/{{ type }}.yaml" "https://factory.talos.dev/schematics" | jq --raw-output '.id'
+        "@{{ talos_dir }}/schematics/{{ platform }}.yaml" "https://factory.talos.dev/schematics" | jq --raw-output '.id'
