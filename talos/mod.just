@@ -44,7 +44,7 @@ upgrade node:
 [group('node lifecycle')]
 reboot node:
     gum confirm "Reboot node {{ node }}?" --default=No && \
-        talosctl reboot --nodes {{ node }} --mode powercycle --dry-run || exit 0
+        talosctl reboot --nodes {{ node }} --mode powercycle || exit 0
 
 [doc('Reset a Talos node')]
 [group('node lifecycle')]
