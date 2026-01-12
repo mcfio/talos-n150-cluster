@@ -61,9 +61,9 @@ spec:
             namespace: ingress-system
       prometheusSpec:
         image:
-          registry: docker.io
+          registry: mirror.gcr.io
           repository: prompp/prompp
-          tag: 0.7.2
+          tag: 0.7.3
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
@@ -104,7 +104,8 @@ spec:
         monitor:
           relabelings:
           - action: replace
-            sourceLabels: [__meta_kubernetes_pod_node_name]
+            sourceLabels:
+            - __meta_kubernetes_pod_node_name
             targetLabel: nodename
     kube-state-metrics:
       fullnameOverride: kube-state-metrics
