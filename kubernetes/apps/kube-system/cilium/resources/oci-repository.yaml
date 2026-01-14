@@ -9,7 +9,6 @@ spec:
   layerSelector:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
-  # Using temporary mirror until https://github.com/cilium/cilium/issues/22157
-  url: oci://ghcr.io/home-operations/charts-mirror/cilium
+  url: oci://quay.io/cilium/charts/cilium
   ref:
-    tag: 1.18.5
+    tag: 1.18.6
