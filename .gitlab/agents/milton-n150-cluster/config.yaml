@@ -1,1 +1,6 @@
 ---
+user_access:
+  access_as:
+    agent: {}
+  projects:
+  - id: mcfaul.cloud/GitOps/home-cluster
