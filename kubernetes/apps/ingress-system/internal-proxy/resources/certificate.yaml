@@ -9,9 +9,12 @@ spec:
   dnsNames:
   - milton.mcf.io
   - "*.milton.mcf.io"
+  duration: 160h
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
   privateKey:
     algorithm: ECDSA
     size: 256
+  usages:
+  - digital signature

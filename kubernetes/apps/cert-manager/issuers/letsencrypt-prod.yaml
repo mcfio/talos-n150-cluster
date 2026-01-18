@@ -8,11 +8,12 @@ spec:
   acme:
     email: nick@mcf.io
     server: https://acme-v02.api.letsencrypt.org/directory
+    profile: shortlived
     privateKeySecretRef:
       name: letsencrypt-prod-account-key
     solvers:
-      - dns01:
-          cloudflare:
-            apiTokenSecretRef:
-              name: cert-manager-secret
-              key: CLOUDFLARE_API_TOKEN
+    - dns01:
+        cloudflare:
+          apiTokenSecretRef:
+            name: cert-manager-secret
+            key: CLOUDFLARE_API_TOKEN
