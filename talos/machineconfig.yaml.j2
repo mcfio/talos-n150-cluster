@@ -146,8 +146,6 @@ cluster:
             - maxSkew: 1
               topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: ScheduleAnyway
-  coreDNS:
-    disabled: true
   etcd:
     ca:
       crt: op://home-cluster/talos/etcd/ca_crt
@@ -193,3 +191,5 @@ volumeType: directory
 apiVersion: v1alpha1
 kind: OOMConfig
 triggerExpression: "false"
+cgroupRankingExpression: "0.0"
+sampleInterval: 5s
