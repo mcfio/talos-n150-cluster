@@ -13,7 +13,7 @@ resources:
 - ./cilium/config.yaml
 - ./multus/app.yaml
 - ./multus/networks.yaml
-- ./coredns/app.yaml
+# - ./coredns/app.yaml
 - ./metrics-server/app.yaml
 - ./intel-gpu-resource-driver/app.yaml
 - ./descheduler/app.yaml
