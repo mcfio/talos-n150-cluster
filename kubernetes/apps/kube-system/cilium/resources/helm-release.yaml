@@ -16,11 +16,7 @@ spec:
       datapathMode: netkit
       masquerade: true
       preallocateMaps: true
-      # TODO: Enable on next tuning cycle
-      # distributedLRU:
-      #   enabled: true
-      # mapDynamicSizeRatio: 0.08
-    # TODO: Enable on next tuning cycle
+      tproxy: true
     # bpfClockProbe: true
     cgroup:
       autoMount:
@@ -40,10 +36,11 @@ spec:
     k8sServiceHost: 127.0.0.1
     k8sServicePort: 7445
     kubeProxyReplacement: true
+    kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     routingMode: native
     socketLB:
+      enabled: true
       hostNamespaceOnly: true
-    kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
     localRedirectPolicies:
       enabled: true
     l2announcements:
