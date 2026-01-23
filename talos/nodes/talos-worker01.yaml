@@ -4,7 +4,7 @@ machine:
   install:
     diskSelector:
       size: <= 128GB
-    image: factory.talos.dev/metal-installer/67d1323137664d4df47e3df36ba93784c7e97a2f7b0c2651aa5cdf603d2f6a90:v1.12.1
+    image: factory.talos.dev/metal-installer/67d1323137664d4df47e3df36ba93784c7e97a2f7b0c2651aa5cdf603d2f6a90:v1.12.2
   nodeLabels:
     node.kubernetes.io/zwave: "true"
 ---

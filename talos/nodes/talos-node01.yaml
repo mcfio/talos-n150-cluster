@@ -3,7 +3,7 @@ machine:
   type: controlplane
   install:
     disk: /dev/sda
-    image: factory.talos.dev/vmware-installer/1c70bdedf0afb9beb6e0bd7096845aab499c5d7d006fe0d4206580bf2f702505:v1.12.1
+    image: factory.talos.dev/vmware-installer/1c70bdedf0afb9beb6e0bd7096845aab499c5d7d006fe0d4206580bf2f702505:v1.12.2
     # diskSelector:
     #   type: nvme
     # image: factory.talos.dev/metal-installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.12.0
