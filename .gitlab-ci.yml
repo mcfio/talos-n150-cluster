@@ -30,4 +30,4 @@ renovate:
     paths:
     - '$LOG_FILE'
   script:
-  - renovate --log-level $LOG_FILE_LEVEL --log-file $LOG_FILE --base-dir $RENOVATE_BASE_DIR --endpoint $RENOVATE_ENDPOINT --platform $RENOVATE_PLATFORM --optimize-for-disabled $RENOVATE_OPTIMIZE_FOR_DISABLED --repository-cache $RENOVATE_REPOSITORY_CACHE
+  - renovate $RENOVATE_EXTRA_FLAGS
