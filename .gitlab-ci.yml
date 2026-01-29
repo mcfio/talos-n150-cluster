@@ -16,7 +16,7 @@ variables:
   RENOVATE_REPOSITORY_CACHE: 'enabled'
   LOG_FILE: renovate-log.ndjson
   LOG_FILE_LEVEL: debug
-  CI_RENOVATE_IMAGE: ghcr.io/renovatebot/renovate:44.2.6
+  CI_RENOVATE_IMAGE: ghcr.io/renovatebot/renovate:44
 
 renovate:
   stage: renovate
