@@ -2,3 +2,8 @@
 include:
 - project: mcfaul.cloud/GitOps/renovate-config
   file: /templates/renovate.gitlab-ci.yml
+
+variables:
+  RENOVATE_BASE_DIR: $CI_PROJECT_DIR/.renovate
+  RENOVATE_AUTODISCOVER: true
+  RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
