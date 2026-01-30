@@ -16,6 +16,6 @@ renovate:
   - if: $CI_PIPELINE_SOURCE == 'push'
     changes:
       paths:
-      - .gitlab/renovate.json5
-      - .renovate/**.json5
+      - .gitlab/renovate.json
+      - .renovate/**/*
       compare_to: refs/heads/main
