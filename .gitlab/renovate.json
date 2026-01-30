@@ -2,12 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "gitlab>mcfaul.cloud/GitOps/renovate-config",
-    "local>.renovate/autoMerge.json5",
-    "local>.renovate/groups.json5",
-    "local>.renovate/versioning.json5",
-    "local>.renovate/overrides.json5",
-    "local>.renovate/schedule.json5",
-    "local>.renovate/grafanaDashboards.json5"
+    "gitlab>mcfaul.cloud/GitOps/home-cluster/.renovate/autoMerge.json5",
+    "gitlab>mcfaul.cloud/GitOps/home-cluster/.renovate/groups.json5",
+    "gitlab>mcfaul.cloud/GitOps/home-cluster/.renovate/versioning.json5",
+    "gitlab>mcfaul.cloud/GitOps/home-cluster/.renovate/overrides.json5",
+    "gitlab>mcfaul.cloud/GitOps/home-cluster/.renovate/schedule.json5",
+    "gitlab>mcfaul.cloud/GitOps/home-cluster/.renovate/grafanaDashboards.json5"
   ],
   "ignorePaths": ["**/.archive/**"],
   "flux": {
