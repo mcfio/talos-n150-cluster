@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "gitlab>mcfaul.cloud/GitOps/renovate-config",
+    "local>.renovate/autoMerge.json5",
+    "local>.renovate/groups.json5",
+    "local>.renovate/versioning.json5",
+    "local>.renovate/overrides.json5",
+    "local>.renovate/schedule.json5",
+    "local>.renovate/grafanaDashboards.json5"
+  ],
+  "ignorePaths": ["**/.archive/**"],
+  "flux": {
+    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
+  },
+  "helm-values": {
+    "managerFilePatterns": ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+  },
+  "kubernetes": {
+    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
+  }
+}
