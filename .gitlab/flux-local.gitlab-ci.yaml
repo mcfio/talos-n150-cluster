@@ -1,11 +1,11 @@
 ---
 .flux-local:
+  variables:
+    GIT_STRATEGY: clone
   image:
     name: ghcr.io/allenporter/flux-local:v8.0.1
     entrypoint:
     - ""
-  before_script:
-  - git config --global --add safe.directory "${CI_PROJECT_DIR}"
 
 flux-local-test:
   stage: test
