@@ -12,4 +12,5 @@ flux-local-test:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   - if: $TEST_FLUX == "true"
   script:
-  - flux-local test --all-namespaces --enable-helm --path $CI_PROJECT_DIR --verbose
+  - git config --global --add safe.directory "${CI_PROJECT_DIR}"
+  - flux-local test --all-namespaces --enable-helm --path "${CI_PROJECT_DIR}" --verbose
