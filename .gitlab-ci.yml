@@ -9,6 +9,11 @@ variables:
   RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
   RENOVATE_PLATFORM_COMMIT: true
   FORCE_COLOR: 3
+  RENOVATE_HOST_RULES: >
+    [
+      { "hostType": "docker", "matchHost": "${CI_REGISTRY}", "username": "token", "password": "${RENOVATE_TOKEN}" },
+      { "hostType": "docker", "matchHost": "mirror.gcr.io", "authType": "none" }
+    ]
 
 renovate:
   rules:
