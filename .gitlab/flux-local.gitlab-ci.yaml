@@ -27,6 +27,7 @@ flux-local:diff:
   before_script:
   - echo "Working in current branch directory '$(pwd)'"
   - git worktree add default_branch_dir "${CI_DEFAULT_BRANCH}"
+  script:
   - |
     flux-local diff "${RESOURCES}"
     --unified 6
