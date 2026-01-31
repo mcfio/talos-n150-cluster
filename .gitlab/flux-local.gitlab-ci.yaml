@@ -25,14 +25,13 @@ flux-local:diff:
       - helmrelease
       - kustomization
   before_script:
-  - echo "Working in current branch directory '$(pwd)'"
-  - git worktree add default_branch_dir "${CI_DEFAULT_BRANCH}"
+  - git worktree add "../${CI_DEFAULT_BRANCH}-worktree" "${CI_DEFAULT_BRANCH}"
   script:
   - |
     flux-local diff "${RESOURCES}"
     --unified 6
-    --path "${CI_PROJECT_DIR}/kubernetes/flux/config"
-    --path-orig "${CI_PROJECT_DIR}/default_branch_dir/kubernetes/flux/config"
+    --path "./kubernetes/flux/config"
+    --path-orig "../${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
     --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
     --limit-bytes 10000
     --all-namespaces
