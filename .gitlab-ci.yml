@@ -2,18 +2,14 @@
 include:
 - project: mcfaul.cloud/GitOps/renovate-config
   file: /templates/renovate.gitlab-ci.yml
+- .gitlab/flux-local.gitlab-ci.yaml
 
 variables:
-  RENOVATE_BASE_DIR: $CI_PROJECT_DIR/.renovate
+  RENOVATE_BASE_DIR: $CI_PROJECT_DIR/renovate
   RENOVATE_AUTODISCOVER: true
   RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
   RENOVATE_PLATFORM_COMMIT: true
   FORCE_COLOR: 3
-  RENOVATE_HOST_RULES: >
-    [
-      { "hostType": "docker", "matchHost": "${CI_REGISTRY}", "username": "token", "password": "${RENOVATE_TOKEN}" },
-      { "hostType": "docker", "matchHost": "mirror.gcr.io", "authType": "none" }
-    ]
 
 renovate:
   rules:

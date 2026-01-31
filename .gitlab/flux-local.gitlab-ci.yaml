@@ -1,0 +1,20 @@
+---
+stages:
+- test
+# - filter
+# - diff
+# - status
+
+.flux-local:
+  image:
+    name: ghcr.io/allenporter/flux-local:v8.0.1
+    entrypoint:
+    - ""
+
+flux-local-test:
+  stage: test
+  extends: .flux-local
+  rules:
+  - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  script:
+  - flux-local test --all-namespaces --enable-helm --path ${CI_PROJECT_DIR} --verbose
