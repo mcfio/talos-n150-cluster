@@ -9,14 +9,12 @@ include:
 - .gitlab/flux-local.gitlab-ci.yaml
 
 variables:
-  RENOVATE_BASE_DIR: $CI_PROJECT_DIR/renovate
   RENOVATE_AUTODISCOVER: true
   RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
   RENOVATE_PLATFORM_COMMIT: true
   FORCE_COLOR: 3
 
 renovate:
-  stage: renovate
   rules:
   - if: $CI_PIPELINE_SOURCE == 'web'
   - if: $CI_PIPELINE_SOURCE == 'push'
