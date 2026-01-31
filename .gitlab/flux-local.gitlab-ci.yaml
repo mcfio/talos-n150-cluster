@@ -1,7 +1,7 @@
 ---
 .flux-local:
   variables:
-    GIT_STRATEGY: clone
+    GIT_STRATEGY: none
   image:
     name: ghcr.io/allenporter/flux-local:v8.0.1
     entrypoint:
