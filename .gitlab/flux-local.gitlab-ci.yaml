@@ -53,7 +53,7 @@ flux-local:diff:
     cat ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
     echo "```" >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
   artifacts:
-    expose_as: "${RESOURCES} Changes"
+    expose_as: "Cluster Changes"
     paths:
     - $CI_PROJECT_DIR/diff_outputs/${RESOURCES}.md
 
