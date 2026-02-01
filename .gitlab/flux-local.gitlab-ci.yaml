@@ -48,16 +48,21 @@ flux-local:diff:
     --all-namespaces
     --sources "flux-system"
     --output-file ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt
+  - >
+    echo "```diff" > ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
+    cat ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
+    echo "```" >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
   artifacts:
+    expose_as: "${RESOURCES} Changes"
     paths:
-    - $CI_PROJECT_DIR/diff_outputs/
+    - $CI_PROJECT_DIR/diff_outputs/${RESOURCES}.md
 
-flux-local:notes:
-  extends:
-  - .flux-local
-  needs:
-  - job: flux-local:diff
-    artifacts: true
-  script:
-  - ls -lah ${CI_PROJECT_DIR}/diff_outputs/
-  - cat ${CI_PROJECT_DIR}/diff_outputs/*-diff.txt
+# flux-local:notes:
+#   extends:
+#   - .flux-local
+#   needs:
+#   - job: flux-local:diff
+#     artifacts: true
+#   script:
+#   - ls -lah ${CI_PROJECT_DIR}/diff_outputs/
+#   - cat ${CI_PROJECT_DIR}/diff_outputs/*-diff.txt
