@@ -14,7 +14,12 @@
 flux-local:test:
   extends: .flux-local
   script:
-  - flux-local test --all-namespaces --enable-helm --path "${CI_PROJECT_DIR}/kubernetes/flux/config" --verbose
+  - >
+    flux-local test
+    --all-namespaces
+    --enable-helm
+    --path "${CI_PROJECT_DIR}/kubernetes/flux/config"
+    --verbose
 
 flux-local:diff:
   extends: .flux-local
@@ -30,12 +35,12 @@ flux-local:diff:
   before_script:
   - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
   script:
-  - |
-    flux-local diff "${RESOURCES}" \
-    --unified 6 \
-    --path "${CI_PROJECT_DIR}/kubernetes/flux/config" \
-    --path-orig "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config" \
-    --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" \
-    --limit-bytes 10000 \
-    --all-namespaces \
+  - >
+    flux-local diff "${RESOURCES}"
+    --unified 6
+    --path "${CI_PROJECT_DIR}/kubernetes/flux/config"
+    --path-orig "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
+    --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
+    --limit-bytes 10000
+    --all-namespaces
     --sources "flux-system"
