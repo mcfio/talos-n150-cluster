@@ -5,14 +5,22 @@
   stage: flux-local
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-  - if: $TEST_FLUX == "true"
   image:
     name: ghcr.io/allenporter/flux-local:v8.0.1
     entrypoint:
     - ""
 
-flux-local:test:
+.flux-local-matrix:
   extends: .flux-local
+  parallel:
+    matrix:
+    - RESOURCES:
+      - helmrelease
+      - kustomization
+
+flux-local:test:
+  extends:
+  - .flux-local
   script:
   - >
     flux-local test
@@ -22,16 +30,12 @@ flux-local:test:
     --verbose
 
 flux-local:diff:
-  extends: .flux-local
+  extends:
+  - .flux-local-matrix
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     changes:
     - kubernetes/**/*
-  parallel:
-    matrix:
-    - RESOURCES:
-      - helmrelease
-      - kustomization
   before_script:
   - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
@@ -46,7 +50,15 @@ flux-local:diff:
     --all-namespaces
     --sources "flux-system"
     --output-file "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
-  - cat "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
   artifacts:
     paths:
     - $CI_PROJECT_DIR/diff_outputs/
+
+flux-local:notes:
+  extends:
+  - .flux-local-matrix
+  needs:
+  - job: flux-local:diff
+    artifacts: true
+  script:
+  - cat "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
