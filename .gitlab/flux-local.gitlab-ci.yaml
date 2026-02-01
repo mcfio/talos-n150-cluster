@@ -34,7 +34,7 @@ flux-local:diff:
       - kustomization
   before_script:
   - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
-  - mkdir -p "${CI_BUILDS_DIR}/diff_outputs"
+  - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
   script:
   - >
     flux-local diff "${RESOURCES}"
@@ -45,8 +45,8 @@ flux-local:diff:
     --limit-bytes 10000
     --all-namespaces
     --sources "flux-system"
-    --output-file "${CI_BUILDS_DIR}/diff_outputs/${RESOURCES}-diff.txt"
-  - cat "${CI_BUILDS_DIR}/diff_outputs/${RESOURCES}-diff.txt"
+    --output-file "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
+  - cat "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
   artifacts:
     paths:
-    - $CI_BUILDS_DIR/diff_outputs/
+    - $CI_PROJECT_DIR/diff_outputs/
