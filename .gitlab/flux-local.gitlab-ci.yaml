@@ -18,6 +18,10 @@ flux-local:test:
 
 flux-local:diff:
   extends: .flux-local
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - kubernetes/**/*
   parallel:
     matrix:
     - RESOURCES:
@@ -26,11 +30,6 @@ flux-local:diff:
   before_script:
   - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
   script:
-  - echo "Path 1 - ${CI_PROJECT_DIR}/kubernetes/flux/config"
-  - ls -lan "${CI_PROJECT_DIR}/kubernetes/flux/config"
-  - echo "Path 2 - ${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
-  - ls -lan "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
-  - env
   - |
     flux-local diff "${RESOURCES}" \
     --unified 6 \
