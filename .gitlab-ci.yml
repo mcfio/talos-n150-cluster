@@ -16,7 +16,7 @@ variables:
 
 renovate:
   rules:
-  # - if: $CI_PIPELINE_SOURCE == "web"
+  - if: $CI_PIPELINE_SOURCE == "web"
   - if: $CI_PIPELINE_SOURCE == "push"
     changes:
       paths:
