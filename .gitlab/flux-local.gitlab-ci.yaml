@@ -56,7 +56,7 @@ flux-local:diff:
 
 flux-local:notes:
   extends:
-  - .flux-local-matrix
+  - .flux-local
   needs:
   - job: flux-local:diff
     artifacts: true
