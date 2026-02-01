@@ -31,12 +31,4 @@ flux-local:diff:
   - echo "Path 2 - ${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
   - ls -lan "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
   - env
-  - |
-    flux-local diff "${RESOURCES}"
-    --unified 6
-    --path "${CI_PROJECT_DIR}/kubernetes/flux/config"
-    --path-orig "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
-    --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
-    --limit-bytes 10000
-    --all-namespaces
-    --sources "flux-system"
+  - flux-local diff "${RESOURCES}" --unified 6 --path /builds/mcfaul.cloud/GitOps/home-cluster/kubernetes/flux/config --path-orig /builds/main-worktree/kubernetes/flux/config --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" --limit-bytes 10000 --all-namespaces --sources "flux-system"
