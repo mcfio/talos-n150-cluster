@@ -49,9 +49,9 @@ flux-local:diff:
     --sources "flux-system"
     --output-file ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt
   - |
-    echo "```diff" > ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
-    cat ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
-    echo "```" >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
+    printf "```diff" > ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
+    cat ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt | tee -a ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
+    printf "```" >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
   artifacts:
     expose_as: "Cluster Changes"
     paths:
