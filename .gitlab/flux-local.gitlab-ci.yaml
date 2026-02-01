@@ -28,26 +28,26 @@ flux-local:test:
     flux-local test
     --all-namespaces
     --enable-helm
-    --path "${CI_PROJECT_DIR}/kubernetes/flux/config"
+    --path ${CI_PROJECT_DIR}/kubernetes/flux/config
     --verbose
 
 flux-local:diff:
   extends:
   - .flux-local-matrix
   before_script:
-  - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
-  - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
+  - git clone --depth=1 ${CI_PROJECT_URL} ${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree
+  - mkdir -p ${CI_PROJECT_DIR}/diff_outputs
   script:
   - >
     flux-local diff "${RESOURCES}"
     --unified 6
-    --path "${CI_PROJECT_DIR}/kubernetes/flux/config"
-    --path-orig "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
+    --path ${CI_PROJECT_DIR}/kubernetes/flux/config
+    --path-orig ${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config
     --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
     --limit-bytes 10000
     --all-namespaces
     --sources "flux-system"
-    --output-file "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
+    --output-file ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt
   artifacts:
     paths:
     - $CI_PROJECT_DIR/diff_outputs/
@@ -59,5 +59,5 @@ flux-local:notes:
   - job: flux-local:diff
     artifacts: true
   script:
-  - ls -lah "${CI_PROJECT_DIR}/diff_outputs/"
-  - cat "${CI_PROJECT_DIR}/diff_outputs/*-diff.txt"
+  - ls -lah ${CI_PROJECT_DIR}/diff_outputs/
+  - cat ${CI_PROJECT_DIR}/diff_outputs/*-diff.txt
