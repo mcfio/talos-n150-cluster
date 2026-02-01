@@ -2,6 +2,7 @@
 .flux-local:
   variables:
     FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: 1 # necessary for git safe.directory
+  stage: flux-local
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   - if: $TEST_FLUX == "true"
@@ -11,13 +12,11 @@
     - ""
 
 flux-local:test:
-  stage: test
   extends: .flux-local
   script:
   - flux-local test --all-namespaces --enable-helm --path "${CI_PROJECT_DIR}/kubernetes/flux/config" --verbose
 
 flux-local:diff:
-  stage: test
   extends: .flux-local
   parallel:
     matrix:
@@ -25,13 +24,13 @@ flux-local:diff:
       - helmrelease
       - kustomization
   before_script:
-  - git worktree add "../${CI_DEFAULT_BRANCH}-worktree" "${CI_DEFAULT_BRANCH}"
+  - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
   script:
   - |
     flux-local diff "${RESOURCES}"
     --unified 6
-    --path "./kubernetes/flux/config"
-    --path-orig "../${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
+    --path "${CI_PROJECT_DIR}/kubernetes/flux/config"
+    --path-orig "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config"
     --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart"
     --limit-bytes 10000
     --all-namespaces
