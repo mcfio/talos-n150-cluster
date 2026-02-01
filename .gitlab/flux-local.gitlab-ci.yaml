@@ -5,6 +5,8 @@
   stage: flux-local
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - kubernetes/**/*
   image:
     name: ghcr.io/allenporter/flux-local:v8.0.1
     entrypoint:
@@ -32,10 +34,6 @@ flux-local:test:
 flux-local:diff:
   extends:
   - .flux-local-matrix
-  rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    changes:
-    - kubernetes/**/*
   before_script:
   - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
