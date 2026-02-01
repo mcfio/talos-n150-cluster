@@ -44,3 +44,8 @@ flux-local:diff:
     --limit-bytes 10000
     --all-namespaces
     --sources "flux-system"
+    --output-file "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
+  - cat "${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt"
+  artifacts:
+    paths:
+    - $CI_PROJECT_DIR/diff_outputs/
