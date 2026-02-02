@@ -64,6 +64,8 @@ flux-local:notes:
   needs:
   - job: flux-local:diff
     artifacts: true
+  variables:
+    GLAB_ENABLE_CI_AUTOLOGIN: 'true' # Experimental feature
   image: registry.gitlab.com/gitlab-org/cli:v1.82.0
   script:
   - echo $SHELL
