@@ -64,12 +64,11 @@ flux-local:notes:
   needs:
   - job: flux-local:diff
     artifacts: true
-  variables:
-    GLAB_ENABLE_CI_AUTOLOGIN: 'true' # Experimental feature
   image: registry.gitlab.com/gitlab-org/cli:v1.82.0
   script:
   - echo $SHELL
   - ls -lah ${CI_PROJECT_DIR}/diff_outputs/
   - cat ${CI_PROJECT_DIR}/diff_outputs/*.md
+  - glab auth login --job-token ${CI_JOB_TOKEN}
   - glab mr note ${CI_MERGE_REQUEST_IID} --unique --message "$(cat ${CI_PROJECT_DIR}/diff_outputs/kustomization.md)"
   - glab mr note ${CI_MERGE_REQUEST_IID} --unique --message "$(cat ${CI_PROJECT_DIR}/diff_outputs/helmrelease.md)"
