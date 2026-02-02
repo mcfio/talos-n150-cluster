@@ -26,7 +26,7 @@ flux-local:test:
     flux-local test \
       --all-namespaces \
       --enable-helm \
-      --path ${CI_PROJECT_DIR}/kubernetes/flux/config \
+      --path "${CI_PROJECT_DIR}/kubernetes/flux/config" \
       --verbose
 
 flux-local:diff:
@@ -34,18 +34,18 @@ flux-local:diff:
   - .flux-local
   <<: *flux-local_matrix
   before_script:
-  - git clone --depth=1 ${CI_PROJECT_URL} ${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree
-  - mkdir -p ${CI_PROJECT_DIR}/diff_outputs
+  - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
+  - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
   script: |
     flux-local diff "${RESOURCE}" \
       --unified 6 \
-      --path ${CI_PROJECT_DIR}/kubernetes/flux/config \
-      --path-orig ${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config \
+      --path "${CI_PROJECT_DIR}/kubernetes/flux/config" \
+      --path-orig "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree/kubernetes/flux/config" \
       --strip-attrs "helm.sh/chart,checksum/config,app.kubernetes.io/version,chart" \
       --limit-bytes 10000 \
       --all-namespaces \
       --sources "flux-system" \
-      --output-file ${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.output
+      --output-file "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}".output
   artifacts:
     paths:
     - $CI_PROJECT_DIR/diff_outputs/
@@ -65,6 +65,9 @@ flux-local:notes:
   script: |
     for resource in kustomization helmrelease; do
       if [[ -f "${CI_PROJECT_DIR}/diff_outputs/${resource}.output" ]]; then
-        glab mr note ${CI_MERGE_REQUEST_IID} --repo ${CI_PROJECT_PATH} --unique --message "\`\`\`diff\\n$(cat ${CI_PROJECT_DIR}/diff_outputs/${resource}.output)\\n\`\`\`"
+        echo '```diff' > "${CI_PROJECT_DIR}/diff_outputs/${resource}.md"
+        cat "${CI_PROJECT_DIR}/diff_outputs/${resource}.output" >> "${CI_PROJECT_DIR}/diff_outputs/${resource}.md"
+        echo '```' >> "${CI_PROJECT_DIR}/diff_outputs/${resource}.md"
+        glab mr note "${CI_MERGE_REQUEST_IID}" --repo "${CI_PROJECT_PATH}" --unique --message "$(cat "${CI_PROJECT_DIR}"/diff_outputs/${resource}.md)"
       fi
     done
