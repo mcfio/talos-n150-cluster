@@ -65,11 +65,12 @@ flux-local:notes:
   - job: flux-local:diff
     artifacts: true
   image: registry.gitlab.com/gitlab-org/cli:v1.82.0
+  variables:
+    GLAB_TOKEN: $CI_BOT_JOB_TOKEN
   script:
   - echo $SHELL
   - ls -lah ${CI_PROJECT_DIR}/diff_outputs/
   - cat ${CI_PROJECT_DIR}/diff_outputs/*.md
-  - glab auth login --job-token ${CI_BOT_JOB_TOKEN}
   - glab auth status
   # - glab mr note ${CI_MERGE_REQUEST_IID} --repo ${CI_PROJECT_PATH} --unique --message "$(cat ${CI_PROJECT_DIR}/diff_outputs/kustomization.md)"
   # - glab mr note ${CI_MERGE_REQUEST_IID} --repo ${CI_PROJECT_PATH} --unique --message "$(cat ${CI_PROJECT_DIR}/diff_outputs/helmrelease.md)"
