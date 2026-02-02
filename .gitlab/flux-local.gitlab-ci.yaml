@@ -47,21 +47,24 @@ flux-local:diff:
     --limit-bytes 10000
     --all-namespaces
     --sources "flux-system"
-    --output-file ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt
+    --output-file diff.output
   - echo '```diff' > ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
-  - cat ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}-diff.txt | tee -a ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
+  - cat diff.output | tee -a ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
   - echo '```' >> ${CI_PROJECT_DIR}/diff_outputs/${RESOURCES}.md
   artifacts:
-    expose_as: "Cluster Changes"
     paths:
-    - $CI_PROJECT_DIR/diff_outputs/${RESOURCES}.md
+    - $CI_PROJECT_DIR/diff_outputs/
 
-# flux-local:notes:
-#   extends:
-#   - .flux-local
-#   needs:
-#   - job: flux-local:diff
-#     artifacts: true
-#   script:
-#   - ls -lah ${CI_PROJECT_DIR}/diff_outputs/
-#   - cat ${CI_PROJECT_DIR}/diff_outputs/*-diff.txt
+flux-local:notes:
+  stage: flux-local
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - kubernetes/**/*
+  needs:
+  - job: flux-local:diff
+    artifacts: true
+  script:
+  - echo $SHELL
+  - ls -lah ${CI_PROJECT_DIR}/diff_outputs/
+  - cat ${CI_PROJECT_DIR}/diff_outputs/*.md
