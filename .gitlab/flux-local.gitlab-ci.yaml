@@ -52,13 +52,10 @@ flux-local:diff:
 
 flux-local:notes:
   stage: flux-local
-  rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    changes:
-    - kubernetes/**/*
   needs:
   - job: flux-local:diff
     artifacts: true
+    optional: true
   image: registry.gitlab.com/gitlab-org/cli:v1.82.0
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
