@@ -65,10 +65,6 @@ flux-local:notes:
   script: |
     for resource in kustomization helmrelease; do
       if [[ -f "${CI_PROJECT_DIR}/diff_outputs/${resource}.output" ]]; then
-        glab mr note ${CI_MERGE_REQUEST_IID} --repo ${CI_PROJECT_PATH} --unique --message "
-        \`\`\`diff
-        $(cat ${CI_PROJECT_DIR}/diff_outputs/${resource}.output)
-        \`\`\`
-        "
+        glab mr note ${CI_MERGE_REQUEST_IID} --repo ${CI_PROJECT_PATH} --unique --message "\`\`\`diff\\n$(cat ${CI_PROJECT_DIR}/diff_outputs/${resource}.output)\\n\`\`\`"
       fi
     done
