@@ -45,13 +45,13 @@ flux-local:diff:
       --limit-bytes 10000 \
       --all-namespaces \
       --sources "flux-system" \
-      --output-file "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}".output
+      --output-file "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.output"
   artifacts:
     paths:
     - $CI_PROJECT_DIR/diff_outputs/
 
 flux-local:notes:
-  stage: .post
+  stage: flux-local
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     changes:
