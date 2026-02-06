@@ -10,9 +10,6 @@
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/grafanaDashboards.json5"
   ],
   "ignorePaths": ["**/.archive/**"],
-  "gitlabci": {
-    "managerFilePatterns": ["/^\\.gitlab/.+\\.gitlab-ci\\.ya?ml$/"]
-  },
   "flux": {
     "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
   },
