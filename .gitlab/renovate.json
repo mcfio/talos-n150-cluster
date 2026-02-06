@@ -11,7 +11,7 @@
   ],
   "ignorePaths": ["**/.archive/**"],
   "gitlabci": {
-    "managerFilePatterns": ["/\\.gitlab-ci\\.ya?ml$/", "^.gitlab/.+\\.gitlab-ci\\.ya?ml$"]
+    "managerFilePatterns": ["/^\\.gitlab/.+\\.gitlab-ci\\.ya?ml$/"]
   },
   "flux": {
     "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
