@@ -21,17 +21,6 @@
       "matchPackageNames": [
         "/ghcr\\.io/koush/scrypted/"
       ]
-    },
-    {
-      "customType": "regex",
-      "description": "Update oci repositories for `oci-repository` helm charts",
-      "managerFilePatterns": [
-        "(^|/)oci-repository\\.yaml$/"
-      ],
-      "matchStrings": [
-        "oci://(?<depName>[^:]+):(?<currentValue>\\S+)"
-      ],
-      "datasourceTemplate": "docker"
     }
   ]
 }
