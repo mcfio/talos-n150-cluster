@@ -31,8 +31,7 @@
       "matchStrings": [
         "oci://(?<depName>[^:]+):(?<currentValue>\\S+)"
       ],
-      "datasourceTemplate": "docker",
-      "semanticCommitScope": "helm"
+      "datasourceTemplate": "docker"
     }
   ]
 }
