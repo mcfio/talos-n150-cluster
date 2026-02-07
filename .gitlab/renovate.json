@@ -9,6 +9,7 @@
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/schedule.json5",
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/grafanaDashboards.json5"
   ],
+  "reviewers": ["nick.mcfaul"],
   "ignorePaths": [
     "**/.archive/**"
   ],
