@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "gitlab>mcfaul.cloud/GitOps/renovate-config",
+    "gitlab>mcf.io/renovate-config",
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/autoMerge.json5",
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/groups.json5",
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/versioning.json5",
@@ -9,14 +9,22 @@
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/schedule.json5",
     "gitlab>mcfaul.cloud/GitOps/home-cluster//.renovate/grafanaDashboards.json5"
   ],
-  "ignorePaths": ["**/.archive/**"],
+  "ignorePaths": [
+    "**/.archive/**"
+  ],
   "flux": {
-    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
+    "managerFilePatterns": [
+      "/\\.yaml(?:\\.j2)?$/"
+    ]
   },
   "helm-values": {
-    "managerFilePatterns": ["/(^|/)kubernetes/.+\\.ya?ml$/"]
+    "managerFilePatterns": [
+      "/(^|/)kubernetes/.+\\.ya?ml$/"
+    ]
   },
   "kubernetes": {
-    "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"]
+    "managerFilePatterns": [
+      "/\\.yaml(?:\\.j2)?$/"
+    ]
   }
 }
