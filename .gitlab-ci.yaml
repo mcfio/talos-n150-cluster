@@ -4,8 +4,8 @@ stages:
 - renovate
 
 include:
-- project: mcfaul.cloud/GitOps/renovate-config
-  file: /templates/renovate.gitlab-ci.yml
+- project: mcf.io/renovate-config
+  file: /templates/renovate.gitlab-ci.yaml
 - .gitlab/flux-local.gitlab-ci.yaml
 
 variables:
