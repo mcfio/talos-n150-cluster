@@ -8,6 +8,7 @@ spec:
   interval: 12h
   path: ./kubernetes/apps/cert-manager/resources
   prune: true
+  targetNamespace: cert-manager
   sourceRef:
     kind: GitRepository
     name: flux-system
