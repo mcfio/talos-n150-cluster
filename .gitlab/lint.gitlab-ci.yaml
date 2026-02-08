@@ -2,7 +2,7 @@
 yamllint:
   stage: lint
   rules:
-  - if: '${CI_PIPELINE_SOURCE} == "merge_request_event"'
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   image: registry.gitlab.com/pipeline-components/yamllint:latest
   script: |
     yamllint .
