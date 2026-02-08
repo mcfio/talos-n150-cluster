@@ -59,7 +59,7 @@ machine:
       shutdownGracePeriod: 60s
       allowedUnsafeSysctls:
       - "net.ipv6.conf.net1.*" # Allow IPv6 syscalls, required for matter/thread
-    image: ghcr.io/siderolabs/kubelet:v1.34.3
+    image: ghcr.io/siderolabs/kubelet:v1.35.0
     nodeIP:
       validSubnets:
       - 192.168.45.0/24
@@ -98,7 +98,7 @@ cluster:
   token: op://home-cluster/talos/cluster/token
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.34.3
+    image: registry.k8s.io/kube-proxy:v1.35.0
   {% if is_controlplane %}
   aggregatorCA:
     crt: op://home-cluster/talos/cluster/aggregator_ca_crt
@@ -108,7 +108,7 @@ cluster:
   allowSchedulingOnControlPlanes: true
   secretboxEncryptionSecret: op://home-cluster/talos/cluster/secretbox_encryption_secret
   apiServer:
-    image: registry.k8s.io/kube-apiserver:v1.34.3
+    image: registry.k8s.io/kube-apiserver:v1.35.0
     extraArgs:
       enable-aggregator-routing: "true"
       feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
@@ -124,9 +124,9 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-controller-manager:v1.34.3
+    image: registry.k8s.io/kube-controller-manager:v1.35.0
   scheduler:
-    image: registry.k8s.io/kube-scheduler:v1.34.3
+    image: registry.k8s.io/kube-scheduler:v1.35.0
     extraArgs:
       bind-address: 0.0.0.0
     config:
