@@ -17,4 +17,3 @@ customization:
     - siderolabs/intel-ucode
     - siderolabs/nfsrahead
     - siderolabs/nvme-cli
-

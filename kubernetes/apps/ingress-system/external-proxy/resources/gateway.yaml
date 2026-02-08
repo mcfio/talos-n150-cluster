@@ -17,7 +17,7 @@ spec:
   - allowedRoutes:
       namespaces:
         from: All
-    hostname: '*.mcf.io'
+    hostname: "*.mcf.io"
     name: http
     protocol: HTTP
     port: 80
