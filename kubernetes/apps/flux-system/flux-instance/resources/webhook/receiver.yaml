@@ -3,14 +3,14 @@
 apiVersion: notification.toolkit.fluxcd.io/v1
 kind: Receiver
 metadata:
-  name: github-receiver
+  name: gitlab-receiver
 spec:
-  type: github
+  type: gitlab
   events:
-  - ping
-  - push
+  - Push Hook
+  - Tag Push Hook
   secretRef:
-    name: github-webhook-token
+    name: gitlab-webhook-token
   resources:
   - apiVersion: source.toolkit.fluxcd.io/v1
     kind: GitRepository
