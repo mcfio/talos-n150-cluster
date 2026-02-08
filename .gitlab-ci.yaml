@@ -1,5 +1,6 @@
 ---
 stages:
+- lint
 - flux-local
 - renovate
 
@@ -7,6 +8,7 @@ include:
 - project: mcf.io/renovate-config
   file: /templates/renovate.gitlab-ci.yaml
 - .gitlab/flux-local.gitlab-ci.yaml
+- .gitlab/lint.gitlab-ci.yaml
 
 variables:
   RENOVATE_AUTODISCOVER: true
@@ -16,7 +18,6 @@ variables:
 renovate:
   rules:
   - if: $CI_PIPELINE_SOURCE == "schedule"
-  - if: $CI_PIPELINE_SOURCE == "web"
   - if: $CI_PIPELINE_SOURCE == "push"
     changes:
       paths:
