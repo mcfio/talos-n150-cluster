@@ -12,6 +12,7 @@ spec:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
+  targetNamespace: default
   wait: false
   components:
   - ../../../../components/volsync
