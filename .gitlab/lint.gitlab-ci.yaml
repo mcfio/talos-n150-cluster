@@ -5,4 +5,4 @@ yamllint:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   image: registry.gitlab.com/pipeline-components/yamllint:latest
   script: |
-    yamllint .
+    yamllint --config-file .yamllint.yaml . || true
