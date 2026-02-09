@@ -28,7 +28,7 @@ spec:
       id: 100
     cni:
       exclusive: false
-    devices: enp+
+    devices: enp+,vlan+
     enableIPv4BIGTCP: true
     endpointRoutes:
       enabled: true

@@ -10,7 +10,7 @@ spec:
       node.cloudprovider.kubernetes.io/platform: vmware
       kubernetes.io/arch: amd64
   defaults:
-    devices: eth+
+    devices: eth+,vlan+
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cilium.io/ciliumnodeconfig_v2.json
 apiVersion: cilium.io/v2
@@ -23,4 +23,4 @@ spec:
       node.cloudprovider.kubernetes.io/platform: metal
       kubernetes.io/arch: arm64
   defaults:
-    devices: end+
+    devices: end+,vlan+
