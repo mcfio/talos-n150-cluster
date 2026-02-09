@@ -16,7 +16,9 @@ spec:
       datapathMode: netkit
       masquerade: true
       preallocateMaps: true
-    # bpfClockProbe: true
+    bpfClockProbe: true
+    bgpControlPlane:
+      enabled: true
     cgroup:
       autoMount:
         enabled: false
@@ -36,19 +38,13 @@ spec:
     k8sServicePort: 7445
     kubeProxyReplacement: true
     kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-    routingMode: native
-    socketLB:
-      enabled: true
-      hostNamespaceOnly: true
-    localRedirectPolicies:
-      enabled: true
     l2announcements:
-      enabled: true
-    bgpControlPlane:
-      enabled: true
+      enabled: false
     loadBalancer:
       algorithm: maglev
       mode: dsr
+    localRedirectPolicies:
+      enabled: true
     maglev:
       tableSize: 1021
       hashSeed: "P9jc887+zv7eNcUr"
@@ -70,6 +66,7 @@ spec:
         enabled: true
         trustCRDsExist: true
     rollOutCiliumPods: true
+    routingMode: native
     securityContext:
       capabilities:
         ciliumAgent:
@@ -80,6 +77,8 @@ spec:
         - IPC_LOCK
         - SYS_ADMIN
         - SYS_RESOURCE
+        - PERFMON
+        - BPF
         - DAC_OVERRIDE
         - FOWNER
         - SETGID
@@ -88,3 +87,6 @@ spec:
         - NET_ADMIN
         - SYS_ADMIN
         - SYS_RESOURCE
+    socketLB:
+      enabled: true
+      hostNamespaceOnly: true
