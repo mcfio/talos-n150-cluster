@@ -60,6 +60,9 @@ spec:
           - name: internal
             namespace: ingress-system
       prometheusSpec:
+        remoteWrite:
+        - name: gitlab-observability-otel-grpc
+          url: http://123633596.otel.gitlab-o11y.com:4317
         image:
           registry: mirror.gcr.io
           repository: prompp/prompp
