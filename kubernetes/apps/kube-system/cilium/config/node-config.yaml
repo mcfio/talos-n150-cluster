@@ -3,13 +3,24 @@
 apiVersion: cilium.io/v2
 kind: CiliumNodeConfig
 metadata:
-  name: enable-tuning-guide
+  name: vmware-node-config
 spec:
   nodeSelector:
     matchLabels:
-      io.cilium.tuning-guide: "true"
+      node.cloudprovider.kubernetes.io/platform: vmware
+      kubernetes.io/arch: amd64
   defaults:
-    bpf-lb-acceleration: "native"
-    bpf-distributed-lru: "true"
-    bpf-map-dynamic-size-ratio: "0.08"
-    enable-bpf-clock-probe: "true"
+    devices: eth+
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cilium.io/ciliumnodeconfig_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNodeConfig
+metadata:
+  name: rpi-node-config
+spec:
+  nodeSelector:
+    matchLabels:
+      node.cloudprovider.kubernetes.io/platform: metal
+      kubernetes.io/arch: arm64
+  defaults:
+    devices: end+
