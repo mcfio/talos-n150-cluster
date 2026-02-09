@@ -60,7 +60,6 @@ spec:
           - name: internal
             namespace: ingress-system
       prometheusSpec:
-        convertClassicHistogramsToNHCB: true
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
