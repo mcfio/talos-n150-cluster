@@ -7,7 +7,7 @@
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/groups.json5",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/versioning.json5",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/overrides",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/schedule.json5",
+    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/schedules",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/grafanaDashboards.json5"
   ],
   "reviewers": ["nick.mcfaul"],
