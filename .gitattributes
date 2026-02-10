@@ -1,4 +1,3 @@
 * text=auto eol=lf
-*.yaml gitlab-detectable=true
-*.yml gitlab-detectable=true
+*.yaml linguist-detectable=true linguist-language=YAML
 *.yaml.j2 gitlab-language=jinja?parent=yaml
