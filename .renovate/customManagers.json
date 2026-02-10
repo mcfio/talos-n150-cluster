@@ -1,0 +1,12 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "customType": "regex",
+      "description": "Process OCI dependencies as container images",
+      "managerFilePatterns": ["/\\.yaml(?:\\.j2)?$/"],
+      "matchStrings": ["oci://(?<depName>[^:]+):(?<currentValue>\\S+)"],
+      "datasourceTemplate": "docker"
+    }
+  ]
+}
