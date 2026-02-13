@@ -1,5 +1,6 @@
 ---
 stages:
+- label
 - lint
 - flux-local
 - renovate

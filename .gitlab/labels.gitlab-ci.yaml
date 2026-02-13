@@ -2,10 +2,7 @@
 # GitLab CI workflow for automatic MR labeling based on changed files
 # This pipeline labels merge requests to help with triage and area identification
 
-stages:
-- label
-
-mr_label_triage:
+mr_label:
   stage: label
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
