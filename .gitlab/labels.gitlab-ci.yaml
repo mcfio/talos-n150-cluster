@@ -12,7 +12,7 @@ mr_label:
     when:
     - runner_system_failure
     - stuck_or_timeout_failure
-  image: registry.gitlab.com/gitlab-org/cli:v1.84.0@sha256:7395e3fa43a20601b080269eef171edc2bc76f19c694c2b52ecc138f2a18f3c4
+  image: registry.gitlab.com/gitlab-org/cli:v1.85.0@sha256:ad62350f489ad9ef094f108cd9182494901f2d6bbeb0fbee33eef2d7b70611b5
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
   script:
