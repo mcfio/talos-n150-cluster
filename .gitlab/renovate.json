@@ -4,7 +4,7 @@
     "gitlab>mcf.io/renovate-config",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/autoMerge.json5",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/customManagers",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/groups.json5",
+    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/groups",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/versioning.json5",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/overrides",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/schedules",
