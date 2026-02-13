@@ -8,6 +8,7 @@ include:
 - project: mcf.io/renovate-config
   file: /templates/renovate.gitlab-ci.yaml
 - .gitlab/flux-local.gitlab-ci.yaml
+- .gitlab/labels.gitlab-ci.yaml
 - .gitlab/lint.gitlab-ci.yaml
 
 variables:

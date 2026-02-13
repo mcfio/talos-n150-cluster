@@ -1,0 +1,80 @@
+---
+# GitLab CI workflow for automatic MR labeling based on changed files
+# This pipeline labels merge requests to help with triage and area identification
+
+stages:
+- label
+
+mr_label_triage:
+  stage: label
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  allow_failure: true
+  retry:
+    max: 2
+    when:
+    - runner_system_failure
+    - stuck_or_timeout_failure
+  image: registry.gitlab.com/gitlab-org/cli:v1.84.0@sha256:7395e3fa43a20601b080269eef171edc2bc76f19c694c2b52ecc138f2a18f3c4
+  variables:
+    GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
+  script:
+  # Get the list of changed files in the MR
+  - |
+    if [ -n "$CI_MERGE_REQUEST_IID" ]; then
+      CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r $CI_COMMIT_SHA)
+    else
+      echo "Not a merge request pipeline, skipping labeling"
+      exit 0
+    fi
+
+  # Function to add label
+  - |
+    add_label() {
+      local label=$1
+      echo "Adding label: $label"
+      glab mr update $CI_MERGE_REQUEST_IID --label "$label" || true
+    }
+
+  # Determine labels based on changed files
+  - |
+    echo "Changed files:"
+    echo "$CHANGED_FILES"
+
+    # Initialize a set of labels to add
+    LABELS=""
+
+    # Check for kubernetes changes
+    if echo "$CHANGED_FILES" | grep -q "^kubernetes/"; then
+      LABELS="$LABELS area/kubernetes"
+    fi
+
+    # Check for talos changes
+    if echo "$CHANGED_FILES" | grep -q "^talos/"; then
+      LABELS="$LABELS area/talos"
+    fi
+
+    # Check for bootstrap changes
+    if echo "$CHANGED_FILES" | grep -q "^bootstrap/"; then
+      LABELS="$LABELS area/bootstrap"
+    fi
+
+    # Check for CI/CD changes
+    if echo "$CHANGED_FILES" | grep -q "^\.gitlab/\|\.gitlab-ci\.yaml"; then
+      LABELS="$LABELS area/gitlab"
+    fi
+
+    # Check for renovate changes
+    if echo "$CHANGED_FILES" | grep -q "^\.renovate/\|renovate\.json"; then
+      LABELS="$LABELS area/renovate"
+    fi
+
+    # Add labels if any were found
+    if [ -n "$LABELS" ]; then
+      for label in $LABELS; do
+        add_label "$label"
+      done
+      echo "Successfully labeled MR with: $LABELS"
+    else
+      echo "No matching patterns found for labeling"
+    fi
