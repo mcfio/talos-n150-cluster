@@ -30,7 +30,7 @@ spec:
               PROWLARR__SERVER__PORT: &port 9696
             envFrom:
             - secretRef:
-                name: "{{ .Release.Name }}-secret"
+                name: "{{ .Release.Name }}"
             probes:
               liveness: &probes
                 enabled: true

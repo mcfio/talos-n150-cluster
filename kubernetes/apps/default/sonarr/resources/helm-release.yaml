@@ -30,7 +30,7 @@ spec:
               SONARR__SERVER__PORT: &port 8989
             envFrom:
             - secretRef:
-                name: "{{ .Release.Name }}-secret"
+                name: "{{ .Release.Name }}"
             probes:
               liveness: &probes
                 enabled: true
