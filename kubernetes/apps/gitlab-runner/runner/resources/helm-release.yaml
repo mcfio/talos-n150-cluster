@@ -36,6 +36,7 @@ spec:
           [runners.kubernetes]
             namespace = "{{ default .Release.Namespace .Values.runners.jobNamespace }}"
             image = "alpine"
+            allowed_pull_policies = ["always", "if-not-present", ""]
           [[runners.kubernetes.volumes.pvc]]
             name = "gitlab-runner-cache"
             mount_path = "/cache"
