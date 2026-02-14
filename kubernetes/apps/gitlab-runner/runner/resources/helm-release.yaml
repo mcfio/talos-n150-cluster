@@ -25,8 +25,9 @@ spec:
       podMonitor:
         enabled: true
     runners:
-      privileged: false
+      name: talos-n150-cluster-runner
       secret: gitlab-runner
+      privileged: false
       config: |
         [[runners]]
           request_concurrency = 2
