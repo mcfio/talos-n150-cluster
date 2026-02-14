@@ -1,0 +1,29 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "packageRules": [
+    {
+      "description": "Auto-merge trusted container digests",
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": ["digest"],
+      "matchPackagePrefixes": [
+        "ghcr.io/home-operations",
+        "ghcr.io/bjw-s-labs"
+      ],
+      "ignoreTests": false
+    },
+    {
+      "description": "Auto-merge specific Helm releases",
+      "matchDatasources": ["helm", "docker"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchPackageNames": [
+        "/kube-prometheus-stack/",
+        "/grafana/"
+      ],
+      "ignoreTests": false
+    }
+  ]
+}

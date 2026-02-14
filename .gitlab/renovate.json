@@ -2,13 +2,13 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "gitlab>mcf.io/renovate-config",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/autoMerge.json5",
+    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/autoMerge",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/customManagers",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/groups",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/versioning.json5",
+    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/versioning",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/overrides",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/schedules",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/grafanaDashboards.json5"
+    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/grafanaDashboards"
   ],
   "reviewers": ["nick.mcfaul"],
   "ignorePaths": [
@@ -21,7 +21,7 @@
   },
   "helm-values": {
     "managerFilePatterns": [
-      "/(^|/)kubernetes/.+\\.ya?ml$/"
+      "/\\.yaml(?:\\.j2)?$/"
     ]
   },
   "kubernetes": {
