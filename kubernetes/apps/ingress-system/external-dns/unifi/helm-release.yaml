@@ -12,7 +12,7 @@ spec:
   values:
     fullnameOverride: *appname
     podAnnotations:
-      secret.reloader.stakater.com/reload: &secret external-dns-unifi-secret
+      secret.reloader.stakater.com/reload: *appname
     provider:
       name: webhook
       webhook:
@@ -25,8 +25,8 @@ spec:
         - name: UNIFI_API_KEY
           valueFrom:
             secretKeyRef:
-              name: *secret
-              key: apikey
+              name: *appname
+              key: credential
         livenessProbe:
           httpGet:
             path: /healthz
