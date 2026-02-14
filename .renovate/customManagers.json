@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "packageRules": [
+  "customManagers": [
     {
       "customType": "regex",
       "description": "Process OCI dependencies as container images",
