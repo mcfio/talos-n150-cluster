@@ -31,7 +31,7 @@ spec:
               TUNNEL_POST_QUANTUM: true
             envFrom:
             - secretRef:
-                name: cloudflare-tunnel-secret
+                name: "{{ .Release.Name }}"
             args:
             - tunnel
             - run

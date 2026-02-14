@@ -49,10 +49,10 @@ spec:
   - name: heartbeat
     webhookConfigs:
     - urlSecret:
-        name: alertmanager-secret
-        key: ALERTMANAGER_HEARTBEAT_URL
+        name: alertmanager
+        key: hcping_url
   - name: pagerduty
     pagerdutyConfigs:
     - routingKey:
-        name: alertmanager-secret
-        key: PAGERDUTY_ROUTING_KEY
+        name: alertmanager
+        key: pagerduty_routing_key

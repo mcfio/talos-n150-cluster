@@ -31,7 +31,7 @@ spec:
                 sabnzbd.milton.mcf.io
             envFrom:
             - secretRef:
-                name: "{{ .Release.Name }}-secret"
+                name: "{{ .Release.Name }}"
             probes:
               liveness: &probes
                 enabled: true
