@@ -3,11 +3,11 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: github
+  name: gitlab-status
 spec:
   providerRef:
-    name: github
+    name: gitlab-status
   eventSeverity: info
   eventSources:
-    - kind: Kustomization
-      name: "*"
+  - kind: Kustomization
+    name: "*"
