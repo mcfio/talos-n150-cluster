@@ -15,7 +15,7 @@ web:
 
 storage:
   type: sqlite
-  file: ${GATUS_CONFIG_PATH}/gatus.db
+  path: ${GATUS_CONFIG_PATH}/gatus.db
   caching: true
 
 connectivity:
