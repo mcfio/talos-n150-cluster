@@ -79,6 +79,11 @@ spec:
     service:
       app:
         annotations:
+          gatus.home-operations.com/enabled: "true"
+          gatus.home-operations.com/endpoint: |-
+            url: https://plex.mcf.io
+            group: external
+            conditions: ["[STATUS] == 401"]
           # by eliminating the http-route source, this will only be managed by external-dns-cloudflare
           external-dns.alpha.kubernetes.io/hostname: "{{ .Release.Name }}.mcf.io"
           external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
