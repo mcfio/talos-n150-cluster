@@ -6,6 +6,6 @@ metadata:
   name: gitlab-status
 spec:
   type: gitlab
-  address: https://gitlab.com/mcfio/milton/talos-n150-cluster
+  address: https://gitlab.com/26889056
   secretRef:
     name: gitlab-status
