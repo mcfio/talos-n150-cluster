@@ -26,9 +26,6 @@ spec:
             env:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
-              TUNNEL_ORIGIN_ENABLE_HTTP2: true
-              TUNNEL_TRANSPORT_PROTOCOL: quic
-              TUNNEL_POST_QUANTUM: true
             envFrom:
             - secretRef:
                 name: "{{ .Release.Name }}"
@@ -78,14 +75,14 @@ spec:
     configMaps:
       config:
         data:
-          config.yaml: |
-            ---
+          config.yaml: |-
             ingress:
-              - hostname: plex.mcf.io
-                service: https://plex.default.svc.cluster.local:32400
-                originRequest:
-                  noTLSVerify: true
               - hostname: "*.mcf.io"
+                originRequest:
+                  http2Origin: true
+                  keepAliveTimeout: 3600s
+                  originServerName: ipv4.mcf.io
+                  tcpKeepAlive: 7200s
                 service: http://external.ingress-system.svc.cluster.local
               - service: http_status:404
     persistence:
