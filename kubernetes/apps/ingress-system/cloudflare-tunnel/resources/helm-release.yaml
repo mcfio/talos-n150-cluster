@@ -77,6 +77,10 @@ spec:
         data:
           config.yaml: |-
             ingress:
+              - hostname: plex.mcf.io
+                originRequest:
+                  noTLSVerify: true
+                service: https://plex.default.svc.cluster.local:32400
               - hostname: "*.mcf.io"
                 originRequest:
                   http2Origin: true
