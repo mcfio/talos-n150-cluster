@@ -8,4 +8,4 @@ spec:
   type: gitlab
   address: https://gitlab.com/mcfio/milton/talos-n150-cluster
   secretRef:
-    name: github-status
+    name: gitlab-status
