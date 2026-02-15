@@ -24,7 +24,7 @@ spec:
               KOPIA_WEB_ENABLED: true
             envFrom:
             - secretRef:
-                name: "{{ .Release.Name }}-secret"
+                name: "{{ .Release.Name }}"
             args:
             - --without-password
             probes:
