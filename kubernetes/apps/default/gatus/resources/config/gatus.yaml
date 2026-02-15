@@ -8,7 +8,7 @@ ui:
   link: https://gitlab.com/mcfio
   buttons:
   - name: GitLab
-    url: https://gitlab.com/mcfio/milton/talos-n150-cluster
+    link: https://gitlab.com/mcfio/milton/talos-n150-cluster
 
 web:
   port: ${WEB_PORT}
