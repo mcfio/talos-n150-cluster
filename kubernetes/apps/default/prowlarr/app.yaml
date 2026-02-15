@@ -18,7 +18,6 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/gatus/internal
   - ../../../../components/volsync
   postBuild:
     substitute:

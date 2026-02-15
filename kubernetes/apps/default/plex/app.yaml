@@ -19,7 +19,6 @@ spec:
   wait: false
   components:
   - ../../../../components/volsync
-  - ../../../../components/gatus/external
   - ../../../../components/nfs-scaler
   postBuild:
     substitute:

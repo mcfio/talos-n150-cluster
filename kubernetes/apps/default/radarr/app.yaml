@@ -18,7 +18,6 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/gatus/internal
   - ../../../../components/nfs-scaler
   - ../../../../components/volsync
   postBuild:
