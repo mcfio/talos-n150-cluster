@@ -12,7 +12,7 @@ add_labels:
     when:
     - runner_system_failure
     - stuck_or_timeout_failure
-  image: registry.gitlab.com/gitlab-org/cli:v1.85.1@sha256:601f7b1699f337cf775c7c1a8686060302408fee123646e1041f084ace9a83ad
+  image: registry.gitlab.com/gitlab-org/cli:v1.85.2@sha256:8b8abd8a1254694bc5efe8a2a9284002fb7e7932c76f6106aa5a337acce05c48
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
   script:
