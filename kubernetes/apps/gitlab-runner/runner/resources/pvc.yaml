@@ -9,4 +9,4 @@ spec:
   resources:
     requests:
       storage: 25Gi
-  storageClassName: openebs-hostpath
+  storageClassName: ceph-replicated
