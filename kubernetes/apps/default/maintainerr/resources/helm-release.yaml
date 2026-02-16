@@ -15,8 +15,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/jorenn92/maintainerr
-              tag: 2.19.0@sha256:bee84707edaf589cda3d18b6813cbfe3a137b52786210c3a28190e10910c1240
+              repository: ghcr.io/maintainerr/maintainerr
+              tag: 2.19.0
             env:
               TZ: Canada/Eastern
               UI_PORT: &port 6246
