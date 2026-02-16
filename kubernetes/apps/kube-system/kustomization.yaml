@@ -8,6 +8,7 @@ components:
 - ../../components/app-template
 resources:
 - ./namespace.yaml
+- ./coredns/app.yaml
 - ./cilium/app.yaml
 - ./cilium/config.yaml
 - ./multus/app.yaml
