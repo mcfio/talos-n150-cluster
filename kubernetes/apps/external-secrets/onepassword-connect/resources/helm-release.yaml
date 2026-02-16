@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: onepassword-operator
+  name: onepassword-connect
 spec:
   interval: 12h
   chart:
@@ -13,7 +13,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: onepassword-connect-charts
-        namespace: onepassword
+        namespace: external-secrets
   values:
     connect:
       create: true
@@ -21,10 +21,7 @@ spec:
       api:
         serviceMonitor:
           enabled: true
-      credentialsName: onepassword-credentials
+      credentialsName: onepassword-connect-credentials
       credentialsKey: 1password-credentials.json
     operator:
-      create: true
-      token:
-        name: onepassword-credentials
-        key: token
+      create: false
