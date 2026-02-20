@@ -8,6 +8,8 @@ spec:
   dependsOn:
   - name: external-secrets
     namespace: external-secrets
+  components:
+  - ../../../../components/volsync
   interval: 12h
   path: ./kubernetes/apps/default/recyclarr/resources
   prune: true
@@ -17,3 +19,6 @@ spec:
     namespace: flux-system
   targetNamespace: default
   wait: false
+  postBuild:
+    substitute:
+      app: recyclarr
