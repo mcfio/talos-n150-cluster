@@ -1,9 +1,11 @@
 ---
 machine:
-  type: controlplane
+  type: worker
   install:
     disk: /dev/sda
-    image: factory.talos.dev/vmware-installer/1c70bdedf0afb9beb6e0bd7096845aab499c5d7d006fe0d4206580bf2f702505:v1.12.4
+    image: factory.talos.dev/nocloud-installer-secureboot/34fe8a6bb7da97e043aa9dd27e224c91f7b66be10bf06c4eb118cbc79e7cfe94:v1.12.4
+  nodeLabels:
+    io.cilium.node-config/name: qemu
     # diskSelector:
     #   type: nvme
     # image: factory.talos.dev/metal-installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.12.0
@@ -17,7 +19,7 @@ kind: RawVolumeConfig
 name: csi-data
 provisioning:
   diskSelector:
-    match: disk.transport == "vmw_pvscsi" && disk.size > 300u * GiB
+    match: disk.transport == "virtio" && disk.size > 300u * GiB
   minSize: 250GiB
   grow: true
 # ---

@@ -23,10 +23,7 @@ machine:
       enabled: true
       allowedRoles:
       - os:admin
-      - os:reader
       allowedKubernetesNamespaces:
-      - arc-system
-      - kube-system
       - system-upgrade
     {% endif %}
   files:
@@ -146,6 +143,8 @@ cluster:
             - maxSkew: 1
               topologyKey: kubernetes.io/hostname
               whenUnsatisfiable: ScheduleAnyway
+  coreDNS:
+    disabled: true
   etcd:
     ca:
       crt: op://mcfio/talos-n150-cluster/etcd/ca_crt
@@ -187,9 +186,3 @@ apiVersion: v1alpha1
 kind: UserVolumeConfig
 name: local-hostpath
 volumeType: directory
----
-apiVersion: v1alpha1
-kind: OOMConfig
-triggerExpression: "false"
-cgroupRankingExpression: "0.0"
-sampleInterval: 5s

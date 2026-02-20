@@ -1,4 +1,5 @@
 ---
+# qemu schematic
 customization:
   extraKernelArgs:
   - -init_on_alloc
@@ -12,5 +13,6 @@ customization:
   - talos.auditd.disabled=1
   systemExtensions:
     officialExtensions:
-    - siderolabs/nfsrahead
-    - siderolabs/vmtoolsd-guest-agent
+    - siderolabs/intel-ucode
+    - siderolabs/qemu-guest-agent
+  bootloader: sd-boot

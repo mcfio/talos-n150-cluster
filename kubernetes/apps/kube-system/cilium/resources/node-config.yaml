@@ -3,12 +3,11 @@
 apiVersion: cilium.io/v2
 kind: CiliumNodeConfig
 metadata:
-  name: vmware-node-config
+  name: qemu
 spec:
   nodeSelector:
     matchLabels:
-      node.cloudprovider.kubernetes.io/platform: vmware
-      kubernetes.io/arch: amd64
+      io.cilium.node-config/name: qemu
   defaults:
     devices: eth+,vlan+
 ---
@@ -16,11 +15,10 @@ spec:
 apiVersion: cilium.io/v2
 kind: CiliumNodeConfig
 metadata:
-  name: rpi-node-config
+  name: rpi
 spec:
   nodeSelector:
     matchLabels:
-      node.cloudprovider.kubernetes.io/platform: metal
-      kubernetes.io/arch: arm64
+      io.cilium.node-config/name: rpi
   defaults:
     devices: end+,vlan+

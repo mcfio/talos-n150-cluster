@@ -14,10 +14,10 @@ render-config node:
         --patch @{{ talos_dir }}/nodes/{{ node }}.yaml
 
 [doc('Apply Talos config to a node')]
-apply-config node *args:
-    just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ node }}" --file /dev/stdin --dry-run {{ args }}
+apply-config node ip="" *args:
+    just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ if ip == '' { node } else { ip } }}" --file /dev/stdin --dry-run {{ args }}
     gum confirm "Apply above config to node {{ node }}?" --default=No && \
-        just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ node }}" --file /dev/stdin {{ args }}
+        just talos::render-config "{{ node }}" | talosctl apply-config --nodes "{{ if ip == '' { node } else { ip } }}" --file /dev/stdin {{ args }}
 
 [doc('Upgrade Kubernetes version on the cluster')]
 upgrade-k8s version:

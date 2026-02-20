@@ -39,10 +39,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
             - matchExpressions:
-              - key: kubernetes.io/arch
-                operator: NotIn
+              - key: io.cilium.node-config/name
+                operator: In
                 values:
-                - arm64
+                - metal
     rbac:
       roles:
         multus:
