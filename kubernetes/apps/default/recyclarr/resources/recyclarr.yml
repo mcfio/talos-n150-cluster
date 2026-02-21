@@ -73,5 +73,5 @@ radarr:
       - 5c44f52a8714fdd79bb4d98e2673be1f # Retags
       - f537cf427b64c38c8e36298f657e4828 # Scene
       assign_scores_to:
-      - name: "[SQP] SQP-1 WEB (1080p)"
-      - name: "[SQP] SQP-1 WEB (2160p)"
+      - trash_id: 90a3370d2d30cbaf08d9c23b856a12c8 # [SQP] SQP-1 WEB (1080p)
+      - trash_id: e91c9adaca0231493f4af0d571b907f9 # [SQP] SQP-1 WEB (2160p)
