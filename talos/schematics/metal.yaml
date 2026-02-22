@@ -15,5 +15,5 @@ customization:
     - siderolabs/i915
     - siderolabs/intel-ice-firmware
     - siderolabs/intel-ucode
-    - siderolabs/nfsrahead
     - siderolabs/nvme-cli
+  bootloader: sd-boot

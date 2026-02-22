@@ -1,10 +1,10 @@
 ---
 machine:
-  type: controlplane
+  type: worker
   install:
     diskSelector:
       type: nvme
-    image: factory.talos.dev/metal-installer/67fe4a7e1885b81b2d4b287ee0bff76702af194c05faa023bd1f2e493e2d7698:v1.12.4
+    image: factory.talos.dev/metal-installer-secureboot/46302451fc0b28c9baf2854ed7b740565ec3b640e1dbf232ffed54de870a21b7:v1.12.4
   nodeLabels:
     node.kubernetes.io/intel-gpu: "true"
 ---
