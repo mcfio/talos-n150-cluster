@@ -40,9 +40,10 @@ spec:
             nodeSelectorTerms:
             - matchExpressions:
               - key: io.cilium.node-config/name
-                operator: In
+                operator: NotIn
                 values:
-                - metal
+                - qemu
+                - rpi
     rbac:
       roles:
         multus:
