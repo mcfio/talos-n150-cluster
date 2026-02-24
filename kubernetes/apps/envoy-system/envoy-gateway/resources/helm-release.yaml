@@ -10,8 +10,6 @@ spec:
     kind: OCIRepository
     name: envoy-gateway
   values:
-    global:
-      imageRegistry: mirror.gcr.io
     config:
       envoyGateway:
         provider:
