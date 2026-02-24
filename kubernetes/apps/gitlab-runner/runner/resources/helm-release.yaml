@@ -24,6 +24,15 @@ spec:
       enabled: true
       podMonitor:
         enabled: true
+    extraEnvFrom:
+      CACHE_S3_ACCESS_KEY:
+        secretKeyRef:
+          name: gitlab-runner-cache
+          key: AWS_ACCESS_KEY_ID
+      CACHE_S3_SECRET_KEY:
+        secretKeyRef:
+          name: gitlab-runner-cache
+          key: AWS_SECRET_ACCESS_KEY
     runners:
       name: talos-n150-cluster-runner
       secret: gitlab-runner
@@ -37,6 +46,9 @@ spec:
             namespace = "{{ default .Release.Namespace .Values.runners.jobNamespace }}"
             image = "alpine"
             allowed_pull_policies = ["always", "if-not-present", ""]
-          [[runners.kubernetes.volumes.pvc]]
-            name = "gitlab-runner-cache"
-            mount_path = "/cache"
+          [runners.cache]
+            Type = "s3"
+            [runners.cache.s3]
+              ServerAddress = "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
+              BucketName = "cache-ca83acc5-3c78-4f6a-8ff6-8bd3d0d7ffbe"
+              Insecure = false
