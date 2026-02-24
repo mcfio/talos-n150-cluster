@@ -51,4 +51,4 @@ spec:
             [runners.cache.s3]
               ServerAddress = "rook-ceph-rgw-ceph-objectstore.rook-ceph.svc"
               BucketName = "cache-ca83acc5-3c78-4f6a-8ff6-8bd3d0d7ffbe"
-              Insecure = false
+              Insecure = true
