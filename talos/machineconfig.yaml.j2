@@ -102,7 +102,6 @@ cluster:
     key: op://mcfio/talos-n150-cluster/cluster/aggregator_ca_key
   serviceAccount:
     key: op://mcfio/talos-n150-cluster/cluster/service_account_key
-  allowSchedulingOnControlPlanes: true
   secretboxEncryptionSecret: op://mcfio/talos-n150-cluster/cluster/secretbox_encryption_secret
   apiServer:
     image: registry.k8s.io/kube-apiserver:v1.35.1
@@ -171,7 +170,6 @@ apiVersion: v1alpha1
 kind: ResolverConfig
 searchDomains:
   domains:
-  - internal
   - milton.mcf.io
 ---
 apiVersion: v1alpha1

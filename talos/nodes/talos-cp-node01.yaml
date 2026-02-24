@@ -3,13 +3,15 @@ machine:
   type: controlplane
   install:
     disk: /dev/sda
-    image: factory.talos.dev/nocloud-installer-secureboot/34fe8a6bb7da97e043aa9dd27e224c91f7b66be10bf06c4eb118cbc79e7cfe94:v1.12.4
+    image: factory.talos.dev/metal-installer-secureboot/96b1e5cb9cca4d90b385954c9e3766be4b529c900ccdef1824ba31b94c062d4e:v1.12.4
   nodeLabels:
     io.cilium.node-config/name: qemu
-cluster:
-  allowSchedulingOnControlPlanes: false
-# ---
-# apiVersion: v1alpha1
-# kind: WatchdogTimerConfig
-# device: /dev/watchdog0
-# timeout: 5m
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: stable
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

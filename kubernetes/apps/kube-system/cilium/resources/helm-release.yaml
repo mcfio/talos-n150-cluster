@@ -71,23 +71,23 @@ spec:
     securityContext:
       capabilities:
         ciliumAgent:
-        - CHOWN
-        - KILL
-        - NET_ADMIN
-        - NET_RAW
-        - IPC_LOCK
-        - SYS_ADMIN
-        - SYS_RESOURCE
-        - PERFMON
-        - BPF
-        - DAC_OVERRIDE
-        - FOWNER
-        - SETGID
-        - SETUID
+          - CHOWN
+          - KILL
+          - NET_ADMIN
+          - NET_RAW
+          - IPC_LOCK
+          - SYS_ADMIN
+          - SYS_RESOURCE
+          - PERFMON
+          - BPF
+          - DAC_OVERRIDE
+          - FOWNER
+          - SETGID
+          - SETUID
         cleanCiliumState:
-        - NET_ADMIN
-        - SYS_ADMIN
-        - SYS_RESOURCE
+          - NET_ADMIN
+          - SYS_ADMIN
+          - SYS_RESOURCE
     socketLB:
       enabled: true
       hostNamespaceOnly: true
