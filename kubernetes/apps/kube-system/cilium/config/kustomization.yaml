@@ -7,4 +7,3 @@ resources:
 - ./bgp-peer-config.yaml
 - ./bgp-cluster-config.yaml
 - ./load-balancer-ip-pool.yaml
-- ./k8s-service.yaml
