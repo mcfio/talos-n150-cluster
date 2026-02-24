@@ -9,7 +9,7 @@ spec:
     matchLabels:
       io.cilium.node-config/name: qemu
   defaults:
-    devices: eth+,vlan+
+    devices: ens+,eth+,vlan+
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/cilium.io/ciliumnodeconfig_v2.json
 apiVersion: cilium.io/v2
