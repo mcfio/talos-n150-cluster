@@ -47,7 +47,6 @@ spec:
                     remediateLastFailure: true
                 rollback:
                   cleanupOnFail: true
-                  recreate: true
             target:
               group: helm.toolkit.fluxcd.io
               kind: HelmRelease
