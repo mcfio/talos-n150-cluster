@@ -3,6 +3,9 @@ yamllint:
   stage: lint
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - "**/*.yaml"
+    - "**/*.yml"
   image: registry.gitlab.com/pipeline-components/yamllint:latest@sha256:3e9eb9bef568b904d9222e9174a1490f4e015aef3d61e7d3e56f60035e517b79
   script: |
     yamllint --config-file .yamllint.yaml . || true
