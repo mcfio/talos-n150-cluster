@@ -1,0 +1,102 @@
+[tasks.shell]
+description = "Open a shell on a node using kubectl node-shell."
+quiet = true
+usage = '''
+arg "<node>"
+complete "node" run="mise run //kubernetes:get_nodes"
+'''
+run = '''kubectl node-shell --namespace kube-system --image mirror.gcr.io/alpine:latest -x ${usage_node}'''
+
+[tasks.browse-pvc]
+description = "Browse a PVC using kubectl browse-pvc."
+quiet = true
+usage = '''
+arg "<namespace>"
+arg "<claim>"
+'''
+run = '''kubectl browse-pvc --namespace ${usage_namespace} -i mirror.gcr.io/alpine:latest ${usage_claim}'''
+
+[tasks.snapshot]
+description = "Trigger snapshots of VolSync PVCs by updating the manual trigger timestamp on ReplicationSources."
+quiet = true
+run = '''
+kubectl get replicationsources --no-headers --all-namespaces | while read -r namespace name _; do
+  kubectl --namespace "${namespace}" patch replicationsources "${name}" --type merge --patch '{"spec":{"trigger":{"manual":"'"$(date +%s)"'"}}}'
+done
+'''
+
+[tasks.volsync]
+description = "Suspend or resume VolSync by scaling the deployment and suspending/resuming the Kustomization and HelmRelease."
+quiet = true
+usage = '''
+arg "<state>" {
+  choices "suspend" "resume"
+}
+'''
+run = '''
+[[ "${usage_state}" == "resume" ]]; replicas=1
+flux -n volsync-system ${usage_state} kustomization volsync
+flux -n volsync-system ${usage_state} helmrelease volsync
+kubectl --namespace volsync-system scale deployment volsync --replicas ${replicas:-0}
+'''
+
+[tasks.sync-es]
+description = "Trigger reconciliation of ExternalSecrets by updating the force-sync annotation with the current timestamp."
+quiet = true
+run = '''
+kubectl get externalsecrets.external-secrets.io --no-headers --all-namespaces | while read -r namespace resource _; do
+  kubectl --namespace ${namespace} annotate --field-manager flux-client-side-apply \
+    --overwrite externalsecrets.external-secrets.io ${resource} force-sync="$(date +s)"
+done
+'''
+
+[tasks.sync-hr]
+description = "Trigger reconciliation of HelmReleases by updating the requestedAt and forcedAt annotations with the current timestamp."
+quiet = true
+run = '''
+requested="reconcile.fluxcd.io/requestedAt=$(date +s)"
+forced="reconcile.fluxcd.io/forcedAt=$(date +s)"
+kubectl get helmreleases.helm.toolkit.fluxcd.io --no-headers --all-namespaces | while read -r namespace resource _; do
+  kubectl --namespace ${namespace} annotate --field-manager flux-client-side-apply \
+    --overwrite helmreleases.helm.toolkit.fluxcd.io ${resource} ${requested} ${forced}
+done
+'''
+
+[tasks.sync-ks]
+description = "Trigger reconciliation of Kustomizations by updating the requestedAt annotation with the current timestamp."
+quiet = true
+run = '''
+requested="reconcile.fluxcd.io/requestedAt=$(date +s)"
+kubectl get kustomizations.kustomize.toolkit.fluxcd.io --no-headers --all-namespaces | while read -r namespace resource _; do
+  kubectl --namespace ${namespace} annotate --field-manager flux-client-side-apply \
+    --overwrite kustomizations.kustomize.toolkit.fluxcd.io ${resource} ${requested}
+done
+'''
+
+[tasks.sync-oci]
+description = "Trigger reconciliation of OCIRepositories by updating the requestedAt annotation with the current timestamp."
+quiet = true
+run = '''
+requested="reconcile.fluxcd.io/requestedAt=$(date +s)"
+kubectl get ocirepositories.source.toolkit.fluxcd.io --no-headers --all-namespaces | while read -r namespace resource _; do
+  kubectl --namespace ${namespace} annotate --field-manager flux-client-side-apply \
+    --overwrite ocirepositories.source.toolkit.fluxcd.io ${resource} ${requested}
+done
+'''
+
+[tasks.cleanup]
+description = "Clean-up pods in Failed or Succeeded state"
+quiet = true
+run = '''
+for phase in Failed Succeeded; do
+  kubectl delete pods --all-namespaces --field-selector status.phase="$phase" --ignore-not-found=true
+done
+'''
+
+[tasks.get_nodes]
+alias = "gn"
+quiet = true
+hide = true
+run = '''
+kubectl get nodes --output jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
+'''
