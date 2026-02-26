@@ -1,8 +1,26 @@
+experimental_monorepo_root = true
+
+[settings]
+experimental = true
+unix_default_inline_shell_args = "bash -euo pipefail -c"
+env_shell_expand = true
+
+[monorepo]
+config_roots = ["kubernetes", "talos"]
+
+[vars]
+bootstrap_dir = "{{ config_root }}/bootstrap"
+talos_dir = "{{ config_root }}/talos"
+kubernetes_dir = "{{ config_root }}/kubernetes"
+
 [env]
-MINIJINJA_CONFIG_FILE = "{{config_root}}/.minijinja.toml"
-TALOSCONFIG = "{{config_root}}/talosconfig"
-KUBECONFIG = "{{config_root}}/kubeconfig"
+MINIJINJA_CONFIG_FILE = "{{ config_root }}/.minijinja.toml"
+TALOSCONFIG = "{{ config_root }}/talosconfig"
+KUBECONFIG = "{{ config_root }}/kubeconfig"
 
 [tools]
+"yq" = "latest"
+"gum" = "latest"
+"shellcheck" = "latest"
 "uv" = "latest"
 "pipx:flux-local" = "latest"

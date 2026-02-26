@@ -1,0 +1,125 @@
+# mise/shell scripts to help the management of talos machines.
+#
+[tasks.render-config]
+description = "Render the machine config for a node"
+alias = "trc"
+quiet = true
+usage = '''
+arg "<node>"
+complete "node" run="mise run //kubernetes:get_nodes"
+'''
+run = "talosctl machineconfig patch <(mise run //talos:template ${usage_node}) --patch @{{ vars.talos_dir }}/nodes/${usage_node}.yaml"
+
+[tasks.apply-config]
+description = "Apply the rendered machine config to a node, with a preview of changes before applying."
+alias = "tac"
+quiet = true
+usage = '''
+arg "<node>"
+complete "node" run="mise //kubernetes:get_nodes"
+arg "[extra]" var=#true double_dash="required"
+'''
+run = '''
+eval "extra_args=(${usage_extra:-})"
+mise //talos:render-config ${usage_node} | talosctl apply-config --nodes ${usage_node} --file /dev/stdin --dry-run ${extra_args[@]:-} || exit 0
+gum confirm "Apply above config to node ${usage_node}?" --default=No && \
+  mise //talos:render-config ${usage_node} | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${extra_args[@]:-} || exit 0
+'''
+
+[tasks.upgrade-k8s]
+quiet = true
+usage = '''
+arg "<version>"
+'''
+run = "talosctl upgrade-k8s --nodes $(talosctl config info -o yaml | yq -e '.endpoints[0]') --to ${usage_version}"
+
+[tasks.download-image]
+description = "Download Talos machine image"
+quiet = true
+usage = '''
+arg "<version>"
+arg "<platform>" default="metal"
+'''
+run = '''
+SCHEMATIC="$(mise //talos:gen-schematic-id ${usage_platform})"
+[[ "${usage_platform}" == "rpi" ]] && FILE_SUFFIX="arm64.raw.xz" || FILE_SUFFIX="amd64.iso"
+gum spin --title "Downloading Talos ${usage_version} ..." -- \
+curl -sfL --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors \
+    --output "{{ vars.talos_dir }}/talos-${usage_version}-${SCHEMATIC:0:8}-${usage_platform}-${FILE_SUFFIX}" \
+    "https://factory.talos.dev/image/${SCHEMATIC}/${usage_version}/metal-${FILE_SUFFIX}"
+'''
+
+[tasks.lifecycle]
+description = "Perform lifecycle actions on a node"
+quiet = true
+usage = '''
+arg "<action>" {
+  choices "upgrade" "reboot" "reset" "shutdown"
+}
+arg "<node>"
+complete "node" run="mise //kubernetes:get_nodes"
+'''
+run = '''
+case "${usage_action}" in
+  upgrade)
+    gum confirm "Upgrade node ${usage_node} with image $(mise //talos:machine-image ${usage_node})?" --default=No && \
+      talosctl upgrade --nodes ${usage_node} --image "$(mise //talos:machine-image ${usage_node})" --reboot-mode powercycle --timeout=10m || exit 0
+    ;;
+  reboot)
+    gum confirm "Reboot node ${usage_node}?" --default=No && \
+      talosctl reboot --nodes ${usage_node} --mode powercycle || exit 0
+    ;;
+  reset)
+    gum confirm "Reset node ${usage_node}?" --default=No && \
+      talosctl reset --nodes ${usage_node} --graceful=false || exit 0
+    ;;
+  shutdown)
+    gum confirm "Shutdown node ${usage_node}?" --default=No && \
+      talosctl shutdown --nodes ${usage_node}" --force || exit 0
+    ;;
+esac
+'''
+
+# Utility tasks that are used to render machine configs and extract information from node definitions, but aren't meant to be used directly by the user.
+#
+[tasks.template]
+hide = true
+quiet = true
+usage = '''
+arg "<node>"
+'''
+run = '''
+minijinja-cli \
+  --define "is_controlplane:=$(mise //talos:is_controlplane ${usage_node})" \
+  {{ vars.talos_dir }}/machineconfig.yaml.j2 \
+  | op inject
+'''
+
+[tasks.is_controlplane]
+hide = true
+quiet = true
+usage = '''
+arg "<node>"
+'''
+run = "yq 'select(.machine) | (.machine.type == \"controlplane\")' {{ vars.talos_dir }}/nodes/${usage_node}.yaml"
+
+[tasks.machine-image]
+hide = true
+quiet = true
+usage = '''
+arg "<node>"
+'''
+run = "yq 'select(.machine) | .machine.install.image' {{ vars.talos_dir }}/nodes/${usage_node}.yaml"
+
+[tasks.gen-schematic-id]
+hide = true
+quiet = true
+usage = '''
+arg "<platform>" default="metal"
+'''
+run = '''
+curl --silent -X POST --data-binary \
+  "@{{ vars.talos_dir }}/schematics/${usage_platform}.yaml" \
+  "https://factory.talos.dev/schematics" \
+  | jq --raw-output '.id'
+'''
