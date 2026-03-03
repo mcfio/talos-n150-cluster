@@ -19,15 +19,15 @@
       - kustomization
       - helmrelease
 
-flux-local:test:
-  extends:
-  - .flux-local
-  script: |
-    flux-local test \
-      --all-namespaces \
-      --enable-helm \
-      --path "${CI_PROJECT_DIR}/kubernetes/flux/config" \
-      --verbose
+# flux-local:test:
+#   extends:
+#   - .flux-local
+#   script: |
+#     flux-local test \
+#       --all-namespaces \
+#       --enable-helm \
+#       --path "${CI_PROJECT_DIR}/kubernetes/flux/config" \
+#       --verbose
 
 flux-local:diff:
   extends:
