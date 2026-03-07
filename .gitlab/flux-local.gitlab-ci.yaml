@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 .flux-local:
   variables:
     FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: 1 # necessary for git safe.directory

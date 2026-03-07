@@ -1,7 +1,8 @@
 ---
+# yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
+#
 # GitLab CI workflow for automatic MR labeling based on changed files
 # This pipeline labels merge requests to help with triage and area identification
-
 add_labels:
   stage: label
   rules:
