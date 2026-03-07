@@ -3,10 +3,11 @@
 yamllint:
   stage: lint
   rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_PIPELINE_SOURCE == "push"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH)
     changes:
     - "**/*.yaml"
     - "**/*.yml"
+  allow_failure: true
   image: registry.gitlab.com/pipeline-components/yamllint:latest@sha256:3e9eb9bef568b904d9222e9174a1490f4e015aef3d61e7d3e56f60035e517b79
   script: |
-    yamllint --config-file .yamllint.yaml . || true
+    yamllint --config-file .yamllint.yaml .
