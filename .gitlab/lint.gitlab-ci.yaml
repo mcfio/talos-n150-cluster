@@ -8,5 +8,13 @@ yamllint:
     - "**/*.yaml"
     - "**/*.yml"
   image: registry.gitlab.com/pipeline-components/yamllint:latest@sha256:3e9eb9bef568b904d9222e9174a1490f4e015aef3d61e7d3e56f60035e517b79
-  script: |
-    yamllint --config-file .yamllint.yaml . || true
+  script:
+  - |
+    CHANGED_FILES=$(git diff --name-only --diff-filter=d ${CI_MERGE_REQUEST_DIFF_BASE_SHA} HEAD -- '*.yaml' '*.yml' 2>/dev/null || git diff --name-only --diff-filter=d HEAD~1 HEAD -- '*.yaml' '*.yml')
+    if [ -n "${CHANGED_FILES}" ]; then
+      echo "Linting changed YAML files:"
+      echo "${CHANGED_FILES}"
+      echo "${CHANGED_FILES}" | xargs yamllint --config-file .yamllint.yaml || true
+    else
+      echo "No YAML files changed"
+    fi
