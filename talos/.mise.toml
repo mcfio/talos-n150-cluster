@@ -11,7 +11,7 @@ complete "node" run="mise run //kubernetes:get_nodes"
 run = "talosctl machineconfig patch <(mise run //talos:template ${usage_node}) --patch @{{ vars.talos_dir }}/nodes/${usage_node}.yaml"
 
 [tasks.apply-config]
-description = "Apply the rendered machine config to a node, with a preview of changes before applying."
+description = "Apply the rendered machine config to a node."
 alias = "tac"
 quiet = true
 usage = '''
