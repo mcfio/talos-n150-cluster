@@ -9,4 +9,4 @@ spec:
   trigger:
     schedule: 30 */8 * * *
   repository:
-    repository: kopia-maintenance
+    repository: kopia

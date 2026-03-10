@@ -6,8 +6,7 @@ metadata:
   name: kopia-maintenance
 spec:
   dependsOn:
-  - name: volsync
-    namespace: volsync-system
+  - name: kopia
   interval: 12h
   path: ./kubernetes/apps/volsync-system/kopia/maintenance
   prune: true

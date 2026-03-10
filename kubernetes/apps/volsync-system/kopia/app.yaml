@@ -9,7 +9,6 @@ spec:
   - ../../../../components/nfs-scaler
   dependsOn:
   - name: volsync
-    namespace: volsync-system
   interval: 12h
   path: ./kubernetes/apps/volsync-system/kopia/resources
   prune: true
