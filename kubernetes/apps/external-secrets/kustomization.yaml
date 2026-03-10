@@ -9,4 +9,3 @@ components:
 resources:
 - ./namespace.yaml
 - ./external-secrets/app.yaml
-- ./onepassword-connect/app.yaml
