@@ -4,7 +4,7 @@ machine:
   type: worker
   install:
     disk: /dev/sda
-    image: factory.talos.dev/nocloud-installer-secureboot/34fe8a6bb7da97e043aa9dd27e224c91f7b66be10bf06c4eb118cbc79e7cfe94:v1.12.5
+    image: factory.talos.dev/nocloud-installer-secureboot/34fe8a6bb7da97e043aa9dd27e224c91f7b66be10bf06c4eb118cbc79e7cfe94:v1.12.6
   nodeLabels:
     io.cilium.node-config/name: qemu
     # diskSelector:
