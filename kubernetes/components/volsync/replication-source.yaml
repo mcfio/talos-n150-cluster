@@ -20,6 +20,12 @@ spec:
       runAsUser: ${volume_uid:=1000}
       runAsGroup: ${volume_gid:=1000}
       fsGroup: ${volume_gid:=1000}
+    moverVolumes:
+    - mountPath: repository
+      volumeSource:
+        nfs:
+          path: /volsync
+          server: nfs.internal
     parallelism: 2
     retain:
       hourly: 24
