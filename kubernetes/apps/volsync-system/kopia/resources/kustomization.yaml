@@ -5,11 +5,3 @@ kind: Kustomization
 resources:
 - ./external-secret.yaml
 - ./helm-release.yaml
-configMapGenerator:
-- name: kopia-repository-configmap
-  files:
-  - repository.config=./repository.config
-generatorOptions:
-  disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
