@@ -34,9 +34,6 @@ spec:
                 maxHistory: 3
                 install:
                   crds: CreateReplace
-                  strategy:
-                    name: RetryOnFailure
-                    retryInterval: 2m
                 upgrade:
                   crds: CreateReplace
                   strategy:
