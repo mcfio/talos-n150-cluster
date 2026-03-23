@@ -3,8 +3,9 @@
 #
 # GitLab CI workflow for automatic MR labeling based on changed files
 # This pipeline labels merge requests to help with triage and area identification
-add_labels:
-  stage: label
+labels:add:
+  stage: .pre
+  image: registry.gitlab.com/gitlab-org/cli:v1.89.0@sha256:c77d1bac5ac09248eb99914248c9628f210aa2ef52c8a86c6781c8ee5a6603a5
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   allow_failure: true
@@ -13,7 +14,6 @@ add_labels:
     when:
     - runner_system_failure
     - stuck_or_timeout_failure
-  image: registry.gitlab.com/gitlab-org/cli:v1.89.0@sha256:c77d1bac5ac09248eb99914248c9628f210aa2ef52c8a86c6781c8ee5a6603a5
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
   script:

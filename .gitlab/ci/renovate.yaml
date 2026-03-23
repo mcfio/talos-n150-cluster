@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
+include:
+- project: mcf.io/renovate-config
+  file: /templates/renovate.gitlab-ci.yaml
+
+variables:
+  RENOVATE_AUTODISCOVER: true
+  RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
+  FORCE_COLOR: 3
+
+renovate:
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "schedule"
+  - if: $CI_PIPELINE_SOURCE == "web"

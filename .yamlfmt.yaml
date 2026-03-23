@@ -9,4 +9,4 @@ formatter:
   drop_merge_tag: true
   eof_newline: true
   disable_alias_key_correction: true
-  force_array_style: block
+  # force_array_style: flow

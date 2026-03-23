@@ -1,7 +1,7 @@
 ---
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
-yamllint:
-  stage: lint
+lint:yamllint:
+  stage: test
   rules:
   - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
     when: never
@@ -11,5 +11,5 @@ yamllint:
     - "**/*.yml"
   allow_failure: true
   image: registry.gitlab.com/pipeline-components/yamllint:latest@sha256:3e9eb9bef568b904d9222e9174a1490f4e015aef3d61e7d3e56f60035e517b79
-  script: |
-    yamllint --config-file .yamllint.yaml .
+  script:
+  - yamllint --config-file .yamllint.yaml .
