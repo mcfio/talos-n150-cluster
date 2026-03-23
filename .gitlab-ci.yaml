@@ -25,12 +25,11 @@ include:
 - local: .gitlab/ci/renovate.yaml
   rules:
   - if: $[[ inputs.renovate ]] == true
-  - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  - if: $CI_PIPELINE_SOURCE == "push"
     changes:
       paths:
       - .gitlab/renovate.json
       - .renovate/**/*
-      compare_to: $CI_COMMIT_BEFORE_SHA
 - local: .gitlab/ci/schemas.yaml
   rules:
   - if: $[[ inputs.schemas ]] == true
