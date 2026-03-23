@@ -1,13 +1,22 @@
 ---
+spec:
+  inputs:
+    schemas:
+      description: Generate and publish YAML schemas from CRDs
+      type: boolean
+      default: false
+
+---
+# yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 .schemas:
   variables:
     UV_SYSTEM_PYTHON: 1
     GIT_STRATEGY: none
   rules:
-  - if: '"$[[ inputs.schemas ]]" == "true"'
+  - if: $[[ inputs.schemas ]] == true
     when: always
 
-# Generate HTML Schemas from CRDs
+# Generate YAML Schemas from CRDs
 generate-schemas:
   stage: build
   extends:
