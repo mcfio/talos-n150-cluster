@@ -20,8 +20,13 @@ generate-schemas:
   before_script: |
     apk add --no-cache bash kubectl curl
     uv pip install pyyaml
+    curl --fail --silent --show-error --location --remote-name --output-dir ${CI_PROJECT_DIR} \
+      https://raw.githubusercontent.com/datreeio/CRDs-catalog/82c9b58ad3e7294ba0c6a245f820f0870c099513/Utilities/crd-extractor.sh \
+      && chmod +x ${CI_PROJECT_DIR}/crd-extractor.sh
+    curl --fail --silent --show-error --location --remote-name --output-dir ${CI_PROJECT_DIR} \
+      https://raw.githubusercontent.com/datreeio/CRDs-catalog/82c9b58ad3e7294ba0c6a245f820f0870c099513/Utilities/openapi2jsonschema.py
   script:
-  - curl -fsSL https://raw.githubusercontent.com/datreeio/CRDs-catalog/82c9b58ad3e7294ba0c6a245f820f0870c099513/Utilities/crd-extractor.sh | bash
+  - ${CI_PROJECT_DIR}/crd-extractor.sh
   artifacts:
     paths:
     - $CI_PROJECT_DIR/crdSchemas
