@@ -1,4 +1,12 @@
 ---
+spec:
+  inputs:
+    schemas:
+      description: Generate and publish YAML schemas from CRDs
+      type: boolean
+      default: false
+
+---
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 stages:
 - build
@@ -15,8 +23,8 @@ include:
 - .gitlab/labels.gitlab-ci.yaml
 - .gitlab/lint.gitlab-ci.yaml
 - local: .gitlab/ci/schemas.yaml
-  inputs:
-    schemas:
+  rules:
+  - if: $[[ inputs.schemas ]] == true
 
 variables:
   RENOVATE_AUTODISCOVER: true
