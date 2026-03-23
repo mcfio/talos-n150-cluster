@@ -1,39 +1,24 @@
 ---
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 .flux-local:
-  variables:
-    FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: 1 # necessary for git safe.directory
-  stage: flux-local
+  stage: test
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     changes:
     - kubernetes/**/*.yaml
-  image:
-    name: ghcr.io/allenporter/flux-local:v8.1.0@sha256:37c3c4309a351830b04f93c323adfcb0e28c368001818cd819cbce3e08828261
-    entrypoint:
-    - ""
 
-.flux-local_matrix: &flux-local_matrix
+flux-local:diff:
+  extends: .flux-local
   parallel:
     matrix:
     - RESOURCE:
       - kustomization
       - helmrelease
-
-# flux-local:test:
-#   extends:
-#   - .flux-local
-#   script: |
-#     flux-local test \
-#       --all-namespaces \
-#       --enable-helm \
-#       --path "${CI_PROJECT_DIR}/kubernetes/flux/config" \
-#       --verbose
-
-flux-local:diff:
-  extends:
-  - .flux-local
-  <<: *flux-local_matrix
+  image:
+    name: ghcr.io/allenporter/flux-local:v8.1.0@sha256:37c3c4309a351830b04f93c323adfcb0e28c368001818cd819cbce3e08828261
+    entrypoint: [""]
+  variables:
+    FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: 1 # necessary for git safe.directory
   before_script:
   - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
@@ -52,11 +37,7 @@ flux-local:diff:
     - $CI_PROJECT_DIR/diff_outputs/
 
 flux-local:notes:
-  stage: flux-local
-  rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    changes:
-    - kubernetes/**/*.yaml
+  extends: .flux-local
   needs:
   - job: flux-local:diff
     artifacts: true
