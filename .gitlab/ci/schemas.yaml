@@ -1,0 +1,50 @@
+---
+.schemas:
+  variables:
+    UV_SYSTEM_PYTHON: 1
+    GIT_STRATEGY: none
+  rules:
+  - if: '"$[[ inputs.schemas ]]" == "true"'
+    when: always
+
+# Generate HTML Schemas from CRDs
+generate-schemas:
+  stage: build
+  extends:
+  - .schemas
+  tags:
+  - milton
+  image:
+    name: ghcr.io/astral-sh/uv:python3.14-alpine
+    entrypoint:
+    - ""
+  before_script: |
+    apk add --no-cache bash kubectl curl
+    uv pip install pyyaml
+  script:
+  - curl -fsSL https://raw.githubusercontent.com/datreeio/CRDs-catalog/43e4407642d4c37683c88711f37caa6c9c20ca40/Utilities/crd-extractor.sh | bash
+  artifacts:
+    paths:
+    - $HOME/.datree/crdSchemas
+    expire_in: 1 week
+
+# Publish Schemas to Cloudflare Pages
+publish-schemas:
+  stage: deploy
+  extends:
+  - .schemas
+  tags:
+  - milton
+  image:
+    name: docker.io/library/node:24-alpine
+    entrypoint:
+    - ""
+  needs:
+  - job: generate-schemas
+    artifacts: true
+  before_script: |
+    npm install --global wrangler
+    wrangler --version
+  script: |
+    cd $HOME/.datree/crdSchemas
+    npx wrangler pages deploy --project-name=crds --branch main .
