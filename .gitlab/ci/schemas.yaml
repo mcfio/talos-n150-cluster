@@ -6,7 +6,7 @@
     GIT_STRATEGY: none
     OUTPUT_DIR: $CI_PROJECT_DIR/crdSchemas
 
-# Generate YAML Schemas from CRDs
+# Generate JSON Schemas from CRDs
 generate-schemas:
   stage: build
   extends:
@@ -20,11 +20,11 @@ generate-schemas:
   before_script: |
     apk add --no-cache bash kubectl curl
     uv pip install pyyaml
-    curl --fail --silent --show-error --location --remote-name --output-dir ${CI_PROJECT_DIR} \
-      https://raw.githubusercontent.com/datreeio/CRDs-catalog/82c9b58ad3e7294ba0c6a245f820f0870c099513/Utilities/crd-extractor.sh \
-      && chmod +x ${CI_PROJECT_DIR}/crd-extractor.sh
-    curl --fail --silent --show-error --location --remote-name --output-dir ${CI_PROJECT_DIR} \
-      https://raw.githubusercontent.com/datreeio/CRDs-catalog/82c9b58ad3e7294ba0c6a245f820f0870c099513/Utilities/openapi2jsonschema.py
+    for file in crd-extractor.sh openapi2jsonschema.py; do
+      curl --fail --silent --show-error --location --output ${CI_PROJECT_DIR}/${file} \
+        https://raw.githubusercontent.com/datreeio/CRDs-catalog/82c9b58ad3e7294ba0c6a245f820f0870c099513/Utilities/${file}
+    done
+    chmod +x ${CI_PROJECT_DIR}/crd-extractor.sh
   script:
   - ${CI_PROJECT_DIR}/crd-extractor.sh
   artifacts:

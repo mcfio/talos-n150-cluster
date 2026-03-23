@@ -2,7 +2,7 @@
 spec:
   inputs:
     schemas:
-      description: Generate and publish YAML schemas from CRDs
+      description: Generate and publish JSON schemas from CRDs
       type: boolean
       default: false
 
