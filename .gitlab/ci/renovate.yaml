@@ -4,12 +4,11 @@ include:
 - project: mcf.io/renovate-config
   file: /templates/renovate.gitlab-ci.yaml
 
-variables:
-  RENOVATE_AUTODISCOVER: true
-  RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
-  FORCE_COLOR: 3
-
 renovate:
+  variables:
+    RENOVATE_AUTODISCOVER: true
+    RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
+    FORCE_COLOR: 3
   rules:
   - if: $CI_PIPELINE_SOURCE == "schedule"
   - if: $CI_PIPELINE_SOURCE == "web"
