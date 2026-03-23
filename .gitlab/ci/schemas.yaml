@@ -4,7 +4,7 @@
   variables:
     UV_SYSTEM_PYTHON: 1
     GIT_STRATEGY: none
-    HOME: $CI_PROJECT_DIR
+    OUTPUT_DIR: $CI_PROJECT_DIR/crdSchemas
 
 # Generate YAML Schemas from CRDs
 generate-schemas:
@@ -21,10 +21,10 @@ generate-schemas:
     apk add --no-cache bash kubectl curl
     uv pip install pyyaml
   script:
-  - curl -fsSL https://raw.githubusercontent.com/datreeio/CRDs-catalog/43e4407642d4c37683c88711f37caa6c9c20ca40/Utilities/crd-extractor.sh | bash
+  - curl -fsSL https://raw.githubusercontent.com/datreeio/CRDs-catalog/82c9b58ad3e7294ba0c6a245f820f0870c099513/Utilities/crd-extractor.sh | bash
   artifacts:
     paths:
-    - .datree/crdSchemas
+    - $CI_PROJECT_DIR/crdSchemas
     expire_in: 1 week
 
 # Publish Schemas to Cloudflare Pages
@@ -45,5 +45,5 @@ publish-schemas:
     npm install --global wrangler
     wrangler --version
   script: |
-    cd .datree/crdSchemas
+    cd $CI_PROJECT_DIR/crdSchemas
     npx wrangler pages deploy --project-name=crds --branch main .
