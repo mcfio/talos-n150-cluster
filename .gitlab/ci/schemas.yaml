@@ -15,7 +15,7 @@ generate-schemas:
   tags:
   - milton
   image:
-    name: ghcr.io/astral-sh/uv:python3.14-alpine
+    name: ghcr.io/astral-sh/uv:python3.14-alpine@sha256:2d328eb17f7d6a8c3996d2de739e78b18c96a6b89ce72ee665a4aa06088ac629
     entrypoint:
     - ""
   before_script: |
@@ -36,7 +36,7 @@ publish-schemas:
   tags:
   - milton
   image:
-    name: docker.io/library/node:24-alpine
+    name: docker.io/library/node:24-alpine@sha256:7fddd9ddeae8196abf4a3ef2de34e11f7b1a722119f91f28ddf1e99dcafdf114
     entrypoint:
     - ""
   needs:
