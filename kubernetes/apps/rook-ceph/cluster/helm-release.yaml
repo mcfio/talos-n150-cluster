@@ -146,17 +146,17 @@ spec:
           port: 80
           resources:
             limits:
-              memory: "2Gi"
+              memory: 2Gi
             requests:
-              cpu: "1000m"
-              memory: "1Gi"
+              cpu: 1000m
+              memory: 1Gi
           instances: 1
           priorityClassName: system-cluster-critical
       storageClass:
         enabled: true
         name: ceph-bucket
         reclaimPolicy: Delete
-        volumeBindingMode: "Immediate"
+        volumeBindingMode: Immediate
         annotations: {}
         labels: {}
         parameters:

@@ -16,7 +16,7 @@ spec:
       allowPrivilegeEscalation: false
       capabilities:
         add:
-        - "NET_RAW"
+        - NET_RAW
     config:
       modules:
         http_2xx:
@@ -24,8 +24,8 @@ spec:
           timeout: 5s
           http:
             valid_http_versions:
-            - "HTTP/1.1"
-            - "HTTP/2.0"
+            - HTTP/1.1
+            - HTTP/2.0
             follow_redirects: true
             preferred_ip_protocol: ipv4
         icmp:

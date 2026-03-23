@@ -6,8 +6,8 @@ metadata:
   name: keda-hpa-maxed-out
 spec:
   matchers:
-    - name: alertname
-      value: KubeHpaMaxedOut
-    - name: horizontalpodautoscaler
-      value: keda-hpa-.*
-      matchType: "=~"
+  - name: alertname
+    value: KubeHpaMaxedOut
+  - name: horizontalpodautoscaler
+    value: keda-hpa-.*
+    matchType: =~

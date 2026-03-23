@@ -24,7 +24,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                - "ALL"
+                - ALL
             resources:
               requests:
                 cpu: 10m

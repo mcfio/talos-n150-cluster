@@ -96,7 +96,7 @@ spec:
             volumeClaimTemplate:
               spec:
                 accessModes:
-                - "ReadWriteOnce"
+                - ReadWriteOnce
                 resources:
                   requests:
                     storage: 1Mi # doesn't matter

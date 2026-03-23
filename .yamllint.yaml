@@ -18,8 +18,8 @@ rules:
     check-multi-line-strings: false
   line-length: disable
   quoted-strings:
-    quote-type: double
-    required: false
+    quote-type: any
+    required: only-when-needed
     ignore: |
       *crds*
   truthy:

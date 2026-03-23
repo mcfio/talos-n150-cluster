@@ -20,13 +20,13 @@ spec:
             env:
               TZ: Canada/Eastern
             command:
-            - "/usr/local/bin/python"
-            - "Tautulli.py"
+            - /usr/local/bin/python
+            - Tautulli.py
             args:
-            - "--config"
-            - "/config/config.ini"
-            - "--datadir"
-            - "/config"
+            - --config
+            - /config/config.ini
+            - --datadir
+            - /config
             probes:
               liveness: &probes
                 enabled: true

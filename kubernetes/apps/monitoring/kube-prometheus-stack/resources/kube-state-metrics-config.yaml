@@ -23,8 +23,8 @@ kube-state-metrics:
       - imagepolicies
       - imageupdateautomations
       verbs:
-      - "list"
-      - "watch"
+      - list
+      - watch
   customResourceState:
     enabled: true
     config:
@@ -36,8 +36,8 @@ kube-state-metrics:
             kind: Kustomization
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux Kustomization resource."
+          - name: resource_info
+            help: The current state of a Flux Kustomization resource.
             each:
               type: Info
               info:
@@ -70,8 +70,8 @@ kube-state-metrics:
             kind: HelmRelease
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux HelmRelease resource."
+          - name: resource_info
+            help: The current state of a Flux HelmRelease resource.
             each:
               type: Info
               info:
@@ -122,8 +122,8 @@ kube-state-metrics:
             kind: GitRepository
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux GitRepository resource."
+          - name: resource_info
+            help: The current state of a Flux GitRepository resource.
             each:
               type: Info
               info:
@@ -156,8 +156,8 @@ kube-state-metrics:
             kind: Bucket
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux Bucket resource."
+          - name: resource_info
+            help: The current state of a Flux Bucket resource.
             each:
               type: Info
               info:
@@ -193,8 +193,8 @@ kube-state-metrics:
             kind: HelmRepository
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux HelmRepository resource."
+          - name: resource_info
+            help: The current state of a Flux HelmRepository resource.
             each:
               type: Info
               info:
@@ -227,8 +227,8 @@ kube-state-metrics:
             kind: HelmChart
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux HelmChart resource."
+          - name: resource_info
+            help: The current state of a Flux HelmChart resource.
             each:
               type: Info
               info:
@@ -264,8 +264,8 @@ kube-state-metrics:
             kind: OCIRepository
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux OCIRepository resource."
+          - name: resource_info
+            help: The current state of a Flux OCIRepository resource.
             each:
               type: Info
               info:
@@ -298,8 +298,8 @@ kube-state-metrics:
             kind: Alert
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux Alert resource."
+          - name: resource_info
+            help: The current state of a Flux Alert resource.
             each:
               type: Info
               info:
@@ -320,8 +320,8 @@ kube-state-metrics:
             kind: Provider
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux Provider resource."
+          - name: resource_info
+            help: The current state of a Flux Provider resource.
             each:
               type: Info
               info:
@@ -342,8 +342,8 @@ kube-state-metrics:
             kind: Receiver
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux Receiver resource."
+          - name: resource_info
+            help: The current state of a Flux Receiver resource.
             each:
               type: Info
               info:
@@ -372,8 +372,8 @@ kube-state-metrics:
             kind: ImageRepository
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux ImageRepository resource."
+          - name: resource_info
+            help: The current state of a Flux ImageRepository resource.
             each:
               type: Info
               info:
@@ -402,8 +402,8 @@ kube-state-metrics:
             kind: ImagePolicy
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux ImagePolicy resource."
+          - name: resource_info
+            help: The current state of a Flux ImagePolicy resource.
             each:
               type: Info
               info:
@@ -433,8 +433,8 @@ kube-state-metrics:
             kind: ImageUpdateAutomation
           metricNamePrefix: gotk
           metrics:
-          - name: "resource_info"
-            help: "The current state of a Flux ImageUpdateAutomation resource."
+          - name: resource_info
+            help: The current state of a Flux ImageUpdateAutomation resource.
             each:
               type: Info
               info:

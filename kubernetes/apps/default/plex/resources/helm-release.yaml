@@ -19,7 +19,7 @@ spec:
               tag: 1.43.0.10492@sha256:8cb062f2b0660bd7811387e6c799da0ce5f18112078fe21485c11adcc83a9c1c
             env:
               TZ: Canada/Eastern
-              PLEX_ADVERTISE_URL: "https://{{ .Release.Name }}.mcf.io:443,http://192.168.45.120:32400,http://plex.default.svc.cluster.local:32400"
+              PLEX_ADVERTISE_URL: https://{{ .Release.Name }}.mcf.io:443,http://192.168.45.120:32400,http://plex.default.svc.cluster.local:32400
               PLEX_NO_AUTH_NETWORKS: 192.168.0.0/16
             probes:
               liveness: &probes
