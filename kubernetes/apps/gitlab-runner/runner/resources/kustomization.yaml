@@ -7,3 +7,4 @@ resources:
 - ./object-bucket-claim.yaml
 - ./helm-repository.yaml
 - ./helm-release.yaml
+- ./cluster-role.yaml
