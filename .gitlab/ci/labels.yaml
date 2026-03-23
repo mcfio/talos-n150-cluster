@@ -5,7 +5,7 @@
 # This pipeline labels merge requests to help with triage and area identification
 labels:add:
   stage: .pre
-  image: registry.gitlab.com/gitlab-org/cli:v1.89.0@sha256:c77d1bac5ac09248eb99914248c9628f210aa2ef52c8a86c6781c8ee5a6603a5
+  image: registry.gitlab.com/gitlab-org/cli:v1.90.0@sha256:6c0d08b37c942594ac22c7dc55571647ddacca1e5ffd0870309d2b4729a8569a
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   allow_failure: true
