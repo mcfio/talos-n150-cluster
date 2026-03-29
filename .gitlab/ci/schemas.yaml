@@ -27,7 +27,7 @@ generate-schemas:
   - ${CI_PROJECT_DIR}/crd-extractor.sh
   artifacts:
     paths:
-    - $CI_PROJECT_DIR/crdSchemas
+    - crdSchemas
     expire_in: 1w
 
 # Publish Schemas to Cloudflare Pages
@@ -43,9 +43,7 @@ publish-schemas:
   cache:
     paths:
     - .bun/install/cache
+  variables:
+    BUN_INSTALL_CACHE_DIR: $CI_PROJECT_DIR/.bun/install/cache
   script:
   - bunx --bun wrangler pages deploy --project-name=crds --branch main ${CI_PROJECT_DIR}/crdSchemas
-  artifacts:
-    paths:
-    - .config/.wrangler/logs
-    expire_in: 1d
