@@ -28,26 +28,24 @@ generate-schemas:
   artifacts:
     paths:
     - $CI_PROJECT_DIR/crdSchemas
-    expire_in: 1 week
+    expire_in: 1w
 
 # Publish Schemas to Cloudflare Pages
 publish-schemas:
   stage: deploy
   extends: .schemas
   image:
-    name: docker.io/library/node:24-alpine@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b
+    name: dokcer.io/oven/bun:1.3-alpine
     entrypoint: [""]
   needs:
   - job: generate-schemas
     artifacts: true
   cache:
-    key:
-      files:
-      - package-lock.json
     paths:
-    - .npm/
-  before_script: |
-    npm install --cache .npm wrangler
-    npx wrangler --version
+    - .bun/install/cache
   script:
-  - npx wrangler pages deploy --project-name=crds --branch main ${CI_PROJECT_DIR}/crdSchemas
+  - bunx --bun wrangler pages deploy --project-name=crds --branch main ${CI_PROJECT_DIR}/crdSchemas
+  artifacts:
+    paths:
+    - .config/.wrangler/logs
+    expire_in: 1d
