@@ -10,23 +10,19 @@
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/schedules",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/grafanaDashboards"
   ],
-  "reviewers": ["nick.mcfaul"],
-  "ignorePaths": [
-    "**/.archive/**"
-  ],
   "flux": {
     "managerFilePatterns": [
-      "/\\.yaml(?:\\.j2)?$/"
+      "/\\.ya?ml(?:\\.j2)?$/"
     ]
   },
   "helm-values": {
     "managerFilePatterns": [
-      "/\\.yaml(?:\\.j2)?$/"
+      "/^kubernetes.*\\.ya?ml(?:\\.j2)?$/"
     ]
   },
   "kubernetes": {
     "managerFilePatterns": [
-      "/\\.yaml(?:\\.j2)?$/"
+      "/\\.ya?ml(?:\\.j2)?$/"
     ]
   }
 }
