@@ -13,7 +13,7 @@ rules:
   - list
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   name: mcfio:gitlab-runner-crd-view
 roleRef:
