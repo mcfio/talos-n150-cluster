@@ -14,11 +14,13 @@ spec:
         kind: HelmRepository
         name: gitlab-charts
         namespace: gitlab-runner
+  # values: https://gitlab.com/gitlab-org/charts/gitlab-runner/-/blob/main/values.yaml
   values:
     gitlabUrl: https://gitlab.com
-    concurrent: 400
     terminationGracePeriodSeconds: 600
     rbac:
+      create: true
+    serviceAccount:
       create: true
     metrics:
       enabled: true
