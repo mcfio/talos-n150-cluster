@@ -40,9 +40,14 @@ publish-schemas:
   needs:
   - job: generate-schemas
     artifacts: true
+  cache:
+    key:
+      files:
+      - package-lock.json
+    paths:
+    - .npm/
   before_script: |
-    npm install --global wrangler
-    wrangler --version
-  script: |
-    cd $CI_PROJECT_DIR/crdSchemas
-    npx wrangler pages deploy --project-name=crds --branch main .
+    npm install --cache .npm wrangler
+    npx wrangler --version
+  script:
+  - npx wrangler pages deploy --project-name=crds --branch main ${CI_PROJECT_DIR}/crdSchemas
