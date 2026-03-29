@@ -41,7 +41,7 @@ publish-schemas:
   - job: generate-schemas
     artifacts: true
   variables:
-    NPM_CONFIG_CACHE: ${CI_PROJECT_DIR}/.npm
+    NPM_CONFIG_CACHE: $CI_PROJECT_DIR/.npm
   cache:
     paths:
     - .npm/
