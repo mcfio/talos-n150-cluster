@@ -40,12 +40,15 @@ publish-schemas:
   needs:
   - job: generate-schemas
     artifacts: true
+  variables:
+    NPM_CONFIG_CACHE: ${CI_PROJECT_DIR}/.npm
   cache:
     key:
       files:
       - package-lock.json
     paths:
     - .npm/
+    - node_modules
   before_script: |
     npm install --cache .npm wrangler
     npx wrangler --version
