@@ -35,15 +35,19 @@ publish-schemas:
   stage: deploy
   extends: .schemas
   image:
-    name: docker.io/oven/bun:1.3-alpine
+    name: docker.io/library/node:24-alpine@sha256:01743339035a5c3c11a373cd7c83aeab6ed1457b55da6a69e014a95ac4e4700b
     entrypoint: [""]
   needs:
   - job: generate-schemas
     artifacts: true
   cache:
+    key:
+      files:
+      - package-lock.json
     paths:
-    - .bun/install/cache
-  variables:
-    BUN_INSTALL_CACHE_DIR: $CI_PROJECT_DIR/.bun/install/cache
+    - .npm/
+  before_script: |
+    npm install --cache .npm wrangler
+    npx wrangler --version
   script:
-  - bunx --bun wrangler pages deploy --project-name=crds --branch main ${CI_PROJECT_DIR}/crdSchemas
+  - npx wrangler pages deploy ./crdSchemas --project-name=crds --branch main
