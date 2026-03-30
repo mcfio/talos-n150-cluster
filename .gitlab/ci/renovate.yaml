@@ -3,6 +3,18 @@
 include:
 - project: mcf.io/renovate-config
   file: /templates/renovate.gitlab-ci.yaml
+- project: mcf.io/renovate-config
+  file: /templates/renovate-config-validator.gitlab-ci.yaml
+
+renovate-config-validator:
+  variables:
+    RENOVATE_CONFIG_VALIDATOR_EXTRA_FLAGS: .gitlab/renovate.json
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "push"
+    changes:
+      paths:
+      - .gitlab/renovate.json
+      - "*.json"
 
 renovate:
   variables:

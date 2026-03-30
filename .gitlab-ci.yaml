@@ -27,10 +27,6 @@ include:
   rules:
   - if: $[[ inputs.renovate ]] == true
   - if: $CI_PIPELINE_SOURCE == "push"
-    changes:
-      paths:
-      - .gitlab/renovate.json
-      - .renovate/**/*
 - local: .gitlab/ci/schemas.yaml
   rules:
   - if: $[[ inputs.schemas ]] == true
