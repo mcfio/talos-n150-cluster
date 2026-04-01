@@ -7,7 +7,6 @@
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/groups",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/versioning",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/overrides",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/schedules",
     "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/grafanaDashboards"
   ],
   "flux": {
