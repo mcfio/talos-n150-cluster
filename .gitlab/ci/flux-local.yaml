@@ -19,6 +19,7 @@ flux-local:diff:
     entrypoint: [""]
   variables:
     FF_DISABLE_UMASK_FOR_DOCKER_EXECUTOR: 1 # necessary for git safe.directory
+    HELM_CACHE_HOME: $CI_PROJECT_DIR/.cache/helm
   before_script:
   - git clone --depth=1 "${CI_PROJECT_URL}" "${CI_BUILDS_DIR}/${CI_DEFAULT_BRANCH}-worktree"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
