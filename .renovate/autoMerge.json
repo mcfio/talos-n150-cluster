@@ -7,29 +7,21 @@
       "automerge": true,
       "automergeType": "pr",
       "matchUpdateTypes": ["digest"],
-      "matchPackagePrefixes": [
-        "ghcr.io/home-operations",
-        "ghcr.io/bjw-s-labs"
-      ],
+      "matchPackagePrefixes": ["/home-operations/"],
       "ignoreTests": false
     },
     {
-      "description": "Auto-merge specific Helm releases",
-      "matchDatasources": [
-        "helm",
-        "docker"
-      ],
+      "description": "Schedule auto-merge for specific oci helm releases",
+      "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "pr",
       "matchUpdateTypes": [
         "minor",
         "patch"
       ],
-      "matchPackageNames": [
-        "/kube-prometheus-stack/",
-        "/grafana/"
-      ],
-      "ignoreTests": false
+      "matchPackageNames": ["/kube-prometheus-stack/"],
+      "ignoreTests": false,
+      "schedule": ["before 6am on Monday"]
     },
     {
       "description": "Auto-merge gitlab-ci images patch and digests",
