@@ -1,0 +1,22 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: litellm
+spec:
+  interval: 12h
+  chartRef:
+    kind: OCIRepository
+    name: litellm
+  values:
+    proxy_config:
+      model_list:
+      - model_name: gpt-3.5-turbo
+        litellm_params:
+          model: gpt-3.5-turbo
+          api_key: eXaMpLeOnLy
+      - model_name: claude-opus-4.6
+        litellm_params:
+          model: github_copilot/claude-opus-4.6
+      general_settings:
+        master_key: os.environ/PROXY_MASTER_KEY
