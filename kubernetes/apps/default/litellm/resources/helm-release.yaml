@@ -11,17 +11,29 @@ spec:
   values:
     db:
       deployStandalone: false
-    extraEnvVars:
+    envVars:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
+    migrationJob:
+      enabled: false
+    nodeSelector:
+      node.kubernetes.io/intel-gpu: "true"
     proxy_config:
       model_list:
       - model_name: gpt-3.5-turbo
         litellm_params:
           model: gpt-3.5-turbo
           api_key: eXaMpLeOnLy
-      - model_name: claude-opus-4.6
+      - model_name: claude-sonnet-4.6
         litellm_params:
-          model: github_copilot/claude-opus-4.6
+          model: github_copilot/claude-sonnet-4.6
+      - model_name: claude-opus-4.7
+        litellm_params:
+          model: github_copilot/claude-opus-4.7
+      - model_name: claude-haiku-4.5
+        litellm_params:
+          model: github_copilot/claude-haiku-4.5
+      litellm_settings:
+        drop_params: true
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
     volumes:
