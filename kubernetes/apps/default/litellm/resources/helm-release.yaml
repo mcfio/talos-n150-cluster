@@ -9,6 +9,10 @@ spec:
     kind: OCIRepository
     name: litellm
   values:
+    db:
+      deployStandalone: false
+    extraEnvVars:
+      GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
     proxy_config:
       model_list:
       - model_name: gpt-3.5-turbo
@@ -20,3 +24,10 @@ spec:
           model: github_copilot/claude-opus-4.6
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
+    volumes:
+    - name: litellm-cache
+      persistentVolumeClaim:
+        claimName: litellm-cache
+    volumeMounts:
+    - name: litellm-cache
+      mountPath: /cache
