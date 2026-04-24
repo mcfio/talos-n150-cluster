@@ -10,6 +10,7 @@ resources:
 - ./namespace.yaml
 - ./sonarr/app.yaml
 - ./radarr/app.yaml
+- ./listenarr/app.yaml
 - ./maintainerr/app.yaml
 - ./prowlarr/app.yaml
 - ./sabnzbd/app.yaml
