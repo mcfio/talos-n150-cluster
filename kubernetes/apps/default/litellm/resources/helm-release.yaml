@@ -23,13 +23,13 @@ spec:
         litellm_params:
           model: gpt-3.5-turbo
           api_key: eXaMpLeOnLy
-      - model_name: claude-sonnet-4.6
+      - model_name: claude-sonnet-4-6
         litellm_params:
           model: github_copilot/claude-sonnet-4.6
-      - model_name: claude-opus-4.7
+      - model_name: claude-opus-4-7
         litellm_params:
           model: github_copilot/claude-opus-4.7
-      - model_name: claude-haiku-4.5
+      - model_name: claude-haiku-4-5
         litellm_params:
           model: github_copilot/claude-haiku-4.5
       litellm_settings:
