@@ -1,0 +1,17 @@
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: BackendTrafficPolicy
+metadata:
+  name: litellm
+spec:
+  connection:
+    bufferLimit: 32Mi
+  tcpKeepalive: {}
+  timeout:
+    http:
+      requestTimeout: 0s
+  targetRefs:
+  - group: gateway.networking.k8s.io
+    kind: HTTPRoute
+    name: litellm
+    namespace: default
