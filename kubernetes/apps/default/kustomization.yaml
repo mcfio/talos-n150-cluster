@@ -12,6 +12,7 @@ resources:
 - ./radarr/app.yaml
 - ./listenarr/app.yaml
 - ./litellm/app.yaml
+- ./litellm-db/app.yaml
 - ./maintainerr/app.yaml
 - ./prowlarr/app.yaml
 - ./sabnzbd/app.yaml
