@@ -10,13 +10,21 @@ spec:
     name: litellm
   values:
     db:
+      useExisting: true
+      database: app
+      url: postgresql://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST)/$(DATABASE_NAME)
+      secret:
+        name: litellm-db-cluster-app
+        usernameKey: username
+        passwordKey: password
+        endpointKey: host
       deployStandalone: false
     envVars:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
-    migrationJob:
-      enabled: false
     nodeSelector:
       node.kubernetes.io/intel-gpu: "true"
+    masterkeySecretName: litellm-masterkey
+    masterkeySecretKey: masterkey
     proxy_config:
       model_list:
       - model_name: gpt-3.5-turbo

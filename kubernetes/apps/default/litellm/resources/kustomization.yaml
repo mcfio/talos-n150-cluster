@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
 - ./oci-repository.yaml
 - ./pvc.yaml
+- ./external-secret.yaml
 - ./helm-release.yaml
 - ./http-route.yaml
 - ./backend-traffic-policy.yaml
