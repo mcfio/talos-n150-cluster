@@ -14,6 +14,7 @@ resources:
 - ./multus/app.yaml
 - ./multus/networks.yaml
 - ./metrics-server/app.yaml
+- ./node-feature-discovery/app.yaml
 - ./intel-gpu-resource-driver/app.yaml
 - ./descheduler/app.yaml
 - ./reloader/app.yaml
