@@ -13,6 +13,9 @@ spec:
     kubeletPlugin:
       nodeSelector:
         node.kubernetes.io/intel-gpu: "true"
+      privileged: true
+      healthMonitoring:
+        enabled: false
     cdi:
       staticPath: /var/cdi/static
       dynamicPath: /var/cdi/dynamic
