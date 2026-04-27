@@ -10,5 +10,5 @@ spec:
     mediaType: application/vnd.cncf.helm.chart.content.v1.tar+gzip
     operation: copy
   ref:
-    tag: 1.83.7-stable
+    tag: 1.83.10-stable
   url: oci://ghcr.io/berriai/litellm-helm
