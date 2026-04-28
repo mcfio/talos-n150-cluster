@@ -6,9 +6,14 @@ alias = "trc"
 quiet = true
 usage = '''
 arg "<node>"
-complete "node" run="mise run //kubernetes:get_nodes"
+arg "<model>"
+arg "[type]"
 '''
-run = "talosctl machineconfig patch <(mise run //talos:template ${usage_node}) --patch @{{ vars.talos_dir }}/nodes/${usage_node}.yaml"
+run = '''
+mise run //talos:template ${usage_node} ${usage_type} | \
+  talosctl machineconfig patch /dev/stdin \
+    --patch @{{ vars.talos_dir }}/models/${usage_model}.yaml
+'''
 
 [tasks.apply-config]
 description = "Apply the rendered machine config to a node."
@@ -16,14 +21,23 @@ alias = "tac"
 quiet = true
 usage = '''
 arg "<node>"
-complete "node" run="mise //kubernetes:get_nodes"
+complete "node" run="mise run //kubernetes:get_nodes"
+flag "--model <model>" {
+  choices "gmktec-g3" "m710q" "rpi" "pve"
+  default "gmktec-g3"
+}
+flag "--type <type>" {
+  choices "controlplane" "worker"
+  default "worker"
+}
 arg "[extra]" var=#true double_dash="required"
 '''
 run = '''
 eval "extra_args=(${usage_extra:-})"
-mise //talos:render-config ${usage_node} | talosctl apply-config --nodes ${usage_node} --file /dev/stdin --dry-run ${extra_args[@]:-} || exit 0
-gum confirm "Apply above config to node ${usage_node}?" --default=No && \
-  mise //talos:render-config ${usage_node} | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${extra_args[@]:-} || exit 0
+CONFIG=$(mise run //talos:render-config ${usage_node} ${usage_model} ${usage_type})
+echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin --dry-run ${extra_args[@]:-} || exit 0
+gum confirm "Apply above config to node ${usage_node}?" --default=No || exit 0
+echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${extra_args[@]:-}
 '''
 
 [tasks.upgrade-k8s]
@@ -75,7 +89,7 @@ case "${usage_action}" in
     ;;
   shutdown)
     gum confirm "Shutdown node ${usage_node}?" --default=No && \
-      talosctl shutdown --nodes ${usage_node}" --force || exit 0
+      talosctl shutdown --nodes ${usage_node} --force || exit 0
     ;;
 esac
 '''
@@ -87,10 +101,12 @@ hide = true
 quiet = true
 usage = '''
 arg "<node>"
+arg "[type]"
 '''
 run = '''
+[[ "${usage_type:-}" == "controlplane" ]] && IS_CONTROLPLANE="true" || IS_CONTROLPLANE="$(mise //talos:is_controlplane ${usage_node})"
 minijinja-cli \
-  --define "is_controlplane:=$(mise //talos:is_controlplane ${usage_node})" \
+  --define "is_controlplane:=${IS_CONTROLPLANE:-false}" \
   {{ vars.talos_dir }}/machineconfig.yaml.j2 \
   | op inject
 '''
@@ -101,7 +117,10 @@ quiet = true
 usage = '''
 arg "<node>"
 '''
-run = "yq 'select(.machine) | (.machine.type == \"controlplane\")' {{ vars.talos_dir }}/nodes/${usage_node}.yaml"
+run = '''
+TYPE=$(talosctl --nodes ${usage_node} get machinetype -o jsonpath='{.spec}' 2>/dev/null || echo "")
+[[ "${TYPE}" == "controlplane" ]] && echo "true" || echo "false"
+'''
 
 [tasks.machine-image]
 hide = true

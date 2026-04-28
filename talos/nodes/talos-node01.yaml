@@ -3,45 +3,41 @@
 machine:
   type: worker
   install:
-    disk: /dev/sda
-    image: factory.talos.dev/nocloud-installer-secureboot/34fe8a6bb7da97e043aa9dd27e224c91f7b66be10bf06c4eb118cbc79e7cfe94:v1.12.6
+    diskSelector:
+      type: nvme
+    image: factory.talos.dev/metal-installer-secureboot/46302451fc0b28c9baf2854ed7b740565ec3b640e1dbf232ffed54de870a21b7:v1.12.6
   nodeLabels:
-    io.cilium.node-config/name: qemu
-    # diskSelector:
-    #   type: nvme
-    # image: factory.talos.dev/metal-installer-secureboot/46302451fc0b28c9baf2854ed7b740565ec3b640e1dbf232ffed54de870a21b7:v1.12.4
+    node.kubernetes.io/intel-gpu: "true"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
-hostname: talos-node01
+auto: stable
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: vlan10
+vlanID: 10
+vlanMode: 802.1q
+parent: primary0
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  maxSize: 250GiB
 ---
 apiVersion: v1alpha1
 kind: RawVolumeConfig
 name: csi-data
 provisioning:
   diskSelector:
-    match: disk.transport == "virtio" && disk.size > 300u * GiB
+    match: disk.transport == "nvme"
   minSize: 250GiB
   grow: true
-# ---
-# apiVersion: v1alpha1
-# kind: VolumeConfig
-# name: EPHEMERAL
-# provisioning:
-#   diskSelector:
-#     match: disk.transport == "nvme"
-#   maxSize: 250GiB
-# ---
-# apiVersion: v1alpha1
-# kind: RawVolumeConfig
-# name: csi-data
-# provisioning:
-#   diskSelector:
-#     match: disk.transport == "nvme"
-#   minSize: 250GiB
-#   grow: true
-# ---
-# apiVersion: v1alpha1
-# kind: WatchdogTimerConfig
-# device: /dev/watchdog0
-# timeout: 5m
+---
+apiVersion: v1alpha1
+kind: WatchdogTimerConfig
+device: /dev/watchdog0
+timeout: 5m

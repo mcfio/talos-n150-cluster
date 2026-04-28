@@ -43,6 +43,8 @@ spec:
         secretKeyRef:
           name: gitlab-runner-cache
           key: AWS_SECRET_ACCESS_KEY
+    nodeSelector:
+      kubernetes.io/arch: amd64
     runners:
       name: talos-n150-cluster-runner
       secret: gitlab-runner
@@ -56,6 +58,8 @@ spec:
             namespace = "{{ default .Release.Namespace .Values.runners.jobNamespace }}"
             image = "alpine"
             allowed_pull_policies = ["always", "if-not-present", ""]
+          [runners.kubernetes.node_selector]
+            "kubernetes.io/arch": "amd64"
           [runners.cache]
             Type = "s3"
             [runners.cache.s3]

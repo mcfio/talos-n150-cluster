@@ -3,6 +3,11 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/heads/release-1.12/website/content/v1.12/schemas/config.schema.json
 version: v1alpha1
 machine:
+  {% if is_controlplane %}
+  type: controlplane
+  {% else %}
+  type: worker
+  {% endif %}
   token: op://mcfio/talos-n150-cluster/machine/token
   ca:
     crt: op://mcfio/talos-n150-cluster/machine/ca_crt
@@ -184,3 +189,10 @@ apiVersion: v1alpha1
 kind: UserVolumeConfig
 name: local-hostpath
 volumeType: directory
+{% if is_controlplane %}
+---
+apiVersion: v1alpha1
+kind: Layer2VIPConfig
+name: 192.168.45.70
+link: primary0
+{% endif %}
