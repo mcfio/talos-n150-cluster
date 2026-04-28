@@ -59,7 +59,7 @@ spec:
             image = "alpine"
             allowed_pull_policies = ["always", "if-not-present", ""]
           [runners.kubernetes.node_selector]
-            "kubernetes.io/arch": "amd64"
+            "kubernetes.io/arch" = "amd64"
           [runners.cache]
             Type = "s3"
             [runners.cache.s3]
