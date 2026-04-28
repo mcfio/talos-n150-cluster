@@ -20,20 +20,11 @@ spec:
     worker:
       config:
         core:
-          sources:
+          labelSources:
           - custom
           - pci
           - system
           - usb
-          # sources:
-          #   usb:
-          #     deviceClassWhitelist:
-          #     - "02"
-          #     - "ff"
-          #     deviceLabelFields:
-          #     - "class"
-          #     - "vendor"
-          #     - "device"
       resources:
         requests:
           cpu: 10m
