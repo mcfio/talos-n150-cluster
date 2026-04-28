@@ -14,3 +14,7 @@ stage_fixed = true
 run = "yamlfmt {staged_files}"
 glob = ["*.yaml"]
 stage_fixed = true
+
+[pre-commit.commands.lint-yaml]
+run = "yamllint {staged_files}"
+glob = ["*.yaml"]
