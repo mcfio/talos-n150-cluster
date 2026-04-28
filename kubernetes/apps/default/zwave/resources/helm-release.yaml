@@ -60,7 +60,7 @@ spec:
               #     - SYS_RAWIO
     defaultPodOptions:
       nodeSelector:
-        node.kubernetes.io/zwave: "true"
+        aeotec.feature.node.kubernetes.io/zwave: "true"
       securityContext:
         # runAsNonRoot: true
         # runAsUser: 568
