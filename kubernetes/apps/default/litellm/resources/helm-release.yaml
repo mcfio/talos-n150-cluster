@@ -24,7 +24,7 @@ spec:
     envVars:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
     nodeSelector:
-      node.kubernetes.io/intel-gpu: "true"
+      kubernetes.io/arch: amd64
     masterkeySecretName: litellm-masterkey
     masterkeySecretKey: masterkey
     proxy_config:
