@@ -31,6 +31,8 @@ machine:
       allowedKubernetesNamespaces:
       - system-upgrade
     {% endif %}
+  install:
+    image: factory.talos.dev/metal-installer-secureboot/9d39b1f60f496a9617cc35bfd7f2fc71425d914ad46767de5c27e62da6b89d2b:v1.13.0
   files:
   - path: /etc/cri/conf.d/20-customization.part
     op: create
@@ -38,7 +40,6 @@ machine:
       [plugins."io.containerd.cri.v1.images"]
         discard_unpacked_layers = false
       [plugins."io.containerd.cri.v1.runtime"]
-        cdi_spec_dirs = ["/var/cdi/static", "/var/cdi/dynamic"]
         device_ownership_from_security_context = true
   - path: /etc/nfsmount.conf
     op: overwrite
@@ -112,8 +113,7 @@ cluster:
     image: registry.k8s.io/kube-apiserver:v1.35.4
     extraArgs:
       enable-aggregator-routing: "true"
-      feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
-      runtime-config: admissionregistration.k8s.io/v1beta1=true
+      feature-gates: HPAScaleToZero=true
     certSANs:
     - k8s.internal
     disablePodSecurityPolicy: true
@@ -173,6 +173,8 @@ clientIdentifier: mac
 ---
 apiVersion: v1alpha1
 kind: ResolverConfig
+nameservers:
+  - address: 192.168.45.1
 searchDomains:
   domains:
   - milton.mcf.io
