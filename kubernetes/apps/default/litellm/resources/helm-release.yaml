@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.mcf.io/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -21,6 +22,10 @@ spec:
         passwordKey: password
         endpointKey: host
       deployStandalone: false
+    migrationJob:
+      hooks:
+        helm:
+          enabled: true
     envVars:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
     nodeSelector:
