@@ -64,18 +64,6 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
         seccompProfile:
           type: RuntimeDefault
-    rawResources:
-      gpu:
-        apiVersion: resource.k8s.io/v1
-        kind: ResourceClaimTemplate
-        spec:
-          spec:
-            spec:
-              devices:
-                requests:
-                - name: gpu
-                  exactly:
-                    deviceClassName: gpu.intel.com
     service:
       app:
         annotations:
