@@ -13,7 +13,7 @@ generate-schemas:
   stage: build
   extends: .schemas
   image:
-    name: ghcr.io/astral-sh/uv:python3.14-alpine@sha256:eb728c854c1a99b04f439f2659987187227f6e87337a5334eb00d85a3e0b91a7
+    name: ghcr.io/astral-sh/uv:python3.14-alpine@sha256:f9df60c48daec8db37117ef21dd0704faa62627e1bfa6c2d25eb369ad3f3090f
     entrypoint: [""]
   before_script: |
     apk add --no-cache bash kubectl curl
