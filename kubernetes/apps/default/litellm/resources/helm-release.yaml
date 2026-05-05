@@ -29,25 +29,11 @@ spec:
     masterkeySecretKey: masterkey
     proxy_config:
       model_list:
-      - model_name: "github_copilot/*"
+      - model_name: github_copilot/*
         litellm_params:
-          model: "github_copilot/*"
-      - model_name: claude-sonnet-4-6
-        litellm_params:
-          model: github_copilot/claude-sonnet-4.6
-          drop_params: true
-      - model_name: claude-opus-4-6
-        litellm_params:
-          model: github_copilot/claude-opus-4.6
-          drop_params: true
-      - model_name: claude-opus-4-7
-        litellm_params:
-          model: github_copilot/claude-opus-4.7
-          drop_params: true
-      - model_name: claude-haiku-4-5-20251001
-        litellm_params:
-          model: github_copilot/claude-haiku-4.5
-          drop_params: true
+          model: github_copilot/*
+      litellm_settings:
+        drop_params: true
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
     volumes:
