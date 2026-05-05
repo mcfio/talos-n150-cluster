@@ -39,7 +39,7 @@ spec:
     defaultPodOptions:
       resourceClaims:
       - name: gpu
-        resourceClaimTemplateName: scrypted
+        resourceClaimTemplateName: scrypted-gpu
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
