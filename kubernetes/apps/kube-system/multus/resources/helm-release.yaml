@@ -33,6 +33,7 @@ spec:
             securityContext:
               privileged: true
     defaultPodOptions:
+      automountServiceAccountToken: true
       hostNetwork: true
       affinity:
         nodeAffinity:
@@ -79,8 +80,6 @@ spec:
           - identifier: multus
           roleRef:
             identifier: multus
-    serviceAccount:
-      multus: {}
     persistence:
       etc-cni-net-d:
         type: hostPath
