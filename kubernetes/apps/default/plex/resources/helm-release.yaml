@@ -19,7 +19,7 @@ spec:
               tag: 1.43.1.10611@sha256:a9c3723cb31cc9621df27cf5801184c290293adf1df2bfaea4b8b6fc01dbfd96
             env:
               TZ: Canada/Eastern
-              PLEX_ADVERTISE_URL: https://{{ .Release.Name }}.mcf.io:443,http://192.168.45.120:32400,http://plex.default.svc.cluster.local:32400
+              PLEX_ADVERTISE_URL: https://{{ .Release.Name }}.mcf.io:443,http://192.168.46.120:32400,http://plex.default.svc.cluster.local:32400
               PLEX_NO_AUTH_NETWORKS: 192.168.0.0/16
             probes:
               liveness: &probes
@@ -75,7 +75,7 @@ spec:
           # by eliminating the http-route source, this will only be managed by external-dns-cloudflare
           external-dns.alpha.kubernetes.io/hostname: "{{ .Release.Name }}.mcf.io"
           external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
-          lbipam.cilium.io/ips: 192.168.45.120
+          lbipam.cilium.io/ips: 192.168.46.110
         type: LoadBalancer
         ports:
           http:
