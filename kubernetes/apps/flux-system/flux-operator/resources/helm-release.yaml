@@ -20,5 +20,12 @@ spec:
             username: flux
             groups:
             - flux-admin
+      httpRoute:
+        enabled: true
+        hostnames:
+        - flux.milton.mcf.io
+        parentRefs:
+        - name: internal
+          namespace: ingress-system
       networkPolicy:
         create: false

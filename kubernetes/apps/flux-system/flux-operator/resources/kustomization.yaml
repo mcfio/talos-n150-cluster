@@ -6,4 +6,3 @@ resources:
 - ./oci-repository.yaml
 - ./helm-release.yaml
 - ./cluster-role-binding.yaml
-- ./http-route.yaml
