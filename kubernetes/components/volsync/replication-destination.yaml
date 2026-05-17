@@ -34,5 +34,5 @@ spec:
     - mountPath: repository
       volumeSource:
         nfs:
-          path: /volsync
+          path: /archive
           server: nfs.internal

@@ -96,7 +96,7 @@ spec:
       repository:
         type: nfs
         server: nfs.internal
-        path: /volsync
+        path: /archive
         globalMounts:
         - path: /repository
       tmpfs:
