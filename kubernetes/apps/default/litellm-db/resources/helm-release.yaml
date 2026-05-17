@@ -14,6 +14,8 @@ spec:
       postgresql: "18"
     cluster:
       instances: 1
+      enablePDB: false
+      switchoverDelay: 40
       storage:
         size: 5Gi
       postgresql:
