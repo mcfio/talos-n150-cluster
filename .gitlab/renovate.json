@@ -16,11 +16,11 @@
       "matchStringsStrategy": "combination",
       "matchStrings": [
         "repository:\\s*(?<depName>ghcr\\.io/koush/scrypted)",
-        "tag:\\s*v?(?<currentValue>\\d+\\.\\d+\\.\\d+)-(?<flavour>[a-zA-Z0-9-_]+)"
+        "tag:\\s*v?(?<currentValue>\\d+\\.\\d+\\.\\d+)-noble-lite"
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "koush/scrypted",
-      "autoReplaceStringTemplate": "tag: v{{{newValue}}}-{{{flavour}}}"
+      "autoReplaceStringTemplate": "tag: v{{{newValue}}}-noble-lite"
     }
   ],
   "packageRules": [
