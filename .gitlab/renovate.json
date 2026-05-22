@@ -2,26 +2,97 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "gitlab>mcf.io/renovate-config",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/autoMerge",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/customManagers",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/groups",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/versioning",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/overrides",
-    "gitlab>mcf.io/milton/talos-n150-cluster//.renovate/grafanaDashboards"
+    "gitlab>mcf.io/renovate-config/managers:cnpg",
+    "gitlab>mcf.io/renovate-config/managers:oci",
+    "gitlab>mcf.io/renovate-config/managers:talos-factory",
+    "gitlab>mcf.io/renovate-config/managers:grafana-dashboards",
+    "gitlab>mcf.io/renovate-config/overrides:changelogs",
+    "gitlab>mcf.io/renovate-config/overrides:helmfile"
   ],
-  "flux": {
-    "managerFilePatterns": [
-      "/\\.ya?ml(?:\\.j2)?$/"
-    ]
-  },
-  "helm-values": {
-    "managerFilePatterns": [
-      "/^kubernetes.*\\.ya?ml(?:\\.j2)?$/"
-    ]
-  },
-  "kubernetes": {
-    "managerFilePatterns": [
-      "/\\.ya?ml(?:\\.j2)?$/"
-    ]
-  }
+  "packageRules": [
+    // Automerge Rules
+    {
+      "description": "Auto-merge trusted container digests",
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": ["digest"],
+      "matchPackagePrefixes": ["/home-operations/"],
+      "ignoreTests": false
+    },
+    {
+      "description": "Schedule auto-merge for specific oci helm releases",
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "pr",
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "matchPackageNames": ["/kube-prometheus-stack/"],
+      "ignoreTests": false,
+      "schedule": ["before 6am on Monday"]
+    },
+    {
+      "description": "Auto-merge gitlab-ci images patch and digests",
+      "matchManagers": ["gitlabci"],
+      "matchDatasources": ["docker"],
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
+      "ignoreTests": false
+    },
+    // Groups
+    {
+      "groupName": "Flux Operator Group",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "/flux-operator/",
+        "/flux-instance/"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}}"
+      },
+      "minimumGroupSize": 2
+    },
+    {
+      "groupName": "Rook-Ceph Group",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "/rook-ceph/",
+        "/rook-ceph-cluster/"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}}"
+      },
+      "minimumGroupSize": 2
+    },
+    {
+      "groupName": "kubernetes Group",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": [
+        "/kube-apiserver/",
+        "/kube-controller-manager/",
+        "/kube-proxy/",
+        "/kube-scheduler/",
+        "/kubelet/"
+      ],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}}"
+      },
+      "minimumGroupSize": 5
+    },
+    // Package Overrides
+    {
+      "description": "Override scrypted datasource",
+      "datasource": "github-release",
+      "matchPackageNames": [
+        "/ghcr\\.io/koush/scrypted/"
+      ]
+    }
+  ]
 }
