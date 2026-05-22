@@ -13,7 +13,7 @@ generate-schemas:
   stage: build
   extends: .schemas
   image:
-    name: ghcr.io/astral-sh/uv:python3.14-alpine@sha256:4ee7a28b72cca1e67b77e86170ab941db4748cea9e8b77eeac3fd0738a1ee57d
+    name: ghcr.io/astral-sh/uv:python3.14-alpine@sha256:ab7739a904d2bd04d66a9ec21cb26e045f8854de80e546b8a6ae5648b9bf8e60
     entrypoint: [""]
   before_script: |
     apk add --no-cache bash kubectl curl
@@ -35,7 +35,7 @@ publish-schemas:
   stage: deploy
   extends: .schemas
   image:
-    name: docker.io/library/node:24-alpine@sha256:d1b3b4da11eefd5941e7f0b9cf17783fc99d9c6fc34884a665f40a06dbdfc94f
+    name: docker.io/library/node:24-alpine@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14
     entrypoint: [""]
   needs:
   - job: generate-schemas
