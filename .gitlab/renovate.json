@@ -87,11 +87,13 @@
     },
     // Package Overrides
     {
-      "description": "Override scrypted datasource",
-      "matchDatasources": ["github-release"],
+      "matchDatasources": ["docker"],
       "matchPackageNames": [
-        "/ghcr\\.io/koush/scrypted/"
-      ]
+        "ghcr.io/koush/scrypted",
+        "koush/scrypted"
+      ],
+      "overrideDatasource": "github-releases",
+      "overridePackageName": "koush/scrypted"
     }
   ]
 }
