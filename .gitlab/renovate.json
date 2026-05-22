@@ -101,7 +101,7 @@
     },
     // Overrides
     {
-      "managerFilePatterns": ["/\\.ya?ml(?:\\.j2)?$/"],
+      "matchFileNames": ["/\\.ya?ml(?:\\.j2)?$/"],
       "matchPackageNames": ["ghcr.io/koush/scrypted"],
       "matchDatasources": ["docker"],
       "enabled": false
