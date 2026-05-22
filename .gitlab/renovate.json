@@ -9,6 +9,20 @@
     "gitlab>mcf.io/renovate-config//overrides/changelogs.json",
     "gitlab>mcf.io/renovate-config//overrides/helmfile.json"
   ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["kubernetes/apps/default/scrypted/resources/helm-release.yaml"],
+      "matchStringsStrategy": "combination",
+      "matchStrings": [
+        "repository:\\s*(?<depName>ghcr\\.io/koush/scrypted|koush/scrypted)",
+        "tag:\\s*v?(?<currentValue>\\d+\\.\\d+\\.\\d+)-noble-lite"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "koush/scrypted",
+      "autoReplaceStringTemplate": "tag: v{{{newValue}}}-noble-lite"
+    }
+  ],
   "packageRules": [
     // Automerge Rules
     {
@@ -87,13 +101,13 @@
     },
     // Package Overrides
     {
-      "matchDatasources": ["docker"],
+      "matchFiles": ["kubernetes/apps/default/scrypted/resources/helm-release.yaml"],
       "matchPackageNames": [
         "ghcr.io/koush/scrypted",
         "koush/scrypted"
       ],
-      "overrideDatasource": "github-releases",
-      "overridePackageName": "koush/scrypted"
+      "matchDatasources": ["docker"],
+      "enabled": false
     }
   ]
 }
