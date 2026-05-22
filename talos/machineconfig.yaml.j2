@@ -32,7 +32,7 @@ machine:
       - system-upgrade
     {% endif %}
   install:
-    image: factory.talos.dev/metal-installer-secureboot/9d39b1f60f496a9617cc35bfd7f2fc71425d914ad46767de5c27e62da6b89d2b:v1.13.2
+    image: factory.talos.dev/metal-installer-secureboot/{{ schematic_id }}:v1.13.2
   files:
   - path: /etc/cri/conf.d/20-customization.part
     op: create
