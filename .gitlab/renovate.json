@@ -2,12 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "gitlab>mcf.io/renovate-config",
-    "gitlab>mcf.io/renovate-config/managers:cnpg",
-    "gitlab>mcf.io/renovate-config/managers:oci",
-    "gitlab>mcf.io/renovate-config/managers:talos-factory",
-    "gitlab>mcf.io/renovate-config/managers:grafana-dashboards",
-    "gitlab>mcf.io/renovate-config/overrides:changelogs",
-    "gitlab>mcf.io/renovate-config/overrides:helmfile"
+    "gitlab>mcf.io/renovate-config//managers/cnpg.json",
+    "gitlab>mcf.io/renovate-config//managers/oci.json",
+    "gitlab>mcf.io/renovate-config//managers/talos-factory.json",
+    "gitlab>mcf.io/renovate-config//managers/grafana-dashboards.json",
+    "gitlab>mcf.io/renovate-config//overrides/changelogs.json",
+    "gitlab>mcf.io/renovate-config//overrides/helmfile.json"
   ],
   "packageRules": [
     // Automerge Rules
