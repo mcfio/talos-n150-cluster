@@ -4,7 +4,6 @@ machine:
   type: controlplane
   install:
     disk: /dev/sda
-    image: factory.talos.dev/metal-installer-secureboot/96b1e5cb9cca4d90b385954c9e3766be4b529c900ccdef1824ba31b94c062d4e:v1.13.2
   nodeLabels:
     io.cilium.node-config/name: qemu
 ---
