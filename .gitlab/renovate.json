@@ -12,15 +12,15 @@
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["kubernetes/apps/default/scrypted/resources/helm-release.yaml"],
+      "managerFilePatterns": ["/\\.ya?ml(?:\\.j2)?$/"],
       "matchStringsStrategy": "combination",
       "matchStrings": [
-        "repository:\\s*(?<depName>ghcr\\.io/koush/scrypted|koush/scrypted)",
-        "tag:\\s*v?(?<currentValue>\\d+\\.\\d+\\.\\d+)-noble-lite"
+        "repository:\\s*(?<depName>ghcr\\.io/koush/scrypted)",
+        "tag:\\s*v?(?<currentValue>\\d+\\.\\d+\\.\\d+)-(?<flavour>[a-zA-Z0-9-_]+)"
       ],
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "koush/scrypted",
-      "autoReplaceStringTemplate": "tag: v{{{newValue}}}-noble-lite"
+      "autoReplaceStringTemplate": "tag: v{{{newValue}}}-{{{flavour}}}"
     }
   ],
   "packageRules": [
@@ -99,13 +99,10 @@
       },
       "minimumGroupSize": 5
     },
-    // Package Overrides
+    // Overrides
     {
-      "matchFiles": ["kubernetes/apps/default/scrypted/resources/helm-release.yaml"],
-      "matchPackageNames": [
-        "ghcr.io/koush/scrypted",
-        "koush/scrypted"
-      ],
+      "managerFilePatterns": ["/\\.ya?ml(?:\\.j2)?$/"],
+      "matchPackageNames": ["ghcr.io/koush/scrypted"],
       "matchDatasources": ["docker"],
       "enabled": false
     }
