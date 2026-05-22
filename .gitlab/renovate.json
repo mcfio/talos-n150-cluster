@@ -88,7 +88,7 @@
     // Package Overrides
     {
       "description": "Override scrypted datasource",
-      "matchDatasources": "github-release",
+      "matchDatasources": ["github-release"],
       "matchPackageNames": [
         "/ghcr\\.io/koush/scrypted/"
       ]
