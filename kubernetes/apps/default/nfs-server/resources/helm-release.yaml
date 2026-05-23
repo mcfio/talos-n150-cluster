@@ -118,7 +118,7 @@ spec:
         - path: /srv
       archive:
         type: hostPath
-        hostPath: /mnt/disks/disk1-volume/archive
+        hostPath: /var/mnt/disk1-volume/archive
         advancedMounts:
           nfs-server:
             nfsd:
