@@ -24,7 +24,7 @@ spec:
           exports: |
             /srv            *(rw,async,fsid=0,crossmnt,no_subtree_check)
             /srv/media      *(rw,async,fsid=fb660590-30e3-47c0-8c4a-4d46b003d57b,no_subtree_check,all_squash,anonuid=568,anongid=568)
-          # /srv/archive    *(rw,async,fsid=b0d94358-518b-11f1-bb0d-2ccf674de4ba,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+            /srv/archive    *(rw,async,fsid=b0d94358-518b-11f1-bb0d-2ccf674de4ba,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
     controllers:
       nfs-server:
         pod:
@@ -116,6 +116,13 @@ spec:
         type: emptyDir
         globalMounts:
         - path: /srv
+      archive:
+        type: hostPath
+        hostPath: /mnt/disks/disk1-volume/archive
+        advancedMounts:
+          nfs-server:
+            nfsd:
+            - path: /srv/archive
       media:
         type: emptyDir
         advancedMounts:

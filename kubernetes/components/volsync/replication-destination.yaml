@@ -35,4 +35,4 @@ spec:
       volumeSource:
         nfs:
           path: /archive
-          server: nfs.internal
+          server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local

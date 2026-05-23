@@ -15,9 +15,7 @@ spec:
     kind: Deployment
     name: ${app}
   triggers:
-  - type: prometheus
+  - type: kubernetes-workload
     metadata:
-      serverAddress: http://prometheus-operated.monitoring.svc.cluster.local:9090
-      query: max_over_time(probe_success{instance=~".+:2049"}[1m])
-      threshold: "1"
-      ignoreNullValues: "0"
+      podSelector: app.kubernetes.io/name=nfs-server
+      value: "1"

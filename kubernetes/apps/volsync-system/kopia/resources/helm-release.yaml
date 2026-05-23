@@ -95,7 +95,7 @@ spec:
           subPath: repository.config
       repository:
         type: nfs
-        server: nfs.internal
+        server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
         path: /archive
         globalMounts:
         - path: /repository
