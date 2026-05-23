@@ -8,6 +8,7 @@ spec:
   dependsOn:
   - name: volsync
     namespace: volsync-system
+  - name: nfs-server
   interval: 12h
   path: ./kubernetes/apps/default/sabnzbd/resources
   prune: true

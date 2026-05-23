@@ -57,8 +57,6 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups:
-        - 100 # nfs.cluster:users
         seccompProfile:
           type: RuntimeDefault
     service:
@@ -80,7 +78,7 @@ spec:
         - path: /app/config
       media:
         type: nfs
-        server: nfs.internal
+        server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
         path: /media
         globalMounts:
         - path: /audiobooks

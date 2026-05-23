@@ -68,8 +68,6 @@ spec:
         runAsGroup: 568
         fsGroup: 568
         fsGroupChangePolicy: OnRootMismatch
-        supplementalGroups:
-        - 100 # nfs.cluster:users
     service:
       app:
         ports:
@@ -87,7 +85,7 @@ spec:
         existingClaim: sabnzbd-config
       media:
         type: nfs
-        server: nfs.internal
+        server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
         path: /media
       incomplete:
         type: custom

@@ -3,23 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &appname listenarr
+  name: nfs-server
 spec:
-  dependsOn:
-  - name: nfs-server
   interval: 12h
-  path: ./kubernetes/apps/default/listenarr/resources
+  path: ./kubernetes/apps/default/nfs-server/resources
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
   targetNamespace: default
-  wait: false
-  components:
-  - ../../../../components/nfs-scaler
-  - ../../../../components/volsync
-  postBuild:
-    substitute:
-      app: *appname
-      volume_capacity: 2Gi
+  wait: true

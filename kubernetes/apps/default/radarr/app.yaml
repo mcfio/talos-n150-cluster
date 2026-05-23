@@ -8,6 +8,7 @@ spec:
   dependsOn:
   - name: external-secrets
     namespace: external-secrets
+  - name: nfs-server
   interval: 12h
   path: ./kubernetes/apps/default/radarr/resources
   prune: true
