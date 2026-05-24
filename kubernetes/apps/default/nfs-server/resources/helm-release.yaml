@@ -48,7 +48,7 @@ spec:
             args:
             - -f
             - -o config=/etc/mergerfs/media/config.ini
-            - /mnt/disks/disk*/media
+            - /mnt/disks/media-disk*/media
             - /srv/media
             lifecycle:
               preStop:
@@ -118,7 +118,7 @@ spec:
         - path: /srv
       archive:
         type: hostPath
-        hostPath: /var/mnt/disk1-volume/archive
+        hostPath: /var/mnt/media-disk1/archive
         advancedMounts:
           nfs-server:
             nfsd:
