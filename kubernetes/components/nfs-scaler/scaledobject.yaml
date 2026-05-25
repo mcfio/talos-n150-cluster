@@ -5,17 +5,26 @@ kind: ScaledObject
 metadata:
   name: ${app}
 spec:
-  advanced:
-    restoreToOriginalReplicaCount: true
-  cooldownPeriod: 0
-  minReplicaCount: 0
-  maxReplicaCount: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
     name: ${app}
+  cooldownPeriod: 0
+  minReplicaCount: 0
+  maxReplicaCount: 1
+  advanced:
+    restoreToOriginalReplicaCount: true
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 10
+          policies:
+          - type: Percent
+            value: 100
+            periodSeconds: 15
   triggers:
-  - type: kubernetes-workload
+  - type: prometheus
     metadata:
-      podSelector: app.kubernetes.io/name=nfs-server
-      value: "1"
+      serverAddress: http://prometheus-operated.monitoring.svc.cluster.local:9090
+      query: sum(kube_pod_status_ready{namespace="default", condition="true", pod=~"nfs-server-.*"})
+      threshold: "1"
