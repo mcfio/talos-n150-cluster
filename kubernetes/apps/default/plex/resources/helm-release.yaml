@@ -53,6 +53,7 @@ spec:
                 drop:
                 - ALL
     defaultPodOptions:
+      terminationGracePeriodSeconds: 30
       resourceClaims:
       - name: gpu
         resourceClaimTemplateName: plex-gpu

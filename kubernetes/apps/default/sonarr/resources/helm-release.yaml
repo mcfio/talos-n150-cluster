@@ -56,6 +56,7 @@ spec:
                 drop:
                 - ALL
     defaultPodOptions:
+      terminationGracePeriodSeconds: 30
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
