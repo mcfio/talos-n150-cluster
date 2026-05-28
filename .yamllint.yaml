@@ -27,3 +27,4 @@ rules:
     - "true"
     - "false"
     - "on"
+    - "off"

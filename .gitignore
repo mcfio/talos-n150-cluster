@@ -1,11 +1,12 @@
-/.private/
+.claude/
+.private/
+.venv/
 .DS_Store
 Thumbs.db
-.env
+*.env
 *.agekey
 *.pub
 *.key
 *.pem
 kubeconfig
 talosconfig
-onepassword.env

@@ -2,11 +2,7 @@
 parallel = true
 
 [pre-commit.commands.format-toml]
-run = """
-for file in {staged_files}; do
-    tombi format "$file"
-done
-"""
+run = "for file in {staged_files}; do tombi format $file; done"
 glob = ["*.toml"]
 stage_fixed = true
 
@@ -18,3 +14,7 @@ stage_fixed = true
 [pre-commit.commands.lint-yaml]
 run = "yamllint {staged_files}"
 glob = ["*.yaml"]
+
+[pre-commit.commands.mise-lock]
+glob = [".mise.toml"]
+run = "mise lock && { [ -f mise.lock ] && git add mise.lock || true; }"
