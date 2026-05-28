@@ -42,7 +42,7 @@ flux-local:notes:
   needs:
   - job: flux-local:diff
     artifacts: true
-  image: registry.gitlab.com/gitlab-org/cli:v1.99.0@sha256:c6816f1a98702480b3cb3a6032883d4107340d759aebf06e1f8e83439895e2df
+  image: registry.gitlab.com/gitlab-org/cli:v1.100.0@sha256:20245f07e48285c68bf2d047a065fd800aaf764cde21e37edebb2d55487bfc24
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
   script: |
