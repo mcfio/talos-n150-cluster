@@ -26,8 +26,3 @@ KUBECONFIG = "{{ config_root }}/kubeconfig"
 "aqua:uv" = "latest"
 "aqua:yq" = "latest"
 "pipx:flux-local" = "latest"
-
-"github:postfinance/topf" = "0.4.0-rc.1"
-"aqua:helmfile/vals" = "v0.44.0"
-"aqua:helm" = "latest"
-"aqua:helm-ls" = "latest"
