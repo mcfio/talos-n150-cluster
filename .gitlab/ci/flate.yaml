@@ -17,30 +17,37 @@ flate:diff:
   image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
   variables:
     GIT_DEPTH: "0"
+    GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
   before_script:
   - mise install github:home-operations/flate
+  - mise install glab
+  - mise install jq
   - eval "$(mise activate bash)"
-  - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
   script: |
-    echo '```diff' > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
-    flate diff "${RESOURCE}" >> "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
-    echo '```' >> "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
-  artifacts:
-    paths:
-    - $CI_PROJECT_DIR/diff_outputs/
+    diff_file="$(mktemp)"
+    {
+      echo '```diff'
+      flate diff "${RESOURCE}"
+      echo '```'
+    } > "$diff_file"
 
-flate:notes:
-  extends: .flate
-  needs:
-  - job: flate:diff
-    artifacts: true
-  image: registry.gitlab.com/gitlab-org/cli:v1.100.0@sha256:20245f07e48285c68bf2d047a065fd800aaf764cde21e37edebb2d55487bfc24
-  variables:
-    GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
-  script: |
-    for resource in kustomization helmrelease; do
-      if [[ -s "${CI_PROJECT_DIR}/diff_outputs/${resource}.md" ]]; then
-        glab mr note "${CI_MERGE_REQUEST_IID}" --repo "${CI_PROJECT_PATH}" --unique --message "$(cat "${CI_PROJECT_DIR}/diff_outputs/${resource}.md")"
-      fi
-    done
+    marker="<!-- flate:${RESOURCE} -->"
+    body="${marker}"$'\n'"$(cat "$diff_file")"
+
+    existing_id=$(
+      glab api "projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}/notes?per_page=100" \
+        | jq -r --arg marker "$marker" \
+            '[.[] | select(.body | contains($marker))][0].id // empty'
+    )
+
+    if [[ -n "$existing_id" ]]; then
+      glab mr note update "$existing_id" \
+        --merge-request "${CI_MERGE_REQUEST_IID}" \
+        --repo "${CI_PROJECT_PATH}" \
+        --message "${body}"
+    else
+      glab mr note create "${CI_MERGE_REQUEST_IID}" \
+        --repo "${CI_PROJECT_PATH}" \
+        --message "${body}"
+    fi

@@ -245,6 +245,80 @@ checksum = "sha256:91331121f9a27e135adcdf0db10ecbf025938b183b8f129ac1e728a0dff3e
 url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_windows_amd64.zip"
 url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781613"
 
-[[tools."pipx:flux-local"]]
-version = "8.2.0"
-backend = "pipx:flux-local"
+[[tools.glab]]
+version = "1.101.0"
+backend = "gitlab:gitlab-org/cli"
+
+[tools.glab."platforms.linux-arm64"]
+checksum = "sha256:201cca73881e09d17c7c45801dee4541a9f999ebd9348abc44e0caac7787464b"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.101.0/downloads/glab_1.101.0_linux_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E101%2E0/glab_1%2E101%2E0_linux_arm64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-arm64-musl"]
+checksum = "sha256:201cca73881e09d17c7c45801dee4541a9f999ebd9348abc44e0caac7787464b"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.101.0/downloads/glab_1.101.0_linux_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E101%2E0/glab_1%2E101%2E0_linux_arm64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-x64"]
+checksum = "sha256:f8f40309a622416b769a455a85509bae7800070cd023466f2d33d8ee82f3fc61"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.101.0/downloads/glab_1.101.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E101%2E0/glab_1%2E101%2E0_linux_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.linux-x64-musl"]
+checksum = "sha256:f8f40309a622416b769a455a85509bae7800070cd023466f2d33d8ee82f3fc61"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.101.0/downloads/glab_1.101.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E101%2E0/glab_1%2E101%2E0_linux_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.macos-arm64"]
+checksum = "sha256:7d4c86ffec2b67267adccba7a57738a7ed8a8000c1a674cb1259464c0af7f76f"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.101.0/downloads/glab_1.101.0_darwin_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E101%2E0/glab_1%2E101%2E0_darwin_arm64%2Etar%2Egz"
+
+[tools.glab."platforms.macos-x64"]
+checksum = "sha256:f9cf082bbbf9a4e4b2c9a8ff3d3ebd0b93c1e2a82134d5248e5e7e2f7490bf10"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.101.0/downloads/glab_1.101.0_darwin_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E101%2E0/glab_1%2E101%2E0_darwin_amd64%2Etar%2Egz"
+
+[tools.glab."platforms.windows-x64"]
+checksum = "sha256:d5df286b54cc9e5e3f7babc1e9cdf56a6b3ce822131e78c8f904d76bac59ebaa"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.101.0/downloads/glab_1.101.0_windows_amd64.zip"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E101%2E0/glab_1%2E101%2E0_windows_amd64%2Ezip"
+
+[[tools.jq]]
+version = "1.8.1"
+backend = "aqua:jqlang/jq"
+
+[tools.jq."platforms.linux-arm64"]
+checksum = "sha256:6bc62f25981328edd3cfcfe6fe51b073f2d7e7710d7ef7fcdac28d4e384fc3d4"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-linux-arm64"
+provenance = "github-attestations"
+
+[tools.jq."platforms.linux-arm64-musl"]
+checksum = "sha256:6bc62f25981328edd3cfcfe6fe51b073f2d7e7710d7ef7fcdac28d4e384fc3d4"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-linux-arm64"
+provenance = "github-attestations"
+
+[tools.jq."platforms.linux-x64"]
+checksum = "sha256:020468de7539ce70ef1bceaf7cde2e8c4f2ca6c3afb84642aabc5c97d9fc2a0d"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-linux-amd64"
+provenance = "github-attestations"
+
+[tools.jq."platforms.linux-x64-musl"]
+checksum = "sha256:020468de7539ce70ef1bceaf7cde2e8c4f2ca6c3afb84642aabc5c97d9fc2a0d"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-linux-amd64"
+provenance = "github-attestations"
+
+[tools.jq."platforms.macos-arm64"]
+checksum = "sha256:a9fe3ea2f86dfc72f6728417521ec9067b343277152b114f4e98d8cb0e263603"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-macos-arm64"
+provenance = "github-attestations"
+
+[tools.jq."platforms.macos-x64"]
+checksum = "sha256:e80dbe0d2a2597e3c11c404f03337b981d74b4a8504b70586c354b7697a7c27f"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-macos-amd64"
+provenance = "github-attestations"
+
+[tools.jq."platforms.windows-x64"]
+checksum = "sha256:23cb60a1354eed6bcc8d9b9735e8c7b388cd1fdcb75726b93bc299ef22dd9334"
+url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-windows-amd64.exe"
+provenance = "github-attestations"
