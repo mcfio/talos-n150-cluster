@@ -16,7 +16,6 @@ flate:diff:
       - helmrelease
   image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
   variables:
-    GIT_DEPTH: "0"
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_CACHE_DIR: $CI_PROJECT_DIR/.cache/flate
     FLATE_OUTPUT: markdown
