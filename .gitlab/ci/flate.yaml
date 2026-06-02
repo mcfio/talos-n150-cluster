@@ -12,10 +12,11 @@ flate:diff:
   parallel:
     matrix:
     - RESOURCE:
-      - ks
-      - hr
+      - kustomization
+      - helmrelease
   image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
   variables:
+    GIT_DEPTH: "0"
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_CACHE_DIR: $CI_PROJECT_DIR/.cache/flate
     FLATE_OUTPUT: markdown
@@ -23,6 +24,7 @@ flate:diff:
   - mise install github:home-operations/flate
   - eval "$(mise activate bash)"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
+  - git fetch --depth=1 origin "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
   script: |
     export FLATE_BASE="$(git rev-parse origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME})"
     flate diff "${RESOURCE}" > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
