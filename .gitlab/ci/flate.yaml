@@ -18,42 +18,17 @@ flate:diff:
   variables:
     GIT_DEPTH: "0"
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
-    FLATE_CACHE_DIR: $CI_PROJECT_DIR/.cache/flate
+    FLATE_CACHE_DIR: $CI_BUILDS_DIR/.cache/flate
     FLATE_OUTPUT: markdown
   before_script:
   - mise install github:home-operations/flate
   - eval "$(mise activate bash)"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
-  - git fetch --depth=1 origin "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
-  script: |
-    export FLATE_BASE="$(git rev-parse FETCH_HEAD)"
-    echo "=== ENV ==="
-    echo "FLATE_BASE=${FLATE_BASE}"
-    echo "HEAD=$(git rev-parse HEAD)"
-    echo "TARGET_BRANCH=${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
-    echo ""
-    echo "=== changed files under kubernetes/ ==="
-    git diff --name-only "${FLATE_BASE}" HEAD -- kubernetes/
-    echo ""
-    echo "=== flate diff (with debug logging) ==="
-    set +e
-    flate --log-level=debug diff "${RESOURCE}" --base "${FLATE_BASE}" \
-      > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md" \
-      2> "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.log"
-    flate_rc=$?
-    set -e
-    echo "flate exit code: ${flate_rc}"
-    echo "--- stderr (last 200 lines) ---"
-    tail -n 200 "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.log"
-    echo "--- stdout size ---"
-    wc -l "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
-    echo "--- stdout head ---"
-    head -n 50 "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
-    exit "${flate_rc}"
+  script: flate diff "${RESOURCE}" > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
   cache:
     key: flate-$CI_PROJECT_ID-$RESOURCE
     paths:
-    - $CI_PROJECT_DIR/.cache/flate/
+    - $CI_BUILDS_DIR/.cache/flate/
   artifacts:
     paths:
     - $CI_PROJECT_DIR/diff_outputs/
