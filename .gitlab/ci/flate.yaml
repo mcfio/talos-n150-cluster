@@ -45,7 +45,7 @@ flate:notes:
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
   script: |
-    for resource in ks hr; do
+    for resource in kustomization helmrelease; do
       if [[ -s "${CI_PROJECT_DIR}/diff_outputs/${resource}.md" ]]; then
         glab mr note "${CI_MERGE_REQUEST_IID}" --repo "${CI_PROJECT_PATH}" --unique --message "$(cat "${CI_PROJECT_DIR}/diff_outputs/${resource}.md")"
       fi
