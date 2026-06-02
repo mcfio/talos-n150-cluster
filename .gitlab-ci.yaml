@@ -22,7 +22,7 @@ stages:
 include:
 - .gitlab/ci/labels.yaml
 - .gitlab/ci/lint.yaml
-- .gitlab/ci/flux-local.yaml
+- .gitlab/ci/flate.yaml
 - local: .gitlab/ci/renovate.yaml
   rules:
   - if: $[[ inputs.renovate ]] == true

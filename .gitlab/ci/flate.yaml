@@ -1,0 +1,50 @@
+---
+# yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
+.flate:
+  stage: test
+  rules:
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    changes:
+    - kubernetes/**/*.yaml
+
+flate:diff:
+  extends: .flate
+  parallel:
+    matrix:
+    - RESOURCE:
+      - ks
+      - hr
+  image:
+    name: ghcr.io/home-operations/flate:0.1.36@sha256:9f4e1f23ace9f43020bdb5b7930b39f7457e04420a848f376c2f1e8e05e7f346
+    entrypoint: [""]
+  variables:
+    FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
+    FLATE_BASE: $CI_MERGE_REQUEST_DIFF_BASE_SHA
+    FLATE_CACHE_DIR: $CI_PROJECT_DIR/.cache/flate
+    FLATE_OUTPUT: markdown
+  before_script:
+  - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
+  script:
+  - flate diff "${RESOURCE}" > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
+  cache:
+    key: flate-$CI_PROJECT_ID-$RESOURCE
+    paths:
+    - $CI_PROJECT_DIR/.cache/flate/
+  artifacts:
+    paths:
+    - $CI_PROJECT_DIR/diff_outputs/
+
+flate:notes:
+  extends: .flate
+  needs:
+  - job: flate:diff
+    artifacts: true
+  image: registry.gitlab.com/gitlab-org/cli:v1.100.0@sha256:20245f07e48285c68bf2d047a065fd800aaf764cde21e37edebb2d55487bfc24
+  variables:
+    GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
+  script: |
+    for resource in ks hr; do
+      if [[ -s "${CI_PROJECT_DIR}/diff_outputs/${resource}.md" ]]; then
+        glab mr note "${CI_MERGE_REQUEST_IID}" --repo "${CI_PROJECT_PATH}" --unique --message "$(cat "${CI_PROJECT_DIR}/diff_outputs/${resource}.md")"
+      fi
+    done
