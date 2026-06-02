@@ -26,8 +26,26 @@ flate:diff:
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
   - git fetch --depth=1 origin "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
   script: |
-    export FLATE_BASE="$(git rev-parse origin/${CI_MERGE_REQUEST_TARGET_BRANCH_NAME})"
-    flate diff "${RESOURCE}" > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
+    echo "=== ENV ==="
+    echo "FLATE_BASE=${FLATE_BASE}"
+    echo "FLATE_PATH=${FLATE_PATH}"
+    echo "HEAD=$(git rev-parse HEAD)"
+    echo ""
+    echo "=== git-level diff (what changed on disk between baseline and HEAD) ==="
+    git diff --stat "${FLATE_BASE}" HEAD
+    echo ""
+    echo "=== git-level diff scoped to kubernetes/ ==="
+    git diff --name-only "${FLATE_BASE}" HEAD -- kubernetes/
+    echo ""
+    echo "=== what flate sees as the resource graph ==="
+    flate get ks --path "${FLATE_PATH}" -o name
+    echo ""
+    echo "=== flate diff with explicit --base, verbose ==="
+    flate diff "${RESOURCE}" --base "${FLATE_BASE}" -v > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md" 2> "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.log"
+    echo "--- stderr ---"
+    cat "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.log"
+    echo "--- diff size ---"
+    wc -l "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
   cache:
     key: flate-$CI_PROJECT_ID-$RESOURCE
     paths:
