@@ -19,12 +19,14 @@ flate:diff:
     GIT_DEPTH: "0"
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_CACHE_DIR: $CI_BUILDS_DIR/.cache/flate
-    FLATE_OUTPUT: markdown
   before_script:
   - mise install github:home-operations/flate
   - eval "$(mise activate bash)"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
-  script: flate diff "${RESOURCE}" > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
+  script: |
+    echo "```diff" > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
+    flate diff "${RESOURCE}" >> "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
+    echo "```" >> "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
   cache:
     key: flate-$CI_PROJECT_ID-$RESOURCE
     paths:
