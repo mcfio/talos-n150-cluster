@@ -21,7 +21,7 @@ flate:diff:
     FLATE_CACHE_DIR: $CI_PROJECT_DIR/.cache/flate
     FLATE_OUTPUT: markdown
   before_script:
-  - mise install
+  - mise install github:home-operations/flate
   - eval "$(mise activate bash)"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
   script:
