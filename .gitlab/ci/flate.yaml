@@ -14,15 +14,15 @@ flate:diff:
     - RESOURCE:
       - ks
       - hr
-  image:
-    name: ghcr.io/home-operations/flate:0.1.36@sha256:9f4e1f23ace9f43020bdb5b7930b39f7457e04420a848f376c2f1e8e05e7f346
-    entrypoint: [""]
+  image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
   variables:
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_BASE: $CI_MERGE_REQUEST_DIFF_BASE_SHA
     FLATE_CACHE_DIR: $CI_PROJECT_DIR/.cache/flate
     FLATE_OUTPUT: markdown
   before_script:
+  - mise install
+  - eval "$(mise activate bash)"
   - mkdir -p "${CI_PROJECT_DIR}/diff_outputs"
   script:
   - flate diff "${RESOURCE}" > "${CI_PROJECT_DIR}/diff_outputs/${RESOURCE}.md"
