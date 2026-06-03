@@ -15,6 +15,7 @@ flate:
   variables:
     GIT_DEPTH: "0"
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
+    MISE_NO_CACHE: "1"
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_OUTPUT: gitlab
   before_script:
@@ -40,7 +41,7 @@ flate:
     )
 
     if [[ -n "$existing_id" ]]; then
-      glab mr note update "$existing_id" \
+      glab mr note update "${CI_MERGE_REQUEST_IID}" "$existing_id" \
         --repo "${CI_PROJECT_PATH}" \
         --message "${body}"
     else
