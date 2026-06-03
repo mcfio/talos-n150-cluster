@@ -20,10 +20,18 @@ flate:
   before_script:
   - mise install
   script: |
+    raw="$(mktemp)"
+    flate diff "${RESOURCE}" | sed '/./,$!d' > "$raw"
+
+    if [[ ! -s "$raw" ]]; then
+      echo "No diff for ${RESOURCE} — exiting cleanly"
+      exit 0
+    fi
+
     diff_file="$(mktemp)"
     {
       echo '```diff'
-      flate diff "${RESOURCE}" | sed '/./,$!d'
+      cat "$raw"
       echo '```'
     } > "$diff_file"
 
@@ -32,7 +40,7 @@ flate:
 
     existing_id=$(
       glab mr note list "${CI_MERGE_REQUEST_IID}" --output json \
-        | jq -r --arg marker "$marker" \
+        | jq --raw-output --arg marker "$marker" \
             '.[] | .notes[] | select(.body | strings | contains($marker)) | .id // empty'
     )
 
