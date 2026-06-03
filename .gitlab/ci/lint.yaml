@@ -20,7 +20,7 @@ tomllint:
     - "**/*.toml"
   allow_failure: true
   image:
-    name: ghcr.io/tamasfe/taplo:0.10.0
+    name: tamasfe/taplo:0.10.0
     entrypoint: [""]
   script:
   - taplo lint
