@@ -10,11 +10,10 @@ renovate-config-validator:
   variables:
     RENOVATE_CONFIG_VALIDATOR_EXTRA_FLAGS: .gitlab/renovate.json
   rules:
-  - if: $CI_PIPELINE_SOURCE == "push"
+  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     changes:
       paths:
       - .gitlab/renovate.json
-      - "*.json"
 
 renovate:
   variables:
@@ -24,3 +23,4 @@ renovate:
   rules:
   - if: $CI_PIPELINE_SOURCE == "schedule"
   - if: $CI_PIPELINE_SOURCE == "web"
+  - if: $CI_PIPELINE_SOURCE == "api"

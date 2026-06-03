@@ -1,37 +1,30 @@
 ---
-spec:
-  inputs:
-    schemas:
-      description: Generate and publish JSON schemas from CRDs
-      type: boolean
-      default: false
-    renovate:
-      description: Run Renovate to update dependencies
-      type: boolean
-      default: false
-
----
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 stages:
 - lint
-- build
 - test
-- deploy
 - renovate
 
 variables:
   CI_MISE_IMAGE: ghcr.io/jdx/mise:2026.6@sha256:6dac17a05e767152c5f0367d90613d69c81e05420bb226467d04c57d843bdbba
-  MISE_ENV: gitlab-ci
-  MISE_NO_CACHE: "1"
+
+.mise:
+  variables:
+    MISE_ENV: gitlab-ci
+    MISE_DATA_DIR: $CI_PROJECT_DIR/.cache/mise
+  image: $CI_MISE_IMAGE
+  cache:
+    key:
+      files:
+      - .mise.lock
+      - .mise.gitlab-ci.toml
+    paths:
+    - .cache/mise/
+  before_script:
+  - mise install
 
 include:
 - .gitlab/ci/labels.yaml
 - .gitlab/ci/lint.yaml
 - .gitlab/ci/flate.yaml
-- local: .gitlab/ci/renovate.yaml
-  rules:
-  - if: $[[ inputs.renovate ]] == true
-  - if: $CI_PIPELINE_SOURCE == "push"
-- local: .gitlab/ci/schemas.yaml
-  rules:
-  - if: $[[ inputs.schemas ]] == true
+- .gitlab/ci/renovate.yaml

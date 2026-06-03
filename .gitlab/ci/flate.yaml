@@ -2,6 +2,7 @@
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 flate:
   stage: test
+  extends: .mise
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     changes:
@@ -11,14 +12,11 @@ flate:
     - RESOURCE:
       - kustomization
       - helmrelease
-  image: $CI_MISE_IMAGE
   variables:
     GIT_DEPTH: "0"
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_OUTPUT: gitlab
-  before_script:
-  - mise install
   script: |
     raw="$(mktemp)"
     flate diff "${RESOURCE}" | sed '/./,$!d' > "$raw"
@@ -41,7 +39,7 @@ flate:
     existing_id=$(
       glab mr note list "${CI_MERGE_REQUEST_IID}" --output json \
         | jq --raw-output --arg marker "$marker" \
-            '.[] | .notes[] | select(.body | strings | contains($marker)) | .id // empty'
+            '.[] | .notes[] | select(.body | strings | contains($marker)) | .id'
     )
 
     if [[ -n "$existing_id" ]]; then

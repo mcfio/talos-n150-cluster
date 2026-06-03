@@ -2,28 +2,24 @@
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 yamllint:
   stage: lint
+  extends: .mise
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
     changes:
     - "**/*.yaml"
     - "**/*.yml"
   allow_failure: true
-  image: $CI_MISE_IMAGE
-  before_script:
-  - mise install
   script:
   - yamllint --config-file .yamllint.yaml .
 
 tomllint:
   stage: lint
+  extends: .mise
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event" || ($CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH)
     changes:
     - "**/*.toml"
   allow_failure: true
-  image: $CI_MISE_IMAGE
-  before_script:
-  - mise install
   script:
   - taplo lint
   - taplo format --check
