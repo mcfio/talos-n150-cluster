@@ -40,12 +40,12 @@ flate:
     )
 
     if [[ -n "$existing_id" ]]; then
-      glab mr note update "${CI_MERGE_REQUEST_IID}" "$existing_id" \
+      glab mr note update "$existing_id" \
         --repo "${CI_PROJECT_PATH}" \
         --message "${body}"
     else
       glab mr note create "${CI_MERGE_REQUEST_IID}" \
-        --resolvable false \
         --repo "${CI_PROJECT_PATH}" \
-        --message "${body}"
+        --message "${body}" \
+        --resolvable=false
     fi
