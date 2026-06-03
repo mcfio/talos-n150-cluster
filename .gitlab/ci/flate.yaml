@@ -1,14 +1,11 @@
 ---
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
-.flate:
+flate:
   stage: test
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     changes:
     - kubernetes/**/*.yaml
-
-flate:diff:
-  extends: .flate
   parallel:
     matrix:
     - RESOURCE:
@@ -19,6 +16,7 @@ flate:diff:
     GIT_DEPTH: "0"
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
+    FLATE_OUTPUT: gitlab
   before_script:
   - mise install github:home-operations/flate
   - mise install glab
