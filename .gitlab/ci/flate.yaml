@@ -15,7 +15,6 @@ flate:
   variables:
     GIT_DEPTH: "0"
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
-    MISE_NO_CACHE: "1"
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_OUTPUT: gitlab
   before_script:

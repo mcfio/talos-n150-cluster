@@ -8,7 +8,10 @@ yamllint:
     - "**/*.yaml"
     - "**/*.yml"
   allow_failure: true
-  image: registry.gitlab.com/pipeline-components/yamllint:latest@sha256:5ab5eb7da0ed5e606b07c1723fc8b275e925189f70ac259b26b7329cb5f8f44d
+  image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
+  before_script:
+  - mise install yamllint
+  - eval "$(mise activate bash)"
   script:
   - yamllint --config-file .yamllint.yaml .
 
@@ -21,7 +24,7 @@ tomllint:
   allow_failure: true
   image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
   before_script:
-  - mise install taplo
+  - mise install toplo
   - eval "$(mise activate bash)"
   script:
   - taplo lint
