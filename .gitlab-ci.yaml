@@ -20,7 +20,7 @@ stages:
 - renovate
 
 variables:
-  CI_MISE_IMAGE: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
+  CI_MISE_IMAGE: ghcr.io/jdx/mise:2026.6@sha256:6dac17a05e767152c5f0367d90613d69c81e05420bb226467d04c57d843bdbba
   MISE_ENV: gitlab-ci
   MISE_NO_CACHE: "1"
 
