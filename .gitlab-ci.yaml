@@ -12,6 +12,7 @@ variables:
   variables:
     MISE_ENV: gitlab-ci
     MISE_DATA_DIR: $CI_PROJECT_DIR/.cache/mise
+    UV_LINK_MODE: copy
   image: $CI_MISE_IMAGE
   cache:
     key:
@@ -22,6 +23,7 @@ variables:
     - .cache/mise/
   before_script:
   - mise install
+  - eval "$(mise activate bash --shims)"
 
 include:
 - .gitlab/ci/labels.yaml
