@@ -1,6 +1,7 @@
 .claude/
 .private/
 .venv/
+.cache/
 .DS_Store
 Thumbs.db
 *.env
