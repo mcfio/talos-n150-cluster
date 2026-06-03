@@ -26,7 +26,7 @@ flate:
     diff_file="$(mktemp)"
     {
       echo '```diff'
-      flate diff "${RESOURCE}"
+      flate diff "${RESOURCE}" | sed '/./,$!d'
       echo '```'
     } > "$diff_file"
 
