@@ -207,43 +207,43 @@ checksum = "sha256:2aee32f1de46a20672f48c25df3018839798bd509143f2ce05fdab1550ff5
 url = "https://github.com/mikefarah/yq/releases/download/v4.53.2/yq_windows_amd64.exe"
 
 [[tools."github:home-operations/flate"]]
-version = "0.1.36"
+version = "0.2.6"
 backend = "github:home-operations/flate"
 
 [tools."github:home-operations/flate"."platforms.linux-arm64"]
-checksum = "sha256:e65483d31754f0ae096ab6823e45b4015fdff826d830d27b090cc9845717cfe5"
-url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781616"
+checksum = "sha256:7c76633d2f41da9bcc302b5bba0d53c3b7bc872b529c3ce46becf85ec4bc0675"
+url = "https://github.com/home-operations/flate/releases/download/0.2.6/flate_0.2.6_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/436790858"
 
 [tools."github:home-operations/flate"."platforms.linux-arm64-musl"]
-checksum = "sha256:e65483d31754f0ae096ab6823e45b4015fdff826d830d27b090cc9845717cfe5"
-url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781616"
+checksum = "sha256:7c76633d2f41da9bcc302b5bba0d53c3b7bc872b529c3ce46becf85ec4bc0675"
+url = "https://github.com/home-operations/flate/releases/download/0.2.6/flate_0.2.6_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/436790858"
 
 [tools."github:home-operations/flate"."platforms.linux-x64"]
-checksum = "sha256:dab4f4dac9e3dec2b8a698402e5241da6484572db00e10d70952dfd144aa2745"
-url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781614"
+checksum = "sha256:97025f302eca79f1f5ee2258bb9f052a88c172ba3de50909e0ca8d65e8be6d73"
+url = "https://github.com/home-operations/flate/releases/download/0.2.6/flate_0.2.6_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/436790859"
 
 [tools."github:home-operations/flate"."platforms.linux-x64-musl"]
-checksum = "sha256:dab4f4dac9e3dec2b8a698402e5241da6484572db00e10d70952dfd144aa2745"
-url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781614"
+checksum = "sha256:97025f302eca79f1f5ee2258bb9f052a88c172ba3de50909e0ca8d65e8be6d73"
+url = "https://github.com/home-operations/flate/releases/download/0.2.6/flate_0.2.6_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/436790859"
 
 [tools."github:home-operations/flate"."platforms.macos-arm64"]
-checksum = "sha256:a926dc630287036005dc895a9c1feacd84b94de2cb1f2ee47696a037cf7ef133"
-url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781615"
+checksum = "sha256:b38bdffecc7808c461b54ea00b03e4504a160588e9345094a7b264aa223a2d69"
+url = "https://github.com/home-operations/flate/releases/download/0.2.6/flate_0.2.6_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/436790856"
 
 [tools."github:home-operations/flate"."platforms.macos-x64"]
-checksum = "sha256:98a1221a383a645b7b65effe5877f858e4dfb391f0a0e693ddcd7a751d2df66a"
-url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781621"
+checksum = "sha256:2696f04b304f21ecfc2389c82126b4cbcc2cffcddb5fa16f9cdf4ac2c95241d1"
+url = "https://github.com/home-operations/flate/releases/download/0.2.6/flate_0.2.6_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/436790869"
 
 [tools."github:home-operations/flate"."platforms.windows-x64"]
-checksum = "sha256:91331121f9a27e135adcdf0db10ecbf025938b183b8f129ac1e728a0dff3eb14"
-url = "https://github.com/home-operations/flate/releases/download/0.1.36/flate_0.1.36_windows_amd64.zip"
-url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/434781613"
+checksum = "sha256:986289a729e626697a17cdeb9623e137aa25c0a2d0aa9ae88aab4dfd126ba0b2"
+url = "https://github.com/home-operations/flate/releases/download/0.2.6/flate_0.2.6_windows_amd64.zip"
+url_api = "https://api.github.com/repos/home-operations/flate/releases/assets/436790857"
 
 [[tools.glab]]
 version = "1.101.0"
