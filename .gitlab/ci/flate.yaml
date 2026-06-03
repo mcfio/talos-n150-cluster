@@ -16,6 +16,7 @@ flate:
     GIT_DEPTH: "0"
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
+    FLATE_OUTPUT: gitlab
   before_script:
   - mise install github:home-operations/flate
   - mise install glab
