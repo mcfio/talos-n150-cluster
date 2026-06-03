@@ -34,13 +34,13 @@ flate:
     body="${marker}"$'\n'"$(cat "$diff_file")"
 
     existing_id=$(
-      glab mr note list ${CI_MERGE_REQUEST_IID} --output json \
+      glab mr note list "${CI_MERGE_REQUEST_IID}" --output json \
         | jq -r --arg marker "$marker" \
             '.[] | .notes[] | select(.body | strings | contains($marker)) | .id // empty'
     )
 
     if [[ -n "$existing_id" ]]; then
-      glab mr note update "${CI_MERGE_REQUEST_IID} "$existing_id" \
+      glab mr note update "${CI_MERGE_REQUEST_IID}" "$existing_id" \
         --repo "${CI_PROJECT_PATH}" \
         --message "${body}"
     else
