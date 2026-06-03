@@ -5,6 +5,7 @@
 [tools]
 "aqua:jqlang/jq" = "1.8.1"
 "aqua:tamasfe/taplo" = "0.10.0"
+"aqua:uv" = "0.11.18"
 "github:home-operations/flate" = "0.2.6"
 "gitlab:gitlab-org/cli" = "1.101.0"
 "pipx:yamllint" = "1.38.0"
