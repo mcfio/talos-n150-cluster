@@ -16,53 +16,23 @@ labels:
     - stuck_or_timeout_failure
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
-  script:
-  # Get the list of changed files in the MR
-  - |
-    if [ -n "$CI_MERGE_REQUEST_IID" ]; then
-      CHANGED_FILES=$(git diff --name-only "${CI_MERGE_REQUEST_DIFF_BASE_SHA}" HEAD)
-    else
-      echo "Not a merge request pipeline, skipping labeling"
-      exit 0
-    fi
-
-  # Determine labels based on changed files
-  - |
-    echo "Changed files:"
+  script: |
+    git fetch --depth=1 origin "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
+    BASE_SHA="$(git rev-parse FETCH_HEAD)"
+    CHANGED_FILES=$(git diff --name-only "${BASE_SHA}" HEAD)
+    echo "Changed files vs ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}@${BASE_SHA}:"
     echo "$CHANGED_FILES"
 
-    # Initialize a set of labels to add
     LABELS=()
+    echo "$CHANGED_FILES" | grep -q "^kubernetes/"          && LABELS+=("area/kubernetes")
+    echo "$CHANGED_FILES" | grep -q "^talos/"               && LABELS+=("area/talos")
+    echo "$CHANGED_FILES" | grep -q "^bootstrap/"           && LABELS+=("area/bootstrap")
+    echo "$CHANGED_FILES" | grep -qE "^\.gitlab/|\.gitlab-ci\.yaml" && LABELS+=("area/gitlab")
+    echo "$CHANGED_FILES" | grep -qE "^\.renovate/|renovate\.json"  && LABELS+=("area/renovate")
 
-    # Check for kubernetes changes
-    if echo "$CHANGED_FILES" | grep -q "^kubernetes/"; then
-      LABELS+=("area/kubernetes")
-    fi
-
-    # Check for talos changes
-    if echo "$CHANGED_FILES" | grep -q "^talos/"; then
-      LABELS+=("area/talos")
-    fi
-
-    # Check for bootstrap changes
-    if echo "$CHANGED_FILES" | grep -q "^bootstrap/"; then
-      LABELS+=("area/bootstrap")
-    fi
-
-    # Check for CI/CD changes
-    if echo "$CHANGED_FILES" | grep -q "^\.gitlab/\|\.gitlab-ci\.yaml"; then
-      LABELS+=("area/gitlab")
-    fi
-
-    # Check for renovate changes
-    if echo "$CHANGED_FILES" | grep -q "^\.renovate/\|renovate\.json"; then
-      LABELS+=("area/renovate")
-    fi
-
-    # Add labels if any were found
     if [ ${#LABELS[@]} -gt 0 ]; then
       glab mr update "${CI_MERGE_REQUEST_IID}" --label "$(IFS=,; echo "${LABELS[*]}")" || true
-      echo "Successfully labeled MR with:  ${LABELS[*]}"
+      echo "Labeled: ${LABELS[*]}"
     else
-      echo "No matching patterns found for labeling"
+      echo "No matching patterns"
     fi
