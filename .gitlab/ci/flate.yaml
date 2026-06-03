@@ -18,10 +18,8 @@ flate:
     FLATE_PATH: $CI_PROJECT_DIR/kubernetes/flux/config
     FLATE_OUTPUT: gitlab
   before_script:
-  - mise install github:home-operations/flate
-  - mise install glab
-  - mise install jq
-  - eval "$(mise activate bash)"
+  - mise install
+  - export PATH="$(mise where --shims):$PATH"
   script: |
     diff_file="$(mktemp)"
     {

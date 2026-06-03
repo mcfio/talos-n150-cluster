@@ -10,9 +10,8 @@ yamllint:
   allow_failure: true
   image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
   before_script:
-  - mise install uv
-  - mise install yamllint
-  - eval "$(mise activate bash)"
+  - mise install
+  - export PATH="$(mise where --shims):$PATH"
   script:
   - yamllint --config-file .yamllint.yaml .
 
@@ -25,8 +24,8 @@ tomllint:
   allow_failure: true
   image: ghcr.io/jdx/mise:2026.5@sha256:5bb3311994fa78cef307ca3077cdb18f9551da0886371fc26ea91ab56220ffc5
   before_script:
-  - mise install taplo
-  - eval "$(mise activate bash)"
+  - mise install
+  - export PATH="$(mise where --shims):$PATH"
   script:
   - taplo lint
   - taplo format --check
