@@ -13,7 +13,9 @@ variables:
     MISE_ENV: gitlab-ci
     MISE_DATA_DIR: $CI_PROJECT_DIR/.cache/mise
     UV_LINK_MODE: copy
-  image: $CI_MISE_IMAGE
+  image:
+    name: $CI_MISE_IMAGE
+    entrypoint: [""]
   cache:
     key:
       files:
