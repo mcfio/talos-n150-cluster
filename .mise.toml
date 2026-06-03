@@ -17,11 +17,3 @@ _.file = ["{{ config_root }}/.secrets.env"]
 MINIJINJA_CONFIG_FILE = "{{ config_root }}/.minijinja.toml"
 TALOSCONFIG = "{{ config_root }}/talosconfig"
 KUBECONFIG = "{{ config_root }}/kubeconfig"
-
-[tools]
-"aqua:gum" = "latest"
-"aqua:lefthook" = "latest"
-"aqua:shellcheck" = "latest"
-"aqua:tombi" = "latest"
-"aqua:uv" = "latest"
-"aqua:yq" = "latest"
