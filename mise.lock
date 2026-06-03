@@ -322,3 +322,28 @@ provenance = "github-attestations"
 checksum = "sha256:23cb60a1354eed6bcc8d9b9735e8c7b388cd1fdcb75726b93bc299ef22dd9334"
 url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-windows-amd64.exe"
 provenance = "github-attestations"
+
+[[tools.taplo]]
+version = "0.10.0"
+backend = "aqua:tamasfe/taplo"
+
+[tools.taplo."platforms.linux-arm64"]
+url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-aarch64.gz"
+
+[tools.taplo."platforms.linux-arm64-musl"]
+url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-aarch64.gz"
+
+[tools.taplo."platforms.linux-x64"]
+url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz"
+
+[tools.taplo."platforms.linux-x64-musl"]
+url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz"
+
+[tools.taplo."platforms.macos-arm64"]
+url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-darwin-aarch64.gz"
+
+[tools.taplo."platforms.macos-x64"]
+url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-darwin-x86_64.gz"
+
+[tools.taplo."platforms.windows-x64"]
+url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-windows-x86_64.zip"
