@@ -10,7 +10,6 @@ variables:
 
 .mise:
   variables:
-    MISE_ENV: gitlab-ci
     MISE_DATA_DIR: $CI_PROJECT_DIR/.cache/mise
     UV_LINK_MODE: copy
   image:
@@ -19,8 +18,7 @@ variables:
   cache:
     key:
       files:
-      - .mise.lock
-      - .mise.gitlab-ci.toml
+      - .mise/mise.lock
     paths:
     - .cache/mise/
   before_script:

@@ -1,20 +1,26 @@
 [pre-commit]
 parallel = true
+skip = ["merge", "rebase"]
 
 [pre-commit.commands.format-toml]
-run = "for file in {staged_files}; do tombi format $file; done"
 glob = ["*.toml"]
+run = "for file in {staged_files}; do tombi format $file; done"
 stage_fixed = true
 
 [pre-commit.commands.format-yaml]
+glob = ["*.yaml", "*.yml"]
 run = "yamlfmt {staged_files}"
-glob = ["*.yaml"]
 stage_fixed = true
 
 [pre-commit.commands.lint-yaml]
-run = "yamllint {staged_files}"
-glob = ["*.yaml"]
+glob = ["*.yaml", "*.yml"]
+run = "yamllint --config-file .yamllint.yaml {staged_files}"
+
+[pre-commit.commands.format-mise]
+glob = [".mise/config.toml"]
+run = "mise fmt"
+stage_fixed = true
 
 [pre-commit.commands.mise-lock]
-glob = [".mise.toml"]
-run = "mise lock && { [ -f mise.lock ] && git add mise.lock || true; }"
+glob = [".mise/config.toml"]
+run = 'mise lock && { for f in {staged_files}; do l="$(dirname "$f")/mise.lock"; [ -f "$l" ] && git add "$l"; done; true; }'
