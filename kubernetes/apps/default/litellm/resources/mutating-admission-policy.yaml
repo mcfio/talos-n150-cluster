@@ -1,0 +1,48 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.36.0/mutatingadmissionpolicybinding-admissionregistration-v1.json
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingAdmissionPolicyBinding
+metadata:
+  name: litellm-migrations-remove-volumes
+spec:
+  policyName: litellm-migrations-remove-volumes
+  matchResources:
+    namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: default
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.36.0/mutatingadmissionpolicy-admissionregistration-v1.json
+apiVersion: admissionregistration.k8s.io/v1
+kind: MutatingAdmissionPolicy
+metadata:
+  name: litellm-migrations-remove-volumes
+spec:
+  matchConstraints:
+    resourceRules:
+    - apiGroups:
+      - batch
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      resources:
+      - jobs
+  matchConditions:
+  - name: has-litellm-migrations-job-name-prefix
+    expression: object.metadata.name.startsWith("litellm-migrations")
+  # - name: has-litellm-created-by-labels
+  #   expression: object.metadata.?labels["app.kubernetes.io/created-by"].orValue("") == "litellm"
+  - name: has-volumes-to-strip
+    expression: >
+      has(object.spec.template.spec.volumes) &&
+      size(object.spec.template.spec.volumes) > 0
+  failurePolicy: Fail
+  reinvocationPolicy: IfNeeded
+  mutations:
+  - patchType: JSONPatch
+    jsonPatch:
+      expression: >
+        [
+          JSONPatch{op: "remove", path: "/spec/template/spec/volumes"},
+          JSONPatch{op: "remove", path: "/spec/template/spec/containers/0/volumeMounts"}
+        ]

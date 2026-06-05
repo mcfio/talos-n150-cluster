@@ -9,6 +9,7 @@ spec:
   chartRef:
     kind: OCIRepository
     name: litellm
+  timeout: 10m
   values:
     strategy:
       type: Recreate
