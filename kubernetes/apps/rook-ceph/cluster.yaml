@@ -6,7 +6,8 @@ metadata:
   name: rook-ceph-cluster
 spec:
   dependsOn:
-  - name: rook-ceph-operator
+  - name: ceph-csi-drivers
+    namespace: rook-ceph
   - name: external-secrets
     namespace: external-secrets
   - name: silence-operator
