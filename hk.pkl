@@ -7,15 +7,31 @@ local linters = new Mapping<String, Step> {
   ["mise"] = Builtins.mise
 }
 
+local miselock = new Group {
+  steps {
+    ["mise-lock"] {
+      glob = ".mise/config.toml"
+      fix = "mise lock"
+      stage = ".mise/mise.lock"
+    }
+  }
+}
+
 hooks {
   ["pre-commit"] {
     fix = true
     stash = "git"
-    steps = linters
+    steps {
+      ["miselock"] = miselock
+      ...linters
+    }
   }
   ["fix"] {
     fix = true
-    steps = linters
+    steps {
+      ["miselock"] = miselock
+      ...linters
+    }
   }
   ["check"] {
     steps = linters
