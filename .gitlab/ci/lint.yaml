@@ -21,5 +21,5 @@ tomllint:
     - "**/*.toml"
   allow_failure: true
   script:
-  - taplo lint
-  - taplo format --check
+  - tombi lint
+  - tombi format --check
