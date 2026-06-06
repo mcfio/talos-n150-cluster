@@ -59,10 +59,10 @@ talos/
 3. Reviewer (me) merges. Flux reconciles `kubernetes/flux/config/` on its interval, walks the Kustomization graph, applies changes in `dependsOn` order with health-gating.
 4. Drift is recovered automatically — Flux owns the cluster, the cluster doesn't own itself.
 
-#### Flux Reconcilion Graph
+#### Flux Reconciliation Graph
 
 ```mermaid
-graph LR
+flowchart LR
     A["Kustomization\nrook-ceph"]
     B["Kustomization\nrook-ceph-cluster"]
     C["HelmRelease\nrook-ceph"]
@@ -87,33 +87,24 @@ graph LR
 
 ```mermaid
 flowchart LR
-
-subgraph NETWORK [Network VLANs] 
-    LOCAL["Clients\n192.168.10.0/24"]
-    SERVERS["Cluster\n192.168.45.0/24"]
-    SERVICES["Services\n192.168.46.0/24"]
-    IOT["IoT\n192.168.30.0/24"]
-    GUEST["Guest\n192.168.50.0/24"]
-end
-
-ISP["ISP\n1Gbps"]
-UDM["UDM Pro"]
-SW["USW Enterprise 24 PoE"]
-FLEX["USW Flex 2.5G"]
-NAS["Kubernetes\n1 Node+NAS"]
-K8s["Kubernetes\n3 Nodes"]
-DEV["Devices"]
-WIFI["WiFi Clients"]
-
-style TOPOLOGY fill:transparent,stroke:#fff,stroke-width:0px,rx:0,ry:0,padding:20px;
-subgraph TOPOLOGY [Topology]
-    direction LR
-    ISP -.->|WAN| UDM
-    UDM -- 10G --- SW
-    SW -- 2.5G --- FLEX
-    FLEX -- 2.5G --- K8s
-    FLEX -- 2.5G --- NAS
-    SW -- 1G --- DEV
-    SW -- 1G --- WIFI
-end
+    ISP["ISP\n1Gbps"]
+    UDM["UDM Pro"]
+    SW["USW Enterprise 24 PoE"]
+    FLEX["USW Flex 2.5G"]
+    NAS["Kubernetes\n1 Node+NAS"]
+    K8s["Kubernetes\n3 Nodes"]
+    DEV["Devices"]
+    WIFI["WiFi Clients"]
+    
+    subgraph TOPOLOGY [Topology]
+        direction LR
+        ISP -.->|WAN| UDM
+        UDM -- 10G --- SW
+        SW -- 2.5G --- FLEX
+        FLEX -- 2.5G --- K8s
+        FLEX -- 2.5G --- NAS
+        SW -- 1G --- DEV
+        SW -- 1G --- WIFI
+    end
+    style TOPOLOGY fill:transparent,stroke:#fff,stroke-width:0px,rx:0,ry:0,padding:20px;
 ```
