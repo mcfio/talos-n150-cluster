@@ -10,7 +10,7 @@ local linters = new Mapping<String, Step> {
 local miselock = new Group {
   steps {
     ["mise-lock"] {
-      glob = List(".mise/config.toml", ".mise/mise.lock")
+      glob = ".mise/config.toml"
       fix = "mise lock"
       stage = ".mise/mise.lock"
     }
