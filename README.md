@@ -62,7 +62,7 @@ talos/
 #### Flux Reconcilion Graph
 
 ```mermaid
-flowchart LR
+graph LR
     A["Kustomization\nrook-ceph"]
     B["Kustomization\nrook-ceph-cluster"]
     C["HelmRelease\nrook-ceph"]
