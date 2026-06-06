@@ -63,12 +63,12 @@ talos/
 
 ```mermaid
 flowchart LR
-    A["Kustomization<br/>rook-ceph"]
-    B["Kustomization<br/>rook-ceph-cluster"]
-    C["HelmRelease<br/>rook-ceph"]
-    D["HelmRelease<br/>rook-ceph-cluster"]
-    E["Kustomization<br/>workload"]
-    F["HelmRelease<br/>workload"]
+    A["Kustomization\nrook-ceph"]
+    B["Kustomization\nrook-ceph-cluster"]
+    C["HelmRelease\nrook-ceph"]
+    D["HelmRelease\nrook-ceph-cluster"]
+    E["Kustomization\nworkload"]
+    F["HelmRelease\nworkload"]
 
     A -->|Creates| C
     B -->|Creates| D
@@ -89,21 +89,21 @@ flowchart LR
 flowchart LR
 
 subgraph NETWORK [Network VLANs] 
-    LOCAL[Clients<br/>192.168.10.0/24]
-    SERVERS[Cluster<br/>192.168.45.0/24]
-    SERVICES[Services<br/>192.168.46.0/24]
-    IOT[IoT<br/>192.168.30.0/24]
-    GUEST[Guest<br/>192.168.50.0/24]
+    LOCAL["Clients\n192.168.10.0/24"]
+    SERVERS["Cluster\n192.168.45.0/24"]
+    SERVICES["Services\n192.168.46.0/24"]
+    IOT["IoT\n192.168.30.0/24"]
+    GUEST["Guest\n192.168.50.0/24"]
 end
 
-ISP[ISP<br/>1Gbps]
-UDM[UDM Pro]
-SW[USW Enterprise 24 PoE]
-FLEX[USW Flex 2.5G]
-NAS[Kubernetes<br/>1 Node+NAS]
-K8s[Kubernetes<br/>3 Nodes]
-DEV[Devices]
-WIFI[WiFi Clients]
+ISP["ISP\n1Gbps"]
+UDM["UDM Pro"]
+SW["USW Enterprise 24 PoE"]
+FLEX["USW Flex 2.5G"]
+NAS["Kubernetes\n1 Node+NAS"]
+K8s["Kubernetes\n3 Nodes"]
+DEV["Devices"]
+WIFI["WiFi Clients"]
 
 style TOPOLOGY fill:transparent,stroke:#fff,stroke-width:0px,rx:0,ry:0,padding:20px;
 subgraph TOPOLOGY [Topology]
