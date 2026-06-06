@@ -1,37 +1,44 @@
 amends "package://github.com/jdx/hk/releases/download/v1.46.0/hk@1.46.0#/Config.pkl"
 import "package://github.com/jdx/hk/releases/download/v1.46.0/hk@1.46.0#/Builtins.pkl"
 
+local mise_globs = List(
+  ".mise/config.toml",
+  "**/.mise.toml",
+  "**/.mise.*.toml"
+)
+
 local linters = new Mapping<String, Step> {
   ["yamlfmt"] = Builtins.yamlfmt
   ["yamllint"] = Builtins.yamllint
-  ["mise"] = Builtins.mise
+  ["mise"] = (Builtins.mise) {
+    glob = mise_globs
+  }
 }
 
 local miselock = new Group {
   steps {
     ["mise-lock"] {
-      glob = ".mise/config.toml"
+      glob = mise_globs
       fix = "mise lock"
-      stage = ".mise/mise.lock"
+      stage = List("mise.lock", "**/mise.lock")
     }
   }
+}
+
+local all_steps = new Mapping<String, Step | Group> {
+  ["miselock"] = miselock
+  ...linters
 }
 
 hooks {
   ["pre-commit"] {
     fix = true
     stash = "git"
-    steps {
-      ["miselock"] = miselock
-      ...linters
-    }
+    steps = all_steps
   }
   ["fix"] {
     fix = true
-    steps {
-      ["miselock"] = miselock
-      ...linters
-    }
+    steps = all_steps
   }
   ["check"] {
     steps = linters

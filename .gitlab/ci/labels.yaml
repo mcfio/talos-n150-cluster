@@ -1,8 +1,7 @@
 ---
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 #
-# GitLab CI workflow for automatic MR labeling based on changed files
-# This pipeline labels merge requests to help with triage and area identification
+# GitLab CI workflow for automatic MR labeling
 labels:
   stage: .pre
   extends: .mise
@@ -27,8 +26,8 @@ labels:
     echo "$CHANGED_FILES" | grep -q "^kubernetes/"          && LABELS+=("area/kubernetes")
     echo "$CHANGED_FILES" | grep -q "^talos/"               && LABELS+=("area/talos")
     echo "$CHANGED_FILES" | grep -q "^bootstrap/"           && LABELS+=("area/bootstrap")
-    echo "$CHANGED_FILES" | grep -qE "^\.gitlab/|\.gitlab-ci\.yaml" && LABELS+=("area/gitlab")
     echo "$CHANGED_FILES" | grep -qE "^\.renovate/|renovate\.json"  && LABELS+=("area/renovate")
+    echo "$CHANGED_FILES" | grep -qE "^\.gitlab/|\.gitlab-ci\.yaml" && LABELS+=("area/gitlab")
 
     if [ ${#LABELS[@]} -gt 0 ]; then
       glab mr update "${CI_MERGE_REQUEST_IID}" --label "$(IFS=,; echo "${LABELS[*]}")" || true

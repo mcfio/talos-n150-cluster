@@ -10,6 +10,9 @@ unix_default_inline_shell_args = "bash -euo pipefail -c"
 env_shell_expand = true
 lockfile = true
 
+[hooks]
+postinstall = "hk install --mise"
+
 [monorepo]
 config_roots = ["kubernetes", "talos"]
 
@@ -21,12 +24,8 @@ TALOSCONFIG = "{{ config_root }}/talosconfig"
 KUBECONFIG = "{{ config_root }}/kubeconfig"
 
 [tools]
-"jq" = "1.8.1"
-"tombi" = "1.1.1"
-"uv" = "0.11.19"
 "github:home-operations/flate" = "0.2.12"
+"jq" = "1.8.1"
+"uv" = "0.11.19"
 "glab" = "1.101.0"
 "yamllint" = "1.38.0"
-
-[hooks]
-postinstall = "hk install --mise"

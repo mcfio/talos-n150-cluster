@@ -117,38 +117,6 @@ checksum = "sha256:23cb60a1354eed6bcc8d9b9735e8c7b388cd1fdcb75726b93bc299ef22dd9
 url = "https://github.com/jqlang/jq/releases/download/jq-1.8.1/jq-windows-amd64.exe"
 provenance = "github-attestations"
 
-[[tools.tombi]]
-version = "1.1.1"
-backend = "aqua:tombi-toml/tombi"
-
-[tools.tombi."platforms.linux-arm64"]
-checksum = "sha256:990aa9d963cb38aaa3cb327cca07420d3af601322eff3a6fe6ab4cdc3acc776a"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.1/tombi-cli-1.1.1-aarch64-unknown-linux-musl.tar.gz"
-
-[tools.tombi."platforms.linux-arm64-musl"]
-checksum = "sha256:990aa9d963cb38aaa3cb327cca07420d3af601322eff3a6fe6ab4cdc3acc776a"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.1/tombi-cli-1.1.1-aarch64-unknown-linux-musl.tar.gz"
-
-[tools.tombi."platforms.linux-x64"]
-checksum = "sha256:6b01a72fbf67eb158a2efc72f7081756d87e2397054e0faf4de4b36478813342"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.1/tombi-cli-1.1.1-x86_64-unknown-linux-musl.tar.gz"
-
-[tools.tombi."platforms.linux-x64-musl"]
-checksum = "sha256:6b01a72fbf67eb158a2efc72f7081756d87e2397054e0faf4de4b36478813342"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.1/tombi-cli-1.1.1-x86_64-unknown-linux-musl.tar.gz"
-
-[tools.tombi."platforms.macos-arm64"]
-checksum = "sha256:3e675cbae672e37c9158f2a29cfd03033b912742cde6105cb3cbffd156488fb1"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.1/tombi-cli-1.1.1-aarch64-apple-darwin.tar.gz"
-
-[tools.tombi."platforms.macos-x64"]
-checksum = "sha256:f4c70cfb7b1ada225df2b996ba97820a80dd9704484945f57fc18ad8fa18d9c6"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.1/tombi-cli-1.1.1-x86_64-apple-darwin.tar.gz"
-
-[tools.tombi."platforms.windows-x64"]
-checksum = "sha256:e899a3ae3a9361456061676b6264a5db0d4bb3e7d45e8890265d0ab5906439d1"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.1/tombi-cli-1.1.1-x86_64-pc-windows-msvc.zip"
-
 [[tools.uv]]
 version = "0.11.19"
 backend = "asdf:uv"
