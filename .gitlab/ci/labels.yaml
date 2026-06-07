@@ -3,7 +3,7 @@
 #
 # GitLab CI workflow for automatic MR labeling
 labels:
-  stage: .pre
+  stage: labels
   extends: .mise
   rules:
   - if: $CI_PIPELINE_SOURCE == "merge_request_event"
