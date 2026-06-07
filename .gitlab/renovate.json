@@ -9,6 +9,7 @@
     "gitlab>mcf.io/renovate-config//overrides/changelogs.json",
     "gitlab>mcf.io/renovate-config//overrides/helmfile.json"
   ],
+  "lockFileMaintenance": { "enabled": true },
   "customManagers": [
     {
       "customType": "regex",
