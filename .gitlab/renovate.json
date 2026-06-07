@@ -9,7 +9,6 @@
     "gitlab>mcf.io/renovate-config//overrides/changelogs.json",
     "gitlab>mcf.io/renovate-config//overrides/helmfile.json"
   ],
-  "lockFileMaintenance": { "enabled": true },
   "customManagers": [
     {
       "customType": "regex",
@@ -25,6 +24,13 @@
     }
   ],
   "packageRules": [
+    // Mise Lock Maintenance
+    {
+      "matchManagers": ["mise"],
+      "lockFileMaintenance": {
+        "enabled": true
+      }
+    },
     // Automerge Rules
     {
       "description": "Auto-merge trusted container digests",

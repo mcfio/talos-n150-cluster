@@ -19,6 +19,7 @@ renovate:
   variables:
     RENOVATE_AUTODISCOVER: true
     RENOVATE_AUTODISCOVER_FILTER: $CI_PROJECT_PATH
+    RENOVATE_ALLOWED_UNSAFE_EXECUTIONS: '["mise"]'
     FORCE_COLOR: 3
   rules:
   - if: $CI_PIPELINE_SOURCE == "schedule"
