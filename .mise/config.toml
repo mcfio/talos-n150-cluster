@@ -24,7 +24,7 @@ TALOSCONFIG = "{{ config_root }}/talosconfig"
 KUBECONFIG = "{{ config_root }}/kubeconfig"
 
 [tools]
-"github:home-operations/flate" = "0.2.12"
+"github:home-operations/flate" = "v0.3.2"
 "jq" = "1.8.1"
 "uv" = "0.11.19"
 "glab" = "1.101.0"
