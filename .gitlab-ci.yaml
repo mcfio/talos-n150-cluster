@@ -7,7 +7,7 @@ stages:
 - renovate
 
 variables:
-  CI_MISE_IMAGE: ghcr.io/jdx/mise:2026.6.1@sha256:b319ba78c02fd28a593d043dd09d62685191420f327bf1534bdaa128f896bc93
+  CI_MISE_IMAGE: ghcr.io/jdx/mise:2026.6.2@sha256:3c5c4bad6d5dbcafeac143d9ea36e05cdb42a09dfd8f63de19a7ef4013d1f9e7
 
 .mise:
   variables:
