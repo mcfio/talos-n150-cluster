@@ -5,6 +5,7 @@
 experimental_monorepo_root = true
 
 [settings]
+python.compile = false
 experimental = true
 unix_default_inline_shell_args = "bash -euo pipefail -c"
 env_shell_expand = true
