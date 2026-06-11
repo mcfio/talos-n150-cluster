@@ -11,7 +11,7 @@ spec:
     operation: copy
   url: oci://ghcr.io/cloudnative-pg/charts/plugin-barman-cloud
   ref:
-    tag: 0.6.0
+    tag: 0.7.0
   verify:
     provider: cosign
     matchOIDCIdentity:
