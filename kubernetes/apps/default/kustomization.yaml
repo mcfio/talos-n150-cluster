@@ -25,6 +25,6 @@ resources:
 - ./seerr/app.yaml
 - ./mosquitto/app.yaml
 - ./home-assistant/app.yaml
-- ./matter-server/app.yaml
+- ./matter-server/flux-kustomization.yaml
 - ./scrypted/app.yaml
 - ./zwave/app.yaml
