@@ -6,6 +6,7 @@ namespace: default
 components:
 - ../../components/alerts
 - ../../components/app-template
+- ../../components/gpu
 resources:
 - ./namespace.yaml
 - ./sonarr/app.yaml

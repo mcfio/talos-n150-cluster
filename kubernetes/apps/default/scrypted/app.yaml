@@ -15,7 +15,6 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/gpu
   - ../../../../components/volsync
   postBuild:
     substitute:

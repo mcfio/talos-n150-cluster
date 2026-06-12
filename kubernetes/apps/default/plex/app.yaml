@@ -19,7 +19,6 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/gpu
   - ../../../../components/volsync
   - ../../../../components/nfs-scaler
   postBuild:
