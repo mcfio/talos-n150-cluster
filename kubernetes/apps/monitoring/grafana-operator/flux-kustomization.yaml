@@ -3,18 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: external-dns-unifi
+  name: grafana-operator
 spec:
   dependsOn:
   - name: external-secrets
     namespace: external-secrets
-  - name: external-dns-cloudflare
   interval: 12h
-  path: ./kubernetes/apps/ingress-system/external-dns/unifi
+  path: ./kubernetes/apps/monitoring/grafana-operator/resources
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: ingress-system
+  targetNamespace: monitoring
   wait: false

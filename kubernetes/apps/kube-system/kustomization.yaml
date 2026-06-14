@@ -8,15 +8,15 @@ components:
 - ../../components/app-template
 resources:
 - ./namespace.yaml
-- ./coredns/app.yaml
-- ./cilium/app.yaml
-- ./cilium/config.yaml
-- ./multus/app.yaml
-- ./multus/networks.yaml
-- ./metrics-server/app.yaml
-- ./node-feature-discovery/app.yaml
-- ./intel-gpu-resource-driver/app.yaml
-- ./descheduler/app.yaml
-- ./reloader/app.yaml
-- ./spegel/app.yaml
-- ./snapshot-controller/app.yaml
+- ./coredns/flux-kustomization.yaml
+- ./cilium/cilium.yaml
+- ./cilium/cilium-config.yaml
+- ./multus/multus.yaml
+- ./multus/multus-networks.yaml
+- ./metrics-server/flux-kustomization.yaml
+- ./node-feature-discovery/flux-kustomization.yaml
+- ./intel-gpu-resource-driver/flux-kustomization.yaml
+- ./descheduler/flux-kustomization.yaml
+- ./reloader/flux-kustomization.yaml
+- ./spegel/flux-kustomization.yaml
+- ./snapshot-controller/flux-kustomization.yaml

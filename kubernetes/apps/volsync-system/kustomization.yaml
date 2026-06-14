@@ -8,7 +8,7 @@ components:
 - ../../components/app-template
 resources:
 - ./namespace.yaml
-- ./volsync/app.yaml
-- ./kopia/app.yaml
-- ./kopia/maintenance.yaml
-- ./nfs-mover/app.yaml
+- ./volsync/flux-kustomization.yaml
+- ./kopia/kopia.yaml
+- ./kopia/kopia-maintenance.yaml
+- ./nfs-mover/flux-kustomization.yaml

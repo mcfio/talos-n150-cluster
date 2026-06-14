@@ -7,5 +7,5 @@ components:
 - ../../components/alerts
 resources:
 - ./namespace.yaml
-- ./cert-manager.yaml
-- ./cert-manager-issuers.yaml
+- ./cert-manager/cert-manager.yaml
+- ./cert-manager/cert-manager-issuers.yaml

@@ -8,4 +8,4 @@ components:
 - ../../components/app-template
 resources:
 - ./namespace.yaml
-- ./external-secrets/app.yaml
+- ./external-secrets/flux-kustomization.yaml

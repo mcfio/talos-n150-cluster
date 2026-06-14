@@ -7,5 +7,5 @@ namespace: cnpg-system
 # - ../../components/alerts
 resources:
 - ./namespace.yaml
-- ./cnpg/app.yaml
-- ./plugin-barman-cloud/app.yaml
+- ./cnpg/flux-kustomization.yaml
+- ./plugin-barman-cloud/flux-kustomization.yaml

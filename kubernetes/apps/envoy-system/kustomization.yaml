@@ -7,4 +7,4 @@ components:
 - ../../components/alerts
 resources:
 - ./namespace.yaml
-- ./envoy-gateway/app.yaml
+- ./envoy-gateway/flux-kustomization.yaml

@@ -7,5 +7,5 @@ components:
 - ../../components/alerts
 resources:
 - ./namespace.yaml
-- ./tuppr.yaml
-- ./upgrades.yaml
+- ./tuppr/tuppr.yaml
+- ./tuppr/tuppr-upgrades.yaml
