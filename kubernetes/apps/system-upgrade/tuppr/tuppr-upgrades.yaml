@@ -3,19 +3,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: grafana-instance
+  name: tuppr-upgrades
 spec:
   dependsOn:
-  - name: external-secrets
-    namespace: external-secrets
-  - name: grafana-operator
-    namespace: monitoring
+  - name: tuppr
+    namespace: system-upgrade
   interval: 12h
-  path: ./kubernetes/apps/monitoring/grafana/instance
+  path: ./kubernetes/apps/system-upgrade/tuppr/upgrades
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: monitoring
+  targetNamespace: system-upgrade
   wait: false

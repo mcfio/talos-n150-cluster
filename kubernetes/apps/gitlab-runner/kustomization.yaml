@@ -7,4 +7,4 @@ components:
 - ../../components/alerts
 resources:
 - ./namespace.yaml
-- ./runner/app.yaml
+- ./runner/flux-kustomization.yaml

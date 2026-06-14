@@ -7,6 +7,6 @@ components:
 - ../../components/alerts
 resources:
 - ./namespace.yaml
-- ./operator.yaml
+- ./rook-ceph-operator/flux-kustomization.yaml
 - ./ceph-csi-drivers/flux-kustomization.yaml
-- ./cluster.yaml
+- ./rook-ceph-cluster/flux-kustomization.yaml

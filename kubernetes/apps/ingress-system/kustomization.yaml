@@ -8,8 +8,8 @@ components:
 - ../../components/app-template
 resources:
 - ./namespace.yaml
-- ./external-dns/cloudflare.yaml
-- ./external-dns/unifi.yaml
-- ./cloudflare-tunnel/app.yaml
-- ./internal-proxy/app.yaml
-- ./external-proxy/app.yaml
+- ./external-dns-cloudflare/flux-kustomization.yaml
+- ./external-dns-unifi/flux-kustomization.yaml
+- ./cloudflare-tunnel/flux-kustomization.yaml
+- ./internal-proxy/flux-kustomization.yaml
+- ./external-proxy/flux-kustomization.yaml

@@ -7,4 +7,4 @@ components:
 - ../../components/alerts
 resources:
 - ./namespace.yaml
-- ./openebs/app.yaml
+- ./openebs/flux-kustomization.yaml

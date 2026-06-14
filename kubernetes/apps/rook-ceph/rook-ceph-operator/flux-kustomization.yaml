@@ -3,17 +3,14 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: tuppr-upgrades
+  name: rook-ceph-operator
 spec:
-  dependsOn:
-  - name: tuppr
-    namespace: system-upgrade
   interval: 12h
-  path: ./kubernetes/apps/system-upgrade/upgrades
+  path: ./kubernetes/apps/rook-ceph/rook-ceph-operator/resources
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: system-upgrade
-  wait: false
+  targetNamespace: rook-ceph
+  wait: true

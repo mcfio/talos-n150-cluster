@@ -27,7 +27,7 @@ spec:
     failed: status.ceph.health == 'HEALTH_ERR'
     current: status.ceph.health in ['HEALTH_OK', 'HEALTH_WARN']
   interval: 12h
-  path: ./kubernetes/apps/rook-ceph/cluster
+  path: ./kubernetes/apps/rook-ceph/rook-ceph-cluster/resources
   prune: true
   sourceRef:
     kind: GitRepository
