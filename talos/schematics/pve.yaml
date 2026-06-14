@@ -2,9 +2,9 @@
 # qemu schematic
 customization:
   extraKernelArgs:
-    - mitigations=off
+  - mitigations=off
   systemExtensions:
     officialExtensions:
-      - siderolabs/intel-ucode
-      - siderolabs/qemu-guest-agent
+    - siderolabs/intel-ucode
+    - siderolabs/qemu-guest-agent
   bootloader: sd-boot
