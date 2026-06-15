@@ -6,11 +6,11 @@ metadata:
   name: &appname zwave
 spec:
   dependsOn:
-  - name: mosquitto
-  - name: external-secrets
-    namespace: external-secrets
-  - name: volsync
-    namespace: volsync-system
+    - name: mosquitto
+    - name: external-secrets
+      namespace: external-secrets
+    - name: volsync
+      namespace: volsync-system
   interval: 12h
   path: ./kubernetes/apps/default/zwave/resources
   prune: true
@@ -21,7 +21,7 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/volsync
+    - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname

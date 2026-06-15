@@ -15,7 +15,7 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/volsync
+    - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname

@@ -8,11 +8,11 @@ spec:
   jobLabel: envoy-gateway
   namespaceSelector:
     matchNames:
-    - envoy-system
+      - envoy-system
   endpoints:
-  - port: metrics
-    path: /metrics
-    honorLabels: true
+    - port: metrics
+      path: /metrics
+      honorLabels: true
   selector:
     matchLabels:
       control-plane: envoy-gateway

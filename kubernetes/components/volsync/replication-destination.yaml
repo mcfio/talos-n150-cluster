@@ -18,11 +18,11 @@ spec:
     cleanupTempPVC: true
     enableFileDeletion: true
     accessModes:
-    - ${volume_accessmodes:=ReadWriteOnce}
+      - ${volume_accessmodes:=ReadWriteOnce}
     storageClassName: ${volume_storageclass:=ceph-replicated}
     capacity: ${volume_capacity:=1Gi}
     cacheAccessModes:
-    - ${volume_cache_accessmodes:=ReadWriteOnce}
+      - ${volume_cache_accessmodes:=ReadWriteOnce}
     cacheStorageClassName: ${volume_cache_snapshotclass:=ceph-replicated}
     cacheCapacity: ${volume_cache_capacity:=1Gi}
     volumeSnapshotClassName: ${volume_snapshotclass:=csi-ceph-blockpool}
@@ -31,8 +31,8 @@ spec:
       runAsGroup: ${volume_gid:=1000}
       fsGroup: ${volume_gid:=1000}
     moverVolumes:
-    - mountPath: repository
-      volumeSource:
-        nfs:
-          path: /archive
-          server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
+      - mountPath: repository
+        volumeSource:
+          nfs:
+            path: /archive
+            server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local

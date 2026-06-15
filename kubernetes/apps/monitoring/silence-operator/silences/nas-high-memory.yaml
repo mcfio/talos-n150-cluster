@@ -6,7 +6,7 @@ metadata:
   name: nas-memory-high-utilization
 spec:
   matchers:
-  - name: alertname
-    value: NodeMemoryHighUtilization
-  - name: instance
-    value: caladan.cluster.milton.mcf.io:9100
+    - name: alertname
+      value: NodeMemoryHighUtilization
+    - name: instance
+      value: caladan.cluster.milton.mcf.io:9100

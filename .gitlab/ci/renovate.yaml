@@ -1,19 +1,19 @@
 ---
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 include:
-- project: mcf.io/renovate-config
-  file: /templates/renovate.gitlab-ci.yaml
-- project: mcf.io/renovate-config
-  file: /templates/renovate-config-validator.gitlab-ci.yaml
+  - project: mcf.io/renovate-config
+    file: /templates/renovate.gitlab-ci.yaml
+  - project: mcf.io/renovate-config
+    file: /templates/renovate-config-validator.gitlab-ci.yaml
 
 renovate-config-validator:
   variables:
     RENOVATE_CONFIG_VALIDATOR_EXTRA_FLAGS: .gitlab/renovate.json
   rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    changes:
-      paths:
-      - .gitlab/renovate.json
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        paths:
+          - .gitlab/renovate.json
 
 renovate:
   variables:
@@ -22,6 +22,6 @@ renovate:
     RENOVATE_ALLOWED_UNSAFE_EXECUTIONS: '["mise"]'
     FORCE_COLOR: 3
   rules:
-  - if: $CI_PIPELINE_SOURCE == "schedule"
-  - if: $CI_PIPELINE_SOURCE == "web"
-  - if: $CI_PIPELINE_SOURCE == "api"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "api"

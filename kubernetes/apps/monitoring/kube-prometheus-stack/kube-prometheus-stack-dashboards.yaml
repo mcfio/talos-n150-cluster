@@ -6,8 +6,8 @@ metadata:
   name: kube-prometheus-stack-dashboards
 spec:
   dependsOn:
-  - name: kube-prometheus-stack
-  - name: grafana-instance
+    - name: kube-prometheus-stack
+    - name: grafana-instance
   interval: 12h
   path: ./kubernetes/apps/monitoring/kube-prometheus-stack/dashboards
   prune: true

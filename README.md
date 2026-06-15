@@ -1,4 +1,3 @@
-
 ## Overview
 
 A one-liner, so what? A home cluster running media, monitoring, and home-automation workloads on a 3-node cluster, ~50 HelmReleases and GitOps.
@@ -20,7 +19,7 @@ Recognizing constraints is an important step in sustainable design and as such d
 1. **Declarative ordering over procedural workarounds.** Multi-step upgrades should be handled by Flux and rely on dependsOn and health-checks, avoid "merge, wait and merge again" approaches.
 2. **Filenames describe what's inside, directories describe where it belongs.** Manifests are named after their resource `kind:` in kebab-case. Namespace and HelmRelease names are reflected in the directory path, not duplicated in filenames.
 3. **One source of truth.** Avoid duplication of configuration and logic, use tools like Kustomize and Helm to templatize and reuse common patterns. local (pre-commit), CI (GitLab CI) and runtime (Flux) run the same checks against the same configs. DRY when patterns repeat; accept duplication when they don't.
-5. **Cattle, not pets.** Kubernetes presumes disposability and immutability of workloads, that mindset extends to the cluster and to the hardware it runs on.
+4. **Cattle, not pets.** Kubernetes presumes disposability and immutability of workloads, that mindset extends to the cluster and to the hardware it runs on.
 
 ## Cluster
 
@@ -96,7 +95,7 @@ flowchart LR
     K8s["Kubernetes\n3 Nodes"]
     DEV["Devices"]
     WIFI["WiFi Clients"]
-    
+
     subgraph TOPOLOGY [Topology]
         direction LR
         ISP -.->|WAN| UDM

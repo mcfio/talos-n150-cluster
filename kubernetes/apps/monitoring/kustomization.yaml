@@ -4,16 +4,16 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: monitoring
 components:
-- ../../components/alerts
+  - ../../components/alerts
 resources:
-- ./namespace.yaml
-- ./kube-prometheus-stack/kube-prometheus-stack.yaml
-- ./kube-prometheus-stack/kube-prometheus-stack-dashboards.yaml
-- ./silence-operator/silence-operator.yaml
-- ./silence-operator/silence-operator-silences.yaml
-- ./smartctl-exporter/flux-kustomization.yaml
-- ./fluent-bit/flux-kustomization.yaml
-- ./victoria-logs/flux-kustomization.yaml
-- ./grafana-operator/flux-kustomization.yaml
-- ./grafana-instance/flux-kustomization.yaml
-- ./keda/flux-kustomization.yaml
+  - ./namespace.yaml
+  - ./kube-prometheus-stack/kube-prometheus-stack.yaml
+  - ./kube-prometheus-stack/kube-prometheus-stack-dashboards.yaml
+  - ./silence-operator/silence-operator.yaml
+  - ./silence-operator/silence-operator-silences.yaml
+  - ./smartctl-exporter/flux-kustomization.yaml
+  - ./fluent-bit/flux-kustomization.yaml
+  - ./victoria-logs/flux-kustomization.yaml
+  - ./grafana-operator/flux-kustomization.yaml
+  - ./grafana-instance/flux-kustomization.yaml
+  - ./keda/flux-kustomization.yaml

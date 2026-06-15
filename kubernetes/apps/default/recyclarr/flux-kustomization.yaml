@@ -6,10 +6,10 @@ metadata:
   name: recyclarr
 spec:
   dependsOn:
-  - name: external-secrets
-    namespace: external-secrets
+    - name: external-secrets
+      namespace: external-secrets
   components:
-  - ../../../../components/volsync
+    - ../../../../components/volsync
   interval: 12h
   path: ./kubernetes/apps/default/recyclarr/resources
   prune: true

@@ -19,30 +19,30 @@ metadata:
 spec:
   matchConstraints:
     resourceRules:
-    - apiGroups:
-      - batch
-      apiVersions:
-      - v1
-      operations:
-      - CREATE
-      resources:
-      - jobs
+      - apiGroups:
+          - batch
+        apiVersions:
+          - v1
+        operations:
+          - CREATE
+        resources:
+          - jobs
   matchConditions:
-  - name: has-litellm-migrations-job-name-prefix
-    expression: object.metadata.name.startsWith("litellm-migrations")
-  # - name: has-litellm-created-by-labels
-  #   expression: object.metadata.?labels["app.kubernetes.io/created-by"].orValue("") == "litellm"
-  - name: has-volumes-to-strip
-    expression: >
-      has(object.spec.template.spec.volumes) &&
-      size(object.spec.template.spec.volumes) > 0
+    - name: has-litellm-migrations-job-name-prefix
+      expression: object.metadata.name.startsWith("litellm-migrations")
+    # - name: has-litellm-created-by-labels
+    #   expression: object.metadata.?labels["app.kubernetes.io/created-by"].orValue("") == "litellm"
+    - name: has-volumes-to-strip
+      expression: >
+        has(object.spec.template.spec.volumes) &&
+        size(object.spec.template.spec.volumes) > 0
   failurePolicy: Fail
   reinvocationPolicy: IfNeeded
   mutations:
-  - patchType: JSONPatch
-    jsonPatch:
-      expression: >
-        [
-          JSONPatch{op: "remove", path: "/spec/template/spec/volumes"},
-          JSONPatch{op: "remove", path: "/spec/template/spec/containers/0/volumeMounts"}
-        ]
+    - patchType: JSONPatch
+      jsonPatch:
+        expression: >
+          [
+            JSONPatch{op: "remove", path: "/spec/template/spec/volumes"},
+            JSONPatch{op: "remove", path: "/spec/template/spec/containers/0/volumeMounts"}
+          ]

@@ -9,10 +9,10 @@ spec:
   trigger:
     schedule: 30 */8 * * *
   moverVolumes:
-  - mountPath: repository
-    volumeSource:
-      nfs:
-        path: /archive
-        server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
+    - mountPath: repository
+      volumeSource:
+        nfs:
+          path: /archive
+          server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
   repository:
     repository: kopia

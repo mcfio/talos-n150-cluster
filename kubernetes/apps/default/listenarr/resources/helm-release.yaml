@@ -49,7 +49,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       terminationGracePeriodSeconds: 30
       securityContext:
@@ -68,23 +68,23 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
-        - path: /app/config
+          - path: /app/config
       media:
         type: nfs
         server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
         path: /media
         globalMounts:
-        - path: /audiobooks
-          subPath: audiobooks
-        - path: /downloads
-          subPath: downloads
+          - path: /audiobooks
+            subPath: audiobooks
+          - path: /downloads
+            subPath: downloads
       tmp:
         type: emptyDir

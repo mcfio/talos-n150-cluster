@@ -45,11 +45,11 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: node.cloudprovider.kubernetes.io/platform
-                operator: NotIn
-                values:
-                - vmware
+              - matchExpressions:
+                  - key: node.cloudprovider.kubernetes.io/platform
+                    operator: NotIn
+                    values:
+                      - vmware
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
@@ -73,19 +73,19 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
-        - hass.milton.mcf.io
+          - "{{ .Release.Name }}.milton.mcf.io"
+          - hass.milton.mcf.io
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
     persistence:
       config:
         existingClaim: home-assistant
         globalMounts:
-        - path: /config
+          - path: /config
       config-cache:
         existingClaim: home-assistant-cache
         globalMounts:
-        - path: /config/.venv
+          - path: /config/.venv
       tmp:
         type: emptyDir

@@ -6,8 +6,8 @@ metadata:
   name: &appname tautulli
 spec:
   dependsOn:
-  - name: volsync
-    namespace: volsync-system
+    - name: volsync
+      namespace: volsync-system
   interval: 12h
   path: ./kubernetes/apps/default/tautulli/resources
   prune: true
@@ -18,7 +18,7 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/volsync
+    - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname

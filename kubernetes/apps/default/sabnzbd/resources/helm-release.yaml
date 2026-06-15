@@ -30,8 +30,8 @@ spec:
                 {{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local,
                 sabnzbd.milton.mcf.io
             envFrom:
-            - secretRef:
-                name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: "{{ .Release.Name }}"
             probes:
               liveness: &probes
                 enabled: true
@@ -60,7 +60,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       terminationGracePeriodSeconds: 30
       securityContext:
@@ -77,10 +77,10 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
     persistence:
       config:
         existingClaim: sabnzbd-config
@@ -95,7 +95,7 @@ spec:
             volumeClaimTemplate:
               spec:
                 accessModes:
-                - ReadWriteOnce
+                  - ReadWriteOnce
                 resources:
                   requests:
                     storage: 1Mi # doesn't matter

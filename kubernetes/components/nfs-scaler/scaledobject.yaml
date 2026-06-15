@@ -19,12 +19,12 @@ spec:
         scaleDown:
           stabilizationWindowSeconds: 10
           policies:
-          - type: Percent
-            value: 100
-            periodSeconds: 15
+            - type: Percent
+              value: 100
+              periodSeconds: 15
   triggers:
-  - type: prometheus
-    metadata:
-      serverAddress: http://prometheus-operated.monitoring.svc.cluster.local:9090
-      query: sum(kube_pod_status_ready{namespace="default", condition="true", pod=~"nfs-server-.*"})
-      threshold: "1"
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-operated.monitoring.svc.cluster.local:9090
+        query: sum(kube_pod_status_ready{namespace="default", condition="true", pod=~"nfs-server-.*"})
+        threshold: "1"

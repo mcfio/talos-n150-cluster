@@ -6,7 +6,7 @@ metadata:
   name: ceph-csi-drivers
 spec:
   dependsOn:
-  - name: rook-ceph-operator
+    - name: rook-ceph-operator
   interval: 12h
   path: ./kubernetes/apps/rook-ceph/ceph-csi-drivers/resources
   prune: true

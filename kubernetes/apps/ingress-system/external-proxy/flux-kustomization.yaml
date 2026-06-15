@@ -6,12 +6,12 @@ metadata:
   name: external-proxy
 spec:
   dependsOn:
-  - name: cloudflare-tunnel
-  - name: internal-proxy
-  - name: cert-manager-issuers
-    namespace: cert-manager
-  - name: envoy-gateway
-    namespace: envoy-system
+    - name: cloudflare-tunnel
+    - name: internal-proxy
+    - name: cert-manager-issuers
+      namespace: cert-manager
+    - name: envoy-gateway
+      namespace: envoy-system
   interval: 12h
   path: ./kubernetes/apps/ingress-system/external-proxy/resources
   prune: true
@@ -23,5 +23,5 @@ spec:
   wait: true
   postBuild:
     substituteFrom:
-    - kind: Secret
-      name: cloudflare-tunnel-id-secret
+      - kind: Secret
+        name: cloudflare-tunnel-id-secret

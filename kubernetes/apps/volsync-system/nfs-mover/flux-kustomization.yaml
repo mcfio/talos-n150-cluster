@@ -6,8 +6,8 @@ metadata:
   name: volsync-nfs-mover
 spec:
   dependsOn:
-  - name: volsync
-    namespace: volsync-system
+    - name: volsync
+      namespace: volsync-system
   interval: 12h
   path: ./kubernetes/apps/volsync-system/nfs-mover/resources
   prune: true

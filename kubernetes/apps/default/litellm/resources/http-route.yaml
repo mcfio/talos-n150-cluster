@@ -6,16 +6,16 @@ metadata:
   name: litellm
 spec:
   hostnames:
-  - litellm.milton.mcf.io
+    - litellm.milton.mcf.io
   parentRefs:
-  - name: internal
-    namespace: ingress-system
+    - name: internal
+      namespace: ingress-system
   rules:
-  - backendRefs:
-    - name: litellm
-      namespace: default
-      port: 4000
-    matches:
-    - path:
-        type: PathPrefix
-        value: /
+    - backendRefs:
+        - name: litellm
+          namespace: default
+          port: 4000
+      matches:
+        - path:
+            type: PathPrefix
+            value: /

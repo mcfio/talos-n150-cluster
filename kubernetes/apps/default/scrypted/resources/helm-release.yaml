@@ -18,10 +18,10 @@ spec:
               repository: ghcr.io/koush/scrypted
               tag: v0.143.0-noble-lite
             command:
-            - /bin/sh
+              - /bin/sh
             args:
-            - -c
-            - ulimit -c 0; exec npm --prefix /server exec scrypted-serve
+              - -c
+              - ulimit -c 0; exec npm --prefix /server exec scrypted-serve
             env:
               TZ: Canada/Eastern
             probes:
@@ -31,24 +31,24 @@ spec:
                 enabled: true
             resources:
               claims:
-              - name: gpu
+                - name: gpu
               requests:
                 cpu: 100m
               limits:
                 memory: 8Gi
     defaultPodOptions:
       resourceClaims:
-      - name: gpu
-        resourceClaimTemplateName: intel-gpu
+        - name: gpu
+          resourceClaimTemplateName: intel-gpu
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: node.cloudprovider.kubernetes.io/platform
-                operator: NotIn
-                values:
-                - vmware
+              - matchExpressions:
+                  - key: node.cloudprovider.kubernetes.io/platform
+                    operator: NotIn
+                    values:
+                      - vmware
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
@@ -70,14 +70,14 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
-        - path: /server/volume
+          - path: /server/volume
       tmp:
         type: emptyDir

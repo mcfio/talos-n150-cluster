@@ -4,14 +4,14 @@ flate:
   stage: test
   extends: .mise
   rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    changes:
-    - kubernetes/**/*.yaml
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - kubernetes/**/*.yaml
   parallel:
     matrix:
-    - RESOURCE:
-      - kustomization
-      - helmrelease
+      - RESOURCE:
+          - kustomization
+          - helmrelease
   variables:
     GIT_DEPTH: "0"
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN

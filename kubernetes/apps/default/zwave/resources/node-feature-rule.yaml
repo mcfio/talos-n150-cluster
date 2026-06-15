@@ -6,12 +6,12 @@ metadata:
   name: zwave-usb-stick
 spec:
   rules:
-  - name: aeotec.zwave
-    labels:
-      aeotec.feature.node.kubernetes.io/zwave: "true"
-    matchFeatures:
-    - feature: usb.device
-      matchExpressions:
-        class: {op: In, value: [ff]}
-        vendor: {op: In, value: [10c4]}
-        device: {op: In, value: [ea60]}
+    - name: aeotec.zwave
+      labels:
+        aeotec.feature.node.kubernetes.io/zwave: "true"
+      matchFeatures:
+        - feature: usb.device
+          matchExpressions:
+            class: {op: In, value: [ff]}
+            vendor: {op: In, value: [10c4]}
+            device: {op: In, value: [ea60]}

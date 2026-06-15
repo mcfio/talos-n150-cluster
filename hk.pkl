@@ -8,7 +8,7 @@ local mise_globs = List(
 )
 
 local linters = new Mapping<String, Step> {
-  ["yamlfmt"] = Builtins.yamlfmt
+  ["oxfmt"] = Builtins.oxfmt
   ["yamllint"] = Builtins.yamllint
   ["mise"] = (Builtins.mise) {
     glob = mise_globs

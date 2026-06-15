@@ -10,9 +10,9 @@ spec:
     kind: OCIRepository
     name: kube-prometheus-stack
   valuesFrom:
-  - kind: ConfigMap
-    name: flux-kube-state-metrics-config
-    valuesKey: kube-state-metrics-config.yaml
+    - kind: ConfigMap
+      name: flux-kube-state-metrics-config
+      valuesKey: kube-state-metrics-config.yaml
   values:
     crds:
       enabled: true
@@ -25,10 +25,10 @@ spec:
         main:
           enabled: true
           hostnames:
-          - alertmanager.milton.mcf.io
+            - alertmanager.milton.mcf.io
           parentRefs:
-          - name: internal
-            namespace: ingress-system
+            - name: internal
+              namespace: ingress-system
       alertmanagerSpec:
         alertmanagerConfiguration:
           name: alertmanager
@@ -40,7 +40,7 @@ spec:
             spec:
               storageClassName: ceph-replicated
               accessModes:
-              - ReadWriteOnce
+                - ReadWriteOnce
               resources:
                 requests:
                   storage: 1Gi
@@ -55,10 +55,10 @@ spec:
         main:
           enabled: true
           hostnames:
-          - prometheus.milton.mcf.io
+            - prometheus.milton.mcf.io
           parentRefs:
-          - name: internal
-            namespace: ingress-system
+            - name: internal
+              namespace: ingress-system
       prometheusSpec:
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
@@ -98,9 +98,9 @@ spec:
       prometheus:
         monitor:
           relabelings:
-          - action: replace
-            sourceLabels:
-            - __meta_kubernetes_pod_node_name
-            targetLabel: nodename
+            - action: replace
+              sourceLabels:
+                - __meta_kubernetes_pod_node_name
+              targetLabel: nodename
     kube-state-metrics:
       fullnameOverride: kube-state-metrics

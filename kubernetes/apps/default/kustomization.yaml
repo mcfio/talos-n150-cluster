@@ -4,27 +4,27 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: default
 components:
-- ../../components/alerts
-- ../../components/app-template
-- ../../components/gpu
+  - ../../components/alerts
+  - ../../components/app-template
+  - ../../components/gpu
 resources:
-- ./namespace.yaml
-- ./sonarr/flux-kustomization.yaml
-- ./radarr/flux-kustomization.yaml
-- ./listenarr/flux-kustomization.yaml
-- ./litellm/flux-kustomization.yaml
-- ./litellm-db/flux-kustomization.yaml
-- ./maintainerr/flux-kustomization.yaml
-- ./nfs-server/flux-kustomization.yaml
-- ./prowlarr/flux-kustomization.yaml
-- ./sabnzbd/flux-kustomization.yaml
-- ./plex/flux-kustomization.yaml
-- ./gatus/flux-kustomization.yaml
-- ./tautulli/flux-kustomization.yaml
-- ./recyclarr/flux-kustomization.yaml
-- ./seerr/flux-kustomization.yaml
-- ./mosquitto/flux-kustomization.yaml
-- ./home-assistant/flux-kustomization.yaml
-- ./matter-server/flux-kustomization.yaml
-- ./scrypted/flux-kustomization.yaml
-- ./zwave/flux-kustomization.yaml
+  - ./namespace.yaml
+  - ./sonarr/flux-kustomization.yaml
+  - ./radarr/flux-kustomization.yaml
+  - ./listenarr/flux-kustomization.yaml
+  - ./litellm/flux-kustomization.yaml
+  - ./litellm-db/flux-kustomization.yaml
+  - ./maintainerr/flux-kustomization.yaml
+  - ./nfs-server/flux-kustomization.yaml
+  - ./prowlarr/flux-kustomization.yaml
+  - ./sabnzbd/flux-kustomization.yaml
+  - ./plex/flux-kustomization.yaml
+  - ./gatus/flux-kustomization.yaml
+  - ./tautulli/flux-kustomization.yaml
+  - ./recyclarr/flux-kustomization.yaml
+  - ./seerr/flux-kustomization.yaml
+  - ./mosquitto/flux-kustomization.yaml
+  - ./home-assistant/flux-kustomization.yaml
+  - ./matter-server/flux-kustomization.yaml
+  - ./scrypted/flux-kustomization.yaml
+  - ./zwave/flux-kustomization.yaml

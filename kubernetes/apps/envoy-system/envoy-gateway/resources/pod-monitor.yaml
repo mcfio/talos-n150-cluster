@@ -8,12 +8,12 @@ spec:
   jobLabel: envoy-proxy
   namespaceSelector:
     matchNames:
-    - envoy-system
-    - ingress-system
+      - envoy-system
+      - ingress-system
   podMetricsEndpoints:
-  - port: metrics
-    path: /stats/prometheus
-    honorLabels: true
+    - port: metrics
+      path: /stats/prometheus
+      honorLabels: true
   selector:
     matchLabels:
       app.kubernetes.io/component: proxy

@@ -6,7 +6,7 @@ metadata:
   name: cloudflare-tunnel
 spec:
   endpoints:
-  - dnsName: ipv4.mcf.io
-    recordType: CNAME
-    targets:
-    - ${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
+    - dnsName: ipv4.mcf.io
+      recordType: CNAME
+      targets:
+        - ${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com

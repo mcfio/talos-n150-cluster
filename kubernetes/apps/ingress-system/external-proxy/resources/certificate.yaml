@@ -7,8 +7,8 @@ metadata:
 spec:
   secretName: mcf-io-cert-tls
   dnsNames:
-  - mcf.io
-  - "*.mcf.io"
+    - mcf.io
+    - "*.mcf.io"
   duration: 160h
   issuerRef:
     name: letsencrypt-prod
@@ -17,4 +17,4 @@ spec:
     algorithm: ECDSA
     size: 256
   usages:
-  - digital signature
+    - digital signature

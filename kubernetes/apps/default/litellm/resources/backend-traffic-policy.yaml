@@ -11,6 +11,6 @@ spec:
     http:
       requestTimeout: 0s
   targetRefs:
-  - group: gateway.networking.k8s.io
-    kind: HTTPRoute
-    name: litellm
+    - group: gateway.networking.k8s.io
+      kind: HTTPRoute
+      name: litellm

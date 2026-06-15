@@ -9,16 +9,16 @@ metadata:
       conditions: ["[STATUS] == 404"]
 spec:
   hostnames:
-  - flux-webhook.mcf.io
+    - flux-webhook.mcf.io
   parentRefs:
-  - name: external
-    namespace: ingress-system
+    - name: external
+      namespace: ingress-system
   rules:
-  - backendRefs:
-    - name: webhook-receiver
-      namespace: flux-system
-      port: 80
-    matches:
-    - path:
-        type: PathPrefix
-        value: /hook/
+    - backendRefs:
+        - name: webhook-receiver
+          namespace: flux-system
+          port: 80
+      matches:
+        - path:
+            type: PathPrefix
+            value: /hook/

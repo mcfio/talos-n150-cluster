@@ -24,7 +24,7 @@ spec:
               repository: ghcr.io/k8snetworkplumbingwg/multus-cni
               tag: v4.3.0@sha256:ec4e5dfe12b675e4dcbf4e9cd14892f7b4c8ac27aa0dc93cf2e9be0bdd7d764a
             args:
-            - --cleanup-config-on-exit
+              - --cleanup-config-on-exit
             resources:
               requests:
                 cpu: 10m
@@ -39,45 +39,45 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: io.cilium.node-config/name
-                operator: NotIn
-                values:
-                - qemu
-                - rpi
+              - matchExpressions:
+                  - key: io.cilium.node-config/name
+                    operator: NotIn
+                    values:
+                      - qemu
+                      - rpi
     rbac:
       roles:
         multus:
           type: ClusterRole
           rules:
-          - apiGroups:
-            - k8s.cni.cncf.io
-            resources:
-            - "*"
-            verbs:
-            - "*"
-          - apiGroups:
-            - ""
-            resources:
-            - pods
-            - pods/status
-            verbs:
-            - get
-            - update
-          - apiGroups:
-            - ""
-            - events.k8s.io
-            resources:
-            - events
-            verbs:
-            - create
-            - patch
-            - update
+            - apiGroups:
+                - k8s.cni.cncf.io
+              resources:
+                - "*"
+              verbs:
+                - "*"
+            - apiGroups:
+                - ""
+              resources:
+                - pods
+                - pods/status
+              verbs:
+                - get
+                - update
+            - apiGroups:
+                - ""
+                - events.k8s.io
+              resources:
+                - events
+              verbs:
+                - create
+                - patch
+                - update
       bindings:
         multus:
           type: ClusterRoleBinding
           subjects:
-          - identifier: multus
+            - identifier: multus
           roleRef:
             identifier: multus
     persistence:
@@ -85,9 +85,9 @@ spec:
         type: hostPath
         hostPath: /etc/cni/net.d
         globalMounts:
-        - path: /host/etc/cni/net.d
+          - path: /host/etc/cni/net.d
       opt-cni-bin:
         type: hostPath
         hostPath: /opt/cni/bin
         globalMounts:
-        - path: /host/opt/cni/bin
+          - path: /host/opt/cni/bin

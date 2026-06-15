@@ -1,10 +1,10 @@
 ---
 # yaml-language-server: $schema=https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json
 stages:
-- labels
-- lint
-- test
-- renovate
+  - labels
+  - lint
+  - test
+  - renovate
 
 variables:
   CI_MISE_IMAGE: ghcr.io/jdx/mise:2026.6.10@sha256:f57ac375a262f52f8ac3f9101348dbff2187d5e4b59612154f2f2808dbe46ef6
@@ -19,15 +19,15 @@ variables:
   cache:
     key:
       files:
-      - .mise/mise.lock
+        - .mise/mise.lock
     paths:
-    - .cache/mise/
+      - .cache/mise/
   before_script:
-  - mise install
-  - eval "$(mise activate bash --shims)"
+    - mise install
+    - eval "$(mise activate bash --shims)"
 
 include:
-- .gitlab/ci/labels.yaml
-- .gitlab/ci/lint.yaml
-- .gitlab/ci/flate.yaml
-- .gitlab/ci/renovate.yaml
+  - .gitlab/ci/labels.yaml
+  - .gitlab/ci/lint.yaml
+  - .gitlab/ci/flate.yaml
+  - .gitlab/ci/renovate.yaml

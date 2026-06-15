@@ -4,12 +4,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: ingress-system
 components:
-- ../../components/alerts
-- ../../components/app-template
+  - ../../components/alerts
+  - ../../components/app-template
 resources:
-- ./namespace.yaml
-- ./external-dns-cloudflare/flux-kustomization.yaml
-- ./external-dns-unifi/flux-kustomization.yaml
-- ./cloudflare-tunnel/flux-kustomization.yaml
-- ./internal-proxy/flux-kustomization.yaml
-- ./external-proxy/flux-kustomization.yaml
+  - ./namespace.yaml
+  - ./external-dns-cloudflare/flux-kustomization.yaml
+  - ./external-dns-unifi/flux-kustomization.yaml
+  - ./cloudflare-tunnel/flux-kustomization.yaml
+  - ./internal-proxy/flux-kustomization.yaml
+  - ./external-proxy/flux-kustomization.yaml

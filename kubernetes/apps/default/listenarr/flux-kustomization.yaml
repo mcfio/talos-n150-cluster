@@ -6,7 +6,7 @@ metadata:
   name: &appname listenarr
 spec:
   dependsOn:
-  - name: nfs-server
+    - name: nfs-server
   interval: 12h
   path: ./kubernetes/apps/default/listenarr/resources
   prune: true
@@ -17,8 +17,8 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/nfs-scaler
-  - ../../../../components/volsync
+    - ../../../../components/nfs-scaler
+    - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname

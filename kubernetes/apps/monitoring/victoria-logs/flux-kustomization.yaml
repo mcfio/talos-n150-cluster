@@ -6,8 +6,8 @@ metadata:
   name: victoria-logs
 spec:
   dependsOn:
-  - name: rook-ceph-cluster
-    namespace: rook-ceph
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   interval: 12h
   path: ./kubernetes/apps/monitoring/victoria-logs/resources
   prune: true

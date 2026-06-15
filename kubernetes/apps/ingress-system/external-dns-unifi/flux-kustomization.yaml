@@ -6,9 +6,9 @@ metadata:
   name: external-dns-unifi
 spec:
   dependsOn:
-  - name: external-secrets
-    namespace: external-secrets
-  - name: external-dns-cloudflare
+    - name: external-secrets
+      namespace: external-secrets
+    - name: external-dns-cloudflare
   interval: 12h
   path: ./kubernetes/apps/ingress-system/external-dns-unifi/resources
   prune: true

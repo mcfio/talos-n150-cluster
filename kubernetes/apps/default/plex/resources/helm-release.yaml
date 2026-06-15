@@ -41,7 +41,7 @@ spec:
                   periodSeconds: 10
             resources:
               claims:
-              - name: gpu
+                - name: gpu
               requests:
                 cpu: 100m
               limits:
@@ -51,12 +51,12 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       terminationGracePeriodSeconds: 30
       resourceClaims:
-      - name: gpu
-        resourceClaimTemplateName: intel-gpu
+        - name: gpu
+          resourceClaimTemplateName: intel-gpu
       securityContext:
         runAsNonRoot: true
         runAsUser: 568
@@ -87,13 +87,13 @@ spec:
       config:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
-        - path: /config/Library/Application Support/Plex Media Server
+          - path: /config/Library/Application Support/Plex Media Server
       media:
         type: nfs
         server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
         path: /media
         globalMounts:
-        - path: /media
-          readOnly: true
+          - path: /media
+            readOnly: true
       tmp:
         type: emptyDir

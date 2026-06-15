@@ -9,5 +9,5 @@ spec:
     name: gitlab-status
   eventSeverity: error
   eventSources:
-  - kind: Kustomization
-    name: "*"
+    - kind: Kustomization
+      name: "*"

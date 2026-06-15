@@ -7,12 +7,12 @@ metadata:
 spec:
   type: gitlab
   events:
-  - Push Hook
-  - Tag Push Hook
+    - Push Hook
+    - Tag Push Hook
   secretRef:
     name: gitlab-webhook-token
   resources:
-  - apiVersion: source.toolkit.fluxcd.io/v1
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
+    - apiVersion: source.toolkit.fluxcd.io/v1
+      kind: GitRepository
+      name: flux-system
+      namespace: flux-system

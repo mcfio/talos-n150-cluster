@@ -6,7 +6,7 @@ metadata:
   name: flux-instance
 spec:
   dependsOn:
-  - name: flux-operator
+    - name: flux-operator
   interval: 12h
   path: ./kubernetes/apps/flux-system/flux-instance/resources
   prune: true

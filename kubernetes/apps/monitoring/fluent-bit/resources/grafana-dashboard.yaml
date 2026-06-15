@@ -10,8 +10,8 @@ spec:
     matchLabels:
       grafana.internal/instance: grafana
   datasources:
-  - datasourceName: prometheus
-    inputName: DS_PROMETHEUS
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
   configMapRef:
     name: fluent-bit-dashboard-fluent-bit
     key: fluent-bit-fluent-bit.json

@@ -24,7 +24,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                - ALL
+                  - ALL
             resources:
               requests:
                 cpu: 10m
@@ -66,5 +66,5 @@ spec:
         advancedMounts:
           mosquitto:
             app:
-            - path: /mosquitto/config/mosquitto.conf
-              subPath: mosquitto.conf
+              - path: /mosquitto/config/mosquitto.conf
+                subPath: mosquitto.conf

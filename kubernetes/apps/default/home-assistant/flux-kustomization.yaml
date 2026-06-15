@@ -7,7 +7,7 @@ metadata:
   namespace: default
 spec:
   dependsOn:
-  - name: mosquitto
+    - name: mosquitto
   interval: 12h
   path: ./kubernetes/apps/default/home-assistant/resources
   prune: true
@@ -18,7 +18,7 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/volsync
+    - ../../../../components/volsync
   postBuild:
     substitute:
       app: *appname
