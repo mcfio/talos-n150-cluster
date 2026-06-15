@@ -6,8 +6,8 @@ metadata:
   name: tuppr-upgrades
 spec:
   dependsOn:
-  - name: tuppr
-    namespace: system-upgrade
+    - name: tuppr
+      namespace: system-upgrade
   interval: 12h
   path: ./kubernetes/apps/system-upgrade/tuppr/upgrades
   prune: true

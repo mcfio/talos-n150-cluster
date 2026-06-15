@@ -5,7 +5,7 @@ metadata:
   name: ${volume_name:=${app}}
 spec:
   accessModes:
-  - ${volume_accessmodes:=ReadWriteOnce}
+    - ${volume_accessmodes:=ReadWriteOnce}
   dataSourceRef:
     kind: ReplicationDestination
     apiGroup: volsync.backube

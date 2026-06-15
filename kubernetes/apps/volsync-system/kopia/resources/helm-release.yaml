@@ -23,10 +23,10 @@ spec:
               TZ: Canada/Eastern
               KOPIA_WEB_ENABLED: true
             envFrom:
-            - secretRef:
-                name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: "{{ .Release.Name }}"
             args:
-            - --without-password
+              - --without-password
             probes:
               liveness: &probes
                 enabled: true
@@ -50,7 +50,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       terminationGracePeriodSeconds: 30
       securityContext:
@@ -67,10 +67,10 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
     configMaps:
       config:
         data:
@@ -92,20 +92,20 @@ spec:
         type: configMap
         identifier: config
         globalMounts:
-        - path: /config/repository.config
-          subPath: repository.config
+          - path: /config/repository.config
+            subPath: repository.config
       repository:
         type: nfs
         server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
         path: /archive
         globalMounts:
-        - path: /repository
+          - path: /repository
       tmpfs:
         type: emptyDir
         advancedMounts:
           kopia:
             app:
-            - path: /config/cache
-              subPath: cache
-            - path: /config/logs
-              subPath: logs
+              - path: /config/cache
+                subPath: cache
+              - path: /config/logs
+                subPath: logs

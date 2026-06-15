@@ -20,22 +20,22 @@ spec:
       route:
         enabled: true
         hostnames:
-        - victoria-logs.milton.mcf.io
+          - victoria-logs.milton.mcf.io
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
         extraRules:
-        - filters:
-          - type: RequestRedirect
-            requestRedirect:
-              path:
-                type: ReplaceFullPath
-                replaceFullPath: /select/vmui/
-              statusCode: 302
-          matches:
-          - path:
-              type: Exact
-              value: /
+          - filters:
+              - type: RequestRedirect
+                requestRedirect:
+                  path:
+                    type: ReplaceFullPath
+                    replaceFullPath: /select/vmui/
+                  statusCode: 302
+            matches:
+              - path:
+                  type: Exact
+                  value: /
       serviceMonitor:
         enabled: true
     dashboards:

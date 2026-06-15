@@ -44,7 +44,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -60,15 +60,15 @@ spec:
     route:
       app:
         hostnames:
-        - requests.mcf.io
+          - requests.mcf.io
         parentRefs:
-        - name: external
-          namespace: ingress-system
+          - name: external
+            namespace: ingress-system
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"
         globalMounts:
-        - path: /app/config
+          - path: /app/config
       cache:
         enabled: true
         suffix: cache
@@ -76,6 +76,6 @@ spec:
         accessMode: ReadWriteOnce
         size: 10Gi
         globalMounts:
-        - path: /app/config/cache
+          - path: /app/config/cache
       tmp:
         type: emptyDir

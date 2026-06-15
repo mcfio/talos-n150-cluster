@@ -6,8 +6,8 @@ metadata:
   name: volsync
 spec:
   dependsOn:
-  - name: snapshot-controller
-    namespace: kube-system
+    - name: snapshot-controller
+      namespace: kube-system
   interval: 12h
   path: ./kubernetes/apps/volsync-system/volsync/resources
   prune: true

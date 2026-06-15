@@ -35,17 +35,17 @@ spec:
     masterkeySecretKey: masterkey
     proxy_config:
       model_list:
-      - model_name: github_copilot/*
-        litellm_params:
-          model: github_copilot/*
+        - model_name: github_copilot/*
+          litellm_params:
+            model: github_copilot/*
       litellm_settings:
         drop_params: true
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
     volumes:
-    - name: litellm-cache
-      persistentVolumeClaim:
-        claimName: litellm-cache
+      - name: litellm-cache
+        persistentVolumeClaim:
+          claimName: litellm-cache
     volumeMounts:
-    - name: litellm-cache
-      mountPath: /cache
+      - name: litellm-cache
+        mountPath: /cache

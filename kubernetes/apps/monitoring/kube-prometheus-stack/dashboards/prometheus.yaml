@@ -10,6 +10,6 @@ spec:
     matchLabels:
       grafana.internal/instance: grafana
   datasources:
-  - datasourceName: prometheus
-    inputName: DS_PROMETHEUS
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
   url: https://grafana.com/api/dashboards/19105/revisions/7/download

@@ -6,13 +6,13 @@ labels:
   stage: labels
   extends: .mise
   rules:
-  - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   allow_failure: true
   retry:
     max: 2
     when:
-    - runner_system_failure
-    - stuck_or_timeout_failure
+      - runner_system_failure
+      - stuck_or_timeout_failure
   variables:
     GITLAB_TOKEN: $CI_BOT_JOB_TOKEN
   script: |

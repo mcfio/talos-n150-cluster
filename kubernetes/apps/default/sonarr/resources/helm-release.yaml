@@ -29,8 +29,8 @@ spec:
               SONARR__LOG__LEVEL: info
               SONARR__SERVER__PORT: &port 8989
             envFrom:
-            - secretRef:
-                name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: "{{ .Release.Name }}"
             probes:
               liveness: &probes
                 enabled: true
@@ -54,7 +54,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       terminationGracePeriodSeconds: 30
       securityContext:
@@ -73,10 +73,10 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"

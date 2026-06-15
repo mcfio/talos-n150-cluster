@@ -6,9 +6,9 @@ metadata:
   name: &appname plex
 spec:
   dependsOn:
-  - name: volsync
-    namespace: volsync-system
-  - name: nfs-server
+    - name: volsync
+      namespace: volsync-system
+    - name: nfs-server
   interval: 12h
   path: ./kubernetes/apps/default/plex/resources
   prune: true
@@ -19,8 +19,8 @@ spec:
   targetNamespace: default
   wait: false
   components:
-  - ../../../../components/volsync
-  - ../../../../components/nfs-scaler
+    - ../../../../components/volsync
+    - ../../../../components/nfs-scaler
   postBuild:
     substitute:
       app: *appname

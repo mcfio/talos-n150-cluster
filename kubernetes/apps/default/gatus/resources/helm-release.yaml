@@ -21,9 +21,9 @@ spec:
               repository: ghcr.io/home-operations/gatus-sidecar
               tag: 0.3.0@sha256:979619e3a04c8d42420a598523dac012a91cc3ffc2dec69e4ea545ce08405494
             args:
-            - --auto-httproute
-            - --enable-httproute
-            - --enable-service
+              - --auto-httproute
+              - --enable-httproute
+              - --enable-service
             resources:
               requests:
                 cpu: 10m
@@ -58,9 +58,9 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                - ALL
+                  - ALL
                 add:
-                - NET_RAW
+                  - NET_RAW
             resources:
               requests:
                 cpu: 100m
@@ -68,10 +68,10 @@ spec:
                 memory: 256Mi
         statefulset:
           volumeClaimTemplates:
-          - name: config
-            storageClass: ceph-replicated
-            accessMode: ReadWriteOnce
-            size: 5Gi
+            - name: config
+              storageClass: ceph-replicated
+              accessMode: ReadWriteOnce
+              size: 5Gi
     defaultPodOptions:
       automountServiceAccountToken: true
       securityContext:
@@ -88,43 +88,43 @@ spec:
     serviceMonitor:
       app:
         endpoints:
-        - port: http
+          - port: http
     route:
       app:
         annotations:
           gatus.home-operations.com/enabled: "false"
         hostnames:
-        - status.mcf.io
+          - status.mcf.io
         parentRefs:
-        - name: external
-          namespace: ingress-system
+          - name: external
+            namespace: ingress-system
     rbac:
       roles:
         gatus:
           type: ClusterRole
           rules:
-          - apiGroups:
-            - ""
-            resources:
-            - services
-            verbs:
-            - get
-            - list
-            - watch
-          - apiGroups:
-            - gateway.networking.k8s.io
-            resources:
-            - gateways
-            - httproutes
-            verbs:
-            - get
-            - list
-            - watch
+            - apiGroups:
+                - ""
+              resources:
+                - services
+              verbs:
+                - get
+                - list
+                - watch
+            - apiGroups:
+                - gateway.networking.k8s.io
+              resources:
+                - gateways
+                - httproutes
+              verbs:
+                - get
+                - list
+                - watch
       bindings:
         gatus:
           type: ClusterRoleBinding
           subjects:
-          - identifier: gatus
+            - identifier: gatus
           roleRef:
             identifier: gatus
     persistence:
@@ -132,6 +132,6 @@ spec:
         type: configMap
         name: "{{ .Release.Name }}-configmap"
         globalMounts:
-        - path: /config/config.yaml
-          subPath: config.yaml
-          readOnly: true
+          - path: /config/config.yaml
+            subPath: config.yaml
+            readOnly: true

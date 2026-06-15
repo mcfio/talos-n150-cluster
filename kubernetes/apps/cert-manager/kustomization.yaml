@@ -4,8 +4,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: cert-manager
 components:
-- ../../components/alerts
+  - ../../components/alerts
 resources:
-- ./namespace.yaml
-- ./cert-manager/cert-manager.yaml
-- ./cert-manager/cert-manager-issuers.yaml
+  - ./namespace.yaml
+  - ./cert-manager/cert-manager.yaml
+  - ./cert-manager/cert-manager-issuers.yaml

@@ -7,6 +7,6 @@ spec:
   spec:
     devices:
       requests:
-      - name: gpu
-        exactly:
-          deviceClassName: gpu.intel.com
+        - name: gpu
+          exactly:
+            deviceClassName: gpu.intel.com

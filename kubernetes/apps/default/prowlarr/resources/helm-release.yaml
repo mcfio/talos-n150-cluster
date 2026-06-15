@@ -29,8 +29,8 @@ spec:
               PROWLARR__LOG__LEVEL: info
               PROWLARR__SERVER__PORT: &port 9696
             envFrom:
-            - secretRef:
-                name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: "{{ .Release.Name }}"
             probes:
               liveness: &probes
                 enabled: true
@@ -57,7 +57,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -75,10 +75,10 @@ spec:
     route:
       app:
         hostnames:
-        - "{{ .Release.Name }}.milton.mcf.io"
+          - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
-        - name: internal
-          namespace: ingress-system
+          - name: internal
+            namespace: ingress-system
     persistence:
       config:
         existingClaim: "{{ .Release.Name }}"

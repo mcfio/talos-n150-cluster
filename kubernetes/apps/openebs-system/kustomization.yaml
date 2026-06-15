@@ -4,7 +4,7 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: openebs-system
 components:
-- ../../components/alerts
+  - ../../components/alerts
 resources:
-- ./namespace.yaml
-- ./openebs/flux-kustomization.yaml
+  - ./namespace.yaml
+  - ./openebs/flux-kustomization.yaml

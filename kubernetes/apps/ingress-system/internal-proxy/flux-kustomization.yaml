@@ -6,10 +6,10 @@ metadata:
   name: internal-proxy
 spec:
   dependsOn:
-  - name: cert-manager-issuers
-    namespace: cert-manager
-  - name: envoy-gateway
-    namespace: envoy-system
+    - name: cert-manager-issuers
+      namespace: cert-manager
+    - name: envoy-gateway
+      namespace: envoy-system
   interval: 12h
   path: ./kubernetes/apps/ingress-system/internal-proxy/resources
   prune: true

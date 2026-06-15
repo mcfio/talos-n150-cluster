@@ -10,6 +10,6 @@ spec:
     name: gitlab-status
   eventSeverity: info
   eventSources:
-  - kind: Kustomization
-    name: cluster-apps
-    namespace: flux-system
+    - kind: Kustomization
+      name: cluster-apps
+      namespace: flux-system

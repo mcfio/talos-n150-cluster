@@ -10,8 +10,8 @@ spec:
     kind: OCIRepository
     name: flux-instance
   dependsOn:
-  - name: flux-operator
-    namespace: flux-system
+    - name: flux-operator
+      namespace: flux-system
   values:
     instance:
       distribution:
@@ -19,10 +19,10 @@ spec:
       cluster:
         networkPolicy: false
       components:
-      - source-controller
-      - kustomize-controller
-      - helm-controller
-      - notification-controller
+        - source-controller
+        - kustomize-controller
+        - helm-controller
+        - notification-controller
       sync:
         kind: GitRepository
         url: https://gitlab.com/mcf.io/milton/talos-n150-cluster
@@ -34,97 +34,97 @@ spec:
           app.kubernetes.io/name: flux
       kustomize:
         patches:
-        - # Increase the number of workers
-          patch: |
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --concurrent=10
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --requeue-dependency=5s
-          target:
-            kind: Deployment
-            name: (kustomize-controller|helm-controller|source-controller)
-        - # Increase the memory limits
-          patch: |
-            apiVersion: apps/v1
-            kind: Deployment
-            metadata:
-              name: all
-            spec:
-              template:
-                spec:
-                  containers:
-                    - name: manager
-                      resources:
-                        limits:
-                          memory: 2Gi
-          target:
-            kind: Deployment
-            name: (kustomize-controller|helm-controller|source-controller)
-        - # Enable in-memory kustomize builds
-          patch: |
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --concurrent=20
-            - op: replace
-              path: /spec/template/spec/volumes/0
-              value:
-                name: temp
-                emptyDir:
-                  medium: Memory
-          target:
-            kind: Deployment
-            name: kustomize-controller
-        - # Enable Helm repositories caching
-          patch: |
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --helm-cache-max-size=10
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --helm-cache-ttl=60m
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --helm-cache-purge-interval=5m
-          target:
-            kind: Deployment
-            name: source-controller
-        - # Flux near OOM detection for Helm
-          patch: |
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --feature-gates=OOMWatch=true
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --oom-watch-memory-threshold=95
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --oom-watch-interval=500ms
-          target:
-            kind: Deployment
-            name: helm-controller
-        - # Enable retry on failure default and disable chart digest tracking
-          patch: |
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --feature-gates=DefaultToRetryOnFailure=true,DisableChartDigestTracking=true
-          target:
-            kind: Deployment
-            name: helm-controller
-        - # Watch configmaps and secrets attached to HelmReleases and Kustomizations
-          patch: |
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --watch-configs-label-selector=owner!=helm
-          target:
-            kind: Deployment
-            name: (helm-controller|kustomize-controller)
-        - # Cancel health checks on new Kustomizations revisions
-          patch: |-
-            - op: add
-              path: /spec/template/spec/containers/0/args/-
-              value: --feature-gates=CancelHealthCheckOnNewRevision=true
-          target:
-            kind: Deployment
-            name: kustomize-controller
+          - # Increase the number of workers
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --concurrent=10
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --requeue-dependency=5s
+            target:
+              kind: Deployment
+              name: (kustomize-controller|helm-controller|source-controller)
+          - # Increase the memory limits
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: all
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: manager
+                        resources:
+                          limits:
+                            memory: 2Gi
+            target:
+              kind: Deployment
+              name: (kustomize-controller|helm-controller|source-controller)
+          - # Enable in-memory kustomize builds
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --concurrent=20
+              - op: replace
+                path: /spec/template/spec/volumes/0
+                value:
+                  name: temp
+                  emptyDir:
+                    medium: Memory
+            target:
+              kind: Deployment
+              name: kustomize-controller
+          - # Enable Helm repositories caching
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --helm-cache-max-size=10
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --helm-cache-ttl=60m
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --helm-cache-purge-interval=5m
+            target:
+              kind: Deployment
+              name: source-controller
+          - # Flux near OOM detection for Helm
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --feature-gates=OOMWatch=true
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --oom-watch-memory-threshold=95
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --oom-watch-interval=500ms
+            target:
+              kind: Deployment
+              name: helm-controller
+          - # Enable retry on failure default and disable chart digest tracking
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --feature-gates=DefaultToRetryOnFailure=true,DisableChartDigestTracking=true
+            target:
+              kind: Deployment
+              name: helm-controller
+          - # Watch configmaps and secrets attached to HelmReleases and Kustomizations
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --watch-configs-label-selector=owner!=helm
+            target:
+              kind: Deployment
+              name: (helm-controller|kustomize-controller)
+          - # Cancel health checks on new Kustomizations revisions
+            patch: |-
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --feature-gates=CancelHealthCheckOnNewRevision=true
+            target:
+              kind: Deployment
+              name: kustomize-controller

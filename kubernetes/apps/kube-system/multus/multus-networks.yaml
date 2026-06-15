@@ -6,7 +6,7 @@ metadata:
   name: multus-networks
 spec:
   dependsOn:
-  - name: multus
+    - name: multus
   interval: 12h
   path: ./kubernetes/apps/kube-system/multus/networks
   prune: true

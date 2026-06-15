@@ -8,12 +8,12 @@ metadata:
     external-dns.alpha.kubernetes.io/controller: none
 spec:
   parentRefs:
-  - name: internal
-    namespace: ingress-system
-    sectionName: http
+    - name: internal
+      namespace: ingress-system
+      sectionName: http
   rules:
-  - filters:
-    - type: RequestRedirect
-      requestRedirect:
-        scheme: https
-        statusCode: 301
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301

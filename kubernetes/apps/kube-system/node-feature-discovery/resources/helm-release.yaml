@@ -21,15 +21,15 @@ spec:
       config:
         core:
           labelSources:
-          - custom
-          - pci
-          - system
-          - usb
+            - custom
+            - pci
+            - system
+            - usb
       resources:
         requests:
           cpu: 10m
         limits:
           memory: 200M
       tolerations:
-      - key: node-role.kubernetes.io/control-plane
-        effect: NoSchedule
+        - key: node-role.kubernetes.io/control-plane
+          effect: NoSchedule

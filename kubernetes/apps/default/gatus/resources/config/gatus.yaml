@@ -7,8 +7,8 @@ ui:
   logo: https://gitlab.com/uploads/-/system/group/avatar/2702992/30387687.jpeg
   link: https://gitlab.com/mcfio
   buttons:
-  - name: GitLab
-    link: https://gitlab.com/mcfio/milton/talos-n150-cluster
+    - name: GitLab
+      link: https://gitlab.com/mcfio/milton/talos-n150-cluster
 
 web:
   port: ${WEB_PORT}
@@ -24,23 +24,23 @@ connectivity:
     interval: 1m
 
 endpoints:
-- name: Cloudflare
-  group: connectivity
-  url: icmp://1.1.1.1
-  interval: 1m
-  conditions:
-  - "[CONNECTED] == true"
+  - name: Cloudflare
+    group: connectivity
+    url: icmp://1.1.1.1
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
 
-- name: Google
-  group: connectivity
-  url: icmp://8.8.8.8
-  interval: 1m
-  conditions:
-  - "[CONNECTED] == true"
+  - name: Google
+    group: connectivity
+    url: icmp://8.8.8.8
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"
 
-- name: Quad9
-  group: connectivity
-  url: icmp://9.9.9.9
-  interval: 1m
-  conditions:
-  - "[CONNECTED] == true"
+  - name: Quad9
+    group: connectivity
+    url: icmp://9.9.9.9
+    interval: 1m
+    conditions:
+      - "[CONNECTED] == true"

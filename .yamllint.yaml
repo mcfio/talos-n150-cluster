@@ -27,7 +27,7 @@ rules:
       *crds*
   truthy:
     allowed-values:
-    - "true"
-    - "false"
-    - "on"
-    - "off"
+      - "true"
+      - "false"
+      - "on"
+      - "off"

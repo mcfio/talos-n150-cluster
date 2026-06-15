@@ -16,37 +16,37 @@ spec:
   wait: false
   interval: 2h
   patches:
-  - # Add HelmRelease defaults to all Kustomizations
-    patch: |
-      apiVersion: kustomize.toolkit.fluxcd.io/v1
-      kind: Kustomization
-      metadata:
-        name: not-used
-      spec:
-        deletionPolicy: WaitForTermination
-        patches:
-          - patch: |
-              apiVersion: helm.toolkit.fluxcd.io/v2
-              kind: HelmRelease
-              metadata:
-                name: not-used
-              spec:
-                maxHistory: 3
-                install:
-                  crds: CreateReplace
-                upgrade:
-                  crds: CreateReplace
-                  strategy:
-                    name: RemediateOnFailure
-                  remediation:
-                    strategy: rollback
-                    retries: 2
-                    remediateLastFailure: true
-                rollback:
-                  cleanupOnFail: true
-            target:
-              group: helm.toolkit.fluxcd.io
-              kind: HelmRelease
-    target:
-      group: kustomize.toolkit.fluxcd.io
-      kind: Kustomization
+    - # Add HelmRelease defaults to all Kustomizations
+      patch: |
+        apiVersion: kustomize.toolkit.fluxcd.io/v1
+        kind: Kustomization
+        metadata:
+          name: not-used
+        spec:
+          deletionPolicy: WaitForTermination
+          patches:
+            - patch: |
+                apiVersion: helm.toolkit.fluxcd.io/v2
+                kind: HelmRelease
+                metadata:
+                  name: not-used
+                spec:
+                  maxHistory: 3
+                  install:
+                    crds: CreateReplace
+                  upgrade:
+                    crds: CreateReplace
+                    strategy:
+                      name: RemediateOnFailure
+                    remediation:
+                      strategy: rollback
+                      retries: 2
+                      remediateLastFailure: true
+                  rollback:
+                    cleanupOnFail: true
+              target:
+                group: helm.toolkit.fluxcd.io
+                kind: HelmRelease
+      target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization

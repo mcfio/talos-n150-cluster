@@ -25,13 +25,13 @@ spec:
               repository: ghcr.io/recyclarr/recyclarr
               tag: 8.6.0@sha256:3c38ceeb54438dd8327e4e65c9b48ba601a6d20fff833342d93c9b0bc4b1930b
             args:
-            - sync
+              - sync
             env:
               TZ: *timeZone
               RECYCLARR_DATA_DIR: /tmp
             envFrom:
-            - secretRef:
-                name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: "{{ .Release.Name }}"
             resources:
               requests:
                 cpu: 5m
@@ -42,7 +42,7 @@ spec:
               allowPrivilegeEscalation: false
               capabilities:
                 drop:
-                - ALL
+                  - ALL
     defaultPodOptions:
       securityContext:
         runAsNonRoot: true
@@ -59,8 +59,8 @@ spec:
         type: configMap
         name: "{{ .Release.Name }}-configmap"
         globalMounts:
-        - path: /config/recyclarr.yml
-          subPath: recyclarr.yml
-          readOnly: true
+          - path: /config/recyclarr.yml
+            subPath: recyclarr.yml
+            readOnly: true
       tmp:
         type: emptyDir

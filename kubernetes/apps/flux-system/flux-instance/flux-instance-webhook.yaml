@@ -6,9 +6,9 @@ metadata:
   name: flux-instance-webhook
 spec:
   dependsOn:
-  - name: flux-instance
-  - name: external-secrets
-    namespace: external-secrets
+    - name: flux-instance
+    - name: external-secrets
+      namespace: external-secrets
   interval: 12h
   path: ./kubernetes/apps/flux-system/flux-instance/webhook
   prune: true

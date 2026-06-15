@@ -37,26 +37,26 @@ spec:
             runAsNonRoot: false
           terminationGracePeriodSeconds: 60
           tolerations:
-          - effect: NoSchedule
-            key: node-role.kubernetes.io/control-plane
-            operator: Exists
+            - effect: NoSchedule
+              key: node-role.kubernetes.io/control-plane
+              operator: Exists
         containers:
           mergerfs:
             image:
               repository: ghcr.io/trapexit/mergerfs
               tag: 2.42.0
             args:
-            - -f
-            - -o config=/etc/mergerfs/media/config.ini
-            - /mnt/disks/media-disk*/media
-            - /srv/media
+              - -f
+              - -o config=/etc/mergerfs/media/config.ini
+              - /mnt/disks/media-disk*/media
+              - /srv/media
             lifecycle:
               preStop:
                 exec:
                   command:
-                  - umount
-                  - -l
-                  - /srv/media
+                    - umount
+                    - -l
+                    - /srv/media
             securityContext:
               privileged: true
           nfsd:
@@ -69,16 +69,16 @@ spec:
             securityContext:
               capabilities:
                 add:
-                - DAC_READ_SEARCH
-                - NET_BIND_SERVICE
-                - SYS_ADMIN
+                  - DAC_READ_SEARCH
+                  - NET_BIND_SERVICE
+                  - SYS_ADMIN
             lifecycle:
               preStop:
                 exec:
                   command:
-                  - sh
-                  - -c
-                  - exportfs -ua; killall -TERM rpc.nfsd; sleep 5
+                    - sh
+                    - -c
+                    - exportfs -ua; killall -TERM rpc.nfsd; sleep 5
     service:
       main:
         controller: nfs-server
@@ -95,41 +95,41 @@ spec:
         advancedMounts:
           nfs-server:
             mergerfs:
-            - path: /etc/mergerfs/media/config.ini
-              subPath: media-config.ini
+              - path: /etc/mergerfs/media/config.ini
+                subPath: media-config.ini
       nfsd-config:
         type: configMap
         name: nfs-server
         advancedMounts:
           nfs-server:
             nfsd:
-            - path: /etc/exports
-              subPath: exports
+              - path: /etc/exports
+                subPath: exports
       host-disks:
         type: hostPath
         hostPath: /var/mnt
         advancedMounts:
           nfs-server:
             mergerfs:
-            - path: /mnt/disks
+              - path: /mnt/disks
       exports:
         type: emptyDir
         globalMounts:
-        - path: /srv
+          - path: /srv
       archive:
         type: hostPath
         hostPath: /var/mnt/media-disk1/archive
         advancedMounts:
           nfs-server:
             nfsd:
-            - path: /srv/archive
+              - path: /srv/archive
       media:
         type: emptyDir
         advancedMounts:
           nfs-server:
             mergerfs:
-            - path: /srv/media
-              mountPropagation: Bidirectional
+              - path: /srv/media
+                mountPropagation: Bidirectional
             nfsd:
-            - path: /srv/media
-              mountPropagation: HostToContainer
+              - path: /srv/media
+                mountPropagation: HostToContainer

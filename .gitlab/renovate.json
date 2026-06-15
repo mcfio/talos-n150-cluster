@@ -46,10 +46,7 @@
       "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "pr",
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
+      "matchUpdateTypes": ["minor", "patch"],
       "matchPackageNames": ["/kube-prometheus-stack/"],
       "ignoreTests": false,
       "schedule": ["before 6am on Monday"]
@@ -60,20 +57,14 @@
       "matchDatasources": ["docker"],
       "automerge": true,
       "automergeType": "pr",
-      "matchUpdateTypes": [
-        "patch",
-        "digest"
-      ],
+      "matchUpdateTypes": ["patch", "digest"],
       "ignoreTests": false
     },
     // Groups
     {
       "groupName": "Flux Operator Group",
       "matchDatasources": ["docker"],
-      "matchPackageNames": [
-        "/flux-operator/",
-        "/flux-instance/"
-      ],
+      "matchPackageNames": ["/flux-operator/", "/flux-instance/"],
       "group": {
         "commitMessageTopic": "{{{groupName}}}"
       },
@@ -82,10 +73,7 @@
     {
       "groupName": "Rook-Ceph Group",
       "matchDatasources": ["docker"],
-      "matchPackageNames": [
-        "/rook-ceph/",
-        "/rook-ceph-cluster/"
-      ],
+      "matchPackageNames": ["/rook-ceph/", "/rook-ceph-cluster/"],
       "group": {
         "commitMessageTopic": "{{{groupName}}}"
       },

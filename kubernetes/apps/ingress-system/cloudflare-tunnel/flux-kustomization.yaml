@@ -6,8 +6,8 @@ metadata:
   name: cloudflare-tunnel
 spec:
   dependsOn:
-  - name: external-secrets
-    namespace: external-secrets
+    - name: external-secrets
+      namespace: external-secrets
   interval: 12h
   path: ./kubernetes/apps/ingress-system/cloudflare-tunnel/resources
   prune: true

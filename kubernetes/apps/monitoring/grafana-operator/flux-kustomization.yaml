@@ -6,8 +6,8 @@ metadata:
   name: grafana-operator
 spec:
   dependsOn:
-  - name: external-secrets
-    namespace: external-secrets
+    - name: external-secrets
+      namespace: external-secrets
   interval: 12h
   path: ./kubernetes/apps/monitoring/grafana-operator/resources
   prune: true

@@ -6,11 +6,11 @@ metadata:
   name: &appname kopia
 spec:
   components:
-  - ../../../../components/nfs-scaler
+    - ../../../../components/nfs-scaler
   dependsOn:
-  - name: volsync
-  - name: nfs-server
-    namespace: default
+    - name: volsync
+    - name: nfs-server
+      namespace: default
   interval: 12h
   path: ./kubernetes/apps/volsync-system/kopia/resources
   prune: true

@@ -10,8 +10,8 @@ spec:
     matchLabels:
       grafana.internal/instance: grafana
   datasources:
-  - datasourceName: prometheus
-    inputName: DS_PROMETHEUS
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
   configMapRef:
     name: victoria-logs-victorialogs-single-node
     key: victorialogs-single-node.json

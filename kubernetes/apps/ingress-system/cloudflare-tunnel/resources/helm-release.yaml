@@ -10,7 +10,7 @@ spec:
     kind: OCIRepository
     name: app-template
   dependsOn:
-  - name: external-dns-cloudflare
+    - name: external-dns-cloudflare
   values:
     controllers:
       cloudflare-tunnel:
@@ -27,11 +27,11 @@ spec:
               NO_AUTOUPDATE: true
               TUNNEL_METRICS: 0.0.0.0:8080
             envFrom:
-            - secretRef:
-                name: "{{ .Release.Name }}"
+              - secretRef:
+                  name: "{{ .Release.Name }}"
             args:
-            - tunnel
-            - run
+              - tunnel
+              - run
             probes:
               liveness: &probes
                 enabled: true
@@ -50,7 +50,7 @@ spec:
               readOnlyRootFilesystem: true
               capabilities:
                 drop:
-                - ALL
+                  - ALL
             resources:
               requests:
                 cpu: 10m
@@ -71,7 +71,7 @@ spec:
     serviceMonitor:
       app:
         endpoints:
-        - port: http
+          - port: http
     configMaps:
       config:
         data:
@@ -94,5 +94,5 @@ spec:
         type: configMap
         identifier: config
         globalMounts:
-        - path: /etc/cloudflared/config.yaml
-          subPath: config.yaml
+          - path: /etc/cloudflared/config.yaml
+            subPath: config.yaml
