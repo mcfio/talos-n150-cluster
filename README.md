@@ -8,10 +8,10 @@ Little bit more detailed, this is a mono repository for a single Kubernetes clus
 Through this journey I've ended up with the following tool stack:
 
 - **OS and Kubernetes**: [Talos Linux](https://www.siderolabs.com/talos-linux) and [Kubernetes](https://kubernetes.io).
-- **GitOps and CD**: [Flux](https://fluxcd.io)
+- **GitOps and CD**: [Flux](https://fluxcd.io) with multiple Kustomization roots, leveraging `dependsOn` and health checks for upgrade ordering and recovery.
 - **Package Management and Overlays**: [Helm](https://www.helm.sh) and [Kustomize](https://kustomize.io).
-- **Dependency Management and CI**: [Renovate](https://www.mend.io/renovate/) and [GitLab CI](https://docs.gitlab.com/ci/).
-- **Toolchain**: [mise](https://mise.jdx.dev), [hk](https://hk.jdx.dev) and [flate](https://github.com/home-operations/flate)
+- **Dependency Management and CI**: [Renovate](https://www.mend.io/renovate/) for automated dependency bumps and [GitLab CI](https://docs.gitlab.com/ci/) for MR validation.
+- **Toolchain**: [mise](https://mise.jdx.dev) (monorepo config under `.mise/config.toml` + `kubernetes/.mise.toml` + `talos/.mise.toml`), [hk](https://hk.jdx.dev) for pre-commit and [flate](https://github.com/home-operations/flate) for offline GitOps diff in CI.
 
 This isn't a turnkey "production cluster" or "enterprise-at-home" template — it's my actual home cluster and pretty boring (intentionally), with all the inconsistencies that come from evolving a real system. Read it for ideas, not prescription.
 
@@ -26,9 +26,10 @@ Recognizing constraints is an important step in sustainable design and as such d
 
 ### Core components
 
-- **OS:** Talos Linux on bare metal / VMs, declared via templated machine configs in `talos/`.
+- **OS:** Talos Linux on bare metal, declared via templated machine configs in `talos/`.
+- **Hardware:** GMKtec G3+ mini PCs (Intel N150, 32GB RAM), NVMe drives partitioned for etcd + Ceph fast pool.
 - **Networking:** Cilium for CNI, Envoy Gateway for north-south ingress.
-- **Storage:** Rook-Ceph for block, OpenEBS for local volumes, VolSync for backup orchestration.
+- **Storage:** Rook-Ceph for block, OpenEBS for local volumes, VolSync for backup orchestration. mergerfs+nfs-server for bulk media on a single node.
 - **Databases:** CloudNativePG for Postgres workloads.
 - **Secrets:** External Secrets Operator pulling from an external store.
 - **Certificates:** cert-manager with external-dns wiring DNS challenges.
@@ -39,7 +40,7 @@ Recognizing constraints is an important step in sustainable design and as such d
 
 ```sh
 kubernetes/
-├── apps/<namespace>/<app>/         # one HelmRelease's worth of manifests per directory
+├── apps/<namespace>/<app>/         # one HelmRelease's worth of manifests per directory, per app
 │   ├── flux-kustomization.yaml     # Flux Kustomization CR(s) — the unit Flux reconciles
 │   └── resources/                  # the workload itself: HelmRelease, ConfigMap, Secret, ...
 ├── components/                     # shared kustomize components included by multiple apps
