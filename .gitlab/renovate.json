@@ -2,6 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "gitlab>mcf.io/renovate-config",
+    "group:allNonMajor",
     "gitlab>mcf.io/renovate-config//managers/cnpg.json",
     "gitlab>mcf.io/renovate-config//managers/oci.json",
     "gitlab>mcf.io/renovate-config//managers/talos-factory.json",
