@@ -11,4 +11,4 @@ spec:
     operation: copy
   url: oci://ghcr.io/openebs/charts/openebs
   ref:
-    tag: 4.5.0
+    tag: 4.5.1
