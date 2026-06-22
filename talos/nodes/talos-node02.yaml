@@ -1,23 +1,13 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/heads/release-1.12/website/content/v1.12/schemas/config.schema.json
 machine:
   type: worker
   install:
     diskSelector:
       type: nvme
-  nodeLabels:
-    node.kubernetes.io/intel-gpu: "true"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
 hostname: talos-node02
----
-apiVersion: v1alpha1
-kind: VLANConfig
-name: vlan10
-vlanID: 10
-vlanMode: 802.1q
-parent: primary0
 ---
 apiVersion: v1alpha1
 kind: VolumeConfig
@@ -35,8 +25,3 @@ provisioning:
     match: disk.transport == "nvme"
   minSize: 250GiB
   grow: true
----
-apiVersion: v1alpha1
-kind: WatchdogTimerConfig
-device: /dev/watchdog0
-timeout: 5m

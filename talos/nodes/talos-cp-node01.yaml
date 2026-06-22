@@ -1,17 +1,48 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/heads/release-1.12/website/content/v1.12/schemas/config.schema.json
 machine:
   type: controlplane
   install:
-    disk: /dev/sda
-  nodeLabels:
-    io.cilium.node-config/name: qemu
+    diskSelector:
+      type: ssd
+  kernel:
+    modules:
+      - name: nfsd
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
 auto: stable
 ---
 apiVersion: v1alpha1
-kind: WatchdogTimerConfig
-device: /dev/watchdog0
-timeout: 5m
+kind: ExistingVolumeConfig
+name: media-disk1
+discovery:
+  volumeSelector:
+    match: volume.label == "media-disk1"
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: media-disk2
+discovery:
+  volumeSelector:
+    match: volume.label == "media-disk2"
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: media-disk3
+discovery:
+  volumeSelector:
+    match: volume.label == "media-disk3"
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: media-disk4
+discovery:
+  volumeSelector:
+    match: volume.label == "media-disk4"
+---
+apiVersion: v1alpha1
+kind: ExistingVolumeConfig
+name: media-disk5
+discovery:
+  volumeSelector:
+    match: volume.label == "media-disk5"

@@ -6,13 +6,11 @@ alias = "trc"
 quiet = true
 usage = '''
 arg "<node>"
-arg "<model>"
-arg "[type]"
 '''
 run = '''
-mise run //talos:template ${usage_node} ${usage_type} | \
+mise run //talos:template ${usage_node} | \
   talosctl machineconfig patch /dev/stdin \
-    --patch @{{ vars.talos_dir }}/models/${usage_model}.yaml
+  --patch @{{ config_root }}/nodes/${usage_node}.yaml
 '''
 
 [tasks.apply-config]
@@ -22,22 +20,13 @@ quiet = true
 usage = '''
 arg "<node>"
 complete "node" run="mise run //kubernetes:get_nodes"
-flag "--model <model>" {
-  choices "gmktec-g3" "m710q" "rpi" "pve"
-  default "gmktec-g3"
-}
-flag "--type <type>" {
-  choices "controlplane" "worker"
-  default "worker"
-}
-arg "[extra]" var=#true double_dash="required"
+arg "[args]" var=#true
 '''
 run = '''
-eval "extra_args=(${usage_extra:-})"
-CONFIG=$(mise run //talos:render-config ${usage_node} ${usage_model} ${usage_type})
-echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin --dry-run ${extra_args[@]:-} || exit 0
+CONFIG=$(mise run //talos:render-config ${usage_node})
+echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${usage_args[@]:-} --dry-run || exit 0
 gum confirm "Apply above config to node ${usage_node}?" --default=No || exit 0
-echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${extra_args[@]:-}
+echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${usage_args[@]:-}
 '''
 
 [tasks.upgrade-k8s]
@@ -52,15 +41,13 @@ description = "Download Talos machine image"
 quiet = true
 usage = '''
 arg "<version>"
-arg "<platform>" default="metal"
 '''
 run = '''
-SCHEMATIC="$(mise //talos:gen-schematic-id ${usage_platform})"
-[[ "${usage_platform}" == "rpi" ]] && FILE_SUFFIX="arm64.raw.xz" || FILE_SUFFIX="amd64.iso"
+SCHEMATIC="$(mise //talos:gen-schematic-id)"
 gum spin --title "Downloading Talos ${usage_version} ..." -- \
-curl -sfL --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors \
-    --output "{{ vars.talos_dir }}/talos-${usage_version}-${SCHEMATIC:0:8}-${usage_platform}-${FILE_SUFFIX}" \
-    "https://factory.talos.dev/image/${SCHEMATIC}/${usage_version}/metal-${FILE_SUFFIX}"
+curl --silent --fail --location --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors \
+  --output "{{ config_root }}/talos-${usage_version}-${SCHEMATIC:0:8}-metal-amd64.iso" \
+  "https://factory.talos.dev/image/${SCHEMATIC}/${usage_version}/metal-amd64.iso"
 '''
 
 [tasks.lifecycle]
@@ -101,13 +88,11 @@ hide = true
 quiet = true
 usage = '''
 arg "<node>"
-arg "[type]"
 '''
 run = '''
-[[ "${usage_type:-}" == "controlplane" ]] && IS_CONTROLPLANE="true" || IS_CONTROLPLANE="$(mise //talos:is_controlplane ${usage_node})"
-minijinja-cli \
-  --define "is_controlplane:=${IS_CONTROLPLANE:-false}" \
-  {{ vars.talos_dir }}/machineconfig.yaml.j2 \
+minijinja-cli {{ config_root }}/machineconfig.yaml.j2 \
+  --define "is_controlplane:=$(mise run //talos:is_controlplane ${usage_node})" \
+  --define "schematic_id:=$(mise run //talos:gen-schematic-id)" \
   | op inject
 '''
 
@@ -117,10 +102,7 @@ quiet = true
 usage = '''
 arg "<node>"
 '''
-run = '''
-TYPE=$(talosctl --nodes ${usage_node} get machinetype -o jsonpath='{.spec}' 2>/dev/null || echo "")
-[[ "${TYPE}" == "controlplane" ]] && echo "true" || echo "false"
-'''
+run = "yq -r -e 'select(.machine) | (.machine.type == \"controlplane\") // \"false\"' {{ config_root }}/nodes/${usage_node}.yaml"
 
 [tasks.machine-image]
 hide = true
@@ -128,17 +110,9 @@ quiet = true
 usage = '''
 arg "<node>"
 '''
-run = "yq 'select(.machine) | .machine.install.image' {{ vars.talos_dir }}/nodes/${usage_node}.yaml"
+run = "mise run //talos:render-config ${usage_node} | yq 'select(.machine) | .machine.install.image'"
 
 [tasks.gen-schematic-id]
 hide = true
 quiet = true
-usage = '''
-arg "<platform>" default="metal"
-'''
-run = '''
-curl --silent -X POST --data-binary \
-  "@{{ vars.talos_dir }}/schematics/${usage_platform}.yaml" \
-  "https://factory.talos.dev/schematics" \
-  | jq --raw-output '.id'
-'''
+run = "curl --silent --request POST --data-binary \"@{{ config_root }}/schematic.yaml\" \"https://factory.talos.dev/schematics\" | jq --raw-output '.id'"
