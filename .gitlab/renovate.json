@@ -63,6 +63,14 @@
     },
     // Groups
     {
+      "groupName": "Talos Linux",
+      "groupSlug": "talos-linux",
+      "matchDatasources": ["custom.talos-factory"],
+      "group": {
+        "commitMessageTopic": "{{{groupName}}}"
+      }
+    },
+    {
       "groupName": "Flux Operator Group",
       "matchDatasources": ["docker"],
       "matchPackageNames": ["/flux-operator/", "/flux-instance/"],
