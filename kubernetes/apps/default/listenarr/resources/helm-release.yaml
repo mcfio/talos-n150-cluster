@@ -15,7 +15,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          listenarr:
+          app:
             image:
               repository: ghcr.io/listenarrs/listenarr
               tag: canary@sha256:c5a0bdba37042c7d89dd01b085e5ce5c5c025f00747801e80981b06f51c9dc75
@@ -61,12 +61,12 @@ spec:
         seccompProfile:
           type: RuntimeDefault
     service:
-      listenarr:
+      app:
         ports:
           http:
             port: *port
     route:
-      listenarr:
+      app:
         hostnames:
           - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
