@@ -15,7 +15,7 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
         containers:
-          app:
+          listenarr:
             image:
               repository: ghcr.io/listenarrs/listenarr
               tag: canary@sha256:c5a0bdba37042c7d89dd01b085e5ce5c5c025f00747801e80981b06f51c9dc75
@@ -61,12 +61,12 @@ spec:
         seccompProfile:
           type: RuntimeDefault
     service:
-      app:
+      listenarr:
         ports:
           http:
             port: *port
     route:
-      app:
+      listenarr:
         hostnames:
           - "{{ .Release.Name }}.milton.mcf.io"
         parentRefs:
@@ -81,10 +81,5 @@ spec:
         type: nfs
         server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
         path: /media
-        globalMounts:
-          - path: /audiobooks
-            subPath: audiobooks
-          - path: /downloads
-            subPath: downloads
       tmp:
         type: emptyDir
