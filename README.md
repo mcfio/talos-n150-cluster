@@ -23,6 +23,13 @@ Recognizing constraints is an important step in sustainable design and as such d
 
 ## Cluster
 
+### Topology
+
+- **Control plane + etcd + Ceph OSD/mon:** talos-node01 / talos-node02 / talos-node03 (clean 3-member quorum).
+- **Worker / NAS:** `talos-stor01` - stor01 carries `mcf.io/role=storage` as **both** a `nodeLabels` label and a
+  `registerWithTaints` `PreferNoSchedule` taint. `nfs-server` pins to it by that **label**
+  (not hostname — survives rebuilds). Media lives on 5 SATA disks matched by filesystem label.
+
 ### Core components
 
 - **OS:** Talos Linux on bare metal, declared via templated machine configs in `talos/`.
