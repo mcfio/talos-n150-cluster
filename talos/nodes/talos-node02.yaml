@@ -1,6 +1,6 @@
 ---
 machine:
-  type: worker
+  type: controlplane
   install:
     diskSelector:
       type: nvme

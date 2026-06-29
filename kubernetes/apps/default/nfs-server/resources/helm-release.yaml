@@ -29,7 +29,7 @@ spec:
       nfs-server:
         pod:
           nodeSelector:
-            kubernetes.io/hostname: talos-flq-ey7
+            kubernetes.io/hostname: talos-stor01
           priorityClassName: system-cluster-critical
           securityContext:
             runAsUser: 0
@@ -66,6 +66,20 @@ spec:
               tag: latest@sha256:4051cdc395da395ec42bfa473b25c69a686f75b7ebd10542afc5c0f44602e0dd
             env:
               EXPORTS_MOUNTED: "true"
+            probes:
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  exec:
+                    command:
+                      - mountpoint
+                      - -q
+                      - /srv/media
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 3
             securityContext:
               capabilities:
                 add:

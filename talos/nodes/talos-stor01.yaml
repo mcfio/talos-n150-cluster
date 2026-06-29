@@ -1,6 +1,6 @@
 ---
 machine:
-  type: controlplane
+  type: worker
   install:
     diskSelector:
       type: ssd
@@ -10,7 +10,7 @@ machine:
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
-auto: stable
+hostname: talos-stor01
 ---
 apiVersion: v1alpha1
 kind: ExistingVolumeConfig
