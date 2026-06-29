@@ -1,6 +1,14 @@
 ---
 machine:
   type: worker
+  nodeLabels:
+    mcf.io/role: storage
+  kubelet:
+    extraConfig:
+      registerWithTaints:
+        - key: mcf.io/role
+          value: storage
+          effect: PreferNoSchedule
   install:
     diskSelector:
       type: ssd

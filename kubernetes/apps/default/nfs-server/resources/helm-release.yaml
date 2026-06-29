@@ -29,17 +29,13 @@ spec:
       nfs-server:
         pod:
           nodeSelector:
-            kubernetes.io/hostname: talos-stor01
+            mcf.io/role: storage
           priorityClassName: system-cluster-critical
           securityContext:
             runAsUser: 0
             runAsGroup: 0
             runAsNonRoot: false
           terminationGracePeriodSeconds: 60
-          tolerations:
-            - effect: NoSchedule
-              key: node-role.kubernetes.io/control-plane
-              operator: Exists
         containers:
           mergerfs:
             image:
