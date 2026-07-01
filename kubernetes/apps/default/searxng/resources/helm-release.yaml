@@ -76,6 +76,13 @@ spec:
               formats:
                 - html
                 - json
+            engines:
+              - name: startpage
+                disabled: true
+              - name: ahmia
+                disabled: true
+              - name: torch
+                disabled: true
     persistence:
       config:
         type: configMap
