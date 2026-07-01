@@ -7,7 +7,6 @@ resources:
   - ./external-secret.yaml
   - ./alertmanager-config.yaml
   - ./helm-release.yaml
-  - ./scrape-config.yaml
 configMapGenerator:
   - name: flux-kube-state-metrics-config
     files:
