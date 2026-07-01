@@ -52,6 +52,7 @@ spec:
       litellm_settings:
         disable_copilot_system_to_assistant: true
         drop_params: true
+        require_auth_for_metrics_endpoint: false
         callbacks:
           - websearch_interception
           - prometheus
@@ -66,7 +67,6 @@ spec:
             api_base: http://searxng.default.svc.cluster.local:8080
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
-        allow_unauthenticated_prometheus_scraping: true
     volumes:
       - name: litellm-cache
         persistentVolumeClaim:
