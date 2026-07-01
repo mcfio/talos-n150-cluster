@@ -77,11 +77,21 @@ spec:
                 - html
                 - json
             engines:
-              - name: startpage
+              # Recall lever is engine breadth, not ranking. Enable two more
+              # independent general/web indexes (both no-API-key, both merge
+              # over bundled defaults by name via use_default_settings).
+              - name: bing            # web index — biggest single recall gain
+                disabled: false
+              - name: mojeek          # independent crawler, real diversity
+                disabled: false
+              # Disabled — verified dead from this cluster's egress IPs:
+              - name: brave           # returns HTTP 429 (throttled) → 0 results
                 disabled: true
-              - name: ahmia
+              - name: startpage       # www.startpage.com does not resolve here
                 disabled: true
-              - name: torch
+              - name: ahmia           # Tor onion index, needs a SOCKS proxy
+                disabled: true
+              - name: torch           # Tor onion index, needs a SOCKS proxy
                 disabled: true
     persistence:
       config:
