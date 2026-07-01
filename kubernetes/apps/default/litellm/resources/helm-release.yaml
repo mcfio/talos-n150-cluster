@@ -11,22 +11,12 @@ spec:
     name: litellm
   timeout: 10m
   values:
-    strategy:
-      type: Recreate
+    image:
+      repository: ghcr.io/berriai/litellm
     db:
-      useExisting: true
-      database: app
-      url: postgresql://$(DATABASE_USERNAME):$(DATABASE_PASSWORD)@$(DATABASE_HOST)/$(DATABASE_NAME)
-      secret:
-        name: litellm-db-cluster-app
-        usernameKey: username
-        passwordKey: password
-        endpointKey: host
       deployStandalone: false
     migrationJob:
-      hooks:
-        helm:
-          enabled: true
+      enabled: false
     envVars:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
       # LiteLLM 1.90.2's websearch_interception handler calls asearch() with only
@@ -65,28 +55,15 @@ spec:
           litellm_params:
             model: github_copilot/*
       litellm_settings:
-        # CRITICAL: keep Claude Code's system prompt intact.
-        # Default (false) rewrites every system msg → assistant and wrecks the agent.
         disable_copilot_system_to_assistant: true
-
-        # Silently drop provider-unsupported params instead of 400-ing.
-        # Safety net for the thinking/adaptive params CC sends on 4.6-class models.
         drop_params: true
-
-        # Intercept Claude Code's server-side `web_search` tool (which Copilot
-        # rejects → "tools are required when tool choice is specified") and run
-        # the query against self-hosted SearXNG instead. See LiteLLM #25477.
         callbacks:
           - websearch_interception
         websearch_interception_params:
-          # Must be explicit — omitting this defaults to ["bedrock"], not all.
           enabled_providers:
             - github_copilot
+            - prometheus
           search_tool_name: default-search
-      # Sibling of litellm_settings. `search_provider: searxng` selects the
-      # provider (without this, the handler defaults to perplexity). NOTE: on
-      # 1.90.2 the handler ignores `api_base` here — it's supplied via the
-      # SEARXNG_API_BASE env var above. Kept for when the handler is fixed.
       search_tools:
         - search_tool_name: default-search
           litellm_params:
