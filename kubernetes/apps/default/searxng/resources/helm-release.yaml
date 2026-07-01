@@ -102,7 +102,9 @@ spec:
             app:
               - path: /etc/searxng/settings.yml
                 subPath: settings.yml
-      cache:
-        type: emptyDir
-        globalMounts:
-          - path: /var/cache/searxng
+      # No /var/cache/searxng mount: the image ships that dir writable and
+      # owned searxng:searxng (977). An emptyDir here only shadows it with a
+      # root-owned mount (fsGroup sets gid, not uid) → the entrypoint's
+      # non-root ownership warning. Root filesystem is writable (no
+      # readOnlyRootFilesystem), and the instance is stateless, so the
+      # built-in dir is all it needs.
