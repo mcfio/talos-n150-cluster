@@ -13,7 +13,6 @@ resources:
   - ./radarr/flux-kustomization.yaml
   - ./listenarr/flux-kustomization.yaml
   - ./litellm/flux-kustomization.yaml
-  - ./litellm-db/flux-kustomization.yaml
   - ./searxng/flux-kustomization.yaml
   - ./maintainerr/flux-kustomization.yaml
   - ./nfs-server/flux-kustomization.yaml

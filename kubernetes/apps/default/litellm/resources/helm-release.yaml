@@ -19,11 +19,6 @@ spec:
       enabled: false
     envVars:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
-      # LiteLLM 1.90.2's websearch_interception handler calls asearch() with only
-      # `search_provider` — it drops `api_base` from search_tools[].litellm_params
-      # (handler.py:1116). So the api_base below is inert on this release; the
-      # searxng provider falls back to this env var. Recheck on upgrade — if the
-      # handler starts forwarding litellm_params, this can go.
       SEARXNG_API_BASE: http://searxng.default.svc.cluster.local:8080
     nodeSelector:
       kubernetes.io/arch: amd64
@@ -59,10 +54,10 @@ spec:
         drop_params: true
         callbacks:
           - websearch_interception
+          - prometheus
         websearch_interception_params:
           enabled_providers:
             - github_copilot
-            - prometheus
           search_tool_name: default-search
       search_tools:
         - search_tool_name: default-search
@@ -71,6 +66,7 @@ spec:
             api_base: http://searxng.default.svc.cluster.local:8080
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
+        allow_unauthenticated_prometheus_scraping: true
     volumes:
       - name: litellm-cache
         persistentVolumeClaim:
