@@ -35,10 +35,36 @@ spec:
     masterkeySecretKey: masterkey
     proxy_config:
       model_list:
+        # ── Anthropic models (dashed alias in → dotted Copilot slug out) ──
+        - model_name: claude-opus-4-8
+          litellm_params:
+            model: github_copilot/claude-opus-4.8
+        - model_name: claude-opus-4-7
+          litellm_params:
+            model: github_copilot/claude-opus-4.7
+        - model_name: claude-opus-4-6
+          litellm_params:
+            model: github_copilot/claude-opus-4.6
+        - model_name: claude-sonnet-4-6
+          litellm_params:
+            model: github_copilot/claude-sonnet-4.6
+
+        # ── Background / haiku-alias target: 0× premium ──
+        - model_name: gpt-5-mini
+          litellm_params:
+            model: github_copilot/gpt-5-mini
+
+        # -- Define catch all alias for all GitHub Copilot models
         - model_name: github_copilot/*
           litellm_params:
             model: github_copilot/*
       litellm_settings:
+        # CRITICAL: keep Claude Code's system prompt intact.
+        # Default (false) rewrites every system msg → assistant and wrecks the agent.
+        disable_copilot_system_to_assistant: true
+
+        # Silently drop provider-unsupported params instead of 400-ing.
+        # Safety net for the thinking/adaptive params CC sends on 4.6-class models.
         drop_params: true
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
