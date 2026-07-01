@@ -66,6 +66,24 @@ spec:
         # Silently drop provider-unsupported params instead of 400-ing.
         # Safety net for the thinking/adaptive params CC sends on 4.6-class models.
         drop_params: true
+
+        # Intercept Claude Code's server-side `web_search` tool (which Copilot
+        # rejects → "tools are required when tool choice is specified") and run
+        # the query against self-hosted SearXNG instead. See LiteLLM #25477.
+        callbacks:
+          - websearch_interception
+        websearch_interception_params:
+          # Must be explicit — omitting this defaults to ["bedrock"], not all.
+          enabled_providers:
+            - github_copilot
+          search_tool_name: default-search
+      # Sibling of litellm_settings. `api_base` is the SearXNG provider's URL
+      # param (source-verified, 1.90.2); it auto-appends /search & format=json.
+      search_tools:
+        - search_tool_name: default-search
+          litellm_params:
+            search_provider: searxng
+            api_base: http://searxng.default.svc.cluster.local:8080
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
     volumes:
