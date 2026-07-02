@@ -15,8 +15,8 @@ spec:
         containers:
           app:
             image:
-              repository: ghcr.io/home-assistant-libs/python-matter-server
-              tag: 8.1.0@sha256:170aa093ce91c76cde4cc390918307590f0f5558fcec93f913af3cb019e6562a
+              repository: ghcr.io/matter-js/matterjs-server
+              tag: 1.1.7@sha256:e52dc38320b53a0611628a8c3ed416a0dbb47c98ff83c9ef815f4184373f27b5
             env:
               TZ: Canada/Eastern
             probes:
