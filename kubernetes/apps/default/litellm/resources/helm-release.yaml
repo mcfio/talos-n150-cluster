@@ -22,6 +22,8 @@ spec:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
     environmentSecrets:
       - litellm-env
+    deploymentAnnotations:
+      reloader.stakater.com/auto: "true"
     masterkeySecretName: litellm-env
     masterkeySecretKey: masterkey
     proxy_config:
