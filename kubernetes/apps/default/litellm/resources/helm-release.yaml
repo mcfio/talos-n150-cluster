@@ -13,16 +13,16 @@ spec:
   values:
     image:
       repository: ghcr.io/berriai/litellm
+      tag: v1.91.0-rc.1@sha256:addc088d27c8e6d143d933dc005b8f1a41d45978e5f3acef8e35881303c67427
     db:
       deployStandalone: false
     migrationJob:
       enabled: false
     envVars:
       GITHUB_COPILOT_TOKEN_DIR: /cache/copilot
-      SEARXNG_API_BASE: http://searxng.default.svc.cluster.local:8080
-    nodeSelector:
-      kubernetes.io/arch: amd64
-    masterkeySecretName: litellm-masterkey
+    environmentSecrets:
+      - litellm-env
+    masterkeySecretName: litellm-env
     masterkeySecretKey: masterkey
     proxy_config:
       model_list:
@@ -63,8 +63,7 @@ spec:
       search_tools:
         - search_tool_name: default-search
           litellm_params:
-            search_provider: searxng
-            api_base: http://searxng.default.svc.cluster.local:8080
+            search_provider: tavily
       general_settings:
         master_key: os.environ/PROXY_MASTER_KEY
     volumes:
