@@ -7,3 +7,5 @@ resources:
   - ./external-secret.yaml
   - ./helm-release.yaml
   - ./http-route-external.yaml
+  - ./http-route-internal.yaml
+  - ./tcp-route.yaml
