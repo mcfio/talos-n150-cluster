@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: forgejo-system
+resources:
+  - ./namespace.yaml
+  - ./postgres/flux-kustomization.yaml
+  - ./forgejo/flux-kustomization.yaml
