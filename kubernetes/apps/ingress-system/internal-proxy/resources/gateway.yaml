@@ -30,3 +30,15 @@ spec:
         certificateRefs:
           - kind: Secret
             name: milton-mcf-io-cert-tls
+          # Split-horizon git.mcf.io on the LAN: served by the already-issued
+          # *.mcf.io wildcard (SNI-selected). Away path keeps the public record.
+          - kind: Secret
+            name: mcf-io-cert-tls
+    # SSH for in-cluster git. TCPRoute (forgejo-system) targets this listener;
+    # Envoy maps privileged :22 to a high port internally, no extra caps needed.
+    - allowedRoutes:
+        namespaces:
+          from: All
+      name: ssh
+      protocol: TCP
+      port: 22
