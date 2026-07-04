@@ -43,6 +43,19 @@ spec:
     gitea:
       admin:
         existingSecret: forgejo-secret
+      # Web-UI SSO via Cloudflare Access-for-SaaS (OIDC). The chart renders an
+      # idempotent `add-oauth`/`update-oauth` on every boot. `cloudflare` (the
+      # source name) is the callback path segment:
+      #   https://git.mcf.io/user/oauth2/cloudflare/callback
+      # Client id/secret come from the forgejo-oidc ExternalSecret (keys
+      # key/secret). No admin-group mapping → every SSO user is a plain user;
+      # the break-glass local admin stays the only admin.
+      oauth:
+        - name: cloudflare
+          provider: openidConnect
+          existingSecret: forgejo-oidc
+          autoDiscoverUrl: https://mcfaul.cloudflareaccess.com/cdn-cgi/access/sso/oidc/6651192e1510b9ef791feb5efe0b742079c70cb3f25b183956bebdf6a6d50106/.well-known/openid-configuration
+          scopes: openid email profile
       # Inject the DB password from the ExternalSecret rather than inlining it.
       additionalConfigFromEnvs:
         - name: FORGEJO__DATABASE__PASSWD
@@ -65,6 +78,17 @@ spec:
           REQUIRE_SIGNIN_VIEW: true
           DISABLE_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
+        oauth2_client:
+          # Auto-provision a plain user on first SSO login. DISABLE_REGISTRATION
+          # above only gates the local sign-up form, not this path (verified in
+          # routers/web/auth/oauth.go — gate is AllowOnlyInternalRegistration +
+          # ENABLE_AUTO_REGISTRATION only).
+          ENABLE_AUTO_REGISTRATION: true
+          # Derive the Forgejo handle from the email local-part.
+          USERNAME: email
+          # Never silently merge an SSO identity into an existing account (e.g.
+          # the break-glass admin): prompt for local-password linking instead.
+          ACCOUNT_LINKING: login
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls
         mailer:
