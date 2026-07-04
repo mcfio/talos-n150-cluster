@@ -10,3 +10,4 @@ resources:
   - ./http-route-external.yaml
   - ./http-route-internal.yaml
   - ./tcp-route.yaml
+  - ./cilium-network-policy.yaml

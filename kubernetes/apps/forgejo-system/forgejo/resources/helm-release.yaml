@@ -78,6 +78,13 @@ spec:
           REQUIRE_SIGNIN_VIEW: true
           DISABLE_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
+          # Kill password HTTP Basic auth on the API + git-over-HTTP surface
+          # (the away-path vector the gateway redirect can't reach). Verified
+          # against app.example.ini: this disables *password* Basic auth and
+          # the password->tokens API path, but explicitly preserves *token*
+          # Basic auth — so PAT-over-HTTPS git/API keeps working; only
+          # `git clone https://user:PASSWORD@…` / `curl -u user:PASSWORD` die.
+          ENABLE_BASIC_AUTHENTICATION: false
         oauth2_client:
           # Auto-provision a plain user on first SSO login. DISABLE_REGISTRATION
           # above only gates the local sign-up form, not this path (verified in
