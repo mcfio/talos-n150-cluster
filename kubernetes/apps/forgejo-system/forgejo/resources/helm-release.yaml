@@ -31,6 +31,21 @@ spec:
     image:
       rootless: true
 
+    # Pin ndots:2 so the 2-dot OIDC host (mcfaul.cloudflareaccess.com) is looked
+    # up as-is BEFORE the cluster search domains. Under the default ndots:5 the
+    # resolver tries the search-expanded name first, and because CoreDNS runs
+    # `autopath @kubernetes` it answers that first expanded query directly — so
+    # Cilium's DNS proxy only ever caches the expanded name
+    # (…forgejo-system.svc.cluster.local) and the CiliumNetworkPolicy toFQDNs
+    # selector (bare `matchName: mcfaul.cloudflareaccess.com`) never matches →
+    # the resolved IPs get no FQDN identity → default-deny drops the connect.
+    # In-cluster names (postgres) still resolve: they're >=2 dots or use the
+    # search list, which ndots:2 preserves.
+    dnsConfig:
+      options:
+        - name: ndots
+          value: "2"
+
     service:
       ssh:
         type: ClusterIP
