@@ -55,3 +55,74 @@ STATE,EPHEMERAL` wipes only those, keeps other partitions intact — the Rook OS
 - **Per-node config patches deep-merge** into the templated `machine.kubelet.extraConfig` —
   sibling keys (GC thresholds, serializeImagePulls) survive. Verified via `talosctl machineconfig
 patch`.
+
+## Flux / GitOps / CNPG gotchas (verified, not guessed)
+
+- **`flate diff` exits non-zero on a dangling `dependsOn`.** An unresolvable dependency renders as
+  `flate error: ... reconcile completed with 0 failure(s) (+N blocked by failed/missing
+dependencies)` and fails the CI job — it is NOT a benign offline artifact. Confirm with
+  `FLATE_LOG_LEVEL=debug flate diff kustomization`, which prints
+  `resource failed ... reason="dependencies failed: Kustomization/<ns>/<name>: dependency not
+found"`. A health-gated CRD Kustomization that IS wired correctly renders fine offline (control
+  case: `rook-ceph-cluster`'s `CephCluster` health-check on `main` → exit 0), so a `+N blocked`
+  that appears only on your branch means a real broken dep name, not flate choking on the gate.
+- **The CNPG operator's Flux Kustomization is named `cloudnative-pg`, not `cnpg`** (dir is
+  `kubernetes/apps/cnpg-system/cnpg/`, but `metadata.name: cloudnative-pg`). `dependsOn` targets
+  the Kustomization _name_, so `dependsOn: [{name: cloudnative-pg, namespace: cnpg-system}]`.
+- **CNPG healthy phase literal is `Cluster in healthy state`** (from `api/v1/cluster_types.go`,
+  `PhaseHealthy`). There is NO "failure state" phase — the unrecoverable one is
+  `Cluster is unrecoverable and needs manual intervention` (`PhaseUnrecoverable`). Use these exact
+  strings in Flux `healthCheckExprs` `current:`/`failed:` CEL for a CNPG `Cluster`.
+
+## Cilium / NetworkPolicy gotchas (verified, not guessed)
+
+- **`toFQDNs` for a short external host silently fails under the cluster's `ndots:5` +
+  CoreDNS `autopath`.** A pod resolver defaults to `options ndots:5`; a 2-dot host like
+  `mcfaul.cloudflareaccess.com` (< 5 dots) is therefore tried **search-expanded first**
+  (`…​.<ns>.svc.cluster.local`). CoreDNS runs `autopath @kubernetes`, which answers that
+  first expanded query directly with the _external_ record — so Cilium's DNS proxy only ever
+  observes/caches the **expanded** name, and a policy selector `matchName:
+mcfaul.cloudflareaccess.com` (bare) never matches. The resolved IPs get no FQDN identity →
+  default-deny drops the connect → `connect: connection timed out` (NOT a DNS error; the
+  lookup succeeds). This bit Forgejo's OIDC init (`configure-gitea` CrashLoopBackOff) the
+  moment its `toFQDNs` CNP landed. Fix: pin `ndots:2` on the pod via `dnsConfig` so the host
+  resolves as-is first and the proxy caches the bare name. `toEndpoints` (label) rules are
+  immune — they don't touch the DNS proxy, which is why same-ns Postgres kept working.
+  **Forward implication:** this is cluster-wide behaviour, not app-specific — ANY pod hitting
+  a short external hostname under a `toFQDNs` policy fails identically. The Phase 4 Actions
+  runner (egress to package/container registries) will hit this the instant it gets a
+  NetworkPolicy; give it the same `ndots:2` (or a `matchPattern` selector) from the start.
+- **Diagnose `toFQDNs` drops from the agent, not by guessing.** On the pod's node:
+  `cilium-dbg fqdn cache list` shows exactly which _names_ the DNS proxy cached (reveals the
+  search-expansion) and which IPs each maps to; `cilium-dbg policy selectors list` shows
+  whether an FQDN selector programmed any IPs; `cilium-dbg ip list | grep <ip>` confirms
+  whether the destination IP has an FQDN identity or fell through to `world` (→ dropped).
+  `CNP VALID: True` means the policy _parsed_, NOT that its `toFQDNs` rule is matching.
+- **The DNS proxy runs even with `envoy.enabled: false`.** Confirmed on the live agent:
+  `enable-l7-proxy=true`, `dnsproxy-enable-transparent-mode=true`, full `tofqdns-*` config
+  present despite Envoy being disabled in Helm values — the disabled component is the L7-**HTTP**
+  proxy, a separate thing. Transparent DNS-proxy mode also means no first-resolution race (the
+  proxy holds the response until the IP is programmed into the policy map). So `toFQDNs` is
+  viable on this cluster; the `ndots` trap above is the only catch.
+- **`toEndpoints` without a namespace label defaults to the policy's OWN namespace.** Same-ns
+  targets (e.g. the CNPG `-rw` service by `cnpg.io/cluster` label) need no ns label; a
+  cross-namespace target (e.g. CoreDNS in `kube-system`) MUST carry
+  `k8s:io.kubernetes.pod.namespace: kube-system` or it silently won't match. And a `toFQDNs`
+  rule REQUIRES an accompanying DNS egress rule (`toEndpoints` kube-dns + `toPorts` with
+  `rules.dns` matchPattern) so the proxy observes the lookup — omit it and every FQDN policy
+  fails closed.
+
+## Claude Code auto-mode / permissions (verified against docs)
+
+- **`kubectl` allow rules only match verb-first — always invoke `kubectl <verb>` first.** Bash
+  allow rules are literal prefix matches, so `Bash(kubectl get:*)` matches
+  `kubectl get -n ns pods` but NOT `kubectl -n ns get pods` (a global flag before the verb breaks
+  the prefix). A non-matching command falls through to the auto-mode classifier, which fails
+  **closed** ("could not evaluate → blocking for safety") whenever the classifier's own model call
+  is down on the LiteLLM proxy — so verb-second style manufactures spurious denials. Write
+  `kubectl get -n ns …`, `kubectl logs -n ns …`, `kubectl exec -n ns …` — namespace/flags AFTER
+  the verb. Same rule for any tool whose allow entry names a subcommand (`git`, `glab`, `helm`).
+- **Compound commands match per-subcommand.** Recognized separators: `&&`, `||`, `;`, `|`, `|&`,
+  `&`, newline. Every subcommand must match an allow rule or the whole line hits the classifier —
+  one uncovered token (`python3`, un-pinned `curl`) drags the entire compound in. `cd` into the
+  workdir is built-in read-only, but `cd && git …` always prompts regardless of target.
