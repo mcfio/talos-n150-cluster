@@ -6,8 +6,7 @@ resources:
   - ./oci-repository.yaml
   - ./external-secret.yaml
   - ./external-secret-oidc.yaml
+  - ./external-secret-signing.yaml
   - ./helm-release.yaml
   - ./http-route-external.yaml
-  - ./http-route-internal.yaml
-  - ./tcp-route.yaml
   - ./cilium-network-policy.yaml
