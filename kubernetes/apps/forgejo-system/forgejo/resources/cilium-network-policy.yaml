@@ -5,21 +5,10 @@ kind: CiliumNetworkPolicy
 metadata:
   name: forgejo
 spec:
-  # Pod-scoped, not namespace-scoped: a mistake here strands only Forgejo's own
-  # egress, never the CNPG operator's reconcile or the VolSync mover (separate
-  # pods, different labels). This is the cluster's first CNP — the containment
-  # target is "compromised Forgejo pod reaching the control plane", so it's
-  # egress-only default-deny. Ingress stays open (gateway -> forgejo path; the
-  # service is already internet-reachable, restricting ingress buys little).
   endpointSelector:
     matchLabels:
       app.kubernetes.io/name: forgejo
   egress:
-    # DNS to CoreDNS. The namespace label is REQUIRED — a toEndpoints selector
-    # without it defaults to the policy's own namespace and would silently fail
-    # to match kube-system. The L7 rules.dns block is what lets the transparent
-    # DNS proxy observe lookups and populate toFQDNs below; omit it and every
-    # FQDN policy fails closed.
     - toEndpoints:
         - matchLabels:
             k8s:io.kubernetes.pod.namespace: kube-system
@@ -33,8 +22,6 @@ spec:
           rules:
             dns:
               - matchPattern: "*"
-    # Postgres backend. No namespace label needed — same-namespace is the
-    # toEndpoints default, and the CNPG cluster lives here.
     - toEndpoints:
         - matchLabels:
             cnpg.io/cluster: forgejo-postgres
@@ -42,9 +29,6 @@ spec:
         - ports:
             - port: "5432"
               protocol: TCP
-    # OIDC: server-side discovery + back-channel token exchange to Cloudflare
-    # Access. This is the ONLY external egress Forgejo needs (mailer disabled,
-    # not Kube-aware). Depends on the DNS rule above to resolve the FQDN.
     - toFQDNs:
         - matchName: mcfaul.cloudflareaccess.com
       toPorts:

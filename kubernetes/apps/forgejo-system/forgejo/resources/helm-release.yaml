@@ -11,18 +11,6 @@ spec:
     name: forgejo
   timeout: 10m
   values:
-    # Bundled databases off — Forgejo uses the CloudNativePG cluster instead.
-    postgresql:
-      enabled: false
-    postgresql-ha:
-      enabled: false
-    # No redis-cluster; the chart falls back to in-memory session/cache and a
-    # level (on-disk) queue. Fine at a single replica.
-    redis-cluster:
-      enabled: false
-    redis:
-      enabled: false
-
     persistence:
       enabled: true
       create: false
@@ -31,16 +19,6 @@ spec:
     image:
       rootless: true
 
-    # Pin ndots:2 so the 2-dot OIDC host (mcfaul.cloudflareaccess.com) is looked
-    # up as-is BEFORE the cluster search domains. Under the default ndots:5 the
-    # resolver tries the search-expanded name first, and because CoreDNS runs
-    # `autopath @kubernetes` it answers that first expanded query directly — so
-    # Cilium's DNS proxy only ever caches the expanded name
-    # (…forgejo-system.svc.cluster.local) and the CiliumNetworkPolicy toFQDNs
-    # selector (bare `matchName: mcfaul.cloudflareaccess.com`) never matches →
-    # the resolved IPs get no FQDN identity → default-deny drops the connect.
-    # In-cluster names (postgres) still resolve: they're >=2 dots or use the
-    # search list, which ndots:2 preserves.
     dnsConfig:
       options:
         - name: ndots
@@ -51,27 +29,38 @@ spec:
         type: ClusterIP
         port: 22
 
-    # Routes are managed explicitly (split-horizon across two gateways).
     httpRoute:
-      enabled: false
+      enabled: true
+      annotations:
+        external-dns.alpha.kubernetes.io/controller: none
+      hostnames:
+        - git.mcf.io
+      parentRefs:
+        - name: internal
+          namespace: ingress-system
+          sectionName: https
+
+    tcpRoute:
+      enabled: true
+      parentRefs:
+        - name: internal
+          namespace: ingress-system
+          sectionName: ssh
+
+    signing:
+      enabled: true
+      ssh:
+        existingSecret: forgejo-ssh-signing
 
     gitea:
       admin:
         existingSecret: forgejo-secret
-      # Web-UI SSO via Cloudflare Access-for-SaaS (OIDC). The chart renders an
-      # idempotent `add-oauth`/`update-oauth` on every boot. `cloudflare` (the
-      # source name) is the callback path segment:
-      #   https://git.mcf.io/user/oauth2/cloudflare/callback
-      # Client id/secret come from the forgejo-oidc ExternalSecret (keys
-      # key/secret). No admin-group mapping → every SSO user is a plain user;
-      # the break-glass local admin stays the only admin.
       oauth:
         - name: cloudflare
           provider: openidConnect
           existingSecret: forgejo-oidc
           autoDiscoverUrl: https://mcfaul.cloudflareaccess.com/cdn-cgi/access/sso/oidc/6651192e1510b9ef791feb5efe0b742079c70cb3f25b183956bebdf6a6d50106/.well-known/openid-configuration
           scopes: openid email profile
-      # Inject the DB password from the ExternalSecret rather than inlining it.
       additionalConfigFromEnvs:
         - name: FORGEJO__DATABASE__PASSWD
           valueFrom:
@@ -89,30 +78,26 @@ spec:
           SSH_DOMAIN: git.mcf.io
           SSH_PORT: 22
         service:
-          # Private instance: no anonymous browsing, no open registration.
           REQUIRE_SIGNIN_VIEW: true
           DISABLE_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
-          # Kill password HTTP Basic auth on the API + git-over-HTTP surface
-          # (the away-path vector the gateway redirect can't reach). Verified
-          # against app.example.ini: this disables *password* Basic auth and
-          # the password->tokens API path, but explicitly preserves *token*
-          # Basic auth — so PAT-over-HTTPS git/API keeps working; only
-          # `git clone https://user:PASSWORD@…` / `curl -u user:PASSWORD` die.
           ENABLE_BASIC_AUTHENTICATION: false
         oauth2_client:
-          # Auto-provision a plain user on first SSO login. DISABLE_REGISTRATION
-          # above only gates the local sign-up form, not this path (verified in
-          # routers/web/auth/oauth.go — gate is AllowOnlyInternalRegistration +
-          # ENABLE_AUTO_REGISTRATION only).
           ENABLE_AUTO_REGISTRATION: true
-          # Derive the Forgejo handle from the email local-part.
           USERNAME: email
-          # Never silently merge an SSO identity into an existing account (e.g.
-          # the break-glass admin): prompt for local-password linking instead.
           ACCOUNT_LINKING: login
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls
+        # Dotted key: the chart's app.ini renderer only walks one level deep.
+        repository.signing:
+          FORMAT: ssh
+          SIGNING_KEY: /data/git/.ssh-signing/key.pub
+          SIGNING_NAME: Forgejo [git.mcf.io]
+          SIGNING_EMAIL: nobody@git.mcf.io
+          INITIAL_COMMIT: always
+          CRUD_ACTIONS: always
+          MERGES: always
+          WIKI: never
         mailer:
           ENABLED: false
 

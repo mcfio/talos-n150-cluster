@@ -81,6 +81,8 @@ spec:
                 originRequest:
                   noTLSVerify: true
                 service: https://plex.default.svc.cluster.local:32400
+              - hostname: git-ssh.mcf.io
+                service: ssh://forgejo-ssh.forgejo-system.svc.cluster.local:22
               - hostname: "*.mcf.io"
                 originRequest:
                   http2Origin: true

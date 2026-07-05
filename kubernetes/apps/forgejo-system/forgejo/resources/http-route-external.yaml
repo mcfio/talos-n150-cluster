@@ -11,13 +11,6 @@ spec:
     - name: external
       namespace: ingress-system
   rules:
-    # Away path only: the local password form is unreachable from off-LAN.
-    # An Exact match on /user/login outranks the catch-all backend rule below
-    # (Gateway API precedence), so an off-LAN browser hitting the login page
-    # (including REQUIRE_SIGNIN_VIEW bounces) is funnelled straight into the
-    # Cloudflare Access SSO flow instead. SignInOAuth is a GET route, so the
-    # redirect resolves; a credential POST never reaches the backend. The
-    # internal HTTPRoute is unchanged, so LAN break-glass keeps the real form.
     - matches:
         - path:
             type: Exact
