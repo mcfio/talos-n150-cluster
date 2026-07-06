@@ -73,6 +73,15 @@ found"`. A health-gated CRD Kustomization that IS wired correctly renders fine o
   `PhaseHealthy`). There is NO "failure state" phase — the unrecoverable one is
   `Cluster is unrecoverable and needs manual intervention` (`PhaseUnrecoverable`). Use these exact
   strings in Flux `healthCheckExprs` `current:`/`failed:` CEL for a CNPG `Cluster`.
+- **`immediate: true` on a ScheduledBackup loses a startup race when the plugin stanza and the
+  ScheduledBackup land in the same apply.** Adding `.spec.plugins` (barman-cloud) rolls the
+  instance to inject the sidecar (native init container, `restartPolicy: Always`, ~1s); `immediate`
+  fires before it's attached → a spurious `failed` Backup, `requested plugin is not available:
+barman-cloud.cloudnative-pg.io`. Plugin discovery itself is fine — it's **annotation**-driven on
+  the `barman-cloud` Service (`cnpg.io/pluginClientSecret` / `pluginServerSecret` / `pluginPort`;
+  only `cnpg.io/pluginName` is a label), no operator-side cert mount needed despite the Helm chart
+  exposing no volume knobs. Confirm registration via the Cluster's `status.pluginStatus`. Omit
+  `immediate`; take a one-off `kubectl cnpg backup` for the initial recovery point instead.
 
 ## Cilium / NetworkPolicy gotchas (verified, not guessed)
 
