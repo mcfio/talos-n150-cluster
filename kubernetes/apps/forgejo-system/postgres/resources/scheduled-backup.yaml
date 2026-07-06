@@ -1,0 +1,17 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/postgresql.cnpg.io/scheduledbackup_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: ScheduledBackup
+metadata:
+  name: forgejo-postgres
+spec:
+  # 6-field cron (seconds-first). 03:07 daily, off the :00 mark.
+  schedule: 0 7 3 * * *
+  # Fire one backup on creation to validate the pipeline end-to-end.
+  immediate: true
+  backupOwnerReference: self
+  cluster:
+    name: forgejo-postgres
+  method: plugin
+  pluginConfiguration:
+    name: barman-cloud.cloudnative-pg.io

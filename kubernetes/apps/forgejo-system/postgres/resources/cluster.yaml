@@ -20,6 +20,14 @@ spec:
       owner: forgejo
       secret:
         name: forgejo-postgres-app
+  plugins:
+    - name: barman-cloud.cloudnative-pg.io
+      isWALArchiver: true
+      parameters:
+        barmanObjectName: forgejo-postgres
+        # Pin the object-store prefix so backups survive a cluster rename and
+        # the restore path stays explicit.
+        serverName: forgejo-postgres
   postgresql:
     parameters:
       max_connections: "100"
