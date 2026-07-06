@@ -8,6 +8,8 @@ spec:
   dependsOn:
     - name: cloudnative-pg
       namespace: cnpg-system
+    - name: plugin-barman-cloud
+      namespace: cnpg-system
   interval: 12h
   path: ./kubernetes/apps/forgejo-system/postgres/resources
   prune: true
