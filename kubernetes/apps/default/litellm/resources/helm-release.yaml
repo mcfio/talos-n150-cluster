@@ -13,7 +13,6 @@ spec:
   values:
     image:
       repository: ghcr.io/berriai/litellm
-      tag: v1.91.0-rc.1@sha256:addc088d27c8e6d143d933dc005b8f1a41d45978e5f3acef8e35881303c67427
     db:
       deployStandalone: false
     migrationJob:
