@@ -26,47 +26,78 @@ spec:
     masterkeySecretName: litellm-env
     masterkeySecretKey: masterkey
     proxy_config:
-      model_list:
-        # ── Anthropic models (dashed alias in → dotted Copilot slug out) ──
-        - model_name: claude-opus-4-8
-          litellm_params:
-            model: github_copilot/claude-opus-4.8
-        - model_name: claude-opus-4-7
-          litellm_params:
-            model: github_copilot/claude-opus-4.7
-        - model_name: claude-opus-4-6
-          litellm_params:
-            model: github_copilot/claude-opus-4.6
-        - model_name: claude-sonnet-4-6
-          litellm_params:
-            model: github_copilot/claude-sonnet-4.6
+      general_settings:
+        master_key: os.environ/PROXY_MASTER_KEY
 
-        # ── Background / haiku-alias target: 0× premium ──
-        - model_name: gpt-5-mini
-          litellm_params:
-            model: github_copilot/gpt-5-mini
-
-        # -- Define catch all alias for all GitHub Copilot models
-        - model_name: github_copilot/*
-          litellm_params:
-            model: github_copilot/*
       litellm_settings:
-        disable_copilot_system_to_assistant: true
         drop_params: true
-        require_auth_for_metrics_endpoint: false
         callbacks:
           - websearch_interception
           - prometheus
         websearch_interception_params:
           enabled_providers:
             - github_copilot
-          search_tool_name: default-search
+          search_tool_name: tavily-search
+        require_auth_for_metrics_endpoint: false
+        disable_copilot_system_to_assistant: true
+
       search_tools:
-        - search_tool_name: default-search
+        - search_tool_name: tavily-search
           litellm_params:
             search_provider: tavily
-      general_settings:
-        master_key: os.environ/PROXY_MASTER_KEY
+            api_key: os.environ/TAVILY_API_KEY
+
+      model_list:
+        - model_name: github_copilot/*
+          litellm_params:
+            model: github_copilot/*
+          model_info: &z
+            cache_read_input_token_cost: 0
+            cache_creation_input_token_cost: 0
+        - model_name: default
+          litellm_params:
+            model: github_copilot/claude-opus-4.8
+          model_info: *z
+        - model_name: claude-opus-4-8,
+          litellm_params:
+            model: github_copilot/claude-opus-4.8
+          model_info: *z
+        - model_name: claude-opus-4-7,
+          litellm_params:
+            model: github_copilot/claude-opus-4.7
+          model_info: *z
+        - model_name: claude-opus-4-6,
+          litellm_params:
+            model: github_copilot/claude-opus-4.6
+          model_info: *z
+        - model_name: claude-opus-4-6-1m,
+          litellm_params:
+            model: github_copilot/claude-opus-4.6
+          model_info: *z
+        - model_name: claude-sonnet-4-6,
+          litellm_params:
+            model: github_copilot/claude-sonnet-4.6
+          model_info: *z
+        - model_name: claude-sonnet-4-5,
+          litellm_params:
+            model: github_copilot/claude-sonnet-4.6
+          model_info: *z
+        - model_name: claude-sonnet-5,
+          litellm_params:
+            model: github_copilot/claude-sonnet-4.6
+          model_info: *z
+        - model_name: claude-haiku-4-5,
+          litellm_params:
+            model: github_copilot/claude-sonnet-4.6
+          model_info: *z
+        - model_name: claude-haiku-4-5-20251001,
+          litellm_params:
+            model: github_copilot/claude-sonnet-4.6
+          model_info: *z
+
+      router_settings:
+        default_fallbacks:
+          - claude-opus-4-8
     volumes:
       - name: litellm-cache
         persistentVolumeClaim:
