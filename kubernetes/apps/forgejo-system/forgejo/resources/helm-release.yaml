@@ -87,6 +87,8 @@ spec:
           ENABLE_AUTO_REGISTRATION: true
           USERNAME: email
           ACCOUNT_LINKING: login
+        actions:
+          ENABLED: true
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls
         # Dotted key: the chart's app.ini renderer only walks one level deep.
