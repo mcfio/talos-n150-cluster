@@ -79,6 +79,7 @@ spec:
           SSH_PORT: 22
         service:
           REQUIRE_SIGNIN_VIEW: true
+          NO_REPLY_ADDRESS: users.noreply.git.mcf.io
           DISABLE_REGISTRATION: true
           SHOW_REGISTRATION_BUTTON: false
           ENABLE_BASIC_AUTHENTICATION: false
