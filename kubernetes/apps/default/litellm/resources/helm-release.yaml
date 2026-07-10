@@ -97,7 +97,7 @@ spec:
 
       router_settings:
         default_fallbacks:
-          - claude-opus-4-8
+          - claude-sonnet-4-6
     volumes:
       - name: litellm-cache
         persistentVolumeClaim:
