@@ -3,7 +3,10 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: forgejo-system
+components:
+  - ../../components/app-template
 resources:
   - ./namespace.yaml
   - ./postgres/flux-kustomization.yaml
   - ./forgejo/flux-kustomization.yaml
+  - ./runner/flux-kustomization.yaml
