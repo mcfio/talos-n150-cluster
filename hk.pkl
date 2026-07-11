@@ -18,30 +18,15 @@ local linters = new Mapping<String, Step> {
   }
 }
 
-local miselock = new Group {
-  steps {
-    ["mise-lock"] {
-      glob = mise_globs
-      fix = "mise lock"
-      stage = List("mise.lock", "**/mise.lock")
-    }
-  }
-}
-
-local all_steps = new Mapping<String, Step | Group> {
-  ["miselock"] = miselock
-  ...linters
-}
-
 hooks {
   ["pre-commit"] {
     fix = true
     stash = "git"
-    steps = all_steps
+    steps = linters
   }
   ["fix"] {
     fix = true
-    steps = all_steps
+    steps = linters
   }
   ["check"] {
     steps = linters
