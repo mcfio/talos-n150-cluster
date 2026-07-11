@@ -1,0 +1,72 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Schedule - Renovate
+
+on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: Dry Run
+        default: "false"
+        required: false
+      logLevel:
+        description: Log Level
+        type: choice
+        options:
+          - debug
+          - info
+        default: debug
+        required: false
+      version:
+        description: Renovate version
+        default: latest
+        required: false
+  schedule:
+    - cron: 20 * * * * # Every hour
+  push:
+    branches:
+      - main
+    paths:
+      - .github/renovate.json5
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  renovate:
+    name: Renovate
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+    steps:
+      - name: Generate Token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        id: app-token
+        with:
+          app-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-checks: write
+          permission-contents: write
+          permission-issues: write
+          permission-pull-requests: write
+          permission-statuses: write
+          permission-vulnerability-alerts: read
+          permission-workflows: write
+
+      - name: Renovate
+        uses: renovatebot/github-action@b50d2ba2bd928235abdcc14d06dfafc217f1c565 # v46.1.18
+        env:
+          LOG_LEVEL: ${{ inputs.logLevel || 'debug' }}
+          RENOVATE_AUTODISCOVER: true
+          RENOVATE_AUTODISCOVER_FILTER: ${{ github.repository }}
+          RENOVATE_DRY_RUN: ${{ inputs.dryRun == true }}
+          RENOVATE_INTERNAL_CHECKS_FILTER: strict
+          RENOVATE_PLATFORM: github
+          RENOVATE_PLATFORM_COMMIT: true
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          renovate-version: ${{ inputs.version || 'latest' }}
