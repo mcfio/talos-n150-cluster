@@ -9,4 +9,4 @@
 *.toml linguist-detectable linguist-language=TOML
 *.yml linguist-detectable linguist-language=YAML
 *.yaml linguist-detectable linguist-language=YAML
-*.yaml.j2 linguist-detectable linguist-language=YAML gitlab-language=jinja?parent=yaml
+*.yaml.j2 linguist-detectable linguist-language=YAML

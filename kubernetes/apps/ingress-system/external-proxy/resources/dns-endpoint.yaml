@@ -10,8 +10,3 @@ spec:
       recordType: CNAME
       targets:
         - ${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com
-    # Off-LAN git+SSH for Forgejo (tunnel ingress maps it to ssh://forgejo-ssh).
-    - dnsName: git-ssh.mcf.io
-      recordType: CNAME
-      targets:
-        - ${CLOUDFLARE_TUNNEL_ID}.cfargotunnel.com

@@ -3,13 +3,11 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: github-status-success
-  namespace: flux-system
+  name: github-status-errors
 spec:
   providerRef:
     name: github-status
-  eventSeverity: info
+  eventSeverity: error
   eventSources:
     - kind: Kustomization
-      name: cluster-apps
-      namespace: flux-system
+      name: "*"

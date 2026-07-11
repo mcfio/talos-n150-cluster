@@ -1,0 +1,18 @@
+---
+# Path globs -> PR labels for actions/labeler (v5+ changed-files schema).
+# Labels must pre-exist in the repo (labeler applies by name; it does not create them).
+area/kubernetes:
+  - changed-files:
+      - any-glob-to-any-file: kubernetes/**
+area/talos:
+  - changed-files:
+      - any-glob-to-any-file: talos/**
+area/bootstrap:
+  - changed-files:
+      - any-glob-to-any-file: bootstrap/**
+area/renovate:
+  - changed-files:
+      - any-glob-to-any-file: "**/renovate.json5"
+area/ci:
+  - changed-files:
+      - any-glob-to-any-file: .github/**

@@ -8,7 +8,6 @@ python.compile = false
 experimental = true
 unix_default_inline_shell_args = "bash -euo pipefail -c"
 env_shell_expand = true
-lockfile = true
 
 [monorepo]
 config_roots = ["kubernetes", "talos"]
@@ -19,11 +18,3 @@ HK_MISE = 1
 FLATE_PATH = "{{ config_root }}/kubernetes/flux/config"
 TALOSCONFIG = "{{ config_root }}/talosconfig"
 KUBECONFIG = "{{ config_root }}/kubeconfig"
-
-[tools]
-"github:home-operations/flate" = "v0.4.10"
-"github:home-operations/yayamlls" = { version = "latest", minimum_release_age = "0s" }
-"jq" = "1.8.2"
-"uv" = "0.11.28"
-"glab" = "1.101.0"
-"yamllint" = "1.38.0"

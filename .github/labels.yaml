@@ -1,0 +1,49 @@
+---
+# Declarative label catalogue synced by .github/workflows/label-sync.yaml.
+# delete-other-labels:true means THIS FILE is the complete set — a label not
+# listed here is removed from the repo. Colours are 6-hex, no leading '#'.
+
+# --- Area: which part of the repo a PR touches (see .github/labeler.yml) ---
+- name: area/kubernetes
+  color: 0e8a16
+  description: Changes under kubernetes/
+- name: area/talos
+  color: 1d76db
+  description: Changes under talos/
+- name: area/bootstrap
+  color: 5319e7
+  description: Changes under bootstrap/
+- name: area/renovate
+  color: fbca04
+  description: Renovate configuration
+- name: area/ci
+  color: c5def5
+  description: Changes under .github/
+
+# --- Renovate update types (see .github/renovate.json5 automerge/labels) ---
+- name: type/major
+  color: b60205
+  description: Major version update
+- name: type/minor
+  color: fbca04
+  description: Minor version update
+- name: type/patch
+  color: 0e8a16
+  description: Patch version update
+- name: type/digest
+  color: c2e0c6
+  description: Digest update
+
+# --- Renovate datasource ---
+- name: renovate/container
+  color: ededed
+  description: Container image dependency
+- name: renovate/helm
+  color: ededed
+  description: Helm chart dependency
+- name: renovate/github-action
+  color: ededed
+  description: GitHub Action dependency
+- name: renovate/github-release
+  color: ededed
+  description: GitHub release dependency

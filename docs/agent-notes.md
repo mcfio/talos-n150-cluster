@@ -88,7 +88,7 @@ barman-cloud.cloudnative-pg.io`. Plugin discovery itself is fine — it's **anno
 - **`toFQDNs` for a short external host silently fails under the cluster's `ndots:5` +
   CoreDNS `autopath`.** A pod resolver defaults to `options ndots:5`; a 2-dot host like
   `mcfaul.cloudflareaccess.com` (< 5 dots) is therefore tried **search-expanded first**
-  (`…​.<ns>.svc.cluster.local`). CoreDNS runs `autopath @kubernetes`, which answers that
+  (`….<ns>.svc.cluster.local`). CoreDNS runs `autopath @kubernetes`, which answers that
   first expanded query directly with the _external_ record — so Cilium's DNS proxy only ever
   observes/caches the **expanded** name, and a policy selector `matchName:
 mcfaul.cloudflareaccess.com` (bare) never matches. The resolved IPs get no FQDN identity →
