@@ -22,13 +22,11 @@ jobs:
           - kustomization
           - helmrelease
     steps:
-      # Comment as the purpose-robot bot app (281930), not github-actions[bot].
-      # Least-privilege: marocchino only needs to read/write PR comments.
       - name: Generate Token
         id: app-token
         uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         with:
-          app-id: ${{ secrets.BOT_APP_ID }}
+          client-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
           permission-pull-requests: write
 
@@ -36,11 +34,8 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-          # Full history so flate can render the branch against main.
           fetch-depth: 0
 
-      # Installs the flate CLI at the version this action is pinned to and
-      # exports FLATE_BASE (default: main) so `flate diff` runs changed-only.
       - name: Setup flate
         uses: home-operations/flate/action@0fc37fae10cf3c265294f6adebc6d6c100c74ea5 # v0.4.10
         with:
