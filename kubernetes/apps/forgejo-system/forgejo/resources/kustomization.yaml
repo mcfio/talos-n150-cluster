@@ -10,3 +10,9 @@ resources:
   - ./helm-release.yaml
   - ./http-route-external.yaml
   - ./cilium-network-policy.yaml
+configMapGenerator:
+  - name: forgejo-theme-github
+    files:
+      - themes/theme-github-soft-dark.css
+generatorOptions:
+  disableNameSuffixHash: true
