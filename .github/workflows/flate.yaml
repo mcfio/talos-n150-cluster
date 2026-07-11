@@ -6,16 +6,15 @@ on:
     paths:
       - kubernetes/**
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.resource }}
-  cancel-in-progress: true
-
 permissions:
   contents: read
 
 jobs:
   flate:
     runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.resource }}
+      cancel-in-progress: true
     strategy:
       fail-fast: false
       matrix:
