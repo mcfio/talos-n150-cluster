@@ -3,11 +3,11 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: gitlab-status-success
+  name: github-status-success
   namespace: flux-system
 spec:
   providerRef:
-    name: gitlab-status
+    name: github-status
   eventSeverity: info
   eventSources:
     - kind: Kustomization

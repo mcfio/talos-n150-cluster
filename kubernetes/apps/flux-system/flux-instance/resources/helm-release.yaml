@@ -25,7 +25,7 @@ spec:
         - notification-controller
       sync:
         kind: GitRepository
-        url: https://gitlab.com/mcf.io/milton/talos-n150-cluster
+        url: https://github.com/mcfio/talos-n150-cluster
         ref: refs/heads/main
         path: kubernetes/flux/config
         interval: 6h

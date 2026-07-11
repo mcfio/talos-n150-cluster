@@ -3,9 +3,9 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Provider
 metadata:
-  name: gitlab-status
+  name: github-status
 spec:
-  type: gitlab
-  address: https://gitlab.com/26889056
+  type: github
+  address: https://github.com/mcfio/talos-n150-cluster
   secretRef:
-    name: gitlab-status
+    name: github-status

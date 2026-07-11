@@ -5,10 +5,10 @@ ui:
   title: Status | Gatus
   header: Status
   logo: https://gitlab.com/uploads/-/system/group/avatar/2702992/30387687.jpeg
-  link: https://gitlab.com/mcfio
+  link: https://github.com/mcfio
   buttons:
-    - name: GitLab
-      link: https://gitlab.com/mcfio/milton/talos-n150-cluster
+    - name: GitHub
+      link: https://github.com/mcfio/talos-n150-cluster
 
 web:
   port: ${WEB_PORT}
