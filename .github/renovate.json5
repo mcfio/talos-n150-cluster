@@ -1,0 +1,130 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    // home-operations/renovate-presets@2.1.0 — bundles base config, managers
+    // (incl. `annotated` for `# renovate:`-commented inline pins), overrides,
+    // policies, and versioning. See default.json for the full list.
+    "github>home-operations/renovate-presets#2.1.0",
+    "group:allNonMajor",
+  ],
+  customManagers: [
+    // Scrypted pins a `ghcr.io/koush/scrypted:<semver>-noble-lite` tag; track the upstream
+    // GitHub release and rewrite only the semver portion, preserving the `-noble-lite` suffix.
+    {
+      customType: "regex",
+      managerFilePatterns: ["/\\.ya?ml(?:\\.j2)?$/"],
+      matchStringsStrategy: "combination",
+      matchStrings: [
+        "repository:\\s*(?<depName>ghcr\\.io/koush/scrypted)",
+        "tag:\\s*v?(?<currentValue>\\d+\\.\\d+\\.\\d+)-noble-lite",
+      ],
+      datasourceTemplate: "github-releases",
+      depNameTemplate: "koush/scrypted",
+      autoReplaceStringTemplate: "tag: v{{{newValue}}}-noble-lite",
+    },
+  ],
+  packageRules: [
+    // PR labels — must match the catalogue in .github/labels.yaml
+    {
+      matchUpdateTypes: ["major"],
+      labels: ["type/major"],
+    },
+    {
+      matchUpdateTypes: ["minor"],
+      labels: ["type/minor"],
+    },
+    {
+      matchUpdateTypes: ["patch"],
+      labels: ["type/patch"],
+    },
+    {
+      matchUpdateTypes: ["digest"],
+      labels: ["type/digest"],
+    },
+    {
+      matchDatasources: ["docker"],
+      addLabels: ["renovate/container"],
+    },
+    {
+      matchDatasources: ["helm"],
+      addLabels: ["renovate/helm"],
+    },
+    {
+      matchManagers: ["github-actions"],
+      addLabels: ["renovate/github-action"],
+    },
+    {
+      matchDatasources: ["github-releases", "github-tags"],
+      addLabels: ["renovate/github-release"],
+    },
+    // Automerge rules
+    {
+      description: "Auto-merge trusted container digests",
+      matchDatasources: ["docker"],
+      automerge: true,
+      automergeType: "pr",
+      matchUpdateTypes: ["digest"],
+      matchPackageNames: ["/home-operations/"],
+      ignoreTests: false,
+    },
+    {
+      description: "Schedule auto-merge for specific oci helm releases",
+      matchDatasources: ["docker"],
+      automerge: true,
+      automergeType: "pr",
+      matchUpdateTypes: ["minor", "patch"],
+      matchPackageNames: ["/kube-prometheus-stack/"],
+      ignoreTests: false,
+      schedule: ["before 6am on Monday"],
+    },
+    // Groups
+    {
+      groupName: "Talos Linux",
+      groupSlug: "talos-linux",
+      matchDatasources: ["custom.talos-factory"],
+      group: {
+        commitMessageTopic: "{{{groupName}}}",
+      },
+    },
+    {
+      groupName: "Flux Operator Group",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/flux-operator/", "/flux-instance/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}}",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      groupName: "Rook-Ceph Group",
+      matchDatasources: ["docker"],
+      matchPackageNames: ["/rook-ceph/", "/rook-ceph-cluster/"],
+      group: {
+        commitMessageTopic: "{{{groupName}}}",
+      },
+      minimumGroupSize: 2,
+    },
+    {
+      groupName: "kubernetes Group",
+      matchDatasources: ["docker"],
+      matchPackageNames: [
+        "/kube-apiserver/",
+        "/kube-controller-manager/",
+        "/kube-proxy/",
+        "/kube-scheduler/",
+        "/kubelet/",
+      ],
+      group: {
+        commitMessageTopic: "{{{groupName}}}",
+      },
+      minimumGroupSize: 5,
+    },
+    // Overrides
+    {
+      matchFileNames: ["/\\.ya?ml(?:\\.j2)?$/"],
+      matchPackageNames: ["ghcr.io/koush/scrypted"],
+      matchDatasources: ["docker"],
+      enabled: false,
+    },
+  ],
+}
