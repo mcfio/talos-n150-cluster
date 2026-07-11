@@ -22,6 +22,19 @@
       depNameTemplate: "koush/scrypted",
       autoReplaceStringTemplate: "tag: v{{{newValue}}}-noble-lite",
     },
+    // hk.pkl pins the hk release in its `amends`/`import` package URLs
+    // (github.com/jdx/hk/releases/download/v<ver>/hk@<ver>#/...). Track every
+    // version token so bumps stay in lockstep with the mise `hk` tool pin.
+    {
+      customType: "regex",
+      managerFilePatterns: ["/(^|/)hk\\.pkl$/"],
+      matchStrings: [
+        "hk/releases/download/v(?<currentValue>\\d+\\.\\d+\\.\\d+)/",
+        "hk@(?<currentValue>\\d+\\.\\d+\\.\\d+)",
+      ],
+      datasourceTemplate: "github-releases",
+      depNameTemplate: "jdx/hk",
+    },
   ],
   packageRules: [
     // PR labels — must match the catalogue in .github/labels.yaml
@@ -78,6 +91,17 @@
       schedule: ["before 6am on Monday"],
     },
     // Groups
+    {
+      // hk binary (mise tool) + hk.pkl schema URL must move together, or the
+      // pkl won't parse against a mismatched Builtins. One PR for both. Match
+      // every form the depName may take: custom manager emits `jdx/hk`; the
+      // mise tool may normalize to `hk`, `hk/hk`, or `jdx/hk`.
+      groupName: "hk",
+      matchPackageNames: ["jdx/hk", "hk", "hk/hk"],
+      group: {
+        commitMessageTopic: "{{{groupName}}}",
+      },
+    },
     {
       groupName: "Talos Linux",
       groupSlug: "talos-linux",
