@@ -2,9 +2,7 @@
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: flate
 on:
-  pull_request:
-    paths:
-      - kubernetes/**
+  pull_request: {}
 
 permissions:
   contents: read
@@ -22,28 +20,37 @@ jobs:
           - kustomization
           - helmrelease
     steps:
-      - name: Generate Token
-        id: app-token
-        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
-        with:
-          client-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-          permission-pull-requests: write
-
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
           fetch-depth: 0
 
-      - name: Setup flate
+      - name: Detect Kubernetes Changes
+        id: changed
+        uses: tj-actions/changed-files@ed68ef82c095e0d48ec87eccea555caaef8e5bbe # v46.0.5
+        with:
+          files: kubernetes/**
+
+      - name: Generate Token
+        id: app-token
+        if: steps.changed.outputs.any_changed == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          permission-pull-requests: write
+
+      - name: Setup Flate
+        if: steps.changed.outputs.any_changed == 'true'
         uses: home-operations/flate/action@0fc37fae10cf3c265294f6adebc6d6c100c74ea5 # v0.4.10
         with:
           version: 0.4.10
           cache: true
 
-      - name: flate diff
+      - name: Render Flate Diff
         id: diff
+        if: steps.changed.outputs.any_changed == 'true'
         env:
           FLATE_PATH: ${{ github.workspace }}/kubernetes/flux/config
         run: |
@@ -54,9 +61,6 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          # flate -o github emits raw diff-syntax text; wrap it in a ```diff
-          # fence so GitHub colourizes +/- lines instead of rendering the
-          # -/#/* prefixes as markdown lists, headers, and italics.
           {
             printf '```diff\n'
             cat "$raw"
@@ -64,7 +68,7 @@ jobs:
           } > flate-body.md
 
       - name: Upsert PR comment
-        if: steps.diff.outputs.skip != 'true'
+        if: steps.changed.outputs.any_changed == 'true' && steps.diff.outputs.skip != 'true'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
