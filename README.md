@@ -9,7 +9,7 @@ Through this journey I've ended up with the following tool stack:
 - **OS and Kubernetes**: [Talos Linux](https://www.siderolabs.com/talos-linux) and [Kubernetes](https://kubernetes.io).
 - **GitOps and CD**: [Flux](https://fluxcd.io) with multiple Kustomization roots, leveraging `dependsOn` and health checks for upgrade ordering and recovery.
 - **Package Management and Overlays**: [Helm](https://www.helm.sh) and [Kustomize](https://kustomize.io).
-- **Dependency Management and CI**: [Renovate](https://www.mend.io/renovate/) for automated dependency bumps and [GitLab CI](https://docs.gitlab.com/ci/) for MR validation.
+- **Dependency Management and CI**: [Renovate](https://www.mend.io/renovate/) for automated dependency bumps and [GitHub Actions](https://docs.github.com/actions) for PR validation.
 - **Toolchain**: [mise](https://mise.jdx.dev) (monorepo config under `.mise/config.toml` + `kubernetes/.mise.toml` + `talos/.mise.toml`), [hk](https://hk.jdx.dev) for pre-commit and [flate](https://github.com/home-operations/flate) for offline GitOps diff in CI.
 
 This isn't a turnkey "production cluster" or "enterprise-at-home" template — it's my actual home cluster and pretty boring (intentionally), with all the inconsistencies that come from evolving a real system. Read it for ideas, not prescription.
@@ -18,7 +18,7 @@ Recognizing constraints is an important step in sustainable design and as such d
 
 1. **Declarative ordering over procedural workarounds.** Multi-step upgrades should be handled by Flux and rely on dependsOn and health-checks, avoid "merge, wait and merge again" approaches.
 2. **Filenames describe what's inside, directories describe where it belongs.** Manifests are named after their resource `kind:` in kebab-case. Namespace and HelmRelease names are reflected in the directory path, not duplicated in filenames.
-3. **One source of truth.** Avoid duplication of configuration and logic, use tools like Kustomize and Helm to templatize and reuse common patterns. local (pre-commit), CI (GitLab CI) and runtime (Flux) run the same checks against the same configs. DRY when patterns repeat; accept duplication when they don't.
+3. **One source of truth.** Avoid duplication of configuration and logic, use tools like Kustomize and Helm to templatize and reuse common patterns. local (pre-commit), CI (GitHub Actions) and runtime (Flux) run the same checks against the same configs. DRY when patterns repeat; accept duplication when they don't.
 4. **Cattle, not pets.** Kubernetes presumes disposability and immutability of workloads, that mindset extends to the cluster and to the hardware it runs on.
 
 ## Cluster
@@ -61,8 +61,8 @@ talos/
 
 ### GitOps workflow
 
-1. Renovate opens MRs for tool/image/chart updates on its schedule.
-2. GitLab CI runs lint (hk-aware) and `flate diff` (offline render of branch vs. main) on every MR. The diff is posted as an upsertable MR comment, refreshed on every push.
+1. Renovate opens PRs for tool/image/chart updates on its schedule.
+2. GitHub Actions runs lint (hk-aware) and `flate diff` (offline render of branch vs. main) on every PR. The diff is posted as an upsertable PR comment, refreshed on every push.
 3. Reviewer (me) merges. Flux reconciles `kubernetes/flux/config/` on its interval, walks the Kustomization graph, applies changes in `dependsOn` order with health-gating.
 4. Drift is recovered automatically — Flux owns the cluster, the cluster doesn't own itself.
 
