@@ -4,7 +4,7 @@ metrics: true
 ui:
   title: Status | Gatus
   header: Status
-  logo: https://gitlab.com/uploads/-/system/group/avatar/2702992/30387687.jpeg
+  logo: https://avatars.githubusercontent.com/u/30387687?v=4
   link: https://github.com/mcfio
   buttons:
     - name: GitHub
