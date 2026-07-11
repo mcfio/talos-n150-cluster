@@ -68,6 +68,8 @@ spec:
               name: forgejo-secret
               key: FORGEJO__DATABASE__PASSWD
       config:
+        ui:
+          THEMES: forgejo-auto, forgejo-light, forgejo-dark, github-soft-dark
         database:
           DB_TYPE: postgres
           HOST: forgejo-postgres-rw.forgejo-system.svc:5432
@@ -103,6 +105,16 @@ spec:
           WIKI: never
         mailer:
           ENABLED: false
+
+    extraVolumes:
+      - name: theme-github
+        configMap:
+          name: forgejo-theme-github
+    extraVolumeMounts:
+      - name: theme-github
+        mountPath: /data/gitea/public/assets/css/theme-github-soft-dark.css
+        subPath: theme-github-soft-dark.css
+        readOnly: true
 
     resources:
       requests:
