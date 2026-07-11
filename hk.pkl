@@ -1,5 +1,5 @@
-amends "package://github.com/jdx/hk/releases/download/v1.46.0/hk@1.46.0#/Config.pkl"
-import "package://github.com/jdx/hk/releases/download/v1.46.0/hk@1.46.0#/Builtins.pkl"
+amends "package://github.com/jdx/hk/releases/download/v1.50.0/hk@1.50.0#/Config.pkl"
+import "package://github.com/jdx/hk/releases/download/v1.50.0/hk@1.50.0#/Builtins.pkl"
 
 local mise_globs = List(
   ".mise/config.toml",
@@ -7,9 +7,12 @@ local mise_globs = List(
   "**/.mise.*.toml"
 )
 
+local ci_prefix = "MISE_ENV=ci mise x --"
+
 local linters = new Mapping<String, Step> {
-  ["oxfmt"] = Builtins.oxfmt
-  ["yamllint"] = Builtins.yamllint
+  ["oxfmt"] = (Builtins.oxfmt) { prefix = ci_prefix }
+  ["yamllint"] = (Builtins.yamllint) { prefix = ci_prefix }
+  ["pinact"] = (Builtins.pinact) { prefix = ci_prefix }
   ["mise"] = (Builtins.mise) {
     glob = mise_globs
   }
