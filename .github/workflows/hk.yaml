@@ -1,6 +1,6 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
-name: lint
+name: hk
 on:
   pull_request:
   push:
@@ -13,8 +13,11 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  MISE_ENV: ci
+
 jobs:
-  yamllint:
+  hk:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -22,13 +25,12 @@ jobs:
         with:
           persist-credentials: false
 
-      # renovate: datasource=github-releases depName=adrienverge/yamllint
-      - name: Setup mise
+      - name: Setup Mise
         uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
         with:
-          cache: false
-          tool_versions: |
-            yamllint 1.38.0
+          cache: true
 
-      - name: yamllint
-        run: yamllint --config-file .yamllint.yaml --format github .
+      - name: Run Checks
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: hk check --all
