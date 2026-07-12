@@ -8,9 +8,57 @@ find reasons it should NOT be, from information the policy layer cannot see.
 
 ## Inputs
 
-- `curator/pr.json` — `{title, number, labels[], files[]}`.
+- `curator/pr.json` — `{title, number, labels[], files[], body}`. The `body`
+  contains Renovate's release-notes table and changelogs for every package in
+  the PR. Read it.
 - `curator/diff.md` — the authoritative `flate diff`: the _rendered cluster
   impact_, not the repo diff. Trust it over the PR title.
+
+## Normal diff shapes per datasource
+
+Use the PR's `renovate/*` label to set the right frame BEFORE judging scope.
+These coupled changes are expected and are NOT grounds for `needs-human`:
+
+- **`renovate/container` (Helm OCI chart):** OCIRepository tag + HelmRelease
+  chart version + rendered Deployment/StatefulSet image tag all changing
+  together. This is one chart bump; the coupling is Flux's rendering, not
+  unexpected scope.
+- **`renovate/container` (image digest/tag only):** single image field changes
+  in a Deployment/StatefulSet. Straightforward.
+- **`renovate/helm`:** HelmRelease `spec.chart.spec.version` change + any
+  rendered Deployment/ConfigMap field churn that comes with it.
+- **`renovate/github-action`:** `uses:` SHA/tag change in a workflow file only.
+- **`renovate/github-release`:** version field change in a manifest referencing
+  a GitHub release tag.
+
+Flag `needs-human` only when the diff contains changes **beyond** the normal
+coupled set for its datasource.
+
+## Grouped PRs
+
+Renovate groups multiple packages into one PR (e.g. `group:allNonMajor`). A
+grouped PR is **not inherently suspicious** — evaluate each member independently:
+
+- The PR body lists every package with its update type and version change.
+  Verify the group is homogeneous: all members share the same datasource label
+  and update type (all patch, or all minor, or all digest).
+- Each member's diff shape should match its datasource's normal shape above.
+- If ALL members are individually safe, the group is safe.
+- Flag `needs-human` only if a member has a concerning changelog, an unexpected
+  diff shape, or the group mixes update types (e.g. a major hidden among minors).
+
+## Changelog evaluation
+
+The PR body contains Renovate's release notes. Read them for every package:
+
+- **No changelog present:** normal for private/internal container images with no
+  public releases. Not grounds for `needs-human` on `renovate/container`.
+  For `renovate/helm` charts where notes are expected, absence is worth noting.
+- **Changelog present:** scan for changed defaults, removed/renamed config keys,
+  deprecations, migrations, breaking changes, or a CVE fix (implies the old
+  version was exploitable — worth human awareness even if the bump is safe).
+- A changelog showing only bug fixes, new features, or internal changes with no
+  user-facing config impact is consistent with `safe`.
 
 ## Your only decision
 
@@ -20,31 +68,20 @@ Write `curator/verdict.json`:
 { "verdict": "safe" | "needs-human", "rationale": "<one sentence, specific>" }
 ```
 
-- `safe` — merge with confidence. Reserve for the boring long tail: app/media
-  image patches & digests where the diff shows only image tag or benign
-  field-value churn and release notes reveal no behavioural change.
-- `needs-human` — anything else. **When uncertain, choose `needs-human`.** A
-  false "safe" is expensive; a false "needs-human" costs one glance from Nick.
-
-## Choose `needs-human` if ANY hold
-
-1. **Diff scope exceeds the claim.** Title says "bump sidecar image" but the
-   render touches a `CephCluster`, `HelmRelease.spec.values` beyond the tag,
-   NetworkPolicy, RBAC, a CRD, or a StatefulSet volume claim. This is your
-   highest-value check — the policy layer only pattern-matches paths.
-2. **Grouped PR smuggling.** `group:allNonMajor` and named groups mean one PR
-   can carry many bumps. If the group mixes update types or you cannot confirm
-   _every_ member is a benign patch/minor, do not clear the whole group.
-3. **Behavioural change in release notes.** Changed defaults, removed/renamed
-   config keys, deprecations, migrations, or a CVE fix that implies the old
-   version was exploitable (worth a human's awareness even if the bump is safe).
-4. **Empty or absent diff on a PR that claims a workload change.** Means flate
-   saw nothing where you expected something — never read as "safe".
-5. **Anything you cannot explain in one concrete sentence.**
+- `safe` — every package's diff matches its normal shape AND changelogs show no
+  behavioural impact.
+- `needs-human` — any member has an unexpected diff shape, a concerning
+  changelog, or you cannot explain the verdict in one concrete sentence.
+  **When genuinely uncertain, choose `needs-human`.** A false "safe" is
+  expensive; a false "needs-human" costs one glance from Nick.
 
 ## Do not
 
+- Do not flag normal coupled changes as "scope exceeds claim" — use the
+  datasource frame to distinguish expected coupling from genuine extra scope.
+- Do not flag a grouped PR just because it has multiple members — evaluate each.
+- Do not flag missing changelogs for container images — they commonly have none.
 - Do not run kubectl, touch the cluster, or re-render anything. Judge the diff.
 - Do not invent findings to seem thorough — `safe` is the correct answer for a
-  clean media-app patch, and that is most PRs.
+  clean patch/digest, and that is most PRs.
 - Do not upgrade scope: you cannot approve anything the policy layer excluded.
