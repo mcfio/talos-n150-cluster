@@ -74,8 +74,8 @@ jobs:
           PR: ${{ steps.id.outputs.pr }}
         run: |
           set -euo pipefail
-          gh pr view "$PR" --repo "$REPO" --json labels,title,number,files \
-            --jq '{title,number,labels:[.labels[].name],files:[.files[].path]}' \
+          gh pr view "$PR" --repo "$REPO" --json labels,title,number,files,body \
+            --jq '{title,number,labels:[.labels[].name],files:[.files[].path],body}' \
             > curator/pr.json
           : > curator/diff.md
           for f in curator/diff.*.md; do [ -e "$f" ] && cat "$f" >> curator/diff.md; done
@@ -147,7 +147,7 @@ jobs:
           PR: ${{ steps.id.outputs.pr }}
         run: |
           set -euo pipefail
-          fp="$(cat .github/curator/prompt.md curator/diff.md | sha256sum | cut -d' ' -f1)"
+          fp="$(cat .github/curator/prompt.md curator/diff.md curator/pr.json | sha256sum | cut -d' ' -f1)"
           prev="$(gh api "repos/$REPO/issues/$PR/comments" \
             --jq '[.[].body | scan("curator-fp:([0-9a-f]{64})")[]] | last // empty' 2>/dev/null || true)"
           echo "fp=$fp" >> "$GITHUB_OUTPUT"
@@ -170,8 +170,8 @@ jobs:
         run: |
           set -euo pipefail
           system="$(cat .github/curator/prompt.md)"
-          user="$(jq -n --rawfile pr curator/pr.json --rawfile diff curator/diff.md \
-            '{ pr: $pr, diff: $diff } | @json')"
+          user="$(jq -n --slurpfile pr curator/pr.json --rawfile diff curator/diff.md \
+            '{ pr: $pr[0], diff: $diff } | @json')"
 
           req="$(jq -n --arg system "$system" --arg user "$user" '{
             model: "curator-model",
