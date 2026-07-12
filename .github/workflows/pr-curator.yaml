@@ -1,26 +1,8 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: PR Curator
-# Semantic auto-merge assist for Renovate PRs. Runs AFTER flate concludes (workflow_run)
-# so it can read flate's conclusion — a FAILED flate (e.g. dangling dependsOn renders
-# non-zero) is treated as not-safe.
-#
-# Model (see .claude/plans/pr-curator-litellm.md):
-#   * Renovate auto-merges its own predefined tier independently. The curator only acts
-#     on what Renovate did NOT already auto-merge.
-#   * Not an agent — one stateless LiteLLM curl, schema-pinned {verdict, rationale}.
-#   * Deterministic pre-gate decides ELIGIBILITY; the LLM can only downgrade to
-#     needs-human, never promote.
-#   * safe  => curator ENABLES GitHub auto-merge (gh pr merge --auto). GitHub merges once
-#              hk + flate are green. The curator never merges directly; branch protection
-#              (bot removed from bypass) still gates the actual merge.
-#   * needs-human / any error => label + comment ONLY. No status, no red X. This is a
-#     NORMAL outcome ("not auto-mergeable, Nick decides"), not a failure. The PR just
-#     sits with its real checks green until a human merges it.
-#   * There is NO `curator/verdict` required check. needs-human must not look broken.
-#   * PR identity comes from the trusted workflow_run EVENT; scope from the PR AUTHOR.
-#   * Runs from main's definition (workflow_run), so a PR can't rewrite its own judge.
-
+# Classifies Renovate PRs and enables auto-merge on a "safe" verdict; leaves the rest
+# for a human. Design/rationale: .claude/plans/pr-curator-litellm.md
 on:
   workflow_run:
     workflows: [flate]
@@ -40,22 +22,19 @@ jobs:
         with:
           client-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-          # contents:write is needed to ENABLE auto-merge. This does NOT let the curator
-          # merge arbitrarily — the bot is removed from branch-protection bypass, so the
-          # actual merge is still gated on hk + flate. pull-requests:write for label/comment.
+          # contents:write enables auto-merge; pull-requests:write for label + comment.
           permission-contents: write
           permission-pull-requests: write
 
-      # Need the prompt (.github/curator/prompt.md) on disk for the classify step.
-      # Defaults to the workflow's own ref on the DEFAULT branch (main), NOT the PR
-      # branch — the workflow_run safety property: a PR cannot alter the judge.
+      # Puts .github/curator/prompt.md on disk (from main's ref, not the PR branch).
       - name: Checkout curator definition
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
           sparse-checkout: .github/curator
 
-      # PR identity from the TRUSTED event, not the artifact (invariant #2).
+      # Resolve PR number and author. Scope is decided by the PR author, not
+      # workflow_run.actor (which is whoever triggered the latest run).
       - name: Resolve PR identity + author
         id: id
         env:
@@ -66,24 +45,19 @@ jobs:
         run: |
           set -euo pipefail
           pr="$EVENT_PR"
-          # Fallback: map head_sha -> PR if the event array was empty.
           if [ -z "$pr" ] || [ "$pr" = "null" ]; then
             pr="$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
               --jq '.[0].number // empty')"
           fi
-          # Scope is decided by the PR AUTHOR, not workflow_run.actor (which is whoever
-          # triggered the latest run — e.g. a human clicking "update branch"). Use the
-          # REST API: .user.login renders an App as "purpose-robot[bot]".
           author="$(gh api "repos/$REPO/pulls/$pr" --jq '.user.login')"
           {
             echo "pr=$pr"
             echo "author=$author"
           } >> "$GITHUB_OUTPUT"
 
-      # Non-Renovate / human PRs: curator does nothing (no required check to satisfy).
       - name: Download curator payload
         if: steps.id.outputs.author == 'purpose-robot[bot]'
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           path: curator
           pattern: curator-*
@@ -91,6 +65,7 @@ jobs:
           github-token: ${{ steps.app-token.outputs.token }}
           run-id: ${{ github.event.workflow_run.id }}
 
+      # PR metadata -> curator/pr.json; concatenated flate diffs -> curator/diff.md.
       - name: Gather PR facts + diff
         if: steps.id.outputs.author == 'purpose-robot[bot]'
         env:
@@ -102,11 +77,10 @@ jobs:
           gh pr view "$PR" --repo "$REPO" --json labels,title,number,files \
             --jq '{title,number,labels:[.labels[].name],files:[.files[].path]}' \
             > curator/pr.json
-          # Concatenate whatever diffs flate rendered (one per matrix resource).
           : > curator/diff.md
           for f in curator/diff.*.md; do [ -e "$f" ] && cat "$f" >> curator/diff.md; done
 
-      # ---- Deterministic envelope: decide ELIGIBILITY before spending a token. ----
+      # Marks a PR ineligible (never reaches the model) for classes too risky to auto-merge.
       - name: Policy gate
         id: policy
         if: steps.id.outputs.author == 'purpose-robot[bot]'
@@ -121,7 +95,6 @@ jobs:
           has() { grep -qx "$1" <<<"$labels"; }
           touches() { grep -qE "$1" <<<"$files"; }
 
-          # Hard not-safe classes — recovery on this cluster is NOT cheap here.
           if [ "$FLATE_CONCLUSION" != "success" ]; then
             eligible=false; reason="flate did not succeed (possible broken graph)"
           elif has "type/major"; then
@@ -147,20 +120,17 @@ jobs:
         run: |
           set -euo pipefail
           gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
-          gh pr comment "$PR" --repo "$REPO" \
-            --body "🧑‍⚖️ Curator: **left for you** — ${REASON}. (Not auto-merged; review at your leisure.)"
+          printf '🧑‍⚖️ Curator: **left for you** — %s.\n\n_Not auto-merged; review at your leisure._\n' \
+            "$REASON" > curator/comment.md
 
-      # ---- Semantic classification: only eligible PRs reach the model. ----
-      # Any failure here fails the step; the apply step below runs only on success and
-      # only enables auto-merge for an explicit, validated safe verdict (fail-closed:
-      # a broken classifier never auto-merges).
+      # One LiteLLM call via Cloudflare Access. Any failure (network, non-2xx, or a
+      # response that isn't a valid {verdict, rationale}) fails the step -> not auto-merged.
       - name: Classify (LiteLLM gateway)
         id: classify
         if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
         env:
           LITELLM_BASE_URL: ${{ vars.LITELLM_BASE_URL }}
           LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
-          # Cloudflare Access service token — validated at the edge before LiteLLM.
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: |
@@ -192,7 +162,6 @@ jobs:
             }
           }')"
 
-          # NO `|| true`. Non-2xx / timeout / network error => step fails => not auto-merged.
           resp="$(curl -sS --fail-with-body --max-time 90 \
             "${LITELLM_BASE_URL%/}/v1/chat/completions" \
             -H "Authorization: Bearer ${LITELLM_API_KEY}" \
@@ -201,8 +170,6 @@ jobs:
             -H "Content-Type: application/json" \
             -d "$req")"
 
-          # Validate shape strictly. jq -e exits non-zero if content is absent or not
-          # schema-conformant JSON => step fails => not auto-merged.
           echo "$resp" | jq -e '
             .choices[0].message.content
             | fromjson
@@ -210,8 +177,7 @@ jobs:
             | select(.verdict == "safe" or .verdict == "needs-human")
           ' > curator/verdict.json
 
-      # Runs ONLY if classify produced a valid verdict. Positive test on "safe" =>
-      # enable auto-merge; anything else => leave for human (label/comment, no status).
+      # safe -> enable auto-merge; needs-human -> label. Comment is upserted below.
       - name: Apply verdict
         if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome == 'success'
         env:
@@ -224,16 +190,15 @@ jobs:
           why="$(jq -r '.rationale' curator/verdict.json)"
           if [ "$v" = "safe" ]; then
             gh pr merge "$PR" --repo "$REPO" --squash --auto
-            gh pr comment "$PR" --repo "$REPO" \
-              --body "🤖 Curator: **safe** — ${why} (auto-merge enabled; merges on green checks)."
+            printf '🤖 Curator: **safe** — %s\n\n_Auto-merge enabled; merges on green checks._\n' \
+              "$why" > curator/comment.md
           else
             gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
-            gh pr comment "$PR" --repo "$REPO" \
-              --body "🧑‍⚖️ Curator: **left for you** — ${why} (Not auto-merged; review at your leisure.)"
+            printf '🧑‍⚖️ Curator: **left for you** — %s\n\n_Not auto-merged; review at your leisure._\n' \
+              "$why" > curator/comment.md
           fi
 
-      # Classifier unavailable (curl/timeout/malformed) => leave for human. No auto-merge,
-      # no red X — just a note. This is the fail-closed path: a broken gate never merges.
+      # Classifier unavailable: leave for human, no auto-merge (fail-closed).
       - name: Leave for human (classifier unavailable)
         if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome != 'success'
         env:
@@ -243,5 +208,15 @@ jobs:
         run: |
           set -euo pipefail
           gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
-          gh pr comment "$PR" --repo "$REPO" \
-            --body "🧑‍⚖️ Curator: **left for you** — classifier unavailable (not auto-merged)."
+          printf '🧑‍⚖️ Curator: **left for you** — classifier unavailable.\n\n_Not auto-merged (fail-closed)._\n' \
+            > curator/comment.md
+
+      # Upserts one curator-headed comment, replacing the prior one on re-runs.
+      - name: Upsert curator comment
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && hashFiles('curator/comment.md') != ''
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          number: ${{ steps.id.outputs.pr }}
+          header: curator
+          path: curator/comment.md
