@@ -59,6 +59,13 @@ authoritative signal — the summariser already analysed the changelog. The
 classifier must TRUST empty flags and not re-analyse summary prose (doing so
 recreates over-conservatism). This division of labour is stated in `prompt.md`.
 
+The raw body is untrusted third-party changelog text (any upstream maintainer
+whose package Renovate bumps can write it). The summarise step wraps it in
+`<pr_body>` tags and instructs the model to treat everything inside as data, never
+as instructions — a first-pass guard against changelog prompt injection. The real
+bound stays structural: the LLM is a veto that can't promote past `policy.yaml`,
+and `hk`+`flate` still gate the merge.
+
 ## Fail-closed (invariant)
 
 The merge path fires ONLY on an explicit, schema-validated `verdict == "safe"`.
@@ -70,10 +77,21 @@ at leisure), NOT a failure — there is no red status check for it.
 
 ## Trust / blast-radius model
 
-- Bot (`purpose-robot`) is REMOVED from the ruleset `bypass_actors`. This is the
-  load-bearing control: even a compromised token cannot merge anything failing
-  `hk` + `flate`. "Enable auto-merge" ≠ "merge" — GitHub's engine merges, gated
-  by branch protection.
+Two independent gates decide whether the privileged job acts, in order:
+
+1. **Capability** (job-level `if`): `workflow_run.head_repository.fork == false`. A
+   fork-originated run never mints a token or runs a step — the branch must live in
+   this repo, which needs write access. This is the everyday fork-PR control.
+2. **Identity** (`is_bot`): the PR author's `.user.login` equals the login derived
+   from the token's own app (`<app-slug>[bot]`). Routes non-bot PRs to a human.
+
+Neither is the real trust boundary — the author gate is a routing decision, and even
+if bypassed the worst case is auto-merge _enabled_ on a PR that still must pass the
+required checks. The load-bearing controls:
+
+- Bot (`purpose-robot`) is REMOVED from the ruleset `bypass_actors`. Even a
+  compromised token cannot merge anything failing `hk` + `flate`. "Enable
+  auto-merge" ≠ "merge" — GitHub's engine merges, gated by branch protection.
 - App scoped to this repo only; minimum permissions (no admin/members read;
   packages read-only). The curator token holds `contents:write` (to enable
   auto-merge) + `pull-requests:write`.
@@ -99,7 +117,12 @@ at leisure), NOT a failure — there is no red status check for it.
 - **`workflow_run.actor` ≠ PR author.** It's whoever triggered the latest run
   (e.g. a human clicking "update branch"). Scope on the PR author instead.
 - **`gh pr view --json author` gives `app/purpose-robot`; REST `.user.login`
-  gives `purpose-robot[bot]`.** The guards use the REST form.
+  gives `purpose-robot[bot]`.** The guards use the REST form, comparing against a
+  login **derived from the token's own app** (`app-token` `app-slug` output →
+  `<slug>[bot]`), not a hardcoded string — it tracks an app rename or ID rotation.
+  `Resolve identity` computes this once as `is_bot`; every step gates on that. The
+  fingerprint scan reuses the same derived login so only the curator's own comment
+  is trusted for the skip marker.
 - **`workflow_run` triggers only fire from the DEFAULT-branch workflow
   definition.** A curator change must be on `main` before it affects any PR.
 - **The model returns markdown-fenced JSON despite `response_format`.** Strip
