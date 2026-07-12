@@ -1,23 +1,24 @@
 ---
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: PR Curator
-# Semantic gate for Renovate dependency PRs. Runs AFTER flate concludes (workflow_run)
+# Semantic auto-merge assist for Renovate PRs. Runs AFTER flate concludes (workflow_run)
 # so it can read flate's conclusion — a FAILED flate (e.g. dangling dependsOn renders
-# non-zero) is a hard no-merge, distinct from a clean/empty diff.
+# non-zero) is treated as not-safe.
 #
-# Trust model (see .claude/plans/pr-curator-litellm.md):
+# Model (see .claude/plans/pr-curator-litellm.md):
+#   * Renovate auto-merges its own predefined tier independently. The curator only acts
+#     on what Renovate did NOT already auto-merge.
 #   * Not an agent — one stateless LiteLLM curl, schema-pinned {verdict, rationale}.
 #   * Deterministic pre-gate decides ELIGIBILITY; the LLM can only downgrade to
-#     needs-human, never promote. All actions are taken by this (trusted) code.
-#   * Fail-closed: the success path fires ONLY on an explicit, validated verdict=="safe".
-#     Every other outcome (error, timeout, non-2xx, malformed body) => failure status
-#     => PR waits for a human. Never branch on != "needs-human".
-#   * The curator NEVER merges. It sets the `curator/verdict` commit status; GitHub
-#     native auto-merge merges once ALL required checks (hk + flate x2 + curator/verdict)
-#     are green. Token holds statuses:write + pull-requests:write ONLY — no contents,
-#     no workflows.
-#   * PR identity comes from the trusted workflow_run EVENT, never the PR-produced
-#     artifact (which is attacker-influenced input, used only as model context).
+#     needs-human, never promote.
+#   * safe  => curator ENABLES GitHub auto-merge (gh pr merge --auto). GitHub merges once
+#              hk + flate are green. The curator never merges directly; branch protection
+#              (bot removed from bypass) still gates the actual merge.
+#   * needs-human / any error => label + comment ONLY. No status, no red X. This is a
+#     NORMAL outcome ("not auto-mergeable, Nick decides"), not a failure. The PR just
+#     sits with its real checks green until a human merges it.
+#   * There is NO `curator/verdict` required check. needs-human must not look broken.
+#   * PR identity comes from the trusted workflow_run EVENT; scope from the PR AUTHOR.
 #   * Runs from main's definition (workflow_run), so a PR can't rewrite its own judge.
 
 on:
@@ -27,9 +28,6 @@ on:
 
 permissions:
   contents: read
-
-env:
-  STATUS_CONTEXT: curator/verdict
 
 jobs:
   curate:
@@ -42,8 +40,10 @@ jobs:
         with:
           client-id: ${{ secrets.BOT_APP_ID }}
           private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-          # Minimal: set a commit status + label/comment. NO contents, NO workflows.
-          permission-statuses: write
+          # contents:write is needed to ENABLE auto-merge. This does NOT let the curator
+          # merge arbitrarily — the bot is removed from branch-protection bypass, so the
+          # actual merge is still gated on hk + flate. pull-requests:write for label/comment.
+          permission-contents: write
           permission-pull-requests: write
 
       # Need the prompt (.github/curator/prompt.md) on disk for the classify step.
@@ -56,15 +56,13 @@ jobs:
           sparse-checkout: .github/curator
 
       # PR identity from the TRUSTED event, not the artifact (invariant #2).
-      # workflow_run.pull_requests is populated for same-repo PRs (Renovate branches).
-      - name: Resolve PR identity from event
+      - name: Resolve PR identity + author
         id: id
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
           EVENT_PR: ${{ github.event.workflow_run.pull_requests[0].number }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
-          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
         run: |
           set -euo pipefail
           pr="$EVENT_PR"
@@ -73,44 +71,16 @@ jobs:
             pr="$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
               --jq '.[0].number // empty')"
           fi
-          # Scope is decided by the PR AUTHOR, not workflow_run.actor. The event actor
-          # is whoever triggered the latest run (e.g. a human clicking "update branch"),
-          # NOT the PR author — using it would misclassify Renovate PRs as out-of-scope.
-          # Use the REST API: .user.login renders an App as "purpose-robot[bot]"
-          # (gh pr view --json author gives "app/purpose-robot" — a DIFFERENT string).
+          # Scope is decided by the PR AUTHOR, not workflow_run.actor (which is whoever
+          # triggered the latest run — e.g. a human clicking "update branch"). Use the
+          # REST API: .user.login renders an App as "purpose-robot[bot]".
           author="$(gh api "repos/$REPO/pulls/$pr" --jq '.user.login')"
           {
             echo "pr=$pr"
-            echo "sha=$HEAD_SHA"
             echo "author=$author"
           } >> "$GITHUB_OUTPUT"
 
-      # Helper to set the curator/verdict commit status on the head SHA.
-      # (state: success|failure|pending ; description ; context)
-      - name: Define status helper
-        run: |
-          cat > /tmp/set-status.sh <<'EOF'
-          #!/usr/bin/env bash
-          set -euo pipefail
-          state="$1"; desc="$2"
-          gh api --method POST "repos/${REPO}/statuses/${SHA}" \
-            -f state="$state" \
-            -f context="${STATUS_CONTEXT}" \
-            -f description="${desc:0:140}" >/dev/null
-          EOF
-          chmod +x /tmp/set-status.sh
-
-      # Non-Renovate / human PRs: the curator is out of scope, but curator/verdict is a
-      # REQUIRED check, so it must be present or the PR can't merge. Set success with a
-      # clear note — this ENABLES (never blocks); those PRs are human-gated elsewhere.
-      - name: Pass-through out-of-scope PRs
-        if: steps.id.outputs.author != 'purpose-robot[bot]'
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          REPO: ${{ github.repository }}
-          SHA: ${{ steps.id.outputs.sha }}
-        run: /tmp/set-status.sh success "out of curator scope — human-gated"
-
+      # Non-Renovate / human PRs: curator does nothing (no required check to satisfy).
       - name: Download curator payload
         if: steps.id.outputs.author == 'purpose-robot[bot]'
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
@@ -151,7 +121,7 @@ jobs:
           has() { grep -qx "$1" <<<"$labels"; }
           touches() { grep -qE "$1" <<<"$files"; }
 
-          # Hard no-merge classes — recovery on this cluster is NOT cheap here.
+          # Hard not-safe classes — recovery on this cluster is NOT cheap here.
           if [ "$FLATE_CONCLUSION" != "success" ]; then
             eligible=false; reason="flate did not succeed (possible broken graph)"
           elif has "type/major"; then
@@ -167,33 +137,30 @@ jobs:
           echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
           echo "reason=$reason" >> "$GITHUB_OUTPUT"
 
-      - name: Ineligible → needs-human
+      - name: Leave for human (ineligible)
         if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible != 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
-          SHA: ${{ steps.id.outputs.sha }}
           PR: ${{ steps.id.outputs.pr }}
           REASON: ${{ steps.policy.outputs.reason }}
         run: |
           set -euo pipefail
-          /tmp/set-status.sh failure "needs human — ${REASON}"
           gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
           gh pr comment "$PR" --repo "$REPO" \
-            --body "🧑‍⚖️ Curator: **human review** — ${REASON}."
+            --body "🧑‍⚖️ Curator: **left for you** — ${REASON}. (Not auto-merged; review at your leisure.)"
 
-      # ---- Semantic veto: only eligible PRs reach the model. ----
-      # Fail-closed: any failure here fails the step; the "verdict" step below only runs
-      # on success and only sets status=success for an explicit, validated safe verdict.
+      # ---- Semantic classification: only eligible PRs reach the model. ----
+      # Any failure here fails the step; the apply step below runs only on success and
+      # only enables auto-merge for an explicit, validated safe verdict (fail-closed:
+      # a broken classifier never auto-merges).
       - name: Classify (LiteLLM gateway)
         id: classify
         if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
         env:
           LITELLM_BASE_URL: ${{ vars.LITELLM_BASE_URL }}
           LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
-          # Cloudflare Access service token — validated at the edge (Service Auth policy
-          # on litellm.mcf.io) BEFORE the request reaches LiteLLM. Independent of the
-          # LiteLLM key: two gates, either revocable/rotatable alone.
+          # Cloudflare Access service token — validated at the edge before LiteLLM.
           CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
           CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
         run: |
@@ -225,7 +192,7 @@ jobs:
             }
           }')"
 
-          # NO `|| true`. Non-2xx / timeout / network error => step fails => fail-closed.
+          # NO `|| true`. Non-2xx / timeout / network error => step fails => not auto-merged.
           resp="$(curl -sS --fail-with-body --max-time 90 \
             "${LITELLM_BASE_URL%/}/v1/chat/completions" \
             -H "Authorization: Bearer ${LITELLM_API_KEY}" \
@@ -235,7 +202,7 @@ jobs:
             -d "$req")"
 
           # Validate shape strictly. jq -e exits non-zero if content is absent or not
-          # schema-conformant JSON => step fails => fail-closed.
+          # schema-conformant JSON => step fails => not auto-merged.
           echo "$resp" | jq -e '
             .choices[0].message.content
             | fromjson
@@ -243,43 +210,38 @@ jobs:
             | select(.verdict == "safe" or .verdict == "needs-human")
           ' > curator/verdict.json
 
-      # Runs ONLY if classify succeeded (a valid verdict was produced). Positive test on
-      # "safe"; anything else (incl. needs-human) => failure status.
+      # Runs ONLY if classify produced a valid verdict. Positive test on "safe" =>
+      # enable auto-merge; anything else => leave for human (label/comment, no status).
       - name: Apply verdict
         if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome == 'success'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
-          SHA: ${{ steps.id.outputs.sha }}
           PR: ${{ steps.id.outputs.pr }}
         run: |
           set -euo pipefail
           v="$(jq -r '.verdict' curator/verdict.json)"
           why="$(jq -r '.rationale' curator/verdict.json)"
           if [ "$v" = "safe" ]; then
-            /tmp/set-status.sh success "safe — ${why}"
+            gh pr merge "$PR" --repo "$REPO" --squash --auto
             gh pr comment "$PR" --repo "$REPO" \
-              --body "🤖 Curator: **safe** — ${why} (auto-merge on green checks)."
+              --body "🤖 Curator: **safe** — ${why} (auto-merge enabled; merges on green checks)."
           else
-            /tmp/set-status.sh failure "needs human — ${why}"
             gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
             gh pr comment "$PR" --repo "$REPO" \
-              --body "🧑‍⚖️ Curator: **human review** — ${why}."
+              --body "🧑‍⚖️ Curator: **left for you** — ${why} (Not auto-merged; review at your leisure.)"
           fi
 
-      # Fail-closed catch-all: if classify FAILED (curl/timeout/malformed), set failure
-      # so the required check is present-and-red rather than absent (which would just
-      # leave the PR pending forever with no signal).
-      - name: Fail-closed status
+      # Classifier unavailable (curl/timeout/malformed) => leave for human. No auto-merge,
+      # no red X — just a note. This is the fail-closed path: a broken gate never merges.
+      - name: Leave for human (classifier unavailable)
         if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome != 'success'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
-          SHA: ${{ steps.id.outputs.sha }}
           PR: ${{ steps.id.outputs.pr }}
         run: |
           set -euo pipefail
-          /tmp/set-status.sh failure "classifier unavailable — awaiting human"
           gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
           gh pr comment "$PR" --repo "$REPO" \
-            --body "🧑‍⚖️ Curator: **human review** — classifier unavailable (fail-closed)."
+            --body "🧑‍⚖️ Curator: **left for you** — classifier unavailable (not auto-merged)."
