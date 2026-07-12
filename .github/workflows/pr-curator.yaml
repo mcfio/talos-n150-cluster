@@ -56,7 +56,6 @@ jobs:
           EVENT_PR: ${{ github.event.workflow_run.pull_requests[0].number }}
           HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
           HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
-          ACTOR: ${{ github.event.workflow_run.actor.login }}
         run: |
           set -euo pipefail
           pr="$EVENT_PR"
@@ -65,10 +64,16 @@ jobs:
             pr="$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
               --jq '.[0].number // empty')"
           fi
+          # Scope is decided by the PR AUTHOR, not workflow_run.actor. The event actor
+          # is whoever triggered the latest run (e.g. a human clicking "update branch"),
+          # NOT the PR author — using it would misclassify Renovate PRs as out-of-scope.
+          # Use the REST API: .user.login renders an App as "purpose-robot[bot]"
+          # (gh pr view --json author gives "app/purpose-robot" — a DIFFERENT string).
+          author="$(gh api "repos/$REPO/pulls/$pr" --jq '.user.login')"
           {
             echo "pr=$pr"
             echo "sha=$HEAD_SHA"
-            echo "actor=$ACTOR"
+            echo "author=$author"
           } >> "$GITHUB_OUTPUT"
 
       # Helper to set the curator/verdict commit status on the head SHA.
@@ -90,7 +95,7 @@ jobs:
       # REQUIRED check, so it must be present or the PR can't merge. Set success with a
       # clear note — this ENABLES (never blocks); those PRs are human-gated elsewhere.
       - name: Pass-through out-of-scope PRs
-        if: steps.id.outputs.actor != 'purpose-robot[bot]'
+        if: steps.id.outputs.author != 'purpose-robot[bot]'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
@@ -98,7 +103,7 @@ jobs:
         run: /tmp/set-status.sh success "out of curator scope — human-gated"
 
       - name: Download curator payload
-        if: steps.id.outputs.actor == 'purpose-robot[bot]'
+        if: steps.id.outputs.author == 'purpose-robot[bot]'
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with:
           path: curator
@@ -108,7 +113,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
 
       - name: Gather PR facts + diff
-        if: steps.id.outputs.actor == 'purpose-robot[bot]'
+        if: steps.id.outputs.author == 'purpose-robot[bot]'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
@@ -125,7 +130,7 @@ jobs:
       # ---- Deterministic envelope: decide ELIGIBILITY before spending a token. ----
       - name: Policy gate
         id: policy
-        if: steps.id.outputs.actor == 'purpose-robot[bot]'
+        if: steps.id.outputs.author == 'purpose-robot[bot]'
         env:
           FLATE_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
         run: |
@@ -154,7 +159,7 @@ jobs:
           echo "reason=$reason" >> "$GITHUB_OUTPUT"
 
       - name: Ineligible → needs-human
-        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible != 'true'
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible != 'true'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
@@ -173,7 +178,7 @@ jobs:
       # on success and only sets status=success for an explicit, validated safe verdict.
       - name: Classify (LiteLLM gateway)
         id: classify
-        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
         env:
           LITELLM_BASE_URL: ${{ vars.LITELLM_BASE_URL }}
           LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
@@ -232,7 +237,7 @@ jobs:
       # Runs ONLY if classify succeeded (a valid verdict was produced). Positive test on
       # "safe"; anything else (incl. needs-human) => failure status.
       - name: Apply verdict
-        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome == 'success'
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome == 'success'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
@@ -257,7 +262,7 @@ jobs:
       # so the required check is present-and-red rather than absent (which would just
       # leave the PR pending forever with no signal).
       - name: Fail-closed status
-        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome != 'success'
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome != 'success'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
