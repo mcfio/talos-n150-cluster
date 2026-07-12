@@ -31,8 +31,7 @@
         "required_status_checks": [
           {"context": "hk"},
           {"context": "flate (kustomization)"},
-          {"context": "flate (helmrelease)"},
-          {"context": "curator/verdict"}
+          {"context": "flate (helmrelease)"}
         ]
       }
     }
