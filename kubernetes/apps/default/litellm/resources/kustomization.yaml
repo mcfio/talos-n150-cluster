@@ -9,4 +9,5 @@ resources:
   - ./helm-release.yaml
   - ./service-monitor.yaml
   - ./http-route.yaml
+  - ./http-route-external.yaml
   - ./backend-traffic-policy.yaml

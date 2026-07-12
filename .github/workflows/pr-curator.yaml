@@ -1,0 +1,271 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: PR Curator
+# Semantic gate for Renovate dependency PRs. Runs AFTER flate concludes (workflow_run)
+# so it can read flate's conclusion — a FAILED flate (e.g. dangling dependsOn renders
+# non-zero) is a hard no-merge, distinct from a clean/empty diff.
+#
+# Trust model (see .claude/plans/pr-curator-litellm.md):
+#   * Not an agent — one stateless LiteLLM curl, schema-pinned {verdict, rationale}.
+#   * Deterministic pre-gate decides ELIGIBILITY; the LLM can only downgrade to
+#     needs-human, never promote. All actions are taken by this (trusted) code.
+#   * Fail-closed: the success path fires ONLY on an explicit, validated verdict=="safe".
+#     Every other outcome (error, timeout, non-2xx, malformed body) => failure status
+#     => PR waits for a human. Never branch on != "needs-human".
+#   * The curator NEVER merges. It sets the `curator/verdict` commit status; GitHub
+#     native auto-merge merges once ALL required checks (hk + flate x2 + curator/verdict)
+#     are green. Token holds statuses:write + pull-requests:write ONLY — no contents,
+#     no workflows.
+#   * PR identity comes from the trusted workflow_run EVENT, never the PR-produced
+#     artifact (which is attacker-influenced input, used only as model context).
+#   * Runs from main's definition (workflow_run), so a PR can't rewrite its own judge.
+
+on:
+  workflow_run:
+    workflows: [flate]
+    types: [completed]
+
+permissions:
+  contents: read
+
+env:
+  STATUS_CONTEXT: curator/verdict
+
+jobs:
+  curate:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request'
+    steps:
+      - name: Generate Token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          # Minimal: set a commit status + label/comment. NO contents, NO workflows.
+          permission-statuses: write
+          permission-pull-requests: write
+
+      # PR identity from the TRUSTED event, not the artifact (invariant #2).
+      # workflow_run.pull_requests is populated for same-repo PRs (Renovate branches).
+      - name: Resolve PR identity from event
+        id: id
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          EVENT_PR: ${{ github.event.workflow_run.pull_requests[0].number }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          ACTOR: ${{ github.event.workflow_run.actor.login }}
+        run: |
+          set -euo pipefail
+          pr="$EVENT_PR"
+          # Fallback: map head_sha -> PR if the event array was empty.
+          if [ -z "$pr" ] || [ "$pr" = "null" ]; then
+            pr="$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
+              --jq '.[0].number // empty')"
+          fi
+          {
+            echo "pr=$pr"
+            echo "sha=$HEAD_SHA"
+            echo "actor=$ACTOR"
+          } >> "$GITHUB_OUTPUT"
+
+      # Helper to set the curator/verdict commit status on the head SHA.
+      # (state: success|failure|pending ; description ; context)
+      - name: Define status helper
+        run: |
+          cat > /tmp/set-status.sh <<'EOF'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          state="$1"; desc="$2"
+          gh api --method POST "repos/${REPO}/statuses/${SHA}" \
+            -f state="$state" \
+            -f context="${STATUS_CONTEXT}" \
+            -f description="${desc:0:140}" >/dev/null
+          EOF
+          chmod +x /tmp/set-status.sh
+
+      # Non-Renovate / human PRs: the curator is out of scope, but curator/verdict is a
+      # REQUIRED check, so it must be present or the PR can't merge. Set success with a
+      # clear note — this ENABLES (never blocks); those PRs are human-gated elsewhere.
+      - name: Pass-through out-of-scope PRs
+        if: steps.id.outputs.actor != 'purpose-robot[bot]'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ steps.id.outputs.sha }}
+        run: /tmp/set-status.sh success "out of curator scope — human-gated"
+
+      - name: Download curator payload
+        if: steps.id.outputs.actor == 'purpose-robot[bot]'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          path: curator
+          pattern: curator-*
+          merge-multiple: true
+          github-token: ${{ steps.app-token.outputs.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      - name: Gather PR facts + diff
+        if: steps.id.outputs.actor == 'purpose-robot[bot]'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          gh pr view "$PR" --repo "$REPO" --json labels,title,number,files \
+            --jq '{title,number,labels:[.labels[].name],files:[.files[].path]}' \
+            > curator/pr.json
+          # Concatenate whatever diffs flate rendered (one per matrix resource).
+          : > curator/diff.md
+          for f in curator/diff.*.md; do [ -e "$f" ] && cat "$f" >> curator/diff.md; done
+
+      # ---- Deterministic envelope: decide ELIGIBILITY before spending a token. ----
+      - name: Policy gate
+        id: policy
+        if: steps.id.outputs.actor == 'purpose-robot[bot]'
+        env:
+          FLATE_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          set -euo pipefail
+          labels="$(jq -r '.labels[]' curator/pr.json)"
+          files="$(jq -r '.files[]' curator/pr.json)"
+          reason=""; eligible=true
+
+          has() { grep -qx "$1" <<<"$labels"; }
+          touches() { grep -qE "$1" <<<"$files"; }
+
+          # Hard no-merge classes — recovery on this cluster is NOT cheap here.
+          if [ "$FLATE_CONCLUSION" != "success" ]; then
+            eligible=false; reason="flate did not succeed (possible broken graph)"
+          elif has "type/major"; then
+            eligible=false; reason="major version bump"
+          elif touches 'kubernetes/.*(rook-ceph|cnpg|network-?polic|gateway|cilium)'; then
+            eligible=false; reason="touches storage/db/CNI/network surface"
+          elif touches '\.(crd|rbac)\.|kind:\s*(ClusterRole|CustomResourceDefinition)'; then
+            eligible=false; reason="touches CRD/RBAC"
+          elif ! ( has "type/patch" || has "type/minor" || has "type/digest" ); then
+            eligible=false; reason="not a patch/minor/digest update"
+          fi
+
+          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
+          echo "reason=$reason" >> "$GITHUB_OUTPUT"
+
+      - name: Ineligible → needs-human
+        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ steps.id.outputs.sha }}
+          PR: ${{ steps.id.outputs.pr }}
+          REASON: ${{ steps.policy.outputs.reason }}
+        run: |
+          set -euo pipefail
+          /tmp/set-status.sh failure "needs human — ${REASON}"
+          gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
+          gh pr comment "$PR" --repo "$REPO" \
+            --body "🧑‍⚖️ Curator: **human review** — ${REASON}."
+
+      # ---- Semantic veto: only eligible PRs reach the model. ----
+      # Fail-closed: any failure here fails the step; the "verdict" step below only runs
+      # on success and only sets status=success for an explicit, validated safe verdict.
+      - name: Classify (LiteLLM gateway)
+        id: classify
+        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
+        env:
+          LITELLM_BASE_URL: ${{ vars.LITELLM_BASE_URL }}
+          LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
+          # Cloudflare Access service token — validated at the edge (Service Auth policy
+          # on litellm.mcf.io) BEFORE the request reaches LiteLLM. Independent of the
+          # LiteLLM key: two gates, either revocable/rotatable alone.
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          system="$(cat .github/curator/prompt.md)"
+          user="$(jq -n --rawfile pr curator/pr.json --rawfile diff curator/diff.md \
+            '{ pr: $pr, diff: $diff } | @json')"
+
+          req="$(jq -n --arg system "$system" --arg user "$user" '{
+            model: "curator-model",
+            temperature: 0,
+            messages: [
+              { role: "system", content: $system },
+              { role: "user",   content: $user }
+            ],
+            response_format: {
+              type: "json_schema",
+              json_schema: {
+                name: "verdict", strict: true,
+                schema: {
+                  type: "object", additionalProperties: false,
+                  required: ["verdict","rationale"],
+                  properties: {
+                    verdict: { type: "string", enum: ["safe","needs-human"] },
+                    rationale: { type: "string" }
+                  }
+                }
+              }
+            }
+          }')"
+
+          # NO `|| true`. Non-2xx / timeout / network error => step fails => fail-closed.
+          resp="$(curl -sS --fail-with-body --max-time 90 \
+            "${LITELLM_BASE_URL%/}/v1/chat/completions" \
+            -H "Authorization: Bearer ${LITELLM_API_KEY}" \
+            -H "CF-Access-Client-Id: ${CF_ACCESS_CLIENT_ID}" \
+            -H "CF-Access-Client-Secret: ${CF_ACCESS_CLIENT_SECRET}" \
+            -H "Content-Type: application/json" \
+            -d "$req")"
+
+          # Validate shape strictly. jq -e exits non-zero if content is absent or not
+          # schema-conformant JSON => step fails => fail-closed.
+          echo "$resp" | jq -e '
+            .choices[0].message.content
+            | fromjson
+            | select(.verdict and .rationale)
+            | select(.verdict == "safe" or .verdict == "needs-human")
+          ' > curator/verdict.json
+
+      # Runs ONLY if classify succeeded (a valid verdict was produced). Positive test on
+      # "safe"; anything else (incl. needs-human) => failure status.
+      - name: Apply verdict
+        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ steps.id.outputs.sha }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          v="$(jq -r '.verdict' curator/verdict.json)"
+          why="$(jq -r '.rationale' curator/verdict.json)"
+          if [ "$v" = "safe" ]; then
+            /tmp/set-status.sh success "safe — ${why}"
+            gh pr comment "$PR" --repo "$REPO" \
+              --body "🤖 Curator: **safe** — ${why} (auto-merge on green checks)."
+          else
+            /tmp/set-status.sh failure "needs human — ${why}"
+            gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
+            gh pr comment "$PR" --repo "$REPO" \
+              --body "🧑‍⚖️ Curator: **human review** — ${why}."
+          fi
+
+      # Fail-closed catch-all: if classify FAILED (curl/timeout/malformed), set failure
+      # so the required check is present-and-red rather than absent (which would just
+      # leave the PR pending forever with no signal).
+      - name: Fail-closed status
+        if: steps.id.outputs.actor == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome != 'success'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ steps.id.outputs.sha }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          /tmp/set-status.sh failure "classifier unavailable — awaiting human"
+          gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
+          gh pr comment "$PR" --repo "$REPO" \
+            --body "🧑‍⚖️ Curator: **human review** — classifier unavailable (fail-closed)."
