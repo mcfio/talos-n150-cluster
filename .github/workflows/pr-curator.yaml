@@ -46,6 +46,15 @@ jobs:
           permission-statuses: write
           permission-pull-requests: write
 
+      # Need the prompt (.github/curator/prompt.md) on disk for the classify step.
+      # Defaults to the workflow's own ref on the DEFAULT branch (main), NOT the PR
+      # branch — the workflow_run safety property: a PR cannot alter the judge.
+      - name: Checkout curator definition
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/curator
+
       # PR identity from the TRUSTED event, not the artifact (invariant #2).
       # workflow_run.pull_requests is populated for same-repo PRs (Renovate branches).
       - name: Resolve PR identity from event
