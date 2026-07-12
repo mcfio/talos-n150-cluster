@@ -16,13 +16,12 @@ Docs moved `talos.dev` → `docs.siderolabs.com` (2026). Old `www.talos.dev/v1.1
 
 Fallbacks when a page 404s or for version-exact truth:
 
-- `talosctl <cmd> --help` — authoritative for the **installed** binary (v1.13.5). Settled the
-  reset flags this session when web docs were unreachable.
+- `talosctl <cmd> --help` — authoritative for the **installed** binary (v1.13.5).
 - GitHub raw source (version-pinned):
   `raw.githubusercontent.com/siderolabs/talos/release-1.13/website/content/v1.13/<path>.md`
 - Behaviour the docs gloss over → read the Go source under
   `internal/app/machined/pkg/controllers/` via `gh api '.../contents/<path>?ref=release-1.13'`
-  (decode `.content` from base64). This is how the nodeTaints/NodeRestriction question got settled.
+  (decode `.content` from base64).
 
 ## Talos / Kubernetes gotchas (verified, not guessed)
 
@@ -83,6 +82,24 @@ barman-cloud.cloudnative-pg.io`. Plugin discovery itself is fine — it's **anno
   exposing no volume knobs. Confirm registration via the Cluster's `status.pluginStatus`. Omit
   `immediate`; take a one-off `kubectl cnpg backup` for the initial recovery point instead.
 
+## Git / PR workflow gotchas (verified, not guessed)
+
+- **PRs are squash-merged** (ruleset allows `squash`, `rebase`; squash is the practice).
+  A squashed PR lands on `main` as ONE new commit with a fresh SHA; a local branch still
+  descends from the pre-merge commit(s). Basing a follow-up on that local base → merge
+  CONFLICT (same file introduced by two unrelated commits). Always `git fetch` and branch
+  off `origin/main`; confirm merged content with `git show origin/main:<path>` first.
+- **Squash can silently drop later commits of a multi-commit branch** if the merge fires
+  against a branch state that predates the latest push. After every merge, re-verify each
+  intended change reached `main` (`git show origin/main:<path> | grep <marker>`) rather
+  than trusting a green PR. Prefer one-commit fix PRs.
+
+## Code comment style
+
+- Comments describe what the code does **now**, not its history. No "changed from X",
+  "was Y", decision-narrative, or "see PR #123". One line per step; design rationale and
+  history live in `docs/` or the plan file, not inline.
+
 ## Cilium / NetworkPolicy gotchas (verified, not guessed)
 
 - **`toFQDNs` for a short external host silently fails under the cluster's `ndots:5` +
@@ -93,14 +110,12 @@ barman-cloud.cloudnative-pg.io`. Plugin discovery itself is fine — it's **anno
   observes/caches the **expanded** name, and a policy selector `matchName:
 mcfaul.cloudflareaccess.com` (bare) never matches. The resolved IPs get no FQDN identity →
   default-deny drops the connect → `connect: connection timed out` (NOT a DNS error; the
-  lookup succeeds). This bit Forgejo's OIDC init (`configure-gitea` CrashLoopBackOff) the
-  moment its `toFQDNs` CNP landed. Fix: pin `ndots:2` on the pod via `dnsConfig` so the host
-  resolves as-is first and the proxy caches the bare name. `toEndpoints` (label) rules are
-  immune — they don't touch the DNS proxy, which is why same-ns Postgres kept working.
-  **Forward implication:** this is cluster-wide behaviour, not app-specific — ANY pod hitting
-  a short external hostname under a `toFQDNs` policy fails identically. The Phase 4 Actions
-  runner (egress to package/container registries) will hit this the instant it gets a
-  NetworkPolicy; give it the same `ndots:2` (or a `matchPattern` selector) from the start.
+  lookup succeeds). Fix: pin `ndots:2` on the pod via `dnsConfig` so
+  the host resolves as-is first and the proxy caches the bare name. `toEndpoints` (label) rules
+  are immune — they don't touch the DNS proxy. **Cluster-wide:** ANY pod hitting
+  a short external hostname under a `toFQDNs` policy fails identically. Give any such pod
+  (e.g. a CI runner with egress to package/container registries) the same `ndots:2` (or a
+  `matchPattern` selector) from the start.
 - **Diagnose `toFQDNs` drops from the agent, not by guessing.** On the pod's node:
   `cilium-dbg fqdn cache list` shows exactly which _names_ the DNS proxy cached (reveals the
   search-expansion) and which IPs each maps to; `cilium-dbg policy selectors list` shows
@@ -130,7 +145,7 @@ mcfaul.cloudflareaccess.com` (bare) never matches. The resolved IPs get no FQDN 
   **closed** ("could not evaluate → blocking for safety") whenever the classifier's own model call
   is down on the LiteLLM proxy — so verb-second style manufactures spurious denials. Write
   `kubectl get -n ns …`, `kubectl logs -n ns …`, `kubectl exec -n ns …` — namespace/flags AFTER
-  the verb. Same rule for any tool whose allow entry names a subcommand (`git`, `glab`, `helm`).
+  the verb. Same rule for any tool whose allow entry names a subcommand (`git`, `gh`, `helm`).
 - **Compound commands match per-subcommand.** Recognized separators: `&&`, `||`, `;`, `|`, `|&`,
   `&`, newline. Every subcommand must match an allow rule or the whole line hits the classifier —
   one uncovered token (`python3`, un-pinned `curl`) drags the entire compound in. `cd` into the
