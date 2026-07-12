@@ -123,11 +123,32 @@ jobs:
           printf '🧑‍⚖️ Curator: **left for you** — %s.\n\n_Not auto-merged; review at your leisure._\n' \
             "$REASON" > curator/comment.md
 
+      # Fingerprint = sha256(prompt + rendered diff). If it matches the marker in the
+      # existing curator comment, the model already judged this exact diff — skip the call.
+      - name: Fingerprint
+        id: fp
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          fp="$(cat .github/curator/prompt.md curator/diff.md | sha256sum | cut -d' ' -f1)"
+          prev="$(gh api "repos/$REPO/issues/$PR/comments" \
+            --jq '[.[].body | scan("curator-fp:([0-9a-f]{64})")[]] | last // empty' 2>/dev/null || true)"
+          echo "fp=$fp" >> "$GITHUB_OUTPUT"
+          if [ "$fp" = "$prev" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       # One LiteLLM call via Cloudflare Access. Any failure (network, non-2xx, or a
       # response that isn't a valid {verdict, rationale}) fails the step -> not auto-merged.
       - name: Classify (LiteLLM gateway)
         id: classify
-        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.fp.outputs.changed == 'true'
         env:
           LITELLM_BASE_URL: ${{ vars.LITELLM_BASE_URL }}
           LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
@@ -179,11 +200,12 @@ jobs:
 
       # safe -> enable auto-merge; needs-human -> label. Comment is upserted below.
       - name: Apply verdict
-        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome == 'success'
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.fp.outputs.changed == 'true' && steps.classify.outcome == 'success'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
           PR: ${{ steps.id.outputs.pr }}
+          FP: ${{ steps.fp.outputs.fp }}
         run: |
           set -euo pipefail
           v="$(jq -r '.verdict' curator/verdict.json)"
@@ -197,10 +219,12 @@ jobs:
             printf '🧑‍⚖️ Curator: **left for you** — %s\n\n_Not auto-merged; review at your leisure._\n' \
               "$why" > curator/comment.md
           fi
+          printf '\n<!-- curator-fp:%s -->\n' "$FP" >> curator/comment.md
 
-      # Classifier unavailable: leave for human, no auto-merge (fail-closed).
+      # Classifier unavailable: leave for human, no auto-merge (fail-closed). No fingerprint
+      # marker written, so the next run retries instead of treating the failure as final.
       - name: Leave for human (classifier unavailable)
-        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.classify.outcome != 'success'
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.fp.outputs.changed == 'true' && steps.classify.outcome != 'success'
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
           REPO: ${{ github.repository }}
