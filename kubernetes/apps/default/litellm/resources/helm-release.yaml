@@ -63,6 +63,7 @@ spec:
         - { model_name: claude-3-5-haiku-20241022, litellm_params: { model: github_copilot/gpt-4o-mini },       model_info: *z }
         - { model_name: claude-3-5-haiku-latest,   litellm_params: { model: github_copilot/gpt-4o-mini },       model_info: *z }
         - { model_name: claude-3-haiku-20240307,   litellm_params: { model: github_copilot/gpt-4o-mini },       model_info: *z }
+        - { model_name: curator-model,             litellm_params: { model: github_copilot/gpt-4o-mini },       model_info: *z }
 
       router_settings:
         default_fallbacks:
