@@ -75,6 +75,16 @@ No `|| true` on the curl or the parse. A broken pipeline leaves the PR for a hum
 it never auto-merges. `needs-human` is a NORMAL outcome (not auto-merged, review
 at leisure), NOT a failure — there is no red status check for it.
 
+## Comment voice
+
+The PR comment carries a Purpose Robot (Rick and Morty) persona — deadpan,
+existentially resigned to its single task. This lives entirely in the workflow's
+deterministic `printf` templates (`🧈`, "You pass butter." on `safe`, "This
+exceeds my purpose." on handoff, "Oh my god." on fail-closed), NOT in the model.
+The LLM `rationale` stays clinical; only the wrapper is in character. Persona is
+free and risk-free here because no model is involved — do not move it into the
+prompt.
+
 ## Trust / blast-radius model
 
 Two independent gates decide whether the privileged job acts, in order:

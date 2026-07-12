@@ -145,7 +145,7 @@ jobs:
         run: |
           set -euo pipefail
           gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
-          printf '🧑‍⚖️ Curator: **left for you** — %s.\n\n_Not auto-merged; review at your leisure._\n' \
+          printf '🧈 Curator: **left for you** — %s.\n\n_This exceeds my purpose. Not auto-merged; review at your leisure._\n' \
             "$REASON" > curator/comment.md
 
       # Fingerprint covers prompt + diff + full pr.json (incl. body) so any changelog
@@ -314,11 +314,11 @@ jobs:
           why="$(jq -r '.rationale' curator/verdict.json)"
           if [ "$v" = "safe" ]; then
             gh pr merge "$PR" --repo "$REPO" --squash --auto
-            printf '🤖 Curator: **safe** — %s\n\n_Auto-merge enabled; merges on green checks._\n' \
+            printf '🧈 Curator: **safe** — %s\n\n_Auto-merge enabled; merges on green checks. You pass butter._\n' \
               "$why" > curator/comment.md
           else
             gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
-            printf '🧑‍⚖️ Curator: **left for you** — %s\n\n_Not auto-merged; review at your leisure._\n' \
+            printf '🧈 Curator: **left for you** — %s\n\n_This exceeds my purpose. Not auto-merged; review at your leisure._\n' \
               "$why" > curator/comment.md
           fi
           printf '\n<!-- curator-fp:%s -->\n' "$FP" >> curator/comment.md
@@ -338,7 +338,7 @@ jobs:
         run: |
           set -euo pipefail
           gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
-          printf '🧑‍⚖️ Curator: **left for you** — pipeline unavailable.\n\n_Not auto-merged (fail-closed)._\n' \
+          printf '🧈 Curator: **left for you** — pipeline unavailable.\n\n_Oh my god. Not auto-merged (fail-closed)._\n' \
             > curator/comment.md
 
       # Upserts one curator-headed comment, replacing the prior one on re-runs.
