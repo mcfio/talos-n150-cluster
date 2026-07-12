@@ -1,0 +1,259 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: PR Curator
+# Classifies Renovate PRs and enables auto-merge on a "safe" verdict; leaves the rest
+# for a human. Design/rationale: .claude/plans/pr-curator-litellm.md
+on:
+  workflow_run:
+    workflows: [flate]
+    types: [completed]
+
+permissions:
+  contents: read
+
+jobs:
+  curate:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.event == 'pull_request'
+    steps:
+      - name: Generate Token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.BOT_APP_ID }}
+          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
+          # contents:write enables auto-merge; pull-requests:write for label + comment.
+          permission-contents: write
+          permission-pull-requests: write
+
+      # Puts .github/curator/prompt.md on disk (from main's ref, not the PR branch).
+      - name: Checkout curator definition
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/curator
+
+      # Resolve PR number and author. Scope is decided by the PR author, not
+      # workflow_run.actor (which is whoever triggered the latest run).
+      - name: Resolve PR identity + author
+        id: id
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          EVENT_PR: ${{ github.event.workflow_run.pull_requests[0].number }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          pr="$EVENT_PR"
+          if [ -z "$pr" ] || [ "$pr" = "null" ]; then
+            pr="$(gh api "repos/$REPO/commits/$HEAD_SHA/pulls" \
+              --jq '.[0].number // empty')"
+          fi
+          author="$(gh api "repos/$REPO/pulls/$pr" --jq '.user.login')"
+          {
+            echo "pr=$pr"
+            echo "author=$author"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Download curator payload
+        if: steps.id.outputs.author == 'purpose-robot[bot]'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: curator
+          pattern: curator-*
+          merge-multiple: true
+          github-token: ${{ steps.app-token.outputs.token }}
+          run-id: ${{ github.event.workflow_run.id }}
+
+      # PR metadata -> curator/pr.json; concatenated flate diffs -> curator/diff.md.
+      - name: Gather PR facts + diff
+        if: steps.id.outputs.author == 'purpose-robot[bot]'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          gh pr view "$PR" --repo "$REPO" --json labels,title,number,files \
+            --jq '{title,number,labels:[.labels[].name],files:[.files[].path]}' \
+            > curator/pr.json
+          : > curator/diff.md
+          for f in curator/diff.*.md; do [ -e "$f" ] && cat "$f" >> curator/diff.md; done
+
+      # Marks a PR ineligible (never reaches the model). Rules live in
+      # .github/curator/policy.yaml; first match wins. Order: flate -> labels -> paths
+      # -> eligible-type.
+      - name: Policy gate
+        id: policy
+        if: steps.id.outputs.author == 'purpose-robot[bot]'
+        env:
+          FLATE_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+        run: |
+          set -euo pipefail
+          pol=.github/curator/policy.yaml
+          labels="$(jq -r '.labels[]' curator/pr.json)"
+          files="$(jq -r '.files[]' curator/pr.json)"
+          reason=""; eligible=true
+
+          if [ "$FLATE_CONCLUSION" != "success" ]; then
+            eligible=false; reason="flate did not succeed (possible broken graph)"
+          fi
+
+          if [ "$eligible" = true ]; then
+            while IFS=$'\t' read -r lbl why; do
+              [ -z "$lbl" ] && continue
+              if grep -qx "$lbl" <<<"$labels"; then eligible=false; reason="$why"; break; fi
+            done < <(yq -r '.exclude_labels[] | .label + "\t" + .reason' "$pol")
+          fi
+
+          if [ "$eligible" = true ]; then
+            while IFS=$'\t' read -r rx why; do
+              [ -z "$rx" ] && continue
+              if grep -qE "$rx" <<<"$files"; then eligible=false; reason="$why"; break; fi
+            done < <(yq -r '.exclude_paths[] | .regex + "\t" + .reason' "$pol")
+          fi
+
+          if [ "$eligible" = true ]; then
+            elig_re="$(yq -r '.eligible_labels | join("|")' "$pol")"
+            if ! grep -qE "^(${elig_re})$" <<<"$labels"; then
+              eligible=false; reason="not an eligible update type"
+            fi
+          fi
+
+          echo "eligible=$eligible" >> "$GITHUB_OUTPUT"
+          echo "reason=$reason" >> "$GITHUB_OUTPUT"
+
+      - name: Leave for human (ineligible)
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible != 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+          REASON: ${{ steps.policy.outputs.reason }}
+        run: |
+          set -euo pipefail
+          gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
+          printf '🧑‍⚖️ Curator: **left for you** — %s.\n\n_Not auto-merged; review at your leisure._\n' \
+            "$REASON" > curator/comment.md
+
+      # Fingerprint = sha256(prompt + rendered diff). If it matches the marker in the
+      # existing curator comment, the model already judged this exact diff — skip the call.
+      - name: Fingerprint
+        id: fp
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          fp="$(cat .github/curator/prompt.md curator/diff.md | sha256sum | cut -d' ' -f1)"
+          prev="$(gh api "repos/$REPO/issues/$PR/comments" \
+            --jq '[.[].body | scan("curator-fp:([0-9a-f]{64})")[]] | last // empty' 2>/dev/null || true)"
+          echo "fp=$fp" >> "$GITHUB_OUTPUT"
+          if [ "$fp" = "$prev" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # One LiteLLM call via Cloudflare Access. Any failure (network, non-2xx, or a
+      # response that isn't a valid {verdict, rationale}) fails the step -> not auto-merged.
+      - name: Classify (LiteLLM gateway)
+        id: classify
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.fp.outputs.changed == 'true'
+        env:
+          LITELLM_BASE_URL: ${{ vars.LITELLM_BASE_URL }}
+          LITELLM_API_KEY: ${{ secrets.LITELLM_API_KEY }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}
+        run: |
+          set -euo pipefail
+          system="$(cat .github/curator/prompt.md)"
+          user="$(jq -n --rawfile pr curator/pr.json --rawfile diff curator/diff.md \
+            '{ pr: $pr, diff: $diff } | @json')"
+
+          req="$(jq -n --arg system "$system" --arg user "$user" '{
+            model: "curator-model",
+            temperature: 0,
+            messages: [
+              { role: "system", content: $system },
+              { role: "user",   content: $user }
+            ],
+            response_format: {
+              type: "json_schema",
+              json_schema: {
+                name: "verdict", strict: true,
+                schema: {
+                  type: "object", additionalProperties: false,
+                  required: ["verdict","rationale"],
+                  properties: {
+                    verdict: { type: "string", enum: ["safe","needs-human"] },
+                    rationale: { type: "string" }
+                  }
+                }
+              }
+            }
+          }')"
+
+          resp="$(curl -sS --fail-with-body --max-time 90 \
+            "${LITELLM_BASE_URL%/}/v1/chat/completions" \
+            -H "Authorization: Bearer ${LITELLM_API_KEY}" \
+            -H "CF-Access-Client-Id: ${CF_ACCESS_CLIENT_ID}" \
+            -H "CF-Access-Client-Secret: ${CF_ACCESS_CLIENT_SECRET}" \
+            -H "Content-Type: application/json" \
+            -d "$req")"
+
+          echo "$resp" | jq -e '
+            .choices[0].message.content
+            | fromjson
+            | select(.verdict and .rationale)
+            | select(.verdict == "safe" or .verdict == "needs-human")
+          ' > curator/verdict.json
+
+      # safe -> enable auto-merge; needs-human -> label. Comment is upserted below.
+      - name: Apply verdict
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.fp.outputs.changed == 'true' && steps.classify.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+          FP: ${{ steps.fp.outputs.fp }}
+        run: |
+          set -euo pipefail
+          v="$(jq -r '.verdict' curator/verdict.json)"
+          why="$(jq -r '.rationale' curator/verdict.json)"
+          if [ "$v" = "safe" ]; then
+            gh pr merge "$PR" --repo "$REPO" --squash --auto
+            printf '🤖 Curator: **safe** — %s\n\n_Auto-merge enabled; merges on green checks._\n' \
+              "$why" > curator/comment.md
+          else
+            gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
+            printf '🧑‍⚖️ Curator: **left for you** — %s\n\n_Not auto-merged; review at your leisure._\n' \
+              "$why" > curator/comment.md
+          fi
+          printf '\n<!-- curator-fp:%s -->\n' "$FP" >> curator/comment.md
+
+      # Classifier unavailable: leave for human, no auto-merge (fail-closed). No fingerprint
+      # marker written, so the next run retries instead of treating the failure as final.
+      - name: Leave for human (classifier unavailable)
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && steps.policy.outputs.eligible == 'true' && steps.fp.outputs.changed == 'true' && steps.classify.outcome != 'success'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
+          printf '🧑‍⚖️ Curator: **left for you** — classifier unavailable.\n\n_Not auto-merged (fail-closed)._\n' \
+            > curator/comment.md
+
+      # Upserts one curator-headed comment, replacing the prior one on re-runs.
+      - name: Upsert curator comment
+        if: steps.id.outputs.author == 'purpose-robot[bot]' && hashFiles('curator/comment.md') != ''
+        uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
+        with:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          number: ${{ steps.id.outputs.pr }}
+          header: curator
+          path: curator/comment.md

@@ -1,0 +1,28 @@
+---
+# PR Curator policy — deterministic auto-merge envelope.
+# Read by .github/workflows/pr-curator.yaml. Enforced in code, NOT by the LLM: anything
+# excluded here never reaches the model. First match wins; each rule carries the reason
+# shown on the PR. Order in the workflow: flate -> exclude_labels -> exclude_paths ->
+# eligible_labels.
+
+# grep -E patterns matched against changed file paths. Highest blast radius.
+exclude_paths:
+  - regex: ^talos/
+    reason: reboots/reinstalls nodes (Talos machineconfig)
+  - regex: kubernetes/apps/system-upgrade/
+    reason: reboots/reinstalls nodes (tuppr Talos/k8s upgrade)
+  - regex: kubernetes/.*(rook-ceph|cnpg)
+    reason: touches storage/database
+  - regex: kubernetes/.*(network-?polic|gateway|cilium)
+    reason: touches CNI/network surface
+  - regex: \.(crd|rbac)\.|kind:\s*(ClusterRole|CustomResourceDefinition)
+    reason: touches CRD/RBAC
+
+exclude_labels:
+  - label: type/major
+    reason: major version bump
+
+eligible_labels:
+  - type/patch
+  - type/minor
+  - type/digest

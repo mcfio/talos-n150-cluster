@@ -74,3 +74,24 @@ jobs:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           header: flate:${{ matrix.resource }}
           path: flate-body.md
+
+      # Curator input. Record the PR number + this resource's flate outcome so the
+      # downstream workflow_run can distinguish "clean diff" from "flate failed"
+      # (e.g. a dangling dependsOn renders non-zero — a hard no-merge, NOT no-change).
+      - name: Stage curator payload
+        if: steps.changed.outputs.any_changed == 'true'
+        run: |
+          mkdir -p curator
+          echo "${{ github.event.pull_request.number }}" > curator/pr-number
+          echo "${{ steps.changed.outputs.any_changed }}" > curator/changed
+          echo "${{ steps.diff.outputs.skip }}" > curator/skip.${{ matrix.resource }}
+          # flate-body.md is absent when skip=true; guard the copy.
+          cp flate-body.md "curator/diff.${{ matrix.resource }}.md" 2>/dev/null || true
+
+      - name: Upload curator payload
+        if: steps.changed.outputs.any_changed == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: curator-${{ matrix.resource }}
+          path: curator/
+          retention-days: 1
