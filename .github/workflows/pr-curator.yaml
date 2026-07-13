@@ -78,6 +78,8 @@ jobs:
 
       # PR metadata + full body -> curator/pr.json; flate diffs -> curator/diff.md.
       # Full body is kept for fingerprinting; the summarise step distills it for the model.
+      # A PR touching no kubernetes/** path uploads no curator artifact, so the dir is
+      # absent here — create it and carry on with an empty diff (changelog-driven verdict).
       - name: Gather PR facts + diff
         if: steps.id.outputs.is_bot == 'true'
         env:
@@ -86,6 +88,7 @@ jobs:
           PR: ${{ steps.id.outputs.pr }}
         run: |
           set -euo pipefail
+          mkdir -p curator
           gh pr view "$PR" --repo "$REPO" --json labels,title,number,files,body \
             --jq '{title,number,labels:[.labels[].name],files:[.files[].path],body}' \
             > curator/pr.json
