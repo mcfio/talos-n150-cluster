@@ -88,9 +88,10 @@ jobs:
           PR: ${{ steps.id.outputs.pr }}
         run: |
           set -euo pipefail
+          trap 'echo "::error::gather step failed at line $LINENO" >&2' ERR
           mkdir -p curator
-          # PR facts via the REST pull + files endpoints, which the app token reads even
-          # for PRs editing .github/workflows/**. REST names the path field `filename`.
+          # PR facts via the REST pull + files endpoints. REST names the changed-path
+          # field `filename`.
           pr="$(gh api "repos/$REPO/pulls/$PR")"
           files="$(gh api --paginate "repos/$REPO/pulls/$PR/files" --jq '.[].filename' \
             | jq -R . | jq -s 'map(select(length > 0))')"
@@ -98,8 +99,11 @@ jobs:
             '{title: $pr.title, number: $pr.number, labels: [$pr.labels[].name],
               files: $files, body: ($pr.body // "")}' \
             > curator/pr.json
+          # nullglob: an unmatched pattern expands to nothing, so the concat loop runs
+          # zero times instead of iterating once over the literal glob.
+          shopt -s nullglob
           : > curator/diff.md
-          for f in curator/diff.*.md; do [ -e "$f" ] && cat "$f" >> curator/diff.md; done
+          for f in curator/diff.*.md; do cat "$f" >> curator/diff.md; done
 
       # Marks a PR ineligible (never reaches the model). Rules live in
       # .github/curator/policy.yaml; first match wins. Order: flate -> labels -> paths
