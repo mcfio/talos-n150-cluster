@@ -89,8 +89,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p curator
-          gh pr view "$PR" --repo "$REPO" --json labels,title,number,files,body \
-            --jq '{title,number,labels:[.labels[].name],files:[.files[].path],body}' \
+          # PR facts via the REST pull + files endpoints, which the app token reads even
+          # for PRs editing .github/workflows/**. REST names the path field `filename`.
+          pr="$(gh api "repos/$REPO/pulls/$PR")"
+          files="$(gh api --paginate "repos/$REPO/pulls/$PR/files" --jq '.[].filename' \
+            | jq -R . | jq -s 'map(select(length > 0))')"
+          jq -n --argjson pr "$pr" --argjson files "$files" \
+            '{title: $pr.title, number: $pr.number, labels: [$pr.labels[].name],
+              files: $files, body: ($pr.body // "")}' \
             > curator/pr.json
           : > curator/diff.md
           for f in curator/diff.*.md; do [ -e "$f" ] && cat "$f" >> curator/diff.md; done
