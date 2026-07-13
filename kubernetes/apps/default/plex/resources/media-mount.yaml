@@ -12,8 +12,14 @@ spec:
     - ReadOnlyMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: ""
-  # Delta over /etc/nfsmount.conf only. Global conf still supplies defaults
+  # Client tuning for mergerfs-over-NFS: an *arr replacing a file drops the
+  # mergerfs node, so force a fresh LOOKUP per access instead of trusting a
+  # readdirplus batch — otherwise Plex holds a stale handle (ESTALE) until it
+  # is restarted. Delta over /etc/nfsmount.conf defaults.
   mountOptions:
+    - hard
+    - nordirplus
+    - lookupcache=none
     - actimeo=20
   nfs:
     server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
