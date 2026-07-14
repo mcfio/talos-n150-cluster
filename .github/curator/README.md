@@ -36,8 +36,13 @@ the highest-blast-radius decisions probabilistic.
 
 ## Pipeline (in order)
 
+Runs are serialised per PR via a `concurrency` group keyed on the PR number; a
+rapid re-push cancels the in-flight run rather than racing a second set of LLM
+calls and a duplicate merge/comment.
+
 1. **Resolve identity** — PR number from the `workflow_run` event; scope from the
    PR **author** (`gh api .../pulls/N` → `.user.login`), NOT `workflow_run.actor`.
+   The pull object is fetched once here and reused by Gather.
 2. **Gather** — PR metadata + full body → `pr.json`; flate diffs → `diff.md`.
 3. **Policy gate** — read `policy.yaml`, first match wins. Ineligible → leave for
    human, stop.
@@ -70,10 +75,10 @@ and `hk`+`flate` still gate the merge.
 
 The merge path fires ONLY on an explicit, schema-validated `verdict == "safe"`.
 Every other outcome — network error, timeout, non-2xx, malformed body, summariser
-failure, budget cap — routes to `needs-human`. Never branch on `!= "needs-human"`.
-No `|| true` on the curl or the parse. A broken pipeline leaves the PR for a human;
-it never auto-merges. `needs-human` is a NORMAL outcome (not auto-merged, review
-at leisure), NOT a failure — there is no red status check for it.
+failure, output-token truncation, budget cap — routes to `needs-human`. Never branch
+on `!= "needs-human"`. No `|| true` on the curl or the parse. A broken pipeline leaves
+the PR for a human; it never auto-merges. `needs-human` is a NORMAL outcome (not
+auto-merged, review at leisure), NOT a failure — there is no red status check for it.
 
 ## Comment voice
 
@@ -113,7 +118,8 @@ required checks. The load-bearing controls:
 
 - **LiteLLM** in-cluster (`kubernetes/apps/default/litellm/`). `curator-model`
   alias routes to the cheap tier (Copilot `gpt-4o-mini`). Same alias for both
-  summarise and classify.
+  summarise and classify. Both calls are bounded: `temperature: 0`,
+  `response_format`-pinned JSON, and a `max_tokens` cap (summarise 2048, classify 512) — a truncated response fails schema validation and routes to `needs-human`.
 - **External access:** second HTTPRoute `litellm.mcf.io` on the `external`
   gateway (internal route `litellm.milton.mcf.io` unchanged). Fronted by a
   Cloudflare Access **service token** (Service Auth policy) — machine-only.
