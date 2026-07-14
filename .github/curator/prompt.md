@@ -58,7 +58,9 @@ A grouped PR is **not inherently suspicious** — evaluate each member in
 ## Changelog evaluation
 
 Read `changelog.packages` for every package. The `flags` array is the authoritative
-signal — the summariser already analysed the changelog. Trust it.
+signal — where release notes exist the summariser has already analysed them; where the
+summary is `"No changelog available"` there was nothing to analyse. Trust the flags either
+way.
 
 - **`flags` is empty:** no concerning changes found. This is the expected state for
   a patch/minor bump. `summary` is explanatory context only — do NOT re-analyse it
@@ -78,11 +80,22 @@ Write `curator/verdict.json`:
 ```
 
 - `safe` — every package's diff matches its normal shape AND all `flags` arrays
-  are empty. The summariser has already cleared the changelogs.
+  are empty.
 - `needs-human` — any member has a non-empty flag, an unexpected diff shape, or
   you cannot explain the verdict in one concrete sentence.
   **When genuinely uncertain, choose `needs-human`.** A false "safe" is
   expensive; a false "needs-human" costs one glance from Nick.
+
+## Rationale phrasing
+
+The rationale is the only free text a human reads — it must match what actually
+happened per package, not a stock "changelog is clean" line:
+
+- **`summary` is "No changelog available":** say no changelog/release notes were
+  published (e.g. "no release notes published; routine digest/patch image bump").
+  Never claim a changelog was reviewed, cleared, or "indicates no concerning flags".
+- **Real summary present, `flags` empty:** you may say the changelog was reviewed
+  and is clean.
 
 ## Do not
 
@@ -90,6 +103,9 @@ Write `curator/verdict.json`:
   datasource frame to distinguish expected coupling from genuine extra scope.
 - Do not flag a grouped PR just because it has multiple members — evaluate each.
 - Do not flag missing changelogs for container images — they commonly have none.
+- Do not claim a changelog/release notes were reviewed, cleared, or "indicate no
+  concerning flags" when `summary` is "No changelog available" — say plainly that
+  none was published.
 - Do not run kubectl, touch the cluster, or re-render anything. Judge the diff.
 - Do not invent findings to seem thorough — `safe` is the correct answer for a
   clean patch/digest, and that is most PRs.
