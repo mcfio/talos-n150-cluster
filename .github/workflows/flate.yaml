@@ -61,10 +61,22 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          # GitHub caps a comment body at 65536 chars. A wide renovate batch can
+          # exceed that, so trim the diff to fit and link the full render.
+          run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          notice="> Diff truncated — it exceeds GitHub's 65536-char comment limit. Full render in the [workflow run](${run_url})."
+          # Reserve headroom for the code fence, the notice, and the sticky-comment marker.
+          max_raw=$(( 65536 - ${#notice} - 256 ))
+          if [[ $(wc -c < "$raw") -gt $max_raw ]]; then
+            head -c "$max_raw" "$raw" | sed '$d' > "$raw.trunc"
+            mv "$raw.trunc" "$raw"
+            truncated=true
+          fi
           {
             printf '```diff\n'
             cat "$raw"
             printf '\n```\n'
+            [[ "${truncated:-}" == "true" ]] && printf '\n%s\n' "$notice"
           } > flate-body.md
 
       - name: Upsert PR comment
