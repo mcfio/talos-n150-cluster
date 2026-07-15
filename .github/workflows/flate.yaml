@@ -76,7 +76,7 @@ jobs:
             printf '```diff\n'
             cat "$raw"
             printf '\n```\n'
-            [[ "${truncated:-}" == "true" ]] && printf '\n%s\n' "$notice"
+            if [[ "${truncated:-}" == "true" ]]; then printf '\n%s\n' "$notice"; fi
           } > flate-body.md
 
       - name: Upsert PR comment
