@@ -11,7 +11,7 @@ spec:
       - default
   endpoints:
     - port: http
-      path: /metrics
+      path: /metrics/
       honorLabels: true
   selector:
     matchLabels:
