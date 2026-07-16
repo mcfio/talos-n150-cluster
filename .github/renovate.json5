@@ -7,6 +7,8 @@
     "github>home-operations/renovate-presets#2.1.0",
     "group:allNonMajor",
   ],
+  // Drop the Age/Confidence PR columns — Merge Confidence never scores docker/OCI.
+  ignorePresets: ["mergeConfidence:age-confidence-badges"],
   customManagers: [
     // Scrypted pins a `ghcr.io/koush/scrypted:<semver>-noble-lite` tag; track the upstream
     // GitHub release and rewrite only the semver portion, preserving the `-noble-lite` suffix.
