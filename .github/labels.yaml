@@ -48,3 +48,8 @@
 - name: renovate/github-release
   color: ededed
   description: GitHub release dependency
+
+# --- PR Curator (see .github/workflows/pr-curator.yaml) ---
+- name: curator/needs-human
+  color: d93f0b
+  description: Curator left this PR for human review
