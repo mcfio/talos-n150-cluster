@@ -341,8 +341,6 @@ jobs:
               "$why" > curator/comment.md
           else
             gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
-            reviewers="$(yq -r '.reviewers // [] | join(",")' .github/curator/policy.yaml)"
-            [ -n "$reviewers" ] && gh pr edit "$PR" --repo "$REPO" --add-reviewer "$reviewers" || true
             printf '🧈 Curator: **left for you** — %s\n\n_This exceeds my purpose. Not auto-merged; review at your leisure._\n' \
               "$why" > curator/comment.md
           fi
@@ -365,6 +363,24 @@ jobs:
           gh pr edit "$PR" --repo "$REPO" --add-label "curator/needs-human" || true
           printf '🧈 Curator: **left for you** — pipeline unavailable.\n\n_Oh my god. Not auto-merged (fail-closed)._\n' \
             > curator/comment.md
+
+      # One place requests reviewers for every "left for you" outcome. All three human
+      # paths (policy-ineligible, needs-human verdict, pipeline-unavailable) set the
+      # curator/needs-human label — that label is the single trigger. Best-effort: an
+      # already-requested or unavailable reviewer never fails the run.
+      - name: Request reviewers (needs-human)
+        if: steps.id.outputs.is_bot == 'true'
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ steps.id.outputs.pr }}
+        run: |
+          set -euo pipefail
+          has_label="$(gh pr view "$PR" --repo "$REPO" --json labels \
+            --jq 'any(.labels[]; .name == "curator/needs-human")')"
+          [ "$has_label" = "true" ] || exit 0
+          reviewers="$(yq -r '.reviewers // [] | join(",")' .github/curator/policy.yaml)"
+          [ -n "$reviewers" ] && gh pr edit "$PR" --repo "$REPO" --add-reviewer "$reviewers" || true
 
       # Upserts one curator-headed comment, replacing the prior one on re-runs.
       - name: Upsert curator comment
