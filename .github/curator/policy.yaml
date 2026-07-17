@@ -26,3 +26,7 @@ eligible_labels:
   - type/patch
   - type/minor
   - type/digest
+
+# GitHub logins requested as reviewers when the classifier returns needs-human.
+reviewers:
+  - rkage
