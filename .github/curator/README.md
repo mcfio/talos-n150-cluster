@@ -92,17 +92,20 @@ prompt.
 
 ## Trust / blast-radius model
 
-Two independent gates decide whether the privileged job acts, in order:
+The real trust boundary is branch protection, not anything in this workflow. One
+job-level gate decides whether the privileged job runs at all:
 
-1. **Capability** (job-level `if`): `workflow_run.head_repository.fork == false`. A
-   fork-originated run never mints a token or runs a step — the branch must live in
-   this repo, which needs write access. This is the everyday fork-PR control.
-2. **Identity** (`is_bot`): the PR author's `.user.login` equals the login derived
-   from the token's own app (`<app-slug>[bot]`). Routes non-bot PRs to a human.
+- **Capability** (job-level `if`): `workflow_run.head_repository.fork == false`. A
+  fork-originated run never mints a token or runs a step — the branch must live in
+  this repo, which needs write access. This is the everyday fork-PR control.
 
-Neither is the real trust boundary — the author gate is a routing decision, and even
-if bypassed the worst case is auto-merge _enabled_ on a PR that still must pass the
-required checks. The load-bearing controls:
+The author check (`is_bot`) is NOT a security gate — it's a **routing filter**.
+Renovate runs under the same app that mints the curator token (`renovate.yaml`), so
+`is_bot` reduces to "did our own app raise this PR." Its only job is to scope the
+curator to Renovate's PRs and stay silent on yours — without it, every human
+`kubernetes/**` PR would collect a `needs-human` label, comment, and reviewer ping.
+Even if it were bypassed, the worst case is auto-merge _enabled_ on a PR that still
+must pass the required checks. The load-bearing controls:
 
 - Bot (`purpose-robot`) is REMOVED from the ruleset `bypass_actors`. Even a
   compromised token cannot merge anything failing `hk` + `flate`. "Enable
