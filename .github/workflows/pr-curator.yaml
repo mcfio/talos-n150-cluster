@@ -114,7 +114,7 @@ jobs:
           for f in curator/diff.*.md; do cat "$f" >> curator/diff.md; done
 
       # Marks a PR ineligible (never reaches the model). Rules live in
-      # .github/curator/policy.yaml; first match wins. Order: flate -> labels -> paths
+      # .github/curator/policy.yaml; first match wins. Order: flate -> labels -> rendered
       # -> eligible-type.
       - name: Policy gate
         id: policy
@@ -125,26 +125,26 @@ jobs:
           set -euo pipefail
           pol=.github/curator/policy.yaml
           labels="$(jq -r '.labels[]' curator/pr.json)"
-          files="$(jq -r '.files[]' curator/pr.json)"
           reason=""; eligible=true
+
+          # First matching rule in <key> wins and sets the ineligibility reason. <field> is
+          # the rule key to test (label|regex); <flags> pick exact (-qx) or regex (-qE) match.
+          exclude() {
+            [ "$eligible" = true ] || return 0
+            local key=$1 field=$2 flags=$3 haystack=$4 pat why
+            while IFS=$'\t' read -r pat why; do
+              [ -z "$pat" ] && continue
+              if grep "$flags" "$pat" <<<"$haystack"; then eligible=false; reason="$why"; return 0; fi
+            done < <(yq -r ".${key}[] | .${field} + \"\t\" + .reason" "$pol")
+          }
 
           if [ "$FLATE_CONCLUSION" != "success" ]; then
             eligible=false; reason="flate did not succeed (possible broken graph)"
           fi
 
-          if [ "$eligible" = true ]; then
-            while IFS=$'\t' read -r lbl why; do
-              [ -z "$lbl" ] && continue
-              if grep -qx "$lbl" <<<"$labels"; then eligible=false; reason="$why"; break; fi
-            done < <(yq -r '.exclude_labels[] | .label + "\t" + .reason' "$pol")
-          fi
-
-          if [ "$eligible" = true ]; then
-            while IFS=$'\t' read -r rx why; do
-              [ -z "$rx" ] && continue
-              if grep -qE "$rx" <<<"$files"; then eligible=false; reason="$why"; break; fi
-            done < <(yq -r '.exclude_paths[] | .regex + "\t" + .reason' "$pol")
-          fi
+          exclude exclude_labels   label -qx "$labels"
+          # The render is the source of truth; an empty diff.md matches nothing.
+          exclude exclude_rendered regex -qE "$(cat curator/diff.md 2>/dev/null || true)"
 
           if [ "$eligible" = true ]; then
             elig_re="$(yq -r '.eligible_labels | join("|")' "$pol")"
