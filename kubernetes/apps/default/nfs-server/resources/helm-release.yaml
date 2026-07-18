@@ -16,6 +16,7 @@ spec:
           media-config.ini: |
             never-forget-nodes=true
             inodecalc=path-hash
+            func.getattr=newest
             moveonenospc=true
             category.create=mfs
             func.mkdir=pfrd
