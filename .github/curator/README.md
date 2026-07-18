@@ -14,8 +14,8 @@ only acts on what Renovate did not.
 ## Two-layer design (the core principle)
 
 1. **Deterministic pre-gate (`policy.yaml`, enforced in the workflow).** Decides
-   eligibility from labels + changed paths + flate conclusion. Anything excluded
-   here NEVER reaches the model. This holds the real veto.
+   eligibility from labels + the rendered flate diff + flate conclusion. Anything
+   excluded here NEVER reaches the model. This holds the real veto.
 2. **LLM classifier (`prompt.md`, run via LiteLLM).** Only judges PRs the
    pre-gate already deemed eligible. It can veto (`needs-human`) but never
    promote — it cannot approve anything the pre-gate excluded.
@@ -26,13 +26,37 @@ are taken by deterministic workflow code.
 
 ## Why the pre-gate is non-negotiable
 
-The model cannot see blast radius that isn't in the diff. A Talos version bump
-(`v1.13.5 → v1.13.6`) renders as a trivial two-line version-string change but
-`powercycle`-reboots every node. Asked directly, the model calls it `safe` — the
-reboot implication isn't in the diff. `policy.yaml` excludes `^talos/` and
-`kubernetes/apps/system-upgrade/` so it never reaches the model. Same reasoning
-for storage/CNI/CRD/RBAC. **Do not move exclusions into the prompt** — that makes
-the highest-blast-radius decisions probabilistic.
+The model cannot see blast radius that isn't legible in the diff. A tuppr
+`TalosUpgrade` version bump (`v1.13.5 → v1.13.6`) renders as a trivial two-line
+version-string change but `powercycle`-reboots every node; asked directly, the model
+calls it `safe`. So the gate is deterministic and runs before the model. **Do not move
+exclusions into the prompt** — that makes the highest-blast-radius decisions probabilistic.
+
+## Gate on the render, not paths
+
+`policy.yaml`'s `exclude_rendered` greps the rendered `flate` diff (`curator/diff.md`) for
+dangerous kinds / API-groups — the `TalosUpgrade`/`KubernetesUpgrade` reboot CRs, RBAC,
+webhooks, storage (`ceph.rook.io`, `storage.k8s.io`), database (`cnpg.io`), and network
+(`gateway.networking.k8s.io`, NetworkPolicy, cilium). The render is the source of truth: a
+change reaches the cluster only if flate renders it, wherever the source path lives.
+Source-**path** rules were dropped — a chart bump changes one version string on disk while
+Flux re-renders its upstream templates, so the risky object surfaces in the render under a
+path no rule anticipated (the whack-a-mole). Concrete miss this catches: PR #3552
+(external-secrets `2.7.0 → 2.8.0`) rendered a `ClusterRole` change behind a one-line
+OCIRepository tag bump; a path gate saw nothing. Over-matching is the safe direction — a
+false `needs-human` costs one glance.
+
+`talos/` is covered without a path rule: a Renovate Talos/k8s bump edits the
+`TalosUpgrade`/`KubernetesUpgrade` CR (which renders and is matched above), and the
+`talos/` machineconfig itself is `mise`/`talosctl`-driven — never a Renovate PR, so it
+can't reach this gate.
+
+The one accepted gap is **CRDs**: flate's `--skip-crds` default strips
+`CustomResourceDefinition` objects from the render — kustomize- and Helm-sourced alike
+since flate #182 — so a CRD change is invisible here. A recoverable gap (a bad CRD is a Git
+revert); closing it means `--skip-crds=false`, which floods every human-facing flate
+comment with OpenAPI schemas and risks truncating the curator's own `diff.md`. Not worth it
+for recoverable risk.
 
 ## Pipeline (in order)
 

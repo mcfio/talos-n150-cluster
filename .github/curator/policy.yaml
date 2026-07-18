@@ -2,21 +2,33 @@
 # PR Curator policy — deterministic auto-merge envelope.
 # Read by .github/workflows/pr-curator.yaml. Enforced in code, NOT by the LLM: anything
 # excluded here never reaches the model. First match wins; each rule carries the reason
-# shown on the PR. Order in the workflow: flate -> exclude_labels -> exclude_paths ->
+# shown on the PR. Order in the workflow: flate -> exclude_labels -> exclude_rendered ->
 # eligible_labels.
 
-# grep -E patterns matched against changed file paths. Highest blast radius.
-exclude_paths:
-  - regex: ^talos/
-    reason: reboots/reinstalls nodes (Talos machineconfig)
-  - regex: kubernetes/apps/system-upgrade/
-    reason: reboots/reinstalls nodes (tuppr Talos/k8s upgrade)
-  - regex: kubernetes/.*(rook-ceph|cnpg)
-    reason: touches storage/database
-  - regex: kubernetes/.*(network-?polic|gateway|cilium)
-    reason: touches CNI/network surface
-  - regex: \.(crd|rbac)\.|kind:\s*(ClusterRole|CustomResourceDefinition)
-    reason: touches CRD/RBAC
+# grep -E patterns matched against the RENDERED flate diff (curator/diff.md), not source
+# paths. The render is the source of truth — a change reaches the cluster only if flate
+# renders it, wherever the source lives — so we gate on the rendered kind/API-group, not
+# paths a chart can relocate (the whack-a-mole). flate annotates each hunk
+# `# <group>/<version>/<Kind>/<name>`. One accepted gap: CRDs. flate --skip-crds (default
+# true) strips them from the render, kustomize- and Helm-sourced alike (flate #182), so a
+# CRD change is invisible here — recoverable (Git revert), not worth flooding every diff
+# with OpenAPI schemas. (talos/ never renders either, but it's mise/talosctl-driven, never
+# a bot PR — and a Renovate Talos bump hits the TalosUpgrade CR below, so it's covered.)
+exclude_rendered:
+  - regex: /(Talos|Kubernetes)Upgrade/
+    reason: reboots/reinstalls nodes (tuppr Talos/k8s upgrade CR)
+  - regex: ceph\.rook\.io
+    reason: touches storage (rook-ceph)
+  - regex: cnpg\.io
+    reason: touches database (cnpg)
+  - regex: rbac\.authorization\.k8s\.io
+    reason: renders an RBAC (Cluster)Role/binding change
+  - regex: admissionregistration\.k8s\.io
+    reason: renders an admission-webhook change
+  - regex: storage\.k8s\.io|/PersistentVolumeClaim/
+    reason: renders storage surface
+  - regex: gateway\.networking\.k8s\.io|/NetworkPolicy/|cilium\.io
+    reason: renders network/ingress surface
 
 exclude_labels:
   - label: type/major
