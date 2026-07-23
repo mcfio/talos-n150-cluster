@@ -1,7 +1,7 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [tools]
-hk = "1.52.0"
+hk = "1.53.0"
 yamllint = "1.38.0"
 oxfmt = "0.60.0"
 pinact = "4.1.0"
