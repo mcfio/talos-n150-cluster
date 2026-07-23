@@ -63,7 +63,7 @@ machine:
       shutdownGracePeriod: 60s
       allowedUnsafeSysctls:
       - net.ipv6.conf.net1.accept_ra_rt_info_max_plen # Accept max plen for ipv6 thread border router advertisements
-    image: ghcr.io/siderolabs/kubelet:v1.36.2
+    image: ghcr.io/siderolabs/kubelet:v1.36.3
     nodeIP:
       validSubnets:
       - 192.168.45.0/24
@@ -102,7 +102,7 @@ cluster:
   token: op://mcfio/talos-n150-cluster/cluster/token
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.36.2
+    image: registry.k8s.io/kube-proxy:v1.36.3
   {% if is_controlplane -%}
   aggregatorCA:
     crt: op://mcfio/talos-n150-cluster/cluster/aggregator_ca_crt
@@ -111,7 +111,7 @@ cluster:
     key: op://mcfio/talos-n150-cluster/cluster/service_account_key
   secretboxEncryptionSecret: op://mcfio/talos-n150-cluster/cluster/secretbox_encryption_secret
   apiServer:
-    image: registry.k8s.io/kube-apiserver:v1.36.2
+    image: registry.k8s.io/kube-apiserver:v1.36.3
     extraArgs:
       enable-aggregator-routing: "true"
     certSANs:
@@ -124,9 +124,9 @@ cluster:
   controllerManager:
     extraArgs:
       bind-address: 0.0.0.0
-    image: registry.k8s.io/kube-controller-manager:v1.36.2
+    image: registry.k8s.io/kube-controller-manager:v1.36.3
   scheduler:
-    image: registry.k8s.io/kube-scheduler:v1.36.2
+    image: registry.k8s.io/kube-scheduler:v1.36.3
     extraArgs:
       bind-address: 0.0.0.0
     config:
