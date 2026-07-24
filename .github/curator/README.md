@@ -144,7 +144,7 @@ must pass the required checks. The load-bearing controls:
 ## Infrastructure
 
 - **LiteLLM** in-cluster (`kubernetes/apps/default/litellm/`). `curator-model`
-  alias routes to the cheap tier (Copilot `gpt-4o-mini`). Same alias for both
+  alias routes to the cheap tier (Copilot `claude-haiku-4.5`). Same alias for both
   summarise and classify. Both calls are bounded: `temperature: 0`,
   `response_format`-pinned JSON, and a `max_tokens` cap (summarise 2048, classify 512) — a truncated response fails schema validation and routes to `needs-human`.
 - **External access:** second HTTPRoute `litellm.mcf.io` on the `external`
