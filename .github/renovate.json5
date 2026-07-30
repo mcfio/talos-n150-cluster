@@ -4,7 +4,7 @@
     // home-operations/renovate-presets@2.1.0 — bundles base config, managers
     // (incl. `annotated` for `# renovate:`-commented inline pins), overrides,
     // policies, and versioning. See default.json for the full list.
-    "github>home-operations/renovate-presets#2.2.0",
+    "github>home-operations/renovate-presets#3.0.0",
     "group:allNonMajor",
   ],
   // Drop the Age/Confidence PR columns — Merge Confidence never scores docker/OCI.
