@@ -7,3 +7,4 @@ resources:
   - ./bgp-peer-config.yaml
   - ./bgp-cluster-config.yaml
   - ./load-balancer-ip-pool.yaml
+  - ./service.yaml
