@@ -260,7 +260,7 @@ jobs:
 
           echo "$resp" | jq -e '
             .choices[0].message.content
-            | gsub("^```json\\s*";"") | gsub("```\\s*$";"")
+            | (capture("```json\\s*(?<j>.*?)\\s*```"; "m").j // .)
             | fromjson
             | select(.packages | type == "array")
           ' > curator/changelog-summary.json
@@ -317,7 +317,7 @@ jobs:
 
           echo "$resp" | jq -e '
             .choices[0].message.content
-            | gsub("^```json\\s*";"") | gsub("```\\s*$";"")
+            | (capture("```json\\s*(?<j>.*?)\\s*```"; "m").j // .)
             | fromjson
             | select(.verdict and .rationale)
             | select(.verdict == "safe" or .verdict == "needs-human")
