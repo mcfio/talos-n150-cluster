@@ -4,8 +4,11 @@
     // home-operations/renovate-presets@2.1.0 — bundles base config, managers
     // (incl. `annotated` for `# renovate:`-commented inline pins), overrides,
     // policies, and versioning. See default.json for the full list.
-    "github>home-operations/renovate-presets#5.0.0",
+    "github>home-operations/renovate-presets#6.0.0",
+    "github>home-operations/renovate-presets//apps/grafanaDashboards.json5#6.0.0",
+    "github>home-operations/renovate-presets//apps/talosFactory.json5#6.0.0",
     "group:allNonMajor",
+    ":timezone(Canada/Eastern)",
   ],
   // Drop the Age/Confidence PR columns — Merge Confidence never scores docker/OCI.
   ignorePresets: ["mergeConfidence:age-confidence-badges"],
