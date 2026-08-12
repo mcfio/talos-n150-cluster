@@ -6,7 +6,6 @@ metadata:
   name: &appname zwave
 spec:
   dependsOn:
-    - name: mosquitto
     - name: external-secrets
       namespace: external-secrets
     - name: volsync

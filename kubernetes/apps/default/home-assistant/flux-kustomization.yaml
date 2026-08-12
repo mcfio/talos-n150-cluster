@@ -6,8 +6,6 @@ metadata:
   name: &appname home-assistant
   namespace: default
 spec:
-  dependsOn:
-    - name: mosquitto
   interval: 12h
   path: ./kubernetes/apps/default/home-assistant/resources
   prune: true

@@ -22,7 +22,6 @@ resources:
   - ./tautulli/flux-kustomization.yaml
   - ./recyclarr/flux-kustomization.yaml
   - ./seerr/flux-kustomization.yaml
-  - ./mosquitto/flux-kustomization.yaml
   - ./home-assistant/flux-kustomization.yaml
   - ./matter-server/flux-kustomization.yaml
   - ./scrypted/flux-kustomization.yaml
