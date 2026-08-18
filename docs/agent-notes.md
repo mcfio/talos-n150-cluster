@@ -5,8 +5,8 @@ investigation time. Each entry is something that was confirmed against source/bi
 guessed. Prune session trivia; keep only what stays true.
 
 - Talos machine-config gotchas (taints vs labels, selective reset, volume configs, scheduler
-  weights) live in `talos/CLAUDE.md` — also relevant to `kubernetes/apps/*` manifests that
-  select these nodes, not just to editing Talos config itself.
+  weights, and the 1.14 multi-document conversion) live in `talos/CLAUDE.md` — also relevant to
+  `kubernetes/apps/*` manifests that select these nodes, not just to editing Talos config itself.
 
 ## Nushell / mise task gotchas (verified against nu 0.115.0 and mise, not guessed)
 
@@ -101,6 +101,15 @@ quoted strings can be enclosed in unescaped {{ }}s`. Template substitution MUST 
 - **`talosctl machineconfig patch --patch` is a repeatable `stringArray`** accepting `@file` or an
   inline YAML string, applied in order, and an inline patch MAY be multi-document — that's how the
   control-plane overlay adds `Layer2VIPConfig` without a temp file. Verified on talosctl v1.13.8.
+- **`overlay` is a nu parser keyword and cannot name a command.** `def overlay [...]` fails at parse
+  time with ``Can't use parser keyword `overlay` as command name`` — an error that points at the
+  definition, not at the keyword list. `talos.nu`'s is `type-overlay`.
+- **A `let` binding cannot live inside a parenthesised expression.** `(let x = …; …)` raises
+  `nu::parser::variable_not_found` at the _use_ site, which reads like a scoping bug. Split it into
+  statement-level bindings.
+- **Only the layer files go through `op inject`; `talos/nodes/*.yaml` do not.** `render` hands node
+  patches to `talosctl` as `@file`, so an `op://` reference in a node file reaches Talos verbatim.
+  Anything needing a secret belongs in `cluster.yaml`, `controlplane.yaml` or `worker.yaml`.
 - Nushell is pre-1.0 on a ~4–8 week cadence and minor releases routinely break scripts (0.98 exit
   codes, 0.105 cell-path case sensitivity, 0.113.1 YAML quoting, 0.114 `--` parsing). It's on
   Homebrew, unpinned, by choice — `aqua:nushell/nushell` resolves in mise if that ever bites.
