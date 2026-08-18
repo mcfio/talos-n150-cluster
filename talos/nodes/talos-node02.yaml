@@ -1,9 +1,12 @@
 ---
 machine:
   type: controlplane
-  install:
-    diskSelector:
-      type: nvme
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
