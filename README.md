@@ -10,7 +10,7 @@ Through this journey I've ended up with the following tool stack:
 - **GitOps and CD**: [Flux](https://fluxcd.io) with multiple Kustomization roots, leveraging `dependsOn` and health checks for upgrade ordering and recovery.
 - **Package Management and Overlays**: [Helm](https://www.helm.sh) and [Kustomize](https://kustomize.io).
 - **Dependency Management and CI**: [Renovate](https://www.mend.io/renovate/) for automated dependency bumps and [GitHub Actions](https://docs.github.com/actions) for PR validation.
-- **Toolchain**: [mise](https://mise.jdx.dev) (monorepo config under `.mise/config.toml` + `kubernetes/.mise.toml` + `talos/.mise.toml`), [hk](https://hk.jdx.dev) for pre-commit and [flate](https://github.com/home-operations/flate) for offline GitOps diff in CI.
+- **Toolchain**: [mise](https://mise.jdx.dev) (monorepo config under `.mise/config.toml` + `kubernetes/.mise.toml` + `talos/.mise.toml`), [hk](https://hk.jdx.dev) for pre-commit and [flate](https://github.com/home-operations/flate) for offline GitOps diff in CI. Talos node management runs on [Nushell](https://www.nushell.sh) (`talos/talos.nu`), with the mise tasks as argument shims.
 
 This isn't a turnkey "production cluster" or "enterprise-at-home" template — it's my actual home cluster and pretty boring (intentionally), with all the inconsistencies that come from evolving a real system. Read it for ideas, not prescription.
 
@@ -52,9 +52,11 @@ kubernetes/
 ├── components/                     # shared kustomize components included by multiple apps
 └── flux/config/                    # the bootstrap-source Flux reconciles from
 talos/
-├── machineconfig.yaml.j2           # templated node config
+├── cluster.yaml                    # base machine config, every node
+├── controlplane.yaml               # control-plane overlay, patched over the base
 ├── nodes/                          # per-node overrides
-└── schematics/                     # Talos image schematics
+├── schematic.yaml                  # Talos image schematic
+└── talos.nu                        # node management commands, driven by mise tasks
 ```
 
 `kubernetes/apps/<namespace>/kustomization.yaml` is the per-namespace release manifest — comment out an app to disable it without deleting files.
