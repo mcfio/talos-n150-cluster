@@ -1,118 +1,91 @@
-# mise/shell scripts to help the management of talos machines.
+# mise tasks for Talos node management. The logic lives in talos.nu; these are argument shims.
 #
+[tools]
+talosctl = "1.13.9"
+
+[tasks.nodes]
+description = "Show declared nodes against live cluster state"
+alias = "tn"
+quiet = true
+shell = "nu --no-config-file -c"
+run = 'use {{ config_root }}/talos.nu; talos nodes'
+
 [tasks.render-config]
 description = "Render the machine config for a node"
 alias = "trc"
 quiet = true
+shell = "nu --no-config-file -c"
 usage = '''
 arg "<node>"
+complete "node" run="mise run //talos:node-names"
 '''
-run = '''
-mise run //talos:template ${usage_node} | \
-  talosctl machineconfig patch /dev/stdin \
-  --patch @{{ config_root }}/nodes/${usage_node}.yaml
+run = 'use {{ config_root }}/talos.nu; talos show $env.usage_node'
+
+[tasks.node-names]
+hide = true
+quiet = true
+shell = "nu --no-config-file -c"
+run = 'use {{ config_root }}/talos.nu; talos node-names | to text'
+
+[tasks.validate]
+description = "Validate every node's rendered machine config offline"
+alias = "tv"
+quiet = true
+shell = "nu --no-config-file -c"
+run = 'use {{ config_root }}/talos.nu; talos validate'
+
+[tasks.diff]
+description = "Diff rendered configs against what the nodes are running (all nodes by default)"
+alias = "td"
+quiet = true
+shell = "nu --no-config-file -c"
+usage = '''
+arg "[node]"
+complete "node" run="mise run //talos:node-names"
 '''
+run = 'use {{ config_root }}/talos.nu; talos diff ...($env.usage_node? | default "" | split row " " | where {|n| $n != "" })'
 
 [tasks.apply-config]
 description = "Apply the rendered machine config to a node."
 alias = "tac"
 quiet = true
+shell = "nu --no-config-file -c"
 usage = '''
 arg "<node>"
-complete "node" run="mise run //kubernetes:get_nodes"
+complete "node" run="mise run //talos:node-names"
 arg "[args]" var=#true
 '''
 run = '''
-CONFIG=$(mise run //talos:render-config ${usage_node})
-echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${usage_args[@]:-} --dry-run || exit 0
-gum confirm "Apply above config to node ${usage_node}?" --default=No || exit 0
-echo "${CONFIG}" | talosctl apply-config --nodes ${usage_node} --file /dev/stdin ${usage_args[@]:-}
+use {{ config_root }}/talos.nu
+talos apply $env.usage_node ...($env.usage_args? | default "" | split row " " | where {|arg| $arg != "" })
 '''
 
 [tasks.upgrade-k8s]
 quiet = true
+shell = "nu --no-config-file -c"
 usage = '''
 arg "<version>"
 '''
-run = "talosctl upgrade-k8s --nodes $(talosctl config info -o yaml | yq -e '.endpoints[0]') --to ${usage_version}"
+run = 'use {{ config_root }}/talos.nu; talos upgrade-k8s $env.usage_version'
 
 [tasks.download-image]
 description = "Download Talos machine image"
 quiet = true
+shell = "nu --no-config-file -c"
 usage = '''
 arg "<version>"
 '''
-run = '''
-SCHEMATIC="$(mise //talos:gen-schematic-id)"
-gum spin --title "Downloading Talos ${usage_version} ..." -- \
-curl --silent --fail --location --remove-on-error --retry 5 --retry-delay 5 --retry-all-errors \
-  --output "{{ config_root }}/talos-${usage_version}-${SCHEMATIC:0:8}-metal-amd64.iso" \
-  "https://factory.talos.dev/image/${SCHEMATIC}/${usage_version}/metal-amd64.iso"
-'''
+run = 'use {{ config_root }}/talos.nu; talos download-image $env.usage_version'
 
 [tasks.lifecycle]
 description = "Perform lifecycle actions on a node"
 quiet = true
+shell = "nu --no-config-file -c"
 usage = '''
 arg "<action>" {
   choices "upgrade" "reboot" "reset" "shutdown"
 }
 arg "<node>"
-complete "node" run="mise //kubernetes:get_nodes"
+complete "node" run="mise run //talos:node-names"
 '''
-run = '''
-case "${usage_action}" in
-  upgrade)
-    gum confirm "Upgrade node ${usage_node} with image $(mise //talos:machine-image ${usage_node})?" --default=No && \
-      talosctl upgrade --nodes ${usage_node} --image "$(mise //talos:machine-image ${usage_node})" --reboot-mode powercycle --timeout=10m || exit 0
-    ;;
-  reboot)
-    gum confirm "Reboot node ${usage_node}?" --default=No && \
-      talosctl reboot --nodes ${usage_node} --mode powercycle || exit 0
-    ;;
-  reset)
-    gum confirm "Reset node ${usage_node}?" --default=No && \
-      talosctl reset --nodes ${usage_node} --graceful=false || exit 0
-    ;;
-  shutdown)
-    gum confirm "Shutdown node ${usage_node}?" --default=No && \
-      talosctl shutdown --nodes ${usage_node} --force || exit 0
-    ;;
-esac
-'''
-
-# Utility tasks that are used to render machine configs and extract information from node definitions, but aren't meant to be used directly by the user.
-#
-[tasks.template]
-hide = true
-quiet = true
-usage = '''
-arg "<node>"
-'''
-run = '''
-minijinja-cli {{ config_root }}/machineconfig.yaml.j2 \
-  --define "is_controlplane:=$(mise run //talos:is_controlplane ${usage_node})" \
-  --define "schematic_id:=$(mise run //talos:gen-schematic-id)" \
-  | op inject
-'''
-
-[tasks.is_controlplane]
-hide = true
-quiet = true
-usage = '''
-arg "<node>"
-'''
-run = "yq -r -e 'select(.machine) | (.machine.type == \"controlplane\") // \"false\"' {{ config_root }}/nodes/${usage_node}.yaml"
-
-[tasks.machine-image]
-hide = true
-quiet = true
-usage = '''
-arg "<node>"
-'''
-run = "mise run //talos:render-config ${usage_node} | yq 'select(.machine) | .machine.install.image'"
-
-[tasks.gen-schematic-id]
-hide = true
-quiet = true
-run = "curl --silent --request POST --data-binary \"@{{ config_root }}/schematic.yaml\" \"https://factory.talos.dev/schematics\" | jq --raw-output '.id'"
+run = 'use {{ config_root }}/talos.nu; talos lifecycle $env.usage_action $env.usage_node'
