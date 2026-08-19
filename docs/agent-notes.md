@@ -5,8 +5,8 @@ investigation time. Each entry is something that was confirmed against source/bi
 guessed. Prune session trivia; keep only what stays true.
 
 - Talos machine-config gotchas (taints vs labels, selective reset, volume configs, scheduler
-  weights) live in `talos/CLAUDE.md` — also relevant to `kubernetes/apps/*` manifests that
-  select these nodes, not just to editing Talos config itself.
+  weights, and the 1.14 multi-document conversion) live in `talos/CLAUDE.md` — also relevant to
+  `kubernetes/apps/*` manifests that select these nodes, not just to editing Talos config itself.
 
 ## Nushell / mise task gotchas (verified against nu 0.115.0 and mise, not guessed)
 
@@ -101,6 +101,21 @@ quoted strings can be enclosed in unescaped {{ }}s`. Template substitution MUST 
 - **`talosctl machineconfig patch --patch` is a repeatable `stringArray`** accepting `@file` or an
   inline YAML string, applied in order, and an inline patch MAY be multi-document — that's how the
   control-plane overlay adds `Layer2VIPConfig` without a temp file. Verified on talosctl v1.13.8.
+- **The talosctl pin decides which config schema renders at all.** A client one minor behind the
+  config fails as `error decoding document v1alpha1/<Kind>/ (line N): "<Kind>" "v1alpha1": not
+registered`, which reads as a malformed document and sends you to the YAML rather than to
+  `talos/.mise.toml`. `mise ls-remote talosctl` hides prereleases, but an exact pin still resolves
+  through aqua, so a branch carrying a next-version config can pin its own rc client
+  (`talosctl = "1.14.0-rc.1"`) while `main` stays on the released one.
+- **`overlay` is a nu parser keyword and cannot name a command.** `def overlay [...]` fails at parse
+  time with ``Can't use parser keyword `overlay` as command name`` — an error that points at the
+  definition, not at the keyword list. `talos.nu`'s is `type-overlay`.
+- **A `let` binding cannot live inside a parenthesised expression.** `(let x = …; …)` raises
+  `nu::parser::variable_not_found` at the _use_ site, which reads like a scoping bug. Split it into
+  statement-level bindings.
+- **Only the layer files go through `op inject`; `talos/nodes/*.yaml` do not.** `render` hands node
+  patches to `talosctl` as `@file`, so an `op://` reference in a node file reaches Talos verbatim.
+  Anything needing a secret belongs in `cluster.yaml`, `controlplane.yaml` or `worker.yaml`.
 - Nushell is pre-1.0 on a ~4–8 week cadence and minor releases routinely break scripts (0.98 exit
   codes, 0.105 cell-path case sensitivity, 0.113.1 YAML quoting, 0.114 `--` parsing). It's on
   Homebrew, unpinned, by choice — `aqua:nushell/nushell` resolves in mise if that ever bites.
@@ -150,3 +165,17 @@ found"`. A health-gated CRD Kustomization that IS wired correctly renders fine o
   `&`, newline. Every subcommand must match an allow rule or the whole line hits the classifier —
   one uncovered token (`python3`, un-pinned `curl`) drags the entire compound in. `cd` into the
   workdir is built-in read-only, but `cd && git …` always prompts regardless of target.
+
+## Shell hand-off (verified by breaking it)
+
+- **fish collapses `\\` to `\` inside single quotes; zsh does not.** A command validated in the Bash
+  tool (zsh) and then handed to the operator's fish shell is a different command. `awk '{printf
+"%s\\n", $0}'` prints a literal `\n` under zsh and a real newline under fish. Downstream, fish
+  command substitution splits that newline into separate elements and `printf` recycles its format
+  string over the surplus arguments — so a PEM certificate came back with the format's own literal
+  text spliced in where each newline belonged, and 1Password stored it. Silent corruption, no error
+  anywhere until `talosctl validate` said `no PEM blocks found`. Build the escape without a
+  backslash in the source (`python3 -c '… .replace(chr(10), chr(92)+"n")'`), pin the result to one
+  element with `| string collect`, and concatenate with `string join -- ''` — the `--` is required
+  because a PEM value starts with `-----` and is otherwise parsed as an option. Test in fish, not
+  in the Bash tool.

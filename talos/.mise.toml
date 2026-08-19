@@ -1,7 +1,7 @@
 # mise tasks for Talos node management. The logic lives in talos.nu; these are argument shims.
 #
 [tools]
-talosctl = "1.13.9"
+talosctl = "1.14.0-rc.1"
 
 [tasks.nodes]
 description = "Show declared nodes against live cluster state"
