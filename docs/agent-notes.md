@@ -101,6 +101,12 @@ quoted strings can be enclosed in unescaped {{ }}s`. Template substitution MUST 
 - **`talosctl machineconfig patch --patch` is a repeatable `stringArray`** accepting `@file` or an
   inline YAML string, applied in order, and an inline patch MAY be multi-document — that's how the
   control-plane overlay adds `Layer2VIPConfig` without a temp file. Verified on talosctl v1.13.8.
+- **The talosctl pin decides which config schema renders at all.** A client one minor behind the
+  config fails as `error decoding document v1alpha1/<Kind>/ (line N): "<Kind>" "v1alpha1": not
+registered`, which reads as a malformed document and sends you to the YAML rather than to
+  `talos/.mise.toml`. `mise ls-remote talosctl` hides prereleases, but an exact pin still resolves
+  through aqua, so a branch carrying a next-version config can pin its own rc client
+  (`talosctl = "1.14.0-rc.1"`) while `main` stays on the released one.
 - **`overlay` is a nu parser keyword and cannot name a command.** `def overlay [...]` fails at parse
   time with ``Can't use parser keyword `overlay` as command name`` — an error that points at the
   definition, not at the keyword list. `talos.nu`'s is `type-overlay`.
@@ -159,3 +165,17 @@ found"`. A health-gated CRD Kustomization that IS wired correctly renders fine o
   `&`, newline. Every subcommand must match an allow rule or the whole line hits the classifier —
   one uncovered token (`python3`, un-pinned `curl`) drags the entire compound in. `cd` into the
   workdir is built-in read-only, but `cd && git …` always prompts regardless of target.
+
+## Shell hand-off (verified by breaking it)
+
+- **fish collapses `\\` to `\` inside single quotes; zsh does not.** A command validated in the Bash
+  tool (zsh) and then handed to the operator's fish shell is a different command. `awk '{printf
+"%s\\n", $0}'` prints a literal `\n` under zsh and a real newline under fish. Downstream, fish
+  command substitution splits that newline into separate elements and `printf` recycles its format
+  string over the surplus arguments — so a PEM certificate came back with the format's own literal
+  text spliced in where each newline belonged, and 1Password stored it. Silent corruption, no error
+  anywhere until `talosctl validate` said `no PEM blocks found`. Build the escape without a
+  backslash in the source (`python3 -c '… .replace(chr(10), chr(92)+"n")'`), pin the result to one
+  element with `| string collect`, and concatenate with `string join -- ''` — the `--` is required
+  because a PEM value starts with `-----` and is otherwise parsed as an option. Test in fish, not
+  in the Bash tool.
