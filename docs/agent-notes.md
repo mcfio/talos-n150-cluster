@@ -118,6 +118,35 @@ found"`. A health-gated CRD Kustomization that IS wired correctly renders fine o
 - CNPG-specific gotchas (Kustomization naming, health-check phase literals, ScheduledBackup
   plugin race) live in `kubernetes/apps/cnpg-system/CLAUDE.md`.
 
+## Rook-ceph / RBD trash gotchas (verified, not guessed)
+
+- **`rook-ceph-mgr` logging `[errno 39] RBD image has snapshots (error deleting image from
+trash)` on repeat is expected steady-state noise, not a leak — do not "fix" it by purging
+  snapshots or forcing trash removal.** Root cause: `kubernetes/components/volsync/pvc.yaml`
+  provisions every app's live PVC via `dataSourceRef: {kind: ReplicationDestination}` against
+  the permanent `${app}-restore-once` object in `replication-destination.yaml` (`trigger.manual:
+restore-once` is a hardcoded string, so it fires once and never again). CSI populates the PVC
+  as a **clone** of that restore snapshot and it is never flattened — a deliberate, permanent
+  parent→child pin for the life of the PVC. When an old generation of that chain later gets
+  trashed (PVC recreated, app rebuilt, etc.), Ceph correctly refuses to purge it because a live
+  descendant still depends on it. Traced end-to-end on `home-assistant`: its live PVC image
+  (`csi-vol-8ebfe5cb...`, created 2025-07-03) is still a clone of a snapshot on an image trashed
+  the same day — over a year old, by design.
+- The theoretically-correct remediation is `rbd flatten` (online-safe, `deep-flatten` is already
+  in the storage class's `imageFeatures`) run against every live app PVC image to sever the
+  parent link and let the mgr's own trash-purge succeed. Deliberately **not done** — full-copy
+  I/O across every live app's data for zero functional benefit beyond quieter mgr logs. Revisit
+  only if the trash backlog itself becomes a real problem (e.g. capacity pressure), not for log
+  noise alone.
+- Don't try to reach a trashed image's snapshots through `rbd snap purge --image-id`/`snap ls
+--image-id` expecting it to behave like the named-image form — snapshots blocked by a live
+  clone get moved into the RBD **TRASH snapshot-namespace type** (distinct from RBD pool
+  namespaces), invisible to plain `snap ls` (needs `-a/--all`) and not reachable by name via
+  `snap unprotect --snap <name>` (ENOENT) even though `snap rm --snap-id <id>` finds them (and
+  then correctly refuses with "protected from removal" if a live child exists — `--force` isn't
+  even accepted together with `--snap-id`). If ancestry ever needs to be cut, `rbd flatten` on
+  the live child is the sanctioned path, not snapshot surgery on the trashed parent.
+
 ## Git / PR workflow gotchas (verified, not guessed)
 
 - **PRs are squash-merged** (ruleset allows `squash`, `rebase`; squash is the practice).
