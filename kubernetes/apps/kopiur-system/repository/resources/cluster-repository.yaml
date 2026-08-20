@@ -1,0 +1,30 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kopiur.home-operations.com/clusterrepository_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: ClusterRepository
+metadata:
+  name: archive
+spec:
+  # Shared by every app namespace today, same as the single physical repo VolSync
+  # already writes into - no reason to fragment into per-namespace Repository objects.
+  allowedNamespaces:
+    all: true
+  backend:
+    filesystem:
+      # VERIFY before first apply: this must resolve to the SAME on-disk directory
+      # VolSync/kopia already use (NFS 10.46.100.100:/archive/kopia, i.e. the "kopia"
+      # subdirectory of the /archive export - not the export root). Confirm the
+      # path/volume.nfs.path split against `kubectl explain clusterrepository.spec.backend.filesystem
+      # --recursive` before pointing this at production data: getting this wrong either
+      # points at an empty directory (loses "true adoption") or, worse, a sibling path.
+      path: /repo
+      volume:
+        nfs:
+          server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
+          path: /archive/kopia
+  encryption:
+    passwordSecretRef:
+      name: kopiur-repository
+      key: KOPIA_PASSWORD
+  create:
+    enabled: false # adopting the existing repository, never reinitialize it

@@ -35,7 +35,7 @@ Recognizing constraints is an important step in sustainable design and as such d
 - **OS:** Talos Linux on bare metal, declared via templated machine configs in `talos/`.
 - **Hardware:** GMKtec G3+ mini PCs (Intel N150, 32GB RAM), NVMe drives partitioned for etcd + Ceph fast pool.
 - **Networking:** Cilium for CNI, Envoy Gateway for north-south ingress.
-- **Storage:** Rook-Ceph for block, OpenEBS for local volumes, VolSync for backup orchestration. mergerfs+nfs-server for bulk media on a single node.
+- **Storage:** Rook-Ceph for block, OpenEBS for local volumes, kopiur for backup orchestration (migrating from VolSync). mergerfs+nfs-server for bulk media on a single node.
 - **Databases:** CloudNativePG for Postgres workloads.
 - **Secrets:** External Secrets Operator pulling from an external store.
 - **Certificates:** cert-manager with external-dns wiring DNS challenges.

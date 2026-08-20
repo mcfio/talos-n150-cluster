@@ -40,6 +40,30 @@ flux -n volsync-system ${usage_state} helmrelease volsync
 kubectl --namespace volsync-system scale deployment volsync --replicas ${replicas:-0}
 '''
 
+[tasks.kopiur-snapshot]
+description = "Trigger an out-of-band snapshot for every kopiur SnapshotPolicy via the kubectl-kopiur plugin."
+quiet = true
+run = '''
+kubectl get snapshotpolicies --no-headers --all-namespaces | while read -r namespace name _; do
+  kubectl kopiur snapshot now --namespace "${namespace}" "${name}"
+done
+'''
+
+[tasks.kopiur]
+description = "Suspend or resume kopiur by scaling the deployment and suspending/resuming the Kustomization and HelmRelease."
+quiet = true
+usage = '''
+arg "<state>" {
+  choices "suspend" "resume"
+}
+'''
+run = '''
+[[ "${usage_state}" == "resume" ]]; replicas=1
+flux -n kopiur-system ${usage_state} kustomization kopiur
+flux -n kopiur-system ${usage_state} helmrelease kopiur
+kubectl --namespace kopiur-system scale deployment kopiur --replicas ${replicas:-0}
+'''
+
 [tasks.sync-es]
 description = "Trigger reconciliation of ExternalSecrets by updating the force-sync annotation with the current timestamp."
 quiet = true
