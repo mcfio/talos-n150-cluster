@@ -1,0 +1,19 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kopiur.home-operations.com/restore_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Restore
+metadata:
+  name: ${app}
+spec:
+  source:
+    fromPolicy:
+      name: ${app}
+      offset: 0 # latest snapshot
+  # Passive populator mode: no target at provision time - the PVC below claims this
+  # Restore via its own dataSourceRef.
+  target:
+    populator: {}
+  policy:
+    # Empty-volume bootstrap on first-ever apply (no prior snapshot yet), same as
+    # VolSync's restore-once pattern today.
+    onMissingSnapshot: Continue

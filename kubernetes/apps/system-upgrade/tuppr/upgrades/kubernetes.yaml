@@ -13,6 +13,11 @@ spec:
       kind: ReplicationSource
       expr: |-
         status.conditions.filter(c, c.type == "Synchronizing").all(c, c.status == "False")
+    # Verify status.phase against the live CRD before trusting this gate in a real upgrade.
+    - apiVersion: kopiur.home-operations.com/v1alpha1
+      kind: Snapshot
+      expr: |-
+        status.phase != 'Running'
     - apiVersion: ceph.rook.io/v1
       kind: CephCluster
       expr: |-

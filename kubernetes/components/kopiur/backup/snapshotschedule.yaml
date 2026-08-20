@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kopiur.home-operations.com/snapshotschedule_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: SnapshotSchedule
+metadata:
+  name: ${app}
+spec:
+  policyRef:
+    name: ${app}
+  schedule:
+    cron: 0 */8 * * *
+    jitter: ${volume_jitter:=5m}
+    # GitOps-friendly: don't fire a backup the moment the Kustomization first applies.
+    runOnCreate: false
