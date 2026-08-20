@@ -26,6 +26,23 @@ spec:
           - name: internal
             namespace: ingress-system
     cephClusterSpec:
+      # rotation due to CVE-2025-30156 an authentication bypass in CephX implementation
+      security:
+        cephx:
+          daemon:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+          csi:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+            # this remains until kernel 7.0+
+            keepPriorKeyCountMax: 1
+            keyType: aes
+          rbdMirrorPeer:
+            keyRotationPolicy: KeyGeneration
+            keyGeneration: 2
+            # this remains until kernel 7.0+
+            keyType: aes
       cephConfig:
         global:
           bdev_enable_discard: "true"
@@ -46,24 +63,12 @@ spec:
             enabled: true
           - name: pg_autoscaler
             enabled: true
-          - name: rook
-            enabled: true
           - name: diskprediction_local
             enabled: true
       network:
         provider: host
         connections:
           requireMsgr2: true
-      placement:
-        all:
-          nodeAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              nodeSelectorTerms:
-                - matchExpressions:
-                    - key: kubernetes.io/arch
-                      operator: NotIn
-                      values:
-                        - arm64
       resources:
         mgr:
           requests:
@@ -111,14 +116,22 @@ spec:
           mountOptions:
             - discard
           parameters:
+            compression_algorithm: zstd
+            compression_mode: aggressive
             imageFormat: "2"
             imageFeatures: layering,fast-diff,object-map,deep-flatten,exclusive-lock
             csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/provisioner-secret-namespace: "{{ .Release.Namespace }}"
             csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
             csi.storage.k8s.io/controller-expand-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-publish-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-publish-secret-namespace: "{{ .Release.Namespace }}"
             csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
             csi.storage.k8s.io/node-stage-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/controller-modify-secret-name: rook-csi-rbd-provisioner
+            csi.storage.k8s.io/controller-modify-secret-namespace: "{{ .Release.Namespace }}"
+            csi.storage.k8s.io/node-publish-secret-name: rook-csi-rbd-node
+            csi.storage.k8s.io/node-publish-secret-namespace: "{{ .Release.Namespace }}"
             csi.storage.k8s.io/fstype: ext4
     cephBlockPoolsVolumeSnapshotClass:
       enabled: true
