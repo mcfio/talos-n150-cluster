@@ -49,7 +49,6 @@ spec:
           bdev_async_discard_threads: "1"
           osd_class_update_on_start: "false"
           mon_warn_on_pool_no_redundancy: "false"
-          device_failure_prediction_mode: local
       crashCollector:
         disable: false
       dashboard:
@@ -59,11 +58,9 @@ spec:
         prometheusEndpoint: http://prometheus-operated.monitoring:9090
       mgr:
         modules:
-          - name: insights
-            enabled: true
+          - name: rook
+            enabled: false
           - name: pg_autoscaler
-            enabled: true
-          - name: diskprediction_local
             enabled: true
       network:
         provider: host
