@@ -11,6 +11,7 @@ components:
   - ../../components/kopiur/secret
 resources:
   - ./namespace.yaml
+  - ./kopiur-repository/flux-kustomization.yaml
   - ./sonarr/flux-kustomization.yaml
   - ./radarr/flux-kustomization.yaml
   - ./listenarr/flux-kustomization.yaml

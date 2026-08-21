@@ -5,8 +5,6 @@ kind: Kustomization
 namespace: kopiur-system
 components:
   - ../../components/alerts
-  - ../../components/kopiur/secret
 resources:
   - ./namespace.yaml
   - ./kopiur/flux-kustomization.yaml
-  - ./repository/flux-kustomization.yaml
