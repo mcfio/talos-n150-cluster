@@ -6,7 +6,6 @@ metadata:
   name: ${app}
 spec:
   repository:
-    kind: ClusterRepository
     name: archive
   # Pins the existing snapshot identity so kopiur continues the adopted history.
   identity:

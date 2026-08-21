@@ -10,7 +10,7 @@ spec:
     - name: kopiur
       namespace: kopiur-system
     - name: kopiur-repository
-      namespace: kopiur-system
+      namespace: default
   interval: 12h
   path: ./kubernetes/apps/default/plex/resources
   prune: true
