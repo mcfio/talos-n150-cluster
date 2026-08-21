@@ -23,8 +23,7 @@ spec:
   upload:
     maxParallelFileReads: ${volume_parallelism:=2}
   retention:
-    keepHourly: 24
-    keepDaily: 7
+    keepLatest: 45 # ~2 weeks at the current 3-snapshots/day schedule
   mover:
     # zwave runs privileged as root with no pinned UID; the session-secret file is root-only.
     podSecurityContext:
