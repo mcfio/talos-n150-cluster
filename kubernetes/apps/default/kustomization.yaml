@@ -7,6 +7,10 @@ components:
   - ../../components/alerts
   - ../../components/app-template
   - ../../components/gpu
+  # kopiur mover Jobs run in this namespace and read repo credentials via envFrom,
+  # which is namespace-local - the ClusterRepository's secret must exist here too,
+  # not just in kopiur-system.
+  - ../../components/kopiur/secret
 resources:
   - ./namespace.yaml
   - ./sonarr/flux-kustomization.yaml
