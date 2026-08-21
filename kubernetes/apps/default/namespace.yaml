@@ -5,3 +5,6 @@ metadata:
   name: not-used
   annotations:
     kustomize.toolkit.fluxcd.io/prune: disabled
+    # zwave's SnapshotPolicy needs a root mover (inheritSecurityContextFrom.pvcConsumer
+    # picks up its privileged, uid-0 pod) — kopiur gates that per namespace.
+    kopiur.home-operations.com/privileged-movers: "true"
