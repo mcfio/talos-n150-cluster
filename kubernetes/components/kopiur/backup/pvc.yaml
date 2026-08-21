@@ -4,10 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: ${volume_name:=${app}}
 spec:
-  # No dataSourceRef: every app migrating here already has a live, bound PVC, and
-  # dataSourceRef is immutable after creation - the field is only consulted the one
-  # time a PVC is first provisioned. The Restore CR below still exists for on-demand
-  # `kubectl kopiur restore`, it's just not wired through the populator for adoption.
+  # No dataSourceRef: every app here already has a live, bound PVC.
   accessModes:
     - ${volume_accessmodes:=ReadWriteOnce}
   resources:
