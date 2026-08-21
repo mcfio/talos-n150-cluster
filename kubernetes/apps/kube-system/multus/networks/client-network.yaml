@@ -23,6 +23,12 @@ spec:
         },
         {
           "type": "sbr"
+        },
+        {
+          "type": "tuning",
+          "sysctl": {
+            "net.ipv6.conf.IFNAME.accept_ra_rt_info_max_plen": "64"
+          }
         }
       ]
     }
