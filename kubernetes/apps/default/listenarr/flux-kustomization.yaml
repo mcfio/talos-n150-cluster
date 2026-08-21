@@ -7,6 +7,10 @@ metadata:
 spec:
   dependsOn:
     - name: nfs-server
+    - name: kopiur
+      namespace: kopiur-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 12h
   path: ./kubernetes/apps/default/listenarr/resources
   prune: true
@@ -18,7 +22,7 @@ spec:
   wait: false
   components:
     - ../../../../components/nfs-scaler
-    - ../../../../components/volsync
+    - ../../../../components/kopiur/backup
   postBuild:
     substitute:
       app: *appname
