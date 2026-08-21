@@ -149,6 +149,19 @@ located from a browse session`. Fix: pin `namespace: kopiur-system` (or wherever
   around by job history still counts. `kubectl delete pvc` hangs in `Terminating` with no events;
   `kubectl delete job <the-old-job>` (which owns the pod) unblocks it immediately. Verified during
   a real restore-round-trip test on `recyclarr` (a CronJob-backed app).
+- **`mover.inheritSecurityContextFrom.pvcConsumer` copies the whole `PodSecurityContext`, not just
+  UID/GID.** Confirmed against a live cluster: `matter-server`'s mover Job pod inherited the
+  workload's pod-level `sysctls` entry (`net.ipv6.conf.net1.accept_ra_rt_info_max_plen`, meant for
+  its Multus macvlan `net1` interface) even though the mover pod itself carries no Multus network
+  annotation and never gets a `net1` at all. Every mover run then failed sandbox creation
+  permanently (`FailedCreatePodSandBox`, runc reporting the missing-interface sysctl write as
+  `"unsafe procfs detected"` rather than a plain ENOENT — a hardened-procfs-openat2 message shape,
+  not a permissions issue). Any app-level pod sysctl that targets a secondary-CNI interface will
+  break that app's kopiur backups this way. Fix: never put interface-scoped sysctls on
+  `defaultPodOptions.securityContext.sysctls` for a pod with a Multus attachment — put them on the
+  `NetworkAttachmentDefinition` instead, via a `tuning` CNI meta-plugin stage chained after the
+  interface-creating plugin (e.g. `macvlan` → `sbr` → `tuning`). The `tuning` plugin binary ships in
+  the same `cni-plugins` bundle already providing `sbr`.
 
 ## Git / PR workflow gotchas (verified, not guessed)
 
