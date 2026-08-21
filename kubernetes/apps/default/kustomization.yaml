@@ -7,6 +7,8 @@ components:
   - ../../components/alerts
   - ../../components/app-template
   - ../../components/gpu
+  # kopiur mover Jobs run per-namespace and read credentials via envFrom, which is namespace-local.
+  - ../../components/kopiur/secret
 resources:
   - ./namespace.yaml
   - ./sonarr/flux-kustomization.yaml
