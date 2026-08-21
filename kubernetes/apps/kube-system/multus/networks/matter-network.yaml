@@ -2,12 +2,12 @@
 apiVersion: k8s.cni.cncf.io/v1
 kind: NetworkAttachmentDefinition
 metadata:
-  name: client-network
+  name: matter-network
 spec:
   config: |-
     {
       "cniVersion": "0.3.1",
-      "name": "client-network",
+      "name": "matter-network",
       "plugins": [
         {
           "type": "macvlan",
@@ -23,6 +23,12 @@ spec:
         },
         {
           "type": "sbr"
+        },
+        {
+          "type": "tuning",
+          "sysctl": {
+            "net.ipv6.conf.IFNAME.accept_ra_rt_info_max_plen": "64"
+          }
         }
       ]
     }
