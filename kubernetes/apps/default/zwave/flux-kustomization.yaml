@@ -21,8 +21,7 @@ spec:
     namespace: flux-system
   targetNamespace: default
   wait: false
-  # zwave doesn't use the shared kopiur/backup component: it needs a custom
-  # SnapshotPolicy mover securityContext (see resources/snapshotpolicy.yaml).
+  # zwave needs a custom SnapshotPolicy mover securityContext, so it skips kopiur/backup.
   postBuild:
     substitute:
       app: *appname

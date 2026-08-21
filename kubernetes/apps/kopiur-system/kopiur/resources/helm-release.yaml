@@ -10,6 +10,4 @@ spec:
     kind: OCIRepository
     name: kopiur
   values:
-    # cluster scope is required for a single shared ClusterRepository (namespaced
-    # scope cannot reconcile ClusterRepository at all).
-    installScope: cluster
+    installScope: cluster # required to reconcile a cluster-scoped ClusterRepository

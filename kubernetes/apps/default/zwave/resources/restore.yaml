@@ -9,11 +9,7 @@ spec:
     fromPolicy:
       name: ${app}
       offset: 0 # latest snapshot
-  # Passive populator mode: no target at provision time - the PVC below claims this
-  # Restore via its own dataSourceRef.
   target:
-    populator: {}
+    populator: {} # passive: the PVC claims this via its own dataSourceRef
   policy:
-    # Empty-volume bootstrap on first-ever apply (no prior snapshot yet), same as
-    # VolSync's restore-once pattern today.
-    onMissingSnapshot: Continue
+    onMissingSnapshot: Continue # empty-volume bootstrap on first apply

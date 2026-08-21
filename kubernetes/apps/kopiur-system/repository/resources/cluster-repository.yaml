@@ -5,18 +5,10 @@ kind: ClusterRepository
 metadata:
   name: archive
 spec:
-  # Shared by every app namespace today, same as the single physical repo VolSync
-  # already writes into - no reason to fragment into per-namespace Repository objects.
   allowedNamespaces:
-    all: true
+    all: true # single physical repo, shared by every app namespace, same as VolSync today
   backend:
     filesystem:
-      # VERIFY before first apply: this must resolve to the SAME on-disk directory
-      # VolSync/kopia already use (NFS 10.46.100.100:/archive/kopia, i.e. the "kopia"
-      # subdirectory of the /archive export - not the export root). Confirm the
-      # path/volume.nfs.path split against `kubectl explain clusterrepository.spec.backend.filesystem
-      # --recursive` before pointing this at production data: getting this wrong either
-      # points at an empty directory (loses "true adoption") or, worse, a sibling path.
       path: /repo
       volume:
         nfs:
