@@ -18,5 +18,6 @@ spec:
     passwordSecretRef:
       name: kopiur-repository
       key: KOPIA_PASSWORD
+      namespace: kopiur-system # required explicitly for browse sessions to resolve it
   create:
     enabled: false # adopting the existing repository, never reinitialize it

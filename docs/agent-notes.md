@@ -117,6 +117,38 @@ found"`. A health-gated CRD Kustomization that IS wired correctly renders fine o
   that appears only on your branch means a real broken dep name, not flate choking on the gate.
 - CNPG-specific gotchas (Kustomization naming, health-check phase literals, ScheduledBackup
   plugin race) live in `kubernetes/apps/cnpg-system/CLAUDE.md`.
+- **`flate build ks cluster-apps` does not render per-app resources.** `cluster-apps` targets
+  `./kubernetes/apps` as a plain Kustomize composition — its output is the Flux `Kustomization`
+  _objects themselves_ (each app's `flux-kustomization.yaml`), not the contents of what those
+  objects point to. Validating a per-app resource change (e.g. a `SnapshotPolicy` field) against
+  `cluster-apps` shows zero matches even when the change is correct. Use the app's own named
+  Kustomization instead — `flate build ks recyclarr`, `flate build ks zwave` — which resolves that
+  app's `./resources` path plus its components and shows the real rendered output.
+
+## kopiur backup/restore gotchas (verified against source and a live restore test, not guessed)
+
+- **`Restore` objects with `target.pvcRef`/`target.pvc` ("direct" targets) are one-shot and
+  destructive by default — never commit one to Git as a standing manifest.** Confirmed by reading
+  the reconciler (`crates/controller/src/restore/{mod,plan}.rs`, kopiur tag `7c8dd3f`): once a
+  direct-target `Restore` reaches `Completed`, that phase is terminal — it never re-checks the PVC
+  or reruns, even on a `spec` change. It also never inspects whether the target PVC already has
+  data: kopia's `overwriteFiles`/`overwriteDirectories`/`overwriteSymlinks` all default `true`, so
+  pointing `pvcRef` at a live, populated PVC overwrites it unconditionally. Only `target.populator`
+  treats `Completed` as non-terminal and gates on the PVC being unclaimed. The correct DR runbook:
+  after a corrupted/deleted PVC is recreated empty (by Flux), run
+  `kubectl kopiur restore --from-policy <app> --to-pvc <app> --wait` by hand — this creates an
+  ephemeral, uniquely-named `Restore` object, never applied through Git.
+- **`kubectl kopiur ls`/`cat`/`browse`/`download` need the `ClusterRepository`'s
+  `encryption.passwordSecretRef.namespace` set explicitly**, even though the operator itself
+  resolves an absent namespace fine (defaults to its own namespace via `KOPIUR_NAMESPACE`). Absent
+  namespace errors with `references credential Secret "..." without a namespace, so it cannot be
+located from a browse session`. Fix: pin `namespace: kopiur-system` (or wherever the operator
+  runs) on the `ClusterRepository`'s `passwordSecretRef`.
+- **A completed CronJob-owned Pod still blocks PVC deletion.** The `kubernetes.io/pvc-protection`
+  finalizer waits for every Pod whose spec references the PVC to be gone — a `Succeeded` pod kept
+  around by job history still counts. `kubectl delete pvc` hangs in `Terminating` with no events;
+  `kubectl delete job <the-old-job>` (which owns the pod) unblocks it immediately. Verified during
+  a real restore-round-trip test on `recyclarr` (a CronJob-backed app).
 
 ## Git / PR workflow gotchas (verified, not guessed)
 
