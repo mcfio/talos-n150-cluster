@@ -6,9 +6,11 @@ metadata:
   name: &appname plex
 spec:
   dependsOn:
-    - name: volsync
-      namespace: volsync-system
     - name: nfs-server
+    - name: kopiur
+      namespace: kopiur-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 12h
   path: ./kubernetes/apps/default/plex/resources
   prune: true
@@ -19,7 +21,7 @@ spec:
   targetNamespace: default
   wait: false
   components:
-    - ../../../../components/volsync
+    - ../../../../components/kopiur/backup
     - ../../../../components/nfs-scaler
   postBuild:
     substitute:

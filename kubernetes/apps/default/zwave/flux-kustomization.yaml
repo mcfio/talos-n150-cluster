@@ -8,8 +8,10 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: volsync
-      namespace: volsync-system
+    - name: kopiur
+      namespace: kopiur-system
+    - name: kopiur-repository
+      namespace: kopiur-system
   interval: 12h
   path: ./kubernetes/apps/default/zwave/resources
   prune: true
@@ -19,8 +21,8 @@ spec:
     namespace: flux-system
   targetNamespace: default
   wait: false
-  components:
-    - ../../../../components/volsync
+  # zwave doesn't use the shared kopiur/backup component: it needs a custom
+  # SnapshotPolicy mover securityContext (see resources/snapshotpolicy.yaml).
   postBuild:
     substitute:
       app: *appname

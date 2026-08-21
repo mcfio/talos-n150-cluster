@@ -28,8 +28,10 @@ spec:
     keepHourly: 24
     keepDaily: 7
   mover:
-    # Per-app UIDs vary (e.g. recyclarr runs 568, most others 1000) - derive the mover's
-    # UID/GID from the workload actually mounting the PVC rather than hard-coding one
-    # value for every app.
-    inheritSecurityContextFrom:
-      pvcConsumer: {}
+    # zwave has no pinned runAsUser anywhere (privileged, root, for USB device access),
+    # so pvcConsumer inheritance has no UID to find, and its session-secret file is
+    # root-owned with no group perms - the mover must run as root explicitly to read it.
+    podSecurityContext:
+      runAsUser: 0
+      runAsGroup: 0
+      runAsNonRoot: false

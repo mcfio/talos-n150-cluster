@@ -5,3 +5,7 @@ kind: Kustomization
 resources:
   - ./helm-release.yaml
   - ./node-feature-rule.yaml
+  - ./snapshotpolicy.yaml
+  - ./snapshotschedule.yaml
+  - ./restore.yaml
+  - ./pvc.yaml
