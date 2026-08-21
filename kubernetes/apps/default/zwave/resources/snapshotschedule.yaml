@@ -10,5 +10,4 @@ spec:
   schedule:
     cron: 0 */8 * * *
     jitter: ${volume_jitter:=5m}
-    # GitOps-friendly: don't fire a backup the moment the Kustomization first applies.
-    runOnCreate: false
+    runOnCreate: false # don't fire a backup the moment the Kustomization first applies
