@@ -21,7 +21,8 @@ spec:
     namespace: flux-system
   targetNamespace: default
   wait: false
-  # zwave needs a custom SnapshotPolicy mover securityContext, so it skips kopiur/backup.
+  components:
+    - ../../../../components/kopiur/backup
   postBuild:
     substitute:
       app: *appname
