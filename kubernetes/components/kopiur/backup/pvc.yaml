@@ -4,7 +4,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: ${volume_name:=${app}}
 spec:
-  # No dataSourceRef: every app here already has a live, bound PVC.
+  dataSourceRef:
+    kind: Restore
+    apiGroup: kopiur.home-operations.com
+    name: ${app}
   accessModes:
     - ${volume_accessmodes:=ReadWriteOnce}
   resources:
