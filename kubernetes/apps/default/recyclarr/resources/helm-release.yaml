@@ -54,7 +54,9 @@ spec:
           type: RuntimeDefault
     persistence:
       config:
-        existingClaim: "{{ .Release.Name }}"
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
       config-file:
         type: configMap
         name: "{{ .Release.Name }}-configmap"
