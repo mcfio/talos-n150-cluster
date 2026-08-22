@@ -84,7 +84,10 @@ spec:
         globalMounts:
           - path: /config
       config-cache:
-        existingClaim: home-assistant-cache
+        enabled: true
+        type: persistentVolumeClaim
+        accessMode: ReadWriteOnce
+        size: 1Gi
         globalMounts:
           - path: /config/.venv
       tmp:
