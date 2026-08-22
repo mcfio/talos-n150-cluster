@@ -85,6 +85,7 @@ spec:
           - path: /config
       config-cache:
         enabled: true
+        suffix: cache
         type: persistentVolumeClaim
         accessMode: ReadWriteOnce
         size: 1Gi
