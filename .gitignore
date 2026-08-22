@@ -13,3 +13,4 @@ Thumbs.db
 kubeconfig
 talosconfig
 talos/*.iso
+graphify-out/
