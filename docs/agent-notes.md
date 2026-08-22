@@ -105,6 +105,30 @@ quoted strings can be enclosed in unescaped {{ }}s`. Template substitution MUST 
   codes, 0.105 cell-path case sensitivity, 0.113.1 YAML quoting, 0.114 `--` parsing). It's on
   Homebrew, unpinned, by choice — `aqua:nushell/nushell` resolves in mise if that ever bites.
 
+## bjw-s app-template chart gotchas (verified against chart source, not guessed)
+
+- **A chart-managed `persistence` PVC (`type: persistentVolumeClaim`, no `existingClaim`) names
+  itself after the bare release name, not the persistence key, unless there's more than one such
+  PVC on the release.** Confirmed in `bjw-s.common.lib.determineResourceNameFromValues`
+  (bjw-s-labs/helm-charts, tag `app-template-5.1.0`): the persistence key is only appended when
+  `itemCount > 1` (counting PVC-type entries that aren't `existingClaim`) or
+  `global.alwaysAppendIdentifierToResourceName` is set. An app with exactly one chart-managed PVC
+  entry — e.g. a `cache` volume alongside a `config` volume that's an `existingClaim` — gets a
+  generated PVC named after the release itself (`home-assistant`, not `home-assistant-cache`),
+  which silently collides with any other PVC of that name (e.g. the app's real config PVC). Always
+  set `suffix:` on a lone `persistentVolumeClaim` entry to force a distinct name — seerr's `cache`
+  entry does this (`suffix: cache`) even though its key is already `cache`; the suffix isn't
+  cosmetic, it's what prevents the collision. This bypassed local review once already (see PR
+  #3680/#3681) and reached `main` live before being caught, because `flate build`/`flate diff`
+  render the Helm _values_, not the chart's actual templated output — they cannot catch a PVC
+  naming collision, only a real `helm template` or a running cluster can.
+- **When fixing a naming collision like the above, pick a `suffix` that matches an existing PVC's
+  name if one exists, not a fresh one.** If the app previously had a standalone PVC manifest for
+  the same volume (protected from Flux prune via a `kustomize.toolkit.fluxcd.io/prune: disabled`
+  label) and you're switching it to a chart-managed entry, name the new chart-managed PVC after
+  the old standalone one. Helm then adopts the existing, already-populated PVC in place instead of
+  minting an empty one and leaving the old one orphaned for manual cleanup.
+
 ## Flux / GitOps / CNPG gotchas (verified, not guessed)
 
 - **`flate diff` exits non-zero on a dangling `dependsOn`.** An unresolvable dependency renders as
