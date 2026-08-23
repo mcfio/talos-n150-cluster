@@ -24,6 +24,27 @@ connectivity:
     interval: 1m
 
 endpoints:
+  - name: internal-dns
+    group: dns
+    url: 192.168.10.1
+    interval: 60s
+    dns:
+      query-name: ipv4.milton.mcf.io
+      query-type: A
+    conditions:
+      - "[DNS_RCODE] == NOERROR"
+      - "[BODY] == 192.168.46.96"
+
+  - name: public-dns
+    group: dns
+    url: 9.9.9.9
+    interval: 120s
+    dns:
+      query-name: status.mcf.io
+      query-type: A
+    conditions:
+      - "[DNS_RCODE] == NOERROR"
+
   - name: Cloudflare
     group: connectivity
     url: icmp://1.1.1.1
