@@ -6,6 +6,7 @@ ui:
   header: Status
   logo: https://avatars.githubusercontent.com/u/30387687?v=4
   link: https://github.com/mcfio
+  default-sort-by: group
   buttons:
     - name: GitHub
       link: https://github.com/mcfio/talos-n150-cluster
@@ -44,6 +45,16 @@ endpoints:
       query-type: A
     conditions:
       - "[DNS_RCODE] == NOERROR"
+
+  - name: dnssec-validation
+    group: dns
+    url: 192.168.10.1
+    interval: 300s
+    dns:
+      query-name: dnssec-failed.org
+      query-type: A
+    conditions:
+      - "[DNS_RCODE] == SERVFAIL"
 
   - name: Cloudflare
     group: connectivity
