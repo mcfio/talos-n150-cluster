@@ -50,7 +50,9 @@ machine:
       imageGCHighThresholdPercent: 70
       imageGCLowThresholdPercent: 50
       shutdownGracePeriod: 60s
-    image: ghcr.io/siderolabs/kubelet:v1.37.0
+      featureGates:
+        MemoryQoS: true
+    image: ghcr.io/siderolabs/kubelet:v1.36.3
     nodeIP:
       validSubnets:
         - 192.168.45.0/24
@@ -86,7 +88,7 @@ cluster:
   token: op://mcfio/talos-n150-cluster/cluster/token
   proxy:
     disabled: true
-    image: registry.k8s.io/kube-proxy:v1.37.0
+    image: registry.k8s.io/kube-proxy:v1.36.4
 ---
 apiVersion: v1alpha1
 kind: LinkAliasConfig
