@@ -17,3 +17,4 @@ resources:
   - ./grafana-operator/flux-kustomization.yaml
   - ./grafana-instance/flux-kustomization.yaml
   - ./keda/flux-kustomization.yaml
+  - ./prometheus-adapter/flux-kustomization.yaml
