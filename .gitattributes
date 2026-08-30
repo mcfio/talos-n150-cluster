@@ -9,3 +9,4 @@
 *.toml linguist-detectable linguist-language=TOML
 *.yml linguist-detectable linguist-language=YAML
 *.yaml linguist-detectable linguist-language=YAML
+graphify-out/graph.json merge=graphify

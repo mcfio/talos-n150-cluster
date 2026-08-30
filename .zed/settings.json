@@ -1,0 +1,38 @@
+{
+  "file_types": {
+    "JSONC": ["*.json5"],
+    "Helm": ["*.yaml.tpl"],
+    "Pkl": ["*.pkl"]
+  },
+  "languages": {
+    "Pkl": {
+      "language_servers": []
+    },
+    "TOML": {
+      "formatter": {"language_server": {"name": "oxfmt"}}
+    },
+    "YAML": {
+      "formatter": {"language_server": {"name": "oxfmt"}}
+    },
+    "JSON": {
+      "formatter": {"language_server": {"name": "oxfmt"}}
+    },
+    "JSONC": {
+      "formatter": {"language_server": {"name": "oxfmt"}}
+    },
+    "Markdown": {
+      "formatter": {"language_server": {"name": "oxfmt"}}
+    }
+  },
+  "lsp": {
+    "yaml-language-server": {
+      "binary": {
+        "ignore_system_version": true,
+        "path": "/opt/homebrew/bin/yayamlls"
+      },
+      "initialization_options": {
+        "catalog": true
+      }
+    }
+  }
+}
