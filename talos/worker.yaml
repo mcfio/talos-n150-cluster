@@ -6,4 +6,4 @@
 apiVersion: v1alpha1
 kind: KubeAPIServerCAConfig
 acceptedCAs:
-  - "op://mcfio/talos-n150-cluster/cluster/ca_crt_pem" # yamllint disable-line rule:quoted-strings
+  - "op://milton-ops/talos-n150-cluster/cluster/ca_crt_pem" # yamllint disable-line rule:quoted-strings
