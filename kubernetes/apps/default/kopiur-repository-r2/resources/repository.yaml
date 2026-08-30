@@ -1,0 +1,21 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kopiur.home-operations.com/repository_v1alpha1.json
+apiVersion: kopiur.home-operations.com/v1alpha1
+kind: Repository
+metadata:
+  name: archive-r2
+spec:
+  backend:
+    s3:
+      bucket: talos-n150-cluster-kopia-archive
+      region: auto
+      endpoint: d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
+      auth:
+        secretRef:
+          name: kopiur-repository
+  encryption:
+    passwordSecretRef:
+      name: kopiur-repository
+      key: KOPIA_PASSWORD
+  create:
+    enabled: true # fresh repository — no filesystem data to adopt on R2

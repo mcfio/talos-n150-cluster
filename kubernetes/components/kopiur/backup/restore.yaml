@@ -5,6 +5,9 @@ kind: Restore
 metadata:
   name: ${app}
 spec:
+  # Fan-out policies refuse to guess; NFS is the member with real history until R2 fills.
+  repository:
+    name: archive
   source:
     fromPolicy:
       name: ${app}
