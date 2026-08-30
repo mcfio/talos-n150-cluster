@@ -2,9 +2,9 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/heads/release-1.13/website/content/v1.13/schemas/config.schema.json
 version: v1alpha1
 machine:
-  token: op://mcfio/talos-n150-cluster/machine/token
+  token: op://milton-ops/talos-n150-cluster/machine/token
   ca:
-    crt: op://mcfio/talos-n150-cluster/machine/ca_crt
+    crt: op://milton-ops/talos-n150-cluster/machine/ca_crt
   features:
     diskQuotaSupport: true
     hostDNS:
@@ -63,10 +63,10 @@ machine:
     net.core.wmem_max: "67108864" # Cloudflared / QUIC
     user.max_user_namespaces: "65535" # User namespaces
 cluster:
-  id: op://mcfio/talos-n150-cluster/cluster/id
-  secret: op://mcfio/talos-n150-cluster/cluster/secret
+  id: op://milton-ops/talos-n150-cluster/cluster/id
+  secret: op://milton-ops/talos-n150-cluster/cluster/secret
   ca:
-    crt: op://mcfio/talos-n150-cluster/cluster/ca_crt
+    crt: op://milton-ops/talos-n150-cluster/cluster/ca_crt
   controlPlane:
     endpoint: https://k8s.internal:6443
   clusterName: home-cluster
@@ -85,7 +85,7 @@ cluster:
       - 10.45.0.0/16
     serviceSubnets:
       - 10.46.0.0/16
-  token: op://mcfio/talos-n150-cluster/cluster/token
+  token: op://milton-ops/talos-n150-cluster/cluster/token
   proxy:
     disabled: true
     image: registry.k8s.io/kube-proxy:v1.36.4
