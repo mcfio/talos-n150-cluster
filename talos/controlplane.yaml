@@ -3,8 +3,8 @@
 version: v1alpha1
 machine:
   ca:
-    crt: op://mcfio/talos-n150-cluster/machine/ca_crt
-    key: op://mcfio/talos-n150-cluster/machine/ca_key
+    crt: op://milton-ops/talos-n150-cluster/machine/ca_crt
+    key: op://milton-ops/talos-n150-cluster/machine/ca_key
   features:
     kubernetesTalosAPIAccess:
       enabled: true
@@ -14,14 +14,14 @@ machine:
         - system-upgrade
 cluster:
   ca:
-    crt: op://mcfio/talos-n150-cluster/cluster/ca_crt
-    key: op://mcfio/talos-n150-cluster/cluster/ca_key
+    crt: op://milton-ops/talos-n150-cluster/cluster/ca_crt
+    key: op://milton-ops/talos-n150-cluster/cluster/ca_key
   aggregatorCA:
-    crt: op://mcfio/talos-n150-cluster/cluster/aggregator_ca_crt
-    key: op://mcfio/talos-n150-cluster/cluster/aggregator_ca_key
+    crt: op://milton-ops/talos-n150-cluster/cluster/aggregator_ca_crt
+    key: op://milton-ops/talos-n150-cluster/cluster/aggregator_ca_key
   serviceAccount:
-    key: op://mcfio/talos-n150-cluster/cluster/service_account_key
-  secretboxEncryptionSecret: op://mcfio/talos-n150-cluster/cluster/secretbox_encryption_secret
+    key: op://milton-ops/talos-n150-cluster/cluster/service_account_key
+  secretboxEncryptionSecret: op://milton-ops/talos-n150-cluster/cluster/secretbox_encryption_secret
   apiServer:
     image: registry.k8s.io/kube-apiserver:v1.36.4
     extraArgs:
@@ -65,8 +65,8 @@ cluster:
     disabled: true
   etcd:
     ca:
-      crt: op://mcfio/talos-n150-cluster/etcd/ca_crt
-      key: op://mcfio/talos-n150-cluster/etcd/ca_key
+      crt: op://milton-ops/talos-n150-cluster/etcd/ca_crt
+      key: op://milton-ops/talos-n150-cluster/etcd/ca_key
     extraArgs:
       listen-metrics-urls: http://0.0.0.0:2381
       heartbeat-interval: "250"
