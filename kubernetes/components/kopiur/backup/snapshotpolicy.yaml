@@ -5,8 +5,10 @@ kind: SnapshotPolicy
 metadata:
   name: ${app}
 spec:
-  repository:
-    name: archive
+  # Fan-out: one mover Job per (source, repository). Drop `archive` once R2 has proven itself.
+  repositories:
+    - name: archive
+    - name: archive-r2
   # Pins the existing snapshot identity so kopiur continues the adopted history.
   identity:
     hostname: default
