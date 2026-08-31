@@ -8,7 +8,7 @@ spec:
   dependsOn:
     - name: kopiur
       namespace: kopiur-system
-    - name: kopiur-repository
+    - name: kopiur-repository-r2
       namespace: default
   interval: 12h
   path: ./kubernetes/apps/default/matter-server/resources
