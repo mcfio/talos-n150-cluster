@@ -15,5 +15,5 @@ spec:
       - dns01:
           cloudflare:
             apiTokenSecretRef:
-              name: cloudflare-dns-zone
+              name: cloudflare-dns-edit-token
               key: credential
