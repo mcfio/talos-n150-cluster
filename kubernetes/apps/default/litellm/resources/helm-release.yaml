@@ -74,8 +74,16 @@ spec:
           - claude-sonnet-5
     volumes:
       - name: litellm-cache
-        persistentVolumeClaim:
-          claimName: litellm-cache
+        emptyDir: {}
+      - name: github-copilot-access-token
+        secret:
+          secretName: litellm-env
+          items:
+            - key: GITHUB_COPILOT_ACCESS_TOKEN
+              path: access-token
     volumeMounts:
       - name: litellm-cache
         mountPath: /cache
+      - name: github-copilot-access-token
+        mountPath: /cache/copilot/access-token
+        subPath: access-token
