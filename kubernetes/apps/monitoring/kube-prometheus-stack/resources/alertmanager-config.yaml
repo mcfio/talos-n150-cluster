@@ -56,3 +56,5 @@ spec:
         - routingKey:
             name: alertmanager
             key: pagerduty_routing_key
+          # relies on the PagerDuty service's own urgency-mapping rules for this severity value
+          severity: "{{ .CommonLabels.severity }}"
