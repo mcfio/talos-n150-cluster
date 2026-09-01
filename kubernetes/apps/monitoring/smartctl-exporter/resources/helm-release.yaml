@@ -20,6 +20,24 @@ spec:
           targetLabel: instance
     prometheusRules:
       enabled: true
+      rules:
+        smartCTLDDeviceTemperature:
+          for: 5m
+          expr: smartctl_device_temperature{temperature_type="current"} > 65
+          annotations:
+            summary: Device has temperature higher than 65°C
+            description: Device {{ $labels.device }} on instance {{ $labels.instance }} has temperature higher than 65°C
+        smartCTLDeviceStatus:
+          for: 5m
+          expr: (smartctl_device_smart_status != 1 or smartctl_device_status != 1)
+        smartCTLDeviceMediaErrors:
+          for: 5m
+        smartCTLDeviceCriticalWarning:
+          for: 5m
+        smartCTLDeviceAvailableSpareUnderThreshold:
+          for: 5m
+        smartCTLDInterfaceSlow:
+          for: 5m
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:
