@@ -11,7 +11,7 @@ spec:
       - job
     groupInterval: 10m
     groupWait: 5m
-    receiver: blackhole
+    receiver: pushover
     repeatInterval: 12h
     routes:
       - receiver: blackhole
@@ -46,3 +46,11 @@ spec:
         - urlSecret:
             name: alertmanager
             key: hcping_url
+    - name: pushover
+      pushoverConfigs:
+        - userKey:
+            name: alertmanager
+            key: pushover_user_key
+          token:
+            name: alertmanager
+            key: pushover_token
