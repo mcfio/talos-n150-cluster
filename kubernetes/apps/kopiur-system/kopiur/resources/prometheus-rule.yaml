@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: kopiur
+spec:
+  groups:
+    - name: kopiur.rules
+      rules:
+        - alert: KopiurSnapshotScheduleFailing
+          expr: |-
+            kopiur_snapshotschedule_resource_info{consecutive_failures!="0"}
+          for: 30m
+          annotations:
+            summary: >-
+              Kopiur SnapshotSchedule {{ $labels.exported_namespace }}/{{ $labels.name }} has consecutive backup failures
+          labels:
+            severity: critical
+        - alert: KopiurSnapshotScheduleStalled
+          expr: |-
+            kopiur_snapshotschedule_resource_info{stalled="True"}
+          for: 1h
+          annotations:
+            summary: >-
+              Kopiur SnapshotSchedule {{ $labels.exported_namespace }}/{{ $labels.name }} is stalled
+          labels:
+            severity: warning

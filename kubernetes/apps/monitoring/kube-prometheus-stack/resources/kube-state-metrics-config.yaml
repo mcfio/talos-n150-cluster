@@ -25,6 +25,13 @@ kube-state-metrics:
         verbs:
           - list
           - watch
+      - apiGroups:
+          - kopiur.home-operations.com
+        resources:
+          - snapshotschedules
+        verbs:
+          - list
+          - watch
   customResourceState:
     enabled: true
     config:
@@ -458,3 +465,39 @@ kube-state-metrics:
                     - spec
                     - sourceRef
                     - name
+          - groupVersionKind:
+              group: kopiur.home-operations.com
+              version: v1alpha1
+              kind: SnapshotSchedule
+            metricNamePrefix: kopiur
+            metrics:
+              - name: resource_info
+                help: The current state of a kopiur SnapshotSchedule resource.
+                each:
+                  type: Info
+                  info:
+                    labelsFromPath:
+                      name:
+                        - metadata
+                        - name
+                labelsFromPath:
+                  exported_namespace:
+                    - metadata
+                    - namespace
+                  policy_name:
+                    - spec
+                    - policyRef
+                    - name
+                  ready:
+                    - status
+                    - conditions
+                    - "[type=Ready]"
+                    - status
+                  stalled:
+                    - status
+                    - conditions
+                    - "[type=Stalled]"
+                    - status
+                  consecutive_failures:
+                    - status
+                    - consecutiveFailures
