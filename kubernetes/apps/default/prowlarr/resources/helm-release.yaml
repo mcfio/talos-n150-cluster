@@ -27,7 +27,9 @@ spec:
               PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
               PROWLARR__LOG__DBENABLED: "False"
               PROWLARR__LOG__LEVEL: info
+              PROWLARR__SERVER__ALLOWEDHOSTS: prowlarr.milton.mcf.io,prowlarr.default.svc.cluster.local
               PROWLARR__SERVER__PORT: &port 9696
+              PROWLARR__SERVER__TRUSTEDNETWORKS: 10.45.0.0/16
             envFrom:
               - secretRef:
                   name: "{{ .Release.Name }}"
@@ -39,6 +41,9 @@ spec:
                   httpGet:
                     path: /ping
                     port: *port
+                    httpHeaders:
+                      - name: Host
+                        value: localhost
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
