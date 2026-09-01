@@ -14,7 +14,7 @@ spec:
     receiver: pagerduty
     repeatInterval: 12h
     routes:
-      - receiver: "null"
+      - receiver: blackhole
         matchers:
           - name: alertname
             value: InfoInhibitor
@@ -45,7 +45,7 @@ spec:
           value: warning
           matchType: =
   receivers:
-    - name: "null"
+    - name: blackhole
     - name: heartbeat
       webhookConfigs:
         - urlSecret:
