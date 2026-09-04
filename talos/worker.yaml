@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/tags/v1.14.0-rc.1/website/content/v1.14/schemas/config.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/tags/v1.14.0/website/content/v1.14/schemas/config.schema.json
 # Workers accept the Kubernetes CA rather than issuing from it; the control planes hold the key. The
 # document takes raw PEM, and the double quotes make YAML expand the `\n` escapes the 1Password
 # field stores the certificate on one line with, which `op inject` cannot do itself.
