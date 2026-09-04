@@ -13,14 +13,28 @@ spec:
     fullnameOverride: *appname
     serviceMonitor:
       enabled: true
+      relabelings:
+        - action: replace
+          sourceLabels:
+            - __meta_kubernetes_pod_node_name
+          targetLabel: instance
     prometheusRules:
-      enabled: false
-    affinity:
-      nodeAffinity:
-        requiredDuringSchedulingIgnoredDuringExecution:
-          nodeSelectorTerms:
-            - matchExpressions:
-                - key: kubernetes.io/arch
-                  operator: In
-                  values:
-                    - amd64
+      enabled: true
+      rules:
+        smartCTLDDeviceTemperature:
+          for: 5m
+          expr: smartctl_device_temperature{temperature_type="current"} > 65
+          annotations:
+            summary: Device has temperature higher than 65°C
+            description: Device {{ $labels.device }} on instance {{ $labels.instance }} has temperature higher than 65°C
+        smartCTLDeviceStatus:
+          for: 5m
+          expr: (smartctl_device_smart_status != 1 or smartctl_device_status != 1)
+        smartCTLDeviceMediaErrors:
+          for: 5m
+        smartCTLDeviceCriticalWarning:
+          for: 5m
+        smartCTLDeviceAvailableSpareUnderThreshold:
+          for: 5m
+        smartCTLDInterfaceSlow:
+          for: 5m

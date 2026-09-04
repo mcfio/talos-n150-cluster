@@ -1,7 +1,7 @@
 # Talos node management.
 #
-# Machine configs layer in order: cluster.yaml (every node) -> controlplane.yaml (control planes
-# only) -> nodes/<node>.yaml. `talosctl machineconfig patch` does the merging; nothing here
+# Machine configs layer in order: cluster.yaml (every node) -> <machine type>.yaml (controlplane or
+# worker) -> nodes/<node>.yaml. `talosctl machineconfig patch` does the merging; nothing here
 # serializes a machine config, because `to yaml` cannot emit multi-document YAML.
 #
 # The shared layers resolve once per command and are passed down to each `render`, so a run over
@@ -19,6 +19,11 @@ def yaml-docs []: string -> list<any> {
 # The v1alpha1 document, the one carrying the `machine` key.
 def machine-doc []: string -> any {
   yaml-docs | where {|doc| ($doc | get --optional machine) != null } | get --optional 0
+}
+
+# The first document of a given kind, for the typed config documents.
+def doc-by-kind [kind: string]: string -> any {
+  yaml-docs | where {|doc| ($doc | get --optional kind) == $kind } | get --optional 0
 }
 
 # Prompt before a destructive action. `complete` would capture gum's TUI off stderr and leave the
@@ -39,9 +44,9 @@ def node-patch [node: string]: nothing -> path {
   $file
 }
 
-# Whether a node's patch declares a control-plane machine type.
-export def is-controlplane [node: string]: nothing -> bool {
-  (open --raw (node-patch $node) | machine-doc | get --optional machine.type | default "worker") == "controlplane"
+# The machine type a node's patch declares, which is also the name of its overlay file.
+export def machine-type [node: string]: nothing -> string {
+  open --raw (node-patch $node) | machine-doc | get --optional machine.type | default "worker"
 }
 
 # Schematic ID from the Talos image factory. `http post` parses the JSON response by content type.
@@ -66,50 +71,46 @@ def first-line []: string -> string {
   $in | lines | where {|l| ($l | str trim) != "" } | get --optional 0 | default "no output"
 }
 
-# The control-plane overlay with its secrets resolved. op's streams stay attached so an auth prompt
+# A machine-type overlay with its secrets resolved. op's streams stay attached so an auth prompt
 # remains visible. `op inject -i` is required because op reads only a pipe, and nu hands an external
 # the opened file's own fd rather than a pipe.
-def controlplane-overlay []: nothing -> string {
-  ^op inject -i $"($HERE)/controlplane.yaml"
+def type-overlay [type: string]: nothing -> string {
+  ^op inject -i $"($HERE)/($type).yaml"
 }
 
 # Layers shared by every node, resolved once. `schematic_id` is substituted before `op inject` so op
-# never sees a stray `{{ }}`. The overlay is resolved only when the run actually contains a control
-# plane, so a worker-only render costs one `op inject`.
-def resolved-layers [with_controlplane: bool]: nothing -> record<base: string, controlplane: string> {
+# never sees a stray `{{ }}`. An overlay is resolved only when the run actually contains a node of
+# that machine type, so a single-type run costs two `op inject` calls however many nodes it covers.
+def resolved-layers [types: list<string>]: nothing -> record<base: string, controlplane: string, worker: string> {
   {
     base: (
       open --raw $"($HERE)/cluster.yaml"
       | str replace --all "{{ schematic_id }}" (schematic-id)
       | ^op inject
     )
-    controlplane: (if $with_controlplane { controlplane-overlay } else { "" })
+    controlplane: (if "controlplane" in $types { type-overlay "controlplane" } else { "" })
+    worker: (if "worker" in $types { type-overlay "worker" } else { "" })
   }
 }
 
 # Render a node's full machine config, reusing pre-resolved shared layers when given. The base
-# config carries secrets and goes over stdin; the resolved control-plane overlay is passed as an
+# config carries secrets and goes over stdin; the resolved machine-type overlay is passed as an
 # argument, so it is visible in this machine's process table while talosctl runs.
 export def render [node: string, layers?: record]: nothing -> string {
-  let cp = (is-controlplane $node)
-  let shared = (if $layers == null { resolved-layers $cp } else { $layers })
-  let patches = (
-    (if $cp {
-      # Pre-resolved when the caller passed layers for a run that contains a control plane.
-      let overlay = (if ($shared.controlplane | is-empty) { controlplane-overlay } else { $shared.controlplane })
-      ["--patch" $overlay]
-    } else { [] })
-    | append ["--patch" $"@(node-patch $node)"]
-  )
+  let type = (machine-type $node)
+  let shared = (if $layers == null { resolved-layers [$type] } else { $layers })
+  # Pre-resolved when the caller passed layers for a run that contains this machine type.
+  let pre = ($shared | get $type)
+  let resolved = (if ($pre | is-empty) { type-overlay $type } else { $pre })
   $shared.base
-  | ^talosctl machineconfig patch /dev/stdin ...$patches
+  | ^talosctl machineconfig patch /dev/stdin --patch $resolved --patch $"@(node-patch $node)"
   | complete
   | check "talosctl machineconfig patch"
 }
 
 # The installer image a node's rendered config pins.
 export def machine-image [node: string]: nothing -> string {
-  render $node | machine-doc | get machine.install.image
+  render $node | doc-by-kind "UnattendedInstallConfig" | get installer.image
 }
 
 # Names of every node declared in the repo.
@@ -153,7 +154,7 @@ export def nodes []: nothing -> table<node: string, type: string, pinned: string
   let live = (members)
   let status = (machine-status $names)
   $names | each {|n|
-    let declared = (if (is-controlplane $n) { "controlplane" } else { "worker" })
+    let declared = (machine-type $n)
     let m = ($live | where node == $n | get --optional 0)
     let s = ($status | where node == $n | get --optional 0)
     let running = (if $m == null { null } else { $m.running })
@@ -176,7 +177,7 @@ export def nodes []: nothing -> table<node: string, type: string, pinned: string
 # of any file on disk. A node that fails to render is reported, not fatal.
 export def validate []: nothing -> table<node: string, result: string, detail: string> {
   let names = (node-names)
-  let shared = (resolved-layers ($names | any {|n| is-controlplane $n }))
+  let shared = (resolved-layers ($names | each {|n| machine-type $n } | uniq))
   $names | each {|n|
     let rendered = (try { { ok: true, config: (render $n $shared) } } catch {|e| { ok: false, config: $e.msg } })
     if not $rendered.ok {
@@ -331,7 +332,7 @@ def diff-row [node: string, config: string, args: list<string>, budget: int]: no
 export def diff [...nodes: string, --width: int]: nothing -> table<node: string, "-": string, "+": string> {
   let targets = (if ($nodes | is-empty) { node-names } else { $nodes })
   let budget = (col-budget $targets $width)
-  let shared = (resolved-layers ($targets | any {|n| is-controlplane $n }))
+  let shared = (resolved-layers ($targets | each {|n| machine-type $n } | uniq))
   $targets
   | each {|n|
     try {

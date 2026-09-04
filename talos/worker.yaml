@@ -1,0 +1,6 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/tags/v1.14.0/website/content/v1.14/schemas/config.schema.json
+apiVersion: v1alpha1
+kind: KubeAPIServerCAConfig
+acceptedCAs:
+  - "op://milton-ops/talos-n150-cluster/cluster/ca_crt_pem" # yamllint disable-line rule:quoted-strings

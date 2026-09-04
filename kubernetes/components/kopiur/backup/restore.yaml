@@ -5,6 +5,9 @@ kind: Restore
 metadata:
   name: ${app}
 spec:
+  # Fan-out policies refuse to guess which repository to restore from.
+  repository:
+    name: archive-r2
   source:
     fromPolicy:
       name: ${app}

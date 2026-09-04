@@ -3,18 +3,19 @@
 apiVersion: kopiur.home-operations.com/v1alpha1
 kind: Repository
 metadata:
-  name: archive
+  name: archive-r2
 spec:
   backend:
-    filesystem:
-      path: /repo
-      volume:
-        nfs:
-          server: 10.46.100.100 # Use IP instead of nfs-server.default.svc.cluster.local
-          path: /archive/kopia
+    s3:
+      bucket: talos-n150-cluster-kopia-archive
+      region: auto
+      endpoint: d1f0621fbc1ba3f26f44754274430881.r2.cloudflarestorage.com
+      auth:
+        secretRef:
+          name: kopiur-repository
   encryption:
     passwordSecretRef:
       name: kopiur-repository
       key: KOPIA_PASSWORD
   create:
-    enabled: false # adopting the existing repository, never reinitialize it
+    enabled: true # fresh repository — no filesystem data to adopt on R2

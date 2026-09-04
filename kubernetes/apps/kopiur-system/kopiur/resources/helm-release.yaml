@@ -11,3 +11,17 @@ spec:
     name: kopiur
   values:
     installScope: cluster # required to reconcile a cluster-scoped ClusterRepository
+    monitoring:
+      serviceMonitor:
+        enabled: true
+      prometheusRule:
+        enabled: true
+      dashboards:
+        enabled: true
+        grafanaOperator:
+          enabled: true
+          matchLabels:
+            grafana.internal/instance: grafana
+    webhook:
+      serviceMonitor:
+        enabled: true

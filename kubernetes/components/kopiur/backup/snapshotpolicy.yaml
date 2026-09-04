@@ -5,8 +5,8 @@ kind: SnapshotPolicy
 metadata:
   name: ${app}
 spec:
-  repository:
-    name: archive
+  repositories:
+    - name: archive-r2
   # Pins the existing snapshot identity so kopiur continues the adopted history.
   identity:
     hostname: default

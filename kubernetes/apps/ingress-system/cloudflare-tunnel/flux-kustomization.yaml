@@ -17,3 +17,7 @@ spec:
     namespace: flux-system
   targetNamespace: ingress-system
   wait: true
+  postBuild:
+    substituteFrom:
+      - kind: Secret
+        name: cloudflare-tunnel-id-secret
