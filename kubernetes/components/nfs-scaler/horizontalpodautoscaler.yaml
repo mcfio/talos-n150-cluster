@@ -1,8 +1,4 @@
 ---
-# Staged for the Talos 1.14 / Kubernetes 1.37 cutover — HPAScaleToZero must be
-# Beta/default-on before this can replace scaledobject.yaml (minReplicas: 0
-# with an External metric is rejected on today's 1.36 control plane). Not
-# referenced by kustomization.yaml yet.
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
