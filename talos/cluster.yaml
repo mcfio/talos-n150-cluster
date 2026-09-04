@@ -1,5 +1,5 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/heads/release-1.13/website/content/v1.13/schemas/config.schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/siderolabs/talos/refs/tags/v1.14.0/website/content/v1.14/schemas/config.schema.json
 version: v1alpha1
 machine:
   token: op://milton-ops/talos-n150-cluster/machine/token
@@ -7,88 +7,112 @@ machine:
     crt: op://milton-ops/talos-n150-cluster/machine/ca_crt
   features:
     diskQuotaSupport: true
-    hostDNS:
-      enabled: true
-      resolveMemberNames: true
-      forwardKubeDNSToHost: false
-    kubePrism:
-      enabled: true
-      port: 7445
-  install:
-    diskSelector:
-      type: nvme
-    image: factory.talos.dev/metal-installer/{{ schematic_id }}:v1.14.0
-    wipe: false
-    grubUseUKICmdline: true
-  files:
-    - path: /etc/cri/conf.d/20-customization.part
-      op: create
-      content: |-
-        [plugins."io.containerd.cri.v1.images"]
-          discard_unpacked_layers = false
-        [plugins."io.containerd.cri.v1.runtime"]
-          device_ownership_from_security_context = true
-    - path: /etc/nfsmount.conf
-      op: overwrite
-      permissions: 0o644
-      content: |-
-        [ NFSMount_Global_Options ]
-        nfsvers=4.2
-        hard=True
-        noatime=True
-        timeo=600
-        softreval
-        retrans=2
-        nconnect=4
-        rsize=131072
-        wsize=131072
-  kubelet:
-    defaultRuntimeSeccompProfileEnabled: true
-    disableManifestsDirectory: true
-    extraConfig:
-      serializeImagePulls: false
-      imageGCHighThresholdPercent: 70
-      imageGCLowThresholdPercent: 50
-      shutdownGracePeriod: 60s
-      featureGates:
-        MemoryQoS: true
-    image: ghcr.io/siderolabs/kubelet:v1.36.3
-    nodeIP:
-      validSubnets:
-        - 192.168.45.0/24
-  sysctls:
-    fs.inotify.max_user_watches: "1048576" # Watchdog
-    fs.inotify.max_user_instances: "8192" # Watchdog
-    net.core.rmem_max: "67108864" # Cloudflared / QUIC
-    net.core.wmem_max: "67108864" # Cloudflared / QUIC
-    user.max_user_namespaces: "65535" # User namespaces
 cluster:
-  id: op://milton-ops/talos-n150-cluster/cluster/id
-  secret: op://milton-ops/talos-n150-cluster/cluster/secret
-  ca:
-    crt: op://milton-ops/talos-n150-cluster/cluster/ca_crt
-  controlPlane:
-    endpoint: https://k8s.internal:6443
-  clusterName: home-cluster
-  discovery:
-    enabled: true
-    registries:
-      kubernetes:
-        disabled: true
-      service:
-        disabled: false
-  network:
-    cni:
-      name: none
-    dnsDomain: cluster.local
-    podSubnets:
-      - 10.45.0.0/16
-    serviceSubnets:
-      - 10.46.0.0/16
   token: op://milton-ops/talos-n150-cluster/cluster/token
-  proxy:
-    disabled: true
-    image: registry.k8s.io/kube-proxy:v1.36.4
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  image: factory.talos.dev/metal-installer/{{ schematic_id }}:v1.14.0
+provisioning:
+  wipe: false
+---
+apiVersion: v1alpha1
+kind: KubePrismConfig
+port: 7445
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+hostDNS:
+  enabled: true
+  resolveMemberNames: true
+  forwardKubeDNSToHost: false
+---
+apiVersion: v1alpha1
+kind: CRICustomizationConfig
+name: containerd
+content: |-
+  [plugins."io.containerd.cri.v1.images"]
+    discard_unpacked_layers = false
+  [plugins."io.containerd.cri.v1.runtime"]
+    device_ownership_from_security_context = true
+---
+apiVersion: v1alpha1
+kind: EtcFileConfig
+name: nfsmount.conf
+mode: 0o644
+contents: |-
+  [ NFSMount_Global_Options ]
+  nfsvers=4.2
+  hard=True
+  noatime=True
+  timeo=600
+  softreval
+  retrans=2
+  nconnect=4
+  rsize=131072
+  wsize=131072
+---
+apiVersion: v1alpha1
+kind: SysctlConfig
+params:
+  fs.inotify.max_user_watches: "1048576" # Watchdog
+  fs.inotify.max_user_instances: "8192" # Watchdog
+  net.core.rmem_max: "67108864" # Cloudflared / QUIC
+  net.core.wmem_max: "67108864" # Cloudflared / QUIC
+  user.max_user_namespaces: "65535" # User namespaces
+---
+apiVersion: v1alpha1
+kind: KubeletConfig
+image: ghcr.io/siderolabs/kubelet:v1.36.3
+defaultRuntimeSeccompProfileEnabled: true
+config:
+  serializeImagePulls: false
+  imageGCHighThresholdPercent: 70
+  imageGCLowThresholdPercent: 50
+  shutdownGracePeriod: 60s
+  featureGates:
+    MemoryQoS: true
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+nodeIP:
+  validSubnets:
+    - 192.168.45.0/24
+---
+apiVersion: v1alpha1
+kind: KubeClusterConfig
+clusterName: home-cluster
+endpoint: https://k8s.internal:6443
+---
+# No KubeFlannelCNIConfig document: its absence is how a 1.14 config selects CNI `none`.
+apiVersion: v1alpha1
+kind: KubeNetworkConfig
+dnsDomain: cluster.local
+podSubnets:
+  - 10.45.0.0/16
+serviceSubnets:
+  - 10.46.0.0/16
+---
+apiVersion: v1alpha1
+kind: DiscoveryIdentityConfig
+clusterID: op://milton-ops/talos-n150-cluster/cluster/id
+clusterSecret: op://milton-ops/talos-n150-cluster/cluster/secret
+---
+# Presence enables the discovery service registry; the Kubernetes registry stays off.
+apiVersion: v1alpha1
+kind: DiscoveryServiceConfig
+name: primary
+endpoint: https://discovery.talos.dev/
+---
+apiVersion: v1alpha1
+kind: FilesystemTrimConfig
+interval: 168h0m0s
+---
+# Runs CRI, the kubelet and all pods in the sandboxd PID and mount namespace.
+apiVersion: v1alpha1
+kind: SecurityProfileConfig
+workloadIsolation: true
 ---
 apiVersion: v1alpha1
 kind: LinkAliasConfig
