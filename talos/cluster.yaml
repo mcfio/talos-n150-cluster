@@ -17,7 +17,7 @@ machine:
   install:
     diskSelector:
       type: nvme
-    image: factory.talos.dev/metal-installer/{{ schematic_id }}:v1.13.9
+    image: factory.talos.dev/metal-installer/{{ schematic_id }}:v1.14.0
     wipe: false
     grubUseUKICmdline: true
   files:
