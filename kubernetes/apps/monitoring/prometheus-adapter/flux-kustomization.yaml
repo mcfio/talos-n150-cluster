@@ -3,10 +3,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: keda
+  name: prometheus-adapter
 spec:
   interval: 12h
-  path: ./kubernetes/apps/monitoring/keda/resources
+  path: ./kubernetes/apps/monitoring/prometheus-adapter/resources
   prune: true
   sourceRef:
     kind: GitRepository

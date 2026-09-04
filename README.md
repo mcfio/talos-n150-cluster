@@ -54,6 +54,7 @@ kubernetes/
 talos/
 ├── cluster.yaml                    # base machine config, every node
 ├── controlplane.yaml               # control-plane overlay, patched over the base
+├── worker.yaml                     # worker overlay, patched over the base
 ├── nodes/                          # per-node overrides
 ├── schematic.yaml                  # Talos image schematic
 └── talos.nu                        # node management commands, driven by mise tasks

@@ -1,0 +1,33 @@
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ${app}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ${app}
+  minReplicas: 0
+  maxReplicas: 1
+  metrics:
+    - type: External
+      external:
+        metric:
+          name: nfs_server_ready
+        target:
+          type: Value
+          value: "1"
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 10
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15

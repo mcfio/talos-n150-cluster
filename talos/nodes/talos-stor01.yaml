@@ -1,20 +1,31 @@
 ---
 machine:
   type: worker
-  nodeLabels:
-    mcf.io/role: storage
-  kubelet:
-    extraConfig:
-      registerWithTaints:
-        - key: mcf.io/role
-          value: storage
-          effect: PreferNoSchedule
-  install:
-    diskSelector:
-      type: ssd
-  kernel:
-    modules:
-      - name: nfsd
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+provisioning:
+  diskSelector:
+    match: disk.transport == "sata" && !disk.rotational
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nfsd
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+labels:
+  mcf.io/role: storage
+---
+# Registration-time taints, not KubeNodeConfig.taints: NodeRestriction denies a worker the PATCH
+# that the taints field goes through.
+apiVersion: v1alpha1
+kind: KubeletConfig
+config:
+  registerWithTaints:
+    - key: mcf.io/role
+      value: storage
+      effect: PreferNoSchedule
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
