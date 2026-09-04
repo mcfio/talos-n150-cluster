@@ -64,7 +64,7 @@ params:
 ---
 apiVersion: v1alpha1
 kind: KubeletConfig
-image: ghcr.io/siderolabs/kubelet:v1.36.3
+image: ghcr.io/siderolabs/kubelet:v1.36.4
 defaultRuntimeSeccompProfileEnabled: true
 config:
   serializeImagePulls: false
@@ -85,7 +85,6 @@ kind: KubeClusterConfig
 clusterName: home-cluster
 endpoint: https://k8s.internal:6443
 ---
-# No KubeFlannelCNIConfig document: its absence is how a 1.14 config selects CNI `none`.
 apiVersion: v1alpha1
 kind: KubeNetworkConfig
 dnsDomain: cluster.local
@@ -99,7 +98,6 @@ kind: DiscoveryIdentityConfig
 clusterID: op://milton-ops/talos-n150-cluster/cluster/id
 clusterSecret: op://milton-ops/talos-n150-cluster/cluster/secret
 ---
-# Presence enables the discovery service registry; the Kubernetes registry stays off.
 apiVersion: v1alpha1
 kind: DiscoveryServiceConfig
 name: primary
@@ -109,7 +107,6 @@ apiVersion: v1alpha1
 kind: FilesystemTrimConfig
 interval: 168h0m0s
 ---
-# Runs CRI, the kubelet and all pods in the sandboxd PID and mount namespace.
 apiVersion: v1alpha1
 kind: SecurityProfileConfig
 workloadIsolation: true

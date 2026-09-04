@@ -20,9 +20,6 @@ cluster:
     advertisedSubnets:
       - 192.168.45.0/24
 ---
-# The typed documents take raw PEM; the v1alpha1 keys above take base64-encoded PEM. The double
-# quotes make YAML expand the `\n` escapes the 1Password field stores the certificate on one line
-# with, which `op inject` cannot do itself.
 apiVersion: v1alpha1
 kind: KubeAPIServerCAConfig
 issuingCA:
@@ -35,16 +32,12 @@ issuingCA:
   cert: "op://milton-ops/talos-n150-cluster/cluster/aggregator_ca_crt_pem" # yamllint disable-line rule:quoted-strings
   key: "op://milton-ops/talos-n150-cluster/cluster/aggregator_ca_key_pem" # yamllint disable-line rule:quoted-strings
 ---
-# issuerURL is required here and is what the v1alpha1 path derived from the control-plane endpoint;
-# changing it invalidates the `iss` claim of every issued service-account token.
 apiVersion: v1alpha1
 kind: KubeServiceAccountConfig
 issuer:
   privateKey: "op://milton-ops/talos-n150-cluster/cluster/service_account_key_pem" # yamllint disable-line rule:quoted-strings
   issuerURL: https://k8s.internal:6443
 ---
-# Provider names and order match what Talos rendered from `.cluster.secretboxEncryptionSecret`, so
-# secrets already in etcd stay decryptable.
 apiVersion: v1alpha1
 kind: KubeEtcdEncryptionConfig
 config:
@@ -83,6 +76,27 @@ configuration:
     - level: Metadata
 ---
 apiVersion: v1alpha1
+kind: KubeAuthenticationConfig
+configuration:
+  anonymous:
+    conditions:
+      - path: /livez
+      - path: /readyz
+      - path: /healthz
+    enabled: true
+  jwt: []
+---
+apiVersion: v1alpha1
+kind: KubeAuthorizerConfig
+name: node
+type: Node
+---
+apiVersion: v1alpha1
+kind: KubeAuthorizerConfig
+name: rbac
+type: RBAC
+---
+apiVersion: v1alpha1
 kind: KubeControllerManagerConfig
 image: registry.k8s.io/kube-controller-manager:v1.36.4
 extraArgs:
@@ -118,8 +132,6 @@ apiVersion: v1alpha1
 kind: KubeCoreDNSConfig
 enabled: false
 ---
-# Control planes stay schedulable, so no taints. The role label is no longer implied by the machine
-# type in 1.14 and has to be listed here.
 apiVersion: v1alpha1
 kind: KubeNodeConfig
 labels:
