@@ -21,12 +21,14 @@ spec:
     prometheusRules:
       enabled: true
       rules:
+        # 75°C, not the chart's 65 — consumer M.2 in a fanless G3+ idles in the 60s.
+        # SN570 firmware warns at 80°C and throttles from there.
         smartCTLDDeviceTemperature:
-          for: 5m
-          expr: smartctl_device_temperature{temperature_type="current"} > 65
+          for: 30m
+          expr: smartctl_device_temperature{temperature_type="current"} > 75
           annotations:
-            summary: Device has temperature higher than 65°C
-            description: Device {{ $labels.device }} on instance {{ $labels.instance }} has temperature higher than 65°C
+            summary: Device has temperature higher than 75°C
+            description: Device {{ $labels.device }} on instance {{ $labels.instance }} has temperature higher than 75°C
         smartCTLDeviceStatus:
           for: 5m
           expr: (smartctl_device_smart_status != 1 or smartctl_device_status != 1)
