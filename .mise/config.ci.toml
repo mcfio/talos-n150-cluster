@@ -4,4 +4,4 @@
 hk = "1.58.1"
 yamllint = "1.38.0"
 oxfmt = "0.67.0"
-pinact = "4.1.1"
+pinact = "5.0.0"
