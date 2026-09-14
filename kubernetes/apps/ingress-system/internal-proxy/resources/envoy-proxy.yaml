@@ -22,7 +22,7 @@ spec:
               memory: 2Gi
       envoyService:
         annotations:
-          external-dns.alpha.kubernetes.io/hostname: ipv4.milton.mcf.io
+          external-dns.kubernetes.io/hostname: ipv4.milton.mcf.io
         externalTrafficPolicy: Local
   shutdown:
     drainTimeout: 180s
