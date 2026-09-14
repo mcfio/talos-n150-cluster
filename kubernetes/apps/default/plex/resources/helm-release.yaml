@@ -74,8 +74,8 @@ spec:
             group: external
             conditions: ["[STATUS] == 401"]
           # by eliminating the http-route source, this will only be managed by external-dns-cloudflare
-          external-dns.alpha.kubernetes.io/hostname: "{{ .Release.Name }}.mcf.io"
-          external-dns.alpha.kubernetes.io/target: ipv4.mcf.io
+          external-dns.kubernetes.io/hostname: "{{ .Release.Name }}.mcf.io"
+          external-dns.kubernetes.io/target: ipv4.mcf.io
           lbipam.cilium.io/ips: 192.168.46.110
         type: LoadBalancer
         externalTrafficPolicy: Local
