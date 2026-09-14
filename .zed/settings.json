@@ -28,7 +28,8 @@
     "yaml-language-server": {
       "binary": {
         "ignore_system_version": true,
-        "path": "/opt/homebrew/bin/yayamlls"
+        "path": "mise",
+        "arguments": ["exec", "--", "yayamlls"]
       },
       "initialization_options": {
         "catalog": true

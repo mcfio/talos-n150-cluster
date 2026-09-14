@@ -17,3 +17,6 @@ HK_MISE = 1
 FLATE_PATH = "{{ config_root }}/kubernetes/flux/config"
 TALOSCONFIG = "{{ config_root }}/talosconfig"
 KUBECONFIG = "{{ config_root }}/kubeconfig"
+
+[tools]
+"github:home-operations/yayamlls" = "latest"
