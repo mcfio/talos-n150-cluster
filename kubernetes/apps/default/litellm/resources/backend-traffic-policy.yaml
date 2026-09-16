@@ -1,15 +1,19 @@
 ---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/backendtrafficpolicy_v1alpha1.json
 apiVersion: gateway.envoyproxy.io/v1alpha1
 kind: BackendTrafficPolicy
 metadata:
   name: litellm
 spec:
+  # Merge into the gateway policy instead of replacing it wholesale
+  mergeType: StrategicMerge
   connection:
     bufferLimit: 32Mi
-  tcpKeepalive: {}
   timeout:
     http:
       requestTimeout: 0s
+      # 0s disables stream idle, for long-lived SSE completions
+      streamIdleTimeout: 0s
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: HTTPRoute

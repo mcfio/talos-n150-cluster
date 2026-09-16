@@ -5,7 +5,7 @@ kind: BackendTrafficPolicy
 metadata:
   name: internal
 spec:
-  compression:
+  compressor:
     - type: Zstd
     - type: Brotli
     - type: Gzip
