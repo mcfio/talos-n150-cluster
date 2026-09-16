@@ -4,6 +4,7 @@
 monorepo_root = true
 
 [settings]
+minimum_release_age = "24h"
 python.compile = false
 experimental = true
 env_shell_expand = true

@@ -75,6 +75,12 @@
       matchDatasources: ["github-releases", "github-tags"],
       addLabels: ["renovate/github-release"],
     },
+    // Release age
+    {
+      description: "Respect mise's minimum_release_age gate",
+      matchManagers: ["mise"],
+      minimumReleaseAge: "2 days",
+    },
     // Automerge rules
     {
       description: "Auto-merge trusted container digests",
@@ -103,6 +109,7 @@
       // mise tool may normalize to `hk`, `hk/hk`, or `jdx/hk`.
       groupName: "hk",
       matchPackageNames: ["jdx/hk", "hk", "hk/hk"],
+      minimumReleaseAge: "2 days",
       group: {
         commitMessageTopic: "{{{groupName}}}",
       },
