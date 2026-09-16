@@ -75,6 +75,15 @@
       matchDatasources: ["github-releases", "github-tags"],
       addLabels: ["renovate/github-release"],
     },
+    // Release age
+    {
+      // mise refuses to install a version whose transparency-log entry is
+      // younger than its own `minimum_release_age` (24h), so a PR raised sooner
+      // fails CI at `mise install`. Hold these until past that window.
+      description: "Respect mise's minimum_release_age gate",
+      matchManagers: ["mise"],
+      minimumReleaseAge: "2 days",
+    },
     // Automerge rules
     {
       description: "Auto-merge trusted container digests",
@@ -103,6 +112,9 @@
       // mise tool may normalize to `hk`, `hk/hk`, or `jdx/hk`.
       groupName: "hk",
       matchPackageNames: ["jdx/hk", "hk", "hk/hk"],
+      // hk.pkl comes from the custom manager, not mise — age both halves alike
+      // or strict filtering raises a pkl-only PR against the older binary.
+      minimumReleaseAge: "2 days",
       group: {
         commitMessageTopic: "{{{groupName}}}",
       },
