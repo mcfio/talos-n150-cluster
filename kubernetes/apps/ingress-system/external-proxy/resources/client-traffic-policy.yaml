@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/gateway.envoyproxy.io/clienttrafficpolicy_v1alpha1.json
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: ClientTrafficPolicy
+metadata:
+  name: external
+spec:
+  clientIPDetection:
+    # Downstream is always a cloudflared pod, so trust the pod CIDR and walk XFF past it
+    xForwardedFor:
+      trustedCIDRs:
+        - 10.45.0.0/16
+  http2:
+    onInvalidMessage: TerminateStream
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: external
+  tcpKeepalive:
+    idleTime: 60s
+    interval: 10s
+    probes: 3
