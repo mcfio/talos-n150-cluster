@@ -5,10 +5,14 @@ kind: BackendTrafficPolicy
 metadata:
   name: internal
 spec:
+  # Each type needs its (empty) config block or the compressor is skipped
   compressor:
     - type: Zstd
+      zstd: {}
     - type: Brotli
+      brotli: {}
     - type: Gzip
+      gzip: {}
   targetRefs:
     - group: gateway.networking.k8s.io
       kind: Gateway
