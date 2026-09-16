@@ -6,8 +6,6 @@ resources:
   - ./oci-repository.yaml
   - ./helm-release.yaml
   - ./gateway-class.yaml
-  - ./backend-traffic-policy.yaml
-  - ./client-traffic-policy.yaml
   - ./service-monitor.yaml
   - ./pod-monitor.yaml
   - ./grafana-dashboard.yaml
