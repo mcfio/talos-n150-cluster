@@ -4,7 +4,6 @@
 monorepo_root = true
 
 [settings]
-# Renovate's mise packageRule holds PRs past this window; keep the two in step.
 minimum_release_age = "24h"
 python.compile = false
 experimental = true
