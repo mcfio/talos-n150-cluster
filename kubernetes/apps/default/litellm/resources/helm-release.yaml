@@ -50,18 +50,19 @@ spec:
       # prettier-ignore
       model_list:
         - { model_name: github_copilot/*,          litellm_params: { model: github_copilot/* },                 model_info: &z { cache_read_input_token_cost: 0, cache_creation_input_token_cost: 0 } }
-        - { model_name: default,                   litellm_params: { model: github_copilot/claude-sonnet-5 },   model_info: *z }
-        - { model_name: sonnet,                    litellm_params: { model: github_copilot/claude-sonnet-5 },   model_info: *z }
-        - { model_name: opus,                      litellm_params: { model: github_copilot/claude-opus-5 },     model_info: *z }
+        - { model_name: default,                   litellm_params: { model: github_copilot/claude-sonnet-5,   extra_headers: &1m { anthropic-beta: context-1m-2025-08-07 } }, model_info: *z }
+        - { model_name: sonnet,                    litellm_params: { model: github_copilot/claude-sonnet-5,   extra_headers: *1m }, model_info: *z }
+        - { model_name: opus,                      litellm_params: { model: github_copilot/claude-opus-5,     extra_headers: *1m }, model_info: *z }
         - { model_name: haiku,                     litellm_params: { model: github_copilot/claude-haiku-4.5 },  model_info: *z }
-        - { model_name: claude-opus-5,             litellm_params: { model: github_copilot/claude-opus-5 },     model_info: *z }
-        - { model_name: claude-opus-4-8,           litellm_params: { model: github_copilot/claude-opus-4.8 },   model_info: *z }
-        - { model_name: claude-opus-4-7,           litellm_params: { model: github_copilot/claude-opus-4.7 },   model_info: *z }
-        - { model_name: claude-opus-4-6,           litellm_params: { model: github_copilot/claude-opus-4.6 },   model_info: *z }
-        - { model_name: claude-opus-4-6-1m,        litellm_params: { model: github_copilot/claude-opus-4.6 },   model_info: *z }
-        - { model_name: claude-sonnet-4-6,         litellm_params: { model: github_copilot/claude-sonnet-4.6 }, model_info: *z }
-        - { model_name: claude-sonnet-4-5,         litellm_params: { model: github_copilot/claude-sonnet-4.6 }, model_info: *z }
-        - { model_name: claude-sonnet-5,           litellm_params: { model: github_copilot/claude-sonnet-5 },   model_info: *z }
+        - { model_name: claude-opus-5,             litellm_params: { model: github_copilot/claude-opus-5,     extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-opus-5-5,           litellm_params: { model: github_copilot/claude-opus-5,     extra_headers: *1m }, model_info: *z } # no opus-5.5 on Copilot yet; alias to opus-5 so it doesn't silently fall back to sonnet
+        - { model_name: claude-opus-4-8,           litellm_params: { model: github_copilot/claude-opus-4.8,   extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-opus-4-7,           litellm_params: { model: github_copilot/claude-opus-4.7,   extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-opus-4-6,           litellm_params: { model: github_copilot/claude-opus-4.6,   extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-opus-4-6-1m,        litellm_params: { model: github_copilot/claude-opus-4.6,   extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-sonnet-4-6,         litellm_params: { model: github_copilot/claude-sonnet-4.6, extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-sonnet-4-5,         litellm_params: { model: github_copilot/claude-sonnet-4.6, extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-sonnet-5,           litellm_params: { model: github_copilot/claude-sonnet-5,   extra_headers: *1m }, model_info: *z }
         - { model_name: claude-haiku-4-5,          litellm_params: { model: github_copilot/claude-haiku-4.5 },  model_info: *z }
         - { model_name: claude-haiku-4-5-20251001, litellm_params: { model: github_copilot/claude-haiku-4.5 },  model_info: *z }
         - { model_name: claude-3-5-haiku-20241022, litellm_params: { model: github_copilot/claude-haiku-4.5 },  model_info: *z }
