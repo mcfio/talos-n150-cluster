@@ -55,6 +55,7 @@ spec:
         - { model_name: opus,                      litellm_params: { model: github_copilot/claude-opus-5,     extra_headers: *1m }, model_info: *z }
         - { model_name: haiku,                     litellm_params: { model: github_copilot/claude-haiku-4.5 },  model_info: *z }
         - { model_name: claude-opus-5,             litellm_params: { model: github_copilot/claude-opus-5,     extra_headers: *1m }, model_info: *z }
+        - { model_name: claude-opus-5-5,           litellm_params: { model: github_copilot/claude-opus-5,     extra_headers: *1m }, model_info: *z } # no opus-5.5 on Copilot yet; alias to opus-5 so it doesn't silently fall back to sonnet
         - { model_name: claude-opus-4-8,           litellm_params: { model: github_copilot/claude-opus-4.8,   extra_headers: *1m }, model_info: *z }
         - { model_name: claude-opus-4-7,           litellm_params: { model: github_copilot/claude-opus-4.7,   extra_headers: *1m }, model_info: *z }
         - { model_name: claude-opus-4-6,           litellm_params: { model: github_copilot/claude-opus-4.6,   extra_headers: *1m }, model_info: *z }
