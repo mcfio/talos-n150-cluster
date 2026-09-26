@@ -5,17 +5,19 @@
 # reach the CLI, agentic tool-use survives the Copilot translation, and --json-schema
 # populates structured_output. Delete once answered.
 name: probe-claude-action
-# push-on-branch, not workflow_dispatch: a dispatchable workflow must already exist on
-# the default branch, and this one is never merging there.
+# pull_request, not workflow_dispatch/workflow_run: the action rejects `push`, and every
+# automation trigger only fires from a definition already on the default branch.
 on:
-  push:
-    branches: [probe/claude-action-litellm]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
 
 jobs:
   probe:
+    # Scoped to the probe branch so a stray PR never triggers it.
+    if: github.head_ref == 'probe/claude-action-litellm'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
