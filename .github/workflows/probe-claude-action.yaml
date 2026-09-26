@@ -33,6 +33,9 @@ jobs:
         id: claude
         uses: anthropics/claude-code-action@756cc22e19660d20e8cc9496b4f242475a7f7790 # v1.0.235
         with:
+          # Explicit token: without one the action falls back to the official Claude
+          # GitHub App via OIDC, which needs id-token: write.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           anthropic_api_key: ${{ secrets.LITELLM_API_KEY }}
           settings: |
             {
