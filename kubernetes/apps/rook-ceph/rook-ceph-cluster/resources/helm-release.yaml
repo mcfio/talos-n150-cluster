@@ -34,15 +34,14 @@ spec:
             keyGeneration: 2
           csi:
             keyRotationPolicy: KeyGeneration
-            keyGeneration: 2
-            # this remains until kernel 7.0+
+            keyGeneration: 3
+            # keeps the gen 2 aes key valid for already-mounted PVCs
             keepPriorKeyCountMax: 1
-            keyType: aes
+            keyType: aes256k
           rbdMirrorPeer:
             keyRotationPolicy: KeyGeneration
-            keyGeneration: 2
-            # this remains until kernel 7.0+
-            keyType: aes
+            keyGeneration: 3
+            keyType: aes256k
       cephConfig:
         global:
           bdev_enable_discard: "true"
