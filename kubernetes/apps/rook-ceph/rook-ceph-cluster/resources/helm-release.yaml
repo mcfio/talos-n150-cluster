@@ -26,7 +26,6 @@ spec:
           - name: internal
             namespace: ingress-system
     cephClusterSpec:
-      # rotation due to CVE-2025-30156 an authentication bypass in CephX implementation
       security:
         cephx:
           allowedCiphers: [aes256k]
@@ -55,16 +54,6 @@ spec:
         urlPrefix: /
         ssl: false
         prometheusEndpoint: http://prometheus-operated.monitoring:9090
-      healthCheck:
-        muteHealthWarning:
-          AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE:
-            policy: unmute
-          AUTH_INSECURE_CLIENT_KEY_TYPE:
-            policy: unmute
-          AUTH_INSECURE_KEYS_ALLOWED:
-            policy: unmute
-          AUTH_INSECURE_KEYS_CREATABLE:
-            policy: unmute
       mgr:
         modules:
           - name: rook
