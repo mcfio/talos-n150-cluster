@@ -20,6 +20,12 @@ spec:
         enabled: true
         forceConflicts: true
     cleanPrometheusOperatorObjectNames: true
+    defaultRules:
+      rules:
+        # 30d-lookback SLO recording rules overrun the 2m query timeout on this cluster.
+        kubeApiserverAvailability: false
+        kubeApiserverBurnrate: false
+        kubeApiserverSlos: false
     alertmanager:
       route:
         main:
