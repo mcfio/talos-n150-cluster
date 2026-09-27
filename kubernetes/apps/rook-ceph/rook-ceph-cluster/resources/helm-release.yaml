@@ -35,8 +35,7 @@ spec:
           csi:
             keyRotationPolicy: KeyGeneration
             keyGeneration: 3
-            # keeps the gen 2 aes key valid for already-mounted PVCs
-            keepPriorKeyCountMax: 1
+            keepPriorKeyCountMax: 0
             keyType: aes256k
           rbdMirrorPeer:
             keyRotationPolicy: KeyGeneration
