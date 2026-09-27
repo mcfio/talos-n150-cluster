@@ -1,0 +1,33 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanamanifest_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaManifest
+metadata:
+  name: kiosk-playlist
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  resyncPeriod: 10m
+  template:
+    apiVersion: playlist.grafana.app/v0alpha1
+    kind: Playlist
+    metadata:
+      # The kiosk chromium launch command hardcodes this UID; do not mint a new one.
+      name: afmhsquh4u5moc
+      namespace: default
+    spec:
+      title: Kiosk
+      interval: 60s
+      items:
+        - type: dashboard_by_uid
+          value: kiosk-cluster
+        - type: dashboard_by_uid
+          value: kiosk-storage
+        - type: dashboard_by_uid
+          value: kiosk-network
+        - type: dashboard_by_uid
+          value: kiosk-flux
+        - type: dashboard_by_uid
+          value: kiosk-kopiur

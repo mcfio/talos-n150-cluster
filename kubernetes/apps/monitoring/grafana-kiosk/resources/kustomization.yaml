@@ -1,0 +1,12 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ./grafana-folder.yaml
+  - ./dashboard-cluster.yaml
+  - ./dashboard-storage.yaml
+  - ./dashboard-network.yaml
+  - ./dashboard-flux.yaml
+  - ./dashboard-kopiur.yaml
+  - ./grafana-manifest.yaml
