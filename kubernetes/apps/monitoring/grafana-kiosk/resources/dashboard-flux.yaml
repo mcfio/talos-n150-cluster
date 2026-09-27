@@ -1,0 +1,851 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/grafana.integreatly.org/grafanadashboard_v1beta1.json
+apiVersion: grafana.integreatly.org/v1beta1
+kind: GrafanaDashboard
+metadata:
+  name: kiosk-flux
+spec:
+  allowCrossNamespaceImport: true
+  instanceSelector:
+    matchLabels:
+      grafana.internal/instance: grafana
+  uid: kiosk-flux
+  folderRef: kiosk
+  resyncPeriod: 10m
+  datasources:
+    - datasourceName: prometheus
+      inputName: DS_PROMETHEUS
+  json: |-
+    {
+      "__inputs": [
+        {
+          "label": "prometheus",
+          "name": "DS_PROMETHEUS",
+          "pluginId": "prometheus",
+          "pluginName": "Prometheus",
+          "type": "datasource"
+        }
+      ],
+      "annotations": {
+        "list": []
+      },
+      "editable": false,
+      "graphTooltip": 0,
+      "panels": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 0,
+            "y": 0
+          },
+          "id": 1,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{kind=\"Kustomization\"})",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Kustomize",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 3,
+            "y": 0
+          },
+          "id": 2,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{kind=\"HelmRelease\"})",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Helm",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 6,
+            "y": 0
+          },
+          "id": 3,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{kind=\"OCIRepository\"})",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "OCI",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#f38ba8",
+                    "value": null
+                  },
+                  {
+                    "color": "#a6e3a1",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 9,
+            "y": 0
+          },
+          "id": 4,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{kind=\"GitRepository\"})",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Git",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  },
+                  {
+                    "color": "#f38ba8",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 12,
+            "y": 0
+          },
+          "id": 5,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{ready!=\"True\"}) or vector(0)",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Not Ready",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  },
+                  {
+                    "color": "#f9e2af",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 15,
+            "y": 0
+          },
+          "id": 6,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{suspended=\"True\"}) or vector(0)",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Suspended",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 18,
+            "y": 0
+          },
+          "id": 7,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{kind=\"Alert\"})",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Alerts",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#f38ba8",
+                    "value": null
+                  },
+                  {
+                    "color": "#f9e2af",
+                    "value": 99
+                  },
+                  {
+                    "color": "#a6e3a1",
+                    "value": 100
+                  }
+                ]
+              },
+              "unit": "percent",
+              "color": {
+                "mode": "fixed",
+                "fixedColor": "#cdd6f4"
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 21,
+            "y": 0
+          },
+          "id": 8,
+          "options": {
+            "colorMode": "none",
+            "graphMode": "area",
+            "justifyMode": "center",
+            "orientation": "auto",
+            "percentChangeColorMode": "standard",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showPercentChange": false,
+            "textMode": "value",
+            "wideLayout": true,
+            "text": {
+              "titleSize": 11,
+              "valueSize": 38
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "100 * count(flux_resource_info{ready=\"True\"}) / count(flux_resource_info)",
+              "instant": false,
+              "legendFormat": "",
+              "refId": "A"
+            }
+          ],
+          "title": "Ready %",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "max": null,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 0,
+            "y": 4
+          },
+          "id": 9,
+          "options": {
+            "displayMode": "lcd",
+            "minVizHeight": 8,
+            "minVizWidth": 8,
+            "namePlacement": "left",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "sizing": "manual",
+            "valueMode": "color",
+            "maxVizHeight": 20
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count by (kind) (flux_resource_info)",
+              "instant": false,
+              "legendFormat": "{{kind}}",
+              "refId": "A"
+            }
+          ],
+          "title": "Resources by kind",
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "decimals": 0,
+              "mappings": [],
+              "max": null,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "#a6e3a1",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 8,
+            "y": 4
+          },
+          "id": 10,
+          "options": {
+            "displayMode": "lcd",
+            "minVizHeight": 8,
+            "minVizWidth": 8,
+            "namePlacement": "left",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showUnfilled": true,
+            "sizing": "manual",
+            "valueMode": "color",
+            "maxVizHeight": 20
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count by (exported_namespace) (flux_resource_info{kind=\"HelmRelease\"})",
+              "instant": false,
+              "legendFormat": "{{exported_namespace}}",
+              "refId": "A"
+            }
+          ],
+          "title": "HelmReleases by namespace",
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS_PROMETHEUS}"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "drawStyle": "line",
+                "fillOpacity": 12,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "lineInterpolation": "smooth",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "never",
+                "spanNulls": true,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                }
+              },
+              "max": null,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byRegexp",
+                  "options": ".*"
+                },
+                "properties": [
+                  {
+                    "id": "custom.lineWidth",
+                    "value": 2
+                  },
+                  {
+                    "id": "custom.fillOpacity",
+                    "value": 18
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 4
+          },
+          "id": 11,
+          "options": {
+            "legend": {
+              "calcs": [],
+              "displayMode": "list",
+              "placement": "bottom",
+              "showLegend": false
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS_PROMETHEUS}"
+              },
+              "expr": "count(flux_resource_info{ready!=\"True\"}) or vector(0)",
+              "instant": false,
+              "legendFormat": "not ready",
+              "refId": "A"
+            }
+          ],
+          "title": "Not ready",
+          "type": "timeseries"
+        }
+      ],
+      "refresh": "30s",
+      "schemaVersion": 39,
+      "tags": [
+        "kiosk"
+      ],
+      "templating": {
+        "list": []
+      },
+      "time": {
+        "from": "now-3h",
+        "to": "now"
+      },
+      "timezone": "browser",
+      "title": "Kiosk / Flux GitOps",
+      "uid": "kiosk-flux"
+    }
