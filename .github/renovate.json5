@@ -12,6 +12,17 @@
   ],
   // Drop the Age/Confidence PR columns — Merge Confidence never scores docker/OCI.
   ignorePresets: ["mergeConfidence:age-confidence-badges"],
+  customDatasources: {
+    // Override talosFactory.json5's datasource, which emits bare versions only.
+    // Adds the sourceUrl Renovate needs to fetch siderolabs/talos release notes.
+    "talos-factory": {
+      defaultRegistryUrlTemplate: "https://factory.talos.dev/versions",
+      format: "json",
+      transformTemplates: [
+        '{"releases": [$.{"version": $}], "sourceUrl": "https://github.com/siderolabs/talos", "homepage": "https://www.talos.dev"}',
+      ],
+    },
+  },
   customManagers: [
     // Scrypted pins a `ghcr.io/koush/scrypted:<semver>-noble-lite` tag; track the upstream
     // GitHub release and rewrite only the semver portion, preserving the `-noble-lite` suffix.
