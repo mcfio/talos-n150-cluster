@@ -75,7 +75,7 @@ calls and a duplicate merge/comment.
 5. **Summarise** — LiteLLM call: distils the raw Renovate body (can be ~57k
    chars) into `{package, from, to, flags[], summary}` per package.
 6. **Classify** — LiteLLM call: reads diff + changelog summary → `{verdict,
-rationale}`.
+   rationale}`.
 7. **Apply** — `safe` → `gh pr merge --auto` + comment; else label + comment.
 8. **Upsert comment** — one sticky comment (`header: curator`), replaced on
    re-runs, not appended.
