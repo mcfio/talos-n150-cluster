@@ -4,7 +4,7 @@ name: Renovate
 
 on:
   schedule:
-    - cron: 20 * * * * # Every hour
+    - cron: 47 * * * * # Every hour
   push:
     branches:
       - main
