@@ -30,16 +30,11 @@ spec:
               readiness:
                 enabled: true
             resources:
-              claims:
-                - name: gpu
               requests:
                 cpu: 100m
               limits:
                 memory: 8Gi
     defaultPodOptions:
-      resourceClaims:
-        - name: gpu
-          resourceClaimTemplateName: intel-gpu
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
