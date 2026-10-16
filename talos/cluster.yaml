@@ -13,7 +13,7 @@ cluster:
 apiVersion: v1alpha1
 kind: UnattendedInstallConfig
 installer:
-  image: factory.talos.dev/metal-installer/{{ schematic_id }}:v1.14.3
+  image: factory.talos.dev/metal-installer/{{ schematic_id }}:v1.14.4
 provisioning:
   wipe: false
 ---
