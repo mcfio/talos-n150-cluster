@@ -12,6 +12,9 @@
   ],
   // Drop the Age/Confidence PR columns — Merge Confidence never scores docker/OCI.
   ignorePresets: ["mergeConfidence:age-confidence-badges"],
+  // main-protection no longer requires up-to-date branches, so `auto` would otherwise
+  // rebase every behind-but-unconflicted PR on each Renovate run for nothing.
+  rebaseWhen: "conflicted",
   customDatasources: {
     // Override talosFactory.json5's datasource, which emits bare versions only.
     // Adds the sourceUrl Renovate needs to fetch siderolabs/talos release notes.
