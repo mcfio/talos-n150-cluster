@@ -8,7 +8,7 @@ metadata:
 spec:
   path: ./kubernetes/apps
   prune: true
-  deletionPolicy: WaitForTermination
+  deletionPolicy: Orphan
   sourceRef:
     kind: GitRepository
     name: flux-system
