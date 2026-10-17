@@ -27,13 +27,54 @@ spec:
         kind: GitRepository
         url: https://github.com/mcfio/talos-n150-cluster
         ref: refs/heads/main
-        path: kubernetes/flux/config
+        path: kubernetes/apps
         interval: 6h
       commonMetadata:
         labels:
           app.kubernetes.io/name: flux
       kustomize:
         patches:
+          - # Add Kustomization defaults for all child Kustomizations and HelmReleases
+            patch: |
+              - op: add
+                path: /spec/patches
+                value:
+                  - patch: |
+                      apiVersion: kustomize.toolkit.fluxcd.io/v1
+                      kind: Kustomization
+                      metadata:
+                        name: not-used
+                      spec:
+                        patches:
+                          - patch: |
+                              apiVersion: helm.toolkit.fluxcd.io/v2
+                              kind: HelmRelease
+                              metadata:
+                                name: not-used
+                              spec:
+                                maxHistory: 3
+                                install:
+                                  crds: CreateReplace
+                                upgrade:
+                                  cleanupOnFail: true
+                                  crds: CreateReplace
+                                  strategy:
+                                    name: RemediateOnFailure
+                                  remediation:
+                                    remediateLastFailure: true
+                                    retries: 2
+                                rollback:
+                                  cleanupOnFail: true
+                            target:
+                              group: helm.toolkit.fluxcd.io
+                              kind: HelmRelease
+                    target:
+                      group: kustomize.toolkit.fluxcd.io
+                      kind: Kustomization
+            target:
+              group: kustomize.toolkit.fluxcd.io
+              kind: Kustomization
+              name: flux-system
           - # Increase the number of workers
             patch: |
               - op: add
@@ -87,6 +128,14 @@ spec:
               - op: add
                 path: /spec/template/spec/containers/0/args/-
                 value: --helm-cache-purge-interval=5m
+            target:
+              kind: Deployment
+              name: source-controller
+          - # Cache Secrets and ConfigMaps
+            patch: |-
+              - op: add
+                path: /spec/template/spec/containers/0/args/-
+                value: --feature-gates=CacheSecretsAndConfigMaps=true
             target:
               kind: Deployment
               name: source-controller
