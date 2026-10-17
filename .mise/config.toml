@@ -15,7 +15,7 @@ config_roots = ["kubernetes", "talos"]
 [env]
 _.file = ["{{ config_root }}/.secrets.env"]
 HK_MISE = 1
-FLATE_PATH = "{{ config_root }}/kubernetes/flux/config"
+FLATE_PATH = "{{ config_root }}/kubernetes/apps"
 TALOSCONFIG = "{{ config_root }}/talosconfig"
 KUBECONFIG = "{{ config_root }}/kubeconfig"
 

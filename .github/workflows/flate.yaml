@@ -52,7 +52,7 @@ jobs:
         id: diff
         if: steps.changed.outputs.any_changed == 'true'
         env:
-          FLATE_PATH: ${{ github.workspace }}/kubernetes/flux/config
+          FLATE_PATH: ${{ github.workspace }}/kubernetes/apps
         run: |
           raw="$(mktemp)"
           flate diff "${{ matrix.resource }}" -o github | sed '/./,$!d' > "$raw"
