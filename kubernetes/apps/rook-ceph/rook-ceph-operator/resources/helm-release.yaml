@@ -12,6 +12,8 @@ spec:
   values:
     csi:
       cephcsi:
+        # both repository and tag are required or the chart renders an empty imageSet entry
+        repository: quay.io/cephcsi/cephcsi
         tag: v3.16.3 # stor01 CPU is incompatible with v3.17+; revert once ceph-csi publishes a -rocky9 image
       serviceMonitor:
         enabled: true
