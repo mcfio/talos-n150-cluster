@@ -3,10 +3,10 @@
 apiVersion: observability.giantswarm.io/v1alpha2
 kind: Silence
 metadata:
-  name: nas-memory-high-utilization
+  name: nfs-scaler-hpa-maxed-${app}
 spec:
   matchers:
     - name: alertname
-      value: NodeMemoryHighUtilization
-    - name: instance
-      value: caladan.cluster.milton.mcf.io:9100
+      value: KubeHpaMaxedOut
+    - name: horizontalpodautoscaler
+      value: ${app}
