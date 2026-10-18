@@ -5,4 +5,3 @@ kind: Kustomization
 resources:
   # - ./nas-high-memory.yaml
   - ./hpa-maxed-nfs-scaler.yaml
-  - ./ceph-node-network-packet-errors.yaml
