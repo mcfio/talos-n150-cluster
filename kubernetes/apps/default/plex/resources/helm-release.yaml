@@ -20,7 +20,7 @@ spec:
             env:
               TZ: Canada/Eastern
               PLEX_ADVERTISE_URL: http://192.168.46.110:32400,http://plex.default.svc.cluster.local:32400,https://{{ .Release.Name }}.mcf.io:443
-              PLEX_NO_AUTH_NETWORKS: 192.168.0.0/255.255.255.0
+              PLEX_NO_AUTH_NETWORKS: 192.168.0.0/255.255.0.0
             probes:
               liveness: &probes
                 enabled: true
@@ -45,7 +45,7 @@ spec:
               requests:
                 cpu: 100m
               limits:
-                memory: 4Gi
+                memory: 7Gi
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
@@ -97,3 +97,9 @@ spec:
             readOnly: true
       tmp:
         type: emptyDir
+      transcode:
+        type: emptyDir
+        medium: Memory
+        sizeLimit: 2Gi
+        globalMounts:
+          - path: /transcode
