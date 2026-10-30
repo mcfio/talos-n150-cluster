@@ -3,5 +3,5 @@
 [tools]
 hk = "2.9.0"
 yamllint = "1.38.0"
-oxfmt = "0.74.0"
+oxfmt = "0.75.0"
 pinact = "5.0.2"
