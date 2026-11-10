@@ -44,15 +44,6 @@ spec:
             # and symlinks parts of /etc/cups to /config at startup, so
             # runAsNonRoot/readOnlyRootFilesystem aren't compatible with this image.
     defaultPodOptions:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node.cloudprovider.kubernetes.io/platform
-                    operator: NotIn
-                    values:
-                      - vmware
       annotations:
         k8s.v1.cni.cncf.io/networks: |
           [{
