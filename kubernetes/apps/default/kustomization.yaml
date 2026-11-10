@@ -29,3 +29,4 @@ resources:
   - ./matter-server/flux-kustomization.yaml
   - ./scrypted/flux-kustomization.yaml
   - ./zwave/flux-kustomization.yaml
+  - ./airprint/flux-kustomization.yaml
