@@ -40,14 +40,9 @@ spec:
                 cpu: 10m
               limits:
                 memory: 512Mi
-            # Runs as root by design: it owns a system dbus-daemon + avahi-daemon
-            # and symlinks parts of /etc/cups to /config at startup, so
-            # runAsNonRoot/readOnlyRootFilesystem aren't compatible with this image.
-            # runAsUser/runAsGroup are declared explicitly (rather than left to
-            # the image default) so the kopiur backup mover's
-            # inheritSecurityContextFrom.pvcConsumer has a UID to pick up —
-            # otherwise it falls back to its own default UID 65532, which can't
-            # read /config/ssl (chown'd root:lp, mode 700 by the entrypoint).
+            # Runs as root by design (dbus/avahi); also lets kopiur's mover
+            # inherit a UID instead of falling back to one that can't read
+            # /config/ssl.
             securityContext:
               runAsUser: 0
               runAsGroup: 0
