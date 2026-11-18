@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: chuckcharlie/cups-avahi-airprint
-              tag: 2.1.3@sha256:f25e5338e8bc469e7666cb3676c5dfb0dedd953636e58390807008f7f9071be2
+              tag: 2.2.0@sha256:9cb48e29722dcf35a7c84c95dddca7ce96c1fde516fb8b9b788d2a1d77aca39c
             env:
               TZ: Canada/Eastern
               AVAHI_HOSTNAME: airprint
