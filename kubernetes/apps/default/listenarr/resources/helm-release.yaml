@@ -18,7 +18,7 @@ spec:
           app:
             image:
               repository: ghcr.io/listenarrs/listenarr
-              tag: canary@sha256:ac8a8d347c0cb2b7d2bf72be424258e84f7e3a60e46c94715b46fda5a1efa44b
+              tag: canary@sha256:da76d46f220bbf8cc9422e91e51a0ba22d9b7e1795a7a2cef55bcc888e6897f9
             env:
               TZ: Canada/Eastern
               PUID: "568"
