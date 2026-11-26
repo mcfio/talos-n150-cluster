@@ -17,7 +17,7 @@
 exclude_rendered:
   - regex: /(Talos|Kubernetes)Upgrade/
     reason: reboots/reinstalls nodes (tuppr Talos/k8s upgrade CR)
-  - regex: ceph\.rook\.io
+  - regex: ceph\.rook\.io|rook-ceph
     reason: touches storage (rook-ceph)
   - regex: cnpg\.io
     reason: touches database (cnpg)
