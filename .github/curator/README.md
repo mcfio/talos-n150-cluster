@@ -36,7 +36,8 @@ exclusions into the prompt** — that makes the highest-blast-radius decisions p
 
 `policy.yaml`'s `exclude_rendered` greps the rendered `flate` diff (`curator/diff.md`) for
 dangerous kinds / API-groups — the `TalosUpgrade`/`KubernetesUpgrade` reboot CRs, RBAC,
-webhooks, storage (`ceph.rook.io`, `storage.k8s.io`), database (`cnpg.io`), and network
+webhooks, storage (`ceph.rook.io` or the `rook-ceph` chart/image name, `storage.k8s.io`),
+database (`cnpg.io`), and network
 (`gateway.networking.k8s.io`, NetworkPolicy, cilium). The render is the source of truth: a
 change reaches the cluster only if flate renders it, wherever the source path lives.
 Source-**path** rules were dropped — a chart bump changes one version string on disk while
@@ -45,6 +46,13 @@ path no rule anticipated (the whack-a-mole). Concrete miss this catches: PR #355
 (external-secrets `2.7.0 → 2.8.0`) rendered a `ClusterRole` change behind a one-line
 OCIRepository tag bump; a path gate saw nothing. Over-matching is the safe direction — a
 false `needs-human` costs one glance.
+
+A rendered API-group alone can still miss within this design: PR #4011 (rook-ceph
+`1.21.2 → 1.21.3`) auto-merged because the render only touched the
+`source.toolkit.fluxcd.io` `OCIRepository` tags and the operator's `apps/v1` `Deployment`
+image — no `CephCluster`/`CephBlockPool` CR moved, so `ceph\.rook\.io` matched nothing.
+The regex now also matches the literal `rook-ceph` chart/image name, independent of
+whether a Ceph CR rendered a diff.
 
 `talos/` is covered without a path rule: a Renovate Talos/k8s bump edits the
 `TalosUpgrade`/`KubernetesUpgrade` CR (which renders and is matched above), and the
