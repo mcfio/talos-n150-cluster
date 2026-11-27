@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &appname atuin
+spec:
+  dependsOn:
+    - name: kopiur
+      namespace: kopiur-system
+    - name: kopiur-repository-r2
+      namespace: default
+  interval: 12h
+  path: ./kubernetes/apps/default/atuin/resources
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: default
+  wait: false
+  components:
+    - ../../../../components/kopiur/backup
+  postBuild:
+    substitute:
+      app: *appname
+      volume_capacity: 2Gi
